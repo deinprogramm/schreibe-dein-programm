@@ -1,0 +1,684 @@
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter{Zusammengesetzte Daten}
+\label{cha:zusammengesetzte-daten}
+
+TBD
+
+Mit anderen Worten: mehrere Dinge werden \emph{zu einem}
+zusammengesetzt.  Eine andere Betrachtungsweise ist, daß ein einzelnes
+Ding durch mehrere Eigenschaften charakterisiert ist.
+
+In Scheme lassen sich solche \textit{zusammengesetzte
+Daten}\index{zusammengesetzte Daten} durch
+\textit{Records}\index{Record} darstellen.  Ein Record ist wie ein
+Behälter mit mehreren Fächern, in denen die Bestandteile der Daten
+untergebracht sind.
+
+\section{Computer konfigurieren}
+
+Viele Computerhändler erlauben Ihre Kunden, bestimmte Komponenten
+eines neues Computers selbst auszuwählen, zum Beispiel den Prozessor,
+die Festplatte oder die Größe des RAM-Hauptspeichers:
+%
+\begin{center}
+  \includegraphics[height=0.3\textheight]{computer.eps}
+\end{center}
+%
+Eine mögliche Beschreibung dieser Situation ist:
+
+Ein Computer\index{Computer} \emph{besteht aus}:
+%
+\begin{itemize}
+\item Prozessor
+\item RAM
+\item Festplatte
+\end{itemize}
+%
+Natürlich besteht ein Computer auch noch aus anderen Teilen, aber
+diese Teile sind (zumindest in diesem Beispiel) immer gleich, sie
+können vom Kunden nicht ausgewählt werden.  In einer Bestellung muß
+der Kunde also nur diese drei Bestandteile angeben.  Wir nehmen an,
+daß es beim Prozessor nur auf den Namen ("`Athlon"', "`Xeon"',
+"`Cell"', \ldots) ankommt, beim RAM nur auf die Größe in Gigabyte, und
+auch bei der Festplatte nur auf die Größe in Gigabyte.  Eine
+vereinfachte Darstellung könnte so aussehen:
+%
+\begin{center}
+  Computer:
+  \begin{tabular}[c]{|r|l|}
+    \hline
+    \textbf{Feld} & \textbf{Komponente}\\\hline
+    \hline
+     Prozessor & \verb|"Cell"|\\
+     \hline
+     RAM & 2\\
+    \hline 
+    Festplatte & 250\\
+    \hline
+  \end{tabular}
+\end{center}
+%
+Diese Tabelle steht demnach für einen Computer mit Cell-Prozessor, 2
+Gigabyte RAM und einer 250-Gigabyte-Festplatte.
+
+Die Begriffe "`Feld"'\index{Feld} und "`Komponente"'\index{Komponente}
+sind dabei Termini~-- das \textit{Feld} ist die Allgemeinbezeichnung
+für ein Bestandteil, das alle Computer haben.  Die \textit{Komponente}
+ist das konkrete Bestandteil eines einzelnen Computers.
+
+Die Darstellung für solche \textit{zusammengesetzte
+  Daten\index{zusammengesetzte Daten}}, die aus mehreren
+\textit{Komponenten\index{Komponente}} (in diesem Fall Prozessor, RAM
+und Festplatte) bestehen, heißt \textit{Record}.  Alle
+Records für Computer gehören zu einer gemeinsamen Menge, dem
+\textit{Record-Typ\index{Record-Typ}} für Computer.  (Weiter hinten
+in diesem Kapitel wird beschrieben, wie ein Programm eigene
+Record-Typen definieren kann.)  Der Record-Typ für Computer sieht
+feste \textit{Felder\index{Feld}} ("`Prozessor"', "`RAM"' und "`Festplatte"') vor,
+welche die Komponenten aufnehmen.  Für jedes Feld des Record-Typs
+"`Computer"' besitzt also jeder einzelne Computer jeweils eine
+Komponente, in diesem Fall eine für das Prozessor-, eine für das RAM- und eine für das
+Festplatten-Feld.
+
+Der Computerhersteller stellt einen echten Computer her, indem er
+zunächst den Prozessor, den RAM und die Festplatte fertigstellt und
+diese dann zum Computer zusammensetzt.  Umgekehrt nehmen manche
+Bastler aus dem Computer die Einzelteile wieder heraus, zum Beispiel,
+um sie in einem anderen Computer zu verbauen.
+
+In der \drscheme{}-Sprachebene \texttt{Die Macht der Abstraktion - Anfänger} sind
+Computer schon eingebaut.  Ein Computer mit Cell-Prozessor, 2
+Gigabyte RAM und 250 Gigabyte Festplatte wird folgendermaßen hergestellt:
+%
+\begin{alltt}
+(make-computer "Cell" 2 250)
+\evalsto{} #<record:computer "Cell" 2 250>
+\end{alltt}
+%
+Die Prozedur \texttt{make-computer} hat folgende Signatur:
+%
+\begin{alltt}
+(: make-computer (string rational rational -> computer))
+\end{alltt}
+%
+Sie macht also aus einer Zeichenkette und zwei Zahlen einen Wert der eingebauten Sorte
+\texttt{computer} der Computer-Records.
+Die \drscheme{}-REPL druckt Record-Werte mit der Schreibweise
+\verb|#<record:... ...>| aus, damit Sorte und Komponenten sichtbar
+werden.
+
+Computer sind Werte wie andere auch und lassen sich zum Beispiel an
+Variablen binden:
+%
+\begin{alltt}
+(define gamer (make-computer "Cell" 4 1000)) ; Cell, 4 Gbyte RAM, 1000 Gbyte Festplatte
+gamer
+\evalsto{} #<record:computer "Cell" 4 1000>
+(define workstation (make-computer "Xeon" 2 500)) ; Xeon, 2 Gbyte RAM, 500 Gbyte Festplatte
+workstation
+\evalsto{} #<record:computer "Xeon" 2 500>
+\end{alltt}
+%
+Da die Prozedur \texttt{make-computer} einen Computer
+"`konstruiert"', heißt sie auch
+\textit{Konstruktor\index{Konstruktor}}.  Für das Zerlegen von
+Computern sind die Prozeduren \texttt{computer"=processor},
+\texttt{computer"=ram} und \texttt{computer-hard-drive}
+zuständig:
+%
+\begin{alltt}
+(computer-processor gamer)
+\evalsto{} "Cell"
+(computer-ram gamer)
+\evalsto{} 4
+(computer-hard-drive gamer)
+\evalsto{} 1000
+\end{alltt}
+%
+Diese drei Prozeduren extrahieren die Bestandteile aus einem
+Computer und heißen \textit{Selektoren\index{Selektor}}.  Sie haben
+folgende Signaturen:
+%
+\begin{alltt}
+(: computer-processor (computer -> string))
+(: computer-ram (computer -> rational))
+(: computer-hard-drive (computer -> rational))
+\end{alltt}
+%
+Mit Hilfe des Konstruktors und der Selektoren kann der Programmierer
+weitergehende Prozeduren definieren.  Für den Anfang könnte das
+eine Prozedur sein, die den Gesamtspeicher eines Computers berechnet,
+also Hauptspeicher und Festplattenspeicher zusammen.
+Eine solche Prozedur müßte Kurzbeschreibung und Signatur wie folgt haben:\index{total-memory@\texttt{total-memory}}
+%
+\begin{alltt}
+; Gesamtspeicher berechnen
+(: total-memory (computer -> rational))
+\end{alltt}
+%
+Hier sind unsere Erwartungen an \texttt{total-memory}, als Testfälle
+formuliert:
+%
+\begin{alltt}
+(check-expect (total-memory workstation) 502)
+(check-expect (total-memory gamer) 1004)
+\end{alltt}
+% 
+Das Gerüst müßte folgendermaßen sein:
+%
+\begin{alltt}
+(define total-memory
+  (lambda (c)
+    ...))
+\end{alltt}
+%
+Da in den Gesamtspeicher des Computer sowohl der Hauptspeicher als
+auch die Festplatte eingehen, steht schon fest, daß die
+entsprechenden Selektoraufrufe im Rumpf der Prozedur vorkommen müssen:
+%
+\begin{alltt}
+(define total-memory
+  (lambda (c)
+    ... (computer-ram c) ...
+    ... (computer-hard-drive c) ...))
+\end{alltt}
+%
+Das Gesamtspeicher ergibt sich aus Addition der beiden Komponenten:
+%
+\begin{alltt}
+(define total-memory
+  (lambda (c)
+    (+ (computer-ram c)
+       (computer-hard-drive c))))
+\end{alltt}
+%
+Fertig!
+
+\texttt{Total-memory} ist ein Beispiel für eine Prozedur, die einen
+Record akzeptiert.  Umgekehrt gibt es auch Prozeduren, die Records
+produzieren.  Angenommen, unser Computerhändler bietet neben der
+Einzelkonfiguration von Prozessor, Hauptspeicher und Festplatte einige
+Standardmodelle an~-- sagen wir, ein Billigmodell, ein Modell für
+Profis (was immer ein "`Profi"' sein mag) und ein Modell für
+Computerspieler.  Je nachdem, welches der Modelle der Kunde auswählt,
+muß die entsprechende Konfiguration zusammengesetzt werden.  Für die
+Standardkonfiguration gibt es drei feste Möglichkeiten, es handelt
+sich hier also um eine Aufzählung.
+
+Eine Prozedur, die zu einer Standardkonfiguration den passenden
+Computer fertigt, könnte folgende Kurzbeschreibung und Signatur haben:
+%
+\begin{verbatim}
+; Standard-Computer zusammenstellen
+(: standard-computer ((one-of "cheap" "professional" "game") -> computer))
+\end{verbatim}
+%
+Die Testfälle sollten alle drei Standardkonfigurationen abdecken:
+%
+\begin{verbatim}
+(check-expect (standard-computer "cheap") (make-computer "Sempron" 2 500))
+(check-expect (standard-computer "professional") (make-computer "Xeon" 4 1000))
+(check-expect (standard-computer "game") (make-computer "Quad" 4 750))
+\end{verbatim}
+%
+Hier ist das Gerüst:
+%
+\begin{verbatim}
+(define standard-computer
+  (lambda (k)
+    ...))
+\end{verbatim}
+%
+Da es sich beim Argument um eine Fallunterscheidung~-- eine Aufzählung
+mit \emph{drei} Alternativen~-- handelt, können wir die
+dazu passende Schablone~-- eine Verzweigung mit \emph{drei} Zweigen~--
+zum Einsatz bringen:
+%
+\begin{verbatim}
+(define standard-computer
+  (lambda (k)
+    (cond
+      (... ...)
+      (... ...)
+      (... ...))))
+\end{verbatim}
+%
+Bei den Tests der Zweige müssen wir \texttt{k} mit den Elementen der
+Aufzählung vergleichen.  Da es sich um Zeichenketten handelt, nehmen
+wir dazu \texttt{string=?}:
+%
+\begin{verbatim}
+(define standard-computer
+  (lambda (k)
+    (cond
+      ((string=? k "cheap") ...)
+      ((string=? k "professional") ...)
+      ((string=? k "game") ...))))
+\end{verbatim}
+%
+In jedem Zweig müssen wir nun dafür sorgen, daß der entsprechende
+Computer hergestellt wird.  Für das Herstellen von Computer-Records
+ist der Konstruktor \texttt{make-computer} zuständig.  Dementsprechend
+müssen wir in jedem Zweig einen Aufruf an \texttt{make-computer}
+plazieren:
+%
+\begin{verbatim}
+(define standard-computer
+  (lambda (k)
+    (cond
+      ((string=? k "cheap")
+       (make-computer ... ... ...))
+      ((string=? k "professional")
+       (make-computer ... ... ...))
+      ((string=? k "game")
+       (make-computer ... ... ...)))))
+\end{verbatim}
+%
+Jetzt müssen wir nur noch die Argumente für die Aufrufe von
+\texttt{make-computer} zur Verfügung stellen.  Für jeden Aufruf sind
+das, wie gehabt, der Prozessor, die Größe des Hauptspeichers und die
+Größe der Festplatte.  Die entsprechenden Angaben können wir zum
+Beispiel den Testfällen entnehmen, und es kommt folgendes dabei heraus:
+%
+\begin{verbatim}
+(define standard-computer
+  (lambda (k)
+    (cond
+      ((string=? k "cheap")
+       (make-computer "Sempron" 2 500))
+      ((string=? k "professional")
+       (make-computer "Xeon" 4 1000))
+      ((string=? k "game")
+       (make-computer "Quad" 4 750)))))
+\end{verbatim}
+%
+Fertig!
+
+\section{Record-Definitionen}
+\label{sec:record-definitions}
+
+Natürlich sind zusammengesetzte Daten in Scheme nicht auf Computer-Konfigurationen
+beschränkt~-- der Programmierer kann neue Arten zusammengesetzter
+Daten selbst definieren.  Voraussetzung für die Definition einer neuen
+Art zusammengesetzter Daten ist eine klare Vorstellung davon, was die
+Komponenten sind.  Dabei hilft eine informelle Beschreibung wie diese
+hier:
+%
+\begin{alltt}
+; Eine kartesische Koordinate in der Ebene besteht aus einer X- und Y-Koordinate.
+\end{alltt}
+%
+Eine solche \index{Datendefinition}\textit{Datendefinition} läßt sich
+direkt in eine
+\textit{Record-Definition\index{Record-Definition}} in Scheme übersetzen.
+Dies ist eine Form mit dem syntaktischen
+Schlüsselwort \texttt{define-record-procedures}.  Eine
+Record-Definition definiert einen neuen Record-Typ und dabei
+automatisch auch u.~a.\ den Konstruktor und die
+Selektoren~-- nur ihre Namen müssen angegeben werden.
+
+TBD
+%
+Eine \texttt{define"=record"=procedures}"=Form\index{define-record-procedures@\texttt{define-record-procedures}}
+hat folgende allgemeine Gestalt:\label{def:define-record-procedures}
+%
+\begin{alltt}
+(define-record-procedures \(t\)
+  \(c\) \(p\)
+  (\(s\sb{1}\) \(\ldots\) \(s\sb{n}\)))
+\end{alltt}
+%
+Diese Form definiert einen Record-Typ mit $n$ Feldern.
+Dabei sind $t$, $c$, $p$, $s_1 \ldots s_n$ allesamt Variablen, für die
+\texttt{define-record-procedures} Definitionen anlegt:
+%
+\begin{itemize}
+\item $t$ ist der Name des Record-Typs.
+\item $c$ ist der Name des Konstruktors, den
+  \texttt{define-record-procedures} anlegt.
+\item $p$ ist der Name des Prädikats, das
+  \texttt{define-record-procedures} anlegt.
+\item $s_1, \ldots, s_n$ sind die Namen der Selektoren für die Felder
+  des Record-Typen.
+\end{itemize}
+%
+Beim Entwurf einer Record-Definition hilft es, mit der
+Datendefinition anzufangen, die
+ausführlich beschreibt, was für Komponenten die Daten haben.  Für
+Computer sieht diese Datendefinition folgendermaßen aus:
+%
+\begin{alltt}
+; Ein Computer besteht aus:
+; - Prozessor (string)
+; - Hauptspeicher-Kapazität in Gbyte (rational)
+; - Festplatten-Kapazität in Gbyte (rational)
+\end{alltt}
+%
+Hier ist die Datendefinition für kartesische Koordinaten:
+%
+\begin{alltt}
+; Eine kartesische Koordinate besteht aus:
+; - X-Anteil (real)
+; - Y-Anteil (real)
+\end{alltt}
+%
+Die Datendefinition muss genau soviele Komponenten aufweisen,
+wie die zusammengesetzten Daten Bestandteile haben. 
+Wenn es nicht absolut glaskar ist, sollten in Klammern die Signaturen der
+jeweiligen Komponenten angegeben werden~-- wie in diesen Beispielen.
+
+Aus der Datendefinition ergibt sich direkt die Record-Definition.  
+Insbesondere gehört zu jeder Komponente ein Selektor.
+Die Namen für den Konstruktor, das Prädikat und die Selektoren können
+frei gewählt werden, sollten aber meist einer einheitlichen
+Konvention folgen, um anderen das Lesen des Programms zu erleichern.
+Die gängige Konvention ist, daß der Konstruktor mit \texttt{make-}
+anfängt (\texttt{make-cartesian}), der Name des Prädikats auf ein
+Fragezeichen endet (\texttt{cartesian?}), und die Selektoren mit dem Namen des
+Record-Typs beginnen und auf die
+Namen der Felder enden (\texttt{cartesian-x}, \texttt{cartesian-y}).
+
+TBD
+
+\section{Schablonen für  zusammengesetzte Daten}
+
+Zusammengesetzte Daten können Sie an Formulierungen wie "`ein $X$
+besteht aus~\ldots"', "`ein $X$ ist charakterisiert durch~\ldots"' oder "`ein
+$X$ hat folgende Eigenschaften:~\ldots"'  erkennen.
+Diese Formulierung bildet
+dann~-- ordentlich aufgeschrieben und ggf.\ um die Signaturen für die
+Komponenten ergänzt~-- das Herzstück der Datendefinition.  Diese
+Datendefinition können Sie dann direkt in die dazugehörige
+Record-Definition übersetzen.  Diese muss genauso viele Felder haben
+wie die Datendefinition Komponenten beschreibt.
+
+Diese Methode bildet Konstruktionsanleitung~\ref{ka:zusammengesetzt}
+in Anhang~\ref{app:konstruktionsanleitungen}.
+
+\subsection{Zusammengesetzte Daten als Eingabe}
+
+Die Definitionen von \texttt{total-price} folgen dem selben Muster.  Dieses Muster
+ergibt Schablonen für Prozeduren, die Records als Argumente
+akzeptieren und läßt sich auch auf andere Record-Typen folgendermaßen
+in eine Konstruktionsanleitung übertragen:
+%
+\begin{enumerate}
+\item Stellen Sie fest, von welchen Komponenten des Records das Ergebnis
+  der Prozeduren abhängt.
+\item Für jede dieser Komponenten, schreiben Sie  \texttt{($s$ $c$)} in die
+  Schablone, wobei $s$ der Selektor der Komponente und $c$ der Name
+  des Record-Parameters ist.
+\item Vervollständigen Sie die Schablone, indem Sie einen Ausdruck
+  konstruieren, in dem die Selektor"=Anwendungen vorkommen.
+\end{enumerate}
+%
+Konstruktionsanleitung~\ref{ka:zusammengesetzt-input} in
+Anhang~\ref{app:konstruktionsanleitungen} faßt diese Schritte noch
+einmal zusammen.
+
+\subsection{Zusammengesetzte Daten als Ausgabe}
+
+Prozeduren, die zusammengesetzte Daten als Ausgabe haben, müssen einen
+entsprechenden Record konstruieren, mithin den Konstruktor aufrufen.
+Die Schablone wird also folgendermaßen konstruiert:
+%
+\begin{quote}
+  Wenn die Prozedur zusammengesetzte Daten als Ausgabe hat, schreiben
+  Sie einen Aufruf des passenden Record-Konstruktors in den Rumpf,
+  zunächst mit einer Ellipse für jedes Feld des Records.
+\end{quote}
+%
+Im nächsten Schritt ersetzen Sie dann die Ellipsen durch Ausdrücke,
+welche die entsprechenden Komponenten berechnen.
+
+Konstruktionsanleitung~\ref{ka:zusammengesetzt-output} in
+Anhang~\ref{app:konstruktionsanleitungen} faßt diese Schritte noch
+einmal zusammen.
+
+\section{Gürteltiere im Computer}
+\label{sec:armadillo}
+
+Nachdem wir aus den Beispielen die Schablonen für zusammengesetzte
+Daten entwickelt haben, demonstrieren wir diese in diesem Abschnitt
+noch einmal an einem frischen Beispiel:
+
+In Texas gibt es viele Gürteltiere, die insbesondere die Highways
+überqueren und dabei leider oft überfahren werden~-- am Straßenrand
+sind entsprechend viele Gürteltiere zu sehen.  Außerdem füttern
+freundliche Autofahrer gelegentlich die Gürteltiere.  Mit diesen
+beiden Aspekte wollen wir uns beschäftigen: Was passiert, wenn ein
+Gürteltier überfahren wird?  Was passiert, wenn ein Gürteltier
+gefüttert wird?  Entsprechend interessiert uns, ob ein Gürteltier am
+Leben ist und welches Gewicht es hat.  Das können wir direkt in eine
+Datendefinition übersetzen:
+%
+\begin{verbatim}
+; Ein Gürteltier hat folgende Eigenschaften:
+; - Gewicht (in g)
+; - lebendig oder tot
+\end{verbatim}
+%
+Wiederum handelt es sich sichtlich um zusammengesetzte Daten.  Diesmal
+trifft die Phrase "`besteht aus"' natürlich nicht zu.  Stattdessen
+geht es um die Eigenschaften, von denen ein Gürteltiert viele hat.
+Von diesen vielen interessanten Eigenschaften sind aber viele bei
+allen Gürteltieren gleich (Säugetier, zwei Augen, vier Füße etc.) und
+darum nicht Teil der Datendefinition.  Für unsere Aufgaben sind
+außerdem nur zwei Eigenschaften von Belang, weshalb die
+Datendefinition auch nur diese auflistet.
+
+Aus der Datendefinition können wir direkt eine passende
+Record-Definition machen:
+% 
+\begin{verbatim}
+(define-record-procedures dillo
+  make-dillo dillo?
+  (dillo-weight dillo-alive?))
+\end{verbatim}
+%
+("`Dillo"' steht kurz für "`Armadillo"', englisch für Gürteltier.)
+
+Für das Feld \texttt{alive?} könnten wir unterschiedliche Repräsentationen
+wählen: Eine Aufzählung wäre möglich; die Autoren haben sich für einen
+booleschen Wert entschieden, der die Frage "`Lebt das Gürteltier?"'
+beantwortet.  Hier sind die Signaturen für die Record-Prozeduren:
+%
+\begin{verbatim}
+(: make-dillo (natural boolean -> dillo))
+(: dillo? (any -> boolean))
+(: dillo-weight (dillo -> natural))
+(: dillo-alive? (dillo -> boolean))
+\end{verbatim}
+%
+Riesengürteltiere werden um die 60kg schwer.   Hier sind einige
+Exemplare:
+%
+\begin{verbatim}
+(define d1 (make-dillo 55000 #t)) ; 55kg, lebendig 
+(define d2 (make-dillo 58000 #f)) ; 58kg, tot
+(define d3 (make-dillo 60000 #t)) ; 60kg, lebendig
+(define d4 (make-dillo 63000 #f)) ; 63kg, tot
+\end{verbatim}
+%
+Fangen wir mit dem unangenehmen Teil an, dem Überfahren, das aus einem
+lebenden Gürteltier ein totes macht.  Hier Kurzbeschreibung und
+Signatur:\index{run-over-dillo@\texttt{run-over-dillo}}\label{page:run-over-dillo}
+%
+\begin{verbatim}
+; Gürteltier überfahren
+(: run-over-dillo (dillo -> dillo))
+\end{verbatim}
+%
+Aus dem Beispiel \texttt{d1} können wir den ersten Testfall machen:
+%
+\begin{verbatim}
+(check-expect (run-over-dillo d1) (make-dillo 55000 #f))
+\end{verbatim}
+%
+Wir sollten aber auch berücksichtigen, was \texttt{run-over-dillo} mit
+toten Gürteltieren anstellt: Diese bleiben auch nach dem Überfahren
+tot:
+%
+\begin{verbatim}
+(check-expect (run-over-dillo d2) d2)
+\end{verbatim}
+%
+Hier das Gerüst der Prozedur:
+%
+\begin{verbatim}
+(define run-over-dillo
+  (lambda (d)
+    ...))
+\end{verbatim}
+
+\texttt{Run-over-dillo} hat zusammengesetzte Daten sowohl als Eingabe
+als auch als Ausgabe.  Entsprechend kommen die Schablonen für beide
+Situationen zum Einsatz.  Zunächst die Schablone für zusammengesetzte
+Daten als Eingabe; wir schreiben die Aufrufe der Selektoren auf:
+%
+\begin{verbatim}
+(define run-over-dillo
+  (lambda (d)
+    ... (dillo-weight d) ...
+    ... (dillo-alive? d) ...))
+\end{verbatim}
+%
+Dazu kommt die Schablone für zusammengesetzte Daten als Ausgabe, also
+der Aufruf des Konstruktors:
+%
+\begin{verbatim}
+(define run-over-dillo
+  (lambda (d)
+    (make-dillo ... ...)
+    ... (dillo-weight d) ...
+    ... (dillo-alive? d) ...))
+\end{verbatim}
+%
+Wir müssen beim Aufruf des Konstruktors \texttt{make-dillo} angeben,
+welches Gewicht das frisch überfahrene Gürteltier haben soll und ob es
+noch am Leben ist.  Da das Überfahren das Gewicht nicht ändert, übernimmt
+der Ausdruck für das Gewicht das Gewicht des Eingabe-Gürteltiers aus
+der Schablone:
+%
+\begin{verbatim}
+(define run-over-dillo
+  (lambda (d)
+    (make-dillo (dillo-weight d) ...)
+    ... (dillo-alive? d) ...))
+\end{verbatim}
+%
+Das Gürteltier ist nach dem Überfahren auf jeden Fall tot.  Da es
+keine Rolle spielt, ob das Gürteltier vorher lebendig war oder nicht,
+können wir den Selektoraufruf \texttt{(dillo-alive? d)} verwerfen:
+%
+\begin{verbatim}
+(define run-over-dillo
+  (lambda (d)
+    (make-dillo (dillo-weight d)
+                #f)))
+\end{verbatim}
+%
+Fertig!
+
+Nächste Aufgabe: Gürteltier füttern.  Die Standard-Futter-Portion ist
+dabei 500g, und das Gürteltier nimmt durch die Fütterung um das
+entsprechende Gewicht zu.  Hier Kurzbeschreibung und Signatur:
+%
+\begin{verbatim}
+; Gürteltier mit 500g Futter füttern
+(: feed-dillo (dillo -> dillo))
+\end{verbatim}
+%
+Hier der erste, naheliegende Testfall:
+%
+\begin{verbatim}
+(check-expect (feed-dillo d1) (make-dillo 55500 #t))
+\end{verbatim}
+%
+Auch bei \texttt{feed-dillo} ist relevant, was es mit toten
+Gürteltieren macht: Tote Gürteltiere fressen nicht, entsprechend
+nehmen sie auch nicht zu, wenn man ihnen Futter anbietet:
+%
+\begin{verbatim}
+(check-expect (feed-dillo d2) d2)
+\end{verbatim}
+%
+Hier das Gerüst der Prozedur:
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    ...))
+\end{verbatim}
+%
+\texttt{Feed-dillo} hat die gleiche Signatur wie
+\texttt{run-over-dillo}; entsprechend benutzen wir die gleiche
+Schablone:
+%
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    (make-dillo ... ...)
+    ... (dillo-weight d) ...
+    ... (dillo-alive? d) ...))
+\end{verbatim}
+%
+Beim zweiten Testfall haben wir gesehen, daß, was \texttt{feed-dillo}
+betrifft, die Gürteltiere in zwei verschiedene Gruppen fallen:
+\texttt{Feed-dillo} verhält sich bei lebenden Gürteltieren anders als
+bei toten: eine Fallunterscheidung.  Entsprechend brauchen wir eine
+Verzweigung im Rumpf.  Da sich der Fall "`Gürteltier tot"' dadurch definiert, daß der
+Fall "`Gürteltier lebendig"' nicht eintritt, ist die binäre Verzweigung
+angemessen:
+%
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    (if (dillo-alive? d)
+         ...
+         ...)
+    (make-dillo ... ...)
+    ... (dillo-weight d) ...
+\end{verbatim}
+%
+Nun müssen wir noch die beiden Zweige ergänzen.  Am
+einfachsten ist die Alternative "`Gürteltier tot"', dann nämlich kommt
+das gleiche Gürteltier aus der Prozedur, das hineingegangen ist:
+%
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    (if (dillo-alive? d)
+         ...
+         d)
+    (make-dillo ... ...)
+    ... (dillo-weight d) ...
+\end{verbatim}
+%
+Im ersten Zweig müssen wir schließlich einen neuen Gürteltier-Wert
+berechnen, der die Zunahme berücksichtigt.  Dabei werden der
+Konstruktur-Aufruf und der zweite Selektor-Aufruf aus der Schablone
+verbraucht:
+%
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    (if (dillo-alive? d)
+        (make-dillo (+ (dillo-weight d) 500)
+                    #t)
+        d)))
+\end{verbatim}
+%
+Fertig!
+
+\section*{Aufgaben}
+
+
+TBD
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 

@@ -1,0 +1,400 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter{Zeitabhängige Modelle}
+\label{cha:representation-and-state}
+
+TBD
+
+\section{Das Teachpack \texttt{image2.ss}}
+
+Für die Grafikprogrammierung mit \drscheme{} ist es notwendig, ein
+sogenanntes \textit{Teachpack\index{Teachpack}} zu laden~-- ein
+kleiner Sprachzusatz, in diesem Fall mit einer Reihe von Prozeduren zur Erzeugung von
+Bildern.  Dazu muß im Menü \texttt{Sprache} (oder \texttt{Language} in
+der englischen Ausgabe) der Punkt \texttt{Teachpack hinzufügen}
+(\texttt{Add teachpack}) angewählt werden, und im dann erscheinenden
+Auswahl-Dialog im Verzeichnis \texttt{deinprogramm} die Datei
+\texttt{image22.ss\index{image2.ss@\texttt{image2.ss}}}.
+
+Im Teachpack \texttt{image2.ss} erzeugen verschiedene Prozeduren
+einfache Bilder.  So hat z.B.\ die Prozedur \texttt{rectangle}
+folgende Signatur:\index{rectangle@\texttt{rectangle}}
+%
+\begin{alltt}
+(: rectangle (natural natural mode color -> image))
+\end{alltt}
+%
+Dabei sind die ersten beiden Argumente Breite und Höhe eines Rechtecks
+in Pixeln.
+Das Argument von der Sorte \texttt{mode}\index{mode@\texttt{mode}} ist eine Zeichenkette, die
+entweder \verb|"solid"| oder \verb|"outline"| sein muß. Sie bestimmt,
+ob das Rechteck als durchgängiger Klotz oder nur als Umriß gezeichnet
+wird.  Das Argument von der Sorte \texttt{color}\index{color@\texttt{color}} ist eine
+Zeichenkette, die eine Farbe (auf Englisch) bezeichnet, 
+zum Beispiel \verb|"red"|, \verb|"blue"|, \verb|"yellow"|,
+\verb|"black"|, \verb|"white"| oder \verb|"gray"|.  Als Ergebnis
+liefert \texttt{rectangle} ein Bild, das von der \drscheme{}-REPL
+entsprechend angezeigt wird wie andere Werte auch.
+
+\begin{figure}[tb!]
+  \centering
+  TBD
+  \caption{Teachpack \texttt{image2.ss}}
+  \label{fig:image-ss}
+\end{figure}
+
+Es gibt es noch weitere Prozeduren, die 
+geometrische Figuren zeichnen:\index{circle@\texttt{circle}}
+%
+\begin{alltt}
+(: circle (natural mode color -> image))
+\end{alltt}
+%
+Die \texttt{circle}-Prozedur liefert einen Kreis, wobei das erste
+Argument den Radius angibt.  Die \texttt{mode}- und
+\texttt{color}-Argumente sind wie bei \texttt{rectangle}.
+%
+\begin{alltt}
+(: ellipse (natural natural mode color -> image))
+\end{alltt}
+%
+\index{ellipse@\texttt{ellipse}}Diese Prozedur liefert eine Ellipse,
+wobei das erste Argument die Breite und das zweite die Höhe angibt.
+%
+\begin{alltt}
+(: triangle (natural mode color -> image))
+\end{alltt}
+%
+\index{triangle@\texttt{triangle}}Diese Prozedur liefert ein nach oben
+zeigendes gleichseitiges Dreieck, wobei das erste Argument die
+Seitenlänge angibt.
+%
+\begin{alltt}
+(: line (natural natural real real real real color -> image))
+\end{alltt}
+%
+\index{line@\texttt{line}}zeichnet eine Linie.  Der Aufruf
+\texttt{(line $w$ $h$ $x_1$ $y_1$ $x_2$ $y_2$ $c$)} liefert ein Bild
+mit Breite $w$ und Höhe $h$, in dem eine Linie von $(x_1, y_1)$ nach
+$(x_2, y_2)$ läuft.  Der Ursprung $(0,0)$ ist links \emph{oben},
+also nicht, wie in der Mathematik üblich, links unten.
+
+Da diese geometrischen Formen für sich genommen langweilig sind, können
+mehrere Bilder miteinander kombiniert werden.
+
+Zum Aufeinanderlegen gibt es die Prozedur \texttt{overlay\index{overlay@\texttt{overlay}}}:
+%
+\begin{alltt}
+(: overlay (image image h-place v-place -> image))
+\end{alltt}
+%
+Dabei sind die ersten beiden Argumente die Bilder, die
+aufeinandergelegt werden~-- das zweite auf das erste.
+Die beiden anderen Argumente geben an, wie
+die beiden Bilder zueinander positioniert werden.  Die Signatur
+von \texttt{h-place}, das die horizontale Positionierung festlegt,
+ist:\index{h-place@\texttt{h-place}}
+%
+\begin{alltt}
+(define h-place
+   (signature
+      (mixed natural
+             (one-of "left"
+                     "right"
+                     "center"))))
+\end{alltt}
+%
+Im ersten Fall, wenn es sich um eine Zahl $x$ handelt, wird das zweite
+Bild $x$ Pixel vom linken Rand auf das erste gelegt.  Die drei
+Fälle mit Zeichenketten sagen, daß die Bilder am linken Rand bzw.\ am
+rechten Rand bündig plaziert werden, bzw.\ das zweite Bild horizontal
+in die Mitte des ersten gesetzt wird.
+Dementsprechend ist
+\texttt{v-place}, das die vertikale Positionierung festlegt,
+wie folgt definiert:\index{v-place@\texttt{v-place}}
+%
+\begin{alltt}
+(define h-place
+   (signature
+      (mixed natural
+             (one-of "top"
+                     "bottom"
+                     "center"))))
+\end{alltt}
+%
+Im ersten Fall, wenn es sich um eine Zahl $y$ handelt, wird das zweite
+Bild $y$ Pixel vom oberen Rand auf das erste gelegt.  Die drei
+Fälle mit Zeichenketten sagen, daß die Bilder am oberen Rand bzw.\ am
+unteren Rand bündig plaziert werden, bzw.\ das zweite Bild vertikal
+in die Mitte des ersten gesetzt wird.
+
+Das Bild, das bei \texttt{overlay} herauskommt, ist groß genug, daß
+beide Eingabebilder genau hineinpassen.
+
+Die folgenden Hilfsprozeduren sind Spezialfälle von \texttt{overlay}:
+%
+\begin{alltt}
+(: above  (image image h-mode -> image))
+(: beside (image image v-mode -> image))
+\end{alltt}
+%
+Die Prozedur \texttt{above\index{above@\texttt{above}}} ordnet zwei
+Bilder übereinander an, \texttt{beside\index{beside@\texttt{beside}}}
+nebeneinenander.  Dabei ist \texttt{h-mode} eine der Zeichenketten
+\verb|"left"|, \verb|"right"| und \verb|"center"|, die angibt, ob die
+Bilder bei \texttt{above} an der linken oder rechten Kante oder der
+Mitte ausgerichtet werden.  Entsprechend ist \texttt{v-mode} eine der
+Zeichenketten \verb|"top"|, \verb|"bottom"| und \verb|"center"|, die
+angibt, ob die Bilder bei \texttt{beside} oben, unten oder an der
+Mitte ausgerichtet werden.
+
+Die Prozeduren \texttt{clip} und \texttt{pad} beschneiden bzw.\
+erweitern ein Bild:\index{clip@\texttt{clip}}\index{pad@\texttt{pad}}
+%
+\begin{alltt}
+(: clip (image natural natural natural natural -> image))
+(: pad  (image natural natural natural natural -> image))
+\end{alltt}
+%
+Ein Aufruf \texttt{(clip $i$ $x$ $y$ $w$ $h$)} liefert 
+das Teilrechteck des Bildes $i$ mit Ecke bei $(x, y)$, Breite $w$ und
+Höhe $h$.  Der Aufruf \texttt{(pad $i$ $l$ $r$ $t$ $b$)}
+fügt an den Seiten von $i$ noch transparenten Leerraum an: $l$ Pixel
+links, $r$ Pixel rechts, $t$ Pixel oben und $b$ Pixel unten.
+
+Abbildung~\ref{fig:image-ss} zeigt, wie sich die einige der
+\texttt{image.ss}-Prozeduren in der \drscheme{}-REPL verhalten.
+
+\begin{figure}
+  \centering
+  TBD
+  \caption{Eingefügte Bilder in der \drscheme{}-REPL}
+  \label{fig:image-insert}
+\end{figure}
+%
+Es ist auch möglich, externe Bilder-Dateien in
+\texttt{image2.ss}-Bilder zu verwandeln.  Dazu dient der Menüpunkt
+\texttt{Bild einfügen} im \texttt{Spezial}-Menü:  \drscheme{} fragt nach dem
+Namen einer Bilddatei, die dann in den Programmtext da eingefügt wird,
+wo der Cursor steht.  Die eingefügten Bilder dienen dann als
+Literale für Bild-Objekte.  Abbildung~\ref{fig:image-insert} zeigt ein
+Beispiel.
+
+Die folgenden Prozeduren ermitteln Breite und Höhe
+eines Bildes:\index{image-width@\texttt{image-width}}\index{image-height@\texttt{image-height}}
+%
+\begin{alltt}
+(: image-width  (image -> natural))
+(: image-height (image -> natural))
+\end{alltt}
+
+\section{Zwischenergebnisse benennen}
+\label{sec:let}
+
+\index{lokale Variable}\index{Variable!lokal} Im nächsten Abschnitt
+geht es um ein etwas umfangreicheres Programm mit vielen
+\textit{Zwischenergebnissen}\index{Zwischenergebnis}.  Die
+\texttt{let}-Form erlaubt, Zwischenergebnisse zu benennen und beliebig
+oft zu verwenden.  Abbildung~\ref{scheme:let} erläutert die
+Funktionsweise.
+%
+\begin{feature}{Lokale Variablen mit \texttt{let}}{scheme:let}
+\texttt{Let}\index{let@\texttt{let}} ist für das Anlegen \textit{lokaler
+  Variablen}\index{lokale Variable}\index{Variable!lokal} zuständig.  Ein \texttt{let}-Ausdruck hat die folgende
+allgemeine Form:
+%
+\begin{alltt}
+(let ((\(v\sb{1}\) \(e\sb{1}\)) \(\ldots\) (\(v\sb{n}\) \(e\sb{n}\))) \(b\))
+\end{alltt}
+%
+Dabei müssen die $v_i$ Variablen sein und die $e_i$ und
+$b$ (der \textit{Rumpf})\index{Rumpf} beliebige Ausdrücke.  Bei der Auswertung
+eines solchen \texttt{let}-Ausdrucks werden zunächst alle $e_i$
+ausgewertet.  Dann werden deren Werte für die Variablen $v_i$ im Rumpf
+eingesetzt; dessen Wert wird dann zum Wert des \texttt{let}-Ausdrucks.
+
+Ein \texttt{let}-Ausdruck hat die gleiche Bedeutung wie folgende
+Kombination aus Lambda-Ausdruck und Applikation:
+%
+\begin{alltt}
+(let ((\(v\sb{1}\) \(e\sb{1}\)) \(\ldots\) (\(v\sb{n}\) \(e\sb{n}\))) \(b\))
+\(\mapsto\) ((lambda (\(v\sb{1}\) \(\ldots\) \(v\sb{n}\)) \(b\)) \(e\sb{1}\) \(\ldots\) \(e\sb{n}\))
+\end{alltt}
+%
+\end{feature}
+%
+\texttt{Let} ist selbst dann nützlich, wenn ein Zwischenergebnis nicht
+mehrfach verwendet wird.  Es kann die Lesbarkeit des Programmtextes
+erhöhen, besonders wenn ein aussagekräftiger Name verwendet wird.
+Zum Beispiel berechnet die folgende Prozedur das Materialvolumen eines
+Rohrs, von dem Außenradius, Dicke und Höhe angegeben sind:\index{pipe-volume@\texttt{pipe-volume}}
+%
+\begin{alltt}
+; Materialvolumen eines Rohrs berechnen
+(: pipe-volume (number number number -> number))
+(define pipe-volume
+  (lambda (outer-radius thickness height)
+    (let ((inner-radius (- outer-radius thickness)))
+      (- (cylinder-volume outer-radius height)
+         (cylinder-volume inner-radius height)))))
+\end{alltt}
+%
+In diesem Beispiel wird eine einzelne lokale Variable namens
+\texttt{inner-radius} eingeführt, die für den Wert von \texttt{(-
+  outer-radius thickness)} steht.
+
+Da die Variablen, die durch \texttt{let} und \texttt{lambda} gebunden
+werden, nur jeweils im Rumpf des \texttt{let} bzw.\ \texttt{lambda}
+gelten, heißen sie auch \textit{lokale Variablen}.  Die durch
+\texttt{define} gebundenen Variablen heißen dementsprechend~-- da sie überall
+gelten~-- \textit{globale Variablen\index{Variable!global}\index{globale Variable}}.
+
+\texttt{Let} kann auch mehrere lokale Variablen
+gleichzeitig einführen, wie im folgenden Beispiel:
+%
+\begin{alltt}
+(let ((a 1)
+      (b 2)
+      (c 3))
+  (list a b c))
+\evalsto{} #<list 1 2 3>
+\end{alltt}
+%
+Bei der Benutzung von \texttt{let} ist zu beachten, daß die Ausdrücke,
+deren Werte an die Variablen gebunden werden, allesamt
+\emph{außerhalb} des Einzugsbereich des \texttt{let} ausgewertet
+werden.  Folgender Ausdruck führt also bei der Auswertung zu einer
+Fehlermeldung:
+%
+\begin{alltt}
+(let ((a 1)
+      (b (+ a 1)))
+  b)
+\evalsto{} reference to an identifier before its definition: a
+\end{alltt}
+%
+
+\begin{mantra}[lokale Variablen]\label{mantra:local-variables}
+  \input{mantra:local-variables}
+\end{mantra}
+
+\section{Modelle und Ansichten}
+
+
+TBD
+
+\section{Bewegung und Zustand}
+
+TBD  Dafür ist ein weiteres Teachpack namens
+\texttt{universe.ss}\index{universe.ss@\texttt{universe.ss}} zuständig.  Es
+kann in \drscheme{} genauso wie bei \texttt{image2.ss}
+geladen werden.  
+
+Alle Definitionen von
+\texttt{image2.ss} sind auch in \texttt{universe.ss} verfügbar.
+
+In der Terminologie von \texttt{universe.ss} ist ein Modell eine
+\textit{world}, auf deutsch eine \textit{Welt}: Die Idee dahinter
+ist, daß ein Bild eine Ansicht einer kleinen Welt ist.  Damit das
+funktioniert, muß bei \texttt{universe.ss} eine erste Welt angemeldet
+werden, zusammen mit Angaben, wie groß die Ansicht wird.  Dazu gibt es
+die Prozedur \texttt{big-bang}\index{big-bang@\texttt{big-bang}}:
+%
+\begin{alltt}
+(: big-bang (natural natural number world -> #t))
+\end{alltt}
+%
+("`Big Bang"' heißt zu deutsch "`Urknall"'.)
+Die ersten beiden Argumente geben Breite und Höhe der Ansicht an.  Das
+dritte Argument gibt die Dauer (in Sekunden) zwischen Ticks der Uhr
+an, die für die Animation benötigt wird.  Das vierte Argument gibt
+schließlich die erste Welt an.  (Der Rückgabewert, immer
+\verb|#t|, ist ohne Bedeutung.)  Für den Himmel mit
+Sonne sieht der Aufruf von \texttt{big-bang} folgendermaßen aus:
+%
+\begin{alltt}
+(big-bang sky-width sky-height 0.1 0)
+\end{alltt}
+%
+Dieser Aufruf erzeugt ein Fenster mit Breite und Höhe des Himmels,
+startet die Uhr, die jede Sekunde zehnmal tickt, und legt als erste
+Welt "`0"', also den Anfang der Zeit fest.  (Eine zehntel Sekunde
+reicht etwa aus, damit die Animation dem menschlichen Auge als
+"`Bewegung"' erscheint.)
+
+Damit das Teachpack die Welt in eine Ansicht umwandeln kann, muß eine
+entsprechende Ansicht angemeldet werden.  Dafür ist die Prozedur
+\texttt{on-redraw\index{on-redraw@\texttt{on-redraw}}} zuständig:
+%
+\begin{alltt}
+(: on-redraw ((world -> image) -> #t))
+\end{alltt}
+%
+Als Argument akzeptiert \texttt{on-redraw} also eine Prozedur, die aus
+einer Welt ein Bild macht.  TBD
+
+Auch diese Prozedur muß noch beim Teachpack angemeldet werden.  Dafür
+die Teachpack-Prozedur
+\texttt{on-tick-event\index{on-tick-event@\texttt{on-tick-event}}}
+zuständig:
+%
+\begin{alltt}
+(: on-tick-event ((world -> world) -> #t))
+\end{alltt}
+%
+Die \texttt{on-tick-event}-Prozedur akzeptiert eine Prozedur, die bei
+jedem Uhren-Tick aufgerufen wird, um aus der "`alten"' Welt eine neue
+zu machen.  Auf diese Beschreibung und auch auf die Signatur
+paßt aber \texttt{next-time}.  Der Aufruf kann also so aussehen:
+%
+\begin{alltt}
+(on-tick-event next-time)
+\end{alltt}
+%
+Wenn das Programm
+beendet werden soll, muß \texttt{on-tick-event} die Prozedur
+\texttt{end-of-time\index{end-of-time@\texttt{end-of-time}}} des
+Teachpacks aufrufen, die folgende Signatur hat:
+%
+\begin{alltt}
+(: end-of-time (string -> world))
+\end{alltt}
+%
+
+\section{Andere Welten}
+
+Eine kleine (wenn auch nicht besonders sinnvolle) Erweiterung zeigt,
+wie die Animation auf Benutzereingaben reagieren kann.  Dazu muß sie
+noch eine weitere Prozedur anmelden, und zwar mittels
+\texttt{on-key-event\index{on-key-event@\texttt{on-key-event}}}, das
+ähnlich funktioniert wie \texttt{on-tick-event}:
+%
+\begin{alltt}
+(: on-key-event ((world string -> world) -> #t))
+\end{alltt}
+%
+Die Prozedur, die mit \texttt{on-key-event} angemeldet wird, wird
+immer aufgerufen, wenn der Benutzer eine Taste drückt.  Welche Taste
+gedrückt wurde, gibt das zweite Argument 
+an.  Wenn der Benutzer eine reguläre Zeichen-Taste drückt (also keine
+Cursor-Taste o.ä.), ist dieses Argument eine Zeichenkette bestehend
+aus diesem einen Zeichen.
+
+TBD
+
+\section*{Aufgaben}
+
+TBD
+
+\begin{aufgabe}
+  Schreiben Sie ein kleines Telespiel Ihrer Wahl.
+\end{aufgabe}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 
+

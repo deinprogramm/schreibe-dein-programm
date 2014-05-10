@@ -1,0 +1,713 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter{Mathematische Grundlagen}
+\label{cha:math}
+
+Dieser Anhang erläutert
+die in diesem Buch verwendeten Begriffe und Notationen
+aus der Mathematik.
+
+\section{Aussagenlogik}
+\label{sec:aussagenlogik}
+
+\index{Aussagenlogik}Eine \emph{Aussage\index{Aussage}} ist ein Satz, der prinzipiell einen \emph{Wahrheitswert\index{Wahrheitswert}}
+W\index{W} (für "`wahr\index{wahr}"') oder F\index{F} (für "`falsch\index{falsch}"')
+besitzt.
+%kann. Wir verwenden eine \emph{zweiwertige Logik} mit den Wahrheitswerten
+
+%Beispiele für Aussagen und ihre Wahrheitswerte:
+%brauchen wir nicht mehr, da i1calc das jetzt tut...
+%\begin{enumerate}
+%\item 6 ist eine Primzahl (F).
+%\item 1024 ist eine Zweierpotenz (W).
+%\item Es gab früher Leben auf der Venus (unbekannt, aber jedenfalls W oder F).
+%\end{enumerate}
+
+%Keine Aussage in diesem Sinne ist der Satz: "`Der Wahrheitswert dieses Satzes
+%ist F"', denn es ist offensichtlich unmöglich, diesem Satz einen Wahr\-heits\-wert
+%W oder F zuzuordnen.
+
+Aus \emph{primitiven (elementaren) Aussagen}
+\index{primitive Aussage}
+\index{Aussage!primitiv}
+\index{Aussage!elementar}
+\index{elementare Aussage}
+werden mit Hilfe sogenannter 
+aussagenlogischer \emph{Junktoren\index{Junktor}} zusammengesetzte Aussagen
+aufgebaut.  Es gibt zwei vordefinierte primitive Aussagen $\top$\index{*@$\top$} und
+$\bot$\index{*@$\bot$} mit den Wahrheitswerten W bzw.\ F.  Die
+wichtigsten Junktoren sind:
+\begin{description}
+\item["`und"' ($\wedge$):] $a \wedge b$ \index{*@$\wedge$}
+        hat den Wahrheitswert W genau dann, wenn
+     $a$ und $b$ beide den Wert W haben.
+\item["`oder"' ($\vee$):] $a \vee b$ \index{*@$\vee$}
+        hat den Wahrheitswert W genau dann, wenn von
+     $a$ und $b$ mindestens eins den Wert W hat.
+\item["`nicht"' ($\neg$):] $\neg a$ \index{*@$\neg$}
+        hat den Wahrheitswert W genau dann, wenn $a$   
+     den Wert F hat.
+\end{description}
+
+In der Aussagenlogik gilt demnach das Prinzip, daß der Wahr\-heits\-wert 
+einer
+zusammengesetzten Aussage durch die Wahrheitswerte seiner Bestandteile
+bestimmt ist.
+
+Statt $\neg a$ wird gelegentlich auch $\overline{a}$ geschrieben.
+
+Meistens werden logische Junktoren durch sogenannte \emph{Wahrheitstafeln}
+\index{Wahrheitstafel} definiert:
+%
+\begin{center}
+\begin{tabular}{c||c|c}
+$\wedge$   &  W   &  F \\ \hline \hline
+    W      &  W   &  F \\ \hline
+    F      &  F   &  F
+\end{tabular}
+\hspace{3em}
+\begin{tabular}{c||c|c}
+$\vee$     &  W   &  F \\ \hline \hline
+    W      &  W   &  W \\ \hline
+    F      &  W   &  F 
+\end{tabular}
+\hspace{3em}
+\begin{tabular}{c||c}
+$\neg$     \\ \hline \hline
+    W      &  F \\ \hline
+    F      &  W
+\end{tabular}
+\end{center}
+%
+Andere Junktoren, die ebenfalls häufig verwendet werden, sind:
+\begin{description}
+\item["`impliziert"' ($ \Rightarrow $):]\index{*@$\Rightarrow$}
+\index{Implikation}%
+\hspace{2em}\begin{tabular}{c||c|c}
+$ \Rightarrow $     &  W   &  F \\ \hline \hline
+    W      &  W   &  F \\ \hline
+    F      &  W   &  W 
+\end{tabular}
+\end{description}
+
+$a \Rightarrow b$ spricht sich als "`wenn $a$, dann $b$"' oder "`aus $a$
+folgt $b$"'.  F $\Rightarrow$ W besitzt ebenso wie F $\Rightarrow$ F
+den Wahrheitswert W! In der formalen Aussagenlogik folgt
+aus einer falschen Voraussetzung jede Folgerung.  %Zum Ableiten
+%wahrer Aussagen aus anderen wahren Aussagen verwendet man deshalb den \emph{Modus ponens:} Wenn $a$ und $a\Rightarrow b$ beide den Wahrheitswert W
+%haben, dann kann man den Wahrheitswert W für $b$ folgern.
+
+\begin{description}
+\item["`genau-dann-wenn"' ($\Leftrightarrow$):]
+\hspace{2em}\begin{tabular}{c||c|c}
+$\Leftrightarrow$     &  W   &  F \\ \hline \hline
+    W      &  W   &  F \\ \hline
+    F      &  F   &  W 
+\end{tabular}\index{*@$\Leftrightarrow$}
+\end{description}
+
+Häufig werden Wahrheitstafeln auch in einer etwas
+ausführlicheren Form notiert, wie im folgenden gezeigt.  Dabei sind die
+Wahrheitstafeln für alle vorgestellten Junktoren in einer Tabelle
+zusammengefaßt:
+
+\begin{center}
+\begin{tabular}{c|c||c|c|c|c|c}
+$a$ & $b$ & $a\wedge b$ & $a\vee b$ & $\neg a$ & $a\Rightarrow b$ & $a\Leftrightarrow b$\\ \hline\hline
+W   &  W  &     W       &     W     &    F     &         W        & W\\ \hline
+W   &  F  &     F       &     W     &    F     &         F        & F\\ \hline
+F   &  W  &     F       &     W     &    W     &         W        & F\\ \hline
+F   &  F  &     F       &     F     &    W     &         W        & W
+\end{tabular}
+\end{center}
+%
+Zur Einsparung von Klammern wird vereinbart, daß $\neg$ am stärksten 
+\label{prio}
+bindet, gefolgt von $\wedge$, dann $\vee$, dann $\Rightarrow$ und zum Schluß 
+$\Leftrightarrow$.
+
+Eine zusammengesetzte Aussage heißt \emph{allgemeingültig} oder eine
+\emph{Tautologie}, \index{Tautologie}\index{allgemeingültig}
+wenn sie stets den Wahrheitswert W besitzt, unabhängig vom
+Wahr\-heits\-wert ihrer elementaren  Aussagen. Beispiele für Tautologien sind
+etwa $a \vee \overline{a}$ ("`Satz vom ausgeschlossenen Dritten"')
+und $\overline{a \wedge \overline{a}}$ ("`Satz vom \index{Widerspruch}Widerspruch"'). Zwei 
+Aussagen
+$a$ und $b$ heißen \emph{äquivalent}, wenn $a \Leftrightarrow b$ eine
+Tautologie ist.
+
+Es ist möglich, jede aussagenlogische Aussage durch
+Wahrheitstafeln auf ihre Allgemeingültigkeit hin zu überprüfen.  Auch
+die Äquivalenz von Ausdrücken läßt sich durch Wahrheitstafeln
+überprüfen.  In der Regel ist es jedoch einfacher, mit diesen
+Aussagen formal zu rechnen.
+Die folgenden Tautologien stellen Rechenregeln für die Aussagenlogik
+dar:
+
+\begin{lemma}\label{rechenregeln}Für Aussagen $a,b,c$ gilt:
+%
+\[\begin{array}{llll}
+a \wedge a \Leftrightarrow a & \hspace{2.5em} & a \vee a \Leftrightarrow a &\textrm{Idempotenzgesetze}\index{Idempotenzgesetz}\\
+(a \wedge b) \wedge c \Leftrightarrow a \wedge (b \wedge c) & & (a \vee b) \vee
+c \Leftrightarrow a \vee (b \vee c) &\textrm{Assoziativgesetze}\index{Assoziativgesetz}\\
+a \wedge b \Leftrightarrow b \wedge a & & a \vee b \Leftrightarrow b \vee a &\textrm{Kommutativgesetze}\index{Kommutativgesetz}\\
+a \wedge (a \vee b) \Leftrightarrow a & & a \vee (a \wedge b) \Leftrightarrow a &\textrm{Absorptivgesetze}\index{Absorptivgesetz}\\
+a \wedge (b \vee c) \Leftrightarrow (a \wedge b) \vee (a \wedge c)
+     & & a \vee (b \wedge c) \Leftrightarrow (a \vee b) \wedge (a \vee c) &\textrm{Distributivgesetze}\index{Distributivgesetz}\\
+\overline{a \wedge b} \Leftrightarrow \overline{a} \vee \overline{b} & 
+       & \overline{a \vee b} \Leftrightarrow \overline{a} \wedge \overline{b}
+       &\textrm{DeMorgan'sche Gesetze\index{DeMorgan'sches Gesetz}}\\
+       \overline{\overline a} \Leftrightarrow a
+\end{array}\]
+\end{lemma}
+
+\section{Mengen}
+%% Güntzer: besser direkt Multimengen.  Eine interessante Literaturstelle
+%% dazu:
+%% Banatre, Metayer: Programming by Multiset Transformation, CACM 36(1), 
+%% 98-111
+
+Die ursprüngliche Definition des Begriffs "`Menge\index{Menge}"'
+lautet: 
+
+%Eine ausführliche Behandlung der Mengenlehre 
+%auf naiver, also nicht axiomatischer Basis findet sich in \cite{Halmos1969}.
+
+\begin{quote}
+"`Unter einer Menge verstehen wir eine Zusammenfassung von bestimmten
+wohlunterschiedenen Objekten unserer Anschauung oder unseres Denkens zu
+einem Ganzen."' \textsc{(G. Cantor)}
+\end{quote}
+
+Die Objekte einer Menge $M$ heißen \emph{Elemente\index{Element}} von $M$. Die Notation
+$ x \in M$ \index{*@$\in$}\index{*@$\not\in$}
+bedeutet, daß $x$ ein Element von $M$ ist, $x \not \in M$, daß $x$ kein
+Element von $M$ ist.
+
+In der Informatik wie in der Mathematik werden häufig Mengen von \emph{Zahlen} gebraucht.  Für die wichtigsten
+Zahlenmengen gibt es feste Bezeichnungen.  So bezeichnet $\enn$
+die Menge der \emph{natürlichen Zahlen\index{natürliche Zahl}}; \index{N@$\enn$} in diesem Buch gilt
+$0\in\enn$. 
+$\zet$\index{Z@$\zet$} bezeichnet die Menge der \emph{ganzen Zahlen\index{ganze Zahlen}} und $\err$\index{R@$\err$} die Menge der
+\emph{reellen Zahlen\index{reelle Zahlen}}.
+
+Endliche Mengen\index{Menge!endlich}\index{endliche Menge}, also Mengen mit endlich vielen Elementen
+können als Aufreihung ihrer Elemente aufgeschrieben werden:
+\[M = \{ 11, 13, 17, 19\}.\]
+Häufig werden Mengen jedoch auch durch eine bestimmte Eigenschaft de\-fi\-niert,
+die ihre Elementen haben:
+\[M = \{x\ |\ x\ \mbox{ist Primzahl}, 10 \le x \le 20\}.\]
+Die \emph{leere Menge\index{leere Menge}} %\index{$\varnothing$}
+ist die Menge, die keine Elemente besitzt und wird
+durch $\varnothing$\index{*@$\varnothing$} bezeichnet.
+
+\emph{$A$ heißt Teilmenge\index{Teilmenge} von $B$}, in Zeichen $A \subseteq B$, \index{*@$\subseteq$}
+wenn jedes Element von $A$ auch Element von $B$ ist:
+\[A \subseteq B\ \ \diff\ \ 
+a \in A \Rightarrow a \in B.\]
+Zwei Mengen sind gleich, wenn sie die gleichen Elemente besitzen; 
+dies läßt sich mit Hilfe der Teilmengenbeziehung auch so ausdrücken:
+\[A = B\ \ \diff\ \ A \subseteq B\ \mbox{und}\ B \subseteq A.\]
+Hieraus ergibt sich für die oben erwähnte Darstellung endlicher Mengen
+z.B.
+\[\{11,13,17,19\} =\{17,13,19,11\},\]
+d.h.\ die \emph{Reihenfolge\index{Reihenfolge}} der Elemente ist unerheblich (bzw.\ es gibt
+gar keine ausgezeichnete Reihenfolge) und
+\[\{11,13,17,19\} = \{11,13,11,17,17,11,13,19\},\]
+d.h.\ es spielt keine Rolle, wie oft ein bestimmtes Element erwähnt wird; es
+ist trotzdem nur einmal in der Menge enthalten.
+
+Die Notation $A \not \subseteq B$ bedeutet, daß $A \subseteq B$ nicht gilt, $A
+\not = B$, daß $A = B$ nicht gilt. $A$ heißt \emph{echte Teilmenge\index{Teilmenge!echt}\index{echte Teilmenge}} von $B$,
+wenn $A \subseteq B$, aber $A \not = B$. Die Notation dafür ist $A \subset B$.
+\index{*@$\subset$}\index{*@$\supseteq$}\index{*@$\supset$}
+Es bedeutet $B \supseteq A$, daß $A \subseteq B$ gilt, ebenso für
+$B \supset A$. 
+
+Die \emph{Vereinigung\index{Vereinigung}} $A \cup B$ \index{*@$\cup$}
+zweier Mengen $A$ und $B$ ist definiert durch
+\[A \cup B\ \ \deq\ \ \{a\ |\ a \in A \vee a \in B\}.\]
+
+Der \emph{Durchschnitt\index{Durchschnitt}} $A \cap B$ \index{*@$\cap$}
+zweier Mengen $A$ und $B$ ist definiert durch
+\[A \cap B\ \ \deq\ \ \{a\ |\ a \in A \wedge a \in B\}.\]
+
+Die \emph{Differenz\index{Differenz}} $A \setminus B$ \index{*@$\setminus$}
+zweier Mengen $A$ und $B$ ist definiert durch
+\[A \setminus B\ \ \deq\ \ \{a\ |\ a \in A \wedge a \not \in B\}.\]
+
+\begin{definition}
+\label{cart}
+   Das \emph{kartesische Produkt} 
+   \index{kartesisches Produkt} \index{*@$\times$} $A \times B$ zweier Mengen 
+   $A$ und $B$ ist definiert durch
+   \[ A \times B\ \ \deq \ \ \{(a,b)\ |\ a \in A,\ b \in B\}.\]
+   Für $n \geq 2$ Mengen
+   $A_1$, \ldots, $A_n$ ist definiert:
+   \[A_1 \times \cdots \times A_n\ \ 
+        \deq \ \ \{(a_1,\ldots,a_n)\ |\ a_i \in A_i\}.\]
+   Für eine Menge $A$ und eine natürliche Zahl $n \geq 2$ ist
+   \[A^n \ \ \deq  \ \ A \times 
+           \stackrel{\stackrel{n}{\frown}}{\cdots} \times A.\]
+   Um die Fälle $n=0$ und $n=1$
+   nicht immer ausschließen zu müssen,
+   wird außerdem definiert:
+   \begin{eqnarray*}
+   A^1 & \deq & A\\
+   A^0 & \deq & \{()\} \ .
+   \end{eqnarray*}
+   $A^0$ ist also eine einelementige Menge, deren einziges Element in
+   Über\-ein\-stim\-mung mit der Tupelschreibweise $(a_1,\ldots,a_n)$ mit $()$
+   bezeichnet wird.\index{*@$()$}
+\end{definition}
+
+Für eine Menge $A$ wird die Anzahl ihrer Elemente, 
+ihre \textit{Mäch\-tig\-keit}, \index{Mächtigkeit}\index{*@$\mid\:\mid$}
+als $|A|$ geschrieben. Für unendliche Mengen wird
+$|A| = \infty$ definiert.
+
+Für eine Menge $A$ heißt 
+\[ \mathcal{P}(A) \deq \{ T\ |\ T \subseteq A\}\]
+die \emph{Potenzmenge} \index{Potenzmenge}\index{P(A)@$\mathcal{P}(A)$}
+von $A$. Für endliche Mengen gilt $|\mathcal{P}(A)| = 2^{|A|}$.
+
+\begin{definition}
+    Für $T \in \mathcal{P}(A)$ ist das \emph{Komplement} von $T$ in $A$
+    definiert durch\index{Komplement}\index{*@$\setminus$}
+    \[ \overline{T} \deq A \setminus T\ .\]
+\end{definition}
+
+\begin{lemma}
+   Für $A,B \in \mathcal{P}(M)$ gelten die sogenannten \textit{DeMorgan'schen Gesetze}:
+   \index{DeMorgan'sches Gesetz}
+   \[ \overline{A \cup B} = \overline{A} \cap \overline{B}\]
+   \[ \overline{A \cap B} = \overline{A} \cup \overline{B}\]
+\end{lemma}
+
+Es ist üblich,
+Teilmengen $T \subseteq \mathcal{P}(A)$ durch sog.\ \emph{charakteristische
+Funktionen} dar\-zu\-stel\-len:\index{charakteristische Funktion}
+
+\begin{definition}\label{def:charfunction}
+ Sei $A$ eine Menge, $T \in \mathcal{P}(A)$. Die \emph{charakteristische
+    Funk\-tion von T} ist definiert durch\index{chiT@$\chi_T$}\index{*@$\chi_T$}
+    \[ \chi_T:\ A \longrightarrow \{0,1\}\]
+
+    \[\chi_T(x) \deq \left \{ \begin{array}{ll}
+                                1 & \textrm{falls\ } x \in T\\
+                                0 & \textrm{falls\ } x \not \in T
+                              \end{array}
+                     \right . \]
+    Ist umgekehrt $f:\ A \rightarrow \{0,1\}$ eine (totale) Abbildung, so läßt
+    sich hieraus eine Menge $T_f \in \mathcal{P}(A)$ ableiten durch
+    \[ T_f \deq \{x \in A \mid f(x) = 1\} .\]
+\end{definition}
+
+\noindent Die Zuordnung $T \mapsto \chi_T$ ist bijektiv. 
+
+
+\section{Prädikatenlogik}
+\label{sec:praedikate}
+
+\index{Prädikatenlogik}Viele Aussagen haben die Form "`es gibt (mindestens) ein Objekt
+(\emph{Individuum\index{Individuum}}) mit der Eigenschaft\index{Eigenschaft}\ldots"' oder "`für alle
+Objekte aus einem bestimmten Be\-reich gilt\ldots"'.  Solche Aussagen heißen
+\emph{Prädikate} 
+\index{Prädikat} und für ihre mathematische Behandlung
+werden sogenannte \emph{Quantoren} eingeführt, und zwar der \emph{All\-quan\-tor}\index{Quantor}\index{Allquantor}\index{Existenzquantor}
+(Universalquantor\index{Universalquantor}) $\forall$ \index{*@$\forall$} und der \emph{Existenzquantor}
+$\exists$. \index{*@$\exists$} Im folgenden werden Großbuchstaben zur Bezeichnung
+von Prädikaten und Kleinbuchstaben für Individuen verwendet. Die \emph{Stelligkeit\index{Stelligkeit}} eines Prädikats ist die Anzahl der Individuen, über die hier
+eine Aussage gemacht wird.
+
+Ist $Q$ ein $n$--stelliges Prädikat und sind $x_1,\ldots,x_n$ Individuen
+eines Individuenbereichs, so ist die Behauptung, daß $Q$ auf $x_1,\ldots,x_n$
+zutrifft (ab\-ge\-kürzt $Qx_1\ldots x_n$) eine prädikatenlogische Aussage. 
+Mathematische
+Ausdrücke wie $x \in M$ oder $n < m$ oder aussagenlogische Aussagen sind
+ebenfalls  
+prädikatenlogische Aussagen, nur in anderer Schreibweise.  
+%Dies ist nur eine Vereinfachung der
+%Notation, da in Wirklichkeit $x\in M$, $n<m$ und ähnliche Ausdrücke
+%auch zweistellige Prädikate sind.  
+
+Statt der Individuen selbst kommen in den
+Quantorenausdrücken \emph{Individuenvariablen\index{Individuenvariable}\index{Variable!Individuen-}} vor; diese sind
+Platzhalter für die Individuen selbst.  Die prädikatenlogische Aussage
+$\forall x:~Qx$\index{*@$\forall$}
+bedeutet: Für alle Individuen $a$ gilt die Aussage (das Prädikat)
+$Q$, wobei für die Variable $x$ das Individuum $a$ eingesetzt wird. 
+Dementsprechend heißt
+$\exists x:~Qx$:\index{*@$\exists$}
+Es gibt mindestens ein Individuum $a$, so daß die Aussage $Qa$ wahr ist.
+Die Variable $x$ heißt in beiden Fällen eine \emph{gebundene 
+Variable}\index{Variable!gebunden}\index{gebundene Variable}
+des Prädikatsausdrucks.  Variablen, die nicht gebunden sind, heißen
+\emph{freie Variablen}.\index{Variable!frei}\index{freie Variable}
+
+Eine wichtige Eigenschaft der Quantoren beschreibt der folgende Satz:
+
+\begin{satz}
+Ist $Q$ ein einstelliges Prädikat, so ist die Aussage $\neg \forall x:~Qx$
+genau dann wahr, wenn $\exists x:~\neg Qx$ wahr ist.  Umgekehrt ist
+die Aussage $\neg(\exists x:~Qx)$ genau dann wahr, wenn $\forall x:~\neg
+Qx$ wahr ist.
+\end{satz}
+
+Im Prinzip wäre es also möglich, mit nur einem der beiden Quantoren
+auszukommen.
+
+Häufig werden Einschränkungen an den Individuenbereich gemacht,  z.B.\ 
+in der Form
+\[ \forall x \in M:~\exists y \in N:\ Pxy\ . \]
+Dies dient als Abkürzung für die kompliziertere Aussage
+\[ \forall x:~(x \in M\ \Rightarrow \exists y \in N:\ Pxy)\]
+oder die noch kompliziertere Aussage
+\[ \forall x:~(x \in M\ \Rightarrow \exists y:~(y \in N \wedge Pxy))\ .\]
+
+
+
+
+\section{Multimengen}
+\label{sec:multisets}
+
+Mengen sind so definiert, daß sie jedes Element "`nur einmal enthalten"'. 
+In einer \emph{Multimenge},
+\index{Multimenge} kann jedes Element mit einer bestimmten
+\emph{Multiplizität\index{Multiplizität}} (Vielfachheit) vorkommen.  Technisch werden
+Multimengen als Kreuzprodukte $M \subseteq G \times (\mathbb{N}\setminus\{0\})$ beschrieben, wobei $G$
+die \emph{Grundmenge\index{Grundmenge}} heißt und die natürliche Zahl die Multiplizität jedes Elements
+der Grundmenge angibt.
+
+Die Schreibweise $x\in M$\index{*@$\in$} ist eine Abkürzung für
+die Tatsache $(x,n)\in M$.  Die Multiplizität $\mathcal{M}(M, x)$ eines Elements bzw.\
+Nicht-Elements $x$  ist so definiert:
+%
+\begin{displaymath}
+  \mathcal{M}(M, x)\deq{}
+  \begin{cases}
+    0 & x\not\in M\\
+    n & (x, n)\in M
+  \end{cases}
+\end{displaymath}
+
+Die mengentheoretischen Operationen sind wie folgt definiert:
+
+\begin{eqnarray*}
+  P\cup Q &\deq& \{(x,m)\mid x\in P \vee x \in Q,
+  m=\max(\mathcal{M}(P, x), \mathcal{M}(Q, x))\}\\
+  P\cap Q &\deq& \{(x,m)\mid(x,p)\in P, (x,q)\in Q, m=\min(p,q), m > 0\}\\
+  P\setminus Q &\deq& \{(x,m)\mid (x, p)\in P, m = p\ominus \mathcal{M}(Q, x), m > 0\}
+\end{eqnarray*}
+Dabei ist $\ominus$ die positive Differenz mit dem Wert $0$ für
+$q>p$.
+
+\section{Relationen und Abbildungen}
+\label{sec:relationen}
+
+\begin{definition} Eine \emph{(binäre) Relation\index{binäre Relation}\index{Relation}}
+ist eine Teilmenge $\rho \subseteq A \times B$.
+%$\rho$ heißt 
+%   \begin{itemize}
+%   \item \emph{rechtseindeutig} \index{rechtseindeutig}
+%   $\diff$ für alle $a \in A$ gibt es höchstens ein
+%         $b \in B$ mit $(a,b) \in \rho$,
+%   \item \emph{linkseindeutig} \index{linkseindeutig}
+%   $\diff$ für alle $b \in B$ gibt es höchstens
+%         ein $a \in A$ mit $(a,b) \in \rho$.
+%   \end{itemize}
+Eine alternative Notation für $(a,b)\in\rho$ ist
+$a\rho b$.
+Für eine Relation $\rho$ heißt
+\[ \rho^{-1}\ \ \deq\ \ \{(b,a)\mid (a,b) \in \rho\}\]
+die \emph{Umkehrrelation} \index{Umkehrrelation}
+von $\rho$. 
+\end{definition}
+
+\begin{definition}\label{def:relations}
+ Eine Relation $\rho \subseteq A\times A$ heißt
+  \begin{itemize}
+  \item \emph{reflexiv} \index{reflexiv}\index{Relation!reflexiv} $\diff$ für alle $a\in A$ gilt $a\rho
+    a$, 
+%  \item \emph{irreflexiv} \index{irreflexiv} $\diff$ für kein $a\in A$ gilt $a\rho
+%    a$, 
+  \item \emph{symmetrisch} \index{symmetrisch}\index{Relation!symmetrisch} $\diff$ aus $a\rho b$ folgt
+    $b\rho a$,
+  \item \emph{antisymmetrisch} \index{antisymmetrisch}\index{Relation!antisymmetrisch} $\diff$ aus $a\rho b$ und
+    $b\rho a$ folgt $a=b$,
+  \item \emph{transitiv} \index{transitiv}\index{Relation!transitiv} $\diff$ aus $a\rho b$ und
+    $b\rho c$ folgt $a\rho c$,
+  \item \emph{Äquivalenzrelation} \index{Relation!Äquivalenz-}\index{Äquivalenzrelation} $\diff$ $\rho$ ist 
+    reflexiv, symmetrisch und transitiv.
+  \end{itemize}
+\end{definition}
+%
+Äquivalenzrelationen werden oft dazu verwendet, Elemente einer Menge
+in \emph{Äquivalenzklassen\index{Äquivalenzklasse}} einzuteilen.  Die Äquivalenzklasse $[a]$ eines
+Elements $a\in A$ bezüglich einer Äquivalenzrelation $\cong$ ist die
+Menge aller Elemente $b\in A$ mit der Eigenschaft $b\cong a$.
+
+Für eine Relation $\rho \subseteq A\times A$ wird häufig eine
+verwandte Relation $\rho' \supseteq \rho$ betrachtet, die eine oder
+mehrere der oberen Eigenschaften zusätzlich zu $\rho$ besitzt.  Eine
+solche Relation heißt jeweils \textit{Abschluß\index{Abschluß}}:
+%
+\begin{definition}[Abschlüsse über Mengen]
+  \label{def:relation-closure}
+  Gegeben sei eine Relation $\rho \subseteq A\times A$.  Eine Relation
+  $\rho' \subseteq A\times A$ heißt
+  \begin{itemize}
+  \item \textit{reflexiver Abschluß} von $\rho$ $\diff$ $\rho'$ ist
+    die kleinste reflexive Relation mit $\rho\subseteq\rho'$,
+  \item \textit{symmetrischer Abschluß} von $\rho$ $\diff$ $\rho'$ ist
+    die kleinste symmetrische Relation mit $\rho\subseteq\rho'$,
+  \item \textit{transitive Abschluß} von $\rho$ $\diff$ $\rho'$ ist
+    die kleinste transitive Relation mit $\rho\subseteq\rho'$,
+  \item \textit{reflexiv-transitiver Abschluß} von $\rho$ $\diff$
+    $\rho'$ ist die kleinste reflexive und transitive Relation mit
+    $\rho\subseteq\rho'$.
+  \end{itemize}
+  %
+  Dabei heißt "`kleinste Relation"' jeweils, daß für jede andere
+  Relation $\rho''$, welche die jeweilige Eigenschaft erfüllt, gilt
+  $\rho' \subseteq \rho''$.
+  
+  Die transitive Abschluß von $\rho$ wird $\overset{+}{\rho}$\index{*@$\overset{+}{\rho}$}
+  geschrieben, der reflexiv-transitive Abschluß
+  $\overset{\ast}{\rho}$\index{*@$\overset{\ast}{\rho}$}.
+\end{definition}
+
+
+\begin{definition}\label{abbildung} Eine \emph{Abbildung} \index{Abbildung}
+ist ein Tripel $f = (A,\rho_f,B)$, wobei
+   $A$ und $B$ Mengen sind und $\rho_f\subseteq A \times B$ eine Relation, so
+   daß für jedes $a\in A$ genau ein $b\in B$ existiert mit $a\rho_f b$. 
+   $A$ heißt \emph{Vorbereich\index{Vorbereich}} von $f$, $B$ heißt \emph{Nachbereich\index{Nachbereich}} und
+   $\rho_f$ der \emph{Graph\index{Graph}} von $f$.
+   Für
+   $f=(A,\rho_f,B)$ steht auch $f:A\rightarrow B$ oder 
+   $A\stackrel{f}{\longrightarrow}B$. Für $(a,b) \in \rho_f$ steht
+   normalerweise $f(a) = b$. %Die Teilmenge
+%   \[\textrm{Def}(f) \ \ \deq \ \ \{a\in A\mid \textrm{es\ gibt }\ b \in B\ \textrm{mit}
+%           \ f(a) = b\}\]
+%   \index{Definitionsbereich}\index{Def$(f)$}
+%   von $A$ heißt \emph{Definitionsbereich} von $f$, die Teilmenge
+%   \[\textrm{Im}(f) \ \ \deq \ \ \{b\in B\mid \textrm{es\ gibt }\ a \in A\ \textrm{mit}
+%           \ f(a) = b\}\]
+%   \index{Bildbereich}\index{Im$(f)$}
+%   von $B$ heißt \emph{Bildbereich} von $f$.
+\end{definition}
+
+Nach dieser Definition sind
+zwei Abbildungen $f=(A,\rho_f,B)$ und $g=(C,\rho_g,D)$ \emph{gleich} genau
+dann, wenn $A=C$, $B=D$ und $\rho_f=\rho_g$.
+%    Beachte, daß die Gleichheit der Graphen auch die Gleichheit von
+%    De\-fi\-ni\-ti\-ons- und Bildbereich mit sich bringt.
+
+\begin{definition} 
+ Für eine Menge $A$ ist die \emph{Identitätsabbildung} 
+\index{Identitätsabbildung} 
+   durch $\textrm{id}_A \deq (A,\rho_{\textrm{id}_A},A)$ mit $\rho_{\textrm{id}_A}
+   \deq \{(a,a)\mid a \in A\}$ definiert.
+\end{definition}
+
+\begin{definition}
+Eine Abbildung (auch: Funktion) $A \stackrel{f}{\longrightarrow} B$ heißt
+    \begin{itemize}
+    \item \emph{surjektiv} $\diff$ für alle $b\in B$ gibt es ein $a\in A$, so daß $f(a)=b$,\index{surjektiv}
+    \item \emph{injektiv} $\diff$ aus $f(a_1) = f(a_2)$ folgt
+          $a_1 = a_2$ für beliebige $a_1,a_2 \in A$,\index{injektiv}
+    \item \emph{bijektiv} $\diff A \stackrel{f}{\longrightarrow} B$
+      ist injektiv und surjektiv.\index{bijektiv}
+    \end{itemize}
+    Ist $A \stackrel{f}{\longrightarrow} B$ bijektiv, so heißen $A$ und $B$
+    \emph{isomorph}, in Zeichen $A \cong B$.\index{isomorph}
+
+\end{definition}
+
+\begin{definition}
+    Für zwei Abbildungen $A \stackrel{f}{\longrightarrow} B$ und
+    $B \stackrel{g}{\longrightarrow} C$ definiere durch
+    \[ g \circ f\ \ \deq\ \ (A,\rho_{g \circ f},C)\]
+     die \emph{Komposition}
+    von $g$ und $f$ \index{Komposition}\index{*@$\circ$} mit
+    \[ \rho_{g \circ f}\ \ \deq\ \ \{(a,c)\mid \exists b \in B:\
+         (a,b) \in \rho_f\ \wedge (b,c) \in \rho_g\} .\]
+\end{definition}
+
+\begin{lemma} Die Komposition von Abbildungen ist assoziativ, das heißt
+   für $A \stackrel{f}{\longrightarrow} B$, $B \stackrel{g}{\longrightarrow} C$
+   und $C \stackrel{h}{\longrightarrow} D$ gilt
+   \[ (h \circ g) \circ f = h \circ (g \circ f)\ .\]
+\end{lemma}
+Es ist deshalb möglich, die Klammern ganz wegzulassen und $h \circ g \circ f$
+zu  schreiben.
+
+\begin{lemma} Für eine bijektive Abbildung $A \stackrel{f}{\longrightarrow} B$
+   mit $f =(A, \rho_f,B)$ existiert eine \emph{Umkehrabbildung\index{Umkehrabbildung}}
+   $B \stackrel{f^{-1}}{\longrightarrow} A$ mit $f^{-1} \deq (B,\rho_{f^{-1}},A)$,
+   wobei $\rho_{f^{-1}} \deq {\rho_f}^{-1}$. Es gilt $f^{-1} \circ f = \textrm{id}_A$
+   und $f \circ f^{-1} = \textrm{id}_B$.
+\end{lemma}
+
+\begin{definition}
+  \label{def:power_fun}
+  Sei $A$ eine Menge, 
+  $f:A\rightarrow A$ eine Abbildung.  Dann ist definiert:
+  \begin{eqnarray*}
+    f^0 &\deq& \textrm{id}_A\\
+    f^{n+1} &\deq& f\circ f^n
+  \end{eqnarray*}
+\end{definition}
+
+\section{Ordnungen}
+\label{sec:halbordnungen}
+
+\begin{definition}
+   Sei $M$ eine Menge. Eine Relation $\rho \subseteq M \times M$ ist eine
+   \textit{partielle Ordnung}\index{partielle
+     Ordnung}\index{Ordnung!partiell}
+   (auch
+   \textit{Halb\-ord\-nung}\index{Halbordnung}\index{Ordnung!Halb-} genannt)
+ auf $M$ \ $\diff \ \rho$ ist
+   reflexiv, transitiv und antisymmetrisch (vgl.\ Definition~\ref{def:relations}).
+\end{definition}
+
+Ein Beispiel für eine partielle Ordnung ist etwa die Relation "`$\subseteq$"' zwischen 
+Mengen. Eine \emph{partiell geordnete Menge} $(M;\rho)$ 
+ist eine Menge $M$ mit einer
+partiellen Ordnung $\rho$. In einer 
+partiell ge\-ord\-ne\-ten Menge kann es
+\emph{unvergleichbare Elemente\index{unvergleichbare Elemente}} geben, d.h.\ Elemente $x,y \in M$, für die weder
+$x \rho y$ noch $y \rho x$ gilt. In der halbgeordneten Menge $(M;\subseteq)$ mit
+\[ M = \{\{1,2\},\{2,3\},\{1,2,3\}\} \]
+sind z.B.\ die Elemente $\{1,2\}$ und $\{2,3\}$ unvergleichbar. 
+
+\begin{definition}
+  \label{def:total-order}
+    Eine \emph{totale Ordnung} \index{totale Ordnung}\index{Ordnung!total}
+    auf einer Menge $M$ ist eine partielle Ordnung
+    $\rho$, bei der zusätzlich gilt
+    \[ \forall x,y \in M:\ x \rho y \vee y \rho x\ .\]
+\end{definition}
+\begin{definition}
+    Sei $(M;\rho)$ eine halbgeordnete Menge. Ein Element $x \in M$ heißt
+    \begin{description}
+    \item[\it minimales Element:] $\diff \forall y \in M:\  y \rho x 
+                                         \Rightarrow y=x$
+                                         \index{minimales Element}
+    \item[\it kleinstes Element:] $\diff \forall y \in M:\  x \rho y$
+                \index{kleinstes Element}
+    \item[\it maximales Element:] $\diff \forall y \in M:\  x \rho y 
+                                         \Rightarrow y=x$
+                                         \index{maximales Element}
+    \item[\it größtes Element:] $\diff \forall y \in M:\  y \rho x$
+                \index{größtes Element}
+    \end{description}
+\end{definition}
+
+Die Begriffe "`minimales"' und 
+"`kleinstes Element"' werden gern
+verwechselt. Das liegt vielleicht daran, daß die Relation "`$\leq$"' auf
+Zahlen, die oft als "`Modell"' für eine partielle Ordnung herhalten muß, in
+Wirklichkeit eine totale Ordnung ist. Bei totalen Ordnungen fallen die Begriffe
+"`minimales"' und "`kleinstes Element"' jedoch zusammen.
+Deshalb hier noch einmal eine verbale Definition:
+\begin{description}
+\item[\it minimales Element] heißt, daß es kein Element gibt, das kleiner
+             ist. Es kann aber Elemente geben, die unvergleichbar mit einem
+             minimalen Element sind. (In der oben angegebenen Menge $M$ sind
+             $\{1,2\}$ und $\{2,3\}$ beide minimal.)
+\item[\it kleinstes Element] heißt, daß alle anderen Elemente größer
+             sind. Damit ist auch die Vergleichbarkeit gegeben. Es gibt in einer
+             Menge höchstens ein kleinstes Element. (In der oben
+             angegebenen Menge $M$ gibt es kein kleinstes Element.)
+\end{description}
+
+\begin{definition}
+  Eine totale Ordnung heißt \textit{wohlfundierte
+    Ordnung}\index{wohlfundierte Ordnung}\index{Ordnung!wohlfundiert}, wenn es keine unendlich langen
+  absteigenden Ketten\index{Kette} gibt, d. h. keine unendliche Folge $(a_i\mid i\in\enn)$
+  mit der Eigenschaft
+  \[\forall i\in\enn:\ a_i\rho^{-1}a_{i+1}\ .\]
+\end{definition}
+In einer wohlgeordneten Menge besitzt jede
+  nichtleere Teilmenge ein kleinstes Element.
+
+\section*{Aufgaben}
+\begin{aufgabe}
+ $A \stackrel{f}{\rightarrow}B\stackrel{g}{\rightarrow}C$ sei injektiv
+   (surjektiv). Welche Aussagen über $A\stackrel{f}{\rightarrow}B$ bzw.\ 
+   $B\stackrel{g}{\rightarrow}C$ gelten dann mit Bestimmtheit?
+\end{aufgabe}
+
+\begin{aufgabe} 
+   Zeige, daß die Umkehrfunktion $B \stackrel{f^{-1}}{\longrightarrow}
+   A$ einer bijektiven Funktion $A \stackrel{f}{\rightarrow} B$ stets
+   injektiv ist.
+\end{aufgabe}
+
+\begin{aufgabe}
+        Für eine endliche Menge $A$ beweise
+        \[|\mathcal{P}(A)| = 2^{|A|}\]
+\end{aufgabe}
+
+\begin{aufgabe}
+        Sei $A$ eine endliche Menge. Beweise, daß für $T\in\mathcal{P}(A)$
+        gilt
+\[|T| + |\overline T| = |A|\]
+\end{aufgabe}
+
+\begin{aufgabe}
+  Beweise anhand der Wahrheitstafeln für die Aussagenlogik:
+  \begin{itemize}
+  \item Die DeMorgan'schen Gesetze:
+    \begin{eqnarray*}
+      \neg(A\wedge B) = \neg A \vee \neg B\\
+      \neg(A\vee B) = \neg A \wedge \neg B
+    \end{eqnarray*}
+  \item Das erste Distributivgesetz:
+    \begin{displaymath}
+      A\vee(B\wedge C) = (A\vee B)\wedge (A\vee C)
+    \end{displaymath}
+  \item Die Kontraposition:
+    \begin{displaymath}
+      (A\Rightarrow B) \Leftrightarrow (\neg B\Rightarrow \neg A)
+    \end{displaymath}
+  \item Folgenden Satz über die Implikation:
+    \begin{displaymath}
+    (A\Rightarrow (B\Rightarrow C))\Rightarrow((A\Rightarrow
+      B)\Rightarrow (A\Rightarrow C))
+    \end{displaymath}
+  \end{itemize}
+\end{aufgabe}
+
+%\begin{exe}\rm
+%        Stellen Sie den folgenden aussagenlogischen Ausdruck durch
+%        ausschließliche Verwendung von ${\sf nor}$ dar:
+
+%        \[(a\wedge b) \wedge (c\vee \bar d)\]
+%\end{exe}
+
+\begin{aufgabe}
+  In
+  einem an Schulen populären Lehrbuch der Mathematik wird folgende
+  Aussage gemacht:
+  %
+  \begin{quote}
+    Für eine partielle Ordnung $\sqsubseteq$ auf einer Menge $D$ und
+    $d_1,d_2\in D$ mit $d_1 \not\sqsubseteq d_2$ gilt $d_2\sqsubseteq
+    d_1$.
+  \end{quote}
+  %
+  Gib eine partielle Ordnung an, für welche die
+  Aussage nicht gilt!
+\end{aufgabe}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 

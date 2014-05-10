@@ -1,0 +1,1033 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter{Programmieren mit Listen}
+\label{cha:rek}
+
+Die bisher betrachteten Daten hatten alle immer eine feste Größe~--
+die Anzahl der Komponenten zusammengesetzter ist fest, ebenso wie die
+Anzahl der Fälle bei Fallunterscheidungen oder gemischten Daten.  Das
+reicht nicht für alle Anwendungen: Die Bücher im Regal, die Wagen
+eines Zuges, die Fotos im Album sind allesamt in ihrer Anzahl
+variabel.  Für die Repräsentation solcher Informationen wird also eine
+neue Art der Datendefinition benötigt, welche die schon bekannten
+zusammengesetzten und gemischten Daten ergänzt: der
+\textit{Selbstbezug}.  Selbstbezüge können benutzt werden, um solche
+Daten variabler Größe abzubilden, insbesondere in sogenannten \textit{Listen}.
+
+\section{Listen repräsentieren}
+\label{sec:lists}
+
+\index{Liste}Hier sind einige Listen aus dem täglichen Leben:
+%
+\begin{center}
+  \begin{tabular}{l@{\qquad}l@{\qquad}l@{\qquad}l@{\qquad}l@{\qquad}l}
+  Brot & Herbert & 1 & Phidipides & Dauerwelle & Pumps \\
+  Butter & Mike & 2 & Diabetes & Dreadlocks \\
+  Käse & & 3 & Bursitis & Irokese \\
+  & & 4 & Woody & Vokuhila \\
+  && 5 & Hepatitis \\
+  && 6 & Zeus \\
+  &&& Doris\\
+  &&& Lorenzo
+\end{tabular}
+\end{center}
+%
+Keine dieser Listen ist auf ihre jeweilige Länge festgelegt: Zur Liste
+mit "`Brot"' könnten beispielsweise noch "`Gurken"' hinzukommen.  Damit ist es
+nicht möglich, diese Listen jeweils durch die bereits bekannten
+zusammengesetzten Daten und Records zu repräsentieren, da bei ihnen
+die Liste der Komponenten schon in der Datendefinition festgelegt
+ist.  Hier kommen Listen im Sinne der Programmierung ins Spiel, die es
+erlauben, "`zusammengesetzte Daten variabler Länge"' zu
+repräsentieren.  Die einfachste Sorte Liste ist bereits eingebaut:
+%
+\begin{alltt}
+empty
+\evalsto{} #<empty-list>
+\end{alltt}
+%
+Dies ist die \textit{leere Liste}\index{leere
+  Liste}\index{Liste!leer}.  Um Listen herzustellen, die nicht leer
+sind, dienen \textit{Paare}\index{Paar}, eine besonders allgemein
+verwendbare Sorte zusammengesetzter Daten.  Hier sind Daten- und
+Record-Definition für Paare:\index{pair@\texttt{pair}}\index{make-pair@\texttt{make-pair}}\index{pair?@\texttt{pair?}}\index{first@\texttt{first}}\index{rest@\texttt{rest}}\label{def:pair}
+%
+\begin{alltt}
+; Ein Paar besteht aus:
+; - einem beliebigen Element
+; - einer Liste
+(define-record-procedures pair
+  make-pair pair?
+  (first rest))
+\end{alltt}
+%
+Für eine Signatur für den Konstruktor ist es noch zu früh, da es noch
+keine Signatur für den Begriff "`Liste"' aus der Datendefinition
+gibt.  Diese folgt in wenigen Augenblicken.
+
+Ein Paar kann nun benutzt werden, um die letzte Liste aus der obigen
+Tabelle zu repräsentieren.  "`Pumps"' wird als Zeichenkette zum ersten
+Element des Paars.  Die \texttt{rest}-Komponente des Paars muß eine
+Liste sein~-- dabei ist zu beachten, daß insbesondere die leere Liste
+eine Liste ist, dort also verwendet werden kann:
+%
+\begin{alltt}
+(make-pair "Pumps" empty)
+\evalsto{} #<record:pair "Pumps" #<empty-list>>
+\end{alltt}
+%
+Jetzt kommt der entscheidende Punkt: Paare sind \emph{auch} Listen,
+Listen sind also gemischte Daten:\index{a-list@\texttt{a-list}}\label{def:a-list}
+%
+\begin{alltt}
+; Eine Liste ist eins der folgenden:
+; - die leere Liste
+; - ein Paar
+(define a-list
+  (signature
+   (mixed empty-list
+          pair)))
+\end{alltt}
+%
+Die Signatur \texttt{empty-list} ist bereits eingebaut und paßt auf
+die leere Liste \texttt{empty} (und nichts sonst).  (Der Name
+\texttt{list} ist in den DMdA-Lehrsprachen bereits vergeben, darum
+heißt die Signatur \texttt{a-list}.)  Jetzt ist es möglich, eine
+Signatur für \texttt{make-pair} sowie die anderen Prozeduren der
+Record-Definition von \texttt{pair} zu vergeben:
+%
+\begin{alltt}
+(: make-pair (%a a-list -> pair))
+(: pair? (any -> boolean))
+(: first (pair -> %a))
+(: rest (pair -> a-list))
+\end{alltt}
+%
+Hinter der Bezeichnung \verb$%a$ verbirgt sich eine 
+\emph{Signaturvariable}\index{Signaturvariable}: Sie
+steht für eine beliebige Sorte, die aber in den zwei Zeilen, wo sie vorkommt,
+die gleiche Sorte darstellen soll.  Damit ist \verb$%a$ etwas anderes als
+\texttt{any}, welches erlauben würde, dass die Rückgabesorte von \texttt{first}
+verschieden wäre von der Sorte, welche der Konstruktor \texttt{make-pair} zuvor
+verwendet hat.
+
+So weit, so gut: Bisher gab die leere Liste und eine Liste mit einem
+Element.  Wie kommen mehr Elemente in eine Liste?  Indem
+\texttt{make-pair} noch einmal aufgerufen wird:
+%
+\begin{alltt}
+(make-pair "Mike" (make-pair "Herbert" (make-pair "Marcus" empty)))
+\evalsto{}#<record:pair "Mike" #<record:pair "Herbert" #<record:pair "Marcus" #<empty-list>>>>
+\end{alltt}
+%
+Zu einer Liste mit zwei Elementen gehören also zwei Paare.
+Entsprechend für drei Elemente:
+%
+\begin{alltt}
+(make-pair "Brot" (make-pair "Butter" (make-pair "Käse" empty)))
+\evalsto{}#<record:pair "Brot" #<record:pair "Butter" #<record:pair "Käse" #<empty-list>>>>
+\end{alltt}
+%
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.8\textwidth]{pair-lists1}
+  \caption{Liste mit Paaren repräsentiert}
+  \label{fig:pair-lists-1}
+\end{figure}
+Diesmal sind drei Paare im Spiel.  Die Liste wird jeweils
+"`terminiert"' durch die leere Liste.  Abbildung~\ref{fig:pair-lists-1}
+zeigt, wie die Listen aussehen, wenn sie wie andere zusammengesetzte
+Daten als Tabellen dargestellt sind~-- das $\bot$ steht für die leere
+Liste. Das sieht aus wie ineinandergeschachtelte russische Puppen und
+entspricht damit nicht der gängigen Intuition, wie Listen aufgebaut
+sind, aber es funktioniert.  Für viel mehr als drei Elemente
+funktioniert die Darstellungsweise allerdings nicht: Darum bevorzugen
+wir ab hier sogenannte "`Zeigerdiagramme"', bei denen alle Paare gleich groß
+dargestellt sind und ein Pfeil zeigt, daß ein Paar die
+\texttt{rest}-Komponente eines anderen Paares bildet.
+Abbildung~\ref{fig:pair-lists-2} zeigt das Pfeildiagramm, das
+Abbildung~\ref{fig:pair-lists-1} entspricht; es paßt besser zur
+gängigen Intuition von Listen.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.8\textwidth]{pair-lists2}
+  \caption{Liste mit Paaren repräsentiert, als Pfeildiagramm}
+  \label{fig:pair-lists-2}
+\end{figure}
+
+
+\section{Mit Listen programmieren}
+
+Als erstes Beispiel für das Programmieren mit Listen schreiben wir
+eine Prozedur, die eine Liste von Zahlen akzeptiert und deren Summe
+liefert.  Dazu werden erst einmal einige Beispiele solcher Listen
+benötigt:
+%
+\begin{verbatim}
+; Liste mit den Zahlen 1 2 3
+(define n1 (make-pair 1 (make-pair 2 (make-pair 3 empty))))
+; Liste mit den Zahlen e und pi
+(define n2 (make-pair 2.7183 (make-pair 3.14159 empty)))
+; Liste mit den Zahlen 2 3 5 7
+(define n3 (make-pair 2 (make-pair 3 (make-pair 5 (make-pair 7 empty)))))
+\end{verbatim}
+
+Hier Kurzbeschreibung und Vertrag:\label{sec:list-sum}\index{list-sum@\texttt{list-sum}}
+%
+\begin{verbatim}
+; Summe der Elemente einer Liste von Zahlen berechnen
+(: list-sum (a-list -> number))
+\end{verbatim}
+%
+Für die Testfälle halten die Beispiellisten her:
+%
+\begin{verbatim}
+(check-expect (list-sum n1) 6)
+(check-within (list-sum n2) 5.85989 0.001)
+(check-expect (list-sum n3) 17)
+\end{verbatim}
+%
+Nicht vergessen: In \texttt{n2} sind Zahlen mit Dezimalpunkt.
+Deshalb müssen wir \texttt{check-within} verwenden.  Das Gerüst der
+Prozedur sieht so aus:
+%
+\begin{verbatim}
+(define list-sum
+  (lambda (lis)
+    ...))
+\end{verbatim}
+%
+(Es empfiehlt sich, als Bezeichner für Listen nicht einfach nur ein
+\texttt{l} zu verwenden, da es in vielen Schriftarten der Ziffer
+\texttt{1} ähnlich sieht.)
+
+Zur Erinnerung: Listen sind zunächst gemischte Daten~-- die Definition
+von \texttt{a-list} benutzt \texttt{mixed} mit zwei Fällen.  Entsprechend kommt die
+Konstruktionsanleitung für gemischte Daten zur Anwendung:
+%
+\begin{verbatim}
+(define list-sum
+  (lambda (lis)
+    (cond
+      (... ...)
+      (... ...))))
+\end{verbatim}
+%
+Als nächstes sollten wir die Tests ergänzen, die auf die leere
+Liste bzw.\ Paare testen.  Für \texttt{empty} hat dieses Buch Ihnen
+den Test bisher vorenthalten: Das eingebaute Prädikat
+\texttt{empty?}\index{empty?@\texttt{empty?}} liefert \verb|#t| für
+die leere Liste und \verb|#f| für jeden anderen Wert.  Für Paare ist
+das Prädikat \texttt{pair?} bereits von der Record-Definition
+definiert:
+%
+\begin{verbatim}
+(define list-sum
+  (lambda (lis)
+    (cond
+      ((empty? lis) ...)
+      ((pair? lis) ...))))
+\end{verbatim}
+%
+Beim zweiten Zweig des \texttt{cond} handelt es sich um
+zusammengesetzte Daten. Ergo ergänzen wir entsprechend der
+Konstruktionsanleitung für zusammengesetzte Daten Selektor-Aufrufe in
+die Schablone:
+%
+\begin{verbatim}
+(define list-sum
+  (lambda (lis)
+    (cond
+      ((empty? lis) ...)
+      ((pair? lis)
+       ... (first lis) ... (rest lis) ...))))
+\end{verbatim}
+%
+Jetzt können wir ans Ausfüllen der beiden Zweige gehen: Die erste
+Ellipse muß die Frage beantworten, was die Summe der leeren Liste sein
+soll.  Diese Frage ist bei nahezu \emph{allen} Prozeduren relevant,
+die Listen akzeptieren, es empfiehlt sich darum grundsätzlich, einen
+Testfall für die leere Liste zu formulieren:
+%
+\begin{alltt}
+(check-expect (list-sum empty) \textrm{?})
+\end{alltt}
+%
+Die Antwort ist nicht ganz offensichtlich, wir können 
+sie aber durch folgende Überlegung gewinnen: Betrachten wir Listen aus
+Einsen, dann entspricht deren Summe immer der Länge der Liste.  Wenn
+die Liste leer ist hat sie die Länge 0, entsprechend ist also auch
+ihre Summe 0:
+%
+\begin{alltt}
+(check-expect (list-sum empty) 0)
+\ldots
+(define list-sum
+  (lambda (lis)
+    (cond
+      ((empty? lis) 0)
+      ((pair? lis)
+       ... (first lis) ... (rest lis) ...))))
+\end{alltt}
+%
+Bleibt der zweite Zweig mit den Paaren.  Hier hilft es, die beiden
+Selektor-Aufrufe \texttt{(first lis)} und \texttt{(rest lis)} auf die
+Daten zurückzubeziehen.  \texttt{(first lis)} liefert für die drei
+Beispiellisten folgende Werte:
+%
+\begin{alltt}
+(first n1)
+\evalsto{} 1
+(first n2)
+\evalsto{} 2.7183
+(first n3)
+\evalsto{} 2
+\end{alltt}
+%
+Das ist jeweils das \emph{erste Element}~-- kein Wunder, daß der
+Selektor \texttt{first}\index{first@\texttt{first}} heißt.  Nun für \texttt{rest}\index{rest@\texttt{rest}}:
+%
+\begin{alltt}
+(rest n1)
+\evalsto{} #<record:pair 2 #<record:pair 3 #<empty-list>>>
+(rest n2)
+\evalsto{}  #<record:pair 3.14159 #<empty-list>>
+(rest n3)
+\evalsto{} #<record:pair 3 #<record:pair 5 #<record:pair 7 #<empty-list>>>>
+\end{alltt}
+%
+Dies sind jeweils Listen mit allen Elementen \emph{außer dem
+  ersten}, also quasi den \emph{Rest}~-- daher der Name \texttt{rest}
+für den Selektor.
+
+Zurück zur Schablone: Was können wir mit dem ersten Element der Liste
+und dem Rest der Liste anfangen?  Hier kommt ein besonderer Trick zum
+Zug~-- da der Rest der Liste wieder eine Liste ist, können
+wir von der Summe des Rests sprechen.  Wenn diese Summe bekannt
+ist~-- also \emph{die Summe aller Elemente außer des ersten}, dann
+könnten wir (und das Programm auch) die Gesamtsumme ermitteln, indem wir
+auf diese Summe das noch fehlende erste Element addieren.  "`Die Summe
+aller Elemente außer des ersten"' können wir so aufschreiben:
+%
+\begin{alltt}
+(list-sum (rest lis))
+\end{alltt}
+%
+Entsprechend die Summe des ersten Elements und der Summe des Rests:
+%
+\begin{alltt}
+(+ (first lis) (list-sum (rest lis)))
+\end{alltt}
+%
+Das können wir in die Schablone von oben einsetzen:
+%
+\begin{verbatim}
+(define list-sum
+  (lambda (lis)
+    (cond
+      ((empty? lis) 0)
+      ((pair? lis)
+       (+ (first lis) (list-sum (rest lis)))))))
+\end{verbatim}
+%
+Dieses Programm ist nicht nur vollständig, es funktioniert auch
+tatsächlich: Alles was wir gemacht haben war, die Kurzbeschreibung
+von \texttt{list-sum} ernst zu nehmen, die behauptet, daß die Prozedur
+die Summe einer beliebigen Liste berechnet: \texttt{(rest lis)} ist
+eine Liste, also kann \texttt{list-sum} auch deren Summe berechnen.
+
+Um den "`Selbstaufruf"' von \texttt{list-sum} noch besser zu
+verstehen, betrachten wir noch einmal die Datendefinition für
+Listen zusammen mit der Datendefinition für Paare:
+
+\begin{pspdf}
+\begin{ttfamily}\obeylines
+; Eine \rnode[r]{ListeDef}{\textbf{Liste}} ist eins der folgenden:
+; - die leere Liste
+; - ein Paar
+; Ein Paar besteht aus:
+; - einem beliebigen Element
+; - einer \rnode[r]{ListeRef}{\textbf{Liste}}\nccurve[nodesep=3pt]{->}{ListeRef}{ListeDef}
+\end{ttfamily}
+\end{pspdf}
+
+Die Datendefinition enthält einen Verweis auf \emph{sich selbst},
+genannt \emph{Selbstbezug}\index{Selbstbezug}.  Dieser Selbstbezug ist
+beim Rest~-- der Selbstaufruf, der in \texttt{list-sum} auf den Rest
+erfolgt, folgt also der Datendefinition.  Ein Selbstaufruf
+heißt auch \textit{rekursiver Aufruf}\index{rekursiver Aufruf} und ist
+damit fester Bestandteil der Schablone für Prozeduren, die Listen
+akzeptieren:
+%
+\begin{alltt}
+(: \textit{proc} (a-list -> ...))
+
+(define \textit{proc}
+  (lambda (lis)
+    (cond
+      ((empty? lis) ...)
+      ((pair? lis)
+       ... (first lis)
+       ... (\textit{proc} (rest lis)) ...))))
+\end{alltt}
+%
+Jetzt wo wir die Schablone haben, gehen wir noch ein weiteres Beispiel
+durch, bei dem wir sie von vornherein anwenden:  Gefragt ist eine
+Prozedur, die eine Liste von Zahlen akzeptiert und feststellt, ob alle
+Listenelemente  positiv sind.  Die Prozedur beantwortet eine
+Ja/Nein-Frage, die damit auch die Kurzbeschreibung bildet:
+%
+\begin{alltt}
+; sind alle Zahlen aus einer Liste positiv?
+\end{alltt}
+%
+Hier ist der dazu passende Vertrag:\index{all-positive?@\texttt{all-positive?}}
+%
+\begin{verbatim}
+(: all-positive? (a-list -> boolean))
+\end{verbatim}
+%
+Für Testfälle stehen die leere Liste sowie die drei Beispiellisten
+\texttt{n1}, \texttt{n2} und \texttt{n3} aus dem vorherigen Beispiel
+zur Verfügung:
+%
+\begin{verbatim}
+(check-expect (all-positive? empty) #t)
+(check-expect (all-positive? n1) #t)
+(check-expect (all-positive? n2) #t)
+(check-expect (all-positive? n3) #t)
+\end{verbatim}
+%
+Der \texttt{empty}-Testfall ist vielleicht etwas verwirrend: In der
+Tat sind alle Elemente der leeren Liste positiv.  Eine andere Art dies
+zu sagen wäre, daß kein Element der leeren Liste nicht positive ist.
+
+Diese Testfälle reichen sichtlich nicht aus, da alle \verb|#t| ergeben
+sollen: Diese würden auch von folgender Prozedur erfüllt:
+%
+\begin{verbatim}
+(define all-positive?
+  (lambda (lis)
+    #t))
+\end{verbatim}
+%
+Also werden noch Beispiele mit nicht-positiven Elementen benötigt~--
+insbesondere eins mit dem Grenzfall 0:
+\begin{verbatim}
+(check-expect (all-positive? (make-pair -5 empty)) #f)
+(check-expect (all-positive? (make-pair 0 empty)) #f)
+(check-expect (all-positive? (make-pair 1 (make-pair -2 empty))) #f)
+\end{verbatim}
+%
+Das Gerüst ist wie folgt:
+%
+\begin{verbatim}
+(define all-positive?
+  (lambda (lis)
+    ...))
+\end{verbatim}
+%
+Wir können nun die Schablone für Listen direkt benutzen:
+%
+\begin{verbatim}
+(define all-positive?
+  (lambda (lis)
+    (cond
+      ((empty? lis) ...)
+      ((pair? lis)
+       ... (first lis)
+       ... (all-positive? (rest lis)) ...))))
+\end{verbatim}
+%
+Das Ergebnis im ersten Zweig wird durch den ersten Testfall diktiert:
+\verb|#t|.  Wie schon zuvor machen wir uns die Bedeutung der
+Ausdrücke im \texttt{pair}-Zweig klar:
+\texttt{(first lis)} ist das erste Element der Liste.
+\texttt{(all-positive? (rest lis))} besagt, ob alle Elemente
+des Rests von \texttt{lis} positiv sind.  Es sind nur dann alle
+Elemente von \texttt{lis} positiv, wenn \texttt{(first lis)}
+positiv ist \emph{und} \texttt{(all-positive? (rest lis))} als Ergebnis
+\verb|#t| liefert.  Damit ist klar, wie die beiden Ausdrücke
+kombiniert werden müssen:
+%
+\begin{verbatim}
+(define all-positive?
+  (lambda (lis)
+    (cond
+      ((empty? lis) #t)
+      ((pair? lis)
+       (and (> (first lis) 0)
+            (all-positive? (rest lis)))))))
+\end{verbatim}
+%
+Konstruktionsanleitung~\ref{ka:listen} auf Seite~\pageref{ka:listen}
+faßt die Schablone für Prozeduren, die Listen akzeptieren, noch einmal
+zusammen.
+
+\section{Signaturkonstruktoren}
+
+Die Beispiellisten vom Anfang dieses Kapitels sind allesamt
+\textit{homogen}\index{homogen}: Alle Elemente der Liste sind jeweils
+von derselben Sorte.  Es gibt eine Liste von Essenszutaten, eine von
+Eigennamen, eine von Zahlen, eine von dramatischen Figuren, eine von
+Frisuren und eine von Schuhen.  Die Datendefinition für
+\texttt{a-list} von Seite~\ref{def:a-list} ist da allerdings nicht
+festgelegt: es heißt ausdrücklich, daß jedes Paar ein
+\emph{beliebiges} Element enthält.  So ist beispielsweise auch
+folgende Liste zulässig:
+%
+\begin{verbatim}
+(: ml1 a-list)
+(define ml1 (make-pair 5 (make-pair "Herbert" empty)))
+\end{verbatim}
+%
+In den meisten Fällen gehören jedoch alle Elemente einer Liste zu
+derselben Sorte beziehungsweise haben dieselbe Signatur: Schön wäre
+es, wenn die Signatur für die Liste dokumentieren könne, welche
+Signatur die Elemente haben.  Wir könnten bei
+der Definition von \texttt{pair} die Signatur der Elemente angeben,
+also \texttt{pair} zum Beispiel auf Elemente der Signatur
+\texttt{number} fest abonnieren: 
+%
+\begin{alltt}
+(define-record-procedures pair
+  make-pair pair?
+  (first rest))
+(: make-pair (number list-of-\textbf{numbers} -> pair))
+(: pair? (any -> boolean))
+(: first (pair -> \textbf{number}))
+(: rest (pair -> list-of-\textbf{numbers}))
+\end{alltt}
+%
+Entsprechend würden wir die daraus resultierende Signatur für Listen
+nicht mehr \texttt{a-list} sondern \texttt{list-of-numbers} nennen:\index{list-of-numbers@\texttt{list-of-numbers}}
+%
+\begin{verbatim}
+(define list-of-numbers
+  (signature
+   (mixed empty-list
+          pair)))
+\end{verbatim}
+%
+Das funktioniert zwar, hat aber den Nachteil, daß wir dann für jede
+neue Elementsorte eine neue Definition von Listen schreiben müssen:
+\texttt{list-of-strings}, \texttt{list-of-shoes} etc.  Das wäre nicht
+nur mühsam, sondern würde auch viel Code ohne Sinn und Verstand
+mehrmals kopieren.  Besser wäre es natürlich, die Macht der
+Abstraktion zum Tragen zu bringen und über die Elementsignatur zu
+abstrahieren.  Dazu brauchen wir allerdings eine etwas aufgebohrte
+Form von \texttt{define-record-procedures}, genannt
+\texttt{define"=record"=procedures"=parametric}.\index{define-record-procedures-parametric@\texttt{define-record-procedures-parametric}}
+Abbildung~\ref{scheme:define-record-procedures-parametric} beschreibt
+die Funktionsweise.
+
+\begin{feature}{\texttt{define-record-procedures-parametric}}{scheme:define-record-procedures-parametric}
+%
+Die \texttt{define-record-procedures-parametric}-Form hat folgende
+allgemeine Gestalt:
+\begin{alltt}
+(define-record-procedures-parametric \(t\) \(\mathit{sc}\)
+  \(c\) \(p\)
+  (\(s\sb{1}\) \(\ldots\) \(s\sb{n}\)))
+\end{alltt}
+%
+Dabei sind $t$, $c$, $p$, $s_1,\ldots, s_n$ genau wie bei
+\texttt{define-record-procedures} (siehe
+Seite~\pageref{def:define-record-procedures}).  Zusätzlich wird unter
+dem Namen $\mathit{sc}$ ein
+\textit{Signaturkonstruktor}\index{Signaturkonstruktor} definiert.
+Dieser ist eine Prozedur mit genau so vielen Argumenten wie es Felder in dem Record
+gibt. Er konstruiert aus den Signaturen der Felder die Signatur von Records des Typs
+$t$.
+
+Anmerkung: Die Signaturen der Felder werden jeweils erst bei Aufrufen
+der Selektoren überprüft.
+\end{feature}
+
+Mit
+\texttt{define-record-procedures-parametric} können wir die
+Record-Definition von \texttt{pair} erweitern:
+%
+\begin{verbatim}
+(define-record-procedures-parametric pair pair-of
+  make-pair pair?
+  (first rest))
+\end{verbatim}
+%
+\texttt{Pair-of} ist der Signaturkonstruktor.  (Das angehängte
+\texttt{-of} ist, ähnlich wie das \texttt{make-} bei den
+Konstruktoren, das \texttt{?} beim Prädikat und den Feld-Namen bei den
+Selektoren reine Konvention.)
+
+Konstruktor, Prädikat
+und Selektoren für das neue \texttt{pair} haben die folgenden
+Signaturen:
+%
+\begin{verbatim}
+(: make-pair (%a %b -> (pair-of %a %b)))
+(: pair? (any -> boolean))
+(: first ((pair-of %a %b) -> %a))
+(: rest ((pair-of %a %b) -> %b))
+\end{verbatim}
+%
+Hier sind  \verb|%a| und \verb|%b| wiederum
+\textit{Signaturvariablen}, die für beliebige
+Signaturen stehen.  Die Tatsache, dass hier zwei verschiedene Signaturvariablen
+verwendet wurden bringt die zusätzliche Information für den
+menschlichen Leser zum Ausdruck, daß die
+Argumente von \texttt{pair-of} zu potentiell
+unterschiedlichen Signaturen gehören.
+
+Zu lesen sind die obigen Signaturdeklarationen so:
+%
+\begin{itemize}
+\item \texttt{Make-pair} akzeptiert zwei Argumente beliebiger Signaturen
+  \verb|%a| und \verb|%b| und
+  liefert als Resultat einen Record, dessen erstes Feld von der Signatur
+  \verb|%a| und dessen zweites Feld von der Signatur \verb|%b| ist.
+\item Das Resultat von \texttt{first} hat die
+  Signatur des ersten Feldes seines Arguments.
+\item Das Resultat von \texttt{rest} hat die
+  Signatur des zweiten Feldes seines Arguments.
+\end{itemize}
+%
+
+Diese Signaturen sind allerdings noch unbefriedigend, da sie nicht zum
+Ausdruck bringen, daß das zweite Argument von \texttt{make-pair} immer
+eine \emph{Liste} sein muß beziehungsweise daß \texttt{rest} immer
+eine Liste liefert.  Diese Problematik stellen wir noch einen Moment
+hintenan, werden aber später zu ihr zurückkehren~-- zunächst einmal zu
+den Signaturen für Listen.
+
+Mit Hilfe von \texttt{pair-of} können wir versuchen, einen Ersatz für
+\texttt{a-list} zu definieren, der spezifiziert, auf welche Signatur
+die Elemente der Liste passen.  Das könnte so aussehen:
+%
+\begin{alltt}
+(define list-of-numbers
+  (signature
+    (mixed empty-list
+           (pair-of \textbf{number} list-of-numbers))))
+\end{alltt}
+%
+Entsprechend für Zeichenketten:
+%
+\begin{alltt}
+(define list-of-strings
+  (signature
+    (mixed empty-list
+           (pair-of \textbf{string} list-of-strings))))
+\end{alltt}
+%
+Wie schon oben angemerkt, wäre es unbefriedigend, für jede Elementsignatur eine
+eigene Listensignatur definieren zu müssen, immer auf die gleiche
+Weise.  Aber glücklicherweise unterscheiden sich
+\texttt{list-of-numbers} und \texttt{list-of-strings} nur an einer
+einzigen Stelle, und über die können wir abstrahieren:
+%
+\begin{verbatim}
+(define list-of
+  (lambda (x)
+    (signature
+      (mixed empty-list
+             (pair-of x (list-of x))))))
+\end{verbatim}
+%
+Fertig!  Nun können wir Signaturen für Listen von Zahlen als
+\texttt{(list-of number)}, Listen von Zeichenketten als
+\texttt{(list-of string)} und Listen von beliebigen Werten als
+\texttt{(list-of any)} schreiben.  Außerdem können wir diese
+Definition jetzt verwenden, um bessere Signaturen für
+\texttt{make-pair}, \texttt{first} und \texttt{rest} anzugeben:
+%
+\begin{verbatim}
+(: make-pair (%a (list-of %a) -> (pair-of %a (list-of %a))))
+(: first ((pair-of %a (list-of %a)) -> %a))
+(: rest ((pair-of %a (list-of %a)) -> (list-of %a)))
+\end{verbatim}
+%
+
+\section{Eingebaute Listen}
+
+Da Listen in diesem Buch noch oft vorkommen und es umständlich
+ist, jedesmal die Definitionen für \texttt{pair} und \texttt{list-of} an den Anfang
+von Programmen zu setzen, ist es an dieser Stelle Zeit, eine neue
+Sprachebene in \drscheme{} auszuwählen, nämlich \texttt{Die Macht der Abstraktion}
+(ohne \texttt{Anfänger}).\index{Sprachebene}  Diese enthält \texttt{make-pair},
+\texttt{pair?}, \texttt{first} und \texttt{rest} als eingebaute
+Prozeduren sowie den Signaturkonstruktor \texttt{list-of}\footnote{In Standard-Scheme heißt der Konstruktor für
+  die eingebauten Paare \texttt{cons\index{cons@\texttt{cons}}}, die
+  Selektoren \texttt{car\index{car@\texttt{car}}} und \texttt{cdr\index{cdr@\texttt{cdr}}}
+  (gesprochen "`kar"' und "`kudder"'; dies waren die Namen von Anweisungen auf einer
+  Maschine, auf der ein Vorläufer von Scheme lief) und das Prädikat
+  für die leere Liste \texttt{null?\index{null?@\texttt{null?}}}.} und eine
+eingebaute Prozedur \texttt{list} zur Erzeugung beliebiger Listen.
+
+Außerdem werden nichtleere Listen ab dieser Sprachebene in der REPL
+anders ausgedruckt, nämlich, der besseren Übersicht halber, als
+\verb|#<list ...>|,
+wobei die Listenelemente zwischen den spitzen Klammern aufgereiht sind.
+Beispiele:
+
+\begin{alltt}
+(list 1)
+\evalsto{} #<list 1>
+(list 1 2)
+\evalsto{} #<list 1 2>
+(list 1 2 3)
+\evalsto{} #<list 1 2 3>
+\end{alltt}
+%
+\begin{feature}{\texttt{list}}{scheme:list}
+  Die eingebaute Prozedur \texttt{list}\index{list@\texttt{list}} erlaubt es, Listen aus ihren Elementen
+  ohne Verwendung von \texttt{make-pair} zu erzeugen.  Sie
+  akzeptiert eine beliebige Anzahl von Argumenten, macht daraus eine
+  Liste und gibt diese zurück:
+%
+\begin{alltt}
+(list 1 2 3)
+\evalsto{} #<list 1 2 3>
+(list "Axl" "Slash" "Izzy")
+\evalsto{} #<list "Axl" "Slash" "Izzy">
+\end{alltt}
+\end{feature}
+
+
+\section{Parametrische Polymorphie}
+\label{sec:parametric-polymorphism}
+\label{sec:more-lists}
+
+In diesem Abschnitt programmieren wir eine Prozedur, welche die Länge
+einer Liste ermittelt.\index{list-length@\texttt{list-length}} Das ist
+eine einfache Fingerübung mit einer interessanten Eigenschaft.  Hier
+sind Kurzbeschreibung und Signatur:
+%
+\begin{alltt}
+; Länge einer Liste berechnen
+(: list-length ((list-of %a) -> natural))
+\end{alltt}
+%
+Dieser Prozedur ist egal, welche Signatur
+die Elemente der Liste erfüllen, weil das Konzept der Länge einer
+Liste unabhängig davon ist, was die Elemente sind.
+Dementsprechend steht dort nur die Signaturvariable \verb|%a|.
+Solche Prozeduren, die Argumente akzeptieren, deren Signaturen
+Signaturvariablen enthalten, heißen \textit{polymorph} oder auch
+\textit{parametrisch polymorph} (weil die Signaturvariable eine Art
+Parameter abgibt), und das dazugehörige Konzept heißt
+\textit{parametrische
+  Polymorphie}\index{Polymorphie}\index{parametrische Polymorphie}:
+ein großes Wort, das hier für eine kleine Sache steht.  Interessantere
+Beispiele für parametrische Polymorphie wird es in
+Kapitel~\ref{cha:higher-order} geben.
+
+Weiter mit \texttt{list-length}~-- hier ist das Gerüst:
+%
+\begin{alltt}
+(define list-length
+  (lambda (lis)
+    ...))
+\end{alltt}
+%
+Die Schablone ist wie gehabt:
+%
+\begin{alltt}
+(define list-length
+  (lambda (lis)
+    (cond
+      ((empty? lis) ...)
+      ((pair? lis) 
+       ... (first lis) ...
+       ... (list-length (rest lis)) ...))))
+\end{alltt}
+%
+Es ist \texttt{list-length} egal, was der Wert von \texttt{(first
+  lis)} ist.  Die Länge der Liste ist unabhängig davon, was für Werte
+sich darin befinden: entscheidend ist nur, wieviele es sind.  (Dieser
+Umstand ist gerade verantwortlich für die parametrische Polymorphie.)
+Damit können wir \texttt{(first lis)} aus der Schablone streichen und
+diese dann zum vollständigen Rumpf ergänzen:
+%
+\begin{alltt}
+(define list-length
+  (lambda (lis)
+    (cond
+      ((empty? lis) 0)
+      ((pair? lis) 
+       (+ 1 
+          (list-length (rest lis)))))))
+\end{alltt}
+%
+
+\section{Prozeduren, die Listen produzieren}
+
+In den vorherigen Abschnitten haben wir ausschließlich Prozeduren
+programmiert, die Listen \emph{akzeptieren}.  In diesem Abschnitt
+schreiben wir Prozeduren, die Listen \emph{produzieren}.  Das geht mit
+Techniken, die wir bereits vorgestellt haben.  Wir machen die Sache
+interessanter, indem wir in einem ersten Beispiel Listen von
+zusammengesetzten Daten betrachten und in einem zweiten Beispiel zwei
+Listen verarbeiten.
+
+\subsection{Gürteltiere überfahren}
+
+Auf Seite~\pageref{page:run-over-dillo} haben wir die Prozedur
+\texttt{run-over-dillo} geschrieben, die für das Überfahren von
+Gürteltieren zuständig ist.  In diesem Abschnitt schreiben die
+Prozedur, die das gleich massenweise erledigt, beispielsweise für alle
+Gürteltiere auf einem Highway.  Dazu übernehmen wir Daten- und
+Record-Definition von Gürteltieren aus
+Abschnitt~\ref{page:run-over-dillo} sowie die Prozedurdefinition von
+\texttt{run-over-dillo}.  Gürteltiere können wir in Listen stecken,
+ebenso wie Zahlen, Zeichenketten oder boolesche Werte.  Hier ist ein
+Beispiel:
+%
+\begin{verbatim}
+; Gürteltiere auf Highway 75
+(define dl75 (list d1 d2 d3 d4))
+\end{verbatim}
+(\texttt{D1}, \texttt{d2}, \texttt{d3} und \texttt{d4} sind die
+Beispielgürteltiere aus Abschnitt~\ref{page:run-over-dillo}.)
+
+Diese Liste hat die Signatur \texttt{(list-of dillo)}.  Wenn wir eine
+Prozedur schreiben wollen, die alle Gürteltiere aus einer Liste
+überfährt, müßte diese also folgende Kurzbeschreibung und Signatur
+haben:
+%
+\begin{verbatim}
+; Gürteltiere überfahren
+(: run-over-dillos ((list-of dillo) -> (list-of dillo)))
+\end{verbatim}
+%
+Als Testfall kann obige Beispielliste herhalten:
+%
+\begin{verbatim}
+(check-expect (run-over-dillos dl75)
+	      (list (make-dillo 55000 #f)
+		    d2
+		    (make-dillo 60000 #f)
+		    d4))
+\end{verbatim}
+%
+Zur Erinnerung: \texttt{d2} und \texttt{d4} sind bereits tot,
+dementsprechend sind sie überfahren wie zuvor.
+
+Hier ist das Gerüst:
+%
+\begin{verbatim}
+(define run-over-dillos
+  (lambda (dls)
+    ...))
+\end{verbatim}
+%
+Die Prozedur akzeptiert eine Liste als Eingabe, wir können also, wie
+schon so oft, die entsprechende Schablone zum Einsatz bringen:
+%
+\begin{verbatim}
+(define run-over-dillos
+  (lambda (dls)
+    (cond
+     ((empty? dls) ...)
+     ((pair? dls)
+      ... (first dls) ...
+      ... (run-over-dillos (rest dls)) ...))))
+\end{verbatim}
+%
+Im ersten Zweig ist die Sache klar: Geht eine leere Liste rein, kommt
+auch eine leere Liste raus.  Im zweiten Zweig können wir uns erst
+einmal um das erste Gürteltier kümmern.  Wir haben ja bereits eine
+Prozedur, die ein einzelnes Gürteltier überfährt; diese können wir auf
+das erste Element der Liste anwenden:
+%
+\begin{verbatim}
+(define run-over-dillos
+  (lambda (dls)
+    (cond
+     ((empty? dls) empty)
+     ((pair? dls)
+      ... (run-over-dillo (first dls)) ...
+      ... (run-over-dillos (rest dls)) ...))))
+\end{verbatim}
+%
+Lesen wir noch einmal die beiden Ausdrücke, die im zweiten Zweig
+stehen:
+%
+\begin{itemize}
+\item \texttt{(run-over-dillo (first dls))} ist das erste Gürteltier
+  der Liste, überfahren.
+\item \texttt{(run-over-dillos (rest dls))} ist eine Liste der
+  restlichen Gürteltiere, überfahren.
+\end{itemize}
+%
+Gefragt ist eine Liste \emph{aller} Gürteltiere, überfahren:
+Wir müssen also nur die Resultate der beiden Ausdrucke mit
+\texttt{make-pair} kombinieren:
+%
+\begin{verbatim}
+(define run-over-dillos
+  (lambda (dls)
+    (cond
+     ((empty? dls) empty)
+     ((pair? dls)
+      (make-pair (run-over-dillo (first dls))
+                 (run-over-dillos (rest dls)))))))
+\end{verbatim}
+%
+Fertig!
+
+Dieses Beispiel zeigt, daß wir für Prozeduren, die Listen produzieren,
+keine neue Technik brauchen: Wenn eine Prozedure eine leere Liste
+produzieren soll, benutzen wir an der entsprechenden Stelle
+\texttt{empty}, und bei nichtleeren Listen benutzen wir
+\texttt{make-pair}, bringen also die Schablone für Prozeduren zum
+Einsatz, die zusammengesetzte Daten produzieren.
+
+\subsection{Zwei Listen aneinanderhängen}
+In unserem nächsten Beispiel ist eine Prozedur
+\texttt{concatenate}\index{concatenate@\texttt{concatenate}} gefragt, die zwei
+Listen aneinanderhängt:\label{sec:concatenate}
+% 
+\begin{alltt}
+(concatenate (list 1 2 3) (list 4 5 6))
+\evalsto{} #<list 1 2 3 4 5 6>
+\end{alltt}
+%
+Kurzbeschreibung, Signatur und Gerüst sehen folgendermaßen aus:\index{concatenate@\texttt{concatenate}}
+%
+\begin{alltt}
+; zwei Listen aneinanderhängen
+(: concatenate ((list-of %a) (list-of %a) -> (list-of %a)))
+(define concatenate
+  (lambda (lis-1 lis-2)
+    ...))
+\end{alltt}
+%
+Die Konstruktionsanleitung aus Abschnitt~\ref{sec:lists} ist
+eigentlich nur für Prozeduren gedacht, die eine einzelne Liste
+akzeptieren.  Welche von beiden ist das $l$ aus der Anleitung?  Im
+Zweifelsfall können wir beide Alternativen auszuprobieren.  Wir
+fangen, um die Sache spannender zu machen, mit \texttt{lis-2} an:
+%
+\begin{alltt}
+(define concatenate
+  (lambda (lis-1 lis-2)
+    (cond
+      ((empty? lis-2) ...)
+      ((pair? lis-2) 
+       ... (first lis-2)
+       ... (concatenate lis-1 (rest lis-2)) ...))))
+\end{alltt}
+%
+Der erste Zweig des \texttt{cond} ist noch einfach: Wenn
+\texttt{lis-2} leer ist, muß \texttt{lis-1} herauskommen.  Jedoch wäre für
+das obige Beispiel der Wert von \texttt{(concatenate lis-1 (rest lis-2))} die
+folgende Liste:
+%
+\begin{alltt}
+#<list 1 2 3 5 6>
+\end{alltt}
+%
+Bei dieser Liste fehlt das
+Element 4 in der Mitte, und es ist nicht ersichtlich, wie unsere Prozedur
+sie passend ergänzen könnte.  Diese
+Möglichkeit führt also in eine Sackgasse. Wir versuchen deshalb, die Schablone  auf
+\texttt{lis-1} 
+ statt auf \texttt{lis-2} anzuwenden:
+%
+\begin{alltt}
+(define concatenate
+  (lambda (lis-1 lis-2)
+    (cond
+      ((empty? lis-1) ...)
+      ((pair? lis-1) 
+       ... (first lis-1)
+       ... (concatenate (rest lis-1) lis-2) ...))))
+\end{alltt}
+%
+Die erste Ellipse ist einfach zu ersetzen:  Ist die erste Liste
+leer, ist das Ergebnis die zweite Liste \texttt{lis-2}.  Für den
+zweiten Fall sollten wir uns noch einmal ins Gedächtnis rufen,
+was für einen Wert \texttt{(concatenate (rest lis-1) lis-2)} liefert: das Ergebnis
+dieses Aufrufs ist eine
+Liste, die aus \texttt{(rest lis-1)} und \texttt{lis-2} zusammengesetzt
+wurde.  Auf das obige Beispiel übertragen, mit \texttt{lis-1} $=$
+\verb|#<list 1 2 3>| und \texttt{lis-2} $=$
+\verb|#<list 4 5 6>|, ist \texttt{(rest lis-1)} $=$ \verb|#<list 2 3>|.
+Der Wert von \texttt{(concatenate (rest lis-1) lis-2)} wäre
+also:
+%
+\begin{alltt}
+#<list 2 3 4 5 6>
+\end{alltt}
+%
+Es fehlt das erste Element von \texttt{lis-1}, \texttt{(first
+  lis-1)}, das vorn an das Ergebnis angehängt werden muß.  Das geht
+mit \texttt{make-pair}:
+%
+\begin{alltt}
+(define concatenate
+  (lambda (lis-1 lis-2)
+    (cond
+      ((empty? lis-1) lis-2)
+      ((pair? lis-1) 
+       (make-pair (first lis-1)
+                  (concatenate (rest lis-1) lis-2))))))
+\end{alltt}
+%
+Dieses Beispiel zeigt ein weiteres Schablonenelement, das noch öfter
+vorkommen wird:  Wie bei anderen zusammengesetzten Daten müssen Prozeduren, die
+Listen konstruieren sollen, irgendwo ein \texttt{make-pair} enthalten.
+
+\texttt{List-length} und \texttt{concatenate} sind gute
+Programmierübungen.  Da viele Programme diese Operationen benötigen,
+sind sie in Scheme bereits unter den Namen
+\texttt{length}\index{length@\texttt{length}} und
+\texttt{append}\index{append@\texttt{append}} eingebaut.
+
+
+\section*{Anmerkungen}
+
+Listen sind, was Datenstrukturen betrifft, eine Art Alleskleber:
+Sie taugen auch für die Repräsentation von Tabellen,
+Mengen und vielen anderen zusammengesetzten Daten.  Für Listen gibt es
+eine riesige Anzahl praktischer Prozeduren, von denen die Prozeduren in
+diesem Kapitel nur die Spitze des Eisberges sind.  Da 
+Listen in Scheme fest eingebaut sind, können sie als universelles
+Kommunikationsmittel zwischen Programmen dienen, weil sich Prozeduren
+auf Listen aus einem Programm auch in einem anderen verwenden lassen.
+Dies unterscheidet Scheme von vielen anderen Programmiersprachen, in
+denen Listen vom Programmierer selbst definiert werden müssen oder nur
+eine untergeordnete Rolle spielen.
+
+Viele andere Programmiersprachen bauen auf \textit{Felder\index{Feld}} oder
+\textit{Arrays\index{Array}} als fundamentale Datenstrukturen für die
+Repräsentation von Folgen.  Diese gibt es in
+Scheme auch (unter dem Namen \textit{Vektor\index{Vektor}}), finden jedoch
+nur selten Verwendung: Oft läßt sich eine
+bessere Lösung mit Listen oder anderen Repräsentationen finden.
+
+\section*{Aufgaben}
+
+FIXME: viel mehr Aufgaben
+
+\begin{aufgabe}
+  Schreiben Sie Ausdrücke für Listen, welche die Beispiellisten vom
+  Anfang von Abschnitt~\ref{sec:lists} repräsentieren.
+\end{aufgabe}
+
+\begin{aufgabe}
+  Schreibe eine Prozedur \texttt{backlog-list}, welche die
+  gleichen Eingaben wie \texttt{load-list} akzeptiert, aber die
+  nach dem Beladen eines Lastwagens im Lager zurückbleibenden Artikel
+  zurückgibt.  Die Prozedur soll 
+  \texttt{load-list} als Hilfsprozedur verwenden.
+\end{aufgabe}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 

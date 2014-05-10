@@ -1,0 +1,644 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter{Gemischte Daten}
+\label{cha:gemischte-daten}
+
+Neben den zusammengesetzten Daten verarbeiten Programme häufig auch
+\textit{gemischte Daten\index{gemischte Daten}}, die verschiedene
+Formen annehmen können, aber grundlegende Gemeinsamkeiten ausweisen:
+%
+\begin{itemize}
+\item Ein Tier kann ein Gürteltier oder ein Papagei sein.
+\item Eine Koordinate kann eine kartesische Koordinate oder eine
+  Polarkoordinate sein.
+\item Ein Essen kann ein Frühstück, Mittagessen oder Abendessen sein.
+\end{itemize}
+%
+Obwohl die Daten verschiedenartig sind, unterstützen sie doch
+gemeinsame Operationen: Das Gewicht eines Tiers kann sowohl für
+Gürteltiere als auch Papageien berechnet werden, der Abstand vom
+Ursprung kann für beide Koordinatendarstellungen berechnet werden, die
+Menge Vitamin A kann für jede Art Essen bestimmt werden, etc.
+
+\section{Gemischte Daten}
+\label{sec:mixed-data}
+
+In der Einleitung war die Rede von Papageien:\index{Papagei} die benutzen wir, um
+gemischte Daten einzuführen.  Vorher müssen wir jedoch Papageien mit den bekannten
+Mitteln definieren; wir versuchen es, kurz und schmerzlos zu machen:
+
+Wir interessieren uns vor allem für sprechende Papageien.  Genau wie
+bei Gürteltieren interessiert uns das Gewicht, aber wir nehmen an, da
+Papageien in der Regel nicht auf texanischen Highways überfahren
+werden, daß sie immer lebendig sind.  Hier die Datendefinition:
+%
+\begin{verbatim}
+; Ein Papagei hat folgende Eigenschaften:
+; - Gewicht in Gramm (natural)
+; - Satz, den er sagt (string)
+\end{verbatim}
+%
+Hier die dazu passende Record-Definition:
+%
+\begin{verbatim}
+(define-record-procedures parrot
+  make-parrot parrot?
+  (parrot-weight parrot-sentence))
+\end{verbatim}
+%
+\ldots{} und die passenden Signaturen:
+%
+\begin{verbatim}
+(: make-parrot (natural string -> parrot))
+(: parrot? (any -> boolean))
+(: parrot-weight (parrot -> natural))
+(: parrot-sentence (parrot -> string))
+\end{verbatim}
+%
+Hier zwei Beispiele für Papageien:
+%
+\begin{verbatim}
+(define p1 (make-parrot 10000 "Der Gärtner war's.")) ; 10kg, Miss Marple
+(define p2 (make-parrot 5000 "Ich liebe Dich.")) ; 5kg, Romantiker 
+\end{verbatim}
+%
+Wir können einen Papagei ähnlich wie ein Gürteltier füttern~-- nur die
+Portion ist kleiner, wir nehmen 50g an.  Kurzbeschreibung und Signatur:\index{feed-parrot@\texttt{feed-parrot}}
+%
+\begin{verbatim}
+; Papagei mit 50g Futter füttern
+(: feed-parrot (parrot -> parrot))
+\end{verbatim}
+%
+Testfälle:
+%
+\begin{verbatim}
+(check-expect (feed-parrot p1) (make-parrot 10050 "Der Gärtner war's."))
+(check-expect (feed-parrot p2) (make-parrot 5050 "Ich liebe Dich."))
+\end{verbatim}
+%
+Gerüst:
+%
+\begin{verbatim}
+(define feed-parrot
+  (lambda (p)
+    ...))
+\end{verbatim}
+%
+Schablone:
+%
+\begin{verbatim}
+(define feed-parrot
+  (lambda (p)
+    (make-parrot ... ...)
+    ... (parrot-weight p) ...
+    ... (parrot-sentence p) ...))
+\end{verbatim}
+%
+\ldots{} und schließlich der vollständige Rumpf:
+%
+\begin{verbatim}
+(define feed-parrot
+  (lambda (p)
+    (make-parrot (+ (parrot-weight p) 50)
+                 (parrot-sentence p))))
+
+\end{verbatim}
+%
+Fertig!  Sie können sich vielleicht vorstellen, daß  Papageien und
+Gürteltiere sich in einem Programm begegnen, also \emph{gemischt}
+vorkommen.  Papageien und Gürteltiere gehören zum gemeinsamen
+Oberbegriff \textit{Tier}\index{Tier}, den wir im Rahmen eines solchen
+Programms folgendermaßen beschreiben könnten: 
+
+Ein Tier ist eins der folgenden:
+%
+\begin{itemize}
+\item ein Gürteltier
+\item ein Papagei
+\end{itemize}
+%
+Die Formulierung \emph{eins der folgenden} ist der klare Hinweis für
+eine neue Form der Organisation von Daten: \textit{gemischte
+  Daten}.\index{gemischte Daten} Entsprechend ist es durchaus
+sinnvoll, nach dem "`Gewicht eines Tiers"' zu fragen oder "`ein Tier
+zu füttern"', was wir im folgenden auch vorhaben.
+
+Die Beschreibung des Begriffs "`Tier"' ist bereits als Datendefinition
+geeignet, und muß für Inklusion im Programm nur als Kommentar
+umformatiert werden:
+%
+\begin{verbatim}
+; Ein Tier ist eins der folgenden:
+; - Gürteltier
+; - Papagei
+\end{verbatim}
+%
+Für Gürteltiere und Papageien sind durch die jeweiligen
+Record-Definitionen bereits Signaturen definiert.  Auch für die Sorte
+der Tiere werden wir eine Signatur brauchen: Schließlich braucht die
+Prozedur, die das Gewicht ausrechnen soll, eine Signatur wie die
+folgende:
+%
+\begin{alltt}
+(: animal-weight (\textbf{animal} -> natural))
+\end{alltt}
+%
+Wir brauchen also eine Definition für die Signatur \texttt{animal}.
+Diese sieht folgendermaßen aus:
+%
+\begin{verbatim}
+(define animal
+  (signature
+    (mixed dillo parrot)))
+\end{verbatim}
+%
+Das \texttt{signature} kennen wir von den Fallunterscheidungen aus
+Abschnitt~\ref{page:signature}.  Das \texttt{mixed} ist neu und steht
+für "`gemischte Daten"'.  Sie können die obige Definition lesen als
+"`Tiere sind gemischt aus Gürteltieren und Papageien"'; das klingt
+aber auf Deutsch hölzern, weshalb wir für die Datendefinition bei der
+Formulierung "`eins der folgenden"' bleiben.  Mit der Definition steht
+die Signatur \texttt{animal} zur Verfügung.  Wir haben schon mit der
+Signatur für \texttt{animal-weight} vorgegriffen.  Hier ist sie noch
+einmal zusammen mit einer Kurzbeschreibung:
+%
+\begin{verbatim}
+; Gewicht eines Tiers feststellen
+(: animal-weight (animal -> natural))
+\end{verbatim}
+%
+Diese Prozedur sollte entsprechend für Gürteltiere \emph{und}
+Papageien funktionieren, wir brauchen also Testfälle für beide:
+%
+\begin{verbatim}
+(check-expect (animal-weight d1) 55000)
+(check-expect (animal-weight d2) 58000)
+(check-expect (animal-weight p1) 10000)
+(check-expect (animal-weight p2) 5000)
+\end{verbatim}
+%
+Das Gerüst sieht so aus:
+%
+\begin{verbatim}
+(define animal-weight
+  (lambda (a)
+    ...))
+\end{verbatim}
+%
+Im Rumpf müssen wir zwischen Gürteltieren und Papageien unterscheiden:
+Schließlich muß \texttt{animal-weight} die Prozedur
+\texttt{dillo-weight} für Gürteltiere, für Papageien aber die Prozedur
+\texttt{parrot-weight} aufrufen.  Wir brauchen also~-- wie bei
+Fallunterscheidungen~-- eine Verzweigung, und zwar mit einem Zweig für
+Gürteltiere und einem Zweig für Papageien:
+%
+\begin{verbatim}
+(define animal-weight
+  (lambda (a)
+    (cond
+      (... ...)
+      (... ...))))
+\end{verbatim}
+%
+Wir brauchen als nächstes einen Test, der Gürteltiere identifiziert.
+Jetzt~-- endlich~-- kommen die auf Seite~\pageref{page:predicate}
+eingeführten Prädikate \texttt{dillo?} und \texttt{parrot?} ins Spiel,
+die durch die Record-Definitionen definiert wurden:
+%
+\begin{verbatim}
+(define animal-weight
+  (lambda (a)
+    (cond
+      ((dillo? a) ...)
+      ((parrot? a) ...))))
+\end{verbatim}
+%
+Im ersten Zweig~-- dem Zweig für Gürteltiere~-- kommt nun
+\texttt{dillo-weight} zum Einsatz, im zweiten Zweig~-- für
+Papageien~-- ist \texttt{parrot-weight} zuständig:
+%
+\begin{verbatim}
+(define animal-weight
+  (lambda (a)
+    (cond
+      ((dillo? a) (dillo-weight a))
+      ((parrot? a) (parrot-weight a)))))
+\end{verbatim}
+% 
+Fertig!
+
+Aus diesem Beispiel ergibt sich direkt eine Konstruktionsanleitung für
+gemischte Daten.  Zunächst zur Daten- und Signaturdefinition:
+%
+\begin{itemize}
+\item Gemischte Daten liegen vor, wenn Sie eine Datensorte durch eine
+  Formulierung der Form "`ein $X$ ist eins der folgenden"' beschreiben
+  können: Diese Formulierung ist die Datendefinition.
+\item Stellen Sie fest, wieviele unterschiedliche Fälle die Sorte
+  für die gemischten Daten hat.
+\item Schreiben Sie eine Signaturdefinition der folgenden Form unter
+  die Datendefinition:
+\begin{alltt}
+(define \(S\)
+  (signature
+    (mixed \(S\sb{1}\) \(S\sb{2}\) \(\ldots\) \(S\sb{n}\))))
+\end{alltt}
+  Dabei ist $S$ die Signatur für die neue Datensorte; $S_1$ bis $S_n$
+  sind die Signaturen für die Signaturen, aus denen die neue
+  Datensorte zusammengemischt ist.
+\end{itemize}
+%
+Eine Schablone für eine Prozedur und deren Testfälle, die gemischte
+Daten akzeptiert, können Sie folgendermaßen konzentrieren:
+%
+\begin{itemize}
+\item Schreiben Sie Tests für jeden der Fälle.
+\item  Schreiben Sie eine \texttt{cond}-Verzweigung als Rumpf in die
+  Schablone, die genau $n$ Zweige hat~-- also genau soviele Zweige,
+  wie es Fälle gibt.
+\item Schreiben Sie für jeden Zweig einen Test, der den entsprechenden
+  Fall identifiziert.
+\item Vervollständigen Sie die Zweige, indem Sie eine Datenanalyse für
+  jeden einzelnen Fall vornehmen und entsprechende Hilfsprozeduren
+  oder Konstruktionsanleitungen benutzen.
+  Die übersichtlichsten Programme entstehen meist, wenn für jeden Fall
+  separate Hilfsprozeduren definiert sind.\label{page:separate-mixed-procs}
+\end{itemize}
+%
+Konstruktionsanleitung~\ref{ka:gemischt} für gemischte Daten in
+Anhang~\ref{app:konstruktionsanleitungen} faßt dies noch einmal
+zusammen.
+
+Eine Konstruktionsanleitung oder Schablone für gemischte Daten
+\emph{als Ausgabe} ist unnötig~-- Sie benutzen einfach die Schablone
+des entsprechenden Falls.
+
+Beachten Sie den Unterschied zwischen \texttt{one-of} und
+\texttt{mixed}, die leicht zu verwechseln sind: \texttt{One-of} steht
+für "`einer der folgenden \emph{Werte}"', während \texttt{mixed} für
+"`gehörend zu einer der folgenden \emph{Signaturen}"' gehört.
+
+\section{Die Zucker-Ampel}
+
+In diesem Abschnitt nehmen wir uns noch ein weiteres Beispiel für
+gemischte Daten vor, diesmal von vorneherein unter Benutzung der
+Konstruktionsanleitung aus dem vorigen Abschnitt.
+
+Einige Länder der Europäischen Union planen zum Zeitpunkt der
+Drucklegung dieses Buches, den Gehalt bestimmter Inhaltsstoffe von
+Lebensmitteln vereinfacht durch eine sogenannte \textit{Ampel}
+darzustellen.  Bei Zucker zum Beispiel sieht die Ampel so aus, bezogen
+auf 100g eines Lebensmittels:
+%
+\begin{center}
+  \begin{tabular}{l|l|l}
+    grün & niedriger Gehalt &  weniger als 5g\\\hline
+    gelb & mittlerer Gehalt & zwischen 5g und 12,5g\\\hline
+    rot & hoher Gehalt & mehr als 12,5g
+  \end{tabular}
+\end{center}
+%
+Uns geht es nicht darum, ob solch eine Kennzeichnung sinnvoll ist oder
+nicht, oder ob Zucker "`gesund"' oder "`ungesund"' ist.  Auf jeden
+Fall sind trotz der Bemühungen der Europäischen Union die
+Bezeichnungen uneinheitlich.  Technisch gesehen ist die Ampel
+natürlich redundant, wenn der Zuckergehalt in Gramm angegeben ist.
+Manchmal ist allerdings der Zuckergehalt auch separat für Fruktose und
+Glukose angegeben.  Ein Computerprogramm könnte aber den Umgang
+erleichtern, indem es jede Angabe auf einer Lebensmittelpackung~--
+Zucker in Gramm direkt, Fruktose und Glukose separat sowie die
+Ampel~-- in die einheitliche Ampel-Form bringt.
+
+Zunächst die Datenanalyse:
+
+Den Zuckergehalt in Gramm direkt kann eine (rationale) Zahl
+repräsentieren.
+
+Die Zuckerangabe mit Fruktose und Glukose separat ist zusammengesetzt,
+mit zwei Komponenten.  Hier Daten- und Record-Definition dazu sowie
+die Signaturen für die Record-Prozeduren:
+%
+\begin{verbatim}
+; Zuckeranteile bestehen aus:
+; - Fruktose-Anteil (in g)
+; - Glukose-Anteil (in g)
+(define-record-procedures sugars
+  make-sugars sugars?
+  (sugars-fructose sugars-glucose))
+(: make-sugars (rational rational -> sugars))
+(: sugars? (any -> boolean))
+(: sugars-fructose (sugars -> rational))
+(: sugars-glucose (sugars -> rational))
+\end{verbatim}
+%
+Hier einige Beispiele:
+%
+\begin{verbatim}
+(define s1 (make-sugars 1 1)) ; 1g Fruktose, 1g Glukose
+(define s2 (make-sugars 2 3)) ; 2g Fruktose, 3g Glukose
+(define s3 (make-sugars 5 5)) ; 5g Fruktose, 5g Glukose
+(define s4 (make-sugars 10 2.5)) ; 10g Fruktose, 2.5g Glukose
+(define s5 (make-sugars 10 3)) ; 10g Fruktose, 3g Glukose
+(define s6 (make-sugars 15 10)) ; 15g Fruktose, 10g Glukose
+\end{verbatim}
+%
+Bei der Ampel selbst handelt es sich um eine einfache
+Fallunterscheidung:
+%
+\begin{verbatim}
+; Eine Ampelbezeichnung ist eins der folgenden:
+; - rot
+; - gelb
+; - grün
+(define traffic-light
+  (signature
+   (one-of "rot" "gelb" "grün")))
+\end{verbatim}
+%
+Die Angabe über den Zuckergehalt kann jede der drei oben genannten Formen
+annehmen:
+%
+\begin{verbatim}
+; Eins Zuckergehalt ist eins der folgenden:
+; - Gewicht in Gramm (rational)
+; - Zuckeranteile (sugars)
+; - Ampelbezeichnung (traffic-light)
+(define sugar-content
+  (signature
+   (mixed rational
+          sugars
+          traffic-light)))
+\end{verbatim}
+%
+Das Beispiel zeigt, daß die Fälle einer Definition für gemischte Daten
+nicht allesamt Records sein müssen.  Es ist allerdings wichtig, daß
+die Fälle \emph{disjunkt} sind, also jeder Wert eindeutig einem der
+Fälle zugeordnet werden kann: Sonst wäre es nicht möglich, eine sinnvolle
+Verzweigung zu schreiben, welche die Fälle unterscheidet.
+
+Nun zu unserer Prozedur zur Ermittlung der Ampelbezeichnung für den
+Zuckergehalt.  Hier Kurzbeschreibung und Signatur:
+%
+\begin{verbatim}
+; Ampelbezeichnung für Zuckeranteil ermitteln
+(: sugar-traffic-light (sugar-content -> traffic-light))
+\end{verbatim}
+%
+Wir brauchen ziemlich viele Testfälle, um alle Fälle von
+Zuckeranteilen abzudecken sowie die Eckfälle der Tabelle von oben.
+%
+\begin{verbatim}
+(check-expect (sugar-traffic-light 2) "grün")
+(check-expect (sugar-traffic-light 5) "gelb")
+(check-expect (sugar-traffic-light 10) "gelb")
+(check-expect (sugar-traffic-light 12.5) "gelb")
+(check-expect (sugar-traffic-light 20) "rot")
+
+(check-expect (sugar-traffic-light s1) "grün")
+(check-expect (sugar-traffic-light s2) "gelb")
+(check-expect (sugar-traffic-light s3) "gelb")
+(check-expect (sugar-traffic-light s4) "gelb")
+(check-expect (sugar-traffic-light s5) "rot")
+(check-expect (sugar-traffic-light s6) "rot")
+
+(check-expect (sugar-traffic-light "grün") "grün")
+(check-expect (sugar-traffic-light "gelb") "gelb")
+(check-expect (sugar-traffic-light "rot") "rot")
+\end{verbatim}
+%
+Als nächstes ist, wie immer, das Gerüst dran:
+%
+\begin{verbatim}
+(define sugar-traffic-light
+  (lambda (f)
+    ...))
+\end{verbatim}         
+%
+Als nächstes wenden wir die Schablone für Prozeduren an, die gemischte
+Daten akzeptieren.  Wir brauchen eine Verzweigung mit sovielen Zweigen
+wie \texttt{sugar-content} Fälle hat, also drei:
+%
+\begin{verbatim}
+(define sugar-traffic-light
+  (lambda (f)
+    (cond
+      (... ...)
+      (... ...)
+      (... ...))))
+\end{verbatim}         
+%
+Als nächstes brauchen wir Tests für die drei Fälle.  Für den zweiten
+Fall ist das einfach, da es sich um \texttt{sugars}-Records handelt:
+da gibt es das Prädikat \texttt{sugars?}.  Beim ersten Fall handelt es
+sich aber um eine rationale Zahl, beim dritten um eine Zeichenkette~--
+beides eingebaute Datensorten.  Für diese gibt es die eingebauten
+Prädikate \texttt{rational?} und \texttt{string?}~--
+Abbildung~\ref{scheme:predicates} zählt noch mehr eingebaute
+Prädikate auf.
+%
+\begin{feature}{Eingebaute Prädikate}{scheme:predicates}
+  \index{Prädikate|eingebaut}\index{eingebaute Prädikate}
+  Folgende Prädikate sind eingebaut:
+  \begin{itemize}
+  \item \texttt{number?}\index{number?@\texttt{number?}} testet, ob ein Wert eine Zahl ist.
+  \item \texttt{real?}\index{real?@\texttt{real?}} testet, ob ein Wert eine reelle Zahl ist.
+  \item \texttt{rational?}\index{rational?@\texttt{rational?}} testet, ob ein Wert eine rationale Zahl ist.
+  \item \texttt{natural?}\index{natural?@\texttt{natural?}} testet, ob ein Wert eine natürliche Zahl ist.
+  \item \texttt{string?}\index{string?@\texttt{string?}} testet, ob ein Wert eine Zeichenkette ist.
+  \item \texttt{boolean?}\index{boolean?@\texttt{boolean?}} testet, ob ein Wert ein boolescher Wert ist.
+  \end{itemize}
+\end{feature}
+%
+Mit dieser Information gewappnet können wir die Tests ergänzen:
+%
+\begin{verbatim}
+(define sugar-traffic-light
+  (lambda (f)
+    (cond
+      ((rational? f) ...)
+      ((sugars? f) ...)
+      ((string? f) ...))))
+\end{verbatim}         
+%
+Im ersten Zweig handelt es sich nicht nur um eine rationale Zahl,
+sondern auch um eine Fallunterscheidung mit drei Fällen entsprechend
+der Tabelle vom Anfang:
+%
+\begin{verbatim}
+(define sugar-traffic-light
+  (lambda (f)
+    (cond
+      ((rational? f) 
+       (cond
+         (... ...)
+         (... ...)
+         (... ...)))
+      ((sugars? f) ...)
+      ((string? f) ...))))
+\end{verbatim}         
+%
+Als nächstes ergänzen wir Tests entsprechend der Tabelle:
+%
+\begin{verbatim}
+(define sugar-traffic-light
+  (lambda (f)
+    (cond
+      ((rational? f) 
+       (cond
+         ((< f 5) ...)
+         ((and (>= f 5) (<= f 12.5)) ...)
+         ((> f 12.5) ...)))
+      ((sugars? f) ...)
+      ((string? f) ...))))
+\end{verbatim}         
+%
+Schließlich müssen wir noch die Antworten eintragen:
+%
+\begin{verbatim}
+(define sugar-traffic-light
+  (lambda (f)
+    (cond
+      ((rational? f) 
+       (cond
+         ((< f 5) "grün")
+         ((and (>= f 5) (<= f 12.5)) "gelb")
+         ((> f 12.5) "rot")))
+      ((sugars? f) ...)
+      ((string? f) ...))))
+\end{verbatim}         
+%
+Hier ist jetzt ein \texttt{cond} in einem anderen \texttt{cond}
+eingeschachtelt.  Da so etwas schnell unübersichtlich wird, lohnt es
+sich, wie auf Seite~\pageref{page:separate-mixed-procs} empfohlen,
+diesen Zweig in eine separate Hilfsprozedur auszulagern.  Hier sind
+Kurzbeschreibung und Signatur:
+%
+\begin{verbatim}
+; Zuckeranteil in g in Ampel umwandeln
+(: sugar-weight->traffic-light (rational -> traffic-light))
+\end{verbatim}
+%
+Die Testfälle lassen sich aus den Testfällen für
+\texttt{sugar-traffic-light} durch einfaches Kopieren und Umbenennen
+gewinnen:
+%
+\begin{verbatim}
+(check-expect (sugar-weight->traffic-light 2) "grün")
+(check-expect (sugar-weight->traffic-light 5) "gelb")
+(check-expect (sugar-weight->traffic-light 10) "gelb")
+(check-expect (sugar-weight->traffic-light 12.5) "gelb")
+(check-expect (sugar-weight->traffic-light 20) "rot")
+\end{verbatim}
+%
+Gerüst:
+%
+\begin{verbatim}
+(define sugar-weight->traffic-light
+  (lambda (w)
+    ...))
+\end{verbatim}
+%
+Den Rumpf haben wir ja schon geschrieben, wir müssen ihn nur noch
+hierher bewegen und \texttt{f} in \texttt{w} umbenennen. Das \drscheme{}-System
+bietet dazu nach einem Klick auf "`Syntaxprüfung"' die Möglichkeit, mit einem
+Rechtsklick auf den Parameter \texttt{f} ein Menü aufzuklappen, das unter
+anderem die Auswahl "`\texttt{f} umbenennen"' anbietet. \drscheme{} sorgt dann
+dafür, dass alle zugehörigen Vorkommen von \texttt{f} in gleicher Weise
+umbenannt werden.
+
+%
+\begin{verbatim}
+(define sugar-weight->traffic-light
+  (lambda (w)
+    (cond
+      ((< w 5) "grün")
+      ((and (>= w 5) (<= w 12.5)) "gelb")
+      ((> w 12.5) "rot"))))
+\end{verbatim}
+%
+Zurück zu \texttt{sugar-traffic-light}: Dort benutzen wir zunächst die
+neu definierte Hilfsprozedur:
+%
+\begin{verbatim}
+(define sugar-traffic-light
+  (lambda (f)
+    (cond
+      ((rational? f)
+       (sugar-weight->traffic-light f))
+      ((sugars? f) ...)
+      ((string? f) ...))))
+\end{verbatim}         
+%
+Beim nächsten Zweig geht es um den Fall \texttt{sugars}~--
+zusammengesetzte Daten.  Wir können also die entsprechende Schablone
+anwenden:
+%
+\begin{verbatim}
+(define sugar-traffic-light
+  (lambda (f)
+    (cond
+      ((rational? f)
+       (sugar-weight->traffic-light f))
+      ((sugars? f) ... (sugars-fructose f) ...
+                   ... (sugars-glucose f) ...)
+      ((string? f) ...))))
+\end{verbatim}         
+%
+Wir müssen Fruktose- und den Glukose-Anteil addieren und die Summe
+dann ebenfalls entsprechend der Tabelle vom Anfang in eine Ampelfarbe
+umwandeln.  Aber halt!~-- Genau für das Umwandeln der Zahl aus der
+Tabelle in eine Ampelfarbe haben wir ja gerade die Hilfsprozedur
+\texttt{sugar-weight->traffic-light} geschrieben, und diese können wir
+erneut zum Einsatz bringen:
+%
+\begin{verbatim}
+(define sugar-traffic-light
+  (lambda (f)
+    (cond
+      ((rational? f)
+       (sugar-weight->traffic-light f))
+      ((sugars? f)
+       (sugar-weight->traffic-light (+ (sugars-fructose f)
+                                       (sugars-glucose f))))
+      ((string? f) ...))))
+\end{verbatim}         
+%
+Bleibt der letzte Fall~-- der ist zum Glück trivial, da es sich schon
+um eine Farbe handelt, Die muß \texttt{sugar-traffic-light} nur
+zurückgeben:
+%
+\begin{verbatim}
+(define sugar-traffic-light
+  (lambda (f)
+    (cond
+      ((rational? f)
+       (sugar-weight->traffic-light f))
+      ((sugars? f)
+       (sugar-weight->traffic-light (+ (sugars-fructose f)
+                                       (sugars-glucose f))))
+      ((string? f) f))))
+\end{verbatim}         
+%
+Fertig!
+
+\section*{Aufgaben}
+
+\begin{aufgabe}
+  Schreibe Daten- und Record-Definitionen für geometrische Figuren,
+  wobei eine geometrische Figur ein Quadrat, ein Kreis oder ein
+  Rechteck sein kann.  Schreibe eine Prozedur, die für eine
+  geometrische Figur (ein Quadrat, einen Kreis oder ein Rechteck) den
+  Flächeninhalt berechnet.
+\end{aufgabe}
+
+
+TBD
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 

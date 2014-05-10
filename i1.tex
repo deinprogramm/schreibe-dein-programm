@@ -1,0 +1,299 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\documentclass[disablefront,liststyle=aligned]{suftesi}
+
+\usepackage[latin1]{inputenc}
+\usepackage{pifont}
+\usepackage{bold-extra}
+\usepackage{graphicx}
+\usepackage{hhline}
+\usepackage{psfrag}
+\usepackage{bibgerm}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\usepackage{prooftree} % für Regeln im Kalkül...
+\usepackage{theorem}
+\theoremstyle{plain}
+\usepackage{amsmath}
+\usepackage{alltt}
+\usepackage{verbatim}
+\usepackage{epstopdf}
+\usepackage{ifpdf}
+\ifpdf
+\usepackage{pdftricks}
+\begin{psinputs}
+\fi
+\usepackage{pstricks}
+\usepackage{pst-node}
+\usepackage{pst-tree}
+\ifpdf
+\end{psinputs}
+\fi
+\usepackage{fancybox}
+\usepackage{tabularx}
+\usepackage{url}
+\usepackage[matrix,frame,arrow]{xy}
+\usepackage{makeidx}
+\usepackage{longtable}
+\usepackage{europs}
+\usepackage{hyperref}
+\usepackage{textcomp}
+
+\makeindex
+% Diese Datei bitte selbst anlegen mit etwaigen
+% \includeonly-Statements.
+\input{includeonly}
+
+\ifpdf
+\let\pspdf\pdfdisplay
+\let\endpspdf\endpdfdisplay
+\else
+\newenvironment{pspdf}{}{}
+\fi
+
+\theorembodyfont{\normalfont}
+\theoremheaderfont{\normalfont\sffamily\bfseries}
+
+\newtheorem{satz}{Satz}[chapter]
+\renewcommand{\thesatz}{\thechapter.\arabic{satz}}
+
+\newtheorem{lemma}[satz]{Lemma}
+\renewcommand{\thelemma}{\thechapter.\arabic{lemma}}
+
+\newtheorem{korollar}[satz]{Korollar}
+\renewcommand{\thekorollar}{\thechapter.\arabic{korollar}}
+
+\theorembodyfont{\normalfont}
+\newtheorem{definition}[satz]{Definition}
+\renewcommand{\thedefinition}{\thechapter.\arabic{definition}}
+
+\newtheorem{aufgabe}{Aufgabe}[chapter]
+\renewcommand{\theaufgabe}{\thechapter.\arabic{aufgabe}}
+
+\newtheorem{bemerkung}[satz]{Bemerkung}
+\renewcommand{\thebemerkung}{\thechapter.\arabic{bemerkung}}
+
+\theorembodyfont{\small\normalfont\fontsize{9pt}{11pt}}
+\theoremheaderfont{\small\sffamily\bfseries}
+\newtheorem{beispiel}[satz]{Beispiel}
+\renewcommand{\thebeispiel}{\thechapter.\arabic{beispiel}}
+
+\theorembodyfont{\normalfont}
+\theoremheaderfont{\normalfont\sffamily\bfseries}
+
+\newtheorem{mantra}{Mantra}%[chapter]
+\newtheorem{konstruktionsanleitung}{Konstruktionsanleitung}%[chapter]
+
+\def\subbib#1#2{\section*{#2}\list
+ {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
+ \advance\leftmargin\labelsep
+ \usecounter{enumi}}
+ \def\newblock{\hskip .11em plus .33em minus -.07em} \sloppy
+ \sfcode`\.=1000\relax}
+\let\endsubbib=\endlist
+\newcommand{\deq}{\stackrel{\rm def}{=}}
+\newcommand{\diff}{\stackrel{\rm def}{\Longleftrightarrow}}
+\newcommand{\enn}{\mathbb{N}}
+\newcommand{\err}{\mathbb{R}}
+\newcommand{\kw}[1]{\textbf{\texttt{#1}}}
+\newcommand{\lsem}{\llbracket}
+\newcommand{\rsem}{\rrbracket}
+\newcommand{\zet}{\mathbb{Z}}
+\newcommand{\afs}{\char"22}
+\newcommand{\backwhack}{\char`\\}
+\newcommand{\bang}{\char`!}
+\usepackage[roman-theorems]{QED}
+\newcommand{\drscheme}{DrRacket}
+
+\def\TheWordProof{\bf Beweis\enskip}
+
+%
+%\newtheorem{defn}{Definition}[chapter]
+%\newtheorem{bem}[defn]{Bemerkung}
+%\newtheorem{bsp}[defn]{Beispiel}
+%\newtheorem{dixit}[defn]{Algorithmus}
+%\newtheorem{exe}{Aufgabe}[chapter]
+%\newtheorem{lemma}[defn]{Lemma}
+%\newtheorem{punkt}[defn]{}
+%\newtheorem{satz}[defn]{Satz}
+%\newtheorem{spec}[defn]{Spezifikation}
+%\newtheorem{zus}[defn]{Zusammenfassung}
+%
+
+\newenvironment{beweis}{\begin{proof}}{\end{proof}}
+%
+\newenvironment{loes}[1]{\vspace{1ex}\trivlist\item[\hskip \labelsep {\bf L"osung #1:}\enskip]}%
+{\endtrivlist}
+%
+\newenvironment{labeling}[1]
+{%
+  \begin{list}{}
+  {%
+    \settowidth{\labelwidth}{#1}
+    \labelsep=1em
+    \leftmargin=\labelwidth \advance\leftmargin by \labelsep
+    \def\makelabel##1{##1\hfil}
+  }%
+}%
+{%
+  \end{list}
+}% 
+
+\newcommand{\rfivers}{R$^5$RS}
+
+% Grammar environment
+
+% \frobq will make quote and backquote look nicer.
+\def\frobqcats{%\catcode`\'=13
+\catcode`\`=13{}}
+{\frobqcats
+\gdef\frobqdefs{%\def'{\singlequote}
+\def`{\backquote}}}
+\def\frobq{\frobqcats\frobqdefs}
+\newcommand{\cf}{\frenchspacing\frobq\ttfamily}
+
+% Same as \obeycr, but doesn't do a \@gobblecr.
+{\catcode`\^^M=13 \gdef\myobeycr{\catcode`\^^M=13 \def^^M{\\}}%
+\gdef\restorecr{\catcode`\^^M=5 }}
+
+{\catcode`\^^I=13 \gdef\obeytabs{\catcode`\^^I=13 \def^^I{\hbox{\hskip 4em}}}}
+
+{\obeyspaces\gdef {\hbox{\hskip0.5em}}}
+
+\gdef\gobblecr{\@gobblecr}
+
+\def\setupcode{\@makeother\^}
+
+\newenvironment{grammar}{
+  \vspace{-3ex}%
+  \def\:{\goesto{}}%
+  \def\|{$\vert$}%
+  \cf \myobeycr%
+  \begin{tabbing}
+    %\qquad\quad \= 
+    \qquad \= $\vert$ \= \kill
+  }{\unskip\end{tabbing}\vspace{-3ex}}
+
+%\newcommand{\unsection}{\unskip}
+\newcommand{\unsection}{{\vskip -2ex}}
+
+% Commands for grammars
+\newcommand{\arbno}[1]{#1\hbox{\rm*}}  
+\newcommand{\atleastone}[1]{#1\hbox{$^+$}}
+\newcommand{\maybe}[1]{#1\hbox{$^?$}}
+
+\newcommand{\goesto}{\ensuremath{\rightarrow}}
+
+\newcommand{\meta}[1]{{\noindent\hbox%
+  {\textrm{\ensuremath{\langle}#1\ensuremath{\rangle}}}}}
+
+% #### \special{header=lpi90.dvips}
+
+\definecolor{featuregray}{gray}{0.90}
+
+\newsavebox{\featurebox}
+\newenvironment{feature}[2]%
+{%
+  \gdef\featurecaption{#1}
+  \gdef\featurelabel{#2}
+  \begin{figure}[th]
+  \begin{lrbox}{\featurebox}
+  \begin{minipage}[t]{\textwidth}
+}%
+{%
+  \end{minipage}
+  \end{lrbox}
+  \noindent
+  \shadowbox{\colorbox{featuregray}{\usebox{\featurebox}}}
+%  \framebox{\usebox{\featurebox}}
+  \caption{\featurecaption}
+  \label{\featurelabel}
+  \end{figure}
+}
+
+\newcommand{\free}{\operatorname{free}}
+\newcommand{\bound}{\operatorname{bound}}
+\newcommand{\var}{\operatorname{var}}
+
+\newcommand{\evalsto}{\ensuremath{\hookrightarrow}}
+\newcommand{\prints}{\ensuremath{\dashrightarrow}}
+
+\newcommand{\valof}[1]{{\(\lceil{}#1\rceil\)}}
+\newcommand{\redex}[1]{\(\underline{\texttt{#1}}\)}
+
+\begin{document}
+\setcounter{tocdepth}{1}
+\begin{titlepage}
+\title{Schreibe Dein Programm!\\{\large Einführung in die Programmierung}}
+\author{Herbert Klaeren \and Michael Sperber}
+\maketitle
+\bookcolophon{Copyright \textcopyright{} 2007-2014 by Herbert Klaeren and Michael
+  Sperber
+  
+  Dieses Buch ist lizensiert unter der Creative-Commons-Lizenz
+  \textit{Namensnennung 4.0 International (CC BY 4.0)}, nachzulesen
+  unter \url{http://creativecommons.org/licenses/by/4.0/deed.de}.
+}{%
+  Dieses Buch wurde mit \LaTeX{} gesetzt,
+  unter Verwendung der \textsf{suftesi}-Klasse
+  von Ivan Valbusa.}
+\end{titlepage}
+
+\thispagestyle{empty}
+
+\tableofcontents
+
+\setcounter{page}{1}
+
+\include{i1vorw}
+
+\include{i1prog}
+
+\include{i1verzw}
+
+\include{i1zus}
+
+\include{i1gem}
+
+\include{i1list}
+
+\include{i1indu}
+
+\include{i1rekzahlen}
+
+\include{i1hop}
+
+\include{i1world}
+
+\include{i1prop}
+
+\include{i1rek2}
+
+\include{i1akku}
+
+\include{i1tree}
+
+\include{i1refinement}
+
+\include{i1zust}
+
+\include{i1lambda}
+
+\include{i1secd}
+
+\appendix
+
+\include{i1math}
+
+\nocite{Klaeren1983,HailperinKaiserKnight1999,FelleisenFindlerFlattKrishnamurthi2001,AbelsonSussmanSussman1996,Barendregt1990,KelseyClingerRees1998,Goos1996,Thiemann1994-gfp,Brooks1995,Meyer1997,HuthRyan2004,Hofstadter1979,Raymond1996,FriedmanWandHaynes2001,BauerWoessner1984,Hinze1991}
+\bibliography{abbrevs,i1}
+\bibliographystyle{gerapali}
+
+
+\printindex
+
+\end{document}
+ 

@@ -1,0 +1,861 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter{Fallunterscheidungen und Verzweigungen}
+\label{cha:conditionals}
+
+Computerprogramme müssen bei manchen Daten, die sie
+verarbeiten, zwischen verschiedenen Möglichkeiten differenzieren: Ist
+die Wassertemperatur warm genug zum Baden?  Welche von fünf
+Tupperschüsseln ist für eine bestimmte Menge Kartoffelsalat groß
+genug?  Welches ist die richtige Abzweigung nach Dortmund?  Solche
+Entscheidungen sind daran festgemacht, daß ein Wert zu einer von mehreren
+verschiedenen 
+Kategorien gehören kann~-- es handelt sich dann um eine sogenannte
+\textit{Fallunterscheidung\index{Fallunterscheidung}}; 
+mathematische Funktionen und Scheme-Prozeduren operieren auf Daten mit
+Fallunterscheidung durch \textit{Verzweigungen\index{Verzweigung}}.
+Um diese geht es in diesem Kapitel.
+
+\section{Fallunterscheidungen}
+\label{sec:fallunterscheidungen}
+
+Zu den "`Flensburg"'-Punkten, die es bei Verstößen gegen die
+Straßenverkehrsordnung gibt, hat eine Seite im Internet folgendes zu
+sagen:
+%
+\begin{description}
+\item[0 bis 3 Punkte] Keine Sanktionen
+\item[4 bis 8 Punkte] Bei freiwilliger Teilnahme an Aufbauseminaren: 4 Punkte Abzug
+\item[8 bis 13 Punkte] Verwarnung und Hinweis auf freiwilliges Aufbauseminar
+\item[9 bis 13 Punkte] Bei freiwilliger Teilnahme an Aufbauseminaren: 2 Punkte Abzug
+\item[14 bis 17 Punkte] Teilnahme an Aufbauseminar wird angeordnet
+\item[14 bis 17 Punkte]
+Bei freiwilliger Teilnahme an verkehrspsychologischer Beratung: 2 Punkte Abzug
+\item[Ab 18 Punkte]
+Führerschein wird entzogen
+\end{description}
+%
+Wir können zu dieser Aufstellung eine Reihe von Fragestellungen
+bearbeiten, zum Beispiel welche Sanktionen durch eine bestimmte
+Punktezahl verpflichtend werden oder wieviele Punkte ein Autofahrer
+nach einer bestimmten Maßnahme noch auf dem Konto hat.  In jedem Fall
+teilt die Aufstellung mögliche Punktezahlen in bestimmte Kategorien
+ein, je nach Maßnahme.  Folgende Maßnahmen gibt es:
+%
+\begin{itemize}
+\item nichts
+\item Aufbauseminar
+\item verkehrspsychologische Beratung
+\item Führerscheinentzug
+\end{itemize}
+%
+Dies ist eine \textit{Aufzählung}\index{Aufzählung}.
+
+Wir fangen mit der Fragestellung an, welche Zwangsmaßnahme für eine
+bestimmte Punktezahl angeordnet wird.  Zwangsmaßnahmen gibt es nur
+drei: keine, Aufbauseminar und Führerscheinentzug, da die
+verkehrspsychologische Beratung rein freiwillig ist.  Entsprechend
+zerfällt die Punkteskala in drei Teile: $0-13$, $14-17$ und ab $18$.
+Die Punktezahl gehört also zu einer von drei
+\textit{Kategorien}\index{Kategorie}.
+
+Wenn die Menge, aus der ein Wert kommt, in eine feste
+Anzahl von Kategorien aufgeteilt wird und bei einem Wert nur die
+Kategorie zählt, ist diese Menge durch eine \textit{Fallunterscheidung} definiert.
+Aufzählungen sind damit auch Fallunterscheidungen.
+
+Eine Funktion, die  aus einem Punktestand die Zwangsmaßnahme ermittelt,
+sieht folgendermaßen aus:
+%
+\begin{displaymath}
+  m(p) \deq
+  \begin{cases}
+    \textit{nichts} & \textrm{falls $p \leq 13$}
+    \\
+    \textit{Aufbauseminar} & \textrm{falls $p \geq 14, p \leq 17$}
+    \\
+    \textit{Führerscheinentzug } & \textrm{falls $p \geq 18$}
+  \end{cases}
+\end{displaymath}
+%
+Die Notation mit der großen geschweiften Klammer heißt
+\textit{Verzweigung\index{Verzweigung}} (engl.\
+\textit{conditional\index{conditional}}); ein Ausdruck wie $p\leq 13$,
+der wahr oder falsch sein kann,
+heißt \textit{Bedingung\index{Bedingung}} oder
+\textit{Test\index{Test}}.
+
+\section{Boolesche Ausdrücke in Scheme}
+
+Tests gibt es auch in Scheme; sie sind dort Ausdrücke.
+Hier ein Beispiel:
+%
+\begin{alltt}
+(<= -5 0)
+\evalsto{} #t
+\end{alltt}
+%
+\texttt{(<= -5 0)} ist die Scheme-Schreibweise für $-5 \leq 0$.  Als Frage
+gestellt oder Aussage aufgefaßt, ist $-5 \leq 0$ "`wahr"'.
+\verb|#t|\index{#t@\verb/#t/} steht für "`true\index{true}"' oder
+"`wahr\index{wahr}"'.  \texttt{<=}\index{<=@\texttt{<=}} ist eine
+eingebaute Prozedur, welche auf "`kleiner gleich"' testet.  (Ebenso
+gibt es auch \texttt{=}\index{=@\texttt{=}} für $=$, 
+\texttt{<}\index{<@\texttt{<}} für $<$,
+\texttt{>}\index{>@\texttt{>}} für $>$ und
+\texttt{>=}\index{>=@\texttt{>=}} für $\geq$.)
+
+Ein Test kann auch negativ ausfallen:
+%
+\begin{alltt}
+(<= 5 0)
+\evalsto{} #f
+\end{alltt}
+%
+\verb|#f|\index{#f@\verb/#f/} steht für "`false"' oder "`falsch"'.
+"`Wahr"' und "`falsch"' heißen zusammen \textit{boolesche
+  Werte\index{boolescher Wert}} oder auch
+\textit{Wahrheitswerte\index{Wahrheitswert}}.\footnote{Die booleschen
+  Werte sind benannt nach \textit{George Boole}
+  (1815--1864), der zuerst einen algebraischen Ansatz für die
+  Behandlung von Logik mit den Werten "`wahr"' und "`falsch"'
+  formulierte.}
+
+Analog zu \texttt{=} für Zahlen können Zeichenketten mit
+\texttt{string=?}\index{string=?@\texttt{string=?}} verglichen werden:
+\begin{alltt}
+(string=? "Mike" "Mike")
+\evalsto{} #t
+(string=? "Herbert" "Mike")
+\evalsto{} #f
+\end{alltt}
+
+\verb|#t| und \verb|#f| sind wie Zahlen Literale, können also
+auch in Programmen stehen:
+%
+\begin{alltt}
+#t
+\evalsto{} #t
+#f
+\evalsto{} #f
+\end{alltt}
+%
+Auch mit booleschen Werten kann DrRacket rechnen.  Ein Ausdruck der
+Form\index{and@\texttt{and}}
+%
+\begin{alltt}
+(and \(e\sb{1}\) \(e\sb{2}\) \(\ldots\) \(e\sb{n}\))
+\end{alltt}
+%
+ergibt immer dann \verb|#t|, wenn alle $e_i$ \verb|#t| ergeben, sonst
+\verb|#f|.  Bei zwei Operanden $e_1$ und $e_2$ ergibt \texttt{(and
+  $e_1$ $e_2$)} immer dann \verb|#t|, wenn $e_1$ \emph{und} $e_2$
+\verb|#t| ergeben:
+%
+\begin{alltt}
+(and #t #t)
+\evalsto{} #t
+(and #f #t)
+\evalsto{} #f
+(and #t #f)
+\evalsto{} #f
+(and #f #f)
+\evalsto{} #f
+\end{alltt}
+%
+Entsprechend gibt es Ausdrücke der Form\index{or@\texttt{or}}
+%
+\begin{alltt}
+(or \(e\sb{1}\) \(e\sb{2}\) \(\ldots\) \(e\sb{n}\))
+\end{alltt}
+%
+die immer dann \verb|#t| ergeben, wenn \emph{einer} der $e_i$ \verb|#t| ergibt, sonst
+\verb|#f|.  Bei zwei Operanden $e_1$ und $e_2$ ergibt \texttt{(or
+  $e_1$ $e_2$)} immer dann \verb|#t|, wenn $e_1$ \emph{oder} $e_2$
+\verb|#t| ergeben:
+%
+\begin{alltt}
+(or #t #t)
+\evalsto{} #t
+(or #f #t)
+\evalsto{} #t
+(or #t #f)
+\evalsto{} #t
+(or #f #f)
+\evalsto{} #f
+\end{alltt}
+%
+Des weiteren gibt es noch eine eingebaute Prozedur
+\texttt{not}\index{not@\texttt{not}}, die einen booleschen Wert
+umdreht, sich also folgendermaßen verhält:
+%
+\begin{alltt}
+(not #f)
+\evalsto{} #t
+(not #t)
+\evalsto{} #f
+\end{alltt}
+%
+
+\section{Programmieren mit Fallunterscheidungen}
+
+Zurück zu den Punkten in Flensburg: Zunächst schreiben wir eine
+Prozedur, die zu einem gegebenen Punktestand die entsprechende
+Zwangsmaßnahme ausrechnet.  Fast alles, was zur Datenanalyse gehört,
+haben wir schon am Anfang des Kapitels gemacht: der Punktestand ist
+eine natürliche Zahl, eine Zwangsmaßnahme ist nichts, ein
+Aufbauseminar oder der Führerscheinentzug.  Diese Informationen müssen
+wir noch in Daten umwandeln~-- dazu benutzen wir einfach die
+entsprechenden Zeichenketten \verb|"nichts"|, \verb|"Aufbauseminar"|
+und \verb|"Führerscheinentzug"| und halten das Ergebnis in einem
+Kommentar fest:
+%
+\begin{alltt}
+; Eine Zwangsmaßnahme ist:
+; - "nichts"
+; - "Aufbauseminar"
+; - "Führerscheinentzug"
+\end{alltt}
+%
+Die Kurzbeschreibung der Prozedur könnte so aussehen:
+%
+\begin{alltt}
+; Zwangsmaßnahme bei Flensburg-Punktestand errechnen
+\end{alltt}
+%
+Eine passende Signatur ist diese
+hier:\index{points-must-do@\texttt{points-must-do}}\label{page:points-must-do}
+%
+\begin{alltt}
+(: points-must-do (natural -> (one-of "nichts"
+                                      "Aufbauseminar"
+                                      "Führerscheinentzug")))
+\end{alltt}
+%
+Die Konstruktion \texttt{one-of}\index{one-of@\texttt{one-of}}
+bei Signaturen ist neu: In der obigen
+Signatur bedeutet es, daß der Aggregatzustand einer der in der
+\texttt{one-of}-Signatur angegegebenen Werte ist, also eine der
+Zeichenketten \verb|"nichts"|, \verb|"Aufbauseminar"| und \verb|"Führerscheinentzug"|.
+
+Hier sind zwei mögliche Testfälle:
+%
+\begin{alltt}
+(check-expect (points-must-do 14) "Aufbauseminar")
+(check-expect (points-must-do 18) "Führerscheinentzug")
+\end{alltt}   
+%
+Es folgt das Gerüst der Prozedur:
+%
+\begin{alltt}
+(define points-must-do
+  (lambda (p)
+    ...))
+\end{alltt}
+%
+Auf jeden Fall muß das \texttt{p} irgendwo im Rumpf vorkommen:
+%
+\begin{alltt}
+(define points-must-do
+  (lambda (p)
+    ... p ...))
+\end{alltt}
+%
+\begin{feature}{Verzweigung}{scheme:cond}
+In Scheme werden Verzweigungen\index{Verzweigung}\index{Verzweigung}
+mit der Spezialform \texttt{cond}\index{cond@\texttt{cond}} dargestellt.
+Ein \texttt{cond}"=Ausdruck hat die folgende Form:
+%
+\begin{alltt}
+(cond
+  (\(t\sb{1}\) \(a\sb{1}\))
+  (\(t\sb{2}\) \(a\sb{2}\))
+  \(\ldots\)
+  (\(t\sb{n-1}\) \(a\sb{n-1}\))
+  (else \(a\sb{n}\))))
+\end{alltt}
+%
+Dabei sind die $t_i$ und die $a_i$ ihrerseits Ausdrücke.  Der
+\texttt{cond}-Ausdruck wertet nacheinander alle Tests $t_i$ aus;
+sobald ein Test $t_k$ \texttt{\#t} ergibt, wird der
+\texttt{cond}-Ausdruck durch das entsprechende $a_k$ ersetzt.  Wenn
+alle Tests fehlschlagen, wird durch $a_n$ ersetzt.  Die Paarungen
+\texttt{($t_i$ $a_i$)} heißen \textit{Zweige\index{Zweig}} des
+\texttt{cond}-Ausdruckes, und der Zweig mit \texttt{else} (auf deutsch
+"`sonst"') heißt
+\textit{\texttt{else}-Zweig\index{else-Zweig@\texttt{else}-Zweig}}.
+Der \texttt{else}-Zweig kann auch fehlen~-- dann sollte aber immer
+einer der Tests \texttt{\#t} ergeben.  Wenn doch einmal bei allen
+$t_i$ \verb|#f| herauskommen sollte, bricht \drscheme{} das Programm ab
+und gibt eine Fehlermeldung aus.
+\end{feature}
+%
+Jetzt brauchen wir, wie bei der mathematischen Funktion $m$ aus
+Abschnitt~\ref{sec:fallunterscheidungen}, eine Verzweigung, nur eben
+in Scheme.  Abbildung~\ref{scheme:cond} beschreibt das dafür
+zuständige \texttt{cond}.   Es ist also von vorneherein klar, daß eine
+\texttt{cond}-Form im Rumpf von \texttt{points-must-do} auftauchen muß:
+%
+\begin{alltt}
+(define points-must-do
+  (lambda (p)
+    (cond ... p ...)))
+\end{alltt}
+%
+Bei der Konstruktion der \texttt{cond}-Formen ist entscheidend,
+wieviele Zweige sie hat.  Dabei gibt es eine einfache Faustregel~-- da
+die Eingabe von \texttt{points-must-do}~-- die Punktzahl~-- in
+\emph{drei} Kategorien zerfällt, braucht die \texttt{cond}-Form auch
+\emph{drei} Zweige:
+%
+\begin{alltt}
+(define points-must-do
+  (lambda (p)
+    (cond
+      (... ...)
+      (... ...)
+      (... ...))))
+\end{alltt}
+%
+Wir benötigen jetzt für jeden \texttt{cond}-Zweig einen Test, der die
+entsprechende Kategorie bei den Punkten identifiziert.  Dazu müssen
+wir nur die entsprechenden Bedingungen aus der mathematischen Fassung
+nach Scheme übersetzen.  Heraus kommt folgendes:
+%
+\begin{alltt}
+(define points-must-do
+  (lambda (p)
+    (cond
+      ((<= p 13) ...)
+      ((and (>= p 14) (<= p 17)) ...)
+      ((>= p 18) ...))))
+\end{alltt}
+%
+Der letzte Schritt ist einfach~-- wir fügen für jeden Zweig die zum
+Test passende Maßnahme ein:
+%
+\begin{alltt}
+(define points-must-do
+  (lambda (p)
+    (cond
+      ((<= p 13) "nichts")
+      ((and (>= p 14) (<= p 17)) "Aufbauseminar")
+      ((>= p 18) "Führerscheinentzug"))))
+\end{alltt}
+%
+Fertig~-- könnte man meinen.  Wenn Sie das Programm in laufen lassen,
+meldet DrRacket zwei bestandene Tests.  Allerdings fällt Ihnen
+vielleicht auf, daß das Programm im Definitionsfenster nach dem Lauf
+so aussieht:
+%
+\begin{alltt}
+(define points-must-do
+  (lambda (p)
+    (cond
+      ((<= p 13) \colorbox{featuregray}{"nichts"})
+      ((and (>= p 14) (<= p 17)) "Aufbauseminar")
+      ((>= p 18) "Führerscheinentzug"))))
+\end{alltt}
+%
+Das \verb|"nichts"| ist farbig unterlegt, weil DrRacket diesen
+Ausdruck noch nie ausgewertet hat.  Das ist nicht gut, weil es heißt,
+daß der entsprechende Zweig durch die Tests noch nicht strapaziert
+wurde~-- er ist also möglicherweise fehlerhaft.  Anders gesagt: Die
+\textit{Abdeckung}\index{Abdeckung} des Programms durch die Tests ist
+unvollständig.  Wenn wir einen Testfall für den ersten Zweig ergänzen,
+verschwindet die farbige Unterlegung:
+%
+\begin{alltt}
+(check-expect (points-must-do 0) "nichts")
+\end{alltt}
+%
+Trotzdem ist der bestehende Satz an Tests noch suboptimal~-- wer sagt
+schließlich, daß das Programm zum Beispiel bei 13 Punkten, also genau
+an der Grenze zwischen dem ersten und zweiten Zweig, das richtige tut.
+Wir sollten für diese Eckfälle\index{Eckfall} auch Testfälle
+bereitstellen sowie einen Testfall, der sicherstellt, daß auch bei
+Punktzahlen oberhalb von 18 immer noch der Führerschein entzogen wird:
+%
+\begin{alltt}
+(check-expect (points-must-do 13) "nichts")
+(check-expect (points-must-do 17) "Aufbauseminar")
+(check-expect (points-must-do 100) "Führerscheinentzug")
+\end{alltt}
+
+\begin{mantra}[Abdeckung und Eckfälle]\label{mantra:coverage}
+  \input{mantra:coverage}
+\end{mantra}
+
+\section{Konstruktionsanleitung für Fallunterscheidungen}
+
+Bei der Konstruktion der Prozedur \texttt{points-must-do} haben wir
+ein bestimmtes Schema angewendet.  Dieses Schema geht zunächst von folgender
+Frage aus:
+%
+\begin{quote}
+  \emph{Wieviele} Kategorien gibt es bei der Fallunterscheidung?
+\end{quote}
+%
+Ist die Frage beantwortet~-- durch eine Zahl $n$~-- können wir bereits
+etwas Code in den Rumpf schreiben, nämlich eine Verzweigung mit $n$
+Zweigen:
+%
+\begin{alltt}
+(define \(p\)
+  (lambda (\ldots)
+    (cond
+      (... ...)
+      \ldots{}\hspace{1in}\textrm{(\(n\) Zweige)}
+      (... ...))))
+\end{alltt}
+%
+Solch ein "`Rumpf mit Lücken"' (die Ellipsen\index{Ellipse}
+\texttt{\ldots} stehen für noch zu ergänzende Programmteile) ist eine
+\textit{Schablone\index{Schablone}}.  Wir, die Autoren, empfehlen
+Ihnen, die Schablone bereits hinzuschreiben, wenn Sie die Anzahl der
+Kategorien bereits kennen, noch bevor Sie weiter über die
+Problemstellung nachdenken.  Das hilft oft, etwaige Denkblockaden zu
+lösen.
+
+Die Schablone folgt in diesem Fall aus der Struktur der Daten, also
+dem Ergebnis der Datenanalyse.  Es gibt noch andere Arten von Daten,
+jede mit ihrer eigenen Schablone.  Diese werden wir im Rest des Buchs
+entwickeln.
+Für alle folgenden Konstruktionsanleitungen gilt deshalb folgendes Mantra:
+
+\begin{mantra}[Schablone]\label{mantra:data-analysis}
+  \input{mantra:data-analysis}
+\end{mantra}
+
+Was die Fallunterscheidung betrifft, können wir die Schablone aber
+noch weiterentwickeln, indem wir Tests für die einzelnen Fälle der
+Fallunterscheidung ergänzen.
+
+Die Schablone für Fallunterscheidungen ist noch einmal
+als Konstruktionsanleitung~\ref{ka:fallunterscheidung} in
+Anhang~\ref{app:konstruktionsanleitungen} zusammenfaßt.
+(Konstruktionsanleitung~\ref{ka:allgemein} beschreibt die Konstruktion
+von Prozeduren im allgemeinen.)
+
+\section{Verkürzte Tests}
+
+Natürlich könnten wir die Prozedur auch leicht abkürzen:
+%
+\begin{alltt}
+(define points-must-do
+  (lambda (p)
+    (cond
+      ((<= p 13) "nichts")
+      ((<= p 17) "Aufbauseminar")
+      (else "Führerscheinentzug"))))
+\end{alltt}
+%
+Wenn die Auswertung den Test im zweiten Zweig erreicht, steht schon
+fest, daß die Punktezahl $\geq 14$ ist, da der Test \verb|(<= p 13)|
+fehlgeschlagen ist.  Diese Bedingung könnten wir also weglassen.
+Ebenso der letzte Test, der dadurch, daß \verb|(<= p 17)| \verb|#f|
+ergeben hat, immer \verb|#t| ergibt.  Allerdings sind die Zweige damit
+von ihrer Reihenfolge abhängig: Wenn wir zum Beispiel die ersten
+beiden Zweige vertauschten, funktioniert die Prozedur nicht mehr
+richtig.  In Fällen wie diesen, wo "`vollständige"' Tests einfach zu
+formulieren sind, empfiehlt es sich, dies auch zu tun.
+
+\begin{mantra}[Vollständige Tests]\label{mantra:comprehensive-tests}
+  \input{mantra:comprehensive-tests}
+\end{mantra}
+
+\section{Binäre Verzweigungen und syntaktischer Zucker}
+\label{sec:binaere-verzweigungen}
+
+Bei manchen Fallunterscheidungen definiert sich die letzte Kategorie
+dadurch, daß ein Wert in keine der anderen Kategorien gehört.  Dann
+ist die Benutzung eines \texttt{else}-Zweigs im \texttt{cond}
+sinnvoll.
+FIXME: Beispiel wäre schön, dann vielleicht früher.  
+Manchmal gibt es dabei nur zwei Kategorien, wie
+zum Beispiel beim Absolutbetrag.  Hier die Definition dazu in mathematischer
+Schreibweise:
+%
+\begin{displaymath}
+  |x| \deq{} \left\{\begin{array}{rl}
+      x & \textrm{falls } x \geq 0\\
+      -x & \textrm{andernfalls}
+    \end{array}
+    \right.
+\end{displaymath}
+%
+Die dazu passende Scheme-Prozedur unter Verwendung von \texttt{cond}
+sieht so aus:\index{abs@\texttt{abs}}
+%
+\begin{alltt}
+; Absolutbetrag einer Zahl berechnen
+(: absolute (number -> number))
+(define absolute
+  (lambda (x)
+    (cond
+     ((>= x 0) x)
+     (else (- x)))))
+\end{alltt}
+FIXME: besseres Beispiel
+
+%
+Dieser Spezialfall mit nur zwei Kategorien, genannt \textit{binäre
+  Verzweigung\index{binäre Verzweigung}\index{Verzweigung!binär}} kommt in der Praxis
+häufig vor.  In Scheme gibt es dafür eine eigene Spezialform,
+genannt \texttt{if\index{if@\texttt{if}}}, die hier kürzer ausfällt
+als \texttt{cond}:
+%
+\begin{alltt}
+(define absolute
+  (lambda (x)
+    (if (>= x 0)
+        x
+        (- x))))
+\end{alltt}
+%
+Eine \texttt{if}-Form hat folgende Form:
+%
+\begin{alltt}
+(if \(t\) \(k\) \(a\))
+\end{alltt}
+Dabei ist $t$ der Test und $k$ und $a$ sind die
+beiden Zweige: die \textit{Konsequente\index{Konsequente}} $k$ und die
+\textit{Alternative\index{Alternative}} $a$.  Abhängig vom Ausgang des
+Tests ist der Wert der Verzweigung entweder der Wert der Konsequente
+oder der Wert der Alternative.
+
+Tatsächlich ist \texttt{if} die "`primitivere"' Form als
+\texttt{cond}: jede \texttt{cond}-Form kann in eine äquivalente
+\texttt{if}-Form übersetzt werden, und zwar nach
+folgendem Schema:
+%
+\begin{alltt}
+(cond (\(t\sb{1}\) \(a\sb{1}\)) (\(t\sb{2}\) \(a\sb{2}\)) \(\ldots\) (\(t\sb{n-1}\) \(a\sb{n-1}\)) (else \(a\sb{n}\)))
+  \(\mapsto\) (if \(t\sb{1}\) \(a\sb{1}\) (if \(t\sb{2}\) \(a\sb{2}\) \ldots (if \(t\sb{n-1}\) \(a\sb{n-1}\) \(a\sb{n}\))\ldots))
+\end{alltt}
+%
+Die geschachtelte \texttt{if}-Form auf der rechten Seite der
+Übersetzung wertet, genau wie die \texttt{cond}-Form, nacheinander
+alle Tests aus, bis einer \verb|#t| liefert.  Die rechte Seite des
+\texttt{cond}-Zweigs ist dann gerade die Konsequente des \texttt{if}s.
+Erst wenn alle Tests fehlschlagen ist die Alternative des letzten
+\texttt{if}-Ausdrucks dran, nämlich $a_n$ aus dem \texttt{else}-Zweig.
+
+Da sich mit Hilfe dieser Übersetzung jede \texttt{cond}-Form durch
+geschachtelte \texttt{if}-Formen ersetzen läßt, ist \texttt{cond}
+streng genommen gar nicht notwendig.  \texttt{Cond} ist deswegen eine
+sogenannte \textit{abgeleitete Form\index{abgeleitete
+    Form}}\index{Form!abgeleitet}.  Da \texttt{cond} und andere
+abgeleitete Formen trotzdem praktisch und angenehm zu verwenden sind,
+heißen abgeleitete Formen auch \textit{syntaktischer
+  Zucker\index{syntaktischer Zucker}\index{Zucker, syntaktischer}}.
+
+Um die Funktionsweise von Verzweigungen genau zu beschreiben, dient
+folgende zusätzliche Regel für das Substitutionsmodell aus
+Abschnitt~\ref{sec:substitution-model}:
+%
+\begin{description}
+\item[binäre Verzweigungen] Bei der Auswertung einer Verzweigung wird
+  zunächst der Wert des Tests festgestellt.  Ist dieser Wert \verb|#t|,
+  so ist der Wert der Verzweigung der Wert der Konsequente.  Ist er
+  \verb|#f|, so ist der Wert der Verzweigung der Wert der
+  Alternative.  Ist der Wert des Tests kein boolescher Wert ist, ist das Programm fehlerhaft.
+\end{description}
+%
+Auch \texttt{and} und \texttt{or} sind eigentlich syntaktischer Zucker:
+Es ist immer möglich, einen \texttt{and}-Ausdruck in \texttt{if}s
+zu übersetzen.  Es gelten folgende Übersetzungsregeln:
+%
+\begin{alltt}
+(and) \(\mapsto\) #t
+(and \(e\sb{1}\) \(e\sb{2}\) \(\ldots\)) \(\mapsto\) (if \(e\sb{1}\) (and \(e\sb{2}\) \(\ldots\)) #f)
+\end{alltt}
+%
+Ein \texttt{and}-Ausdruck mit mehreren Operanden wird so schrittweise
+in eine Kaskade von \texttt{if}-Ausdrücken übersetzt:
+%
+\begin{alltt}
+(and a b c)
+\(\mapsto{}\) (if a (and b c) #f)
+\(\mapsto{}\) (if a (if b (and c) #f) #f)
+\(\mapsto{}\) (if a (if b (if c (and) #f) #f) #f)
+\(\mapsto{}\) (if a (if b (if c #t #f) #f) #f)
+\end{alltt}
+%
+Ebenso lassen sich \texttt{or}-Ausdrücke immer in
+\texttt{if}-Ausdrücke übersetzen, und zwar mit folgender Übersetzung:
+%
+\begin{alltt}
+(or) \(\mapsto\) #f
+(or \(e\sb{1}\) \(e\sb{2}\) \(\ldots\)) \(\mapsto\) (if \(e\sb{1}\) #t (or \(e\sb{2}\) \(\ldots\)))
+\end{alltt}
+%
+Beispiel:
+%
+\begin{alltt}
+(or a b c)
+\(\mapsto{}\) (if a #t (or b c))
+\(\mapsto{}\) (if a #t (if b #t (or c)))
+\(\mapsto{}\) (if a #t (if b #t (if c #t (or))))
+\(\mapsto{}\) (if a #t (if b #t (if c #t #f)))
+\end{alltt}
+
+\section{Signaturdefinitionen}
+
+Nehmen wir uns zu Übungszwecken noch eine weitere Aufgabe vor: Nehmen
+wir an, jemand nimmt bei einem bestimmten Punktestand in Flensburg an
+einer freiwilligen Maßnahme teil~-- was ist der Punktestand nach der
+Maßnahme?  Die bekannten Größen sind:
+%
+\begin{itemize}
+\item Punktestand vorher (natürliche Zahl)
+\item freiwillige Maßnahme (siehe Abschnitt~\ref{sec:fallunterscheidungen})
+\end{itemize}
+%
+Die unbekannte Größe ist der Punktestand nachher.
+
+Die Kurzbeschreibung könnte so lauten:
+%
+\begin{verbatim}
+; Punktestand in Flensburg senken
+\end{verbatim}
+%
+Die Signatur folgt aus der Datenanalyse:\index{improve-points@\texttt{improve-points}}
+%
+\begin{verbatim}
+(: improve-points (natural (one-of "nichts"
+                                   "Aufbauseminar"
+                                   "verkehrspsychologische Beratung"
+                                   "Führerscheinentzug")
+                    -> natural))
+\end{verbatim}
+%
+Der \texttt{one-of}-Teil der Signatur macht sich da ganz schön breit,
+zumal er sich weitgehend deckt mit dem entsprechenden Teil der
+Signatur von \texttt{points-must-do} auf
+Seite~\pageref{page:points-must-do}.  Entsprechend sollten wir genauso
+wie bei anderen Werten der Signatur für "`Flensburg"=Maßnahmen"' einen
+Namen geben.  Das geht mit einer fast ganz normalen Definition:\index{Signaturdefinition}
+%
+\begin{verbatim}
+(define action
+  (signature
+   (one-of "nichts"
+           "Aufbauseminar"
+           "verkehrspsychologische Beratung"
+           "Führerscheinentzug")))
+\end{verbatim}
+%
+Das Wörtchen \texttt{signature}\index{signature@texttt{signature}}\label{page:signature} ist aus technischen Gründen
+nötig.\footnote{Es sorgt unter anderem dafür, daß Signaturdefinitionen
+  in beliebiger Reihenfolge geschrieben werden und die Links in den
+  Fehlermeldungen von DrRacket auf die richtige Stelle zeigen.}
+Faustregel: Signaturen außerhalb von Formen \texttt{(: \ldots)} müssen immer in ein \texttt{(signature
+  \ldots)} eingeschachtelt werden..
+
+Mit dieser Definition gewappnet können wir die Signatur abkürzen:
+%
+\begin{verbatim}
+(: improve-points (natural action -> natural)) 
+\end{verbatim}
+%
+Entsprechend Mantra~\ref{mantra:coverage} versuchen wir, durch mehr
+Tests als noch bei \texttt{points-must-do} bessere Abdeckung zu
+erzielen:\label{page:improve-points-tests}
+%
+\begin{verbatim}
+(check-expect (improve-points 3 "Aufbauseminar") 3)
+(check-expect (improve-points 4 "nichts") 4)
+(check-expect (improve-points 4 "Aufbauseminar") 0)
+(check-expect (improve-points 8 "Aufbauseminar") 4)
+(check-expect (improve-points 9 "Aufbauseminar") 7)
+(check-expect (improve-points 13 "Aufbauseminar") 11)
+(check-expect (improve-points 14 "verkehrspsychologische Beratung") 12)
+(check-expect (improve-points 17 "verkehrspsychologische Beratung") 15)
+(check-expect (improve-points 18 "Aufbauseminar") 18)
+(check-expect (improve-points 18 "verkehrspsychologische Beratung") 18)
+\end{verbatim}
+%
+Hier das Gerüst:
+%
+\begin{verbatim}
+(define improve-points
+  (lambda (p a)
+    ...))
+\end{verbatim}
+%
+Bei der Konstruktion der Schablone müssen wir uns entscheiden, an
+welchem Parameter wir uns orientieren, \texttt{p} oder \texttt{a}.
+Die Entscheidung ist willkürlich~-- wir entscheiden uns erst einmal
+für \texttt{p}.  (Ausgehend von \texttt{a} kommt eine andere aber
+genauso gute Lösung heraus~-- das sei Ihnen in
+Aufgabe~\ref{aufgabe:improve-points-a} als Fingerübung empfohlen.)
+Bei \texttt{p} gibt es in Bezug auf diese Aufgabe fünf Kategorien:
+%
+\begin{description}
+\item[0--3 Punkte] Da bringt keine Maßnahme etwas.
+\item[4--8 Punkte] Da bringt ein Aufbauseminar 4 Punkte Abzug.
+\item[9--13 Punkte] Da bringt ein Aufbauseminar 2 Punkte Abzug.
+\item[14--17 Punkte] Da bringt eine verkehrspsychologische Beratung 2
+  Punkte Abzug.
+\item[über 18 Punkte] Auch hier hilft keine Maßnahme.
+\end{description}
+%
+Wir brauchen also ein \texttt{cond} mit fünf Zweigen:
+%
+\begin{verbatim}
+(define improve-points
+  (lambda (p a)
+    (cond
+      (... ...)
+      (... ...)
+      (... ...)
+      (... ...)
+      (... ...))))
+\end{verbatim}
+%
+Jetzt müssen wir Tests erfinden, die den Kategorien entsprechen:
+%
+\begin{verbatim}
+(define improve-points
+  (lambda (p a)
+    (cond
+      ((<= p 3) ...)
+      ((and (>= p 4) (<= p 8)) ...)
+      ((and (>= p 9) (<= p 13)) ...)
+      ((and (>= p 14) (<= p 17)) ...)
+      ((>= p 18) ...))))
+\end{verbatim}
+%
+Wir fangen mal mit den einfachsten Fällen an~-- unten und oben in der
+Punkteskala, wo sich nichts bewegt:
+%
+\begin{verbatim}
+(define improve-points
+  (lambda (p a)
+    (cond
+      ((<= p 3) p)
+      ((and (>= p 4) (<= p 8)) ...)
+      ((and (>= p 9) (<= p 13)) ...)
+      ((and (>= p 14) (<= p 17)) ...)
+      ((>= p 18) p))))
+\end{verbatim}
+%
+Im zweiten Zweig~-- zwischen vier und acht Punkten~-- zählt nur ein
+Aufbauseminar, alle anderen Maßnahmen bringen nichts.  Darum ist hier
+eine binäre Verzweigung angemessen:
+%
+\begin{verbatim}
+(define improve-points
+  (lambda (p a)
+    (cond
+      ...
+      ((and (>= p 4) (<= p 8))
+       (if (string=? a "Aufbauseminar")
+           (- p 4)
+           p))
+      ...)))
+\end{verbatim}
+%
+Entsprechend funktionieren auch der dritte und der vierte Zweig:
+%
+\begin{verbatim}
+(define improve-points
+  (lambda (p a)
+    (cond
+      ((<= p 3) p)
+      ((and (>= p 4) (<= p 8))
+       (if (string=? a "Aufbauseminar")
+           (- p 4)
+           p))
+      ((and (>= p 9) (<= p 13))
+       (if (string=? a "Aufbauseminar")
+           (- p 2)
+           p))
+      ((and (>= p 14) (<= p 17))
+       (if (string=? a "verkehrspsychologische Beratung")
+           (- p 2)
+           p))
+      ((>= p 18) p))))
+\end{verbatim}
+%
+Fertig!  Es gibt trotzdem noch einen Wermutstropfen: Die Abdeckung ist
+trotz der vielen Tests immer noch nicht vollständig~-- siehe
+Aufgabe~\ref{aufgabe:improve-points-coverage}
+
+\section{Unsinnige Daten abfangen}
+\label{sec:nonsensical-data}
+
+Noch einmal zurück zum Parkplatzproblem, das wir auf
+Seite~\ref{page:parking-lot-cars} programmiert hatten.  In
+Abschnitt~\ref{sec:nonsensical-data-prequel} auf
+Seite~\pageref{sec:nonsensical-data-prequel} hatten wir bereits
+bemerkt, daß die Prozedur
+\texttt{parking-lot-cars}\index{parking-lot-cars@\texttt{parking-lot-cars}}
+auch für unsinnige Daten fröhlich ebenso unsinnige Ergebnisse
+ermittelt.
+
+Auf Seite~\ref{page:parking-lot-problem} wurde bereits eine Bedingung
+für sinnvolle Daten formuliert: Wenn $n$ die Anzahl der Fahrzeuge und
+$m$ die Anzahl der Räder ist, dann muß $m$ gerade sein sowie $2n\leq
+m\leq 4n$ gelten.  Wir können das in einer binären Verzweigung zum
+Ausdruck bringen:
+%
+\begin{verbatim}
+(define parking-lot-cars
+  (lambda (vehicle-count wheel-count)
+    (if (and (even? wheel-count)
+             (<= (* 2 vehicle-count) wheel-count)
+             (<= wheel-count (* 4 vehicle-count)))
+        (/ (- wheel-count (* 2 vehicle-count))
+           2)
+        ...)))
+\end{verbatim}
+%
+Die eingebaute Prozedur \texttt{even?} akzeptiert eine ganze Zahl und
+liefert \verb|#t|, falls die Zahl gerade ist und \verb|#f|, falls sie
+ungerade ist~-- solche und viele andere nützliche Prozeduren finden
+Sie in der Dokumentation im Hilfezentrum unter "`Sprachebenen und
+Material zu \textit{Die Macht der Abstraktion}"' im Abschnitt
+"`Primitive Operationen"'.
+
+Nur~-- was tun im Fehlerfall?  Dazu gibt eine eingebaute Prozedur
+\texttt{violation}, die eine Fehlermeldung als Zeichenkette akzeptiert
+und, wenn sie aufgerufen wird, das Programm abbricht und die
+Fehlermeldung ausdruckt.  \texttt{Parking-lot-cars} sieht dann
+vollständig so aus:
+%
+\begin{verbatim}
+(define parking-lot-cars
+  (lambda (vehicle-count wheel-count)
+    (if (and (even? wheel-count)
+             (<= (* 2 vehicle-count) wheel-count)
+             (<= wheel-count (* 4 vehicle-count)))
+        (/ (- wheel-count (* 2 vehicle-count))
+           2)
+        (violation "unsinnige Daten"))))
+\end{verbatim}
+%
+Natürlich sollten wir auch den Fehlerfall testen~-- das geht nicht mit
+\texttt{check-expect}, das ja erwartet, daß ein Testausdruck einen
+ordnungsgemäßen Wert liefert.  Für Fehlerfälle gibt es
+\texttt{check-error}, das Testfälle erzeugt, die dann bestanden sind,
+wenn die Auswertung einen Fehler liefert:
+%
+\begin{verbatim}
+(check-error (parking-lot-cars 10 10)) ; zu wenige Räder
+(check-error (parking-lot-cars 3 9))   ; ungerade Räderzahl
+(check-error (parking-lot-cars 2 10))  ; zu viele Räder
+\end{verbatim}
+
+\section*{Aufgaben}
+
+TBD
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 

@@ -1,0 +1,132 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter*{Vorwort}
+\thispagestyle{empty}
+
+\markboth{Vorwort}{Vorwort}
+
+TBD
+
+\textit{Schreibe Dein Programm!} ist aus dem Vorgängerbuch \textit{Die
+  Macht der Abstraktion} entstanden, das seinerseits aus dem
+Vorgängerbuch \textit{Vom Problem zum Programm} entstanden ist.  Wir
+bemerkten nach der Veröffentlichung von\textit{Die Macht der
+  Abstraktion}, daß wir das Buch einerseits einem breiten Publikum
+einfach zugänglich machen wollten, andererseits kontinuierlich
+Verbesserungen einarbeiten wollten.  Beides war mit unserem damaligen
+Verleger leider nicht zu machen.  Entsprechend haben wir uns
+entschieden, unsere Arbeit unter neuem Titel fortzuführen und frei
+zugänglich zu machen.  Es wird hoffentlich die letzte Titeländerung
+bleiben.
+
+Wir hatten zwar bereits viel Material aus \textit{Die Macht der
+  Abstraktion} bis zur Unkenntlichkeit revidiert.  Die
+"`TBD"'-Abschnitte in \textit{Schreibe Dein Programm!} kennzeichnen
+Stellen, deren Notwendigkeit bereits in \textit{Die Macht der
+  Abstraktion} etabliert werde, die aber noch geschrieben werden
+müssen.
+
+\section*{Lehre mit diesem Buch}
+
+Das hier präsentierte Material entstammt einer Reihe von einführenden
+Vorlesungen zur Informatik für Haupt- und Nebenfachstudenten und für
+Geisteswissenschaftler sowie Erfahrungen in zahlreichen Fortbildungen.
+Inhalte und Präsentation wurden dabei unter
+Beobachtung der Studenten und ihres Lern\-er\-folgs immer wieder
+verbessert.  Der Stoff dieses Buchs entspricht einer einsemestrigen
+Vorlesung \textit{Informatik~I} mit vier Vorlesungsstunden und zwei
+Übungsstunden.
+
+Anhang~\ref{cha:math} erläutert die im Buch verwendeten mathematischen
+Notationen und Termini.
+
+\section*{Programmiersprache}
+
+Leider sind die heute in der Industrie populären Programmiersprachen
+für die Lehre nicht geeignet: ihre
+Abstraktionsmittel sind begrenzt, und das Erlernen ihrer komplizierten Syntax 
+kostet wertvolle Zeit und Kraft.
+
+Aus diesem Grund verwendet der vorliegende Text eine Serie von
+speziell für die Lehre entwickelten Programmiersprachen,
+die auf \textit{Rackett\index{Scheme}} und
+\textit{Scheme\index{Scheme}} basieren.  Diese sind über die
+\drscheme-Entwicklungsumgebung Anfängeren besonders gut zugänglich.
+
+\section*{Software und Material zum Buch}
+
+Die Programmierbeispiele dieses Buchs bauen auf der
+Programmierumgebung \drscheme{}\index{\drscheme{}} auf, die speziell für die
+Programmierausbildung entwickelt wurde.  Insbesondere unterstützt
+\drscheme{} die Verwendung sogenannter \textit{Sprachebenen}, Varianten
+der Sprache, die speziell für die Ausbildung zugeschnitten wurden.
+Dieses Buch benutzt spezielle Sprachebenen, die Teil der sogenannten
+\textit{DMdA-Erweiterungen}\index{DMdA-Erweiterungen} von \drscheme{} sind.
+
+\drscheme{} ist kostenlos im Internet auf der Seite
+\url{http://www.racket-lang.org/} erhältlich und läuft auf Windows-, Mac-
+und Unix-/Linux-Rechnern.  Die DMdA-Erweiterungen sind von der
+Homepage zu \textit{Schreibe Dein Programm!	} erhältlich:
+%
+\begin{verbatim}
+http://www.deinprogramm.de/
+\end{verbatim}
+%
+Dort steht auch eine Installationsanleitung.
+
+Auf der Homepage befindet sich weiteres Material zum Buch,
+insbesondere Quelltext für alle Programmbeispiele zum Herunterladen.
+ 
+\section*{Danksagungen}
+
+Wir, die Autoren, haben bei der Erstellung dieses Buchs immens von der
+Hilfe anderer profitiert.  Robert Giegerich, Ulrich Güntzer, Peter
+Thiemann, Martin Plümicke, Christoph Schmitz und Volker Klaeren
+machten viele Verbesserungsvorschläge zum Vorgängerbuch \textit{Vom
+  Problem zum Programm}.
+
+Martin Gasbichler hielt einen Teil der Vorlesungen der letzten
+\textit{Informatik I}, half bei der Entwicklung der DMdA-Erweiterungen
+und ist für eine große Anzahl von Verbesserungen verantwortlich, die
+sich in diesem Buch finden.  Eric Knauel, Marcus Crestani, Sabine
+Sperber, Jan-Georg Smaus und Mayte Fleischer brachten viele Verbesserungsvorschläge
+ein.  Andreas Schilling, Torsten Grust und Michael Hanus hielten
+Vorlesungen auf Basis dieses Buches und brachten ebenfalls viele
+Verbesserungen ein.
+Besonderer Dank gebührt den Tutoren und Studenten unserer Vorlesung
+\textit{Informatik I}, die eine
+Fülle wertvoller Kritik und exzellenter Verbesserungsvorschläge
+lieferten.
+
+Wir sind außerdem dankbar für die Arbeit unserer Kollegen, die
+Pionierarbeit in der Entwicklung von Konzepten für die
+Programmierausbildung geliefert haben.  Eine besondere
+Stellung nehmen Matthias Felleisen, Robert Bruce Findler, Matthew
+Flatt und Shriram Krishnamurthi und ihr Buch~\textit{How to Design
+  Programs} \cite{FelleisenFindlerFlattKrishnamurthi2001} ein, das
+entscheidende didaktische Impulse für dieses Buch gegegen hat.
+Felleisens Arbeit im Rahmen des PLT-Projekts hat uns stark beeinflußt;
+das PLT-\drscheme{}-System ist eine entscheidende Grundlage für die
+Arbeit mit diesem Buch.
+
+\begin{flushright}
+  Herbert Klaeren
+
+  Michael Sperber
+
+  Tübingen, April 2014
+\end{flushright}
+
+
+\newpage
+
+\thispagestyle{empty}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 
+

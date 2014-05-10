@@ -1,0 +1,307 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter{Prozeduren über natürlichen Zahlen}
+\label{cha:recursion-numbers}
+
+%\section{Prozeduren über natürlichen Zahlen} HK: Hier die einzige numerierte
+%section, also zunächst überflüssig
+\label{sec:factorial}
+
+Aus der induktiven Definition der natürlichen Zahlen ergibt sich direkt eine Schablone für die
+Konstruktion von Prozeduren auf den natürlichen Zahlen.  Angenommen,
+es sei eine Prozedur gefragt, die für eine Zahl $n$ das Produkt aller
+Zahlen von $1$ bis $n$ berechnet. 
+Dieses Produkt heißt 
+\textit{Fakultät}\index{Fakultät}, auf Englisch
+\textit{factorial\index{factorial@\texttt{factorial}}}. 
+  Beschreibung und Signatur sind wie folgt:
+%
+\begin{alltt}
+; das Produkt aller Zahlen von 1 bis n berechnen
+(: factorial (natural -> natural))
+\end{alltt}
+\label{page:factorial}
+%
+Das Gerüst ergibt sich aus der Signatur:
+%
+\begin{alltt}
+(define factorial
+  (lambda (n)
+    ...))
+\end{alltt}
+%
+Wie oben festgestellt, handelt es sich bei den natürlichen Zahlen um
+eine Fallunterscheidung mit zwei Fällen.  In der Schablone muß also
+eine Verzweigung mit zwei Fällen stehen:
+%
+\begin{alltt}
+(define factorial
+  (lambda (n)
+    (cond
+      (... ...)
+      (... ...))))
+\end{alltt}
+%
+Der erste Fall ist die 0, der andere Fall deckt alle anderen Zahlen
+ab:
+%
+\begin{alltt}
+(define factorial
+  (lambda (n)
+    (cond
+      ((= n 0) ...)
+      (else ...))))
+\end{alltt}
+%
+Diese Fallunterscheidung läßt sich leichter mit \texttt{if}
+schreiben:\footnote{Es wäre genauso richtig, beide Zweige
+  mit einem Test zu versehen, wie bei den Prozeduren über Listen:
+%
+\begin{alltt}
+(define factorial\\
+\hspace*{0em}~~(lambda (n)\\
+\hspace*{0em}~~~~(cond\\
+\hspace*{0em}~~~~~~((= n 0) ...)\\
+\hspace*{0em}~~~~~~((> n 0) ...))))
+\end{alltt}
+%
+Umgekehrt ließe sich auch die Fallunterscheidung bei 
+Listen mit \texttt{if} schreiben.  Welche
+Variante am besten ist, ist Geschmackssache.}
+%
+\begin{alltt}
+(define factorial
+  (lambda (n)
+    (if (= n 0)
+        ...
+        ...)))
+\end{alltt}
+%
+Der Fall 0 ist hier gar nicht so einfach zu beantworten.  Was sind
+schließlich "`die Zahlen von 1 bis 0"'?  Dafür ist der andere Zweig
+einfacher zu ergänzen: hier ist nämlich die Konstruktionsanleitung für
+zusammengesetzte Daten anwendbar.  Als Selektor wird die
+Vorgängeroperation angewendet, es steht also \texttt{(- n 1)} in der
+Alternative.
+Genau wie bei den endlichen Folgen liegt nahe, daß auf \texttt{(- n 1)} ein
+rekursiver Aufruf erfolgt:
+%
+\begin{alltt}
+(define factorial
+  (lambda (n)
+    (if (= n 0)
+        ...
+        ... (factorial (- n 1)) ...)))
+\end{alltt}
+%
+Der rekursive Aufruf \texttt{(factorial (- n 1))} soll nach
+Signatur und Beschreibung der Prozedur das Produkt der Zahlen von 1 bis
+$\texttt{n}-1$ berechnen.  Gefragt ist aber das Produkt der Zahlen von
+1 bis \texttt{n}.  Es fehlt noch \texttt{n} selbst, das mit dem
+Ergebnis multipliziert werden muß:
+%
+\begin{alltt}
+(define factorial
+  (lambda (n)
+    (if (= n 0)
+        ...
+        (* n (factorial (- n 1))))))
+\end{alltt}
+%
+Es fehlt schließlich noch der erste Zweig der \texttt{if}-Form.  In
+Fällen wie diesem, wo die Antwort nicht offensichtlich ist,
+lohnt es sich, ein oder zwei einfache Beispiele durchzurechnen, die meist die
+Antwort zwingend festlegen.  Das einfachste Beispiel ist wohl 1~--
+das Produkt der Zahlen von 1 bis 1 sollte 1 sein.  Auswertung mit dem
+Substitutionsmodell ergibt:
+
+\begin{alltt}
+(factorial 1)
+\(\Longrightarrow\) (if (= 1 0) ... (* 1 (factorial (- 1 1))))
+\(\Longrightarrow\) (if #f ... (* 1 (factorial (- 1 1))))
+\(\Longrightarrow\) (* 1 (factorial (- 1 1)))
+\(\Longrightarrow\) (* 1 (factorial 0))
+\(\Longrightarrow\) (* 1 (if (= 0 0) ... (* 0 (factorial (- 0 1)))))
+\(\Longrightarrow\) (* 1 (if #t ... (* 0 (factorial (- 0 1)))))
+\(\Longrightarrow\) (* 1 ...)
+\end{alltt}
+%
+Damit ist klar, daß die unbekannte Zahl, die an Stelle der 
+\texttt{...} stehen muß, multipliziert mit 1 wiederum 1 ergeben muß.
+Die einzige Zahl, die diese Bedingung erfüllt, ist 1 selbst.  Die
+vollständige Definition von \texttt{factorial} ist also:
+%
+\begin{alltt}
+(define factorial
+  (lambda (n)
+    (if (= n 0)
+        1
+        (* n (factorial (- n 1))))))
+\end{alltt}
+%
+An einem größeren Beispiel läßt sich anhand des Substitutionsmodells
+oder im Stepper besonders gut sehen, wie die Rekursion verläuft:
+%
+\begin{alltt}
+(factorial 4)
+\(\Longrightarrow\) (if (= 4 0) 1 (* 4 (factorial (- 4 1))))
+\(\Longrightarrow\) (if #f 1 (* 4 (factorial (- 4 1))))
+\(\Longrightarrow\) (* 4 (factorial (- 4 1)))
+\(\Longrightarrow\) (* 4 (factorial 3))
+\(\Longrightarrow\) (* 4 (if (= 3 0) 1 (* 3 (factorial (- 3 1)))))
+\(\Longrightarrow\) (* 4 (if #f 1 (* 3 (factorial (- 3 1)))))
+\(\Longrightarrow\) (* 4 (* 3 (factorial (- 3 1))))
+\(\Longrightarrow\) (* 4 (* 3 (factorial 2)))
+\(\ldots\)
+\(\Longrightarrow\) (* 4 (* 3 (* 2 (factorial 1))))
+\(\Longrightarrow\) (* 4 (* 3 (* 2 (if (= 1 0) 1 (* 1 (factorial (- 1 1)))))))
+\(\Longrightarrow\) (* 4 (* 3 (* 2 (if #f ... (* 1 (factorial (- 1 1)))))))
+\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (factorial (- 1 1))))))
+\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (factorial 0)))))
+\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (if (= 0 0) 1 (* 0 (factorial (- 0 1))))))))
+\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (if #t 1 (* 0 (factorial (- 0 1)))))))))
+\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 1))))
+\(\Longrightarrow\) (* 4 (* 3 (* 2 1)))
+\(\Longrightarrow\) (* 4 (* 3 2))
+\(\Longrightarrow\) (* 4 6)
+\(\Longrightarrow\) 24
+\end{alltt}
+%
+Die typischen Beobachtungen an diesem Beispiel sind:
+%
+\begin{itemize}
+\item \texttt{Factorial} ruft sich nie mit derselben Zahl $n$ auf, mit
+  der es selbst aufgerufen wurde, sondern immer mit $n-1$.
+\item Die natürlichen Zahlen sind so strukturiert, daß die Kette $n,
+  n-1, n-2 \ldots$ irgendwann bei 0 abbrechen muß.
+\item \texttt{Factorial} ruft sich bei $n=0$ \emph{nicht}
+  selbst auf.
+\end{itemize}
+%
+Aus diesen Gründen kommt der von
+\texttt{(factorial $n$)} erzeugte Berechnungsprozeß immer zum Schluß.  
+
+Aus der Definition von \texttt{factorial} ergibt sich eine
+Konstruktionsanleitung für Prozeduren, die natürliche Zahlen
+verarbeiten.  Die Schablone für solche Prozeduren sieht folgendermaßen aus:
+%
+\begin{alltt}
+(: proc (natural -> ...))
+(define \(p\)
+  (lambda (\(n\))
+    (if (= \(n\) 0)
+        ...
+        ... (\(p\) (- \(n\) 1)) ...)))
+\end{alltt}
+\label{sec:ka-recursion-numbers}
+%
+Konstruktionsanleitung~\ref{ka:N} in
+Anhang~\ref{app:konstruktionsanleitungen} faßt dies noch einmal
+zusammen.
+
+FIXME: Prozeduren, die Listen erzeugen etc.
+
+\section*{Aufgaben}
+
+\begin{aufgabe}
+  Schreibe eine Prozedur \texttt{power2}, die eine Zahl akzeptiert und
+  ihre Zweierpotenz zurückliefert.
+\end{aufgabe}
+
+\begin{aufgabe}\label{aufg:power}
+  Schreibe eine Prozedur \texttt{power}, die für eine Basis $b$ und
+  einen Exponenten $e\in\mathbb{N}$ gerade $b^e$ ausrechnet.  Also:
+\begin{alltt}
+(power 5 3)
+\evalsto{} 125
+\end{alltt}
+  \end{aufgabe}
+
+\begin{aufgabe}\label{ex:evensodds}
+  \begin{itemize}
+  \item
+    Die eingebaute Prozedur \texttt{even?}\index{even?@\texttt{even?}}
+    akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
+    gerade ist und \verb|#f| sonst.
+    Schreibe mit Hilfe von \texttt{even?}
+    eine Prozedur namens \texttt{evens}, welche für zwei
+    Zahlen $a$ und $b$ eine Liste der geraden Zahlen zwischen $a$ und
+    $b$ zurückgibt:
+\begin{alltt}
+(evens 1 10)
+\evalsto{} #<record:pair 2
+     #<record:pair 4
+       #<record:pair 6
+         #<record:pair 8
+           #<record:pair 10 #<empty-list>>>>>>
+\end{alltt}
+  \item
+    Die eingebaute Prozedur \texttt{odd?}\index{odd?@\texttt{odd?}}
+    akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
+    ungerade ist und \verb|#f| sonst.
+    Schreibe mit Hilfe von \texttt{odd?} eine Prozedur \texttt{odds}, welche für zwei Zahlen
+    $a$ und $b$ eine Liste die ungeraden Zahlen zwischen $a$ und $b$
+    zurückgibt:
+\begin{alltt}
+(odds 1 10)
+\evalsto{} #<record:pair 1
+     #<record:pair 3
+       #<record:pair 5
+         #<record:pair 7
+           #<record:pair 9 #<empty-list>>>>>>
+\end{alltt}
+  \end{itemize}
+\end{aufgabe}
+
+\begin{aufgabe}
+  Das folgende Zahlenmuster heißt das \textit{Pascalsche
+    Dreieck}:\index{Pascalsches Dreieck}
+  \begin{center}
+    1\\
+    1~~1\\
+    1~~2~~1\\
+    1~~3~~3~~1\\
+    1~~4~~6~~4~~1\\
+    \ldots
+  \end{center}
+  %
+  Die Zahlen an den Kanten des Dreiecks sind allesamt 1.  Eine Zahl im
+  Innern des Dreiecks ist die Summe der beiden Zahlen darüber.
+  Schreibe eine Prozedur \texttt{pascal}, die als Argumente die Nummer
+  einer Zeile und die Nummer einer "`Spalte"' innerhalb des Dreiecks
+  akzeptiert, und die Zahl im Pascalschen Dreieck berechnet.  (Sowohl
+  Zeilen- als auch Spaltennummer fangen bei~1 an.)
+%
+\begin{alltt}
+(pascal 5 3)
+\evalsto{} 6
+\end{alltt}
+\end{aufgabe}
+
+TBD
+\begin{aufgabe}\label{ex:coke-finances}
+  Schreibe eine Prozedur \texttt{drink-machine}, die das
+  Finanzmanagement eines Getränkeautomaten durchführt.
+  
+  \texttt{Drink-machine} soll drei Argumente akzeptieren: den Preis eines
+  Getränks (in Euro-Cents), eine Liste der Centbeträge der
+  Wechselgeldmünzen, die noch im Automaten sind, und den Geldbetrag,
+  den der Kunde eingeworfen hat.  (Also gibt es ein Listenelement pro
+  Münze. Falls z.B.\ mehrere Groschen im Automaten sind, finden sich
+  in der Liste mehrmals die Zahl 10.)  Herauskommen soll eine Liste
+  der Centbeträge der Münzen, welche die Maschine herausgibt oder
+  \verb|#f|, falls die Maschine nicht herausgeben kann.
+  %
+\begin{alltt}
+(drink-machine 140 (list 50 100 500 10 10) 200)
+\evalsto{} #<list 50 10>
+\end{alltt}
+\end{aufgabe}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 

@@ -1,0 +1,301 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter{Fortgeschrittenes Programmieren mit Rekursion}
+\label{cha:recursion-advanced}
+
+FIXME: Vielleicht sowas wie Mergesort, parallele Listenverarbeitung
+
+\section{Lastwagen optimal beladen}
+
+FIXME: Backtracking sagen
+
+Hier ist ein weiteres Problem, zu dessen Lˆsung 
+Listen hervorragend taugen:
+Die Aufgabe ist, einen Lastwagen optimal auszulasten: Aus einem Lager mit zu
+transportierenden Artikeln, jeder mit einem bestimmten Gewicht, sind solche Artikel
+auszuw‰hlen, dass die Tragf‰higkeit des Lastwagens mˆglichst gut ausgeschˆpft
+wird.
+
+F¸r die Lˆsung muﬂ erst einmal festgelegt werden, wie Ein- und Ausgabe
+des Programms aussehen sollen.  Die elementare Grˆﬂe im Problem ist
+ein \textit{Artikel}, der aus einer Artikelnummer und seinem Gewicht
+besteht.  Folgende Daten- und Record-Definition passen dazu:\index{title@\texttt{title}}
+%
+\begin{alltt}
+; Ein Artikel ist ein Wert
+;  (make-article n w)
+; wobei n die Nummer des Artikels ist
+; und w das Gewicht des Artikels in Kilo
+(define-record-procedures article
+  make-article article?
+  (article-number article-weight))
+\end{alltt}
+%
+Ein Beispiel-Lager wird durch die folgende
+Liste beschrieben:
+%
+\begin{alltt}
+; Ein Beispiel-Lager
+(: stock (list(article))
+(define stock
+  (list (make-article 1 274)
+        (make-article 2 203)
+        (make-article 3 268)
+        (make-article 4 264)
+        (make-article 5 229)
+        (make-article 6 406)
+        (make-article 7 220)
+        (make-article 8 232)
+        (make-article 9 356)
+        (make-article 10 197)
+        (make-article 11 207)
+        (make-article 12 373)))
+\end{alltt}
+%
+Die Lˆsung des Problems soll eine Prozedur \texttt{load-list}
+sein, welche eine Liste der Artikel zur¸ckliefert, die in den Lastwagen geladen
+werden sollen.  Neben der Liste der Artikel braucht
+\texttt{load-list} auch noch die Tragf‰higkeit eines Lastwagens.  Die
+Prozedur soll Kurzbeschreibung und Signatur wie folgt haben:\index{load-list@\texttt{load-list}}
+%
+\begin{alltt}
+; Maximale Liste von Artikeln berechnen, 
+; die auf einen Lastwagen passen
+(: load-list (list(article) number -> list(article))
+\end{alltt}
+%
+Im Fall des Beispiel-Lagers und eines Lastwagens mit 1800 kg Tragf‰higkeit
+soll folgendes
+passieren, wenn das Programm fertig ist:
+%
+\begin{alltt}
+(load-list stock 1800)
+\evalsto{} #<list #<record:article 1 274> #<record:article 2 203>
+          #<record:article 3 268> #<record:article 6 406>
+          #<record:article 7 220> #<record:article 8 232> 
+          #<record:article 10 197>>
+\end{alltt}
+%
+Die Prozedur arbeitet auf Listen, was folgende Schablone nahelegt:
+%
+\begin{alltt}
+(define load-list
+  (lambda (articles capacity)
+    (cond
+     ((empty? articles) ...)
+     ((pair? articles)
+      ... (first articles) ...
+      ... (load-list (rest articles) capacity) ...))))
+\end{alltt}
+%
+Wenn keine Artikel da sind, kommen
+auch keine in den Lastwagen.  Die Liste im ersten Zweig ist also leer.  Der
+zweite Fall ist etwas komplizierter.
+Das liegt daran, daﬂ es dort
+eine weitere Fallunterscheidung gibt, je nach dem ersten Artikel
+\texttt{(first articles)}:
+die Prozedur muﬂ entscheiden, ob dieser erste
+Artikel schlieﬂlich in den Lastwagen kommen soll oder nicht.
+Ein erstes Ausschluﬂkriterium ist, wenn der Artikel schwerer ist als die
+Tragf‰higkeit erlaubt:
+%
+\begin{alltt}
+(define load-list
+  (lambda (articles capacity)
+    (cond
+     ((empty? articles) empty)
+     ((pair? articles)
+        (if (> (article-weight (first articles)) capacity)
+            (load-list (rest articles) capacity)
+            ... (load-list (rest articles) capacity) ...)))))
+\end{alltt}
+%
+Damit ist die Frage, ob der erste Artikel im Lastwagen landet, aber immer
+noch nicht abschlieﬂend beantwortet.  Schlieﬂlich muﬂ
+\texttt{load-list} noch entscheiden, ob unter Verwendung dieses
+Artikels der Lastwagen optimal vollgepackt werden
+kann.  Dazu muﬂ die Prozedur vergleichen, wie ein Lastwagen \emph{mit}
+dem ersten Artikel und wie er \emph{ohne} diesen Artikel am besten
+vollgepackt werden w¸rde.   Die Variante "`ohne"' wird mit folgendem
+Ausdruck ausgerechnet:
+%
+\begin{alltt}
+  (load-list (rest articles) capacity)
+\end{alltt}
+%
+Die Variante "`mit"' ist etwas trickreicher~-- sie entsteht, wenn im
+Lastwagen der Platz f¸r den ersten Artikel reserviert wird und
+der Rest der Tragf‰higkeit mit den restlichen Artikeln optimal gef¸llt wird.
+Die optimale F¸llung f¸r den Rest wird mit folgendem Ausdruck
+berechnet, der die Induktionsannahme f¸r \texttt{load-list} benutzt:
+%
+\begin{alltt}
+  (load-list (rest articles) 
+                 (- capacity (article-weight (first articles))))
+\end{alltt}
+%
+Die vollst‰ndige Artikelliste entsteht dann durch nachtr‰gliches
+Wieder-Anh‰ngen des ersten Artikels:
+%
+\begin{alltt}
+  (make-pair (first articles)
+             (load-list (rest articles)
+                            (- capacity (article-weight (first articles)))))
+\end{alltt}
+%
+Diese beiden Listen m¸ssen jetzt nach ihrem Gesamtgewicht verglichen
+werden.  Die Liste mit dem grˆﬂeren Gewicht gewinnt.  Als erster
+Schritt werden die beiden obigen Ausdr¸cke in die Schablone eingef¸gt:
+%
+\begin{alltt}
+(define load-list
+  (lambda (articles capacity)
+    (cond
+     ((empty? articles) empty)
+     ((pair? articles)
+        (if (> (article-weight (first articles)) capacity)
+            (load-list (rest articles) capacity)
+            ... (load-list (rest articles) capacity) ...
+            ... (make-pair (first articles)
+                           (load-list
+                             (rest articles)
+                             (- capacity
+                                (article-weight (first articles)))))
+            ...)))))
+\end{alltt}
+%
+Die Ausdr¸cke f¸r die beiden Alternativen sind in dieser Form 
+unhandlich groﬂ, was die Prozedur schon un¸bersichtlich macht, bevor
+sie ¸berhaupt fertig ist.
+Es lohnt sich also, ihnen Namen zu geben:
+%
+\begin{alltt}
+(define load-list
+  (lambda (articles capacity)
+    (cond
+     ((empty? articles) empty)
+     ((pair? articles)
+        (if (> (article-weight (first articles)) capacity)
+            (load-list (rest articles) capacity)
+            (let ((articles-1 (load-list (rest articles) capacity))
+                  (articles-2
+                    (make-pair (first articles)
+                               (load-list
+                                 (rest articles)
+                                 (- capacity 
+                                    (article-weight (first articles)))))
+              ...))))))))
+\end{alltt}
+%
+Der Ausdruck
+\texttt{(article-weight (first articles))} kommt zweimal vor.  Die Einf¸hrung einer
+weiteren lokalen Variable macht die Prozedur noch ¸bersichtlicher:
+%
+\begin{alltt}
+(define load-list
+  (lambda (articles capacity)
+    (cond
+     ((empty? articles) empty)
+     ((pair? articles)
+      (let ((first-weight (article-weight (first articles))))
+        (if (> first-weight capacity)
+            (load-list (rest articles) capacity)
+            (let ((articles-1 (load-list (rest articles) capacity))
+                  (articles-2
+                    (make-pair (first articles)
+                               (load-list
+                                 (rest articles)
+                                 (- capacity first-weight)))
+              ...)))))))))
+\end{alltt}
+%
+Zur¸ck zur eigentlichen Aufgabe: \texttt{articles-1} und
+\texttt{articles-2} sollen hinsichtlich ihres Gewichts verglichen werden.
+Dies muﬂ nat¸rlich berechnet werden.  Da daf¸r noch eine Prozedur
+fehlt, kommt Wunschdenken zur Anwendung:\index{articles-weight@\texttt{articles-weight}}
+%
+\begin{alltt}
+; Gesamtgewicht einer Liste von Artikeln berechnen
+(: articles-weight (list(article) -> number)
+\end{alltt}
+% 
+Damit kann \texttt{load-list} vervollst‰ndigt werden:
+%
+\begin{alltt}
+(define load-list
+  (lambda (articles capacity)
+    (cond
+     ((empty? articles) empty)
+     ((pair? articles)
+      (let ((first-weight (article-weight (first articles))))
+        (if (> first-weight capacity)
+            (load-list (rest articles) capacity)
+            (let ((articles-1 (load-list (rest articles) capacity))
+                  (articles-2
+                   (make-pair (first articles)
+                              (load-list
+                                (rest articles) 
+                                (- capacity first-weight)))))
+              (if (> (articles-weight articles-1)
+                     (articles-weight articles-2))
+                  articles-1
+                  articles-2))))))))
+\end{alltt}
+%
+Es fehlt noch \texttt{articles-weight}, die wieder streng nach Anleitung
+geht und f¸r welche die Schablone folgendermaﬂen aussieht:
+%
+\begin{alltt}
+(define articles-weight
+  (lambda (articles)
+    (cond
+     ((empty? articles) ...)
+     ((pair? articles)
+      ... (first articles) ...
+      ... (articles-weight (rest articles)) ...))))
+\end{alltt}
+%
+Das Gesamtgewicht der leeren Liste ist 0~-- der erste Fall ist also
+wieder einmal einfach.  Im zweiten Fall interessiert vom ersten
+Artikel nur das Gewicht:
+%
+\begin{alltt}
+(define articles-weight
+  (lambda (articles)
+    (cond
+     ((empty? articles) 0)
+     ((pair? articles)
+      ... (article-weight (first articles)) ...
+      ... (articles-weight (rest articles)) ...))))
+\end{alltt}
+%
+Nach Induktionsannahme liefert \texttt{(articles-weight (rest articles))} das
+Gewicht der restlichen Artikel.  Das Gewicht des ersten Artikels muﬂ also
+nur addiert werden:
+%
+\begin{alltt}
+(define articles-weight
+  (lambda (articles)
+    (cond
+     ((empty? articles) 0)
+     ((pair? articles)
+      (+ (article-weight (first articles))
+         (articles-weight (rest articles)))))))
+\end{alltt}
+%
+Mit \texttt{articles-weight} l‰ﬂt sich bestimmen, wie voll der
+Lastwagen beladen ist.  Im Falle von \texttt{stock} ist das
+Ergebnis sehr erfreulich; kein Platz wird verschenkt:
+%
+\begin{alltt}
+(articles-weight (load-list stock 1800))
+\evalsto{} 1800
+\end{alltt}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 

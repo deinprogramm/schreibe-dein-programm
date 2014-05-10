@@ -1,0 +1,536 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter{Elemente des Programmierens}
+\label{cha:whats-programming}
+
+TBD
+
+\section{Handwerkszeug für das Programmieren}
+
+In diesem Kapitel wird zum ersten Mal die Programmierumgebung
+\textit{\drscheme{}\index{\drscheme{}}} verwendet.  (Bezugsquelle und
+weitere Hinweise dazu stehen im Vorwort.)  Zur Verwendung mit diesem
+Buch müssen in \drscheme{} die DMdA-Sprachebenen\index{DMdA-Sprachebene} aktiviert
+werden.  Dies geschieht durch Auswahl des Menüpunkts \texttt{Sprache
+  $\rightarrow$ Sprache auswählen} (bzw.\ \texttt{Language
+  $\rightarrow$ Choose language} in der englischen Fassung), worauf
+ein Dialog zur Auswahl von sogenannten
+\textit{Sprach\-ebe\-nen\index{Sprachebene}} erscheint.  Dort gibt es
+in der Abteilung \texttt{Lehrsprachen} eine Überschrift namens
+\texttt{DeinProgramm}, unterhalb dessen mehrere Einträge erscheinen, die
+speziell auf die Kapitel dieses Buchs zugeschnitten sind.
+
+Für den ersten Teil des Buches ist die Ebene \texttt{Die Macht der
+  Abstraktion - Anfänger} zuständig.\index{Sprachebene!Anfänger}  In Kapitel~\ref{cha:rek} wird
+auf \texttt{Die Macht der Abstraktion} (ohne "`Anfänger"'), und in
+Kapitel~\ref{cha:assignment} auf \texttt{Die Macht der Abstraktion mit
+  Zuweisungen} umgeschaltet.  In Kapitel~\ref{cha:secd} kommt
+schließlich \texttt{Die Macht der Abstraktion - fortgeschritten} zum Einsatz.
+
+\drscheme{}
+bietet dem Programmierer ein zweigeteiltes Fenster:
+%
+\begin{enumerate}
+\item In der oberen Hälfte des Fensters (dem
+  \textit{Editor\index{Editor}} oder
+  \textit{Definitionsfenster\index{Definitionsfenster}}) steht der
+  Programmtext.  Der Editor funktioniert ähnlich wie ein reguläres
+  Textverarbeitungsprogramm.
+\item In der unteren Hälfte des Fensters (dem
+  \textit{Interaktionsfenster\index{Interaktionsfenster}}) werden die 
+  Ausgaben des Programms angezeigt.   Außerdem kann
+  der Programmierer hier "`Fragen"' an das Programm stellen, um
+  einzelne Programmteile gezielt auszuprobieren.
+
+  Im Interaktionsfenster berechnet \drscheme{} die
+  Antworten sofort nach Druck auf die Return-Taste und
+  druckt diese aus.  Der Inhalt des
+  Interaktionsfensters kann allerdings nicht direkt abgespeichert werden.  Der Editor ist
+  also für den entstehenden Programmtext gedacht, das Interaktionsfensters zum
+  schnellen Ausprobieren.
+\end{enumerate}
+%
+
+\begin{figure}[tb]
+  \begin{center}
+    TDB
+    \caption{Das Interaktionsfenster von \drscheme{}}
+    \label{fig:drscheme}
+  \end{center}
+\end{figure}
+%
+TBD
+
+\section{Bausteine für Programme}
+\label{sec:programming-elements}
+
+TBD
+
+\section{Rechnen ohne Zahlen}
+
+Ausdrücke und Werte gibt es in Computerprogrammen nicht nur in Form
+von Zahlen.  Zum Beispiel gibt es auch Text, wie in
+Abbildung~\ref{scheme:comment} beschrieben.
+(Kästen wie Abbildung~\ref{scheme:comment} werden in diesem
+Buch noch oft dazu dienen, neue Sprachelemente einzuführen.)
+
+\begin{feature}{Zeichenketten}{scheme:strings}
+\textit{Zeichenketten\index{Zeichenkette}} (auf Englisch
+\textit{Strings}\index{String}) repräsentieren Text.
+Literale für Zeichenketten haben folgende Form:
+%
+\begin{alltt}
+"\(z\sb{1}\)\(z\sb{2}\) \(\ldots\) \(z\sb{n}\)"
+\end{alltt}
+%
+Dabei sind die \(z\sb{i}\) beliebige einzelne Zeichen, außer \verb|"| selbst.
+Beispiel:
+%
+\begin{alltt}
+"Mike was here!"
+\end{alltt}
+%
+Das Anführungszeichen (\verb|"|) kann nicht "`ungeschützt"' vorkommen, da es das Ende der
+Zeichenkette markiert. Es wird als Zeichen innerhalb einer Zeichenkette
+durch \verb|\"| dargestellt:
+%
+\begin{alltt}
+"Herbert sagt, Mike wäre \backwhack{}"doof\backwhack{}"!"
+\end{alltt}
+\end{feature}
+%
+Mit Text kann DrRacket auch rechnen, und zwar mit der eingebauten
+Prozedur \texttt{string-append}\index{string-append@\texttt{string-append}}, die zwei Zeichenketten
+aneinanderhängt:
+%
+\begin{alltt}
+(string-append "Herbert" "Mike")
+\evalsto{} "HerbertMike"
+(string-append "Mike" " " "ist doof")
+\evalsto{} "Mike ist doof"
+\end{alltt}
+%
+Die eingebaute Prozedur
+\texttt{string-length}\index{string-length@\texttt{string-length}}
+liefert die Anzahl der Buchstaben in einer Zeichenkette:
+%
+\begin{alltt}
+(string-length "Herbert")
+\evalsto{} 7
+(string-length "Mike")
+\evalsto{} 4
+\end{alltt}
+%
+Die Prozeduren
+\texttt{string->number}\index{string->number@\texttt{string->number}}
+und \texttt{number->string} konvertieren zwischen Zahlen und den
+Zeichenketten, die diese darstellen:
+%
+\begin{alltt}
+(string->number "23")
+\evalsto{} 23
+(number->string 23)
+\evalsto{} "23"
+\end{alltt}
+%
+Programme können auch mit Bildern rechnen.  Dazu wird eine
+Erweiterung zu DrRacket benötigt, ein sogenanntes
+\textit{Teachpack}\index{Teachpack}:  Wählen Sie dazu im Menü
+\texttt{Sprache} den Punkt \texttt{Teachpack hinzufügen} und wählen
+Sie \texttt{image2.ss} aus.  Danach können Sie zum Beispiel ins
+Programm schreiben:
+%
+\begin{alltt}
+(square 40 "solid" "red")
+\evalsto{} \includegraphics[width=1cm]{square.eps}
+(circle 40 "solid" "green")
+\evalsto{} \includegraphics[width=1cm]{circle.eps}
+(star-polygon 20 10 3 "solid" "blue")
+\evalsto{} \includegraphics[width=1cm]{starpolygon.eps}
+\end{alltt}
+%
+Diese Bilder sind Werte wie Zahlen und Zeichenketten auch.
+Insbesondere können Sie mit Definitionen an Namen gebunden werden:
+%
+\begin{verbatim}
+(define s1 (square 40 "solid" "slateblue"))
+(define c1 (circle 40 "solid" "slateblue"))
+(define p1 (star-polygon 20 10 3 "solid" "cornflowerblue"))
+\end{verbatim}
+%
+Mit Bildern kann DrRacket ebenfalls rechnen:
+%
+\begin{alltt}
+(beside/align "bottom" s1 c1 p1)
+\evalsto{} \includegraphics[width=1cm]{square.eps}\includegraphics[width=1cm]{circle.eps}\includegraphics[width=1cm]{starpolygon.eps}
+\end{alltt}              
+%
+Bilder und Animationen mit Bildern werden ausführlich in
+Kapitel~\ref{cha:representation-and-state} behandelt.
+
+\section{Namen und Definitionen}
+
+TBD
+
+\section{Information und Daten}
+
+Eine Definition wie
+%
+\begin{alltt}
+(define mehrwertsteuer 19)
+\end{alltt}
+%
+suggeriert, daß die Zahl 19 an dieser Stelle eine Bedeutung "`in der
+realen Welt"' hat, zum Beispiel in einem Programm, das eine Registrierkasse
+steuert oder das bei der Steuererklärung hilft.  Die Bedeutung könnte
+folgende Aussage sein: "`Der Mehrwertsteuersatz beträgt 19\%."'
+Dieser Satz repräsentiert \textit{Information}\index{Information},
+also ein Fakt über die Welt oder zumindest den Ausschnitt der Welt, in
+dem das Programm arbeiten soll.  Im Computerprogrammen wird
+Information in eine vereinfachte Form gebracht, mit das Programm
+rechnen kann~-- in diesem Fall die Zahl 19.  Diese vereinfachte Form
+heißt \textit{Daten}\index{Daten}: Daten sind
+\textit{Repräsentationen}\index{Repräsentation} für Informationen.
+Beim Programmieren ist eine
+unserer Hauptaufgaben entsprechend, die richtigen Form für die Daten
+zu wählen, um die für das Programm relevanten Informationen
+darzustellen die Informationen dann in Daten zu übersetzen.
+
+Nicht immer ist offensichtlich, welche Information durch bestimmte
+Daten repräsentiert werden.  Das Datum 23 zum Beispiel könnte eine Reihe
+von Informationen darstellen:
+%
+\begin{itemize}
+\item die Anzahl der Haare von Bruce Willis
+\item die aktuelle Außentemperatur in °C in Tübingen
+\item die Außentemperatur vom 1.7.2000 in °C in Tübingen
+\item die Größe in m$^2$ des Schlafzimmers
+\item die Rückennummer von Michael Jordan
+\end{itemize}
+%
+Damit andere unsere Programme lesen können, werden wir also immer
+wieder klarstellen müssen, wie Information in Daten zu übersetzen ist
+und umgekehrt.
+
+Manche Programme können auch Informationen direkt verarbeiten, meist
+dadurch, daß sie diese erst in Daten übersetzen und dann die Daten
+weiterverarbeiten.  Der Teil, der diese Übersetzung leistet, heißt
+\textit{Benutzerschnittstelle}\index{Benutzerschnittstelle}.  Zunächst
+werden wir uns allerdings primär mit rein datenverarbeitenden
+Programmen beschäftigen; Benutzerschnittstellen kommen später.
+
+\section{Abstraktion}
+
+TBD
+
+\section{Kurzbeschreibung und Signatur}
+\label{sec:sorts-and-contracts}
+
+Angenommen, die Prozedurdefinition von \texttt{parking-lot-cars} wird
+an jemanden weitergegeben, der dieses Buch nicht gelesen hat, aber die
+Prozedur trotzdem einsetzen soll.  Der potentielle Leser kann zwar
+das Scheme-Programm prinzipiell verstehen, hat aber keinen weiteren
+Hinweis darauf, wofür \texttt{parking-lot-cars} verwendet werden kann.
+
+\begin{feature}{Kommentare}{scheme:comment}
+  In Scheme kennzeichnet ein Semikolon \texttt{;} einen 
+  \textit{Kommentar\index{Kommentar}}.  Der Kommentar erstreckt sich
+  vom Semikolon bis zum Ende der Zeile und wird vom Scheme-System
+  ignoriert.
+\end{feature}
+
+Das Problem ist, daß die Definition von \texttt{parking-lot-cars} 
+das Endprodukt des Denkprozesses ist, der in Kapitel~\ref{cha:intro}
+beschrieben wurde.  Der Denkprozeß selbst, der mit der Aufgabenstellung
+anfängt, ist nicht Teil der Definition.  Darum ist es hilfreich, wenn
+wichtige Aspekte des Denkprozesses als \textit{Kommentare}\index{Kommentar} (siehe
+Abbildung~\ref{scheme:comment}) bei den Definitionen
+stehen.
+
+Ein erster sinnvoller Kommentar ist eine \textit{Kurzbeschreibung}\index{Kurzbeschreibung} der
+Aufgabenstellung:
+%
+\begin{alltt}
+; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
+\end{alltt}
+%
+Für die Kurzbeschreibung reicht in der Regel \emph{eine Zeile}: Nehmen
+Sie diese Einschränkung als Gelegenheit, sich knapp, prägnant und
+präzise auszudrücken.
+
+Als nächstes ist eine besondere Formulierung hilfreich, die
+sogenannte \textit{Signatur\index{Signatur}}. Wer nur gelesen hat, dass die
+Prozedur \texttt{parking-lot-cars} zwei Argumente \texttt{vehicle-count} und
+\texttt{wheel-count} hat, könnte ja auf den Gedanken kommen, einen Aufruf der
+Form
+
+\begin{alltt}
+(parking-lot-cars "zweiundzwanzig" "achtunddreissig")
+\end{alltt}
+zu notieren.  Das wird bei der Ausführung eine Fehlermeldung erzeugen, weil die
+eingebauten Prozeduren \texttt{/}, \texttt{-} und \texttt{*} nur mit Zahlen in
+Form von Ziffernfolgen umgehen können, aber nicht mit Zeichenketten, die
+vielleicht auch Zahlen bezeichnen könnten.  In der Tat akzeptieren fast alle
+Prozeduren nur Argumente einer ganz bestimmten \emph{Sorte}\index{Sorte}, in
+diesem Fall Argumente der Sorte "`natürliche Zahl"'.
+
+Hier eine Liste der wichtigsten "`eingebauten"' Sorten:
+%
+\begin{center}
+  \begin{tabular}{l|l}
+    natürliche Zahlen & \texttt{natural}\\\hline
+    ganze Zahlen & \texttt{integer}\\\hline
+    rationale Zahlen & \texttt{rational}\\\hline
+    reelle Zahlen & \texttt{real}\\\hline
+    Zahlen allgemein (inkl.\ komplexe) & \texttt{number}\\\hline
+    Zeichenketten & \texttt{string}\\\hline
+    Bilder & \texttt{image}
+  \end{tabular}
+\end{center}
+%
+Eine Signatur\index{Signatur}
+ist eine Vorstufe für die zu entwickelnde Prozedur und faßt einige
+wichtige Informationen zusammen:
+%
+\begin{enumerate}
+\item den Namen der Prozedur,
+\item Anzahl und Sorten der Argumente und
+\item die Sorte des Rückgabewerts der Prozedur.
+\end{enumerate}
+%
+%Die \textit{Signaturen}\index{Signaturen} beschreiben die Sorten, aus
+%denen die Argumente bzw.\ der Rückgabewert stammen.  
+Die Prozedur
+\texttt{parking-lot-cars} akzeptiert zwei natürliche Zahlen und
+liefert wieder eine natürliche Zahl.  Deshalb sieht die Signatur von
+\texttt{parking-lot-cars} so aus:
+%
+\begin{alltt}
+(: parking-lot-cars (natural natural -> natural))
+\end{alltt}
+%
+%Damit wird die Signatur \verb|(natural natural -> natural)| der
+%Prozedur \texttt{parking-lot-cars} zugeordnet.  
+Diese Signatur besagt:
+%
+\begin{itemize}
+\item \texttt{Parking-lot-cars} ist eine Prozedur (das sagt der Pfeil
+  \verb|->| zusammen mit den Klammern);
+\item \texttt{parking-lot-cars}
+  \textit{akzeptiert}\index{akzeptieren} zwei Argumente (vor dem Pfeil
+stehen zwei \texttt{natural}s);
+\item die beiden Argumente sind natürliche Zahlen;
+\item die Prozedur liefert wieder eine natürliche Zahl (das ist
+das \texttt{natural} hinter dem Pfeil).
+\end{itemize}
+%
+Die Signatur ähnelt also der mathematischen Notation für Funktionen,
+die aus einer bestimmten Menge stammen.
+
+Aus der Signatur ergeben sich die ersten beiden Zeilen der
+Definition, das sogenannte \textit{Gerüst\index{Gerüst}}:
+%
+\begin{alltt}
+(define parking-lot-cars
+  (lambda (vehicle-count wheel-count)
+    ...))
+\end{alltt}
+%
+Es bleibt, die passende Formel aus der mathematischen Theorie aus
+Kapitel~\ref{cha:intro} einzusetzen.  Die Definition
+von \texttt{parking-lot-cars} sollte vollständig so aussehen:\index{parking-lot-cars@\texttt{parking-lot-cars}}
+%
+\begin{alltt}
+; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
+(: parking-lot-cars (natural natural -> natural))
+(define parking-lot-cars
+  (lambda (vehicle-count wheel-count)
+    (/ (- m (* 2 n))
+       2)))
+\end{alltt}
+%
+Signaturen können für alle Arten von Werten deklariert werden, nicht
+nur für Prozeduren.  Zum Beispiel so:
+%
+\begin{verbatim}
+(: pi real)
+\end{verbatim}
+%
+Bei \texttt{parking-lot-cars} ist die Signatur noch nicht besonders
+umfangreich oder kompliziert.
+Spätere Kapitel werden zeigen, daß sich aus vielen Signaturen ganz
+automatisch \textit{Schablonen\index{Schablone}} ergeben, die dem
+Programmierer einen Großteil der Denkarbeit bei der Entwicklung von
+Prozeduren abnehmen.
+
+Aus diesem Grund schreiben wir in diesem Buch die
+Kurzbeschreibung und die Signatur in das Programm, \emph{bevor} wir
+die Definition entwickeln: 
+Die
+nachträgliche Entwicklung dieser Kommentare ist mühselig und
+langweilig.  Außerdem sind die Kurzbeschreibung und die
+Signatur ein hilfreicher Teil des Problemlösungsprozesses.
+Schon mancher Programmierer~-- Anfänger und Profi~--
+ist an Aufgaben gescheitert, die sich mit Hilfe systematischen Vorgehens
+anhand der Signatur leicht hätten lösen lassen.
+
+Aus dem fernen Osten stammt der Begriff des "`Mantras"' als einem
+Sinnspruch, den es sich lohnt, auswendig zu lernen.  Hier das erste Mantra:
+%
+\begin{mantra}[Signatur vor Ausführung]\label{mantra:contract}
+\input{mantra:contract}
+\end{mantra}
+%
+Ab jetzt werden sich die Programmbeispiele in diesem Buch natürlich
+an dieses Mantra halten.  Kurzbeschreibung, Signatur, Testfälle
+(beschrieben im nächsten Abschnitt) Gerüst und
+Schablone sind feste Bestandteile einer
+\textit{Konstruktionsanleitung\index{Konstruktionsanleitung}}, die
+systematisch beschreibt, wie eine Aufgabe schrittweise gelöst werden
+kann.  Dieses Buch wird eine Reihe von Konstruktionsanleitungen
+vorstellen, die sich stets an der Signatur einer Prozedur orientieren.
+Alle Mantras sind in Anhang~\ref{cha:mantras} und die
+Konstruktionsanleitungen in Anhang~\ref{app:konstruktionsanleitungen}
+zusammengefaßt.
+
+\section{Testfälle}
+\label{sec:test-cases}
+
+\index{Testfall}Vertrauen ist gut~-- aber Fehler passieren, auch bei 
+sorgfältiger Programmierung.  Angenommen, bei der Programmierung von
+\texttt{parking-lot-cars} wäre folgendes herausgekommen:
+%
+\begin{alltt}
+; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
+(: parking-lot-cars (natural natural -> natural))
+(define parking-lot-cars
+  (lambda (vehicle-count wheel-count)
+    (/ (- wheel-count (* 4 vehicle-count))
+       2)))
+\end{alltt}
+%
+Sehen Sie den Fehler auf den ersten Blick?  
+Einfaches Ausprobieren ist da vielleicht schneller:
+%
+\begin{alltt}
+(parking-lot-cars 1 4)
+\evalsto{} 0
+\end{alltt}
+%
+Bei der Entwicklung der Prozedur sollten also
+\textit{Testfälle\index{Testfall}} konstruiert werden, die an
+ausgewählten Beispielen überprüfen, ob die gerade programmierte
+Prozedur auch korrekt funktioniert.  Testen ist eine unverzichtbare
+Tätigkeit des Programmierers.
+
+Die Testfälle werden am besten \emph{vor} der Definition der Prozedur
+aufgestellt, denn  wenn sie erst hinterher geschrieben werden, ist die
+Gefahr groß, daß unbewußt das tatsächliche Ergebnis
+eines Prozeduraufrufs als das gewünschte eingegeben oder besonders
+kritische Beispiele weggelassen werden.  (In der industriellen Praxis ist sogar
+oft üblich, daß jemand anderes als der Autor der Definitionen
+die Testfälle schreibt.)
+
+Es ist mühselig, bei der Programmentwicklung ständig Testfälle in die
+REPL einzutippen und durch einen Vergleich mit den erwarteten
+Ergebnissen herauszubekommen, ob alles in Ordnung ist.  In \drscheme{}
+geht es deshalb auch einfacher.  Testfälle können zusammen mit den
+erwarteten Ergebnissen wie folgt spezifiziert werden:
+
+\begin{alltt}
+(check-expect (parking-lot-cars 1 4) 1)  
+(check-expect (parking-lot-cars 2 6) 1)  
+(check-expect (parking-lot-cars 10 28) 4)  
+\end{alltt}
+
+Beim Druck auf den \texttt{Start}-Knopf überprüft \drscheme{}, ob die
+tatsächlichen Ergebnisse der Ausdrücke mit den Soll-Werten
+übereinstimmen.  Für fehlgeschlagene Testfälle öffnet sich ein neues Fenster
+mit Informationen über die Unterschiede zwischen erwarteten und
+tatsächlichen Ergebnissen; ansonsten gibt es eine kurze Meldung, dass die
+Testfälle erfolgreich waren.  Für die obere inkorrekte Version kommt
+zum Beispiel folgendes heraus:
+%
+\begin{alltt}
+3 Tests gelaufen.
+0 Tests bestanden.
+2 Signaturverletzungen.
+
+Check-Fehler:
+	Der tatsächliche Wert 0 ist nicht der erwartete Wert 1.
+in Zeile 4, Spalte 0 
+	Der tatsächliche Wert -1 ist nicht der erwartete Wert 1.
+in Zeile 5, Spalte 0 
+	Der tatsächliche Wert -6 ist nicht der erwartete Wert 4.
+in Zeile 6, Spalte 0 
+
+Signaturverletzungen:
+	bekam -1 in Zeile 5, Spalte 14 , Signatur in Zeile 2, Spalte 40 
+	verantwortlich: Prozedur in Zeile 9, Spalte 2 
+	bekam -6 in Zeile 6, Spalte 14 , Signatur in Zeile 2, Spalte 40 
+	verantwortlich: Prozedur in Zeile 9, Spalte 2 
+\end{alltt}
+%
+Eine großzügige Verwendung
+von Testfällen kann viele Programmierfehler
+aufdecken und damit die Programmierung erleichtern und beschleunigen.
+
+\begin{mantra}[Testfälle]\label{mantra:test}
+\input{mantra:test}
+\end{mantra}
+
+\section{Unsinnige Daten}
+\label{sec:nonsensical-data-prequel}
+
+Die Testfälle aus dem vorangegangenen Abschnitt sind alle
+"`sinnvoll"'~-- die Eingabedaten passen alle zu tatsächlichen
+Parkplatzsituationen.  Was ist aber hiermit?
+%
+\begin{alltt}
+(parking-lot-cars 3 9)
+\end{alltt}
+%
+Wie schon in Kapitel~\ref{page:parking-lot-problem}
+(Seite~\pageref{page:parking-lot-problem}) bereits angedeutet, 
+lassen sich die \emph{Daten} 3 und 9 nicht als \emph{Information}
+interpretieren: Es gibt keinen Parkplatz mit 3 Fahrzeugen und 9
+Rädern~-- zumindest nicht mit den Einschränkungen der Aufgabenstellung
+auf vollberäderte PKWs und Motorräder.
+
+Die Prozedur \texttt{parking-lot-cars} stört dies allerdings wenig:
+Sie liefert munter die Ausgabe \texttt{1.5}.  Allerdings meldet
+DrRacket eine \textit{Signaturverletzung}\index{Signaturverletzung},
+wenn es \texttt{(parking-lot-cars 3 9)} auswertet, da das Ergebnis
+keine natürliche Zahl ist wie in der Signatur angegeben.  
+
+Das Programm sollte natürlich abseits der Signaturverletzung unsinnige
+Daten soweit möglich und praktikabel zurückweisen.  Für die Eingabe
+\texttt{(parking-lot-cars 3 16)} hätte es nämlich keine Signaturverletzung
+gegeben, sondern es wäre eine zunächst unschuldig aussehende $5$
+herausgekommen. Da hätte es zuerst noch der Beobachtung bedurft, dass unmöglich
+$5$ von $3$ Fahrzeugen PKWs sein können. Noch fehlen uns
+die Mittel, solche unsinnigen Eingaben zurückzuweisen; in Abschnitt~\ref{sec:nonsensical-data} werden wir
+dies nachholen.
+
+\section{Probleme und Teilprobleme}
+\label{sec:subproblems}
+
+TBD
+
+\section{Das Substitutionsmodell}
+\label{sec:substitution-model}
+\label{sec:scheme-anatomy}
+
+TBD
+
+\section*{Aufgaben}
+
+TBD
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 

@@ -1,0 +1,826 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter{Higher-Order-Programmierung}
+\label{cha:higher-order}
+
+
+TBD
+
+\section{Higher-Order-Prozeduren auf Listen}
+
+Eine nahezu unerschöpfliche Quelle für Diskussionen stellen die
+Fußballergebnisse dar.  Hier stellen sich so bedeutsame Fragen wie:
+\begin{itemize}
+\item Wann hat Bayern München zuletzt den 1.~FC Kaiserslautern in einem
+  Auswärtsspiel geschlagen?
+\item Wie viele Tore sind in dieser Saison schon gefallen?
+\item Welche Mannschaft ist abstiegsgefährdet?
+\end{itemize}
+In letzter Konsequenz läuft die Beantwortung solcher und ähnlicher Fragen auf
+eine Datenbank hinaus; es geht aber auch schon wesentlich einfacher:
+
+\begin{verbatim}
+; Ein Spiel hat:
+; - Spieltag (natural)
+; - Gastgeber-Team (string)
+; - Gastgeber-Tore (natural)
+; - Gast-Team (string)
+; - Gast-Tore (natural)
+
+(define-record-procedures game
+  make-game game?
+  (game-matchday 
+   game-home-team game-home-goals game-guest-team game-guest-goals))
+(: make-game (natural string natural string natural -> game))
+(: game? (any -> boolean))
+(: game-home-team (game -> string))
+(: game-home-goals (game -> natural))
+(: game-guest-team (game -> string))
+(: game-guest-goals (game -> natural))
+\end{verbatim}
+
+Es folgen hier beispielhaft die Ergebnisse des ersten Spieltags der Bundesliga-Saison
+2009/2010\footnote{Die kompletten Ergebnisse dieser Saison lassen sich unter dem Namen
+\texttt{soccer.rkt} von der Webseite des Buchs -- \texttt{deinprogramm.de} --
+herunterladen.}:
+\begin{verbatim}
+(define g1 (make-game 1 "Wolfsburg" 2 "Stuttgart" 0))
+(define g2 (make-game 1 "Mainz" 2 "Bayer 04" 2))
+(define g3 (make-game 1 "Hertha" 1 "Hannover" 0))
+(define g4 (make-game 1 "Bremen" 2 "Frankfurt" 3))
+(define g5 (make-game 1 "Nürnberg" 1 "Schalke" 2))
+(define g6 (make-game 1 "Dortmund" 1 "1. FC Köln" 0))
+(define g7 (make-game 1 "Hoffenheim" 1 "Bayern" 1))
+(define g8 (make-game 1 "Bochum" 3 "Gladbach" 3))
+(define g9 (make-game 1 "Freiburg" 1 "Hamburg" 1))
+
+(define day1
+  (list g1 g2 g3 g4 g5 g6 g7 g8 g9))
+\end{verbatim}
+
+Eine recht einfache Frage ist die Bestimmung der Punktzahl, welche die
+Gastgebermannschaft in einem bestimmten Spiel erzielt hat. Eine Prozedur, die
+das leistet, hat Beschreibung und Signatur wie
+folgt:\index{home-points@\texttt{home-points}}
+
+\begin{verbatim}
+; Punktzahl in Spiel
+(define points
+  (signature (one-of 0 1 3)))
+
+; Punktzahl für Gastgeber-Team berechnen
+(: home-points (game -> points))
+\end{verbatim}
+Die Punktzahl des Gastgeberteams errechnet sich auf einfache Weise durch
+Vergleich der erzielten Tore:
+\begin{verbatim}
+(define home-points
+    (lambda (g)
+      (let ((g1 (game-home-goals g))
+            (g2 (game-guest-goals g)))
+        (cond
+          ((> g1 g2) 3)
+          ((< g1 g2) 0)
+          ((= g1 g2) 1)))))
+\end{verbatim}
+Aber auch das Gästeteam soll die ihm zustehenden Punkte bekommen. Das führt zu
+folgender Prozedur:
+\begin{verbatim}
+; Punktzahl für Gast-Team berechnen
+(: guest-points (game -> points))
+
+(define guest-points
+    (lambda (g)
+      (let ((g1 (game-guest-goals g))
+            (g2 (game-home-goals g)))
+        (cond
+          ((> g1 g2) 3)
+          ((< g1 g2) 0)
+          ((= g1 g2) 1)))))
+\end{verbatim}
+Wie nicht anders zu erwarten, sind diese beiden Prozeduren fast zu hundert
+Prozent identisch, der einzige Unterschied ist die Definition der lokalen
+Variablen \texttt{g1} und \texttt{g2}. Eine solche Duplizierung von Code ist
+immer schlecht, vor allem vor dem Gesichtspunkt der Wartbarkeit von
+Programmen. Wenn etwa der Deutsche Fußballbund die Regeln für die Vergabe von
+Punkten ändern sollte, müssten hier beide Prozeduren in gleicher Weise
+angepasst werden.  Die Lösung für das Problem zeigt sich dadurch, dass der
+gemeinsame Code aus den beiden Prozeduren "`ausfaktorisiert"' wird. 
+
+Musterbildung\index{Musterbildung} ist eine der wichtigsten Abstraktionstechniken, und deshalb gibt
+es ein eigenes Mantra:
+
+\begin{mantra}[Abstraktion aus Mustern]\label{mantra:abstraction} Wenn mehrere Prozeduren im
+  \input{mantra:abstraction}
+\end{mantra}
+
+Anwendung dieser Abstraktion könnte zu einer Prozedur \texttt{compute-points}
+führen, die dann wie folgt für die Definition von \texttt{home-points} und
+\texttt{guest-points} verwendet werden könnte:
+
+\begin{verbatim}
+(define home-points (compute-points game-home-goals game-guest-goals))
+(define guest-points (compute-points game-guest-goals game-home-goals))
+\end{verbatim}
+
+Die Signatur von \texttt{compute-points} müsste dann wie folgt sein:
+\begin{verbatim}
+(: compute-points ((game -> natural) (game -> natural) -> (game -> points)))
+\end{verbatim}
+Das verdient eine kurze Betrachtung: Hier liegt eine Prozedur vor, die zwei
+Prozeduren als Argument akzeptiert und eine weitere Prozedur als Ergebnis
+liefert. Solche Prozeduren heißen \textit{Prozeduren höherer Ordnung\index{Prozedur!höherer
+    Ordnung}} oder
+\textit{Higher-Order-Prozeduren\index{Higher-Order-Prozedur}}. 
+
+Die Definition von \texttt{compute-points} ergibt sich recht leicht aus den
+beiden schon vorgestellten Prozeduren:
+\begin{verbatim}
+(define compute-points
+  (lambda (goals-1 goals-2)
+    (lambda (g)
+      (let ((g1 (goals-1 g))
+            (g2 (goals-2 g)))
+        (cond
+          ((> g1 g2) 3)
+          ((< g1 g2) 0)
+          ((= g1 g2) 1))))))
+\end{verbatim}
+
+Eine weitere interessante Aufgabe ist es, aus einer Liste von Spielen die
+unentschieden ausgegangenen Spiele herauszusuchen. Dazu ist zunächst eine
+Prozedur notwendig, die feststellt, ob ein bestimmtes Spiel unentschieden war:
+\begin{verbatim}
+; Ist Spiel unentschieden?
+(: game-draw? (game -> boolean))
+
+(define game-draw?
+  (lambda (g)
+    (= 1 (home-points g))))
+\end{verbatim}
+Die jetzt gesuchte Prozedur muss Kurzbeschreibung und Signatur wie folgt haben:
+\begin{verbatim}
+; Unentschiedene Spiele heraussuchen
+(: games-draw ((list-of game) -> (list-of game)))
+\end{verbatim}
+%
+Die Definition folgt der Konstruktionsanleitung für Prozeduren auf Listen.
+Hier ist die Schablone:
+%
+\begin{alltt}
+(define games-draw
+  (lambda (lis)
+    (cond
+      ((empty? lis) ...)
+      ((pair? lis)
+       ... (first lis) ...
+       ... (games-draw (rest lis)) ...))))
+\end{alltt}
+%
+Der erste Fall ist klar: wo keine Spiele sind, sind auch keine
+unentschiedenen.  Der zweite Fall betrachtet das erste Element \texttt{(first
+  lis)}.  Dabei ist entscheidend, ob es sich dabei um ein unentschiedenes Spiel
+handelt oder nicht:
+%
+\begin{alltt}
+(define games-draw
+  (lambda (lis)
+    (cond
+      ((empty? lis) empty)
+      ((pair? lis)
+       ... (game-draw? (first lis)) ...
+       ... (games-draw (rest lis)) ...))))
+\end{alltt}
+%
+Die Fallunterscheidung bestimmt, ob ein Spiel in die Ergebnisliste kommt oder
+nicht:
+%
+\begin{alltt}
+(define games-draw
+  (lambda (lis)
+    (cond
+      ((empty? lis) empty)
+      ((pair? lis)
+       (let ((f (first lis))
+             (r (games-draw (rest lis))))
+       (if (game-draw? f)
+           (make-pair f r
+           r)))))))
+\end{alltt}
+%
+Fertig!
+
+Eine ganz ähnliche Prozedur sortiert aus einer Liste von Spielen diejenigen
+aus, an denen eine bestimmte Mannschaft teilgenommen hat:
+\index{games-playing@\texttt{games-playing}}
+%
+\begin{alltt}
+; Spielt Team bei Spiel?
+(: plays-game? (string game -> boolean))
+
+(define plays-game?
+  (lambda (t g)
+    (or (string=? t (game-home-team g))
+        (string=? t (game-guest-team g)))))
+
+; Alle Spiele mit einem Team herausfiltern
+(: games-playing (string (list-of game) -> (list-of game)))
+
+(define games-playing
+  (lambda (t lis)
+    (cond
+      ((empty? lis) empty)
+      ((pair? lis)
+       (let ((f (first lis))
+             (r (games-playing t (rest lis))))
+         (if (plays-game? t f)
+             (make-pair f r)
+             r))))))
+\end{alltt}
+%
+Die Prozeduren \texttt{games-draw} und \texttt{games-playing} unterscheiden
+sich, abgesehen vom Namen und der Tatsache, dass \texttt{games-playing} noch
+den Namen eines Teams als zusätzlichen Parameter hat, nur an
+einer Stelle: \texttt{games-draw} verwendet
+\texttt{game-draw?} an der Stelle, wo \texttt{games"=playing} 
+\texttt{plays-game?} verwendet.  Eine einzelne Prozedur könnte die
+Aufgaben sowohl von \texttt{games-draw} als auch von \texttt{games-playing}
+lösen, indem sie an der Stelle, an der \texttt{game-draw?}
+bzw.\ \texttt{plays-game?} steht, verallgemeinert.  Das geht mit
+Abstraktion: für das konkrete Prädikat wird ein
+Parameter eingeführt.  Das Ergebnis, das sich ansonsten
+direkt aus den Definitionen von \texttt{games-draw} und
+\texttt{games-playing} ergibt, sieht so aus (erst einmal ohne
+Signatur, die nachgeliefert wird):\index{filter-games@\texttt{filter-games}}
+%
+\begin{alltt}
+(define filter-games
+  (lambda (p? lis)
+    (cond
+      ((empty? lis) empty)
+      ((pair? lis)
+       (if (p? (first lis))
+           (make-pair (first lis)
+                      (filter-games p? (rest lis)))
+           (filter-games p? (rest lis)))))))
+\end{alltt}
+%
+Das funktioniert tatsächlich:
+%
+\begin{alltt}
+(define plays-nürnberg?
+   (lambda (g)
+      (plays-game? "Nürnberg" g)))
+
+(filter-games plays-nürnberg? day1)
+\evalsto{} #<list #<record:game 1 "Nürnberg" 1 "Schalke" 2>>
+\end{alltt}
+%
+Das Abstrahieren über Prozeduren funktioniert also genauso wie die
+Abstraktion über andere Werte.  Die Signatur für die Prozedur muß
+natürlich berücksichtigen, daß \texttt{p?} eine Prozedur ist.  Die Prozedur
+\texttt{plays-nürnberg?}, die für \texttt{p?}  verwendet wird, hat die
+Signatur
+%
+\begin{alltt}
+(: plays-nürnberg? (game -> boolean))
+\end{alltt}
+%
+und deshalb hat \texttt{filter-games} folgende Signatur:
+%
+\begin{alltt}
+(: filter-games ((game -> boolean) list(game) -> list(game)))
+\end{alltt}
+%
+Tatsächlich steht aber in \texttt{filter-games} außer dem Namen dieser Prozedur
+jetzt nichts mehr, das
+überhaupt Bezug darauf nimmt, daß es sich bei den Listenelementen um
+\texttt{game}-Records handelt.  % Tatsächlich funktioniert die Prozedur
+% auch auf Listen von Zahlen:
+% %
+% \begin{alltt}
+% (filter-games even? (list 1 2 3 4))
+% \evalsto{} #<list 2 4>
+% (filter-games odd? (list 1 2 3 4))
+% \evalsto{} #<list 1 3>
+% \end{alltt}
+% So nicht, das gibt eine Signaturverletzung, denn \texttt{even?} hat nicht die
+% Signatur \texttt{(game -> boolean)}!
+% %
+Damit kann das Wort \texttt{games} ganz aus der Prozedurdefinition
+verschwinden, und es entsteht eine vielseitig verwendbare Prozedur
+namens \texttt{list-filter}:\index{filter@\texttt{list-filter}}
+%
+\begin{alltt}
+; aus einer Liste eine Liste der Elemente bilden,
+; die eine bestimmte Eigenschaft haben
+(: list-filter ((%a -> boolean) (list-of %a) -> (list-of %a)))
+(define filter
+  (lambda (p? lis)
+    (cond
+      ((empty? lis) empty)
+      ((pair? lis)
+       (if (p? (first lis))
+           (make-pair (first lis)
+                      (list-filter p? (rest lis)))
+           (filter p? (rest lis)))))))
+\end{alltt}
+
+
+Die Entstehung von \texttt{list-filter} aus \texttt{games-draw} und
+\texttt{games-playing} ist ein Paradebeispiel für die Abstraktion mit
+Hilfe von Mustern.  Die Anwendung dieser Technik bringt eine Reihe von
+Vorteilen:
+%
+\begin{itemize}
+\item Das Programm wird kürzer.
+\item Das Programm wird leichter zu lesen.
+\item Wenn die Prozedur korrekt ist, sind auch alle ihre Anwendungen
+  korrekt.
+\end{itemize}
+%
+Damit diese Vorteile zur Geltung kommen, müssen die "`alten"'
+Abstraktionsvorlagen gelöscht und durch Anwendungen der Abstraktion
+ersetzt werden:
+%
+\begin{alltt}
+; aus einer Spieleliste eine Liste der unentschiedenen Spiele bilden
+(: games-draw ((list-of game) -> (list-of game)))
+(define games-draw
+  (lambda (lis)
+    (list-filter game-draw? lis)))
+
+; aus einer Spieleliste eine Liste der Spiele einer Mannschaft t bilden
+(: games-playing (string (list-of game) -> (list-of game)))
+(define games-playing
+  (lambda (t lis)
+    (list-filter (lambda (g) (plays-game? t g)) lis)))
+\end{alltt}
+%
+In der Definition von \texttt{games-playing} bekam die Prozedur
+\texttt{list-filter} statt des Namens eines Prädikats direkt eine
+Prozedurdefinition.  Hier handelt es sich also technisch um eine \emph{anonyme
+  Prozedur}; dies wird in Abschnitt~\ref{sec:anonymous-procedures} noch weiter ausgeführt.
+
+\section{Listen zusammenfalten}
+
+Aus Abschnitt~\ref{sec:lists} ist die Prozedur \texttt{list-sum}
+bekannt, welche die Summe einer Liste von Zahlen bildet:
+%
+\begin{alltt}
+; Liste aufsummieren
+(: list-sum ((list-of number) -> number))
+(define list-sum
+  (lambda (lis)
+    (cond
+      ((empty? lis) 0)
+      ((pair? lis) 
+       (+ (first lis)
+          (list-sum (rest lis)))))))
+\end{alltt}
+%
+Eine eng verwandte Prozedur würde die Elemente einer Liste nicht
+aufsummieren, sondern aufmultiplizieren.   Signatur und Schablone sind
+identisch zu \texttt{list-sum}:\index{list-product@\texttt{list-product}}
+%
+\begin{alltt}
+; Liste aufmultiplizieren
+(: list-product ((list-of number) -> number))
+(define list-product
+  (lambda (lis)
+    (cond
+      ((empty? lis) ...)
+      ((pair? lis) 
+       ... (first lis) ...
+       ... (list-product (rest lis)) ...))))
+\end{alltt}
+%
+Die erste Ellipse muß das Produkt der leeren Liste sein, also das
+neutrale Element $1$ der Multiplikation.\footnote{0 funktioniert
+  hier nicht~-- es würde dafür sorgen,
+  daß \emph{jede} Liste 0 als Produkt hat.} 
+Aus dem ersten Element und dem Produkt der
+Restliste wird das Produkt der Gesamtliste durch
+Multiplikation gebildet.\index{list-product@\texttt{list-product}}
+%
+\begin{alltt}
+(define list-product
+  (lambda (lis)
+    (cond
+      ((empty? lis) 1)
+      ((pair? lis) 
+       (* (first lis)
+          (list-product (rest lis)))))))
+\end{alltt}
+%
+Die Definitionen von \texttt{list-sum} und \texttt{list-product}
+unterscheiden sich, bis auf den Namen, nur an zwei Stellen: beim ersten
+Zweig, wo das jeweilige neutrale Element steht, und bei der Prozedur,
+die benutzt wird, um das erste Element mit dem Ergebnis des rekursiven
+Aufrufs zu kombinieren.  Die abstrahierte Prozedur heißt
+\texttt{list-fold} und sieht folgendermaßen aus (die Signatur muß noch
+einen Moment warten):\index{list-fold@\texttt{list-fold}}
+%
+\begin{alltt}
+; die Elemente einer Liste kombinieren
+(define list-fold
+  (lambda (unit combine lis)
+    (cond
+      ((empty? lis) unit)
+      ((pair? lis) 
+       (combine (first lis)
+                (list-fold unit combine (rest lis)))))))
+\end{alltt}
+%
+Listen lassen sich damit folgendermaßen summieren:
+%
+\begin{alltt}
+(list-fold 0 + (list 1 2 3 4))
+\evalsto{} 10
+\end{alltt}
+%
+und so aufmultiplizieren:
+%
+\begin{alltt}
+(list-fold 1 * (list 1 2 3 4))
+\evalsto{} 24
+\end{alltt}
+%
+Die Signatur für \texttt{list-fold} ist nicht auf den ersten Blick
+ersichtlich.  Hier ein erster Anlauf:
+%
+\begin{alltt}
+(: list-fold (%a (%a %a -> %a) (list-of %a) -> %a))
+\end{alltt}
+%
+Wie sich weiter unten herausstellen wird, kann
+diese Signatur aber
+noch verallgemeinert werden.  Erst kommen allerdings noch einige
+Erläuterungen zur Funktionsweise.
+
+\texttt{List-fold} funktioniert wie folgt: Die Prozedur hat als
+Parameter eine Prozedur mit zwei Parametern, einen Wert und eine
+Liste von Werten.  Es gilt folgende Gleichung:
+%
+\begin{displaymath}
+  \texttt{(list-fold}~u~o~\verb|#<|a_1~\ldots~a_n\verb|>|\texttt{)}
+  = \texttt{($o$ $a_1$ ($o$ $a_2$ ($\ldots$ ($o$ $a_n$ $u$)$ \ldots$)))}
+\end{displaymath}
+%
+Die Funktionsweise von \texttt{list-fold} läßt sich daran
+veranschaulichen, daß sich die ursprüngliche Liste auch als
+%
+\begin{displaymath}
+\texttt{(make-pair $a_1$ (make-pair $a_2$ ($\ldots$ (make-pair $a_n$ empty)$ \ldots$)))}
+\end{displaymath}
+%
+schreiben läßt.  Das heißt, an die Stelle von \texttt{make-pair} tritt
+$o$ und an die Stelle von \texttt{empty} tritt $u$.
+
+Eine andere, praktische Darstellung von 
+\texttt{list-fold} ist, die Gleichung mit dem Operator
+\emph{zwischen} den Operanden zu schreiben (und nicht davor), in
+Infix-Schreibweise also:
+%
+\begin{displaymath}
+  \texttt{(list-fold}~u~\odot~(a_1~\ldots~a_n)\texttt{)}
+  = a_1 \odot (a_2 \odot (\ldots (a_n \odot u)\ldots ))
+\end{displaymath}
+%
+Nach dieser Sichtweise wird $\odot$ zwischen die Elemente der Liste
+eingefügt.
+
+In jedem Fall wird die Liste "`eingefaltet"'~-- daher der Name.
+
+Die Definition von \texttt{concatenate} aus
+Abschnitt~\ref{sec:more-lists} paßt ebenfalls auf das abstrahierte
+Muster von \texttt{list-fold}:
+%
+\begin{alltt}
+(list-fold (list 4 5 6) make-pair (list 1 2 3))
+\evalsto{} #<list 1 2 3 4 5 6>
+\end{alltt}
+%
+Diese Applikation paßt aber nicht mehr auf den obigen Signaturversuch von
+\texttt{list-fold}, da \texttt{make"=pair} nicht die Signatur
+%
+\begin{alltt}
+%a %a -> %a
+\end{alltt}
+%
+sondern
+%
+\begin{alltt}
+%a (list-of %a) -> (list-of %a)
+\end{alltt}
+%
+und deshalb
+%
+\begin{alltt}
+%a %b -> %b
+\end{alltt}
+besitzt.  \texttt{List-fold} hat also folgende Signatur:
+%
+\begin{alltt}
+(: list-fold (%b (%a %b -> %b) (list-of %a) -> %b)))
+\end{alltt}
+%
+
+\section{Anonyme Prozeduren}\label{sec:anonymous-procedures}
+
+\texttt{List-fold} kann auch benutzt werden, um die Länge einer Liste
+auszurechnen.  Ganz so einfach wie bei den vorigen Beispielen ist das
+nicht, da \texttt{list-length} aus
+Abschnitt~\ref{sec:more-lists} nicht direkt dem Muster entspricht:
+%
+\begin{alltt}
+(define list-length
+  (lambda (lis)
+    (cond
+      ((empty? lis) 0)
+      ((pair? lis) 
+       (+ 1 
+          (list-length (rest lis)))))))
+\end{alltt}
+%
+Für das \texttt{combine}-Argument von \texttt{list-fold}
+würde hier eine Prozedur benötigt, die ihr erstes
+Argument \texttt{(first lis)} ignoriert (es spielt ja für die Listenlänge
+keine Rolle) und auf das zweite Argument eins addiert.  Diese
+Hilfsprozedur sieht so aus:\index{add-1-for-length@\texttt{add-1-for-length}}
+%
+\begin{alltt}
+(: add-1-for-length (a N -> N))
+(define add-1-for-length
+  (lambda (ignore n)
+    (+ n 1)))
+\end{alltt}
+%
+Damit funktioniert es:
+%
+\begin{alltt}
+(list-fold 0 add-1-for-length (list 1 2 3 4 5))
+\evalsto{} 5
+\end{alltt}
+%
+Für solche Mini-Prozeduren lohnt es sich oft kaum, eine eigene
+Definition anzugeben und einen sinnstiftenden Namen zu finden.  Das
+ist auch nicht notwendig: die rechte Seite der Definition, also der
+Lambda-Ausdruck, kann auch direkt eingesetzt werden:
+%
+\begin{alltt}
+(list-fold 0 (lambda (ignore n) (+ n 1)) (list 1 2 3 4 5))
+\evalsto{} 5
+\end{alltt}
+%
+Meist tauchen Lambda-Ausdrücke zwar als Teil von Prozedurdefinition
+auf, aber es ist natürlich möglich, Prozeduren außerhalb einer
+Definition zu verwenden, ohne ihnen einen Namen zu geben.  Dafür gab
+es schon in Kapitel~\ref{cha:whats-programming} Beispiele. Mit Hilfe
+solcher "`anonymer Prozeduren\index{anonyme
+  Prozedur}\index{Prozedur!anonym}"' läßt sich auch \texttt{list-filter}
+durch \texttt{list-fold} definieren:
+%
+\begin{alltt}
+(define list-filter
+  (lambda (p? lis)
+    (list-fold empty
+               (lambda (first result)
+                 (if (p? first)
+                     (make-pair first result)
+                     result))
+               lis)))
+\end{alltt}
+%
+Ein weiteres Beispiel~-- die Prozedur
+\texttt{every?}\index{every?@\texttt{every?}} findet heraus, ob ein
+übergebenes Prädikat auf alle Elemente einer Liste zutrifft:
+\label{page:every}
+%
+\begin{alltt}
+; prüfen, ob Prädikat auf alle Elemente einer Liste zutrifft
+(: every? ((%a -> boolean) (list-of %a) -> boolean))
+(define every?
+  (lambda (p? lis)
+    (list-fold #t
+               (lambda (first result)
+                 (and result
+                      (p? first)))
+               lis)))
+\end{alltt}
+%
+Anders als \texttt{list-length} lassen sich diese Definitionen
+nicht mit separaten Hilfsprozeduren schreiben.  Für
+\texttt{list-filter} würde ein Versuch zwar so aussehen:
+%
+\begin{alltt}
+(define list-filter-helper
+  (lambda (first result)
+    (if (p? first)
+        (make-pair first result)
+        result)))
+\end{alltt}
+%
+In \drscheme{} erscheint bei dieser Definition eine Fehlermeldung 
+"`\texttt{unbound variable}"' und \texttt{p?} wird rosa markiert.  Das
+liegt daran, daß \texttt{p?} weiter außen im \texttt{lambda} von
+\texttt{filter} gebunden ist.  Dieses \texttt{p?} ist aber nach den
+Regeln der lexikalischen Bindung\index{lexikalische Bindung} (siehe
+Abschnitt~\ref{sec:lexical-binding}) nur im Rumpf des äußeren
+\texttt{lambda} in der Definition von \texttt{filter} sichtbar.  Darum
+muß der Lambda-Ausdruck der Hilfsprozedur ebenfalls in diesem
+Rumpf stehen.
+
+FIXME: Hier auch noch \texttt{map} einführen? Das Unterrichtsbeispiel tat
+es\ldots
+
+\section{Prozedurfabriken}
+
+Ein nützlicheres Beispiel für eine Higher-Order-Funktion in der
+Mathematik ist die
+Komposition\index{Komposition}\index{*@$\circ$}
+$\circ$.  Seien $f: B\rightarrow C$ und $g: A\rightarrow B$
+Funktionen.  Dann ist $f\circ g$ folgendermaßen definiert:
+%
+\begin{displaymath}
+  (f \circ g)(x) \deq{} f(g(x))
+\end{displaymath}
+%
+$\circ$ läßt sich direkt in Scheme
+übertragen:\index{compose@\texttt{compose}}
+\label{page:compose}
+%
+\begin{alltt}
+; zwei Prozeduren komponieren
+(: compose ((%b -> %c) (%a -> %b) -> (%a -> %c)))
+(define compose
+  (lambda (f g)
+    (lambda (x)
+      (f (g x)))))
+\end{alltt}
+%
+Die beiden Argumente für \texttt{f} und \texttt{g} müssen Prozeduren
+mit einem Parameter sein:
+%
+\begin{alltt}
+(define add-5
+  (lambda (x)
+    (+ x 5)))
+(define add-23
+  (lambda (x)
+    (+ 23 x)))
+(define add-28 (compose add-5 add-23))
+(add-28 3)
+\evalsto{} 31
+((compose (lambda (x) (* x 2)) add-1) 5)
+\evalsto{} 12
+\end{alltt}
+%
+\texttt{Compose} ist eine
+\textit{Prozedurfabrik\index{Prozedurfabrik}}~-- sie liefert selbst
+eine Prozedur zurück, die abhängig von \texttt{f} und \texttt{g}
+konstruiert wird.
+
+\texttt{Compose} läßt sich benutzen, um eine weitere praktische
+Higher-Order-Prozedur namens
+\texttt{repeat} zu definieren:\index{repeat@\texttt{repeat}}
+\label{page:repeat}
+%
+\begin{alltt}
+; Prozedur wiederholt anwenden
+(: repeat (natural (%a -> %a) -> (%a -> %a)))
+(define repeat
+  (lambda (n proc)
+    (if (= n 0)
+        (lambda (x) x)
+        (compose proc (repeat (- n 1) proc)))))
+\end{alltt}
+%
+\texttt{Repeat} ist das Pendant zur Potenzierung\index{Potenzierung} von
+Funktionen in der Mathematik, siehe Definition~\ref{def:power_fun}:
+%
+\begin{alltt}
+((repeat 5 (lambda (n) (* n 2))) 1)
+\evalsto{} 32
+\end{alltt}
+
+\section{Der Schönfinkel-Isomorphismus}
+\label{sec:currying}
+\index{Schönfinkel-Isomorphismus}
+Hier ist eine Prozedurfabrik, die Prozeduren erzeugt, die auf eine
+Zahl eine Konstante addieren:\index{make-add@\texttt{make-add}}
+%
+\begin{alltt}
+; Prozedur erzeugen, die eine Konstante addiert
+(: make-add (number -> (number -> number)))
+(define make-add
+  (lambda (a)
+    (lambda (b)
+      (+ a b))))
+\end{alltt}
+%
+Angewendet werden kann sie folgendermaßen:
+%
+\begin{alltt}
+(define add-1 (make-add 1))
+(add-1 15)
+\evalsto{} 16
+(define add-7 (make-add 7))
+(add-7 15)
+\evalsto{} 22
+\end{alltt}
+%
+Das geht auch ohne Zwischendefinitionen:
+%
+\begin{alltt}
+((make-add 7) 15)
+\evalsto{} 22
+((make-add 13) 42)
+\evalsto{} 55
+\end{alltt}
+%
+\texttt{Make-add} ist eine andere Version von \texttt{+}, nämlich
+eine, die zwei Argumente nicht "`auf einmal"' akzeptiert, sondern
+"`nacheinander"'.  Summen von zwei Zahlen, normalerweise geschrieben
+als \texttt{(+ $a$ $b$)} lassen sich auch als \texttt{((make-add $a$)
+  $b$)} schreiben.  Diese Transformation von einer Prozedur mit zwei
+Parametern in eine Prozedur mit nur einem Parameter, die eine Prozedur
+mit einem weiteren Parameter zurückgibt, die dann schließlich den "`Wert"'
+liefert, läßt sich auch auf andere Prozeduren anwenden:\index{make-mult@\texttt{make-mult}}\index{make-prepend@\texttt{make-prepend}}
+%
+\begin{alltt}
+; Prozedur erzeugen, die mit einer Konstante multipliziert
+(: make-mult (number -> (number -> number)))
+(define make-mult
+  (lambda (a)
+    (lambda (b)
+      (* a b))))
+
+; Prozedur erzeugen, die an eine Liste ein Element vorn anhängt
+(: make-prepend (a -> (list(a) -> list(a))))
+(define make-prepend
+  (lambda (a)
+    (lambda (b)
+      (make-pair a b))))
+\end{alltt}
+%
+Erneut folgt eine ganze Familie von Prozeduren einem gemeinsamen
+Muster, und erneut läßt sich dieses Muster als Prozedur höherer
+Ordnung formulieren.  Die Prozedur \texttt{curry\index{curry@\texttt{curry}}} akzeptiert
+eine Prozedur mit zwei Parametern und liefert eine entsprechend
+transformierte Prozedur zurück:
+%
+\begin{alltt}
+; Prozedur mit zwei Parametern staffeln
+(: curry ((%a %b -> %c) -> (%a -> (%b -> %c))))
+(define curry
+  (lambda (proc)
+    (lambda (a)
+      (lambda (b)
+        (proc a b)))))
+\end{alltt}
+%
+Nun lassen sich die \texttt{make-$x$}-Prozeduren von oben mit Hilfe
+von \texttt{curry} definieren:
+%
+\begin{alltt}
+(define make-add (curry +))
+(define make-mult (curry *))
+(define make-prepend (curry make-pair))
+\end{alltt}
+%
+Die \texttt{curry}-Transformation wurde unabhängig voneinander von den
+Mathematikern \textsc{Moses Schönfinkel} und \textsc{Haskell Curry} entdeckt.  Im
+englischsprachigen Raum heißt das Verb dazu darum  \textit{currify}, im deutschsprachigen Raum
+\textit{schönfinkeln\index{schönfinkeln}}
+oder \textit{curryfizieren\index{curryfizieren}}.
+
+Die Schönfinkel-Transformation läßt sich auch umdrehen:\index{curry@\texttt{curry}}
+%
+\begin{alltt}
+; Prozedur zu einer Prozedur mit zwei Parametern entstaffeln
+(: uncurry ((%a -> (%b -> %c)) -> (%a %b -> %c)))
+(define uncurry 
+  (lambda (proc)
+    (lambda (a b)
+      ((proc a) b))))
+\end{alltt}
+%
+Damit ist die Transformation ein \textit{Isomorphismus\index{Isomorphismus}}; es gilt
+folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isomorphismus}
+%
+\begin{center}
+  \texttt{(uncurry (curry \(p\))) \(\equiv\) \(p\)}
+\end{center}
+
+\section*{Aufgaben}
+
+TBD
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 

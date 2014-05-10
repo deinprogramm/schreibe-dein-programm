@@ -1,0 +1,92 @@
+% $Id$
+\chapter{Weitere Programmelemente}
+\label{cha:elements}
+
+\section{Zwischenergebnisse}
+
+\begin{feature}{\texttt{let*}}{scheme:letast}
+\texttt{Let*}\index{let*@\texttt{let*}} ist eine sequentielle
+Variante von \texttt{let} mit der gleichen äußeren Form:
+%
+\begin{alltt}
+(let* ((\(v\sb{1}\) \(e\sb{1}\)) \(\ldots\) (\(v\sb{n}\) \(e\sb{n}\))) \(b\))
+\end{alltt}
+%
+Während bei \texttt{let} keine der $v_i$ in den $e_i$ sichtbar ist,
+sind bei \texttt{let*} in jedem $e_i$ die \emph{vorhergehenden} $v_j$
+für $j<i$ sichtbar.  Es gilt also:
+%
+\begin{verbatim}
+(define x 23)
+> (let* ((x 42)
+         (y (- x 19)))
+    (+ x y))
+65
+\end{verbatim}
+%
+\texttt{Let*} ist ebenfalls syntaktischer Zucker und wird in eine
+Serie geschachtelter \texttt{let}-Ausdrücke übersetzt:
+%
+\begin{alltt}
+(let* ((\(v\sb{1}\) \(e\sb{1}\)) (\(v\sb{2}\) \(e\sb{2}\)) \(\ldots\)) \(b\))
+\(\Longrightarrow\) (let ((\(v\sb{1}\) \(e\sb{1}\))) (let* ((\(v\sb{2}\) \(e\sb{2}\)) \(\ldots\)) \(b\)))
+\end{alltt}
+\end{feature}
+%
+\begin{verbatim}
+(define x 23)
+(let ((x 42)
+      (y (- x 19)))
+  (+ x y))
+\end{verbatim}
+%
+Allerdings gibt es auch eine sequentielle Form von \texttt{let}~---
+\texttt{let*}~--- die in Abbildung~\ref{scheme:letast} erläutert ist.
+\section*{Aufgaben}
+
+\begin{aufgabe}
+\begin{enumerate}\item
+  Schreibe eine Prozedur \texttt{min} mit zwei Parametern, welche als
+  Ergebnis die kleinere zweier Zahlen liefert.  Das Gerüst könnte so
+  aussehen:
+  %
+\begin{verbatim}
+(define min
+  (lambda (number-1 number-2)
+    ...))
+\end{verbatim}
+\item Schreibe eine Prozedur namens \texttt{min-3} mit \emph{drei}
+  Parametern, die deren Minimum berechnet, ohne daß im Rumpf von
+  \texttt{min-3} ein \texttt{if} vorkommt.
+\item
+  Schreibe eine Prozedur, die drei Zahlen als Argumente nimmt, und die
+  Summe der Quadrate der beiden größeren Zahlen zurückgibt.
+\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}
+Betrachte die folgende Scheme-Definition:
+%
+\begin{verbatim}
+(define foo
+  (lambda (bar)
+    (let* ((baz (- bar 1))
+           (bar baz))
+      ((lambda (bar)
+         (if (= baz 0)
+             1
+             (* bar (foo baz))))
+       (* 2 bar)))))
+\end{verbatim}
+    %
+  \begin{enumerate}
+  \item Welchen Wert hat der Ausdruck \texttt{(foo 3)}?
+  \item Führe die Auswertung von \texttt{(foo 1)} nach dem
+    Substitutionsmodell durch!
+  \end{enumerate}
+\end{aufgabe}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 

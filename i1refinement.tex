@@ -1,0 +1,1013 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung 4.0 International (CC BY 4.0)"
+% http://creativecommons.org/licenses/by/4.0/deed.de
+
+\chapter{Schrittweise Verfeinerung}
+\label{cha:iterative-refinement}
+
+\index{schrittweise Verfeinerung}\index{Verfeinerung!schrittweise} In
+der Praxis gelingt es nur selten, Programme erst vollständig zu planen
+und dann umzusetzen: Manchmal ist die Aufgabenstellung bei
+Entwicklungsbeginn noch nicht vollständig bekannt.  Manchmal ist die
+Aufgabenstellung zwar bekannt aber unübersichtlich. Manchmal ändert
+sich die Aufgabenstellung nachträglich.  Deshalb muß die Entwicklung
+oft beginnen, bevor die gesamte Planung steht.  Das Programm wird dann
+bis zu einem bestimmten Grad entwickelt und dann \textit{schrittweise
+  verfeinert}, um die noch vorher unbekannten Aspekte der
+Aufgabenstellung abzudecken.  Dabei ist es wichtig, zwischenzeitlich
+gemachte Annahmen klar herauszustellen, fehlerhafte Programmteile auch
+wieder bereitwillig zu löschen, und Schnittstellen gegen Änderungen zu
+isolieren.  In diesem Kapitel werden verschiedene Beispiele und
+Techniken für diese schrittweise Verfeinerung vorgestellt.
+
+\section{Löschen in Suchbäumen}
+\label{sec:search-tree-delete}
+
+Das Löschen eines Elements in einem Suchbaum ist deutlich schwieriger
+als das Einfügen.  Beim Suchbaum \texttt{s3} erscheint die Aufgabe
+noch einfach.  Hier das Bild dazu:
+%
+\begin{pspdf}
+\begin{center}
+  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+  {
+    \Tdot
+    \pstree{\Tr{17}}{
+      \pstree{\Tr{5}}{\Tdot\Tdot}
+      \Tdot
+    }
+  }
+\end{center}
+\end{pspdf}
+% 
+Angenommen, die 3 soll gelöscht werden. In diesem Fall kann der
+Suchbaum durch dessen rechten Teilbaum ersetzt werden:
+%
+\begin{pspdf}
+\begin{center}
+    \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{17}}{
+      \pstree{\Tr{5}}{\Tdot\Tdot}
+      \Tdot
+      }
+\end{center}
+\end{pspdf}
+%
+Angenommen, die 17 soll gelöscht werden: Dann kann der Teilbaum mit 17 an
+der Spitze durch seinen eigenen linken Teilbaum ersetzt werden:
+%
+\begin{pspdf}
+\begin{center}
+  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+  {
+    \Tdot
+    \pstree{\Tr{5}}{\Tdot\Tdot}
+  }
+\end{center}
+\end{pspdf}
+%
+Ähnlich kann der Teilbaum mit der 5 an der Spitze durch den leeren
+Baum ersetzt werden:
+%
+\begin{pspdf}
+\begin{center}
+  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+  {
+    \Tdot
+    \pstree{\Tr{17}}{
+      \Tdot
+      \Tdot
+    }
+  }
+\end{center}
+\end{pspdf}
+%
+Wird der Suchbaum nur minimal erweitert, wird die Sache schon schwieriger:
+%
+\begin{pspdf}
+\begin{center}
+  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+  {
+    \Tdot
+    \pstree{\Tr{17}}{
+      \pstree{\Tr{5}}{\Tdot\Tdot}
+      \pstree{\Tr{20}}{\Tdot\Tdot}
+    }
+  }
+\end{center}
+\end{pspdf}
+%
+Wie könnte hier die 17 gelöscht werden? Es ist nicht möglich, den
+Teilbaum mit 17 an der Spitze einfach durch seinen linken oder rechten
+Teilbaum zu ersetzen, weil dann der jeweils andere Teilbaum unter den
+Tisch fiele.  Es ist also notwendig, die Baumstruktur zu
+reorganisieren.  Mit dieser Beoachtung ist klar, daß die Aufgabe nicht
+einfach dadurch zu lösen ist, daß die Konstruktionsanleitung einmal
+befolgt wird: Stattdessen empfiehlt es sich, etwas nachzudenken und
+zumindest eine grobe Lösungsstrategie zu entwickeln, bevor mit dem
+Programmieren begonnen wird.
+
+Eine Möglichkeit für eine Lösung wäre, den kompletten Suchbaum neu zu
+bilden: Dazu könnte die Lösch-Prozedur alle Elemente in einer Liste
+aufsammeln, und dann mit \texttt{search-tree-insert} sukzessive aus
+allen Elementen bis auf das zu löschende einen neuen Suchbaum
+konstruieren.  (Siehe Aufgabe~\ref{ex:naive-delete}.)  Dies wäre
+allerdings eine zeitaufwendige Methode, die überproportional länger
+dauert, je größer der Suchbaum ist.
+
+Besser wäre also, wenn beim Löschen soviel wie möglich des restlichen
+Baums intakt bleibt: das soll für die Überlegungen erst einmal die
+Maxime sein.  Hypothetisch wäre es möglich, daß dieser Ansatz nicht
+zum Ziel führt und diese Annahme wieder rückgängig gemacht werden
+muß.  Darum ist es sinnvoll, die Annahme deutlich sichtbar
+zu dokumentieren:
+
+\begin{quote}
+  \textit{Annahme:} Es ist möglich, ein Element zu löschen, indem nur
+  der Teilbaum verändert wird, an dessen Wurzel das Element sitzt; der
+  Rest soll gleichbleiben.
+\end{quote}
+
+Etwas Nachdenken ergibt, daß der oben beschriebene
+Ansatz, nur den Teilbaum zu ersetzen, an dessen Spitze das zu
+löschende Element steht und den restlichen Baum unverändert zu lassen,
+auch hier funktioniert.  Es gibt zwei Möglichkeiten, dies zu tun:
+%
+\begin{pspdf}
+\begin{center}
+  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+  {
+    \Tdot
+    \pstree{\Tr{5}}{
+      \Tdot
+      \pstree{\Tr{20}}{\Tdot\Tdot}
+    }
+  }
+  \qquad
+  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+  {
+    \Tdot
+    \pstree{\Tr{20}}{
+      \pstree{\Tr{5}}{\Tdot\Tdot}
+      \Tdot
+    }
+  }
+\end{center}
+\end{pspdf}
+% 
+Mit anderen Worten, es wird ein Element von weiter unten
+"`hochgezogen"'.  Es bleibt die Frage, wie die Prozedur das Element
+auswählen könnte, das hochgezogen werden muß.  Offensichtlich kann
+entweder ein Element aus dem linken oder aus dem rechten Teilbaum
+ausgewählt werden.  Ideal wäre, wenn der jeweils andere Teilbaum
+intakt bliebe.  Es muß also ein Element so hochgezogen werden, daß die
+Suchbaumeigenschaft nicht verletzt wird.  Angenommen, das Element soll
+aus dem linken Teilbaum genommen werden: Dann muß es größer sein als
+alle anderen Elemente des linken Teilbaums.  (Es muß auch kleiner als
+alle Elemente des rechten Teilbaums sein, aber dies ist automatisch
+gegeben, weil die Suchbaumeigenschaft im ursprünglichen Baum bereits
+gilt.)  Das hochzuziehende Element des linken Teilbaums wäre  also das
+\emph{Maximum} aller Elemente des linken Teilbaums.  (Umgekehrt wäre
+es genauso möglich, das Minimum der Elemente des rechten Teilbaums
+auszuwählen: reine Geschmacksfrage.)
+
+Zu diesem Zeitpunkt stellen sich möglicherweise bereits Kopfschmerzen
+beim Programmierer ein: Wie wird das hochzuziehende Element gefunden?
+Wie funktioniert der Hochziehprozeß selbst?  Daß diese Aufgaben lösbar
+sind, ist klar, aber zusammen mit den anderen zu lösenden Teilaufgaben
+vom Anfang dieses Abschnitts ist es vielleicht etwas viel auf einmal.
+
+Darum ist es sinnvoll, erst einmal die schon klaren Teile der
+Aufgabenlösung umzusetzen und die noch unklaren Teile per Wunschdenken
+auf später zu verschieben.  Ein Teil der Strategie ist bereits
+vollständig erkennbar: Das Löschen funktioniert, indem der Teilbaum,
+an dessen Wurzel das zu löschende Element klebt, durch einen anderen
+Baum ersetzt wird; der Rest des Baums ist intakt.  Es gibt also
+bereits zwei erkennbare Teilaufgaben:
+%
+\begin{enumerate}
+\item Den zu ersetzenden Teilbaum finden.
+\item Aus einem Baum mit einem zu löschenden Element an der Spitze
+  einen anderen Baum machen, der das Element nicht mehr enthält.
+\end{enumerate}
+%
+Insbesondere müßte es leicht möglich sein, die zweite Teilaufgabe
+soweit zu lösen, daß die Lösch-Prozedur zu zumindest für \texttt{s3}
+funktioniert:
+%
+\begin{verbatim}
+; Element aus Suchbaum löschen
+(: search-tree-delete (%a (search-tree %a) -> (search-tree %a)))
+
+(check-expect (search-tree-tree (search-tree-delete 3 s3))
+              (make-node 17
+                         (make-node 5 the-empty-tree the-empty-tree)
+                         the-empty-tree))
+(check-expect (search-tree-tree (search-tree-delete 5 s3))
+              (make-node 3
+                         the-empty-tree
+                         (make-node 17 the-empty-tree the-empty-tree)))
+(check-expect (search-tree-tree (search-tree-delete 17 s3))
+              (make-node 3 the-empty-tree (make-node 5 the-empty-tree the-empty-tree)))
+
+(check-expect (search-tree-tree (search-tree-delete 28 s3))
+              (search-tree-tree s3))
+\end{verbatim}
+%
+Das Gerüst ist das gleiche, das schon für \texttt{search-tree-member?}
+und \texttt{search-tree-insert} entwickelt wurde.  Die zwei
+Hilfsprozeduren werden mit \texttt{letrec} gebunden:
+%
+\begin{verbatim}
+(define search-tree-delete
+  (lambda (e s)
+    (let ((=proc (search-tree-label-equal-proc s))
+          (<proc (search-tree-label-less-than-proc s)))
+      (letrec
+          ; Element finden und löschen
+          ; (: delete ((tree %a) -> (tree %a))
+          ((delete
+            (lambda (t)
+              ...))
+           ; Element an Wurzel löschen
+           ; (: delete-top ((node %a (tree %a) (tree %a)) -> (tree %a))
+           (delete-top
+            (lambda (n)
+              ...)))
+        (make-search-tree
+         =proc <proc
+         (delete (search-tree-tree s)))))))
+\end{verbatim}
+%
+Die Hilfsprozedur \texttt{delete} folgt dabei dem gleichen Muster wie
+die Hilfsprozeduren in \texttt{search-tree-member?} und
+\texttt{search-tree-insert}: Die rekursiven Aufrufe folgen der
+Struktur des Baums gemäß der Suchbaumeigenschaft.  Wenn des gesuchte
+Element gefunden ist, kann die Hilfsprozedur \texttt{delete-top} den
+Rest der Arbeit übernehmen.  Bei \texttt{delete-top} sind bereits zwei
+Fälle klar: Wenn ein Teilbaum leer ist, so kann der Baum durch den
+jeweils anderen Teilbaum ersetzt werden:
+%
+\begin{verbatim}
+(define search-tree-delete
+  (lambda (e s)
+    (let ((=proc (search-tree-label-equal-proc s))
+          (<proc (search-tree-label-less-than-proc s)))
+      (letrec
+          ; Element finden und löschen
+          ; (: delete ((tree %a) -> (tree %a))
+          ((delete
+            (lambda (t)
+              (cond
+                ((empty-tree? t) t)
+                ((node? t)
+                 (cond
+                   ((=proc e (node-label t))
+                    (delete-top t))
+                   ((<proc e (node-label t))
+                    (make-node (node-label t)
+                               (delete (node-left-branch t))
+                               (node-right-branch t)))
+                   (else
+                    (make-node (node-label t)
+                               (node-left-branch t)
+                               (delete (node-right-branch t)))))))))
+           ; Element an Wurzel löschen
+           ; (: delete-top ((node %a (tree %a) (tree %a)) -> (tree %a))
+           (delete-top
+            (lambda (n)
+              (cond
+                ((empty-tree? (node-left-branch n))
+                 (node-right-branch n))
+                ((empty-tree? (node-right-branch n))
+                 (node-left-branch n))
+                (else ...)))))
+        (make-search-tree
+         =proc <proc
+         (delete (search-tree-tree s)))))))
+\end{verbatim}
+%
+Die Testfälle mit \texttt{s3} funktionieren damit schon einmal.  Es
+ist durchaus sinnvoll, bewußt die einfachen Fälle zuerst zu
+programmieren und auch zu testen.  Gibt es später Probleme bei den
+komplizierteren Fällen, so sind diese einfacher zu lokalisieren.
+
+Der folgende Testfall allerdings beschwert sich noch über den
+fehlenden Code im \texttt{else}-Zweig:
+%
+\begin{verbatim}
+(define s4
+  (make-search-tree
+   = <
+   (make-node 17
+              (make-node 5 the-empty-tree the-empty-tree)
+              (make-node 20 the-empty-tree the-empty-tree))))
+
+(check-expect (search-tree-tree (search-tree-delete 17 s4))
+              (make-node 5 the-empty-tree
+                         (make-node 20 the-empty-tree the-empty-tree)))
+\end{verbatim}
+%
+Für die Ellipse muß nun also das maximale Element des linken Teilbaums
+hochgezogen werden; der rechte Teilbaum bleibt unangetastet.  Das
+könnte etwa so aussehen:
+%
+\begin{verbatim}
+(make-node (find-maximum (node-left-branch n))
+           ...
+           (node-right-branch n))
+\end{verbatim}
+%
+Per Wunschdenken wird hier eine Prozedur \texttt{find-maximum}
+vorausgesetzt:
+%
+\begin{verbatim}
+; Maximum von Teilbaum finden
+(: find-maximum ((tree %a) -> %a))
+\end{verbatim}
+%
+Aber auch im obigen Ausdruck fehlt noch etwas, nämlich der linke
+Teilbaum des neu konstruierten Baums.  Der soll alle Elemente des
+ursprünglichen Teilbaums finden, \emph{außer dem Maximum}.  Wie kann
+\texttt{delete-top} das Maximum loswerden?  Am einfachsten durch die
+Verwendung der Lösch-Prozedur, die gerade geschrieben wird.  Erster
+Anlauf:
+%
+\begin{verbatim}
+(make-node (find-maximum (node-left-branch n))
+           (search-tree-delete
+             (find-maximum (node-left-branch n))
+             (node-left-branch n))
+           (node-right-branch n))
+\end{verbatim}
+%
+Hier taucht \texttt{(find-maximum (node-left-branch n))} mehrfach auf,
+es sollte also durch ein \texttt{let} gebunden werden:
+%
+\begin{verbatim}
+(let ((el (find-maximum (node-left-branch n))))
+  (make-node el
+             (search-tree-delete
+               el
+               (node-left-branch n))
+             (node-right-branch n)))
+\end{verbatim}
+%
+Leider ist der Code so nicht richtig, da \texttt{(node-left-branch n)}
+kein \texttt{search-tree}-Wert ist, sondern nur ein
+\texttt{tree}-Wert: es gibt also eine Vertragsverletzung.  Der Baum
+\texttt{(node-left-branch n)} muß also noch in ein
+\texttt{search-tree}-Record eingewickelt werden.  Außerdem kommt bei
+\texttt{search-tree-delete} wieder ein \texttt{search-tree}-Wert
+heraus, während \texttt{make-node} einen \texttt{tree}-Wert erwartet,
+der hinterher wieder ausgewickelt werden muß:
+%
+
+\begin{verbatim}
+(let ((el (find-maximum (node-left-branch n))))
+  (make-node el
+             (search-tree-tree
+               (search-tree-delete
+                 el
+                 (make-search-tree =proc <proc
+                                   (node-left-branch n))))
+             (node-right-branch n)))
+\end{verbatim}
+%
+Alternativ zum umständlichen Ein-
+und Auswickeln kann auch die \texttt{delete}-Hilfsprozedur um einen
+Parameter für das zu löschende Element erweitert werden:
+%
+\begin{verbatim}
+(letrec
+    ; Element finden und löschen
+    ; (: delete (%a (tree %a) -> (tree %a)))
+    ((delete
+      (lambda (e t)
+        (cond
+          ((empty-tree? t) t)
+          ((node? t)
+           (cond
+             ((=proc e (node-label t))
+              (delete-top t))
+             ((<proc e (node-label t))
+              (make-node (node-label t)
+                         (delete e (node-left-branch t))
+                         (node-right-branch t)))
+             (else
+              (make-node (node-label t)
+                         (node-left-branch t)
+                         (delete e (node-right-branch t)))))))))
+\end{verbatim}
+%
+Dann lautet der Code im \texttt{else}-Zweig:
+%
+\begin{verbatim}
+(let ((el (find-maximum (node-left-branch n))))
+  (make-node el
+             (delete el (node-left-branch n))
+             (node-right-branch n)))
+\end{verbatim}
+%
+Fehlt nur noch die Hilfsprozedur \texttt{find-maximum}.  Beim
+Ermitteln des Maximums hilft die Suchbaumeigenschaft: Es ist einfach
+das Element, das am weitesten rechts im Baum steht.  Die Prozedur ist
+also ganz einfach zu schreiben.  Komplett sieht
+\texttt{search-tree-delete} dann so aus:
+%
+\begin{verbatim}
+(define search-tree-delete
+  (lambda (e s)
+    (let ((=proc (search-tree-label-equal-proc s))
+          (<proc (search-tree-label-less-than-proc s)))
+      (letrec
+          ; Element finden und löschen
+          ; (: delete (%a (tree %a) -> (tree %a))
+          ((delete
+            (lambda (e t)
+              (cond
+                ((empty-tree? t) t)
+                ((node? t)
+                 (cond
+                   ((=proc e (node-label t))
+                    (delete-top t))
+                   ((<proc e (node-label t))
+                    (make-node (node-label t)
+                               (delete e (node-left-branch t))
+                               (node-right-branch t)))
+                   (else
+                    (make-node (node-label t)
+                               (node-left-branch t)
+                               (delete e (node-right-branch t)))))))))
+           ; Element an der Wurzel löschen
+           ; (: delete-top ((node %a (tree %a) (tree %a)) -> (tree %a))
+           (delete-top
+            (lambda (n)
+              (cond
+                ((empty-tree? (node-left-branch n))
+                 (node-right-branch n))
+                ((empty-tree? (node-right-branch n))
+                 (node-left-branch n))
+                (else
+                 (let ((el (find-maximum (node-left-branch n))))
+                   (make-node el
+                              (delete el (node-left-branch n))
+                              (node-right-branch n)))))))
+           ; Maximum von Teilbaum finden
+           ; (: find-maximum ((tree %a) -> %a))
+           (find-maximum
+            (lambda (t)
+              (cond
+                ((empty-tree? t)
+                 (violation "unerwarteter leerer Baum"))
+                ((node? t)
+                 (let ((right (node-right-branch t)))
+                   (if (empty-tree? right)
+                       (node-label t)
+                       (find-maximum (node-right-branch t)))))))))
+           
+        (make-search-tree
+         =proc <proc
+         (delete e (search-tree-tree s)))))))
+\end{verbatim}
+%
+Beim Testen fällt auf, daß der rekursive Aufruf von
+\texttt{find-maximum} noch nicht abgedeckt ist.  (Daß der Aufruf von
+\texttt{violation} nicht abgedeckt ist, ist erwünscht~-- es soll ja
+nicht passieren.)  Es muß also noch ein Testfall konstruiert werden:
+%
+\begin{verbatim}
+(define s4
+  (make-search-tree
+   = <
+   (make-node 17
+              (make-node 5 the-empty-tree the-empty-tree)
+              (make-node 20 the-empty-tree the-empty-tree))))
+
+(check-expect (search-tree-tree (search-tree-delete 17 s4))
+              (make-node 5 the-empty-tree
+                         (make-node 20 the-empty-tree the-empty-tree)))
+\end{verbatim}
+%
+
+% \begin{mantra}
+%   Kill your darlings.
+% \end{mantra}
+
+\section{Datenverfeinerung}
+
+Bei "`realen"' Programmieraufgaben sind selten schon präzise
+Datendefinitionen vorgegeben: Stattdessen liegen oft nur ein paar vage
+Anforderungen an die Software vor, die sich unter Umständen auch noch
+mit der Zeit ändern.  In solchen Fällen ist es nicht möglich, wie bei
+den meisten Übungsaufgaben dieses Buches, die Datendefinition direkt
+an der Aufgabenstellung abzulesen und alle zu anfallenden Probleme mit
+einem Wurf zu lösen.
+
+Das Beispiel dieses Abschnitts ist, die Verwaltungsdaten von Wohnungen
+zu modellieren. Über eine Wohnung läßt sich viel sagen, von dem nur
+manches je nach Kontext und Aufgabe wichtig ist.  Darum ist es
+schwierig, im ersten Anlauf eine vollständige und präzise
+Datendefinition zu entwerfen.  In diesem Abschnitt geht es darum, was
+passiert, wenn sich die Anforderungen und damit die Datendefinitionen
+ändern.  Angenommen, es geht zunächst einmal vage um die Adresse, die
+Bewohner, die Zimmer und die Wohnfläche.  Immerhin sind daran schon
+eine Daten- und eine Record-Definition ablesbar:
+%
+\begin{verbatim}
+; Eine Wohnung besteht aus:
+; - Adresse
+; - Bewohner
+; - Zimmern
+(define-record-procedures apartment
+  make-apartment apartment?
+  (apartment-address apartment-resident apartment-rooms))
+
+(: make-apartment (string string (list room) -> apartment))
+\end{verbatim}
+%
+Hier ist allerdings bereits eine willkürliche Entscheidung gefallen:
+Die Datendefinition enthält nicht direkt die Grundfläche der Wohnung.
+Diese soll pro Zimmer angegeben werden.  Der Vertrag \texttt{room} für
+Zimmer ist noch offen; da über die Zimmer außer der Grundfläche nichts
+weiter bekannt ist, wäre eine Möglichkeit die folgende Definition:
+%
+\begin{verbatim}
+(define-contract room rational)
+\end{verbatim}
+%
+Diese naive Definition hat zwei Nachteile:
+%
+\begin{itemize}
+\item Es gibt unmittelbar kein eindeutiges Prädikat für Zimmer.
+\item Es ist klar, daß sich über ein Zimmer noch mehr Dinge sagen
+  lassen als die Grundfläche: Früher oder später werden Zimmer zu
+  zusammengesetzten Daten.
+\end{itemize}
+%
+Aus diesen Gründen empfiehlt es sich, von vornherein von
+zusammengesetzten Daten auszugehen:
+%
+\begin{verbatim}
+; Ein Zimmer besteht aus:
+; - Fläche
+(define-record-procedures room
+  make-room room?
+  (room-area))
+
+(: make-room (rational -> room))
+\end{verbatim}
+%
+Hier sind zwei Wohnungen für Tests:
+%
+\begin{verbatim}
+(define a1
+  (make-apartment
+   "Entenhausener Straße 15"
+   "Sperber"
+   (list (make-room 30) (make-room 50) (make-room 60))))
+\end{verbatim}
+%
+%
+\begin{verbatim}
+(define a2
+  (make-apartment
+   "Froschgasse 17"
+   "Crestani"
+   (list (make-room 20) (make-room 40))))
+\end{verbatim}
+%
+Die Gesamtfläche einer Wohnung läßt sich einfach durch Addieren der
+Flächen der Zimmer berechnen:
+%
+\begin{verbatim}
+; Fläche einer Wohnung berechnen
+(: apartment-area (apartment -> number))            
+(check-expect (apartment-area a1) 140)
+(check-expect (apartment-area a2) 60)
+
+(define apartment-area
+  (lambda (a)
+    (fold 0 +
+          (map room-area (apartment-rooms a)))))
+\end{verbatim}
+%
+An dieser Stelle wird eine positive Eigenschaft der bisherigen Daten-
+und Prozedurdefinitionen deutlich.  Angenommen, die Record-Definition
+hätte die Grundfläche direkt einer Wohnung zugeordnet:
+%
+\begin{verbatim}
+; Eine Wohnung besteht aus:
+; - Adresse
+; - Bewohner
+, - Grundfläche
+; - Zimmern
+(define-record-procedures apartment
+  make-apartment apartment?
+  (apartment-address apartment-resident apartment-rooms apartment-area))
+
+(: make-apartment (string string (list room) rational -> apartment))
+\end{verbatim}
+%
+In diesem Fall würde der Selektor \texttt{apartment-area} sich nach
+außen genauso verhalten wie die Prozedur \texttt{apartment-area}~--
+gleicher Vertrag. gleiche Funktion.  Die Tatsache, daß der
+Record-Selektor eine reguläre Prozedur ist, die sich von
+"`selbstgeschriebenen"' Prozeduren nach außen nicht unterscheidet,
+isoliert Benutzer der Wohnungs-Funktionalität von den Unterschieden
+zwischen den zwei Varianten.
+
+Aus Sicht eines Wohnungsbesitzers interessieren möglicherweise noch
+weitere Daten, zum Beispiel, ob ein Bewohner noch Untermieter hat.
+Es ist sogar möglich, daß Untermieter ihrerseits selbst Untermieter
+haben.  Dieser Idee ließe sich Rechnung tragen, indem eine Wohnung
+statt aus Zimmern aus "`Abschnitten"' besteht, und jeder Abschnitt
+entweder ein Zimmer oder ein untervermieter Wohnungsteil ist.  Die
+Definition für Wohnungen müßte also folgendermaßen geändert werden:
+%
+\begin{verbatim}
+; Eine Wohnung besteht aus:
+; - Adresse
+; - Bewohner
+; - Abschnitten
+(define-record-procedures apartment
+  make-apartment apartment?
+  (apartment-address apartment-resident apartment-sections))
+
+(: make-apartment (string string (list section) -> apartment))
+\end{verbatim}
+%
+Bei Abschnitten (\texttt{section}) handelt es sich klar um gemischte
+Daten:
+%
+\begin{verbatim}
+; Ein Abschnitt ist eins der folgenden:
+; - ein Zimmer
+; - ein untervermieter Teil der Wohnung
+(define-contract section (mixed room sublet))
+\end{verbatim}
+%
+Zimmer sind wie gehabt.   Untervermietete Wohnungsteile sind wie
+Wohnungen, haben aber keine Adresse:
+%
+\begin{verbatim}
+; Ein unvermieteter Teil des Wohnung besteht aus:
+; - Bewohner
+; - Abschnitten
+(define-record-procedures sublet
+  make-sublet sublet?
+  (sublet-resident sublet-sections))
+
+(: make-sublet (string (list section) -> sublet))
+\end{verbatim}
+%
+Hier ist ein Beispiel für solche einen untervermieteten Teil sowie ein
+Apartment, das es enthält:
+%
+\begin{verbatim}
+(define s1
+  (make-sublet "Taschenbier"
+               (list (make-room 20) 
+                     (make-sublet "Sams"
+                                  (list (make-room 2)))
+                     (make-room 10))))
+
+(define a3
+  (make-apartment
+   "Flugentenschneise 17"
+   "Rotkohl"
+   (list (make-room 100)
+         s1
+         (make-room 30))))
+\end{verbatim}
+%
+Es kann nun sein, daß die "`Wohnungs-Funktionalität"' schon in ein
+größeres Programm eingebaut wurde, daß dessen Prozeduren benutzt,
+insbesondere den Selektor \texttt{apartment-rooms}.  Der ist im Zuge
+der Erweiterung um Untermiete unter den Tisch gefallen.  Das Konzept
+der Zimmer einer Wohnungs ist aber immer noch sinnvoll; entsprechend
+ist es möglich, \texttt{apartment-rooms} wieder zur Verfügung zur
+stellen, diesmal als "`normale"' Prozedur mit einer Hilfsprozedur, um
+die Zimmer eines Abschnitts aufzuzählen:
+%
+\begin{verbatim}
+; Zimmer einer Wohnung aufzählen
+(: apartment-rooms (apartment -> (list room)))
+
+(check-expect (apartment-rooms a1)
+              (list (make-room 30) (make-room 50) (make-room 60)))
+(check-expect (apartment-rooms a3)
+              (list (make-room 100)
+                    (make-room 20)
+                    (make-room 2)
+                    (make-room 10)
+                    (make-room 30)))
+
+(define apartment-rooms
+  (lambda (a)
+    (fold empty append
+          (map section-rooms (apartment-sections a)))))
+
+; Zimmer eines Wohnungsabschnitts aufzählen
+(: section-rooms (section -> (list room)))
+
+(check-expect (section-rooms (make-room 30))
+              (list (make-room 30)))
+(check-expect (section-rooms s1)
+              (list (make-room 20)
+                    (make-room 2)
+                    (make-room 10)))
+              
+(define section-rooms
+  (lambda (s)
+    (cond
+      ((room? s) (list s))
+      ((sublet? s)
+       (fold empty append
+             (map section-rooms (sublet-sections s)))))))
+\end{verbatim}
+%
+Bei der Abspaltung von Hilfsprozeduren gibt es Ermessensspielraum:
+Die Hilfsprozedur \texttt{section-rooms} ist notwendig, weil sie
+rekursiv ist.
+
+"`Von außen"' ist kein Unterschied zwischen dem alten Selektor
+\texttt{apartment-rooms} und der neuen Prozedur zur erkennen~-- die
+Schnittstelle ist gleich geblieben: Dies ist ein wichtiger Beitrag zur
+\textit{Modularität}\index{Modularität}, die es erlaubt, Änderungen an
+der Wohnungs-Funktionalität vorzunehmen, ohne daß andere
+Programmteile, welche die Funktionalität benutzen, verändert werden
+müssen.
+
+Zu den Programmteilen, die \texttt{apartment-rooms} verwenden,
+gehört auch \texttt{apartment-area}, und tatsächlich funktioniert
+\texttt{apartment-area} ohne Anpassungen wie vorher.  Außerdem
+funktioniert es auch bei Wohnungen mit Untermietern, wie ein
+zusätzlicher Testfall ermittelt:
+%
+\begin{verbatim}
+(check-expect (apartment-area a3) 162)
+\end{verbatim}
+%
+Mit den Erweiterungen an den Datendefinitionen sind allerdings auch
+neue Funktionalitäten möglich.  Zum Beispiel könnte eine Prozedur für
+die Bewohner einer Wohnung präzise Adressen ausrechnen, etwa so:
+%
+\begin{verbatim}
+; Adresse eines Bewohners berechnen
+(: resident-address (string apartment -> string))
+
+(check-expect (resident-address "Sperber" a1) "Sperber")
+
+(check-expect (resident-address "Taschenbier" a3)
+              "Taschenbier bei Rotkohl") 
+(check-expect (resident-address "Sams" a3)
+              "Sams bei Taschenbier bei Rotkohl")
+\end{verbatim}
+%
+Die Prozedur muß also gleichzeitig nach dem Bewohner suchen und die
+Adreßangabe konstruieren.  Wenn der gesuchte Bewohner gerade der
+"`Hauptbewohner"' der Wohnung ist, ist die Aufgabe einfach:
+%
+\begin{verbatim}
+(define resident-address
+  (lambda (r a)
+    (if (string=? r (apartment-resident a))
+        r
+        ...)))
+\end{verbatim}
+%
+Damit funktioniert bereits der erste Testfall. 
+
+Die anderen Adreßangaben haben jetzt alle die Form \texttt{$x$ bei
+$y$} wobei $y$ der Bewohner der Wohnung ist:
+%
+\begin{verbatim}
+(define resident-address
+  (lambda (r a)
+    (if (string=? r (apartment-resident a))
+        r
+        (string-append ... " bei " (apartment-resident a)))))
+\end{verbatim}
+%
+Der Präfix $x$ hängt vom Wohnabschnitt ab, in dem der gesuchte
+Bewohner wohnt.  Per Wunschdenken sei eine Prozedur vorausgesetzt, die
+in den Abschnitten einer Wohnung nach dem Bewohner sucht und den
+entsprechenden Präfix berechnet:
+%
+\begin{verbatim}
+; Adreß-Präfix eines Abschnitts-Bewohners berechnen
+(: sections-prefix (string (list section) -> string))
+\end{verbatim}
+%
+Mit Hilfe dieser Prozedur kann \texttt{resident-address} erweitert
+werden:
+%
+\begin{verbatim}
+(define resident-address
+  (lambda (r a)
+    (if (string=? r (apartment-resident a))
+        r
+        (string-append (sections-prefix r (apartment-sections a))
+                       " bei "
+                       (apartment-resident a)))))
+\end{verbatim}
+%
+Nun zur Prozedur \texttt{sections-prefix}.  Hier ein geeigneter
+Testfall:
+%
+\begin{verbatim}
+(check-expect (sections-prefix "Taschenbier" (apartment-sections a3))
+              "Taschenbier")
+\end{verbatim}
+%
+Gerüst und Schablone:
+%
+\begin{verbatim}
+(define sections-prefix
+  (lambda (r lis)
+    (cond
+      ((empty? lis) ...)
+      ((pair? lis)
+       ... (first lis) ...
+       ... (sections-prefix r (rest lis)) ...))))
+\end{verbatim}
+%
+Beim Ausfüllen der Schablone wird sofort klar, daß ein geeigneter
+Rückgabewert für den \texttt{empty?}-Zweig noch fehlt: In diesem Fall
+ist der Bewohner gar nicht gefunden worden.  Für diesen Umstand (der
+in den Überlegungen bisher noch gar nicht auftauchte) muß
+ein Extra-Wert eingeführt werden:
+%
+\begin{verbatim}
+; Wert für nicht gefundenen Bewohner
+(define-record-procedures not-found
+  make-not-found not-found?
+  ())
+
+(define the-not-found (make-not-found))
+\end{verbatim}
+%
+Entsprechend muß der Vertrag von \texttt{sections-prefix} erweitert
+werden:
+%
+\begin{verbatim}
+(: sections-prefix (string (list section) -> (mixed string not-found)))
+\end{verbatim}
+%
+Da es sich bei \texttt{(first lis)} um gemischte Daten handelt, wird
+eine Verzweigung fällig.  Wieder wird per Wunschdenken eine
+Hilfsprozedur angenommen, diesmal \texttt{sublet-prefix}, die den
+Adreß-Präfix für eine Untermiete ausrechnet, möglich:
+%
+\begin{verbatim}
+(define sections-prefix
+  (lambda (r lis)
+    (cond
+      ((empty? lis) the-not-found)
+      ((pair? lis)
+       (let ((f (first lis)))
+         (cond
+           ((room? f) (sections-prefix r (rest lis)))
+           ((sublet? f)
+            (let ((prefix (sublet-prefix r f)))
+              (cond
+                ((not-found? prefix)
+                 (sections-prefix r (rest lis)))
+                ((string? prefix)
+                 prefix))))))))))
+\end{verbatim}
+%
+Die Hilfsprozedur \texttt{sublet-prefix} soll sich folgendermaßen verhalten:
+%
+\begin{verbatim}
+; Adreß-Präfix eines Untermieters bewohnen
+(: sublet-prefix (string sublet -> (mixed string not-found)))
+
+(check-expect (sublet-prefix "Taschenbier" s1) "Taschenbier")
+(check-expect (sublet-prefix "Sams" s1) "Sams bei Taschenbier")
+(check-expect (sublet-prefix "Merz" s1) the-not-found)
+\end{verbatim}
+%
+Bei Untervermietungen ist die Arbeit dann erledigt, wenn der Bewohner
+gerade der gesuchte ist:
+%
+\begin{verbatim}
+(define sublet-prefix
+  (lambda (r s)
+    (if (string=? r (sublet-resident s))
+        r
+        ...)))
+\end{verbatim}
+%
+Dies sieht ähnlich aus wie bei \texttt{apartment-prefix}; auch hier
+funktioniert schon der erste Testfall.  Für die Alternative kann
+\texttt{sections-prefix} benutzt werden:
+%
+\begin{verbatim}
+(define sublet-prefix
+  (lambda (r s)
+    (if (string=? r (sublet-resident s))
+        r
+        (let ((prefix (sections-prefix r (sublet-sections s))))
+          (cond
+            ((not-found? prefix) the-not-found)
+            ((string? prefix)
+             (string-append prefix " bei " (sublet-resident s))))))))
+\end{verbatim}
+%
+Damit sieht das Programm fast fertig aus. Allerdings ist der Änderung
+im Vertrag von \texttt{sections-prefix} noch nicht überall Rechnung
+getragen worden, namentlich nicht in \texttt{resident-address}:
+Einerseits muß \texttt{resident-address} eine Fallunterscheidung für
+den Rückgabewert von \texttt{sections-prefix} einführen; dies heißt
+andererseits aber auch, daß \texttt{resident-address} selbst in die
+Lage kommen kann, daß der gesuchte Bewohner nicht gefunden wird.
+Damit werden neben der Erweiterung des Rumpfes der Prozedur auch eine
+Änderung des Vertrags und ein neuer Testfall fällig:
+%
+\begin{verbatim}
+(: resident-address (string apartment -> (mixed string not-found)))
+(check-expect (resident-address "Müller" a1) the-not-found)
+
+(define resident-address
+  (lambda (r a)
+    (if (string=? r (apartment-resident a))
+        r
+        (let ((prefix (sections-prefix r (apartment-sections a))))
+          (cond
+            ((not-found? prefix)
+             the-not-found)
+            ((string? prefix)
+             (string-append prefix
+                            " bei "
+                            (apartment-resident a))))))))
+\end{verbatim}
+%
+Solche Änderungen an Verträgen, die im Rahmen der schrittweisen
+Verfeinerung auftreten, sind wie Wellen im Teppichboden:  Sie müssen
+durch die gesamte Ausdehnung des Programms weitergegeben werden, bis
+sie schließlich am Rand angekommen sind.
+
+Am Beispiel der Wohnungsverwaltung werden einige typische Einsichten
+über die Software-Entwicklung deutlich:
+%
+\begin{itemize}
+\item Einmal begonnene Software wird fast immer später erweitert und
+  für Aufgaben eingesetzt, für die sie ursprünglich nicht gedacht war.
+  Darum ist es sinnvoll, von vornherein die Möglichkeit späterer
+  Erweiterungen zu berücksichtigen
+\item Auch wenn scheinbar das gesamte Problem vor dem Beginn der
+  Programm-Entwicklung bekannt ist, treten häufig noch beim
+  Programmieren neue Einsichten zutage, die Anpassungen erfordern.
+\item Änderungen an Verträgen~-- also Schnittstellen~-- ziehen häufig
+  andere Änderungen in Prozeduren nach sich, die diese benutzen.   Es
+  ist wichtig, diese gewissenhaft durchzuführen.
+\end{itemize}
+
+In Mantra-Form sehen diese Einsichten so aus:
+%
+\begin{mantra}
+  Programme wachsen.
+\end{mantra}
+
+\begin{mantra}
+  Es ist nicht möglich, für alle Eventualitäten im voraus zu planen.
+\end{mantra}
+
+\begin{mantra}
+  Änderungen an Schnittstellen müssen vollständig durch ein Programm
+  propagiert werden.
+\end{mantra}
+
+
+\section*{Aufgaben}
+
+\begin{aufgabe}\label{ex:naive-delete}
+  Eine alternative Implementierung von \texttt{search-tree-delete}
+  funktioniert folgendermaßen:
+  %
+  \begin{enumerate}
+  \item Alle Elemente des Baums werden in einer Liste aufgezählt.
+  \item Das zu löschende Element wird aus der Liste entfernt.
+  \item Ein völlig neuer Suchbaum aus wird aus der bereinigten Liste
+    konstruiert.
+  \end{enumerate}
+  %
+  Realisieren Sie diese Alternative!  Wie unterscheidet sie sich in
+  der Laufzeit von der im Text präsentierten Implementierung?
+\end{aufgabe}
+
+\begin{aufgabe}
+  Zwischen den Record-Definitionen von \texttt{apartment} und
+  \texttt{sublet} gibt es Gemeinsamkeiten.  Ist es möglich, von diesen
+  Gemeinsamkeiten zu profitieren und den Code zu vereinfachen?
+  Ändern Sie den Code entsprechend und beurteilen Sie, ob es sich
+  gelohnt hat.
+\end{aufgabe}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 
+
