@@ -66,10 +66,10 @@ Hier zwei Beispiele für Papageien:
 \end{verbatim}
 %
 Wir können einen Papagei ähnlich wie ein Gürteltier füttern~-- nur die
-Portion ist kleiner, wir nehmen 50g an.  Kurzbeschreibung und Signatur:\index{feed-parrot@\texttt{feed-parrot}}
+Portion ist kleiner, wir nehmen 50~g an.  Kurzbeschreibung und Signatur:\index{feed-parrot@\texttt{feed-parrot}}
 %
 \begin{verbatim}
-; Papagei mit 50g Futter füttern
+; Papagei mit 50 g Futter füttern
 (: feed-parrot (parrot -> parrot))
 \end{verbatim}
 %
@@ -292,13 +292,13 @@ Einige Länder der Europäischen Union planen zum Zeitpunkt der
 Drucklegung dieses Buches, den Gehalt bestimmter Inhaltsstoffe von
 Lebensmitteln vereinfacht durch eine sogenannte \textit{Ampel}
 darzustellen.  Bei Zucker zum Beispiel sieht die Ampel so aus, bezogen
-auf 100g eines Lebensmittels:
+auf 100~g eines Lebensmittels:
 %
 \begin{center}
   \begin{tabular}{l|l|l}
-    grün & niedriger Gehalt &  weniger als 5g\\\hline
-    gelb & mittlerer Gehalt & zwischen 5g und 12,5g\\\hline
-    rot & hoher Gehalt & mehr als 12,5g
+    grün & niedriger Gehalt &  weniger als 5 g\\\hline
+    gelb & mittlerer Gehalt & zwischen 5 g und 12,5 g\\\hline
+    rot & hoher Gehalt & mehr als 12,5 g
   \end{tabular}
 \end{center}
 %
@@ -310,12 +310,12 @@ natürlich redundant, wenn der Zuckergehalt in Gramm angegeben ist.
 Manchmal ist allerdings der Zuckergehalt auch separat für Fruktose und
 Glukose angegeben.  Ein Computerprogramm könnte aber den Umgang
 erleichtern, indem es jede Angabe auf einer Lebensmittelpackung~--
-Zucker in Gramm direkt, Fruktose und Glukose separat sowie die
+Zucker in Gramm insgesamt, Fruktose und Glukose separat sowie die
 Ampel~-- in die einheitliche Ampel-Form bringt.
 
 Zunächst die Datenanalyse:
 
-Den Zuckergehalt in Gramm direkt kann eine (rationale) Zahl
+Den Zuckergehalt in Gramm insgesamt kann eine (rationale) Zahl
 repräsentieren.
 
 Die Zuckerangabe mit Fruktose und Glukose separat ist zusammengesetzt,
@@ -338,12 +338,12 @@ die Signaturen für die Record-Prozeduren:
 Hier einige Beispiele:
 %
 \begin{verbatim}
-(define s1 (make-sugars 1 1)) ; 1g Fruktose, 1g Glukose
-(define s2 (make-sugars 2 3)) ; 2g Fruktose, 3g Glukose
-(define s3 (make-sugars 5 5)) ; 5g Fruktose, 5g Glukose
-(define s4 (make-sugars 10 2.5)) ; 10g Fruktose, 2.5g Glukose
-(define s5 (make-sugars 10 3)) ; 10g Fruktose, 3g Glukose
-(define s6 (make-sugars 15 10)) ; 15g Fruktose, 10g Glukose
+(define s1 (make-sugars 1 1)) ; 1 g Fruktose, 1 g Glukose
+(define s2 (make-sugars 2 3)) ; 2 g Fruktose, 3 g Glukose
+(define s3 (make-sugars 5 5)) ; 5 g Fruktose, 5 g Glukose
+(define s4 (make-sugars 10 2.5)) ; 10 g Fruktose, 2.5 g Glukose
+(define s5 (make-sugars 10 3)) ; 10 g Fruktose, 3 g Glukose
+(define s6 (make-sugars 15 10)) ; 15 g Fruktose, 10 g Glukose
 \end{verbatim}
 %
 Bei der Ampel selbst handelt es sich um eine einfache

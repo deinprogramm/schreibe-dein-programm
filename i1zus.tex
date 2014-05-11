@@ -71,8 +71,8 @@ ist das konkrete Bestandteil eines einzelnen Computers.
 
 Die Darstellung für solche \textit{zusammengesetzte
   Daten\index{zusammengesetzte Daten}}, die aus mehreren
-\textit{Komponenten\index{Komponente}} (in diesem Fall Prozessor, RAM
-und Festplatte) bestehen, heißt \textit{Record}.  Alle
+\textit{Komponenten\index{Komponente}} (in diesem Fall"`\texttt{Cell}"', $2$
+und $250$) bestehen, heißt \textit{Record}.  Alle
 Records für Computer gehören zu einer gemeinsamen Menge, dem
 \textit{Record-Typ\index{Record-Typ}} für Computer.  (Weiter hinten
 in diesem Kapitel wird beschrieben, wie ein Programm eigene
@@ -493,7 +493,8 @@ beantwortet.  Hier sind die Signaturen für die Record-Prozeduren:
 (: dillo-alive? (dillo -> boolean))
 \end{verbatim}
 %
-Riesengürteltiere werden um die 60kg schwer.   Hier sind einige
+Dabei bedeutet \texttt{any}, dass an dieser Argumentstelle beliebige
+Daten auftreten dürfen.  Riesengürteltiere werden um die 60kg schwer.   Hier sind einige
 Exemplare:
 %
 \begin{verbatim}

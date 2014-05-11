@@ -72,7 +72,7 @@ vielleicht, daß sich alle als Brüche auf den Nenner 3 kürzen lassen:
   \end{array}
 \end{displaymath}
 %
-Einzige Ausnahme ist der Bruch für 0: dort wird durch 0 geteilt, es
+Einzige Ausnahme ist der Bruch für $0$: dort wird durch $0$ geteilt, es
 ist also unklar, welcher Bruch an dieser Stelle in der Tabelle stehen
 sollte.  Ansonsten suggeriert die Tabelle folgende Formel:
 %
@@ -89,7 +89,7 @@ Antwort für die ursprüngliche Frage zu ergeben:
 \end{equation}
 %
 Schöne Formel~-- aber stimmt sie auch für alle $n\in\mathbb{N}$?  (Für
-den unklaren Fall 0 stimmt sie.)  Wer
+den unklaren Fall $0$ stimmt sie.)  Wer
 mag, kann sie noch für weitere $n$~-- $7, 8, \ldots$~-- ausprobieren,
 und tatsächlich zeigen sich zunächst keine Gegenbeispiele.  Aber das
 ist langweilig und würde immer noch nicht reichen, um die Behauptung
@@ -312,7 +312,7 @@ herausgekommen und die Behauptung ist bewiesen.
 Die vollständige Induktion aus dem vorigen Abschnitt ist nur für die
 Menge der natürlichen Zahlen geeignet.  Sie funktioniert aber nicht für alle
 Mengen: Für die reellen Zahlen $\mathbb{R}$ z.B.\ erreicht die
-Konstruktion "`bei 0 anfangen und dann immer um 1 hochzählen"' einfach
+Konstruktion "`bei $0$ anfangen und dann immer um $1$ hochzählen"' einfach
 nicht alle Elemente der Menge.%\footnote{Bei den ganzen Zahlen
 %  $\mathbb{Z}$ und den rationalen Zahlen $\mathbb{Q}$ ist das anders,
 %  da es sich um \textit{abzählbare Mengen} handelt.  Das ist
@@ -323,7 +323,7 @@ sich eine Art Bastelanleitung für alle Elemente von $\mathbb{N}$ angeben
 läßt:
 %
 \begin{itemize}
-\item 0 ist eine natürliche Zahl.
+\item $0$ ist eine natürliche Zahl.
 \item Für eine bekannte natürliche Zahl $n$ ist auch
   $n+1$ eine natürliche Zahl.
 \end{itemize}
@@ -398,7 +398,13 @@ Menge.  Ein weiteres Beispiel sind die \index{Folge}\index{endliche
   Sei $M$ eine beliebige Menge.  Die Menge $M^\ast$ der \textit{endlichen
     Folgen} über $M$ ist folgendermaßen definiert:\index{*@$M^\ast$}
     \begin{enumerate}
-    \item Es gibt eine \textit{leere Folge} $\epsilon \in
+    \item Es gibt eine \textit{leere Folge}\footnote{Auf den ersten
+        Blick scheint das Konzept einer leeren Folge, die keine
+        Elemente enthält, merkwürdig. Die Informatik hat aber die
+        Erfahrung gemacht, dass allzu oft Programme abstürzen, weil
+        sie irgendwo "`nichts"' vorfinden, wo sie doch mindestens
+        "`etwas"' erwarteten. Auf den zweiten Blick ist die leere
+        Folge aber das Analog zu der $0$ bei den natürlichen Zahlen.} $\epsilon \in
       M^\ast$.\index{*@$\epsilon$}\index{leere Folge}
     \item Wenn $f \in M^\ast$ eine Folge ist und $m \in M$, so ist $mf
       \in M^\ast$, also auch eine Folge.
@@ -452,7 +458,7 @@ die zwischen den beiden Sorten unterscheidet:
 %
 Es fehlen nur noch die Teile der Definition, wo Fragezeichen stehen:
 
-Die Summe der leeren Folge ist 0:  Wenn es sich um eine andere
+Die Summe der leeren Folge ist $0$:  Wenn es sich um eine andere
 Zahl $m \neq 0$ handeln würde, ließe sich schließlich die Summe einer
 beliebigen Folge durch das Anhängen der leeren Folge um $m$ verändern.
 Die erste Lücke ist also schon geschlossen:
@@ -695,8 +701,9 @@ In der Grammatik steht \meta{$\mathbb{N}$} für "`eine natürliche
 Zahl"'.  Zu lesen ist die Grammatik so: Eine natürliche Zahl ist
 entweder die $0$ oder hat die Form $n + 1$ wobei $n$ wiederum eine
 natürliche Zahl ist.  Der obligatorische induktive Abschluß ("`Die
-obigen Regeln definieren \emph{alle} $n\in\mathbb{N}$."') ist implizit
-und wird darum weggelassen.  
+obigen Regeln definieren \emph{alle} $n\in\mathbb{N}$."') wird
+stillschweigend vorausgesetzt
+und darum weggelassen.  
 
 Das Zeichen \goesto{} kann also als "`ist"' oder "`hat die Form"'
 gelesen werden, das Zeichen $\vert$ als "`oder"'. Die Notation

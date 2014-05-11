@@ -192,7 +192,11 @@ Für die Testfälle halten die Beispiellisten her:
 \end{verbatim}
 %
 Nicht vergessen: In \texttt{n2} sind Zahlen mit Dezimalpunkt.
-Deshalb müssen wir \texttt{check-within} verwenden.  Das Gerüst der
+Deshalb müssen wir \texttt{check-within} verwenden.  Diese Prozedur
+hat drei Parameter: Die ersten beiden geben ein reales und ein
+erwartetes Ergebnis an
+und der dritte sagt, um wieviel das reale Ergebnis in der positiven
+oder negativen Richtung vom erwarteten Ergebnis abweichen darf. Das Gerüst der
 Prozedur sieht so aus:
 %
 \begin{verbatim}
@@ -260,8 +264,8 @@ Testfall für die leere Liste zu formulieren:
 Die Antwort ist nicht ganz offensichtlich, wir können 
 sie aber durch folgende Überlegung gewinnen: Betrachten wir Listen aus
 Einsen, dann entspricht deren Summe immer der Länge der Liste.  Wenn
-die Liste leer ist hat sie die Länge 0, entsprechend ist also auch
-ihre Summe 0:
+die Liste leer ist hat sie die Länge $0$, entsprechend ist also auch
+ihre Summe $0$:
 %
 \begin{alltt}
 (check-expect (list-sum empty) 0)
@@ -404,7 +408,7 @@ zur Verfügung:
 %
 Der \texttt{empty}-Testfall ist vielleicht etwas verwirrend: In der
 Tat sind alle Elemente der leeren Liste positiv.  Eine andere Art dies
-zu sagen wäre, daß kein Element der leeren Liste nicht positive ist.
+zu sagen wäre, daß kein Element der leeren Liste nicht positiv ist.
 
 Diese Testfälle reichen sichtlich nicht aus, da alle \verb|#t| ergeben
 sollen: Diese würden auch von folgender Prozedur erfüllt:
@@ -416,7 +420,7 @@ sollen: Diese würden auch von folgender Prozedur erfüllt:
 \end{verbatim}
 %
 Also werden noch Beispiele mit nicht-positiven Elementen benötigt~--
-insbesondere eins mit dem Grenzfall 0:
+insbesondere eins mit dem Grenzfall $0$:
 \begin{verbatim}
 (check-expect (all-positive? (make-pair -5 empty)) #f)
 (check-expect (all-positive? (make-pair 0 empty)) #f)
