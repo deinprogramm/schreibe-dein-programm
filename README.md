@@ -13,6 +13,7 @@ Das Buch ist in LaTeX geschrieben.
 
 Zum Bauen sind folgende Befehle notwendig:
 
+    touch includeonly.tex
 	pdflatex i1
 	bibtex i1
 	pdflatex i1
@@ -28,6 +29,9 @@ Dann geht es weiter:
 	pdflatex i1
 	
 Fertig ist das Buch in `i1.pdf`.
+
+Wer aktiv am Buch schreibt, mag u.U. ein `includeonly`-Statement in
+`includeonly.tex` schreiben, damit nicht immer alles geTeXt wird.
 
 # Lizenz
 
