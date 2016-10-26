@@ -1,0 +1,731 @@
+\message{<Paul Taylor's right-justified end-of-proof mark, 24 June 1995>}
+%%========================================================================
+%************************************************************************%
+%*                                                                      *%
+%*      Maybe you already have a \qed macro to put a little square      *%
+%*      on the right hand side at the end of a mathematical proof?      *%
+%*                                                                      *%
+%*                      IT'S PROBABLY MINE!                             *%
+%*                                                                      *%
+%*           Please compare yours with \parag@pushright below.          *%
+%*                                                                      *%
+%*      This new file is compatible, it fixes the bugs, has extra       *%
+%*      features, and is maintained and portable.  Please use it!       *%
+%*                                                                      *%
+%*      NEW FEATURE \WillHandleQED and \HandleQED for environments      *%
+%*      which do not give access to the right hand side of the page.    *%
+%*                                                                      *%
+%*      Now also available: \DefineStandardTheorems or                  *%
+%*      \usepackage[define-standard-theorems]{QED}                      *%
+%*                                                                      *%
+%************************************************************************%
+%========================================================================%
+
+% COPYRIGHT (C) 1993-6 Paul Taylor, Department of Computer Science,
+% Queen Mary & Westfield College, London E1 4NS.
+% You may use this file for any purpose. You may copy it on condition that
+% you do so in exactly the form in which it was supplied, make no charge
+% for the copy and impose the same conditions on the recipient.
+% This software is supplied ``as is'' without warranty, express or implied,
+% including but not limited to merchantability and fitness for any particular
+% purpose. No liability is accepted by the author, Queen Mary and Westfield
+% College, Imperial College or any third party for any direct or consequential
+% damages, however caused.
+% In all cases you must keep several backup versions of your files in a place
+% to which your machine cannot write, and you must check documents visually
+% before submitting the final version to a publisher or expensive printer.
+
+% WARNING: If you use this with Frank Mittlebach's "theorem.sty" you
+% MUST load theorem first, then QED, then do the \newtheorem commands.
+
+%       Authoritative version:  /pub/tex/contrib/pt/proofs/QED.sty
+%       by anonymous FTP from:  ftp.dcs.qmw.ac.uk
+%       also CTAN:              macros/generic/proofs/taylor/QED.sty
+%       author/maintained by:   Dr Paul Taylor <pt@dcs.qmw.ac.uk>
+
+% WARNING: This file replaces some of the functions of "Paul.sty"
+% and MUST NOT be used with it as serious conflicts will arise.
+
+%=========================================================================
+
+%       USER INTERFACE AND EXAMPLES (see also OPTIONS below)
+
+% LaTeX2e \usepackage options: see \DeclareOption commands below
+% theorems-as-commands roman-theorems italic-theorems
+% auto-QED explicit-QED number-theorems dont-number-theorems
+% black-square open-square
+
+%       \begin{Proof} ... \end{Proof}
+%       or    \Proof  ... \endProof
+%       or    \Proof  ... \endproof
+%       or    \Proof  ... \qed          also \QED \QEF and \QEI
+
+% WARNING: \qed which doesn't follow \Proof will not print the square.
+
+% Each properly nested Proof/endProof pair gets a single
+% \qedsymbol at the end, on the far right hand side.
+% Unfortunately, this may still be in the wrong place
+% if the proof ends with a display or itemisation.
+% To solve this, \qed may be put *inside* the last substantive
+% environment; the \qedsymbol will be put at that point
+% (the visual end) and suppressed at the logical end of proof.
+
+% Examples:
+%       \begin{Proof}                   \begin{Proof}
+%         ...                             ...
+%         \begin{eqnarray}                \begin{itemize}
+%          ... &=& ... \\                   \item ...
+%          ..  &=& ... &\qed                \item ...   \qed
+%         \end{eqnarray}                  \end{itemize}
+%       \end{Proof}                     \end{Proof}
+% also works with $$...$$ and \[...\] displays, including fleqn.sty.
+
+% Unfortunately some environments, such as picture, do not allow this at all.
+% See the section "centering environments" below for the mechanism for
+% passing \qed to such an environment for special processing.
+
+% In fact \qed will only work in those environments which provide access to
+% the right hand side of the page. In other words, wherever you think
+% "\hfill\square" ought to work then \qed will; of course it is just because
+% that naive method doesn't work that this macro file is needed at all.
+% The macro was designed to solve the problem in the case of "unrestricted
+% horizontal mode" (ie at the end of a paragraph); it also works in $$
+% displays by pretending to be an equation number. In most other cases it
+% basically does "\hfill\square" or "\hfill$\square$" and hopes for the best.
+
+% If you have to put \qed outside the environment, it may be appropriate to
+% put \vskip-\baselineskip before it, unless of course this would over-print.
+% There is, however, still a danger that TeX will break the page here.
+% This seems to be unavoidable if the environment ends with a \penalty.
+
+% The eqnarray example above does not in fact work: if you try it you'll
+% get "! Paragraph ended before \llap was complete" with LaTeX in a mess.
+% This is a very common place where you might want to put the end of proof
+% mark, and I also consider that the fourth column should be available for
+% "reasons" for equational steps.  The following substitute for \eqnarray
+% allows this, whilst being compatible with automatic numbering. I have
+% proposed it to Rainer Sch\"opf for inclusion in LaTeX. If you want to
+% use it, please copy it to another file rather than uncommenting it here.
+% Don't forget to use \makeatletter or put it in a documentstyle (.sty) file.
+%
+% \def\eqnarray{\stepcounter{equation}\let\@currentlabel\theequation
+% \global\@eqnswtrue\m@th\global\@eqcnt\z@\tabskip\@centering\let\\\@eqncr
+% $$\halign to\displaywidth\bgroup\@eqnsel\hskip\@centering$\displaystyle
+% \tabskip\z@{##}$&\global\@eqcnt\@ne\hskip 2\arraycolsep \hfil${##}$\hfil
+% &\global\@eqcnt\tw@\hskip2\arraycolsep$\displaystyle\tabskip\z@{##}$\hfil
+% \tabskip\@centering&%
+%       \global\@eqcnt\thr@@\hbox to\z@\bgroup\hss##%*** instead of "\llap{##}"
+% \tabskip\z@\cr}%
+% \def\@@eqncr{\let\@tempa\relax
+% \ifcase\@eqcnt \def\@tempa{& & &}\or \def\@tempa{& &}%
+%       \or\def\@tempa{&}\else\@eqnswfalse%*** instead of "\else\def\@tempa{&}"
+% \fi\@tempa\if@eqnsw\@eqnnum\stepcounter{equation}\fi
+%       \egroup%*** added, to match \bgroup in fourth cell of preamble
+% \global\@eqnswtrue\global\@eqcnt\z@\cr}
+
+% Why can't we do all of this with \endProof? Because by that stage
+% the damage has been done: the environments, paragraphs or
+% displays have already been closed and their \hbox'es added
+% to the current vertical list, and cannot be removed for
+% alteration if this is the current page.
+
+% Even if you don't need to put \qed inside an inner environment
+% to avoid a blank line, it's still a good idea to do so, because
+% otherwise it's possible that intervening end-of-environment
+% material may allow TeX to put the mark on the next page.
+
+% This file may be called QED.sty, QED.tex, qed.sty or qed.tex.
+% It may be loaded using \input, \usepackage or as a \documentstyle option,
+% as it is careful to handle the \catcode of @ appropriately.
+
+% If you don't use theorem.sty, this file instead provides options to use
+% commands to begin theorems, instead of enclosing them in environments,
+% and to suppress numbering and italicisation. A rudimentary version of
+% \newtheorem for plain TeX is also implemented (always using commands
+% rather than environments).
+
+% At the end of the file some useful \newtheorem
+% commands are listed but not executed.
+
+% NB \Theorem\Proof\endProof\qed will print the second square, whereas
+% \begin{Theorem}\end{Theorem}\begin{Proof}\end{Proof}\qed will not.
+
+%=========================================================================
+% Make @ letter, saving its old code to restore at the end of this file.
+% Look for this towards the end of the file if you think something's missing!
+% "plain.tex" defines \lq as a synonym for back quote (character constant);
+% I use it to avoid corruption when sending TeX files by email via BITNET.
+\edef\qedrestoreat{\noexpand\catcode\lq\noexpand\@=\the\catcode\lq\@}%%
+\catcode\lq\@=11
+
+% in LaTeX, \protect the user commands;
+% in plain TeX, ensure that it is defined.
+\ifx\protect\undefined\let\protect\relax\fi
+
+%=========================================================================
+
+%                               OPTIONS
+
+% These are the user commands.
+
+\def\qed{\protect\@qed{$\qedsymbol$}}% suppressible printing of \qedsymbol
+% \pushright takes an argument, which it always prints
+% it is (re)defined by \WillHandleQED and \UnHandleQED below (12.4.94)
+
+% theoremata in Euclid needed proof:    "which   was  to be shown"
+\def\QED{\protect\@qed{{\rm Q.E.D.}}}%  "quod   erat  demonstrandum"
+
+% but problemata needed construction:   "which   was  to be found"
+\def\QEI{\protect\@qed{{\rm Q.E.I.}}}%  "quod   erat  inveniendum"
+
+% alternatively:                        "which   was  to be done/made"
+\def\QEF{\protect\@qed{{\rm Q.E.F.}}}%  "quod   erat  faciendum"
+
+% a LaTeX environment
+\def\Proof{\protect\@Proof}\def\endProof{\protect\@endProof}%
+\let\proof\Proof\let\endproof\endProof
+
+
+% These are the user-settable parameters.
+
+% The actual (maths) symbol used by \qed
+\def\qedsymbol{\square}% PLEASE NOTE: this is in the AMS symbols font.
+%\def\qedsymbol{\blacksquare}%  use one of these instead
+%\def\qedsymbol{\hbox{\rm Q.E.D.}}%        if you prefer
+%\def\qedsymbol{\dashv}% this is what the Journal of Symbolc Logic likes.
+
+% This is the text used by \Proof.
+% A new paragraph is begun without indentation.
+% Change it to {\kern\parindent\sc D\'emonstration: } if you like.
+\def\TheWordProof{\bf Proof\enskip}
+
+% This is the font command used for the text of proofs
+\def\ProofFont{}
+
+% The command \AutoQEDtrue causes a \qed in \end{Theorem}, so you do
+%       \begin{Theorem} ... \begin{Proof} ... \end{Proof} \end{Theorem}
+% but if you omit the proof, the statement gets a little square at the end.
+\newif\ifAutoQED\AutoQEDfalse
+
+% The remaining options are redundant with theorem.sty
+% so are not defined if this has been loaded.
+\newif\ifNumberResults
+\ifx\theorem@style\undefined
+   %
+   % How to print the name (#1), number (#2) and attribution (#3) of a theorem.
+   \NumberResultstrue
+   % If the number (#2) is absent, "\unskip" removes the
+   % unwanted space "\ " from before it (16 Feb 1993).
+   \def\TheoremHeader#1#2#3{\bf #1\ifNumberResults\ #2\unskip\fi#3}
+   %
+   % This is the font command used for the text of theorem enunciations
+   % change to {\rm} or {\small} if you like.
+   \def\TheoremFont{\it}
+   %
+   % The command \NumberResultsfalse will suppress theorem numbering.
+   %
+   % The command \TheoremsAsCommands will allow you to write
+   % \Theorem instead of \begin{Theorem} ... \end{Theorem}.
+   % In this case italicisation is suppressed by default.
+   % To do this with theorem.sty would involve rewriting the substyles.
+   %
+   % WARNING: if you subsequently redefine \TheoremFont, and use the command
+   % instead of the environment, the font will remain in force afterwards!
+\fi
+
+% The document style option "theorems-as-commands" will allow you to
+% write \Theorem instead of \begin{Theorem} ... \end{Theorem}.
+% Moved here from further down. 10 Jan 1994
+\def\TheoremsAsCommands{%
+  \def\TheoremFont{}% suppress italicised theorems.
+  \def\begin@theorem##1{%
+     \par\removelastskip\smallskip
+     \save@set@qed % enable \qed
+     \noindent{##1}% the name
+     %\TheoremFont % italicise at your own risk!
+   }%
+  \def\@endtheorem{\ifAutoQED\qed\fi\restore@qed}%
+}%
+
+\expandafter\let\csname ds@theorems-as-commands\endcsname\TheoremsAsCommands
+
+%=========================================================================
+%  If you already have a macro called \qed, \endproof or \pushright
+%  which is laid out in a similar way to the following two definitions
+%  (but with \hbox@pushright incorporated) then it is almost certainly
+%  my code, which has been copied anonymously via numerous people since
+%  my Cambridge PhD thesis in August 1986. Belated acknowledgements to
+%  Chris Thompson of the Cambridge University Computing Service for his
+%  help with my early attempts at TeX, in particular this problem.
+
+%  The complexity of the macro necessary to get a little box on the
+%  right-hand-side at the end of a proof is amazing.  It really does
+%  have to be this long!  Otherwise you're liable to get it at the
+%  beginning of the next line, or even on the next page. 
+
+\def\parag@pushright#1{{% set up
+    \parfillskip=0pt            % so \par doesnt push \square to left
+    \widowpenalty=10000         % so we dont break the page before \square
+    \displaywidowpenalty=10000  % ditto
+    \finalhyphendemerits=0      % TeXbook exercise 14.32
+    %
+    %                   horizontal
+    %\leavevmode                % not needed since we now only use it in hmode
+    \hbox@pushright             % this used to be incorporated
+    #1%                         % the end-of-proof mark (or whatever)
+    %
+    %                     vertical
+    \par}}%                     % build paragraph with the above parameters
+
+\def\hbox@pushright{% horizontal
+    \unskip                     % remove previous space or glue
+    \nobreak                    % don't break lines
+    \hfil                       % ragged right if we spill over
+    \penalty50                  % discouragement to do so
+    \hskip.2em                  % ensure some space
+    \null                       % anchor the following \hfill
+    \hfill                      % push \square to right
+}%
+
+% Ideally \endProof should do all this. We should be able to add the symbol
+% to the last line after the paragraph, display or whatever other structure
+% has been completed and we've returned to vertical mode. This isn't possible
+% on the current page (outer vmode) because \lastbox doesn't work there.
+
+% But \ifinner is true inside a \vbox, \vadjust or \insert (LaTeX \parbox,
+% minipage, figure or table), and in these circumstances we can use \lastbox.
+% We would have to strip & restore glue & penalties (\insert, \mark and \write
+% are obstacles to this) to get access to the last line (box), which may
+% still not have the correct baseline. We could check its natural width
+% against the page width, but if we re-set it, centering and (right)
+% justification might be disturbed. Is this worth the trouble?
+\def\vbox@pushright#1{\expandafter\message %  (2 Jan 1994)
+  {QED.sty could be improved in this case (line \the\inputlineno): please ask}%
+  \page@pushright{#1}}%
+
+% Using this method the Proof environment could be implemented by collecting
+% the entire proof in its own \vbox, modifying that and \unvbox'ing it to the
+% current page. This approach may lead to the following problems:
+%   (i) footnotes, floats, marginpars, labels and index items may be lost;
+%  (ii) overflow of TeX's main memory, especially if \end{Proof} is missing;
+% (iii) I don't know how page-breaking would be handled.
+
+%========================================================================
+
+% Switch to enable/suppress \qedsymbol; since suppression may be done
+% within a nested scope it must be global, so we do our own save/restore
+% in a symbol which is local to the Proof environment.
+% On first use, we check to see whether an obsolete version of Paul.sty
+% is around, and complain loudly if it is, because they interfere seriously.
+
+\newif\if@qed\@qedfalse
+\def\save@set@qed{\check@pt@sty@v\let\saved@ifqed\if@qed\global\@qedtrue}%
+\def\restore@qed{\global\let\if@qed\saved@ifqed}
+
+% prefer proofs with statements if possible - hence \penalty700
+% the only essential part of this is \save@set@qed
+\def\@Proof{%
+   \par\removelastskip\smallskip\penalty700
+   \save@set@qed
+   \noindent\ProofFont{\TheWordProof\enskip}%
+}%
+
+\def\@endProof{%
+   \qed\restore@qed
+   \penalty-700 \smallskip
+}
+
+\def\@qed#1{\check@pt@fm@thm
+\if@qed                                 % have we already done \qed?
+     \global\@qedfalse\pushright{#1}%  - no  - do it now, but not again
+\else\ifhmode\ifinner\else\par\fi\fi%  - yes - just end paragraph, if any
+\fi}
+
+% \pushright{text} always prints its argument, on the far right, in text mode
+\def\@pushright#1{%
+  \ifvmode
+       \ifinner\vbox@pushright{#1}% vertical mode (see comments above)
+       \else   \page@pushright{#1}%
+       \fi
+  \else\ifmmode\maths@pushright{\hbox{#1}}% maths (force a text argument)
+       \else\ifinner\hbox@pushright{#1}%  inside an \hbox
+            \else\parag@pushright{#1}%    in a paragraph
+  \fi  \fi  \fi
+}% (22 Feb 1993) removed extra {} which would destroy our \] below
+
+% In the \hbox and maths cases we are really at the mercy of the environment.
+% Assuming that we have $\qed$ simply embedded in a paragraph, the horizontal
+% processing by \hbox@pushright will at least make sure that the square isn't
+% at the beginning of the line, but we can't stop it being on the next page.
+% However it is more likely that the reason why we're in maths mode is that
+% we're inside an eqnarray or similar, in which case \hfill will do its best
+% to put the square on the right of the available space. (See \vadjust below.)
+\def\maths@pushright#1{%
+  \ifinner
+     \hbox@pushright{#1}%
+  \else
+     \eqno#1%   use TeX's right equation number feature (\eqno) within $$.
+     \def\]{$$\ignorespaces}%    suppress LaTeX's error checking (HACK!)
+  \fi
+}% (22 Feb 1993) removed extra {} which would destroy our \] above
+
+% outer vertical mode (the current page)
+% There's very little we can do in these circumstances!
+% Penalties still allow the page to be broken.
+% If the user has put negative glue in, leave it alone. (15 Feb 1994)
+\def\page@pushright#1{% 18 Jan 1994
+  %\unpenalty % ineffective
+  \skip@\lastskip
+  \ifdim\skip@>\z@
+       \unskip    % remove \parskip, but only (15 Feb 1994) if it's positive
+  \else\skip@\z@\relax
+  \fi
+  %\unpenalty % TeX won't let me do this
+  \dimen@\baselineskip
+  \advance\dimen@-\prevdepth            % save \prevdepth to make a strut
+  \nobreak                              % don't break the page here
+  \nointerlineskip
+  \hbox to\hsize{%
+    \setbox\z@\null
+    \ifdim\dimen@>\z@\ht\z@\dimen@\fi   % simulate \baselineskip
+    \box\z@
+    \hfill
+    #1}%
+  \vskip\skip@                  % replace old \parskip
+}%
+
+% An idea that didn't work: see TeXbook p188. (16 Feb 1993)
+% Use \predisplaysize to find out the width of the previous box,
+% in the case where it has already been completed.
+% But this can only be used inside displays ($$), and a display in
+% vertical mode begins a paragraph first, so we end up with
+% \predisplaysize=\parindent+2em whatever happened in the previous
+% paragraph.
+
+% Another idea: it may be worth trying \vadjust, if only to insert \nobreak.
+% The problem with this is that if we are too deeply nested in horizontal
+% or maths lists, the adjustment may not be able to find its way out to the
+% enclosing vertical list. In the case of array-like environments, it will
+% appear (assuming it manages to get out) after the current row of the array.
+
+%===========================================================================
+% We have to add to the theorem environments the commands to enable \qed.
+% This is done by re-defining \@thm#1#2.
+% Note that Mittelbach's theorem.sty re-defines \@thm and \@endtheorem, so
+% that must be loaded before us, otherwise our changes will get over-written
+% and \qed will never be enabled.
+% Paul.sty didn't use this method of gaining control inside a theorem,
+% whereas it did define \qed and \pushright, so here is the one place
+% where we can check for it.
+
+\ifx\nonqed@thm\undefined % otherwise double loading causes a loop 22 Feb 1993
+   \let\nonqed@thm\@thm % save original
+   \let\nonqed@endthm\@endtheorem
+\fi
+
+\def\@thm{\save@set@qed\nonqed@thm}%
+\def\@endtheorem{\ifAutoQED\qed\fi\restore@qed\nonqed@endthm}%
+
+%===========================================================================
+% "CENTERING" ENVIRONMENTS - 
+% those which don't give their contents access to the right hand side
+% of the page, such as center, picture, ...  (12 April 1994)
+
+% Each individual environment (both the standard ones and those defined
+% by the user) needs to co-operate in order to make \qed and \pushright work.
+% It is not the business of this package to rewrite LaTeX in this way,
+% but the following mechanism may be inserted in to other environments.
+%  - put \WillHandleQED in the \begin part of the environment definition;
+%    then if a \qed occurs in the body of the environment it is stored
+%    in \QEDbox until...
+%  - \HandleQED anywhere in the \end part of the environment definition
+%    (even inside dollars, braces or another environment) prints it.
+%
+% For example:
+% \newenvironment{qedpicture}%
+%    {\begin{picture}\WillHandleQED}%
+%    {\put(0,0){\HandleQED}\end{picture}}
+%
+% To make this compatible with *not* loading QED.sty,
+% add the following to macro files which use \WillHandleQED and \HandleQED:
+%   \ifx\WillHandleQED\undefined
+%      \let\WillHandleQED\relax
+%      \let\HandleQED\relax
+%      \let\UnHandleQED\relax % if you use it
+%      \let\QEDbox\voidb@x    % must have \makeatletter here!
+%   \fi
+%
+% \UnHandleQED restores normal processing; this may be useful for
+% the minipage environment, which has its own notion of "right hand side"
+% of the page.
+%
+% The width of the saved \qed is available for testing as \wd\QEDbox
+
+\newbox\qed@box % the box in which to save \qed for special handling
+
+\def\WillHandleQED{\relax
+\ifx\HandleQED\nohandle@qed
+   % no enclosing environment has declared \WillHandleQED
+   \def\pushright{\global\setbox\qed@box\hbox}% \qed will be saved
+   \let\QEDbox\qed@box % point at the right box
+   \def\HandleQED{\unhbox\QEDbox}% print it
+   \aftergroup\check@handle@qed  % check that this really gets done
+\else
+   % an enclosing environment already wants to catch \qed
+   % \HandleQED doesn't print anything - let the saved \qed pass through
+   \let\QEDbox\voidb@x % by pointing at an empty box
+\fi}
+
+\def\nohandle@qed{%
+\errhelp{One of them is missing: see QED.sty.}%
+\errmessage{This environment uses \string\WillHandleQED\space and
+\string\HandleQED\space incorrectly}}
+
+\def\check@handle@qed{\relax
+\ifvoid\qed@box\else\expandafter\nohandle@qed\fi}
+
+\def\UnHandleQED{%
+\let\HandleQED\nohandle@qed
+\let\QEDbox\voidb@x
+\def\pushright{\protect\@pushright}}%
+
+\UnHandleQED
+
+%===========================================================================
+% Check for obsolete versions and clashes of this and other macro files.
+% Why do I do this? Because of those people who complain to me that
+% something doesn't work but refuse to read the manual, and those
+% who refuse to update their software, and then publish papers with
+% commutative diagrams full of the bugs which I fixed several years ago.
+
+\def\obsolete@pt@version#1{\errhelp={%
+%     *****************************************************************
+%     *            The master version is available by                 *
+        Anonymous FTP ftp.dcs.qmw.ac.uk /pub/tex/contrib/pt/tex/#1}%*
+%     *****************************************************************
+\errmessage{You have an obsolete version of #1 - please get a new one}}%
+
+% First check QED.sty
+%\ifnum\year>1996 \obsolete@pt@version{QED.sty}\fi
+
+% If theorem.sty hasn't been loaded, arrange to check it again in \@qed.
+% And check (then) whether you've actually defined \square.
+% changed 2 June 1993: don't define it now, as that would confuse amssymb.sty
+\ifx\theorem@style\undefined
+   \def\check@pt@fm@thm{\relax
+     \ifx\square\undefined
+       \gdef\square{\bigcirc
+          \errhelp={Anonymous ftp e-math.ams.com /ams/amsfonts}%
+          \errmessage{\string\square\space is an AMS symbol}%
+          \global\let\square\bigcirc}%
+     \fi
+      \ifx\theorem@style\undefined
+          \global\let\check@pt@fm@thm\relax
+      \else\errhelp={The macros \@thm and \@endtheorem need to be re-defined.}%
+          \errmessage{QED.sty must be loaded AFTER theorem.sty but before
+           using \string\newtheorem}%
+      \fi
+      \global\let\check@pt@fm@thm\relax
+      }%
+\else
+   \def\check@pt@fm@thm{%
+      \ifx\square\undefined
+         \def\square{\bigcirc
+         \errhelp={Anonymous ftp e-math.ams.com /ams/amsfonts}%
+         \errmessage{\string\square\space is an AMS symbol}%
+         \global\let\square\bigcirc}%
+      \fi
+      \global\let\check@pt@fm@thm\relax
+      }%
+\fi
+
+% Check for Paul.sty, which SERIOUSLY conflicts with this file.
+% and also for version 2 or version 3 of commutative diagrams.
+\def\check@pt@sty@v{%
+   \relax
+   \ifx\@@begintheorem\undefined
+   \else\message{*** QED.sty and the old Paul.sty seriously conflict! ***}%
+        \obsolete@pt@version{Paul.sty}%
+   \fi
+   \ifx\execHorizontalMap\undefined
+        \gdef\obsolete@pt@version##1{}% it's no longer needed
+   \else\global\let\di@gr@m\diagram
+        \gdef\diagram{\obsolete@pt@version{diagrams.tex}\di@gr@m}%
+   \fi
+   \global\let\check@pt@sty@v\relax
+}%
+
+%===========================================================================
+
+% Define some standard ``theorem'' types.
+
+\def\DefineStandardTheorems{%
+%
+% First set up uniform numbering in LaTeX;
+% don't use this in plain TeX because this usage of \newcommand is not
+% supported and we have already done by hand what it would do in LaTeX,
+% viz to define the macro \theResult and the count \c@Result.
+\relax\ifx\@@thm\undefined
+        \newtheorem{Result}{Result}[subsection]%
+        \@addtoreset{Result}{section}%
+        \ifx\chapter\undefined\else\@addtoreset{Result}{chapter}\fi
+\fi
+%
+\let\theUnnumbered\relax\countdef\c@Unnumbered255 \def\p@Unnumbered{}%
+\let\DefineStandardTheorems\relax
+%
+\newtheorem{Answer}[Result]{Answer}%
+\newtheorem{Answers}[Result]{Answers}%
+\newtheorem{Conjecture}[Result]{Conjecture}%
+\newtheorem{Construction}[Result]{Construction}%
+\newtheorem{Convention}[Unnumbered]{Convention}%
+\newtheorem{Corollary}[Result]{Corollary}%
+\newtheorem{Counterexample}[Result]{Counterexample}%
+\newtheorem{Definition}[Result]{Definition}%
+\newtheorem{Example}[Result]{Example}%
+\newtheorem{Examples}[Result]{Examples}%
+\newtheorem{Exercise}[Result]{Exercise}%
+\newtheorem{Exercises}[Result]{Exercises}%
+\newtheorem{Fact}[Result]{Fact}%
+\newtheorem{Facts}[Result]{Facts}%
+\newtheorem{Lemma}[Result]{Lemma}%
+\newtheorem{NB}[Unnumbered]{NB}%
+\newtheorem{Notation}[Result]{Notation}%
+\newtheorem{Note}[Unnumbered]{Note}%
+\newtheorem{Observation}[Result]{Observation}%
+\newtheorem{Observations}[Result]{Observations}%
+\newtheorem{Problem}[Result]{Problem}%
+\newtheorem{Proposition}[Result]{Proposition}%
+\newtheorem{PS}[Unnumbered]{PS}%
+\newtheorem{Remark}[Result]{Remark}%
+\newtheorem{Question}[Result]{Question}%
+\newtheorem{Questions}[Result]{Questions}%
+\newtheorem{Theorem}[Result]{Theorem}%
+\newtheorem{Thesis}[Result]{Thesis}%
+\newtheorem{Warning}[Result]{Warning}%
+}
+
+%===========================================================================
+% Interaction with LaTeX2e (2 Jan 1994)
+
+\ifx\newtheorem\undefined\else\ifx\ProvidesPackage\undefined
+   \message{^^J^^J}%
+   \message{****************************************************************}%
+   \message{! ***** You are using an obsolete implementation of LaTeX ******}%
+   \message{* A new version - called LaTeX2e - has been available from TeX *}%
+   \message{* FTP archives such as ftp.tex.ac.uk, ftp.uni-stuttgart.de and *}%
+   \message{* pip.shsu.edu since December 1993. It incorporates NFSS2 (the *}%
+   \message{* Mittelbach-Schoepf New Font Selection Scheme) but is reverse *}%
+   \message{* compatible with LaTeX versions 2.09 and is now the standard. *}%
+   \message{****************************************************************}%
+   \message{^^J^^J}%
+\else
+   \ProvidesPackage{QED}[1996/06/24 right-justified end-of-proof mark]%
+   %\ProvidesFile{QED.sty}% I don't understand what this is for
+   \DeclareOption{roman-theorems}{\def\TheoremFont{\rm}}%
+   \DeclareOption{italic-theorems}{\def\TheoremFont{\it}}%
+   \DeclareOption{theorems-as-commands}{\TheoremsAsCommands}%
+   \DeclareOption{auto-QED}{\AutoQEDtrue}%
+   \DeclareOption{explicit-QED}{\AutoQEDfalse}%
+   \DeclareOption{number-theorems}{\NumberResultstrue}%
+   \DeclareOption{dont-number-theorems}{\NumberResultsfalse}%
+   \DeclareOption{black-square}{\def\qedsymbol{\blacksquare}}%
+   \DeclareOption{open-square}{\def\qedsymbol{\square}}%
+   \DeclareOption{define-standard-theorems}{\DefineStandardTheorems}%
+   \ProcessOptions
+\fi\fi
+
+%===========================================================================
+% If Mittelbach's theorem.sty is loaded, skip the rest of the file.
+\ifx\theorem@style\undefined\else\qedrestoreat\expandafter\endinput\fi
+%===========================================================================
+
+% Allow the user to suppress italicisation and numbering.
+
+% The following two macros are called by LaTeX to begin a theorem
+% respectively with and without an optional (``attribution'') argument.
+% It is clear from latex.tex that they are intended to be customised.
+% The code common to the two has been taken out as \begin@theorem and
+% \TheoremHeader. Of these, the former is re-defined by \TheoremsAsCommands.
+
+\def\@opargbegintheorem#1#2#3{\begin@theorem{\TheoremHeader{#1}{#2}{ (#3)} }}
+
+\def\@begintheorem#1#2{\begin@theorem{\TheoremHeader{#1}{#2}{} }}
+
+\def\begin@theorem#1{%
+  \trivlist\item[\hskip\labelsep {#1}]%         % LaTeX likes this method.
+  \TheoremFont                                  % Italicise the enunciation
+  \ifx\ProofFont\empty\def\ProofFont{\rm}\fi    % but not any nested proof.
+  }%
+
+
+%%% Here's what LaTeX (92/1/14) does:
+%%%% RmS 91/08/14 Moved \it after \item to make it work with NFSS
+%%\def\@begintheorem#1#2{\trivlist \item[\hskip \labelsep{\bf #1\ #2}]\it}
+%%\def\@opargbegintheorem#1#2#3{\trivlist
+%%      \item[\hskip \labelsep{\bf #1\ #2\ (#3)}]\it}
+%%\def\@endtheorem{\endtrivlist}
+
+
+
+%===========================================================================
+% If we're running under LaTeX, skip the rest of the file.
+\ifx\newtheorem\undefined\else\qedrestoreat\expandafter\endinput\fi
+%===========================================================================
+
+% This implements a rudimentary version of \newtheorem for plain TeX.
+% Only the unattributed theorems and the
+% declarations \newtheorem{Theorem}[Result]{Theorem} and
+% \newtheorem{Convention}[Unnumbered]{Convention} are supported.
+% The numbering is based on the counts \chapternumber, \sectionnumber
+% and \subsectionnumber, which it is up to you to define with \newcount.
+% It's also up to you to reset \c@Result at the beginning of each section.
+
+% Form the number: (chapter).(section).(subsection).(#1)
+% where any of the first three parts which is zero
+% negative or undefined is omitted.
+\def\ther@sult#1{%
+\ifx\chapternumber\undefined\else
+   \ifnum\chapternumber>0 \number\chapternumber.\fi\fi
+\ifx\sectionnumber\undefined\else
+   \ifnum\sectionnumber>0 \number\sectionnumber.\fi\fi
+\ifx\subsectionnumber\undefined\else
+   \ifnum\subsectionnumber>0 \number\subsectionnumber.\fi\fi
+\expandafter\number\csname c@#1\endcsname}%
+
+% plain version of LaTeX's \@thm
+\def\plain@thm#1#2{% #1=counter, #2=text
+  \save@set@qed
+  \expandafter\advance\csname c@#1\endcsname1
+  \@begintheorem{#2}{\csname the#1\endcsname}%
+}%
+
+% Rudimentary \newtheorem
+\def\newtheorem#1[#2]#3{%   #1=command, #2=counter, #3=text
+  %
+  % \def\#1{\plain@thm{#2}{#3}}
+  \expandafter\def\csname #1\endcsname{\plain@thm{#2}{#3}}%
+  %
+  % \def\end#1{\@endtheorem}
+  \expandafter\def\csname end#1\endcsname{\@endtheorem}%
+  %
+  % if \c@#2 is not defined
+  %    \newcount\c@#2
+  %    \def\the#2{\ther@sult{#2}}
+  \expandafter\ifx\csname c@#2\endcsname\relax
+     \expandafter\expandafter\csname newcount\endcsname
+        \csname c@#2\endcsname
+     \expandafter\def\csname the#2\endcsname{\ther@sult{#2}}%
+  \fi
+}%
+
+\TheoremsAsCommands
+
+\qedrestoreat\endinput
+
+%===========================================================================
+% BUGS
+% \item\qed\end{letterlist} puts the square above the item label.
+
+% ! You can't use `\unskip' in vertical mode.
+% from \qed in a paragraph on its own.
