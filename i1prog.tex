@@ -687,7 +687,280 @@ TBD
 
 \section*{Aufgaben}
 
-TBD
+
+\begin{aufgabe}
+  Betrachten Sie folgende Stromtarife.  Beide Tarife
+  bestehen aus einer monatlichen Grundgebühr und einem Teil, der sich
+  nach den verbrauchten Kilowattstunden (kWh) richtet.
+  %
+  \begin{center}
+    \begin{tabular}{l|c|c|}
+      & Grundgebühr pro Monat & Verbrauchspreis pro kWh \\
+      \hline
+      Tarif "`Billig-Strom"' & 4,90 Euro & 19 Cent \\
+      \hline
+      Tarif "`Watt für wenig"' & 8,20 Euro & 16 Cent \\
+      \hline
+    \end{tabular}
+  \end{center}
+
+  \begin{enumerate}
+  \item Schreiben Sie eine Prozedur
+    \texttt{billig-strom}, die den Monatsverbrauch in Kilowattstunden
+    akzeptiert und den im Tarif "`Billig-Strom"' zu zahlenden
+    monatlichen Rechnungsbetrag für einen übergebenen Verbrauch
+    berechnet.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{watt-für-wenig}, die den Monatsverbrauch in
+    Kilowattstunden akzeptiert und den im Tarif "`Watt für wenig"' zu
+    zahlenden monatlichen Rechnungsbetrag für einen übergebenen
+    Verbrauch berechnet.
+  \end{enumerate}
+
+  Halten Sie sich bei jeder Prozedur, die Sie schreiben, an die
+  Konstruktionsanleitungen: Schreiben Sie zuerst die Kurzbeschreibung
+  und die Signatur.  Schreiben Sie als nächstes einige Testfälle.
+  Leiten Sie danach das Gerüst von der Signatur her und vervollständigen
+  Sie den Rumpf der Prozedur.
+\end{aufgabe}
+
+\begin{aufgabe}
+ Vervielfachung von Strings:
+ \begin{itemize}
+  \item Schreiben Sie eine Prozedur \texttt{double-string}, die eine Zeichenkette konsumiert und
+    diese "`verdoppelt"', d.h., für eine Eingabe \verb|"Sperber"| den
+    Rückgabewert \verb|"SperberSperber"| liefert.
+    
+  \item Schreiben Sie eine Prozedur \texttt{quadruple-string}, die eine
+    Zeichenkette konsumiert und "`vervierfacht"'.
+
+  \item Schreiben Sie eine Prozedur \texttt{octuple-string}, die eine
+    Zeichenkette konsumiert und "`verachtfacht"'.
+
+  \item Schreiben Sie eine Prozedur \texttt{sixteentuple-string}, die
+    eine Zeichenkette konsumiert und "`versechzehnfacht"'.
+  \end{itemize}
+  % Schreiben Sie für jede Prozedur Kurzbeschreibung, Signatur, Testfälle, Gerüst und Rumpf.
+
+%Vermeiden Sie bei all diesen Aufgaben, Code mehrfach zu schreiben.
+
+\end{aufgabe}
+
+\begin{aufgabe}
+
+ Ein Boot überquert einen Fluss mit Strömung und
+  kommt durch die Strömung vom geplanten Kurs ab.  Dadurch wird die
+  Strecke, die das Boot tatsächlich zurücklegt, länger.
+
+  \begin{center}
+    \includegraphics{riverboat}
+  \end{center}
+
+  Geben ist die Breite des Flusses $a$, die Strömungsgeschwindigkeit
+  des Flusses $v_{\text{Fluss}}$ und die Geschwindigkeit des Bootes
+  $v_{\text{Boot}}$.  Berechnen Sie die Länge der Strecke, die das
+  Boot tatsächlich zurücklegt.  Programmieren Sie dazu Prozeduren, die
+  folgende Teilprobleme lösen:
+
+  \begin{enumerate}
+  \item Schreiben Sie zunächst eine Prozedur \texttt{speed-ratio}, die
+    das Verhältnis der Strömungsgeschwindigkeit des Flusses
+    $v_{\text{Fluss}}$ zur Geschwindigkeit des Bootes
+    $v_{\text{Boot}}$ berechnet.
+
+  \item Schreiben Sie dann eine Prozedur \texttt{other-shore-offset},
+    die die Länge der Strecke berechnet, die das Boot abgetrieben wird
+    (also den Versatz am anderen Ufer, im Schaubild die Strecke $b$).
+    % Dazu müssen Sie die Breite des Flusses $a$ mit dem Verhältnis von
+    % $v_{\text{Fluss}}$ zu $v_{\text{Boot}}$ multiplizieren.
+
+  \item Um $c$ zu berechnen, brauchen Sie den \textit{Satz des
+      Pythagoras}:
+    \begin{displaymath}
+      a^2 + b^2 = c^2
+    \end{displaymath}
+    Schreiben Sie eine Prozedur \texttt{pythagoras}, die $c$ der
+    obigen Gleichung berechnet.  Erkennen und abstrahieren Sie weitere
+    Teilprobleme!
+
+  \item Schreiben Sie schließlich eine Prozedur
+    \texttt{boat-travel-distance}, die die tatsächliche Strecke
+    berechnet, die das Boot zurücklegt.  Benutzen Sie dafür die bisher
+    geschriebenen Prozeduren.
+  \end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  In den USA und in Europa gibt es unterschiedliche
+  Maße für die Energieeffizienz von Kraftfahrzeugen:
+  \begin{itemize}
+  \item In Europa ist das gängige Maß der \emph{Verbrauch} in Liter
+    pro 100km (l/100km);
+  \item in den USA ist das gängige Maß die \emph{Reichweite} in Meilen
+    pro Gallone (mi/gal).
+  \end{itemize}
+  Schreiben Sie Prozeduren, die zwischen beiden Maßeinheiten
+  umrechnen.  Gehen Sie dazu wie folgt vor:
+
+  Halten Sie sich bei jeder Prozedur, die Sie schreiben, an die
+  Konstruktionsanleitungen: Schreiben Sie zuerst die Kurzbeschreibung
+  und die Signatur.  Schreiben Sie als nächstes einige Testfälle.
+  Leiten Sie danach das Gerüst von der Signatur her und vervollständigen
+  Sie den Rumpf der Prozedur.
+
+  \begin{enumerate}
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{liters-per-hundred-kilometers}, die eine Menge Benzin in
+    Liter und die Reichweite dieses Benzins in Kilometer akzeptiert
+    und daraus den Verbrauch in Liter pro 100km berechnet.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{miles-per-gallon}, die eine Entfernung in Meilen und den
+    Benzinverbrauch auf diese Entfernung in Gallonen akzeptiert und
+    daraus die Reichweite in Meilen pro Gallone berechnet.
+
+  \item Definieren Sie eine Konstante
+    \texttt{kilometers-per-mile} (eine US-Meile entspricht etwa $1,61$
+    Kilometer) und schreiben Sie zwei Prozeduren
+    \texttt{kilometers->miles} und \texttt{miles->kilometers}, die
+    jeweils eine Entfernung in einer Maßeinheit akzeptieren und die
+    Entfernung in die jeweils andere Maßeinheit umrechnen.
+
+  \item Definieren Sie eine Konstante
+    \texttt{liters-per-gallon} (eine Gallone entspricht etwa $3,79$
+    Liter) und schreiben Sie zwei Prozeduren \texttt{liters->gallons}
+    und \texttt{gallons->liters}, die jeweils eine Menge in einer
+    Maßeinheit akzeptieren und die Menge in die jeweils andere
+    Maßeinheit umrechnen.
+
+  \item Schreiben Sie die Prozedur
+    \texttt{l/100km->mi/gal}, die einen Verbrauch in Liter pro 100km
+    akzeptiert und in die Reichweite in Meilen pro Gallone umrechnet.
+    Benutzen Sie dafür die Prozeduren, die Sie in den anderen
+    Teilaufgaben erstellt haben.  Sollten Sie auf weitere Teilprobleme
+    stoßen, abstrahieren Sie diese Teilprobleme in eigene Prozeduren.
+
+  \item Schreiben Sie die Prozedur
+    \texttt{mi/gal->l/100km}, die eine Reichweite in Meilen pro
+    Gallone akzeptiert und in den Verbrauch in Liter pro 100km
+    umrechnet.  Benutzen Sie dafür die Prozeduren, die Sie in den
+    anderen Teilaufgaben erstellt haben.  Sollten Sie auf weitere
+    Teilprobleme stoßen, abstrahieren Sie diese Teilprobleme in eigene
+    Prozeduren.
+
+  \item Finden Sie heraus, wie hoch der Benzinverbrauch
+    verschiedener Kraftfahrzeuge ist, die Sie täglich im
+    Straßenverkehr in Deutschland sehen.  Vergleichen Sie diesen
+    Verbrauch mit den Reichweitenangaben typischer Kraftfahrzeuge für
+    den US-amerikanischen Markt.
+  \end{enumerate}
+
+\end{aufgabe}
+
+% In vielen Ländern sind die Benzinpreise ein Grund zur allgemeinen
+% Aufregung. In Deutschland wird immer die magische Marke von 1,50
+% Euro pro Liter genannt, die USA haben große Angst vor der 4 Dollar
+% pro Gallone. Auch sind Spritsparende Autos immer beliebter, in
+% Deutschland wird auf das 3 Liter auf 100km Auto gehofft, die USA
+% wünschen sich mehr 55 Meilen pro Gallone Autos.  Diese verschiedenen
+% Maßstäbe sind verwirrend.
+
+
+\begin{aufgabe}
+
+  Betrachten Sie das folgende Programm:
+
+\begin{verbatim}
+(define x 2)          ;  --> zwei
+(define y -1)         ;  --> minuseins
+(define z -3)         ;  --> minusdrei
+
+(define f 
+  (lambda (x z)
+    (+ (* x x) z y)))
+
+(f 4 -2)
+\end{verbatim}
+  %
+  Benennen Sie die Variablen \verb"x", \verb"y" und \verb"z", die in
+  den ersten drei Zeilen des Programms definiert werden, im kompletten
+  Programm um, und zwar \verb|x| in \verb|zwei|, \verb|y| in
+  \verb|minuseins| und \verb|z| in \verb|minusdrei|. Achten Sie bei
+  der Umbenennung auf die lexikalische Bindung.  Benennen Sie keine
+  Parameter der Prozedur \verb"f" um.
+
+  Nachdem Sie die Umbenennung durchgeführt haben, welches Ergebnis liefert
+  der Ausdruck \verb"(f 4 -2)"? Berechnen Sie das Ergebnis von Hand mit Hilfe
+  des Substitutionsmodells und halten Sie die Zwischenschritte fest.
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  Betrachten Sie das folgende Programm:
+
+\begin{verbatim}
+(define x 2)                    ; --> zwei
+(define y 4)                    ; --> vier
+
+(define z                       ; --> f
+  (lambda (x y z)
+    (+ x (z y))))
+
+(z y x (lambda (z) (+ x z)))
+\end{verbatim}
+%
+  Benennen Sie die Variablen \verb"x", \verb"y" und \verb"z", die in
+  den ersten drei Zeilen des Programms definiert werden, im kompletten
+  Programm um. Der neue Name der Variable steht als Kommentar im
+  Programm hinter dem Pfeil (\verb"-->").  Achten Sie bei der
+  Umbenennung auf die lexikalische Bindung.  Benennen Sie keine
+  Parameter der Prozedur \verb"z" um.
+
+  Berechnen Sie, nachdem Sie die Umbenennung durchgeführt haben, von
+  Hand mit dem Substitutionsmodell \verb"(z y x"
+  \verb"(lambda (z) (+ x z))))" und halten Sie die Zwischenschritte
+  fest.
+
+\end{aufgabe}
+
+\begin{aufgabe}
+  Betrachten Sie das folgende Programm:
+
+\begin{verbatim}
+(define x 1)
+(define y 3)
+(define z 5)
+
+(define f
+  (lambda (x)   
+     ((lambda (y)
+        ((lambda (z)
+           (+ z (* x y)))
+         (+ x z)))
+      (+ x y))))
+
+(f y)
+\end{verbatim}
+
+  Benennen Sie hier alle lokalen Variablen, die innerhalb der Prozedur
+  \verb"f" gebunden werden, um. Verändern Sie nicht den Namen der
+  Variablen \verb"x", \verb"y" und \verb"z" aus den ersten drei Zeilen
+  des Programms.
+
+  Nachdem Sie die Umbenennung durchgeführt haben, welches Ergebnis liefert
+  der Ausdruck \verb"(f y)"? Berechnen Sie das Ergebnis von Hand mithilfe
+  des Substitutionsmodells und halten Sie die Zwischenschritte fest.
+
+  \noindent \emph{Hinweis:} In diesen Aufgaben finden Sie keine
+  Kommentare und Signaturen zu den Prozeduren. Hier können Sie an einem
+  Beispiel sehen, dass es sehr wichtig ist, diese Informationen
+  anderen Programmierern immer zur Verfügung zu stellen. Denn es kann
+  auch bei kleinen Programmen schwer sein, die Funktionsweise der
+  einzelnen Prozeduren ohne Kommentare zu verstehen.
+\end{aufgabe}
 
 %%% Local Variables: 
 %%% mode: latex
