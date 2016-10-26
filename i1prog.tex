@@ -73,8 +73,8 @@ TBD
 
 Ausdrücke und Werte gibt es in Computerprogrammen nicht nur in Form
 von Zahlen.  Zum Beispiel gibt es auch Text, wie in
-Abbildung~\ref{scheme:comment} beschrieben.
-(Kästen wie Abbildung~\ref{scheme:comment} werden in diesem
+Abbildung~\ref{scheme:strings} beschrieben.
+(Kästen wie Abbildung~\ref{scheme:strings} werden in diesem
 Buch noch oft dazu dienen, neue Sprachelemente einzuführen.)
 
 \begin{feature}{Zeichenketten}{scheme:strings}
@@ -224,7 +224,176 @@ Programmen beschäftigen; Benutzerschnittstellen kommen später.
 
 \section{Abstraktion}
 
-TBD
+Hier ist eine einfache Denksportaufgabe:
+%
+\begin{quote}
+  Auf einem Parkplatz stehen PKWs und Motorräder ohne Beiwagen.
+  Zusammen seien es $n$ Fahrzeuge mit insgesamt $m$ Rädern.  Bestimmen
+  Sie die Anzahl $P$ der PKWs.
+\end{quote}
+%
+Die Anzahl $P$ der PKWs plus die Anzahl $M$ der Motorräder muß
+offensichtlich die Gesamtzahl $n$ der Fahrzeuge ergeben.  Außerdem hat
+jeder PKW vier Räder und jedes Motorrad zwei Räder. Die Radzahlen der
+PKWs und Motorräder zusammen müssen $m$ ergeben.  Es ergibt sich
+folgendes Gleichungsystem:
+%
+\begin{eqnarray*}
+  P+M&=&n\\
+  4P+2M&=&m
+\end{eqnarray*}
+%
+Auflösen der ersten Gleichung nach $M$ ergibt
+\begin{eqnarray*}
+  M &=& n-P
+\end{eqnarray*}
+% 
+und Einsetzen in die zweite Gleichung führt zu
+\begin{eqnarray*}
+  4P+2(n-P) &=& m\\
+  4P+2n-2P &=& m\\
+  2P &=& m-2n\\
+  P &=& \frac{m-2n}{2}
+\end{eqnarray*}
+%
+Am Ende steht also eine Formel, die wir für konkrete $m$ und $n$ auch
+in einen Ausdruck verwandeln können:
+%
+\begin{alltt}
+(/ (- 10 (* 2 4)) 2) ; 10 Räder, 4 Fahrzeuge
+\evalsto{} 1
+(/ (- 12 (* 2 3)) 2) ; 12 Räder, 3 Fahrzeuge
+\evalsto{} 3
+\end{alltt}
+%
+\begin{feature}{Kommentare}{scheme:comment}
+  In Scheme kennzeichnet ein Semikolon \texttt{;} einen 
+  \textit{Kommentar\index{Kommentar}}.  Der Kommentar erstreckt sich
+  vom Semikolon bis zum Ende der Zeile und wird vom Scheme-System
+  ignoriert.
+\end{feature}
+%
+Der Text nach dem Semikolon ist ein \textit{Kommentar}\index{Kommentar} (siehe
+Abbildung~\ref{scheme:comment}), der von DrRacket ignoriert wird, aber
+für menschliche Leser hilfreich ist.
+
+Es ist umständlich, für jede Kombination aus konkreten $m$ und $n$ die
+Formel neu hinzuschreiben und andere Werte für $m$ und $n$
+einzusetzen.  Außerdem ist es fehleranfällig.  Es muß also besser
+gehen.  Ein erster Schritt in die richtige Richtung ist, für $m$ und
+$n$ auch im Programm Namen zu verwenden:
+%
+\begin{alltt}
+(define n 4)
+(define m 10)
+(/ (- m (* 2 n)) 2)
+\end{alltt}
+%
+Immerhin ist die ursprüngliche Formel jetzt wieder erkennbar.  Leider
+kann sie nur einmal verwendet werden.  Schreiben wir in dasselbe
+Programm die hier darunter:
+%
+\begin{alltt}
+(define n 3)
+(define m 12)
+(/ (- m (* 2 n)) 2)
+\end{alltt}
+%
+\ldots{} dann meckert DrRacket:
+%
+\begin{alltt}
+m: Für diesen Namen gibt es schon eine Definition
+\end{alltt}
+%
+Für jeden Namen kann es nur eine Definition geben.  Wir bräuchten
+Formeln, die wir mehrfach verwenden können, bei denen wir sagen können
+"`ich werde die Formeln mehrmals benutzen und möchte jedesmal andere
+Werte für $n$ und $m$ einsetzen"'. Das geht beim Programmieren mit
+\textit{Abstraktion}\index{Abstraktion} und sieht konkret so aus:
+%
+\begin{alltt}
+(lambda (n m) (/ (- m (* 2 n)) 2))
+\end{alltt}
+%
+Diese Abstraktion besteht aus folgenden Bestandteilen:
+\begin{itemize}
+\item das Schlüsselwort \texttt{lambda},
+\item die Namen \texttt{n} und \texttt{m}, die \textit{Parameter},\index{Parameter}
+\item der Ausdruck \texttt{(/ (- m (* 2 n)) 2)}, der \textit{Rumpf\index{Rumpf}}.
+\end{itemize}
+%
+Die Abstraktion hat als Wert eine \textit{Prozedur\index{Prozedur}}.  Wenn der
+$lambda$-Ausdruck so in einem Programm steht, druckt beim Auswerten
+DrRacket auch aus:
+%
+\begin{alltt}
+#<procedure>
+\end{alltt}
+%
+Für sich genommen macht eine Prozedur noch nichts interessantes.  Sie kann jedoch
+\emph{angewendet} werden, was heißt, das konkrete Werte für $m$ und
+$n$ eingesetzt werden:
+%
+\begin{alltt}
+((lambda (n m) (/ (- m (* 2 n)) 2)) 4 10)
+\evalsto{} 1
+((lambda (n m) (/ (- m (* 2 n)) 2)) 3 12)
+\evalsto{} 3
+\end{alltt}
+
+\begin{feature}{Abstraktion und Anwendung}{scheme:abstraction}
+  Eine Abstraktion\index{Abstraktion} hat folgende Form:
+\begin{alltt}
+(lambda (\(p\sb{1} \ldots p\sb{n}\)) \(e\))
+\end{alltt}
+  %
+  Die $p_i$ jeweils Namen, die \textit{Parameter}\index{Parameter} und
+  $e$ ist der \textit{Rumpf}\index{Rumpf}.  In $e$ dürfen die $p_i$
+  vorkommen.  Der Wert einer Abstraktion ist eine \textit{Prozedur}\index{Prozedur},
+  welche für jeden Parameter eine Eingabe erwartet.
+
+  Eine \textit{Anwendung} einer Prozedur hat folgende Form:
+  %
+\begin{alltt}
+(\(p\) \(a\sb{1}\) \ldots \(a\sb{n}\))
+\end{alltt}
+  %
+  $p$ ist ein Ausdruck, der eine Prozedur ergeben muß, die $a_i$ sind
+  ebenfalls Ausdrücke, die \textit{Argumente}\index{Argument}.  Bei
+  der Auswertung einer Anwendung werden zunächst $p$ und die $a_i$
+  ausgewertet; danach geht es mit der Auswertung des Rumpfes der
+  Prozedur weiter, wobei für die Parameter $p_i$ jeweils die Werte der
+  Argumente $a_i$ eingesetzt werden.
+\end{feature}
+% 
+Abbildung~\ref{scheme:abstraction} erklärt die beiden Konzepte
+"`Abstraktion"' und "`Anwendung"' im allgemeinen.
+
+Bisher ist jedoch noch nicht viel gewonnen, weil wir den
+$lambda$-Ausdruck jedesmall wiederholen mußten.  Da er jedoch beide
+Male genau gleich ist, können wir ihm mit \texttt{define} einen Namen
+geben:
+%
+\begin{alltt}
+(define parking-lot-cars
+  (lambda (n m) (/ (- m (* 2 n)) 2)))
+\end{alltt}
+%
+Diesen Namen können wir jetzt mehrfach verwenden:
+%
+\begin{alltt}
+(parking-lot-cars 4 10)
+\evalsto{} 1
+(parking-lot-cars 3 12)
+\evalsto{} 3
+\end{alltt}
+%
+Das sieht doch schon besser aus: Der Name \texttt{parking-lot-cars}
+ist außerdem sprechend und erlaubt uns, die eigentliche Formel auch
+wieder zu vergessen.
+
+% FIXME: Einrückung
+% FIXME: Warum heißt es eigentlich $lambda$?
 
 \section{Kurzbeschreibung und Signatur}
 \label{sec:sorts-and-contracts}
@@ -235,22 +404,12 @@ Prozedur trotzdem einsetzen soll.  Der potentielle Leser kann zwar
 das Scheme-Programm prinzipiell verstehen, hat aber keinen weiteren
 Hinweis darauf, wofür \texttt{parking-lot-cars} verwendet werden kann.
 
-\begin{feature}{Kommentare}{scheme:comment}
-  In Scheme kennzeichnet ein Semikolon \texttt{;} einen 
-  \textit{Kommentar\index{Kommentar}}.  Der Kommentar erstreckt sich
-  vom Semikolon bis zum Ende der Zeile und wird vom Scheme-System
-  ignoriert.
-\end{feature}
-
 Das Problem ist, daß die Definition von \texttt{parking-lot-cars} 
 das Endprodukt des Denkprozesses ist, der in Kapitel~\ref{cha:intro}
 beschrieben wurde.  Der Denkprozeß selbst, der mit der Aufgabenstellung
 anfängt, ist nicht Teil der Definition.  Darum ist es hilfreich, wenn
-wichtige Aspekte des Denkprozesses als \textit{Kommentare}\index{Kommentar} (siehe
-Abbildung~\ref{scheme:comment}) bei den Definitionen
-stehen.
-
-Ein erster sinnvoller Kommentar ist eine \textit{Kurzbeschreibung}\index{Kurzbeschreibung} der
+wichtige Aspekte des Denkprozesses als Kommentare  bei den Definitionen
+stehen.  Ein stets sinnvoller Kommentar ist eine \textit{Kurzbeschreibung}\index{Kurzbeschreibung} der
 Aufgabenstellung:
 %
 \begin{alltt}
@@ -263,8 +422,8 @@ präzise auszudrücken.
 
 Als nächstes ist eine besondere Formulierung hilfreich, die
 sogenannte \textit{Signatur\index{Signatur}}. Wer nur gelesen hat, dass die
-Prozedur \texttt{parking-lot-cars} zwei Argumente \texttt{vehicle-count} und
-\texttt{wheel-count} hat, könnte ja auf den Gedanken kommen, einen Aufruf der
+Prozedur \texttt{parking-lot-cars} zwei Argumente \texttt{n} und
+\texttt{m} hat, könnte ja auf den Gedanken kommen, einen Aufruf der
 Form
 
 \begin{alltt}
@@ -336,19 +495,18 @@ Definition, das sogenannte \textit{Gerüst\index{Gerüst}}:
 %
 \begin{alltt}
 (define parking-lot-cars
-  (lambda (vehicle-count wheel-count)
+  (lambda (n m)
     ...))
 \end{alltt}
 %
-Es bleibt, die passende Formel aus der mathematischen Theorie aus
-Kapitel~\ref{cha:intro} einzusetzen.  Die Definition
-von \texttt{parking-lot-cars} sollte vollständig so aussehen:\index{parking-lot-cars@\texttt{parking-lot-cars}}
+Es bleibt, die passende Formel einzusetzen.  Die Definition
+von \texttt{parking-lot-cars} sieht dann vollständig so aus:\index{parking-lot-cars@\texttt{parking-lot-cars}}
 %
 \begin{alltt}
 ; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
 (: parking-lot-cars (natural natural -> natural))
 (define parking-lot-cars
-  (lambda (vehicle-count wheel-count)
+  (lambda (n m)
     (/ (- m (* 2 n))
        2)))
 \end{alltt}
@@ -408,8 +566,8 @@ sorgfältiger Programmierung.  Angenommen, bei der Programmierung von
 ; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
 (: parking-lot-cars (natural natural -> natural))
 (define parking-lot-cars
-  (lambda (vehicle-count wheel-count)
-    (/ (- wheel-count (* 4 vehicle-count))
+  (lambda (n m)
+    (/ (- m (* 4 n))
        2)))
 \end{alltt}
 %
