@@ -222,7 +222,7 @@ weiterverarbeiten.  Der Teil, der diese Übersetzung leistet, heißt
 werden wir uns allerdings primär mit rein datenverarbeitenden
 Programmen beschäftigen; Benutzerschnittstellen kommen später.
 
-\section{Abstraktion}
+\section{Domänenwissen}
 
 Hier ist eine einfache Denksportaufgabe:
 %
@@ -276,6 +276,15 @@ in einen Ausdruck verwandeln können:
 Der Text nach dem Semikolon ist ein \textit{Kommentar}\index{Kommentar} (siehe
 Abbildung~\ref{scheme:comment}), der von DrRacket ignoriert wird, aber
 für menschliche Leser hilfreich ist.
+
+Um zu den Ausdrücken zu kommen, welche die Anzahl der PKWs ausrechnen,
+haben wir sogenanntes \textit{Domänenwissen}\index{Domänenwissen}
+benutzt: Die "`Domäne"' der Aufgabe sind PKWs und Motorräder, und wir
+wissen, daß PKWs jeweils vier Räder und Motorräder zwei haben.
+Schließlich haben wir noch Algebra benutzt, um aus dem Domänenwissen
+eine Formel zu machen.
+
+\section{Abstraktion}
 
 Es ist umständlich, für jede Kombination aus konkreten $m$ und $n$ die
 Formel neu hinzuschreiben und andere Werte für $m$ und $n$
