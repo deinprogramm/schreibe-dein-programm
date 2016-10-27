@@ -223,6 +223,7 @@ werden wir uns allerdings primär mit rein datenverarbeitenden
 Programmen beschäftigen; Benutzerschnittstellen kommen später.
 
 \section{Domänenwissen}
+\label{sec:domaenenwissen}
 
 Hier ist eine einfache Denksportaufgabe:
 %
@@ -260,12 +261,32 @@ Am Ende steht also eine Formel, die wir für konkrete $m$ und $n$ auch
 in einen Ausdruck verwandeln können:
 %
 \begin{alltt}
+(/ (- 10 (* 2 4)) 2)
+\evalsto{} 1
+(/ (- 12 (* 2 3)) 2)
+\evalsto{} 3
+\end{alltt}
+%
+Um zu den Ausdrücken zu kommen, welche die Anzahl der PKWs ausrechnen,
+haben wir sogenanntes \textit{Domänenwissen}\index{Domänenwissen}
+benutzt: Die "`Domäne"' der Aufgabe sind PKWs und Motorräder, und wir
+wissen, daß PKWs jeweils vier Räder und Motorräder zwei haben.
+Schließlich haben wir noch Algebra benutzt, um aus dem Domänenwissen
+eine Formel zu machen.
+
+\section{Kommentare und Formatierung}
+
+Der Ausdruck \texttt{(/ (- 10 (* 2 4)) 2)} ist für unbedarfte Leser
+schwer zu verstehen.  Manchmal hilft ein erläuternder Text beim
+Verständnis:
+%
+\begin{alltt}
 (/ (- 10 (* 2 4)) 2) ; 10 Räder, 4 Fahrzeuge
 \evalsto{} 1
 (/ (- 12 (* 2 3)) 2) ; 12 Räder, 3 Fahrzeuge
 \evalsto{} 3
 \end{alltt}
-%
+
 \begin{feature}{Kommentare}{scheme:comment}
   In Scheme kennzeichnet ein Semikolon \texttt{;} einen 
   \textit{Kommentar\index{Kommentar}}.  Der Kommentar erstreckt sich
@@ -277,16 +298,34 @@ Der Text nach dem Semikolon ist ein \textit{Kommentar}\index{Kommentar} (siehe
 Abbildung~\ref{scheme:comment}), der von DrRacket ignoriert wird, aber
 für menschliche Leser hilfreich ist.
 
-Um zu den Ausdrücken zu kommen, welche die Anzahl der PKWs ausrechnen,
-haben wir sogenanntes \textit{Domänenwissen}\index{Domänenwissen}
-benutzt: Die "`Domäne"' der Aufgabe sind PKWs und Motorräder, und wir
-wissen, daß PKWs jeweils vier Räder und Motorräder zwei haben.
-Schließlich haben wir noch Algebra benutzt, um aus dem Domänenwissen
-eine Formel zu machen.
+Beim Verständnis kann außerdem die
+\textit{Formatierung}\index{Formatierung} des Programms helfen.  Die
+obigen Ausdrücke können auch folgendermaßen geschrieben werden:
+%
+\begin{alltt}
+(/ (- 10 (* 2 4))
+   2)
+(/ (- 12 (* 2 3))
+   2)
+\end{alltt}
+%
+Daß die \texttt{2} jetzt jeweils in einer weiteren Zeile steht, läßt
+die Ausdrücke so ähnlich aussehen wie der Bruch in der Formel.  Die
+Einrückung vor der \texttt{2} macht klar, daß die \texttt{2} noch in
+die Klammern vom \texttt{/} gehört.
+
+Wir als Programmierer müssen uns selbst darum kümmern, an sinnvollen
+Stellen eine neue Zeile anzufangen.  Um die Einrückung kann sich
+allerdings DrRacket automatisch kümmern: Die Tab-Taste (links auf der
+Tastatur, meist $\rightarrow$\verb/|/ o.ä.\ bedruckt) rückt die Zeile,
+in der sich der Cursor befindet, ein.  Außerdem gibt es noch den
+Menüpunkt \texttt{Racket} $\rightarrow$ \texttt{Alles einrücken}, der
+das gesamte Programm einrückt.
 
 \section{Abstraktion}
 
-Es ist umständlich, für jede Kombination aus konkreten $m$ und $n$ die
+Beim Parkplatzproblem aus Abschnitt~\ref{sec:domaenenwissen} ist es
+umständlich, für jede Kombination aus konkreten $m$ und $n$ die 
 Formel neu hinzuschreiben und andere Werte für $m$ und $n$
 einzusetzen.  Außerdem ist es fehleranfällig.  Es muß also besser
 gehen.  Ein erster Schritt in die richtige Richtung ist, für $m$ und
@@ -388,7 +427,17 @@ geben:
   (lambda (n m) (/ (- m (* 2 n)) 2)))
 \end{alltt}
 %
-Diesen Namen können wir jetzt mehrfach verwenden:
+Am besten verteilen wir das Programm gleich noch auf etwas mehr Zeilen
+und rücken es ein, um es lesbarer zu machen:
+%
+\begin{alltt}
+(define parking-lot-cars
+  (lambda (n m)
+    (/ (- m (* 2 n))
+       2)))
+\end{alltt}
+%
+\texttt{Parking-lot-cars} können wir jetzt mehrfach verwenden:
 %
 \begin{alltt}
 (parking-lot-cars 4 10)
@@ -401,7 +450,6 @@ Das sieht doch schon besser aus: Der Name \texttt{parking-lot-cars}
 ist außerdem sprechend und erlaubt uns, die eigentliche Formel auch
 wieder zu vergessen.
 
-% FIXME: Einrückung
 % FIXME: Warum heißt es eigentlich $lambda$?
 
 \section{Kurzbeschreibung und Signatur}
