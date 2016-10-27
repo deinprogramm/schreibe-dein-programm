@@ -738,11 +738,74 @@ dies nachholen.
 
 TBD
 
-\section{Das Substitutionsmodell}
+\section{Auswertung}
 \label{sec:substitution-model}
 \label{sec:scheme-anatomy}
 
-TBD
+Bei der Auswertung eines Programms geht DrRacket nach festen Regeln
+vor.  Schauen wir uns noch einmal das Programm zum Parkplatzproblem
+an:
+%
+\begin{alltt}
+(define parking-lot-cars
+  (lambda (n m)
+    (/ (- m (* 2 n))
+       2)))
+(parking-lot-cars 4 10)
+\end{alltt}
+%
+Bei der Auswertung \textit{substituiert}\index{Substitution} DrRacket
+jeweils Namen durch ihre Werte.  Der erste Schritt ist also,
+\texttt{parking-lot-cars} durch den dazugehörigen
+\texttt{lambda}-Ausdruck zu ersetzen:
+%
+\begin{alltt}
+(parking-lot-cars 4 10)
+\evalsto
+((lambda (n m) (/ (- m (* 2 n)) 2)) 4 10)
+\end{alltt}
+%
+Jetzt steht dort die Anwendung eines \texttt{lambda}-Ausdrucks auf die
+zwei Zahlen \texttt{4} und \texttt{10}: Diese Argumente werden für die
+ensprechenden Parameter \texttt{n} und \texttt{m} eingesetzt:
+%
+\begin{alltt}
+((lambda (n m) (/ (- m (* 2 n)) 2)) 4 10)
+\evalsto
+(/ (- 10 (* 2 4)) 2)
+\end{alltt}
+%
+Nun werden sukzessive die Teilausdrücke ausgewertet.  Das passiert
+immer von links nach rechts.  Bei einer Anwendung werden erst einmal
+alle Argumente fertig ausgewertet, bevor es mit der Substitution der
+Parameter und dem Rumpf der Prozezedur weitergeht:
+%
+\begin{alltt}
+(/ (- 10 (* 2 4)) 2)
+\evalsto
+(/ (- 10 8) 2)
+\evalsto
+(/ 2 2)
+\evalsto
+1
+\end{alltt}
+%
+Diese Vorgehensweise entspricht der Algebra aus der Mathematik, wo wir
+auch Ausdrücke umformen, indem wir gleiches durch gleiches ersetzen.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=\textwidth]{i1prog/stepper.png}
+  \caption{Stepper in DrRacket}
+  \label{fig:stepper}
+\end{figure}
+%
+Normalerweise zeigt uns DrRacket nur das Endergebnis dieses Prozesses
+an.  Es ist aber auch in der Lage, die Schritte einzeln zu
+visualisieren: Dazu müssen Sie auf den \texttt{Step}-Knopf drücken.
+Es erscheint ein neues Fenster, der sogenannte \textit{Stepper}\index{Stepper}.
+Sie können dann vorwärts und rückwärts durch den Substitutionsprozeß
+navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
 
 \section*{Aufgaben}
 
