@@ -855,7 +855,151 @@ wenn die Auswertung einen Fehler liefert:
 
 \section*{Aufgaben}
 
-TBD
+\begin{aufgabe}
+  Schreiben Sie eine Prozedur \texttt{card-type}, die den Umsatz einer
+  Kreditkarte konsumiert und die eine entsprechende Kategorie als
+  Zeichenkette zurückgibt.  Verwenden Sie die Konstruktionsanleitung:
+  Schreiben Sie die Kurzbeschreibung auf, führen Sie eine
+  Datenanalyse durch und schreiben Sie die Signatur auf. Erstellen Sie
+  dann das Gerüst und die Testfälle.  Vervollständigen Sie danach den
+  Rumpf der Prozedur und vergewissern Sie sich, dass die Tests
+  erfolgreich laufen. \\
+
+  \begin{tabular}{crlcrll}
+    &        & Umsatz & $<$ & $15.000$   & $\Longrightarrow$ & Weiß \\
+    $15.000$  & $\leq$ & Umsatz & $<$ & $50.000 $  & $\Longrightarrow$ & Gold \\
+    $50.000$  & $\leq$ & Umsatz & $\leq$ & $150.000 $ 
+    & $\Longrightarrow$ & Platin \\
+    $150.000$ & $<$ & Umsatz &     &            &  $\Longrightarrow$ & Schwarz \\
+  \end{tabular} \\
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  \begin{enumerate}
+
+  \item Schreiben Sie eine Prozedur \texttt{min-2}, die als Argumente zwei
+    Zahlen nimmt und die kleinere der beiden Zahlen zurückgibt.  Schreiben
+    Sie außerdem eine Prozedur \texttt{min-3}, die als Argumente drei
+    Zahlen nimmt und die kleinste der drei Zahlen zurückgibt.  Verwenden
+    Sie die Konstruktionsanleitung: Schreiben Sie
+    explizit Kurzbeschreibung und Signatur auf, erstellen Sie dann das
+    Gerüst und die Testfälle.  Vervollständigen Sie danach den Rumpf der
+    Prozedur und vergewissern Sie sich, dass die Tests erfolgreich laufen.
+    
+  \item Schreiben Sie analog eine Funktion \texttt{max-2} und \texttt{max-3}.
+    
+  \end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}
+  Schreiben Sie die folgenden Prozeduren:
+  \begin{enumerate}
+  \item \texttt{average-of-three}, welche den Durchschnitt von
+    drei gegebenen Zahlen ausrechnet
+  \item \texttt{min-of-two}, welche die kleinste von zwei
+    gegebenen Zahlen ausgibt
+  \item \texttt{min-of-three}, welche die kleinste von drei
+    gegebenen Zahlen ausgibt
+  \item \texttt{is-min-of-three?}, die überprüft ob die erste
+    von drei gegebenen Zahlen das Minimum ist
+  \item \texttt{valid-value?}, die überprüft ob die erste von
+    drei gegebenen Zahlen zwischen den beiden anderen liegt; gehen Sie
+    davon aus, dass der Aufruf immer \texttt{(valid-value? value min max)}
+    lautet 
+  \item \texttt{clamp}, die wie folgt definiert ist:
+    
+    \[\text{clamp}(x,\ min,\ max)=
+    \begin{cases} 
+      x & min \leq x \leq max\\ 
+      min & x < min \\ 
+      max & x > max 
+    \end{cases}
+    \]
+    
+  \end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}
+  Beim Fußball lässt die Rückennummer eines Spielers
+  häufig Rückschlüsse auf seine Position zu. Wir machen dabei folgende
+  Annahmen:
+  \begin{itemize}
+  \item Ein \emph{Torwart} hat die Rückennummer 1.
+  \item Ein \emph{Abwehrspieler} hat die Rückennummer 2, 3, 4 oder 5.
+  \item Ein \emph{Mittelfeldspieler} hat die Rückennummer 6, 7, 8 oder 10.
+  \item Ein \emph{Stürmer} hat die Rückennummer 9 oder 11.
+  \item Ein \emph{Ersatzspieler} hat eine Rückennummer zwischen 12 und 99.
+  \item Alle anderen Rückennummern sind ungültig.
+  \end{itemize}
+ 
+  Schreiben Sie nun eine Prozedur mit folgender Signatur:
+  
+  {\small
+\begin{verbatim}
+ (: nummer->position
+    (number ->
+      (one-of "Torwart" "Abwehr" "Mittelfeld" "Sturm" "Ersatz" "Ungültig")))
+\end{verbatim}
+  }
+
+  Die Prozedur soll dabei zu einer gegebenen Rückennummer die
+  zugehörige Position berechnen.
+
+  Verwenden Sie beim Schreiben der Prozedur die
+  Konstruktionsanleitungen für Prozeduren und für
+  Fallunterscheidungen.  Testen Sie die Prozedur
+  \texttt{nummer->position} mit mindestens sechs Testfällen, so dass
+  alle Fälle abgedeckt sind.
+\end{aufgabe}
+
+
+\begin{aufgabe}
+  Schreiben Sie ein Programm, mit dem Bußgelder
+  automatisch bestimmt werden.
+  
+  \begin{enumerate}
+  \item Programmieren Sie eine Prozedur \texttt{zu-langes-parken}
+    für die Bewertung von zu langem Parken auf einem kostenpflichtigen
+    Parkplatz. Diese bekommt eine Zeitspanne übergeben und gibt das 
+    entsprechende Verwarngeld zurück.
+    
+    Diese Verwarnungen sind wie folgt festgelegt:
+    \begin{itemize}
+    \item Überschreitung der Höchstparkdauer bis 30 Minuten: \euro{5}
+    \item bis zu einer Stunde: \euro{10}
+    \item bis zu zwei Stunden: \euro{15}
+    \item bis zu drei Stunden: \euro{20}
+    \item länger als drei Stunden:  \euro{25}
+    \end{itemize}
+    
+  \item Das Überfahren einer roten Ampel kostet je nach
+    Gefährdungslage mehr, gibt Punkte und Fahrverbote. Schreiben Sie
+    zwei Prozeduren, eine für das Bußgeld \texttt{rote-ampel-bußgeld}, 
+    eine für die Punkte in Flensburg \texttt{rote-ampel-punkte} 
+    und eine für das Fahrverbot \texttt{rote-ampel-fahrverbot} 
+    welche ausgibt ob ein Fahrverbot erteilt wird. Übergeben
+    Sie den Prozeduren, wie lange die Ampel schon rot war und ob eine
+    Gefährdung oder Sachbeschädigung vorlag.
+    
+    Die Bußgelder sind wie folgend definiert:
+    \begin{itemize}
+    \item Bei Rot über die Ampel innerhalb der ersten Sekunde			
+      \euro{50} und 3 Punkte
+    \item Bei Rot über die Ampel innerhalb der ersten Sekunde mit
+      Gefährdung oder Sachbeschädigung \euro{125}, 4 		
+      Punkte und 1 Monat Fahrverbot
+    \item Bei Rot über die Ampel nach der ersten Sekunde \euro{125},
+      4 Punkte und 1 Monat Fahrverbot.
+    \item Bei Rot über die Ampel nach der ersten Sekunde mit
+      Gefährdung oder Sachbeschädigung \euro{200}, 4
+      Punkte und 1 Monat Fahrverbot.
+    \end{itemize}
+    
+    
+  \end{enumerate}
+\end{aufgabe}
+
 
 %%% Local Variables: 
 %%% mode: latex
