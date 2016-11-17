@@ -677,8 +677,596 @@ Fertig!
 
 \section*{Aufgaben}
 
+\begin{aufgabe}
 
-TBD
+  Schreiben Sie eine Daten- und eine
+  Record-Definition für \textit{Brüche} und verschiedene Prozeduren
+  für das Bruchrechnen:
+  \begin{itemize}
+  \item Kürzen eines Bruchs
+  \item Test auf Gleichheit der durch zwei Brüche repräsentierter
+    rationaler Zahlen
+  \item Addition, Subtraktion, Multiplikation und Division von
+    Brüchen
+  \end{itemize}
+
+  \textbf{Hinweis:} Zur Lösung der Aufgabe brauchen Sie die eingebaute
+  Prozedur
+  % 
+  \begin{center}
+    \texttt{gcd: number number -> number},
+  \end{center}
+  % 
+  die den größten gemeinsamen Teiler (greatest common divisor) von
+  zwei natürlichen Zahlen berechnet.
+
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  Jedes Qux hat einen Namen.  Außerdem interessiert
+  Experten, wieviele Bas ein Qux hat.  Es wird außerdem zwischen
+  Arg-Quxen, Foo-Quxen und Bla-Quxen unterschieden.
+  \begin{enumerate}
+  \item Schreiben Sie eine Daten-Definition für Quxe sowie eine dazu
+    passende Record-Definition. Notieren Sie dazu auch die Signaturen der
+    Selektoren.
+  \item Schreiben Sie Signatur, Gerüst und Schablone für eine Prozedur,
+    die ein Qux konsumiert und eine Zeichenkette zurückgibt.
+    Identifizieren Sie die dazu benutzten Konstruktionsanleitungen.
+    Achten Sie darauf, daß Sie auch die Konstruktionsanleitungen für die
+    Komponenten von Qux-Records zur Anwendung bringen.
+  \item Nehmen Sie an, Sie hätten für eine zu schreibende Prozedur
+    \texttt{quxop2} die folgende Signatur festgelegt:
+\begin{verbatim}
+(: quxop2 (natural (one-of "Hx" "Bx" "Px") -> qux))
+\end{verbatim}
+    (Dabei ist angenommen, daß die Record-Definition für ein Qux
+    den Namen \texttt{qux} hat.) Entwickeln Sie daraus Gerüst und
+    Schablone der zu schreibenden Prozedur.  Identifizieren Sie die dazu
+    benutzten Konstruktionsanleitungen.
+  \end{enumerate}
+
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  Schreiben sie ein Programm zur Verwaltung von Raumreservierungen!
+
+  \begin{enumerate}
+  \item Entwerfen Sie eine Daten- und Record-Definition für einen Eintrag eines
+    Verwaltungssystems für Vorlesungs- und Seminarräume. Jeder Eintrag beinhaltet
+    folgende Informationen: der Name des Raums (als Zeichenkette), der Wochentag,
+    die Uhrzeit (es wird nur in Stunden gerechnet) und der Name des Dozenten, der
+    den Raum belegt.
+
+  \item Schreiben Sie eine Prozedur \texttt{reserve}, die als Argumente einen Eintrag und einen
+    Dozentennamen konsumiert und einen Eintrag zurückgibt. Falls der Raum noch nicht belegt
+    wurde (d.h. im Eintrag ist der Dozentenname "`"'), soll der Raum reserviert werden und
+    damit ein neuer Eintrag zurückgegeben werden, bei dem der Dozentenname gesetzt ist.
+    Andernfalls wird der Eintrag unverändert zurückgegeben.
+  \end{enumerate}
+\end{aufgabe}
+
+
+\begin{aufgabe}
+
+  Schreiben Sie weitere Prozeduren für die Computer aus der Vorlesung:
+  %
+  \begin{itemize}
+  \item Überlegen Sie sich, wie Sie für einen Computer einen
+    geeigneten Preis abhängig von der Konfiguration berechnen würden.
+    Schreiben Sie eine Prozedur, welche Ihre Methode realisiert.
+  \item Schreiben Sie eine Prozedur, die den Speicher eines Computers
+    ausbaut.  Sie akzeptiert einen Computer und eine Zahl und liefert
+    einen neuen Computer, bei dem der Hauptspeicher um die Zahl erhöht
+    ist.
+  \end{itemize}
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  Schreiben Sie eine Daten- und Record-Definition
+  für \textit{Uhrzeiten} mit Stunden, Minuten und Sekunden.
+  Programmieren Sie folgende Prozeduren für Uhrzeiten:
+
+  \begin{enumerate}
+  \item Test, ob zwei Uhrzeiten gleich sind
+  \item Test, ob eine Uhrzeit früher ist als eine andere
+  \item Test, ob eine Uhrzeit später ist als eine andere
+  \item Test, ob eine Uhrzeit am Vormittag ist
+  \item Test, ob eine Uhrzeit am Nachmittag ist
+  \item Ausgabe der Zeit im 24h-Format, z.B. \verb|"18:45:10"| und
+    \verb|"9:12:25"|
+  \item Ausgabe der Zeit im 12h-Format, z.B. \verb|"6:45:10 p.m."| und
+    \verb|"9:12:25 a.m."|
+
+    \textbf{Hinweis:} Zur Lösung der beiden vorherigen Teilaufgaben
+    brauchen Sie die eingebauten Prozeduren
+    % 
+    \begin{center}
+      \texttt{(: number->string (number -> string))},
+    \end{center}
+    % 
+    die eine Zahl in eine Zeichenkette umwandelt und
+    % 
+    \begin{center}
+      \texttt{(: string-append (string string ... -> string))}, 
+    \end{center}
+    % 
+    die eine beliebige Anzahl von Zeichenketten zu einer Zeichenkette
+    zusammenhängt.
+
+  \item Umrechnung von Sekunden seit Mitternacht in Uhrzeiten
+    
+    \textbf{Hinweis:} Zur Lösung der Aufgabe
+    brauchen Sie die eingebauten Prozeduren
+    % 
+    \begin{center}
+      \texttt{(: quotient (integer integer -> integer))},
+    \end{center}
+    % 
+    um eine ganzzahlige Division durchzuführen und
+    % 
+    \begin{center}
+      \texttt{(: remainder (integer integer -> integer))}, 
+    \end{center}
+    % 
+    um den Rest einer ganzzahligen Division zu bestimmen.
+  \end{enumerate}
+
+  Sie können in jeder Teilaufgabe davon ausgehen, dass nur gültige
+  Uhrzeiten (zwischen 0:00:00 und 23:59:59) übergeben werden.
+
+  Benutzen Sie Abstraktionen und schreiben Sie Hilfsprozeduren an den
+  Stellen, an denen Sie Teilprobleme lösen!
+
+  Halten Sie sich bei jeder Prozedur, die Sie schreiben, an die
+  Konstruktionsanleitungen: Schreiben Sie zuerst die Kurzbeschreibung
+  und die Signatur.  Schreiben Sie als nächstes einige Testfälle.
+  Leiten Sie danach das Gerüst von der Signatur her und vervollständigen
+  Sie den Rumpf der Prozedur.
+
+\end{aufgabe}
+
+
+\begin{aufgabe}
+
+  Heute backen wir einen Kuchen. 
+
+  \begin{enumerate}
+  \item Erstellen Sie eine Datendefinition
+    \texttt{dough} für den Teig.  Jeder Teig besteht aus Eier, Mehl,
+    Zucker und Wasser und hat ein Gesamtgewicht.  Überlegen Sie sich
+    geeignete Einheiten für die Zutaten.
+  \item Erstellen Sie eine Datendefinition \texttt{cake}
+    für Kuchen.  Diese enthält einen Teig, eine Backdauer in Minuten und 
+    das Endgewicht des Kuchen.
+  \item Schreiben Sie eine Prozedur
+    \texttt{ingredients->dough} welche eine Anzahl an Eiern, eine
+    Menge Mehl in Gramm, eine Menge Zucker in Gramm und eine
+    Menge Wasser in Milliliter erhält und daraus einen Teig
+    herstellt. Gehen Sie davon aus, dass jedes Ei 64g wiegt.
+  \item Schreiben Sie eine Prozedur \texttt{bake-cake}. 
+    Diese erhält einen Teig, eine Backdauer in Minuten und erstellt einen 
+    Kuchen.  Gehen Sie davon aus, dass nach dem Backen noch 80\% des
+    Wassers im Kuchen sind.
+  \end{enumerate}
+  
+\end{aufgabe}
+
+
+\begin{aufgabe}
+
+  Schreiben Sie eine Datendefinition
+  \texttt{appointment} für Termine, bestehend aus Datum, Uhrzeit,
+  Dauer (in Minuten) und Ort.  Verwenden sie für das Datum und die
+  Uhrzeit weitere Datendefinitionen bestehend aus Tag, Monat und Jahr
+  beziehungsweise Stunde und Minute.
+
+  \begin{enumerate}
+  \item Schreiben Sie eine Prozedur \texttt{date-ok?}, die feststellt
+    ob ein Datums-Objekt einem tatsächlichen Kalenderdatum entspricht,
+    also korrekte Daten wie 1.1.1970 von unsinnigen wie 34.17.2006
+    unterscheidet. Lassen Sie dazu Schaltjahre außer Acht. Beachten
+    Sie die Monate mit 28, 30 und 31 Monaten.
+  \item Schreiben Sie eine Prozedur \texttt{date-equal?}, die
+    vergleicht, ob zwei Datums-Objekte gleich sind.
+  \item Schreiben Sie eine Prozedur \texttt{time-ok?}, die feststellt
+    ob ein Zeit-Objekt einer tatsächlichen Uhrzeit entspricht.
+  \item Schreiben Sie eine Prozedur \texttt{time-overlap?}, die
+    überprüft ob sich zwei Zeiten mit einer jeweils gegebenen Dauer
+    (in Minuten) überschneiden. Gehen Sie davon aus, dass es sich um
+    Zeiten desselben Tages handelt.
+  \item Schreiben Sie eine Prozedur \texttt{overlap?} die prüft ob
+    sich zwei gegebene Termine überschneiden. Beachten Sie die Dauer
+    der Termine. Gehen Sie davon aus, dass die Termine nicht über
+    Mitternacht liegen.
+  \end{enumerate}
+  %
+  \textbf{Hinweis:} Zur Lösung der Aufgabe kann die eingebaute
+  Prozedur
+  \begin{center}
+    \texttt{(: remainder natural natural -> natural)}
+  \end{center}
+
+  hilfreich sein. Sie bestimmt den Rest einer ganzzahligen Division.
+
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  Erstellen Sie eine Daten- und eine Record-Definition für einen
+    Fahrzeugschein (siehe Abbildung~\ref{fig:fahrzeugschein}).  Gliedern Sie die Felder des
+    Fahrzeugscheins sinnvoll in Untergruppen und erstellen Sie für diese
+    Untergruppen eigene Daten- und Record-Definitionen.  Benutzen Sie
+    sprechende Bezeichner für Records und Felder!  Geben Sie ein
+    Beispiel an, indem Sie ein Fahrzeugschein-Objekt mit allen Einträgen
+    erzeugen.
+    
+    
+    \begin{figure}[tb]
+      \begin{center}
+        \includegraphics[width=\linewidth]{i1zus/kfzschein-front}\\
+        \medskip
+        \includegraphics[width=\linewidth]{i1zus/kfzschein-back}
+      \end{center}
+      \caption{Vorder- und Rückseite eines Fahrzeugscheins}
+      \label{fig:fahrzeugschein}
+    \end{figure}
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  Schreiben Sie für den Tübinger Stadtverkehr ein
+  Programm, welches überprüft ob ein Fahrzeug in den Umweltzonen fahren 
+  darf.
+  \begin{enumerate}
+  \item Definieren Sie einen Datentyp für Fahrzeuge. Dieser
+    Datentyp soll den Typ, das Nummernschild und die Schadstoffklasse des
+    Fahrzeuges beinhalten.
+  \item Erstellen Sie die Beispielfahrzeuge für die
+    Fahrzeugtypen "'Stadtbus"', "'Reisebus"', "'Dieselauto"'
+    und "'Benzinauto"'. Gehen Sie davon aus, dass die Busse der
+    Schadstoffklasse~2, das Dieselauto der Schadstoffklasse~3 und das
+    Benzinauto der Schadstoffklasse~4 angehören.
+  \item Schreiben Sie eine Prozedur \texttt{fahrverbot?},
+    welche überprüft ob ein gegebenes Fahrzeug bei einer gegebenen
+    Mindest-Schadstoffklasse noch fahren darf. Gestalten Sie die Signatur
+    so, dass er nur Mindest-Schadstoffklassen von 1 bis 4 akzeptiert.
+  \item Die Mühlstraße in Tübingen ist in einer Richtung für
+    alle Fahrzeuge außer Stadtbusse gesperrt. Schreiben Sie eine Prozedur
+    \texttt{sonderrecht?}, die überprüft ob ein gegebenes Fahrzeug die
+    Mühlstraße in der gesperrten Richtung befahren darf.  
+  \item Bürgermeister Boris Palmer hat die Idee, den Tourismus
+    dadurch anzukurbeln, dass Sonntags auch Reisebusse die Mühlstrasse in
+    der gesperrten Richtunge befahren dürfen. Erweitern Sie hierfür die
+    Prozedur \texttt{sonderrecht?} um den Wochentag und lassen Sie Sonntags
+    auch Reisebusse zu.
+  \end{enumerate}
+  Verwenden Sie beim Schreiben der Prozedur die
+  Konstruktionsanleitungen für Prozeduren und für Fallunterscheidungen. 
+  Schreiben Sie Testfälle, die alle Möglichkeiten der   
+  Fallunterscheidung abdecken.
+  
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  Schreiben Sie ein Programm für einen Paketdienst, das den Preis
+  für ein Paket berechnet!
+  \begin{enumerate}
+    
+  \item Schreiben Sie eine Daten- und eine Record-Definition für
+    \textit{Adressen}.  Zu einer Adresse gehören der Name, die Straße
+    mit Hausnummer, die Postleitzahl, der Ort und das Land.
+    
+  \item Der Paketdienst verlangt einen Zuschlag für Sendungen, die
+    international verschickt werden.  Schreiben Sie eine Prozedur
+    \texttt{international?}, die als Argument eine \textit{Adresse}
+    bekommt und feststellt, ob die Adresse im Ausland liegt.
+
+  \item Der Paketdienst hat einen Sondertarif für Sendungen, die
+    innerhalb der gleichen Postleitzahl verschickt werden.  Schreiben
+    Sie eine Prozedur \texttt{same-zip-code?}, die als Argumente zwei
+    \textit{Adressen} bekommt und feststellt, ob die Postleitzahlen
+    und die Länder der beiden Adressen gleich sind.
+
+  \item Ein Paket wird klassifiziert nach seinen Abmessungen.
+    Schreiben Sie eine Daten- und eine Record-Definition für
+    \textit{Abmessungen}.  Abmessungen bestehen aus Länge, Breite und
+    Höhe.
+
+  \item Die Paketpreise richten sich nach der Größe des zu
+    verschickenden Pakets.  Der Paketdienst verwendet die drei
+    Größenklassen \textit{Small}, \textit{Medium} und \textit{Large},
+    um die Kosten für das Paket zu berechnen.  Ausschlaggebendes
+    Kriterium für die Paketgröße ist die Summe der längsten und der
+    kürzesten Seite des Pakets.  Schreiben Sie eine Prozedur
+    \texttt{add-longest-and-shortest-side}, die als Argument eine
+    \textit{Abmessung} bekommt.  Der Rückgabewert von
+    \texttt{add-longest-and-shortest-side} soll die Summe der längsten
+    und der kürzesten Seite der Abmessung sein.  Lagern Sie die
+    Teilprobleme in zwei Hilfsprozeduren aus: \texttt{longest-side}
+    und \texttt{shortest-side}.
+
+  \item Schreiben Sie eine Daten- und eine Record-Definition für
+    \textit{Pakete}.  Ein Paket besteht aus einer Absender- und einer
+    Empfängeradresse.  Benutzen Sie für die Adressen Ihre bereits
+    erstellte Record-Definition.  Außerdem hat ein Paket noch weitere
+    Eigenschaften: Die Abmessungen (benutzen Sie dafür Ihre bereits
+    erstellte Record-Definition), das Gewicht, die Beförderungsdauer
+    und eine Zusatz\-option Nachnahme.  Die Beförderungsdauer soll
+    \emph{normal}, \emph{next-day} oder \emph{next-morning} sein.
+
+  \item Schreiben Sie eine Prozedur \texttt{parcel-size-class}, die
+    als Argument ein \textit{Paket} bekommt und die Größenklasse
+    zurückgibt.  Ausschlaggebend für die Paketgröße ist die Abmessung
+    (siehe oben).  Folgende Tabelle enthält die Zuordnung von
+    Paketgröße und Abmessung:
+
+    \begin{center}
+      \begin{tabular}{c|l}
+        Paketgröße & Abmessung \\
+        \hline
+        S & 0--50 cm \\
+        M & $>$50--100 cm \\
+        L & $>$100 cm \\
+      \end{tabular}
+    \end{center}
+
+  \item Schreiben Sie eine Prozedur \texttt{calculate-base-postage},
+    die als Argument ein \textit{Paket} bekommt und die
+    Basis-Portokosten für dieses Paket berechnet.  Legen Sie dabei
+    folgende Grundtariftabelle des Paketdienstes zugrunde:
+
+    \begin{center}
+      \begin{tabular}{c|ccc}
+        & \multicolumn{3}{c}{Gewicht} \\
+        Paketgröße & 0--5 kg & $>$5--10 kg & $>$10 kg \\
+        \hline
+        S & 3,00 & 6,00 & 9,00 \\
+        M & 6,00 & 10,00 & 14,00 \\
+        L & 9,00 & 15,00 & 21,00 \\
+      \end{tabular}
+    \end{center}
+
+    
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{transportation-time-factor}, die als Argument ein
+    \textit{Paket} bekommt und den Aufschlagsfaktor für die
+    Beförderungsdauer zurückliefert.  Legen Sie dabei folgende
+    Aufschlagsfaktoren zugrunde:
+    
+    \begin{center}
+      \begin{tabular}{c|ccc}
+        & \multicolumn{3}{c}{Beförderungsdauer} \\
+        Beförderungsdistanz & normal & next-day & next-morning \\
+        \hline
+        gleiche PLZ & -25\% & +0\% & +25\% \\
+        Inland & +0\% & +50\% & +100\% \\
+        Ausland & +100\% & +200\% & +300\% \\
+      \end{tabular}
+    \end{center}
+    
+  \item Schreiben Sie eine Prozedur
+    \texttt{cash-on-delivery-surcharge}, die als Argument ein
+    \textit{Paket} bekommt und den Aufschlag für die Nachnahme
+    zurückliefert.  Legen Sie dabei folgende Aufschläge zugrunde:
+
+    \begin{center}
+      \begin{tabular}{c|c}
+        Beförderungsdistanz & Nachnahmegebühr \\
+        \hline
+        Inland & +3,00 \\
+        Ausland & +9,00 \\
+      \end{tabular}
+    \end{center}
+
+  \item Schreiben Sie eine Prozedur \texttt{calculate-postage}, die
+    als Argument ein \textit{Paket} bekommt und die Portokosten
+    berechnet.  Benutzen Sie dafür die von Ihnen programmierten
+    Lösungen der verschiedenen Teilprobleme.
+    
+  \end{enumerate}
+  
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  Wir repräsentieren einen Lithium-Ionen-Akku als
+  eine Liste von Lithium-Ionen-Zellen.  Eine Zelle besteht aus einer
+  maximalen Ladung (in Milliamperestunden, mAh) und einer momentanen
+  Ladung (ebenfalls in mAh).
+
+  Wenn eine Zelle eine Ladung von 1000mAh hat, bedeutet das, dass die
+  Zelle eine Stromstärke von 1000mA (Milliampere) für eine Stunde lang
+  liefern kann.  Die momentane Ladung darf nie über die maximale
+  Ladung steigen und nie unter 10\% der maximalen Ladung fallen, in
+  unserer Beispielzelle also 100mAh, sonst geht die Zelle kaputt.
+
+  % Die Zellen werden nach der Reihe ge- bzw.  entladen.  Wenn die erste
+  % Zelle auf 400mAh entladen ist, wird die zweite Zelle entladen, dann
+  % die nächste, etc.  Geladen wird in anderer Richtung: Zuerst wird die
+  % letzte Zelle geladen, dann die davor, etc.
+  
+  \begin{enumerate}
+    \setlength{\itemsep}{1cm}
+  \item Führen Sie eine Datenanalyse für Li-Ionen-Akkus und
+    Li-Ionen-Zellen durch, schreiben Sie die Datendefinitionen auf und
+    setzen Sie die Datendefinitionen um.
+
+  \item Schreiben Sie folgende Prozeduren:
+
+    \begin{itemize}
+    \item \texttt{cell-full?}, die überprüft, ob eine
+      Zelle vollständig geladen ist (d.h. ob die momentante
+      Ladung gleich der maximalen Ladung ist)
+
+    \item \texttt{cell-empty?}, die überprüft, ob eine Zelle entladen
+      ist (d.h. ob die momentane Ladung gleich der minimalen Ladung
+      ist, also 10\% der maximalen Ladung)
+
+    \item \texttt{cell-defect?}, die überprüft, ob eine
+      Zelle defekt ist (d.h. ob die momentane Ladung die
+      maximale Ladung überschreitet oder die minimale Ladung
+      unterschreitet)
+
+    \item \texttt{cell-ok?}, die überprüft, ob eine
+      Zelle funktioniert (d.h. ob die momentane Ladung
+      innerhalb der minimalen und maximalen Ladung liegt)
+
+    \end{itemize}
+
+  \item Schreiben Sie folgende Prozeduren:
+
+    \begin{itemize}
+    \item \texttt{battery-full?}, die überprüft, ob ein Akku
+      vollständig geladen ist (d.h. ob alle Zellen voll sind); eine
+      Batterie ohne Zelle gilt als geladen.
+
+    \item \texttt{battery-empty?}, die überprüft, ob ein Akku entladen
+      ist (d.h. ob alle Zellen leer sind); eine Batterie ohne Zelle
+      gilt auch als leer.
+
+    \item \texttt{battery-defect?}, die überprüft, ob ein Akku defekt
+      ist (d.h. ob mindestens eine Zelle defekt ist); eine Batterie
+      ohne Zelle gilt als nicht defekt.
+
+    \item \texttt{battery-ok?}, die überprüft, ob ein Akku
+      funktioniert (d.h. ob alle Zellen funktionieren); eine Batterie
+      ohne Zelle gilt als funktionstüchtig.
+      
+    \end{itemize}
+
+    \textbf{Gehen Sie in den folgenden Teilaufgaben davon aus, dass
+      nur \emph{funktionierende} Zellen und Batterien übergeben
+      werden!}
+
+  \item Das Ladegerät kann eine Zelle um 500mAh pro Stunde
+    aufladen.  Schreiben Sie eine Prozedur \\
+    \texttt{time-to-fully-charge-cell}, die ausrechnet, wieviele
+    Stunden es dauert, bis das Ladegerät die Zelle aufgeladen hat.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{time-to-fully-charge-battery}, die ausrechnet, wieviele
+    Stunden es dauert, bis das Ladegerät den Akku aufgeladen hat.
+
+  \item Schreiben Sie eine Prozedur \texttt{charge-cell}, die eine
+    Zelle und eine Zeit in Stunden konsumiert und die Zelle
+    zurückgibt, die mit dem in der vorherigen Teilaufgabe genannten
+    Ladegerät für die übergebene Zeit geladen wurde.  Die Ladung darf
+    aber nicht über die maximale Ladung steigen!  Die restliche Zeit
+    verfällt, wenn die Zelle bereits voll ist.
+
+  \item Schreiben Sie eine Prozedur \texttt{charge-battery}, die einen
+    Akku auflädt.  Die Prozedur gibt einen Akku zurück, der mit dem
+    Ladegerät für die übergebene Zeit geladen wurde.  Ist eine Zelle
+    vollständig geladen, so wird die nächste Zelle mit der restlichen
+    Zeit geladen.  Sind alle Zellen geladen und ist die Zeit jedoch
+    noch nicht aufgebraucht, so verstreicht diese.
+
+  \item Das Entladen einer Zelle hängt vom Verbraucher ab: Ein Gerät
+    hat einen Verbrauchswert, angegeben in mA.  Anschaulich betrachtet
+    heißt das, dass das Gerät pro Zeit eine gewissen Strom verbraucht.
+    Schreiben Sie eine Prozedur \texttt{time-to-fully-discharge-cell},
+    die eine Zelle und einen Verbrauch pro Stunde konsumiert und
+    ausrechnet, wie lange es dauert, bis die Zelle entladen ist.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{time-to-fully-discharge-battery}, die einen Akku und einen
+    Verbrauch pro Stunde konsumiert, und ausrechnet, wie lange es
+    dauert, bis der Akku entladen ist.
+
+  \item Schreiben Sie eine Prozedur \texttt{discharge-cell}, die eine
+    Zelle, einen Verbrauch pro Stunde und die Dauer (in Stunden)
+    konsumiert, für die der Verbraucher den Strom der Zelle
+    verbraucht.  Die Prozedur soll eine Zelle zurückgeben, die für die
+    Dauer den Verbraucher mit Strom versorgt hat.  Die Ladung darf
+    aber nicht unter die minimale Ladung fallen! Die restliche Zeit
+    verfällt, wenn die Zelle bereits leer ist (tatsächlich geht dem
+    Verbraucher einfach der Strom aus...).
+
+  \item Schreiben Sie eine Prozedur \texttt{discharge-battery}, die
+    eine Batterie, einen Verbrauch pro Stunde und die Dauer (in
+    Stunden) konsumiert.  Die Prozedur soll eine Batterie,
+    zurückgeben, die für die Dauer den Verbraucher mit Strom versorgt
+    hat.  Ist die Ladung einer Zelle verbraucht, wird die Ladung der
+    nächsten Zelle für die verbleibende Zeit verbraucht.  Sind alle
+    Zellen entladen und ist die Zeit jedoch noch nicht aufgebraucht,
+    so verstreicht diese, dem Verbraucher geht der Strom aus.
+
+  \end{enumerate}
+  
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  Auf seinen Reisen um die Welt trifft Dr.~Sperber
+  viele interessante und skurille Zeitgenossen. Unter ihnen
+  Dr.~Knaubichler, ein Experte auf dem Gebiet der Kreuzung von
+  mystischen Kreaturen.  Es gibt drei klassische Grundkreaturen:
+
+  \begin{itemize}
+  \item Der Garnolaf, der Stärke besitzt.
+  \item Das Ronugor, das Wissen besitzt.
+  \item Der Tschipotol, der Risikobereitschaft besitzt.
+  \end{itemize}
+  
+  Die Merkmale der Kreaturen sind unterschiedlich ausgeprägt.  Die
+  Knaubichler-Kreaturenmerkmal-Skala geht von 0 bis 100.  Die
+  Grundkreaturen haben jeweils nur ein Merkmal, keine besitzt ein
+  Merkmal einer anderen Grundkreatur.
+
+  Nun kreuzt Dr.~Knaubichler die Grundkreaturen miteinander. Es
+  entstehen also
+  \begin{itemize}
+  \item Das Ronulaf, mit Wissen und Stärke.
+  \item Der Tschigor, mit Wissen und Risikobereitschaft.
+  \item Das Lapotol, mit Stärke und Risikobereitschaft.
+  \item Der Tschirgaronu, Wissen, Stärke und Risikobereitschaft.
+  \end{itemize}
+  
+  Leider erben die Kreuzungen nicht die vollen Merkmale beider
+  Grundkreaturen. So wird bei der Kreuzung von Ronugor und Tschipotol
+  das übernommene Wissen um 10\% veringert, bei Tschipotol und
+  Garnolaf hingegen nimmt die Risikobereitschaft um 5\% ab, aber die
+  Stärke legt um 8\% zu. Garnolaf und Ronugor lassen die Stärke um 5\%
+  zulegen. Kreuzt man alle drei Grundkreaturen, nimmt jede Eigenschaft
+  um 3\% ab.
+  
+  Werden zwei Kreaturen der gleichen Sorte gekreuzt, so entsteht eine
+  neue Kreatur mit $\frac{2}{3}$ der addierten Eigenschaften der
+  beiden Grundkreaturen. Man kann nur Grundkreaturen kreuzen.
+  
+  Dr.~Knaubichler braucht ein Programm, welche die neue Kreatur
+  berechnet, bevor er die Kreuzungen durchführt.  Helfen Sie ihm
+  dabei!
+  
+  \begin{enumerate}
+
+  \item Machen Sie eine Datenanalyse und erstellen
+    Sie passenden Daten- und Recorddefinitionen.  Geben Sie alle
+    Signaturen der Record-Prozeduren an!
+
+  \item Schreiben Sie für jede der oben aufgelisteten
+    Kreuzungen von zwei Grundkreaturen eine Prozedur, die die Kreuzung
+    vornimmt und eine neue Kreatur zurückgibt.
+
+  \item Schreiben Sie nun eine Prozedur, die zwei
+    Grundkreaturen in beliebiger Reihenfolge akzeptiert, die Kreuzung
+    vornimmt und eine neue Kreatur zurückgibt.  Benutzen Sie dazu die
+    Prozeduren aus der vorherigen Teilaufgabe.
+
+  \item Schreiben Sie nun eine
+    Prozedur, die drei Grundkreaturen in beliebiger Reihenfolge
+    akzeptiert, die Kreuzung vornimmt und eine neue Kreatur
+    zurückgibt.
+
+  \end{enumerate}
+\end{aufgabe}
+
 
 %%% Local Variables: 
 %%% mode: latex
