@@ -113,10 +113,12 @@ Computer sind Werte wie andere auch und lassen sich zum Beispiel an
 Variablen binden:
 %
 \begin{alltt}
-(define gamer (make-computer "Cell" 4 1000)) ; Cell, 4 Gbyte RAM, 1000 Gbyte Festplatte
+; Cell, 4 Gbyte RAM, 1000 Gbyte Festplatte
+(define gamer (make-computer "Cell" 4 1000))
 gamer
 \evalsto{} #<record:computer "Cell" 4 1000>
-(define workstation (make-computer "Xeon" 2 500)) ; Xeon, 2 Gbyte RAM, 500 Gbyte Festplatte
+; Xeon, 2 Gbyte RAM, 500 Gbyte Festplatte
+(define workstation (make-computer "Xeon" 2 500))
 workstation
 \evalsto{} #<record:computer "Xeon" 2 500>
 \end{alltt}
@@ -307,7 +309,7 @@ Komponenten sind.  Dabei hilft eine informelle Beschreibung wie diese
 hier:
 %
 \begin{alltt}
-; Eine kartesische Koordinate in der Ebene besteht aus einer X- und Y-Koordinate.
+; Eine kartesische Koordinate in der Ebene besteht aus X- und Y-Koordinate.
 \end{alltt}
 %
 Eine solche \index{Datendefinition}\textit{Datendefinition} l‰ﬂt sich
