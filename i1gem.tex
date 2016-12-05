@@ -628,28 +628,222 @@ Fertig!
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  Schreibe Daten- und Record-Definitionen für geometrische Figuren,
-  wobei eine geometrische Figur ein Quadrat, ein Kreis oder ein
-  Rechteck sein kann.  Schreibe eine Prozedur, die für eine
-  geometrische Figur (ein Quadrat, einen Kreis oder ein Rechteck) den
-  Flächeninhalt berechnet.
+
+  Ein Supermarkt möchte seine Waren in einem Programm verwalten. Es gibt
+  drei Warenklassen:
+  \begin{itemize}
+  \item Essen - Beschrieben durch einen Namen, den Stückpreis, das Mindesthaltbarkeitsdatum
+    und den aktuellen Bestand im Supermarkt.
+  \item Getränke - Beschrieben durch einen Namen, den Stückpreis, das Mindesthaltbarkeitsdatum,
+    und den Bestand. Zusätzlich muss hier noch festgehalten werden, ob Pfand verlangt wird.
+  \item Sonstige - Beschrieben durch einen Namen, den Stückpreis und den Bestand.
+  \end{itemize}
+
+  
+  \begin{enumerate}
+  \item Führen sie eine Datenanalyse durch und erstellen sie Daten- und 
+    Record-Definitionen.
+  \item Schreiben sie eine Prozedur \texttt{stückpreis}, die eine Warenklasse
+    konsumiert und den Stückpreis zurückgibt.
+  \item Schreiben sie eine Prozedur \texttt{buchen}, die  eine Warenklasse und die Anzahl der
+    abzubuchenden Exemplare	konsumiert, den Bestand der Warenklasse reduziert und die
+    Warenklasse zurückgibt. Falls mehr Exemplare gefordert werden, als in der Warenklasse
+    vorhanden sind, soll der Bestand auf 0 gesetzt werden.
+  \item Schreiben sie eine Prozedur \texttt{haltbar?}, die eine
+    Warenklasse und ein Datum konsumiert und \texttt{\#t} zurückgibt, falls das
+    Mindesthaltbarkeitsdatum (MHD) nicht überschritten wurde. Falls kein MHD bekannt ist,
+    soll \texttt{\#t} zurückgeben werden.
+  \end{enumerate}
 \end{aufgabe}
 
+\begin{aufgabe}
+  Erweitern Sie die Lösung von Aufgabe~\ref{aufgabe:knaubichler} aus
+  dem vorigen Kapitel (Seite~\pageref{aufgabe:knaubichler}):
+  
+  \begin{enumerate}
+  \item Schreiben Sie nun eine Prozedur, die zwei
+    Grundkreaturen in beliebiger Reihenfolge akzeptiert, die Kreuzung
+    vornimmt und eine neue Kreatur zurückgibt.
+    
+  \item Schreiben Sie nun eine
+    Prozedur, die drei Grundkreaturen in beliebiger Reihenfolge
+    akzeptiert, die Kreuzung vornimmt und eine neue Kreatur
+    zurückgibt.
+  \end{enumerate}
+\end{aufgabe}     
 
-  % Erweiterung von "Knaubichler" aus vorigem Kapitel, nochmal anschauen
-  % \item Schreiben Sie nun eine Prozedur, die zwei
-  %   Grundkreaturen in beliebiger Reihenfolge akzeptiert, die Kreuzung
-  %   vornimmt und eine neue Kreatur zurückgibt.  Benutzen Sie dazu die
-  %   Prozeduren aus der vorherigen Teilaufgabe.
+\begin{aufgabe}
 
-  % \item Schreiben Sie nun eine
-  %   Prozedur, die drei Grundkreaturen in beliebiger Reihenfolge
-  %   akzeptiert, die Kreuzung vornimmt und eine neue Kreatur
-  %   zurückgibt.
+  Das Spiele-Entwicklungsteam von
+  \textit{Exciting Games, Inc.} ist in Personalnot: Für die
+  Implementierung des bahnbrechenden 2D-Spiels \textit{The Adventures
+    of DrRacket} wird dringend eine Repräsentation der grafischen
+  Formen Kreis, Rechteck und Dreieck benötigt.  Alle fiesen Hacker
+  sind leider wahnsinnig damit beschäftigt, bunte Pixel in der Gegend
+  herumzuschieben und können sich daher nicht dieser grundlegenden
+  Aufgabe widmen.  Deswegen fällt Ihnen diese Aufgabe zu!  Ihnen geht
+  nur ein mit Pizzabelag verschmierter Zettel zu, der offenbar als
+  Arbeitsanweisung gedacht ist.  Darauf steht:
+  \begin{itemize}
 
+  \item Es gibt drei Klassen von Formen: Kreise, Rechtecke und
+    gleichschenklige Dreiecke.  Alle Formen haben eine
+    Ursprungskoordinate und enthalten eine Information über die Größe
+    (Radius, Höhe, Breite, etc), wie Sie es auf der Abbildung sehen.
+    Benutzen Sie für die Ursprungskoordinate die vorgegebenen kartesischen
+    Koordinaten!
 
+    % \begin{figure}[h]
+    \begin{center}
+      \includegraphics[height=1.8cm]{i1gem/shapes.png}
+      % \caption{Formen}
+      % \label{Formen}
+    \end{center}
+    % \end{figure}
 
-TBD
+  \item Es soll Prozeduren geben, die auf allen Formen funktionieren
+    und folgendes leisten:
+
+    \begin{itemize}
+
+    \item kartesische Koordinate einer Form zurückgeben
+
+    \item $x$-Koordinate einer Form zurückgeben
+
+    \item $y$-Koordinate einer Form zurückgeben
+
+    \item Abstand des Ursprungs einer Form zum Ursprung des
+      Koordinatensystems zurückgeben
+
+    \item Flächeninhalt einer Form zurückgeben
+
+    \item Form um $\Delta_x$ in $x$-Richtung und um $\Delta_y$ in
+      $y$-Richtung verschieben, also eine Form zurückgeben, deren
+      Ursprungskoordinate entsprechend verschoben ist
+
+%     \item Größe einer Form um einen Faktor ändern, also eine Form
+%       zurückgeben, deren Größe entsprechend angepasst ist
+  \item  Flächeninhalt zweier
+    Formen vergleichen: Für gleich große Formen liefert die Prozedur
+    \verb|"equal"| zurück, sonst \verb|"smaller"|, wenn die erste
+    Form kleiner ist, beziehungsweise \verb|"bigger"|, wenn die erste
+    Form größer ist.
+    \end{itemize}
+
+  \end{itemize}
+
+  Zeigen Sie den Hackern, was richtiges Software-Engineering ist und
+  benutzen Sie die passenden Konstruktionsanleitungen aus der
+  Vorlesung, um Repräsentationen für die Formen und die zugehörigen
+  Prozeduren zu schreiben!
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  Es gibt verschiedene Verstöße gegen die
+  Straßenverkehrsordnung: 
+  \begin{itemize}
+  \item Falschparken mit Ort und Zeitpunkt des Verstoßes
+
+  \item Überfahren einer roten Ampel mit Ort und Zeitpunkt des Verstoßes
+    sowie der Dauer in Sekunden, wie lange die Ampel bereits rot war
+
+  \item Überhöhte Geschwindigkeit mit Ort und Zeitpunkt des Verstoßes
+    sowie der Höhe der Geschwindigkeits\-über\-tre\-tung
+  \end{itemize}
+  Neben den angegebenen Bestandteilen muss später für jeden Verstoß vermerkt 
+  werden, ob zusätzlich eine "`Gefährdung des Straßenverkehrs"' vorliegt.
+  
+  \begin{enumerate}
+  \item Schreiben Sie eine Datendefinition für
+    Verstöße gegen die Straßenverkehrsordnung.  Schreiben Sie Daten-
+    und Recorddefinitionen für die verschiedenen Verstöße.  Hinweis:
+    Die Zeitpunkte können Sie durch Zeichenketten repräsentieren.  
+    Geben Sie alle Signaturen an!
+
+  \item Schreiben Sie eine Prozedur, die einen
+    beliebigen Verstoß entgegennimmt und den Ort des Verstoßes
+    zurückgibt.
+
+    Schreiben Sie analog eine Prozedur, die einen
+    beliebigen Verstoß entgegennimmt und den Zeitpunkt des Verstoßes
+    zurückgibt.
+
+  \item Schreiben Sie eine Prozedur, die einen
+    beliebigen Verstoß entgegennimmt, diesen als Gefährdung des
+    Straßenverkehrs betrachtet und wieder zurückgibt (d.~h. jeder 
+    Verstoß ist ein Verstoß mit Gefährdung).
+  \end{enumerate}
+
+  Die Verstöße haben unterschiedliche Tatbestände zur Folge:
+
+  \begin{itemize}
+  \item Einfaches Vergehen mit Bußgeld
+
+  \item Ordnungswidrigkeit mit Bußgeld, Punkte für die
+    Verkehrssünderdatei und Fahrverbot in Monaten
+
+  \item Straftat mit Punkten für die Verkehrssünderdatei und
+    Freiheitsstrafe in Monaten
+  \end{itemize}
+  
+  \begin{enumerate} \setcounter{enumii}{3}
+  \item Schreiben Sie eine Datendefinition für
+    Tatbestände auf Verstöße gegen die Straßenverkehrsordnung.
+    Schreiben Sie Daten- und Recorddefinitionen für die verschiedenen
+    Tatbestände.  Geben Sie alle Signaturen an!
+
+  \item Schreiben Sie eine Prozedur, die einen
+    beliebigen Tatbestand konsumiert und die Anzahl der anfallenden
+    Punkte zurückliefert.
+  \end{enumerate}
+
+  Schreiben Sie nun Prozeduren, die Verstöße konsumieren und die
+  Tatbestände berechnen:
+
+  \begin{enumerate} \setcounter{enumii}{5}
+  \item Schreiben Sie eine Prozedur, die Falschparken
+    konsumiert und ein einfaches Vergehen mit 20~Euro Bußgeld zurückgibt.
+    Wenn das Falschparken eine Gefährdung des Straßenverkehrs
+    darstellt (z.B.  bei Behinderung von Rettungsfahrzeugen),
+    soll die Prozedur eine Ordnungswidrigkeit mit 40~Euro Bußgeld,
+    einem Punkt und keinem Fahrverbot zurückgeben.
+
+  \item Schreiben Sie eine Prozedur, die Überfahren
+    einer roten Ampel konsumiert und eine Ordnungswidrigkeit
+    zurückgibt.  Dabei gilt:
+    \begin{itemize}
+    \item wenn die Ampel kürzer als eine Sekunde rot war und keine
+      Gefährdung vorlag: 50~Euro, 3~Punkte, kein Fahrverbot
+    \item wenn die Ampel mindestens eine Sekunde rot war oder eine
+      Gefährdung vorlag: 125~Euro, 4~Punkte, 1~Monat Fahrverbot
+    \end{itemize}
+
+  \item Schreiben Sie eine Prozedur, die überhöhte
+    Geschwindigkeit konsumiert und den Tatbestand zurückgibt.  Dabei
+    gilt:
+    \begin{itemize}
+    \item Geschwindigkeitsübertretung weniger als 20 km/h ohne Gefährdung:
+      einfaches Vergehen mit 35~Euro
+    \item Geschwindigkeitsübertretung zwischen 20 und 40 km/h
+      (inklusive) ohne Gefährdung: Ordnungswidrigkeit mit 75~Euro,
+      3~Punkten und 1~Monat Fahrverbot
+    \item Geschwindigkeitsübertretung von mehr als 40 km/h ohne
+      Gefährdung: Ordnungswidrigkeit mit 200~Euro, 4~Punkte und
+      3~Monate Fahrverbot
+    \item bei gleichzeitiger Gefährdung des Straßenverkehrs: Straftat
+      mit 3~Punkte mehr als ohne Gefährdung angegeben und
+      Freiheitsstrafe, die doppelt so lang ist wie das Fahrverbot, das
+      ohne Gefährdung gilt (wenn es kein Fahrverbot gibt, dann gibt es
+      auch keine Freiheitsstrafe)
+    \end{itemize}
+
+  \item Schreiben Sie eine Prozedur, die einen
+    Verstoß konsumiert und dessen Folge zurückgibt.  Benutzen Sie die
+    Prozeduren aus den vorherigen Teilaufgaben.
+  \end{enumerate}
+\end{aufgabe}
+
 
 %%% Local Variables: 
 %%% mode: latex
