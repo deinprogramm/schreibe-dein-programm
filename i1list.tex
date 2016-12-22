@@ -1016,19 +1016,372 @@ bessere Lösung mit Listen oder anderen Repräsentationen finden.
 
 \section*{Aufgaben}
 
-FIXME: viel mehr Aufgaben
-
 \begin{aufgabe}
   Schreiben Sie Ausdrücke für Listen, welche die Beispiellisten vom
   Anfang von Abschnitt~\ref{sec:lists} repräsentieren.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreibe eine Prozedur \texttt{backlog-list}, welche die
-  gleichen Eingaben wie \texttt{load-list} akzeptiert, aber die
-  nach dem Beladen eines Lastwagens im Lager zurückbleibenden Artikel
-  zurückgibt.  Die Prozedur soll 
-  \texttt{load-list} als Hilfsprozedur verwenden.
+Schreiben Sie folgende Prozeduren auf Listen zu schreiben:
+  
+  \begin{enumerate} 
+    
+  \item Eine Prozedur \texttt{count-zeroes}, die die Anzahl von Nullen
+    in einer Liste von Zahlen berechnet.
+    
+  \item Eine Prozedur \texttt{contains>10?}, die feststellt, ob eine
+    Liste von Zahlen eine Zahl enthält, die größer als 10 ist.
+    
+  \item Eine Prozedur \texttt{list-length}, die die Länge einer Liste
+    von Zahlen berechnet.
+
+  \end{enumerate}
+  
+\end{aufgabe}
+
+\begin{aufgabe}
+   In einem Fischnetz landen~--- vereinfacht
+  dargestellt~--- Fische, Quallen und Schuhe.  Ein Fischerreigut ist
+  also ein Fisch, eine Qualle oder ein Schuh.  Jedes dieser
+  Fischerreigüter hat ein Gewicht in Gramm; Fische besitzen außerdem
+  zusätzlich noch die Eigenschaft, ob sie essbar sind oder nicht (und
+  daher aussortiert werden müssen); Qualen können giftig sein. 
+  Schreiben Sie ein Programm für
+  einen Fischsortierer, der die essbaren Fische aus den
+  Fischerreigütern herausfiltern kann.
+
+  \begin{enumerate}
+  \item Führen Sie eine Datenanalyse für
+    Fischerreigüter durch und schreiben Sie passende Daten- und
+    Recorddefinitionen.  Geben Sie ein paar Beispiele für
+    Fischerreigüter an, die Sie in den nächsten Teilaufgaben in
+    Testfällen verwenden können.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{edible-fish?}, die überprüft ob ein übergebenes
+    Fischerreigut ein essbarer Fisch ist.
+
+  \item Schreiben Sie eine Prozedur \texttt{weight}, 
+    die das Gewicht eines beliebigen Fischerreiguts zurückgibt.
+
+  \item Schreiben Sie eine Daten- und Recorddefinition
+    für Listen von Fischerreigütern.  Geben Sie alle Signaturen an!
+    Geben Sie außerdem mindestens fünf verschiedene Beispiele für Listen
+    mit Fischerreigütern an.
+
+  \item Schreiben Sie eine Prozedur \texttt{total-weight},
+    die eine Liste von Fischerreigütern akzeptiert und das Gesamtgewicht
+    aller Fischerreigüter in der Liste ausrechnet.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{total-edible-fish-weight}, die eine Liste von 
+    Fischerreigüter akzeptiert und das Gesamtgewicht aller 
+    essbaren Fische in der Liste ausrechnet.
+
+  \item Schreiben Sie eine Prozedur \texttt{count}, die 
+    eine Liste von Fischerreigütern akzeptiert und die Anzahl der
+    Fischerreigüter in der Liste bestimmt.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{count-edible-fish}, die eine Liste von
+    Fischerreigütern akzeptiert und die Anzahl der essbaren
+    Fische in der Liste bestimmt.
+
+  \item Ein Sortierer soll nun die Fische 
+    aus dem Fischernetz automatisch sortieren. Leider ist der Sortierer 
+    sehr alt und kommt deswegen mit großen Quallen und Schuhen nicht 
+    klar.  Der Sortiervorgang wird abgebrochen, sobald eine Qualle oder ein
+    Schuh, der schwerer als 1kg ist, in den Sortierer gerät.
+    Schreiben Sie die Prozedur \texttt{fish-sorter}, die diesen Vorgang
+    simuliert. Als Eingabe bekommt diese Prozedur eine Liste von
+    Fischerreigütern, die sie nach und nach abarbeitet.
+    Herauskommen soll eine Liste von Fischerreigütern, in der die
+    gefischten essbaren Fische enthalten sind.  Schreiben Sie
+    ausreichend Testfälle, beachten Sie auch den Fall, dass der
+    Sortierer im Leerlauf betrieben wird.  Verwenden Sie die Prozeduren
+    aus den vorherigen Aufgabenteilen.
+
+ \item Schreiben Sie eine Prozedur
+   \texttt{heaviest-fish}, die aus einer Liste von Fischerreigütern
+   den schwersten essbaren Fisch heraussucht und zurückgibt.  Wenn in
+   der Liste kein essbarer Fisch enthalten ist, soll die Prozedur
+   \verb|#f| zurückgeben.
+
+    \item Schreiben Sie eine Prozedur
+      \texttt{filter-edible-potatoes}, die eine Liste von
+      Ackerbestandteilen akzeptiert und essbaren Kartoffeln als Liste
+      zurückgibt.
+
+    \item Schreiben Sie eine Prozedur
+      \texttt{drop-stones}, die eine Liste von Ackerbestandteilen
+      akzeptiert und eine Liste zurückgibt, in der es keine Steine mehr
+      gibt.
+
+    \item (BONUSAUFGABE) Schreiben Sie eine Prozedur
+      \texttt{average-weight-edible-potatoes}, die eine Liste von
+      Ackerbestandteilen akzeptiert und das durchschnittliche Gewicht
+      der essbaren Kartoffel berechnet.
+
+  \end{enumerate}
+  
+\end{aufgabe}
+
+\begin{aufgabe}
+   Auf einem Acker gibt es ~--- vereinfacht
+  dargestellt~--- Kartoffeln, Erdklumpen und Steine.  Ein
+  Ackerbestandteil ist also eine Kartoffel, ein Erdklumpen oder ein
+  Stein.  Jedes dieser Ackerbestandteile hat ein Gewicht in Gramm;
+  Kartoffeln besitzen außerdem zusätzlich noch die Eigenschaft, ob sie
+  essbar sind oder nicht (und daher aussortiert werden müssen).
+  Schreiben Sie ein Programm für eine Kartoffel-Erntemaschine, die die
+  essbaren Kartoffeln aus den Ackerbestandteilen herausfiltern muss.
+
+  \begin{enumerate}
+  \item Führen Sie eine Datenanalyse für
+    Ackerbestandteile durch und schreiben Sie passende Daten- und
+    Recorddefinitionen.  Geben Sie ein paar Beispiele für
+    Ackerbestandteile an, die Sie in den nächsten Teilaufgaben in
+    Testfällen verwenden können.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{edible-potatoe?}, die überprüft ob ein übergebener
+    Ackerbestandteil eine essbare Kartoffel ist.
+
+  \item Schreiben Sie eine Prozedur \texttt{weight}, 
+    die das Gewicht eines beliebigen Ackerbestandteils zurückgibt.
+
+  \item Schreiben Sie eine Daten- und Recorddefinition
+    für Listen von Ackerbestandteilen.  Geben Sie alle Signaturen an!
+    Geben Sie außerdem mindestens fünf verschiedene Beispiele für Listen
+    mit Ackerbestandteilen an.
+
+  \item Schreiben Sie eine Prozedur \texttt{total-weight},
+    die eine Liste von Ackerbestandteilen akzeptiert und das Gesamtgewicht
+    aller Ackerbestandteile in der Liste ausrechnet.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{total-edible-potatoes-weight}, die eine Liste von Ackerbestandteilen
+    akzeptiert und das Gesamtgewicht aller essbaren Kartoffeln in der Liste
+    ausrechnet.
+
+  \item Schreiben Sie eine Prozedur \texttt{count}, die 
+    eine Liste von Ackerbestandteilen akzeptiert und die Anzahl der
+    Ackerbestandteile in der Liste bestimmt.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{count-edible-potatoes}, die eine Liste von
+    Ackerbestandteilen akzeptiert und die Anzahl der essbaren
+    Kartoffeln in der Liste bestimmt.
+
+  \item Eine Maschine soll nun die Kartoffeln aus dem
+    Acker automatisch ernten.  Leider ist die Maschine sehr alt und
+    kommt deswegen mit großen Steinen und Erdklumpen nicht klar.  Der
+    Erntevorgang wird abgebrochen, sobald ein Stein oder ein
+    Erdklumpen, der schwerer als 1kg ist, in die Maschine gerät.
+    Schreiben Sie die Prozedur \texttt{harvester}, die diesen Vorgang
+    simuliert. Als Eingabe bekommt diese Prozedur eine Liste von
+    Ackerbestandteilen, die sie nach und nach abarbeitet.
+    Herauskommen soll eine Liste von Ackerbestandteilen, in der die
+    geerneteten essbaren Kartoffeln enthalten sind.  Schreiben Sie
+    ausreichend Testfälle, beachten Sie auch den Fall, dass die
+    Maschine im Leerlauf betrieben wird.  Verwenden Sie die Prozeduren
+    aus den vorherigen Aufgabenteilen.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{heaviest-potato}, die aus einer Liste von
+    Ackerbestandteilen die schwerste essbare Kartoffel heraussucht und
+    zurückgibt.  Wenn in der Liste keine essbare Kartoffel enthalten ist, soll
+    die Prozedur \verb|#f| zurückgeben.
+
+    \item Schreiben Sie eine Prozedur
+      \texttt{filter-edible-potatoes}, die eine Liste von
+      Ackerbestandteilen akzeptiert und essbaren Kartoffeln als Liste
+      zurückgibt.
+
+    \item Schreiben Sie eine Prozedur
+      \texttt{drop-stones}, die eine Liste von Ackerbestandteilen
+      akzeptiert und eine Liste zurückgibt, in der es keine Steine mehr
+      gibt.
+
+    \item (BONUSAUFGABE) Schreiben Sie eine Prozedur
+      \texttt{average-weight-edible-potatoes}, die eine Liste von
+      Ackerbestandteilen akzeptiert und das durchschnittliche Gewicht
+      der essbaren Kartoffel berechnet.
+
+  \end{enumerate}
+  
+\end{aufgabe}
+
+\begin{aufgabe}
+   In einer Firma stempeln die Mitarbeiter Stempelkarten, um ihre
+  Arbeitszeit nachzuweisen: Auf jeder Stempelkarte ist die Nummer des
+  Mitarbeiters vermerkt sowie eine Liste von jeweils gearbeiteten
+  Stunden. Gehen Sie der Einfachheit halber davon aus, dass nur ganze Stunden
+  notiert werden.
+  Außerdem gibt es für jeden Mitarbeiter eine Personalakte
+  mit Name, Nummer und Stundenlohn (auch nur in ganzen Euros) des Mitarbeiters.
+  Am Ende jedes Monats 
+  muss an jeden Mitarbeiter der Lohn überwiesen werden.  Dazu werden
+  Überweisungen erzeugt; jede Überweisung besteht aus der
+  Mitarbeiternummer und einem Überweisungsbetrag.
+
+  Schreiben Sie Daten- und Record-Definitionen für Stempelkarten,
+  Personalakten und Überweisungen.
+
+  Schreiben Sie eine Prozedur, die eine Liste von Personalakten
+  und eine Liste von Stempelkarten für einen Monat akzeptiert, für jeden
+  Mitarbeiter die gearbeiteten Stunden aufsummiert und eine
+  Liste der Überweisungen zurückliefert.
+\end{aufgabe}
+
+\begin{aufgabe}
+
+   Programmieren Sie folgende Prozeduren auf Listen:
+  \begin{enumerate}
+  \item Programmieren Sie eine Prozedur \texttt{take}, die als
+    Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
+    akzeptiert, und die ersten \texttt{n} Elemente der Liste
+    \texttt{l} zurückgibt. Beispiel:
+    \begin{alltt}
+      (take (list 1 2 3 4 5 6 7 8) 5)
+      \evalsto{} #<list 1 2 3 4 5>
+    \end{alltt}
+    %
+    Gehen Sie davon aus, dass \texttt{l} mindestens \texttt{n}
+    Elemente lang ist.
+
+  \item Programmieren Sie eine Funktion \texttt{drop}, die als
+    Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
+    akzeptiert, und die Liste \texttt{l} ohne die ersten \texttt{n}
+    Elemente zurückgibt.  Beispiel:
+    \begin{alltt}
+      (drop (list 1 2 3 4 5 6 7 8) 3)
+      \evalsto{} #<list 4 5 6 7 8>
+    \end{alltt}
+    %
+    Gehen Sie davon aus, dass \texttt{l} mindestens \texttt{n}
+    Elemente lang ist.
+    \end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}
+   Sie sind Besitzer eines Parkplatzes mit
+  Bereichen für unterschiedliche Fahrzeuge:  PKWs (\texttt{car}), Lastwagen
+  (\texttt{truck}), Wohnmobile (\texttt{caravan)}, Busse (\texttt{bus})
+  und Fahrräder (\texttt{bike}). 
+  Wegen der Finanznot hat die Stadt Tübingen beschlossen, dass 
+  Sie für jedes Fahrzeug, das auf Ihrem Parkplatz
+  parkt, Abgaben entrichten müssen, und zwar pro Tag je:
+  \begin{list}{-}{}
+  \item \texttt{car}: 3 Cent
+  \item \texttt{truck}: 5 Cent + 3 Cent pro Achse
+  \item \texttt{caravan}: 4 Cent
+  \item \texttt{bus}: 10 Cent + 1 Cent pro Sitzplatz
+  \item \texttt{bike}: 1 Cent.
+  \end{list} 
+  Der Fahrzeughalter kann die Abgaben nur für den jeweiligen Tag begleichen, 
+  so dass Sie die Parkdauer nicht beachten müssen.
+
+  \begin{enumerate}
+  \item Machen Sie eine Datenanalyse und schreiben Sie Daten- und 
+    Recorddefinitionen für die Fahrzeugtypen \texttt{truck}, \texttt{bus} und
+    \texttt{simple-vehicle}. Dabei werden unter \texttt{simple-vehicle} die
+    Fahrzeuge zusammengefasst, bei denen keine variablen Kosten anfallen.
+  \item Schreiben Sie  Prozeduren
+    \texttt{tax-truck}, \texttt{tax-bus} und \texttt{tax-simple-vehicle}
+    zur Ermittlung der Abgaben für diese Fahrzeugtypen
+  \item Definieren Sie einen Datentyp \texttt{vehicle}. Schreiben Sie eine
+    Prozedur \texttt{tax-vehicle}, die die Abgaben für ein beliebiges Fahrzeug 
+    berechnet.    
+  \item Schreiben Sie nun eine Prozedur \texttt{calculate-tax}, die die täglichen 
+    Abgaben berechnet, die Sie an das Finanzamt für alle Fahrzeuge auf ihrem Parkplatz
+    bezahlen müssen. Die Prozedur akzeptiert eine Liste von Fahrzeugen und
+    berechnet die Gesamtabgaben eines Tages.
+  \end{enumerate}
+  Benutzen Sie bei jeder Prozedur und jedem Record, den Sie schreiben,
+  die Konstruktionsanleitungen: Erstellen Sie zunächst
+  Kurzbeschreibung, Signatur, einige Testfälle und das Gerüst der Prozedur.
+  Vervollständigen Sie anschließend das Gerüst und vergewissern Sie sich,
+  dass die Testfälle korrekt durchlaufen!
+\end{aufgabe}
+
+\begin{aufgabe}
+   Schreiben Sie eine Prozedur, die auf möglichst
+  einfache Weise eine Liste von Zahlen aufsteigend sortiert! Gehen
+  Sie dazu wie folgt vor:
+
+  \begin{enumerate}
+  \item Schreiben Sie eine Prozedur
+    \texttt{list-min}, die das kleinste Element einer
+    Liste zurückgibt.
+
+    Beispiel: \verb|(list-min (list 2 3 4 1 5 6))| ergibt \verb|1|
+
+    Wenn die Prozedur auf eine leere Liste angewendet
+    wird, soll die Prozedur eine \texttt{violation} produzieren.
+  \item Schreiben Sie eine Prozedur
+    \texttt{delete-once}, die aus einer Liste von Zahlen das erste
+    Vorkommen einer gegebenen Zahl entfernt.
+
+    Beispiel: \verb|(delete-once 5 (list 1 2 5 3 4 5))| ergibt
+    \verb|#<list 1 2 3 4 5>|
+    
+    (Wenn die Liste die Zahl nicht enthält,
+    soll sie unverändert zurückgegeben werden.)
+  \item  Schreiben Sie eine Prozedur \texttt{sort}, die
+    eine Liste von Zahlen in aufsteigender Reihenfolge sortiert.
+    Benutzen Sie dazu \texttt{list-min} und \texttt{delete-once}.
+
+    Beispiel: \verb|(sort (list 1 5 3 2 4))| ergibt
+    \verb|#<list 1 2 3 4 5>|
+
+  \end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}
+  Da Sie jetzt mit Listen programmieren können, bittet Dr.~Knaubichler
+  Sie nochmals um Ihre Hilfe (siehe Aufgabe~\ref{aufgabe:knaubichler2}
+  aus dem vorigen Kapitel, Seite~\pageref{aufgabe:knaubichler2}):
+  Schreiben Sie ein Programm, das aus einer Liste von Grundkreaturen
+  die zwei Grundkreaturen auswählt, die miteinander gekreuzt die
+  leistungsstärkste Kreatur ergeben.
+
+  Gehen Sie dazu wie folgt vor:
+
+  \begin{enumerate}
+  \item Schreiben Sie ein Prädikat für Kreaturen.
+
+  \item Schreiben Sie eine Prozedur
+    \texttt{creature-power}, die eine beliebige Kreatur akzeptiert und
+    deren Leistung berechnet.  Die Leistung ist die Summe aller
+    Eigenschaften.
+
+  \item  Schreiben Sie eine Prozedur
+    \texttt{find-optimal-breeding-partner}, die eine Grundkreatur
+    $c_1$ und eine Liste von Grundreaturen akzeptiert.  Die Prozedur
+    soll die Grundkreatur $c_2$ aus der Liste auswählen und
+    zurückgeben, die der beste Kreuzungspartner von $c_1$ ist.  Die
+    Kreuzung von $c_1$ und $c_2$ soll also unter allen möglichen
+    Kreuzungen die Kreatur mit der höchsten Leistung ergeben.  Falls
+    die Liste der Grundkreaturen leer ist, soll die Prozedur \verb|#f|
+    zurückgeben.
+
+  \item  Schreiben Sie eine Prozedur
+    \texttt{breed-optimal-partner}, die eine Grundkreatur $c_1$ und
+    eine Liste von Grundkreaturen akzeptiert.  Die Prozedur soll $c_1$
+    mit der Grundkreatur aus der Liste kreuzen, die zur
+    leistungsstärksten Kreatur führt.  Falls die Liste der
+    Grundkreaturen leer ist, soll die Prozedur \verb|#f| zurückgeben.
+    Benutzen Sie \texttt{find-optimal-breeding-partner}.
+
+  \item  Schreiben Sie eine Prozedur
+    \texttt{optimal-breed}, die eine Liste von Grundkreaturen
+    akzeptiert.  Die Prozedur soll die beiden Grundkreaturen aus der
+    Liste miteinander kreuzen, die unter allen möglichen Kreuzungen
+    die Kreatur mit der höchsten Leistung ergeben.  Benutzen Sie die
+    Prozeduren aus den vorherigen Teilaufgaben.
+
+  \end{enumerate}
 \end{aufgabe}
 
 %%% Local Variables: 
