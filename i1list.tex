@@ -114,13 +114,13 @@ die gleiche Sorte darstellen soll.  Damit ist \verb$%a$ etwas anderes als
 verschieden wäre von der Sorte, welche der Konstruktor \texttt{make-pair} zuvor
 verwendet hat.
 
-So weit, so gut: Bisher gab die leere Liste und eine Liste mit einem
+So weit, so gut: Bisher gab es die leere Liste und eine Liste mit einem
 Element.  Wie kommen mehr Elemente in eine Liste?  Indem
 \texttt{make-pair} noch einmal aufgerufen wird:
 %
 \begin{alltt}
-(make-pair "Mike" (make-pair "Herbert" (make-pair "Marcus" empty)))
-\evalsto{}#<record:pair "Mike" #<record:pair "Herbert" #<record:pair "Marcus" #<empty-list>>>>
+(make-pair "Mike" (make-pair "Herbert" empty))
+\evalsto{}#<record:pair "Mike" #<record:pair "Herbert" #<empty-list>>>
 \end{alltt}
 %
 Zu einer Liste mit zwei Elementen gehören also zwei Paare.
@@ -781,7 +781,7 @@ Listen verarbeiten.
 
 Auf Seite~\pageref{page:run-over-dillo} haben wir die Prozedur
 \texttt{run-over-dillo} geschrieben, die für das Überfahren von
-Gürteltieren zuständig ist.  In diesem Abschnitt schreiben die
+Gürteltieren zuständig ist.  In diesem Abschnitt schreiben wir die
 Prozedur, die das gleich massenweise erledigt, beispielsweise für alle
 Gürteltiere auf einem Highway.  Dazu übernehmen wir Daten- und
 Record-Definition von Gürteltieren aus
@@ -913,7 +913,7 @@ Kurzbeschreibung, Signatur und Gerüst sehen folgendermaßen aus:\index{concatenat
 Die Konstruktionsanleitung aus Abschnitt~\ref{sec:lists} ist
 eigentlich nur für Prozeduren gedacht, die eine einzelne Liste
 akzeptieren.  Welche von beiden ist das $l$ aus der Anleitung?  Im
-Zweifelsfall können wir beide Alternativen auszuprobieren.  Wir
+Zweifelsfall können wir beide Alternativen ausprobieren.  Wir
 fangen, um die Sache spannender zu machen, mit \texttt{lis-2} an:
 %
 \begin{alltt}
