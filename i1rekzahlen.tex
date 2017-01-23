@@ -202,18 +202,13 @@ Konstruktionsanleitung~\ref{ka:N} in
 Anhang~\ref{app:konstruktionsanleitungen} faßt dies noch einmal
 zusammen.
 
-FIXME: Prozeduren, die Listen erzeugen etc.
+TDB: Prozeduren, die Listen erzeugen etc.
 
 \section*{Aufgaben}
 
-\begin{aufgabe}
-  Schreibe eine Prozedur \texttt{power2}, die eine Zahl akzeptiert und
-  ihre Zweierpotenz zurückliefert.
-\end{aufgabe}
-
 \begin{aufgabe}\label{aufg:power}
   Schreibe eine Prozedur \texttt{power}, die für eine Basis $b$ und
-  einen Exponenten $e\in\mathbb{N}$ gerade $b^e$ ausrechnet.  Also:
+  einen Exponenten $e\in\mathbb{N}$ die Potenz $b^e$ ausrechnet.  Also:
 \begin{alltt}
 (power 5 3)
 \evalsto{} 125
@@ -310,7 +305,6 @@ FIXME: Prozeduren, die Listen erzeugen etc.
 \end{alltt}
 \end{aufgabe}
 
-TBD
 \begin{aufgabe}\label{ex:coke-finances}
   Schreibe eine Prozedur \texttt{drink-machine}, die das
   Finanzmanagement eines Getränkeautomaten durchführt.
@@ -327,6 +321,8 @@ TBD
 \begin{alltt}
 (drink-machine 140 (list 50 100 500 10 10) 200)
 \evalsto{} #<list 50 10>
+(check-expect (drink-machine 140 (list 50 20 20 20) 200) (list 20 20 20))
+\evalsto{} #<list 20 20 20>
 \end{alltt}
 \end{aufgabe}
 
