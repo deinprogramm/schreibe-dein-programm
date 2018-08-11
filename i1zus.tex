@@ -8,11 +8,11 @@
 TBD
 
 Mit anderen Worten: mehrere Dinge werden \emph{zu einem}
-zusammengesetzt.  Eine andere Betrachtungsweise ist, daß ein einzelnes
+zusammengesetzt.  Eine andere Betrachtungsweise ist, dass ein einzelnes
 Ding durch mehrere Eigenschaften charakterisiert ist.
 
 In Scheme lassen sich solche \textit{zusammengesetzte
-Daten}\index{zusammengesetzte Daten} durch
+Daten}\index{zusammengesetzten Daten} durch
 \textit{Records}\index{Record} darstellen.  Ein Record ist wie ein
 Behälter mit mehreren Fächern, in denen die Bestandteile der Daten
 untergebracht sind.
@@ -41,7 +41,7 @@ Ein Computer\index{Computer} \emph{besteht aus}:
 Natürlich besteht ein Computer auch noch aus anderen Teilen, die
 aber (zumindest in diesem Beispiel) immer gleich sind.  In einer Bestellung muß
 der Kunde also nur diese drei Bestandteile angeben.  Wir nehmen an,
-daß es beim Prozessor nur auf den Namen ("`Athlon"', "`Xeon"',
+dass es beim Prozessor nur auf den Namen ("`Athlon"', "`Xeon"',
 "`Cell"', \ldots) ankommt, beim RAM nur auf die Größe in Gigabyte, und
 auch bei der Festplatte nur auf die Größe in Gigabyte.  Eine
 vereinfachte Darstellung könnte so aussehen:
@@ -178,7 +178,7 @@ Das Gerüst müßte folgendermaßen sein:
 \end{alltt}
 %
 Da in den Gesamtspeicher des Computer sowohl der Hauptspeicher als
-auch die Festplatte eingehen, steht schon fest, daß die
+auch die Festplatte eingehen, steht schon fest, dass die
 entsprechenden Selektoraufrufe im Rumpf der Prozedur vorkommen müssen:
 %
 \begin{alltt}
@@ -199,7 +199,7 @@ Das Gesamtspeicher ergibt sich aus Addition der beiden Komponenten:
 %
 Fertig!
 
-\texttt{Total-memory} ist ein Beispiel für eine Prozedur, die einen
+\texttt{total-memory} ist ein Beispiel für eine Prozedur, die einen
 Record akzeptiert.  Umgekehrt gibt es auch Prozeduren, die Records
 produzieren.  Angenommen, unser Computerhändler bietet neben der
 Einzelkonfiguration von Prozessor, Hauptspeicher und Festplatte einige
@@ -261,7 +261,7 @@ wir dazu \texttt{string=?}:
       ((string=? k "game") ...))))
 \end{verbatim}
 %
-In jedem Zweig müssen wir nun dafür sorgen, daß der entsprechende
+In jedem Zweig müssen wir nun dafür sorgen, dass der entsprechende
 Computer hergestellt wird.  Für das Herstellen von Computer-Records
 ist der Konstruktor \texttt{make-computer} zuständig.  Dementsprechend
 müssen wir in jedem Zweig einen Aufruf an \texttt{make-computer}
@@ -283,7 +283,7 @@ Jetzt müssen wir nur noch die Argumente für die Aufrufe von
 \texttt{make-computer} zur Verfügung stellen.  Für jeden Aufruf sind
 das, wie gehabt, der Prozessor, die Größe des Hauptspeichers und die
 Größe der Festplatte.  Die entsprechenden Angaben können wir zum
-Beispiel den Testfällen entnehmen, und es kommt folgendes dabei heraus:
+Beispiel den Testfällen entnehmen, und es kommt Folgendes dabei heraus:
 %
 \begin{verbatim}
 (define standard-computer
@@ -377,7 +377,7 @@ Insbesondere gehört zu jeder Komponente ein Selektor.
 Die Namen für den Konstruktor, das Prädikat und die Selektoren können
 frei gewählt werden, sollten aber meist einer einheitlichen
 Konvention folgen, um anderen das Lesen des Programms zu erleichern.
-Die gängige Konvention ist, daß der Konstruktor mit \texttt{make-}
+Die gängige Konvention ist, dass der Konstruktor mit \texttt{make-}
 anfängt (\texttt{make-cartesian}), der Name des Prädikats auf ein
 Fragezeichen endet (\texttt{cartesian?}), und die Selektoren mit dem Namen des
 Record-Typs beginnen und auf die
@@ -465,8 +465,8 @@ Datendefinition übersetzen:
 %
 Wiederum handelt es sich sichtlich um zusammengesetzte Daten.  Diesmal
 trifft die Phrase "`besteht aus"' natürlich nicht zu.  Stattdessen
-geht es um die Eigenschaften, von denen ein Gürteltiert viele hat.
-Von diesen vielen interessanten Eigenschaften sind aber viele bei
+geht es um die Eigenschaften, von denen ein Gürteltier viele hat.
+Von diesen vielen interessanten Eigenschaften sind aber etliche bei
 allen Gürteltieren gleich (Säugetier, zwei Augen, vier Füße etc.) und
 darum nicht Teil der Datendefinition.  Für unsere Aufgaben sind
 außerdem nur zwei Eigenschaften von Belang, weshalb die
@@ -628,11 +628,11 @@ Schablone:
     ... (dillo-alive? d) ...))
 \end{verbatim}
 %
-Beim zweiten Testfall haben wir gesehen, daß, was \texttt{feed-dillo}
+Beim zweiten Testfall haben wir gesehen, dass, was \texttt{feed-dillo}
 betrifft, die Gürteltiere in zwei verschiedene Gruppen fallen:
 \texttt{Feed-dillo} verhält sich bei lebenden Gürteltieren anders als
 bei toten: eine Fallunterscheidung.  Entsprechend brauchen wir eine
-Verzweigung im Rumpf.  Da sich der Fall "`Gürteltier tot"' dadurch definiert, daß der
+Verzweigung im Rumpf.  Da sich der Fall "`Gürteltier tot"' dadurch definiert, dass der
 Fall "`Gürteltier lebendig"' nicht eintritt, ist die binäre Verzweigung
 angemessen:
 %
@@ -715,14 +715,14 @@ Fertig!
   \item Schreiben Sie Signatur, Gerüst und Schablone für eine Prozedur,
     die ein Qux konsumiert und eine Zeichenkette zurückgibt.
     Identifizieren Sie die dazu benutzten Konstruktionsanleitungen.
-    Achten Sie darauf, daß Sie auch die Konstruktionsanleitungen für die
+    Achten Sie darauf, dass Sie auch die Konstruktionsanleitungen für die
     Komponenten von Qux-Records zur Anwendung bringen.
   \item Nehmen Sie an, Sie hätten für eine zu schreibende Prozedur
     \texttt{quxop2} die folgende Signatur festgelegt:
 \begin{verbatim}
 (: quxop2 (natural (one-of "Hx" "Bx" "Px") -> qux))
 \end{verbatim}
-    (Dabei ist angenommen, daß die Record-Definition für ein Qux
+    (Dabei ist angenommen, dass die Record-Definition für ein Qux
     den Namen \texttt{qux} hat.) Entwickeln Sie daraus Gerüst und
     Schablone der zu schreibenden Prozedur.  Identifizieren Sie die dazu
     benutzten Konstruktionsanleitungen.
@@ -732,7 +732,7 @@ Fertig!
 
 \begin{aufgabe}
 
-  Schreiben sie ein Programm zur Verwaltung von wöchentlichen
+  Schreiben Sie ein Programm zur Verwaltung von wöchentlichen
   Raumreservierungen an der Uni!
 
   \begin{enumerate}
@@ -838,12 +838,13 @@ Fertig!
 
   \begin{enumerate}
   \item Erstellen Sie eine Datendefinition
-    \texttt{dough} für den Teig.  Jeder Teig besteht aus Eier, Mehl,
+    \texttt{dough} für den Teig.  Jeder Teig besteht aus Eiern, Mehl,
     Zucker und Wasser und hat ein Gesamtgewicht.  Überlegen Sie sich
     geeignete Einheiten für die Zutaten.
+    % In Teil 3. sind allerdings Einheiten angegeben. Absicht?
   \item Erstellen Sie eine Datendefinition \texttt{cake}
     für Kuchen.  Diese enthält einen Teig, eine Backdauer in Minuten und 
-    das Endgewicht des Kuchen.
+    das Endgewicht des Kuchens.
   \item Schreiben Sie eine Prozedur
     \texttt{ingredients->dough} welche eine Anzahl an Eiern, eine
     Menge Mehl in Gramm, eine Menge Zucker in Gramm und eine
@@ -867,20 +868,20 @@ Fertig!
   beziehungsweise Stunde und Minute.
 
   \begin{enumerate}
-  \item Schreiben Sie eine Prozedur \texttt{date-ok?}, die feststellt
+  \item Schreiben Sie eine Prozedur \texttt{date-ok?}, die feststellt,
     ob ein Datums-Objekt einem tatsächlichen Kalenderdatum entspricht,
     also korrekte Daten wie 1.1.1970 von unsinnigen wie 34.17.2006
     unterscheidet. Lassen Sie dazu Schaltjahre außer Acht. Beachten
-    Sie die Monate mit 28, 30 und 31 Monaten.
+    Sie die Monate mit 28, 30 und 31 Tagen.
   \item Schreiben Sie eine Prozedur \texttt{date-equal?}, die
     vergleicht, ob zwei Datums-Objekte gleich sind.
-  \item Schreiben Sie eine Prozedur \texttt{time-ok?}, die feststellt
+  \item Schreiben Sie eine Prozedur \texttt{time-ok?}, die feststellt,
     ob ein Zeit-Objekt einer tatsächlichen Uhrzeit entspricht.
   \item Schreiben Sie eine Prozedur \texttt{time-overlap?}, die
-    überprüft ob sich zwei Zeiten mit einer jeweils gegebenen Dauer
+    überprüft, ob sich zwei Zeiten mit einer jeweils gegebenen Dauer
     (in Minuten) überschneiden. Gehen Sie davon aus, dass es sich um
     Zeiten desselben Tages handelt.
-  \item Schreiben Sie eine Prozedur \texttt{overlap?} die prüft ob
+  \item Schreiben Sie eine Prozedur \texttt{overlap?}, die prüft, ob
     sich zwei gegebene Termine überschneiden. Beachten Sie die Dauer
     der Termine. Gehen Sie davon aus, dass die Termine nicht über
     Mitternacht liegen.
@@ -1206,7 +1207,7 @@ Fertig!
 \begin{aufgabe}
   \label{aufgabe:knaubichler}
   Auf seinen Reisen um die Welt trifft Dr.~Sperber
-  viele interessante und skurille Zeitgenossen. Unter ihnen
+  viele interessante und skurrile Zeitgenossen. Unter ihnen
   Dr.~Knaubichler, ein Experte auf dem Gebiet der Kreuzung von
   mystischen Kreaturen.  Es gibt drei klassische Grundkreaturen:
 
@@ -1234,8 +1235,8 @@ Fertig!
   Grundkreaturen.
 
   Bei der Kreuzung unterschiedlicher Grunkreaturen gilt folgendes:
-  Bei der Kreuzung von Ronugor und Tschipotol
-  das übernommene Wissen um 10\% veringert, bei Tschipotol und
+  Bei der Kreuzung von Ronugor und Tschipotol wird
+  das übernommene Wissen um 10\% veringert; bei Tschipotol und
   Garnolaf hingegen nimmt die Risikobereitschaft um 5\% ab, aber die
   Stärke legt um 8\% zu. Garnolaf und Ronugor lassen die Stärke um 5\%
   zulegen. Kreuzt man alle drei Grundkreaturen, nimmt jede Eigenschaft
@@ -1248,14 +1249,14 @@ Fertig!
   In jedem Fall kann eine Eigenschaft maximal den Wert 100
   haben.
     
-  Dr.~Knaubichler braucht ein Programm, welche die neue Kreatur
+  Dr.~Knaubichler braucht ein Programm, welches die neue Kreatur
   berechnet, bevor er die Kreuzungen durchführt.  Helfen Sie ihm
   dabei!
   
   \begin{enumerate}
 
   \item Machen Sie eine Datenanalyse und erstellen
-    Sie passenden Daten- und Recorddefinitionen.  Geben Sie alle
+    Sie passende Daten- und Recorddefinitionen.  Geben Sie alle
     Signaturen der Record-Prozeduren an!
 
   \item Schreiben Sie für jede der oben aufgelisteten

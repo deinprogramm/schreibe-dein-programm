@@ -76,7 +76,7 @@ gibt.  Diese folgt in wenigen Augenblicken.
 Ein Paar kann nun benutzt werden, um die letzte Liste aus der obigen
 Tabelle zu repräsentieren.  "`Pumps"' wird als Zeichenkette zum ersten
 Element des Paars.  Die \texttt{rest}-Komponente des Paars muß eine
-Liste sein~-- dabei ist zu beachten, daß insbesondere die leere Liste
+Liste sein~-- dabei ist zu beachten, dass insbesondere die leere Liste
 eine Liste ist, dort also verwendet werden kann:
 %
 \begin{alltt}
@@ -151,7 +151,7 @@ entspricht damit nicht der gängigen Intuition, wie Listen aufgebaut
 sind, aber es funktioniert.  Für viel mehr als drei Elemente
 funktioniert die Darstellungsweise allerdings nicht: Darum bevorzugen
 wir ab hier sogenannte "`Zeigerdiagramme"', bei denen alle Paare gleich groß
-dargestellt sind und ein Pfeil zeigt, daß ein Paar die
+dargestellt sind und ein Pfeil zeigt, dass ein Paar die
 \texttt{rest}-Komponente eines anderen Paares bildet.
 Abbildung~\ref{fig:pair-lists-2} zeigt das Pfeildiagramm, das
 Abbildung~\ref{fig:pair-lists-1} entspricht; es paßt besser zur
@@ -297,7 +297,7 @@ Beispiellisten folgende Werte:
 \evalsto{} 2
 \end{alltt}
 %
-Das ist jeweils das \emph{erste Element}~-- kein Wunder, daß der
+Das ist jeweils das \emph{erste Element}~-- kein Wunder, dass der
 Selektor \texttt{first}\index{first@\texttt{first}} heißt.  Nun für \texttt{rest}\index{rest@\texttt{rest}}:
 %
 \begin{alltt}
@@ -345,7 +345,7 @@ Das können wir in die Schablone von oben einsetzen:
 %
 Dieses Programm ist nicht nur vollständig, es funktioniert auch
 tatsächlich: Alles was wir gemacht haben war, die Kurzbeschreibung
-von \texttt{list-sum} ernst zu nehmen, die behauptet, daß die Prozedur
+von \texttt{list-sum} ernst zu nehmen, die behauptet, dass die Prozedur
 die Summe einer beliebigen Liste berechnet: \texttt{(rest lis)} ist
 eine Liste, also kann \texttt{list-sum} auch deren Summe berechnen.
 
@@ -413,7 +413,7 @@ zur Verfügung:
 %
 Der \texttt{empty}-Testfall ist vielleicht etwas verwirrend: In der
 Tat sind alle Elemente der leeren Liste positiv.  Eine andere Art dies
-zu sagen wäre, daß kein Element der leeren Liste nicht positiv ist.
+zu sagen wäre, dass kein Element der leeren Liste nicht positiv ist.
 
 Diese Testfälle reichen sichtlich nicht aus, da alle \verb|#t| ergeben
 sollen: Diese würden auch von folgender Prozedur erfüllt:
@@ -485,7 +485,7 @@ von derselben Sorte.  Es gibt eine Liste von Essenszutaten, eine von
 Eigennamen, eine von Zahlen, eine von dramatischen Figuren, eine von
 Frisuren und eine von Schuhen.  Die Datendefinition für
 \texttt{a-list} von Seite~\ref{def:a-list} ist da allerdings nicht
-festgelegt: es heißt ausdrücklich, daß jedes Paar ein
+festgelegt: es heißt ausdrücklich, dass jedes Paar ein
 \emph{beliebiges} Element enthält.  So ist beispielsweise auch
 folgende Liste zulässig:
 %
@@ -496,7 +496,7 @@ folgende Liste zulässig:
 %
 In den meisten Fällen gehören jedoch alle Elemente einer Liste zu
 derselben Sorte beziehungsweise haben dieselbe Signatur: Schön wäre
-es, wenn die Signatur für die Liste dokumentieren könne, welche
+es, wenn die Signatur für die Liste dokumentieren könnte, welche
 Signatur die Elemente haben.  Wir könnten bei
 der Definition von \texttt{pair} die Signatur der Elemente angeben,
 also \texttt{pair} zum Beispiel auf Elemente der Signatur
@@ -522,7 +522,7 @@ nicht mehr \texttt{a-list} sondern \texttt{list-of-numbers} nennen:\index{list-o
           pair)))
 \end{verbatim}
 %
-Das funktioniert zwar, hat aber den Nachteil, daß wir dann für jede
+Das funktioniert zwar, hat aber den Nachteil, dass wir dann für jede
 neue Elementsorte eine neue Definition von Listen schreiben müssen:
 \texttt{list-of-strings}, \texttt{list-of-shoes} etc.  Das wäre nicht
 nur mühsam, sondern würde auch viel Code ohne Sinn und Verstand
@@ -587,7 +587,7 @@ Hier sind  \verb|%a| und \verb|%b| wiederum
 \textit{Signaturvariablen}, die für beliebige
 Signaturen stehen.  Die Tatsache, dass hier zwei verschiedene Signaturvariablen
 verwendet wurden bringt die zusätzliche Information für den
-menschlichen Leser zum Ausdruck, daß die
+menschlichen Leser zum Ausdruck, dass die
 Argumente von \texttt{pair-of} zu potentiell
 unterschiedlichen Signaturen gehören.
 
@@ -606,7 +606,7 @@ Zu lesen sind die obigen Signaturdeklarationen so:
 %
 
 Diese Signaturen sind allerdings noch unbefriedigend, da sie nicht zum
-Ausdruck bringen, daß das zweite Argument von \texttt{make-pair} immer
+Ausdruck bringen, dass das zweite Argument von \texttt{make-pair} immer
 eine \emph{Liste} sein muß beziehungsweise daß \texttt{rest} immer
 eine Liste liefert.  Diese Problematik stellen wir noch einen Moment
 hintenan, werden aber später zu ihr zurückkehren~-- zunächst einmal zu
@@ -816,10 +816,10 @@ Als Testfall kann obige Beispielliste herhalten:
 %
 \begin{verbatim}
 (check-expect (run-over-dillos dl75)
-	      (list (make-dillo 55000 #f)
-		    d2
-		    (make-dillo 60000 #f)
-		    d4))
+              (list (make-dillo 55000 #f)
+                    d2
+                    (make-dillo 60000 #f)
+                    d4))
 \end{verbatim}
 %
 Zur Erinnerung: \texttt{d2} und \texttt{d4} sind bereits tot,
@@ -888,8 +888,8 @@ Wir müssen also nur die Resultate der beiden Ausdrucke mit
 %
 Fertig!
 
-Dieses Beispiel zeigt, daß wir für Prozeduren, die Listen produzieren,
-keine neue Technik brauchen: Wenn eine Prozedure eine leere Liste
+Dieses Beispiel zeigt, dass wir für Prozeduren, die Listen produzieren,
+keine neue Technik brauchen: Wenn eine Prozedur eine leere Liste
 produzieren soll, benutzen wir an der entsprechenden Stelle
 \texttt{empty}, und bei nichtleeren Listen benutzen wir
 \texttt{make-pair}, bringen also die Schablone für Prozeduren zum
@@ -1045,92 +1045,6 @@ Schreiben Sie folgende Prozeduren auf Listen:
 \end{aufgabe}
 
 \begin{aufgabe}
-   In einem Fischnetz landen~--- vereinfacht
-  dargestellt~--- Fische, Quallen und Schuhe.  Ein Fischerreigut ist
-  also ein Fisch, eine Qualle oder ein Schuh.  Jedes dieser
-  Fischerreigüter hat ein Gewicht in Gramm; Fische besitzen außerdem
-  zusätzlich noch die Eigenschaft, ob sie essbar sind oder nicht (und
-  daher aussortiert werden müssen); Qualen können giftig sein. 
-  Schreiben Sie ein Programm für
-  einen Fischsortierer, der die essbaren Fische aus den
-  Fischerreigütern herausfiltern kann.
-
-  \begin{enumerate}
-  \item Führen Sie eine Datenanalyse für
-    Fischerreigüter durch und schreiben Sie passende Daten- und
-    Recorddefinitionen.  Geben Sie ein paar Beispiele für
-    Fischerreigüter an, die Sie in den nächsten Teilaufgaben in
-    Testfällen verwenden können.
-
-  \item Schreiben Sie eine Prozedur
-    \texttt{edible-fish?}, die überprüft ob ein übergebenes
-    Fischerreigut ein essbarer Fisch ist.
-
-  \item Schreiben Sie eine Prozedur \texttt{weight}, 
-    die das Gewicht eines beliebigen Fischerreiguts zurückgibt.
-
-  \item Schreiben Sie eine Daten- und Recorddefinition
-    für Listen von Fischerreigütern.  Geben Sie alle Signaturen an!
-    Geben Sie außerdem mindestens fünf verschiedene Beispiele für Listen
-    mit Fischerreigütern an.
-
-  \item Schreiben Sie eine Prozedur \texttt{total-weight},
-    die eine Liste von Fischerreigütern akzeptiert und das Gesamtgewicht
-    aller Fischerreigüter in der Liste ausrechnet.
-
-  \item Schreiben Sie eine Prozedur
-    \texttt{total-edible-fish-weight}, die eine Liste von 
-    Fischerreigüter akzeptiert und das Gesamtgewicht aller 
-    essbaren Fische in der Liste ausrechnet.
-
-  \item Schreiben Sie eine Prozedur \texttt{count}, die 
-    eine Liste von Fischerreigütern akzeptiert und die Anzahl der
-    Fischerreigüter in der Liste bestimmt.
-
-  \item Schreiben Sie eine Prozedur
-    \texttt{count-edible-fish}, die eine Liste von
-    Fischerreigütern akzeptiert und die Anzahl der essbaren
-    Fische in der Liste bestimmt.
-
-  \item Ein Sortierer soll nun die Fische 
-    aus dem Fischernetz automatisch sortieren. Leider ist der Sortierer 
-    sehr alt und kommt deswegen mit großen Quallen und Schuhen nicht 
-    klar.  Der Sortiervorgang wird abgebrochen, sobald eine Qualle oder ein
-    Schuh, der schwerer als 1kg ist, in den Sortierer gerät.
-    Schreiben Sie die Prozedur \texttt{fish-sorter}, die diesen Vorgang
-    simuliert. Als Eingabe bekommt diese Prozedur eine Liste von
-    Fischerreigütern, die sie nach und nach abarbeitet.
-    Herauskommen soll eine Liste von Fischerreigütern, in der die
-    gefischten essbaren Fische enthalten sind.  Schreiben Sie
-    ausreichend Testfälle, beachten Sie auch den Fall, dass der
-    Sortierer im Leerlauf betrieben wird.  Verwenden Sie die Prozeduren
-    aus den vorherigen Aufgabenteilen.
-
- \item Schreiben Sie eine Prozedur
-   \texttt{heaviest-fish}, die aus einer Liste von Fischerreigütern
-   den schwersten essbaren Fisch heraussucht und zurückgibt.  Wenn in
-   der Liste kein essbarer Fisch enthalten ist, soll die Prozedur
-   \verb|#f| zurückgeben.
-
- \item Schreiben Sie eine Prozedur
-   \texttt{filter-edible-potatoes}, die eine Liste von
-   Ackerbestandteilen akzeptiert und die essbaren Kartoffeln als Liste
-   zurückgibt.
-   
- \item Schreiben Sie eine Prozedur
-   \texttt{drop-stones}, die eine Liste von Ackerbestandteilen
-   akzeptiert und eine Liste zurückgibt, in der es keine Steine mehr
-   gibt.
-
- \item Schreiben Sie eine Prozedur
-   \texttt{average-weight-edible-potatoes}, die eine Liste von
-   Ackerbestandteilen akzeptiert und das durchschnittliche Gewicht
-   der essbaren Kartoffeln berechnet.
-  \end{enumerate}
-  
-\end{aufgabe}
-
-\begin{aufgabe}
    Auf einem Acker gibt es ~--- vereinfacht
   dargestellt~--- Kartoffeln, Erdklumpen und Steine.  Ein
   Ackerbestandteil ist also eine Kartoffel, ein Erdklumpen oder ein
@@ -1148,7 +1062,7 @@ Schreiben Sie folgende Prozeduren auf Listen:
     Testfällen verwenden können.
 
   \item Schreiben Sie eine Prozedur
-    \texttt{edible-potatoe?}, die überprüft ob ein übergebener
+    \texttt{edible-potato?}, die überprüft ob ein übergebener
     Ackerbestandteil eine essbare Kartoffel ist.
 
   \item Schreiben Sie eine Prozedur \texttt{weight}, 
@@ -1207,10 +1121,10 @@ Schreiben Sie folgende Prozeduren auf Listen:
       akzeptiert und eine Liste zurückgibt, in der es keine Steine mehr
       gibt.
 
-    \item (BONUSAUFGABE) Schreiben Sie eine Prozedur
+    \item Schreiben Sie eine Prozedur
       \texttt{average-weight-edible-potatoes}, die eine Liste von
       Ackerbestandteilen akzeptiert und das durchschnittliche Gewicht
-      der essbaren Kartoffel berechnet.
+      der essbaren Kartoffeln berechnet.
 
   \end{enumerate}
   

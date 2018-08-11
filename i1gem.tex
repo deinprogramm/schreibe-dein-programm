@@ -28,7 +28,7 @@ Menge Vitamin A kann für jede Art Essen bestimmt werden, etc.
 
 In der Einleitung war die Rede von Papageien:\index{Papagei} die benutzen wir, um
 gemischte Daten einzuführen.  Vorher müssen wir jedoch Papageien mit den bekannten
-Mitteln definieren; wir versuchen es, kurz und schmerzlos zu machen:
+Mitteln definieren; wir versuchen, es kurz und schmerzlos zu machen:
 
 Wir interessieren uns vor allem für sprechende Papageien.  Genau wie
 bei Gürteltieren interessiert uns das Gewicht, aber wir nehmen an, da
@@ -108,7 +108,7 @@ Schablone:
 
 \end{verbatim}
 %
-Fertig!  Sie können sich vielleicht vorstellen, daß  Papageien und
+Fertig!  Sie können sich vielleicht vorstellen, dass  Papageien und
 Gürteltiere sich in einem Programm begegnen, also \emph{gemischt}
 vorkommen.  Papageien und Gürteltiere gehören zum gemeinsamen
 Oberbegriff \textit{Tier}\index{Tier}, den wir im Rahmen eines solchen
@@ -253,7 +253,7 @@ gemischte Daten.  Zunächst zur Daten- und Signaturdefinition:
 \end{itemize}
 %
 Eine Schablone für eine Prozedur und deren Testfälle, die gemischte
-Daten akzeptiert, können Sie folgendermaßen konzentrieren:
+Daten akzeptiert, können Sie folgendermaßen konstruieren:
 %
 \begin{itemize}
 \item Schreiben Sie Tests für jeden der Fälle.
@@ -280,7 +280,7 @@ des entsprechenden Falls.
 Beachten Sie den Unterschied zwischen \texttt{one-of} und
 \texttt{mixed}, die leicht zu verwechseln sind: \texttt{One-of} steht
 für "`einer der folgenden \emph{Werte}"', während \texttt{mixed} für
-"`gehörend zu einer der folgenden \emph{Signaturen}"' gehört.
+"`gehörend zu einer der folgenden \emph{Signaturen}"' steht.
 
 \section{Die Zucker-Ampel}
 
@@ -374,8 +374,8 @@ annehmen:
           traffic-light)))
 \end{verbatim}
 %
-Das Beispiel zeigt, daß die Fälle einer Definition für gemischte Daten
-nicht allesamt Records sein müssen.  Es ist allerdings wichtig, daß
+Das Beispiel zeigt, dass die Fälle einer Definition für gemischte Daten
+nicht allesamt Records sein müssen.  Es ist allerdings wichtig, dass
 die Fälle \emph{disjunkt} sind, also jeder Wert eindeutig einem der
 Fälle zugeordnet werden kann: Sonst wäre es nicht möglich, eine sinnvolle
 Verzweigung zu schreiben, welche die Fälle unterscheidet.
@@ -634,22 +634,22 @@ Fertig!
   \begin{itemize}
   \item Essen - Beschrieben durch einen Namen, den Stückpreis, das Mindesthaltbarkeitsdatum
     und den aktuellen Bestand im Supermarkt.
-  \item Getränke - Beschrieben durch einen Namen, den Stückpreis, das Mindesthaltbarkeitsdatum,
+  \item Getränke - Beschrieben durch einen Namen, den Stückpreis, das Mindesthaltbarkeitsdatum
     und den Bestand. Zusätzlich muss hier noch festgehalten werden, ob Pfand verlangt wird.
   \item Sonstige - Beschrieben durch einen Namen, den Stückpreis und den Bestand.
   \end{itemize}
 
   
   \begin{enumerate}
-  \item Führen sie eine Datenanalyse durch und erstellen sie Daten- und 
+  \item Führen Sie eine Datenanalyse durch und erstellen Sie Daten- und 
     Record-Definitionen.
-  \item Schreiben sie eine Prozedur \texttt{stückpreis}, die eine Warenklasse
+  \item Schreiben Sie eine Prozedur \texttt{stückpreis}, die eine Warenklasse
     konsumiert und den Stückpreis zurückgibt.
-  \item Schreiben sie eine Prozedur \texttt{buchen}, die  eine Warenklasse und die Anzahl der
-    abzubuchenden Exemplare	konsumiert, den Bestand der Warenklasse reduziert und die
+  \item Schreiben Sie eine Prozedur \texttt{buchen}, die eine Warenklasse und die Anzahl der
+    abzubuchenden Exemplare konsumiert, den Bestand der Warenklasse reduziert und die
     Warenklasse zurückgibt. Falls mehr Exemplare gefordert werden, als in der Warenklasse
     vorhanden sind, soll der Bestand auf 0 gesetzt werden.
-  \item Schreiben sie eine Prozedur \texttt{haltbar?}, die eine
+  \item Schreiben Sie eine Prozedur \texttt{haltbar?}, die eine
     Warenklasse und ein Datum konsumiert und \texttt{\#t} zurückgibt, falls das
     Mindesthaltbarkeitsdatum (MHD) nicht überschritten wurde. Falls kein MHD bekannt ist,
     soll \texttt{\#t} zurückgeben werden.
@@ -703,7 +703,7 @@ Fertig!
     % \end{figure}
 
   \item Es soll Prozeduren geben, die auf allen Formen funktionieren
-    und folgendes leisten:
+    und Folgendes leisten:
 
     \begin{itemize}
 

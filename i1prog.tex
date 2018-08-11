@@ -153,7 +153,7 @@ Programm schreiben:
 \end{alltt}
 %
 Diese Bilder sind Werte wie Zahlen und Zeichenketten auch.
-Insbesondere können Sie mit Definitionen an Namen gebunden werden:
+Insbesondere können sie mit Definitionen an Namen gebunden werden:
 %
 \begin{verbatim}
 (define s1 (square 40 "solid" "slateblue"))
@@ -183,12 +183,12 @@ Eine Definition wie
 (define mehrwertsteuer 19)
 \end{alltt}
 %
-suggeriert, daß die Zahl 19 an dieser Stelle eine Bedeutung "`in der
+suggeriert, dass die Zahl 19 an dieser Stelle eine Bedeutung "`in der
 realen Welt"' hat, zum Beispiel in einem Programm, das eine Registrierkasse
 steuert oder das bei der Steuererklärung hilft.  Die Bedeutung könnte
 folgende Aussage sein: "`Der Mehrwertsteuersatz beträgt 19\%."'
 Dieser Satz repräsentiert \textit{Information}\index{Information},
-also ein Fakt über die Welt oder zumindest den Ausschnitt der Welt, in
+also einen Fakt über die Welt oder zumindest den Ausschnitt der Welt, in
 dem das Programm arbeiten soll.  In Computerprogrammen wird
 Information in eine vereinfachte Form gebracht, mit der das Programm
 rechnen kann~-- in diesem Fall die Zahl 19.  Diese vereinfachte Form
@@ -216,7 +216,7 @@ wieder klarstellen müssen, wie Information in Daten zu übersetzen ist
 und umgekehrt.
 
 Manche Programme können auch Informationen direkt verarbeiten, meist
-dadurch, daß sie diese erst in Daten übersetzen und dann die Daten
+dadurch, dass sie diese erst in Daten übersetzen und dann die Daten
 weiterverarbeiten.  Der Teil, der diese Übersetzung leistet, heißt
 \textit{Benutzerschnittstelle}\index{Benutzerschnittstelle}.  Zunächst
 werden wir uns allerdings primär mit rein datenverarbeitenden
@@ -270,7 +270,7 @@ in einen Ausdruck verwandeln können:
 Um zu den Ausdrücken zu kommen, welche die Anzahl der PKWs ausrechnen,
 haben wir sogenanntes \textit{Domänenwissen}\index{Domänenwissen}
 benutzt: Die "`Domäne"' der Aufgabe sind PKWs und Motorräder, und wir
-wissen, daß PKWs jeweils vier Räder und Motorräder zwei haben.
+wissen, dass PKWs jeweils vier Räder und Motorräder zwei haben.
 Schließlich haben wir noch Algebra benutzt, um aus dem Domänenwissen
 eine Formel zu machen.
 
@@ -311,7 +311,7 @@ obigen Ausdrücke können auch folgendermaßen geschrieben werden:
 %
 Daß die \texttt{2} jetzt jeweils in einer weiteren Zeile steht, läßt
 die Ausdrücke so ähnlich aussehen wie der Bruch in der Formel.  Die
-Einrückung vor der \texttt{2} macht klar, daß die \texttt{2} noch in
+Einrückung vor der \texttt{2} macht klar, dass die \texttt{2} noch in
 die Klammern vom \texttt{/} gehört.
 
 Wir als Programmierer müssen uns selbst darum kümmern, an sinnvollen
@@ -378,8 +378,8 @@ DrRacket auch aus:
 #<procedure>
 \end{alltt}
 %
-Für sich genommen macht eine Prozedur noch nichts interessantes.  Sie kann jedoch
-\emph{angewendet} werden, was heißt, das konkrete Werte für $m$ und
+Für sich genommen macht eine Prozedur noch nichts Interessantes.  Sie kann jedoch
+\emph{angewendet} werden, was heißt, dass konkrete Werte für $m$ und
 $n$ eingesetzt werden:
 %
 \begin{alltt}
@@ -395,7 +395,7 @@ $n$ eingesetzt werden:
 (lambda (\(p\sb{1} \ldots p\sb{n}\)) \(e\))
 \end{alltt}
   %
-  Die $p_i$ jeweils Namen, die \textit{Parameter}\index{Parameter} und
+  Die $p_i$ sind jeweils Namen, die \textit{Parameter}\index{Parameter}, und
   $e$ ist der \textit{Rumpf}\index{Rumpf}.  In $e$ dürfen die $p_i$
   vorkommen.  Der Wert einer Abstraktion ist eine \textit{Prozedur}\index{Prozedur},
   welche für jeden Parameter eine Eingabe erwartet.
@@ -418,7 +418,7 @@ Abbildung~\ref{scheme:abstraction} erklärt die beiden Konzepte
 "`Abstraktion"' und "`Anwendung"' im allgemeinen.
 
 Bisher ist jedoch noch nicht viel gewonnen, weil wir den
-$lambda$-Ausdruck jedesmall wiederholen mußten.  Da er jedoch beide
+$lambda$-Ausdruck jedesmal wiederholen mußten.  Da er jedoch beide
 Male genau gleich ist, können wir ihm mit \texttt{define} einen Namen
 geben:
 %
@@ -577,7 +577,7 @@ nur für Prozeduren.  Zum Beispiel so:
 %
 Bei \texttt{parking-lot-cars} ist die Signatur noch nicht besonders
 umfangreich oder kompliziert.
-Spätere Kapitel werden zeigen, daß sich aus vielen Signaturen ganz
+Spätere Kapitel werden zeigen, dass sich aus vielen Signaturen ganz
 automatisch \textit{Schablonen\index{Schablone}} ergeben, die dem
 Programmierer einen Großteil der Denkarbeit bei der Entwicklung von
 Prozeduren abnehmen.
@@ -644,10 +644,10 @@ Tätigkeit des Programmierers.
 
 Die Testfälle werden am besten \emph{vor} der Definition der Prozedur
 aufgestellt, denn  wenn sie erst hinterher geschrieben werden, ist die
-Gefahr groß, daß unbewußt das tatsächliche Ergebnis
+Gefahr groß, dass unbewußt das tatsächliche Ergebnis
 eines Prozeduraufrufs als das gewünschte eingegeben oder besonders
 kritische Beispiele weggelassen werden.  (In der industriellen Praxis ist sogar
-oft üblich, daß jemand anderes als der Autor der Definitionen
+oft üblich, dass jemand anderes als der Autor der Definitionen
 die Testfälle schreibt.)
 
 Es ist mühselig, bei der Programmentwicklung ständig Testfälle in die
@@ -668,7 +668,7 @@ tatsächlichen Ergebnisse der Ausdrücke mit den Soll-Werten
 mit Informationen über die Unterschiede zwischen erwarteten und
 tatsächlichen Ergebnissen; ansonsten gibt es eine kurze Meldung, dass die
 Testfälle erfolgreich waren.  Für die obere inkorrekte Version kommt
-zum Beispiel folgendes heraus:
+zum Beispiel Folgendes heraus:
 %
 \begin{alltt}
 3 Tests gelaufen.

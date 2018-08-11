@@ -86,7 +86,7 @@ einfacher zu ergänzen: hier ist nämlich die Konstruktionsanleitung für
 zusammengesetzte Daten anwendbar.  Als Selektor wird die
 Vorgängeroperation angewendet, es steht also \texttt{(- n 1)} in der
 Alternative.
-Genau wie bei den endlichen Folgen liegt nahe, daß auf \texttt{(- n 1)} ein
+Genau wie bei den endlichen Folgen liegt nahe, dass auf \texttt{(- n 1)} ein
 rekursiver Aufruf erfolgt:
 %
 \begin{alltt}
@@ -129,7 +129,7 @@ Substitutionsmodell ergibt:
 \(\Longrightarrow\) (* 1 ...)
 \end{alltt}
 %
-Damit ist klar, daß die unbekannte Zahl, die an Stelle der 
+Damit ist klar, dass die unbekannte Zahl, die an Stelle der 
 \texttt{...} stehen muß, multipliziert mit 1 wiederum 1 ergeben muß.
 Die einzige Zahl, die diese Bedingung erfüllt, ist 1 selbst.  Die
 vollständige Definition von \texttt{factorial} ist also:
@@ -175,7 +175,7 @@ Die typischen Beobachtungen an diesem Beispiel sind:
 \begin{itemize}
 \item \texttt{Factorial} ruft sich nie mit derselben Zahl $n$ auf, mit
   der es selbst aufgerufen wurde, sondern immer mit $n-1$.
-\item Die natürlichen Zahlen sind so strukturiert, daß die Kette $n,
+\item Die natürlichen Zahlen sind so strukturiert, dass die Kette $n,
   n-1, n-2 \ldots$ irgendwann bei $0$ abbrechen muß.
 \item \texttt{Factorial} ruft sich bei $n=0$ \emph{nicht}
   selbst auf.
@@ -207,7 +207,7 @@ TDB: Prozeduren, die Listen erzeugen etc.
 \section*{Aufgaben}
 
 \begin{aufgabe}\label{aufg:power}
-  Schreibe eine Prozedur \texttt{power}, die für eine Basis $b$ und
+  Schreiben Sie eine Prozedur \texttt{power}, die für eine Basis $b$ und
   einen Exponenten $e\in\mathbb{N}$ die Potenz $b^e$ ausrechnet.  Also:
 \begin{alltt}
 (power 5 3)
@@ -221,7 +221,7 @@ TDB: Prozeduren, die Listen erzeugen etc.
     Die eingebaute Prozedur \texttt{even?}\index{even?@\texttt{even?}}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
     gerade ist und \verb|#f| sonst.
-    Schreibe mit Hilfe von \texttt{even?}
+    Schreiben Sie mit Hilfe von \texttt{even?}
     eine Prozedur namens \texttt{evens}, welche für zwei
     Zahlen $a$ und $b$ eine Liste der geraden Zahlen zwischen $a$ und
     $b$ zurückgibt:
@@ -237,8 +237,8 @@ TDB: Prozeduren, die Listen erzeugen etc.
     Die eingebaute Prozedur \texttt{odd?}\index{odd?@\texttt{odd?}}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
     ungerade ist und \verb|#f| sonst.
-    Schreibe mit Hilfe von \texttt{odd?} eine Prozedur \texttt{odds}, welche für zwei Zahlen
-    $a$ und $b$ eine Liste die ungeraden Zahlen zwischen $a$ und $b$
+    Schreiben Sie mit Hilfe von \texttt{odd?} eine Prozedur \texttt{odds}, welche für zwei
+    Zahlen $a$ und $b$ eine Liste der ungeraden Zahlen zwischen $a$ und $b$
     zurückgibt:
 \begin{alltt}
 (odds 1 10)
@@ -306,7 +306,7 @@ TDB: Prozeduren, die Listen erzeugen etc.
 \end{aufgabe}
 
 \begin{aufgabe}\label{ex:coke-finances}
-  Schreibe eine Prozedur \texttt{drink-machine}, die das
+  Schreiben Sie eine Prozedur \texttt{drink-machine}, die das
   Finanzmanagement eines Getränkeautomaten durchführt.
   
   \texttt{Drink-machine} soll drei Argumente akzeptieren: den Preis eines
@@ -321,7 +321,7 @@ TDB: Prozeduren, die Listen erzeugen etc.
 \begin{alltt}
 (drink-machine 140 (list 50 100 500 10 10) 200)
 \evalsto{} #<list 50 10>
-(check-expect (drink-machine 140 (list 50 20 20 20) 200) (list 20 20 20))
+(drink-machine 140 (list 50 20 20 20) 200)
 \evalsto{} #<list 20 20 20>
 \end{alltt}
 \end{aufgabe}
