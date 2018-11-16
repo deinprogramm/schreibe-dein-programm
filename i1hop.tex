@@ -281,7 +281,7 @@ Das funktioniert tatsächlich:
 %
 Das Abstrahieren über Prozeduren funktioniert also genauso wie die
 Abstraktion über andere Werte.  Die Signatur für die Prozedur muß
-natürlich berücksichtigen, daß \texttt{p?} eine Prozedur ist.  Die Prozedur
+natürlich berücksichtigen, dass \texttt{p?} eine Prozedur ist.  Die Prozedur
 \texttt{plays-nürnberg?}, die für \texttt{p?}  verwendet wird, hat die
 Signatur
 %
@@ -292,12 +292,12 @@ Signatur
 und deshalb hat \texttt{filter-games} folgende Signatur:
 %
 \begin{alltt}
-(: filter-games ((game -> boolean) list(game) -> list(game)))
+(: filter-games ((game -> boolean) (list-of game) -> (list-of game)))
 \end{alltt}
 %
 Tatsächlich steht aber in \texttt{filter-games} außer dem Namen dieser Prozedur
 jetzt nichts mehr, das
-überhaupt Bezug darauf nimmt, daß es sich bei den Listenelementen um
+überhaupt Bezug darauf nimmt, dass es sich bei den Listenelementen um
 \texttt{game}-Records handelt.  % Tatsächlich funktioniert die Prozedur
 % auch auf Listen von Zahlen:
 % %
@@ -318,7 +318,7 @@ namens \texttt{list-filter}:\index{filter@\texttt{list-filter}}
 ; aus einer Liste eine Liste der Elemente bilden,
 ; die eine bestimmte Eigenschaft haben
 (: list-filter ((%a -> boolean) (list-of %a) -> (list-of %a)))
-(define filter
+(define list-filter
   (lambda (p? lis)
     (cond
       ((empty? lis) empty)
@@ -760,7 +760,7 @@ liefert, läßt sich auch auf andere Prozeduren anwenden:\index{make-mult@\texttt{
       (* a b))))
 
 ; Prozedur erzeugen, die an eine Liste ein Element vorn anhängt
-(: make-prepend (a -> (list(a) -> list(a))))
+(: make-prepend (a -> ((list-of a) -> (list-of a))))
 (define make-prepend
   (lambda (a)
     (lambda (b)
@@ -797,6 +797,7 @@ Mathematikern \textsc{Moses Schönfinkel} und \textsc{Haskell Curry} entdeckt.  I
 englischsprachigen Raum heißt das Verb dazu darum  \textit{currify}, im deutschsprachigen Raum
 \textit{schönfinkeln\index{schönfinkeln}}
 oder \textit{curryfizieren\index{curryfizieren}}.
+% Warum heißt dann die Funktion dann curry und nicht currify?
 
 Die Schönfinkel-Transformation läßt sich auch umdrehen:\index{curry@\texttt{curry}}
 %
