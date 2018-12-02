@@ -1,0 +1,25 @@
+sudo: required
+
+dist: xenial
+all_branches: true
+
+before_install:
+  - sudo apt-get -qq update && sudo apt-get install -y --no-install-recommends texlive-full
+
+script:
+  - touch includeonly.tex
+  - pdflatex -interaction=nonstopmode -halt-on-error i1
+  - bibtex i1
+  - pdflatex -interaction=nonstopmode -halt-on-error i1
+  - sed -i 's/\\"/"/g' i1.idx
+  - sed -i 's/\\eingebaut/eingebaut/g' i1.idx
+  - makeindex -c -s i1.mst -g i1
+  - pdflatex -interaction=nonstopmode -halt-on-error i1 
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_API_KEY
+  file: i1.pdf
+  skip_cleanup: true
+  on:
+    tags: true
