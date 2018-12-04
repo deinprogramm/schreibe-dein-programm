@@ -3,9 +3,12 @@
 % "Namensnennung 4.0 International (CC BY 4.0)"
 % http://creativecommons.org/licenses/by/4.0/deed.de
 
-\documentclass[disablefront,liststyle=aligned]{suftesi}
+\documentclass{tup}
+
+% FIXME: Guillemets
 
 \usepackage[latin1]{inputenc}
+\usepackage{german}
 \usepackage{pifont}
 \usepackage{bold-extra}
 \usepackage{graphicx}
@@ -41,6 +44,7 @@
 \usepackage{longtable}
 \usepackage{hyperref}
 \usepackage{textcomp}
+\usepackage{theorem}
 
 \makeindex
 % Diese Datei bitte selbst anlegen mit etwaigen
@@ -53,6 +57,11 @@
 \else
 \newenvironment{pspdf}{}{}
 \fi
+
+\theorembodyfont{\normalfont}
+\theoremheaderfont{\normalfont\sffamily\bfseries}
+
+\theoremstyle{plain}
 
 \theorembodyfont{\normalfont}
 \theoremheaderfont{\normalfont\sffamily\bfseries}
@@ -84,16 +93,10 @@
 \theorembodyfont{\normalfont}
 \theoremheaderfont{\normalfont\sffamily\bfseries}
 
+
 \newtheorem{mantra}{Mantra}%[chapter]
 \newtheorem{konstruktionsanleitung}{Konstruktionsanleitung}%[chapter]
 
-\def\subbib#1#2{\section*{#2}\list
- {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
- \advance\leftmargin\labelsep
- \usecounter{enumi}}
- \def\newblock{\hskip .11em plus .33em minus -.07em} \sloppy
- \sfcode`\.=1000\relax}
-\let\endsubbib=\endlist
 \newcommand{\deq}{\stackrel{\rm def}{=}}
 \newcommand{\diff}{\stackrel{\rm def}{\Longleftrightarrow}}
 \newcommand{\enn}{\mathbb{N}}
@@ -230,16 +233,12 @@
 \title{Schreibe Dein Programm!\\{\large Einführung in die Programmierung}}
 \author{Herbert Klaeren \and Michael Sperber}
 \maketitle
-\bookcolophon{Copyright \textcopyright{} 2007-2014 by Herbert Klaeren and Michael
+Copyright \textcopyright{} 2007-2014 by Herbert Klaeren and Michael
   Sperber
   
   Dieses Buch ist lizensiert unter der Creative-Commons-Lizenz
   \textit{Namensnennung 4.0 International (CC BY 4.0)}, nachzulesen
   unter \url{http://creativecommons.org/licenses/by/4.0/deed.de}.
-}{%
-  Dieses Buch wurde mit \LaTeX{} gesetzt,
-  unter Verwendung der \textsf{suftesi}-Klasse
-  von Ivan Valbusa.}
 \end{titlepage}
 
 \thispagestyle{empty}
@@ -248,6 +247,7 @@
 
 \setcounter{page}{1}
 
+
 \include{i1vorw}
 
 \include{i1prog}
@@ -255,6 +255,8 @@
 \include{i1verzw}
 
 \include{i1zus}
+
+\paragraph{Foo} Bla
 
 \include{i1gem}
 
