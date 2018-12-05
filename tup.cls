@@ -52,7 +52,7 @@
                     \@afterheading
                     }
 \def\@makechapterhead#1{%
-  {\parindent \z@ \centering \normalfont
+  {\parindent \z@ \normalfont
     \interlinepenalty\@M
     {\fontsize{13\p@}{17\p@} \sffamily \bfseries \thechapter\quad
       \MakeUppercase{#1}}\par\nobreak
@@ -72,6 +72,24 @@
     \vspace{\@tempdima}
   }}
 
+% Center starred section headers
+
+\def\@startsection#1#2#3#4#5#6{%
+  \if@noskipsec \leavevmode \fi
+  \par
+  \@tempskipa #4\relax
+  \@afterindenttrue
+  \ifdim \@tempskipa <\z@
+    \@tempskipa -\@tempskipa \@afterindentfalse
+  \fi
+  \if@nobreak
+    \everypar{}%
+  \else
+    \addpenalty\@secpenalty\addvspace\@tempskipa
+  \fi
+  \@ifstar
+    {\@ssect{#3}{#4}{#5}{\centering #6}}%
+    {\@dblarg{\@sect{#1}{#2}{#3}{#4}{#5}{#6}}}}
 
 \renewcommand{\section}{\@startsection
   {section}%
@@ -79,28 +97,28 @@
   {\z@}%
   {-42\p@ \@plus -4\p@ \@minus -2\p@}%
   {28\p@ \@plus 4\p@ \@minus 2\p@}%
-  {\normalfont\fontsize{12\p@}{16\p@}\sffamily\centering\MakeUppercase}}
+  {\normalfont\fontsize{12\p@}{16\p@}\sffamily\MakeUppercase}}
 \renewcommand{\subsection}{\@startsection
   {subsection}%
   {2}%
   {\z@}%
   {-42\p@ \@plus -4\p@ \@minus -2\p@}%
   {28\p@ \@plus 4\p@ \@minus 2\p@}%
-  {\normalfont\fontsize{10\p@}{15\p@}\sffamily\centering\MakeUppercase}}
+  {\normalfont\fontsize{10\p@}{15\p@}\sffamily\MakeUppercase}}
 \renewcommand{\subsubsection}{\@startsection
   {subsubsection}%
   {2}%
   {\z@}%
   {-42\p@ \@plus -2\p@ \@minus -1\p@}%
   {28\p@ \@plus 2\p@}%
-  {\normalfont\fontsize{9\p@}{16\p@}\sffamily\centering\MakeUppercase}}
+  {\normalfont\fontsize{9\p@}{16\p@}\sffamily\MakeUppercase}}
 \renewcommand{\paragraph}{\@startsection
   {subsubsection}%
   {2}%
   {\z@}%
   {-42\p@ \@plus -2\p@ \@minus -1\p@}%
   {28\p@ \@plus 2\p@}%
-  {\normalfont\fontsize{9\p@}{16\p@}\sffamily\centering\MakeUppercase}}
+  {\normalfont\fontsize{9\p@}{16\p@}\sffamily\MakeUppercase}}
 \newcommand\@barafter[1]{#1 \vrule}
 \renewcommand\paragraph{\@startsection
   {paragraph}%
@@ -109,6 +127,7 @@
   {3.25ex \@plus1ex \@minus.2ex}%
   {-1em}%
   {\normalfont\fontsize{9\p@}{16\p@}\sffamily\bfseries\@barafter}}
+
 
 \renewcommand\tableofcontents{%
     \cleardoublepage
