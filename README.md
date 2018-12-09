@@ -5,7 +5,7 @@ Klaeren und Michael Sperber.
 
 Die Webseite zum Buch ist bei:
 
-[http://deinprogramm.de/](`deinprogramm.de`)
+[http://deinprogramm.de/](http://deinprogramm.de/)
 
 # PDF erzeugen
 
