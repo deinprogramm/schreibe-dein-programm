@@ -27,6 +27,7 @@
 
 \setlength\parskip{\z@ \@plus 1\p@}
 \setlength\parindent{6mm}
+\setlength\partopsep{6mm}
 
 \renewcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
                     \thispagestyle{empty}%
