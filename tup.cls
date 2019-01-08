@@ -156,6 +156,10 @@
                 \let\item\@idxitem}
                {\if@restonecol\onecolumn\else\clearpage\fi}
 
+\RequirePackage[hang]{footmisc}
+
+\renewcommand\hangfootparindent{6mm}
+\renewcommand\footnotelayout{\sffamily}
 \setlength{\skip\footins}{8mm}
 \setlength{\footnotesep}{1mm}
 \renewcommand\footnotesize{%
@@ -165,11 +169,7 @@
    \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
    \belowdisplayskip \abovedisplayskip
  }
-\def\@makefnmarktup{\rlap{\normalfont\@thefnmark}}%
-\renewcommand\@makefntext[1]{%
-    \noindent
-    \textsf{\makebox[6mm][l]{\@makefnmarktup}#1}}
-
+ \renewcommand\@makefnmark{\mbox{\textsf{\@thefnmark}}}
  
 \setlength\abovecaptionskip{2\p@}
 \setlength\belowcaptionskip{\z@}
