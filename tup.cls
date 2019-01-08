@@ -12,11 +12,11 @@
 \setlength\paperheight {24cm}
 
 \setlength\textwidth{13cm}
-\setlength\textheight{20cm}
+\setlength\textheight{18cm}
 
-\setlength\topmargin{-21.4mm}
+\setlength\topmargin{-5.6mm}
 \setlength\headheight{6mm}
-\setlength\headsep{10mm}
+\setlength\headsep{15mm}
 
 \setlength\marginparwidth{-1in}
 
@@ -156,7 +156,7 @@
                 \let\item\@idxitem}
                {\if@restonecol\onecolumn\else\clearpage\fi}
 
-\setlength{\skip\footins}{4mm}
+\setlength{\skip\footins}{8mm}
 \setlength{\footnotesep}{1mm}
 \renewcommand\footnotesize{%
    \@setfontsize\footnotesize{7.2pt}{9.5pt}%
