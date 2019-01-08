@@ -202,21 +202,9 @@
 \cfoot{}
 
 \def\chaptermark#1{%
-  \markboth {{%
-    \ifnum \c@secnumdepth >\m@ne
-        \thechapter \quad%
-    \fi
-    #1}}{}}%
+  \markboth{{#1}}{}}%
 \def\sectionmark#1{%
-  \markboth {{%
-    \ifnum \c@secnumdepth >\z@
-      \thesection \quad %
-    \fi
-    #1}}{%
-    \ifnum \c@secnumdepth >\z@
-      \thesection \quad %
-    \fi
-    #1}}
+  \markboth{{#1}}{#1}}
 
 % Blank pages don't have a header
 % From the docs for fancyhdr
