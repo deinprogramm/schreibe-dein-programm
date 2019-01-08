@@ -54,7 +54,7 @@
 \def\@makechapterhead#1{%
   {\parindent \z@ \normalfont
     \interlinepenalty\@M
-    {\fontsize{13\p@}{17\p@} \sffamily \bfseries \thechapter\quad
+    {\fontsize{13\p@}{17\p@} \sffamily \thechapter\quad
       \MakeUppercase{#1}}\par\nobreak
     \setlength\@tempdima{2\baselineskip}
     \addtolength\@tempdima{-\parskip}
@@ -66,7 +66,7 @@
   {\parindent \z@ \centering
     \normalfont
     \interlinepenalty\@M
-    {\fontsize{13\p@}{17\p@} \sffamily \bfseries \MakeUppercase{#1}}\par\nobreak
+    {\fontsize{13\p@}{17\p@} \sffamily \MakeUppercase{#1}}\par\nobreak
     \setlength\@tempdima{2\baselineskip}
     \addtolength\@tempdima{-\parskip}
     \vspace{\@tempdima}
