@@ -170,7 +170,9 @@
    \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
    \belowdisplayskip \abovedisplayskip
  }
- \renewcommand\@makefnmark{\mbox{\textsf{\@thefnmark}}}
+% We tried this but the footnote marks in the text and the footnote
+% are both affected.  No easy way to untangle them in footmisc.
+% \renewcommand\@makefnmark{\mbox{\textsf{\@thefnmark}}}
  
 \setlength\abovecaptionskip{2\p@}
 \setlength\belowcaptionskip{\z@}
