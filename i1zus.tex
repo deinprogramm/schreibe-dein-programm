@@ -5,32 +5,43 @@
 \chapter{Zusammengesetzte Daten}
 \label{cha:zusammengesetzte-daten}
 
-TBD
-
-Mit anderen Worten: mehrere Dinge werden \emph{zu einem}
-zusammengesetzt.  Eine andere Betrachtungsweise ist, dass ein einzelnes
-Ding durch mehrere Eigenschaften charakterisiert ist.
-
-In Scheme lassen sich solche \textit{zusammengesetzte
-Daten}\index{zusammengesetzten Daten} durch
-\textit{Records}\index{Record} darstellen.  Ein Record ist wie ein
-Behälter mit mehreren Fächern, in denen die Bestandteile der Daten
-untergebracht sind.
+Viele Informationen, die in Programmen repräsentiert werden, bestehen
+aus mehreren Bestandteilen:
+%
+\begin{itemize}
+\item Ein Festessen besteht aus Vorspeise, Hauptgang und Nachspeise.
+\item Eine Uhrzeit besteht aus Stunde und Minute.
+\item Eine Tür besteht aus Türblatt und Türgriff.
+\end{itemize}
+%
+Es werden also mehrere Dinge zu einem \textit{zusammengesetzt}.
+Eine andere Betrachtungsweise ist, dass ein einzelnes
+Ding \textit{mehrere Eigenschaften} hat:
+%
+\begin{itemize}
+\item Ein Filzstift hat Dicke und Farbe.
+\item Eine Katze hat Alter und Geschlecht.
+\item Ein Lautsprecher hat Minimal- und Maximalfrequenz.
+\end{itemize}
+%
+Um solche Informationen abzubilden, führt dieses Kapitel eine neue Art
+Daten ein, die \textit{zusammengesetzten
+  Daten}\index{zusammengesetzten Daten}.
 
 \section{Computer konfigurieren}
 \label{sec:computer-konfigurieren}
 
 Viele Computerhändler erlauben ihren Kunden, bestimmte Komponenten
 eines neues Computers selbst auszuwählen, zum Beispiel den Prozessor,
-die Festplatte oder die Größe des RAM-Hauptspeichers:
+die Festplatte oder die Größe des RAM"=Hauptspeichers:
 %
 \begin{center}
+  \medskip
   \includegraphics[height=0.3\textheight]{computer}
+  \medskip
 \end{center}
 %
-Eine mögliche Beschreibung dieser Situation ist:
-
-Ein Computer\index{Computer} \emph{besteht aus}:
+Anders gesagt, der Computer ein Computer\index{Computer} \emph{besteht aus}:
 %
 \begin{itemize}
 \item Prozessor
@@ -40,7 +51,7 @@ Ein Computer\index{Computer} \emph{besteht aus}:
 %
 Natürlich besteht ein Computer auch noch aus anderen Teilen, die
 aber (zumindest in diesem Beispiel) immer gleich sind.  In einer Bestellung muß
-der Kunde also nur diese drei Bestandteile angeben.  Wir nehmen an,
+die Kundin also nur diese drei Bestandteile angeben.  Wir nehmen an,
 dass es beim Prozessor nur auf den Namen ("`Athlon"', "`Xeon"',
 "`Cell"', \ldots) ankommt, beim RAM nur auf die Größe in Gigabyte, und
 auch bei der Festplatte nur auf die Größe in Gigabyte.  Eine
@@ -48,88 +59,99 @@ vereinfachte Darstellung könnte so aussehen:
 %
 \begin{center}
   Computer:
-  \begin{tabular}[c]{|r|l|}
-    \hline
+  \begin{tabular}[c]{r|l}
     \textbf{Feld} & \textbf{Komponente}\\\hline
     \hline
      Prozessor & \verb|"Cell"|\\
      \hline
-     RAM & 2\\
+     RAM & 8\\
     \hline 
-    Festplatte & 250\\
-    \hline
+    Festplatte & 250
   \end{tabular}
 \end{center}
 %
-Diese Tabelle steht demnach für einen Computer mit Cell-Prozessor, 2
-Gigabyte RAM und einer 250-Gigabyte-Festplatte.
+Diese Tabelle steht demnach für einen Computer mit Cell-Prozessor, 8
+Gigabyte RAM und einer 250-Gigabyte-Festplatte~-- sie hat mehrere
+Bestandteile und ist damit zusammengesetzt.  Der Computerhändler wird
+viele Computer nach diesem Schema ausliefern, bei denen allesamt
+Prozessor, RAM und Festplatte von den Kundinnen bestimmt wird.  Solche
+Informationen, die alle dem gleichen Schema folgen, können also nach
+"`Typ"' sortiert werden, wobei der Typ
+festlegt, um was für eine Art Information es geht und aus welchen
+Teilen sie zusammengesetzt ist.  In der obigen Tabelle ist das
+\textit{Feld} die Allgemeinbezeichnung für ein Bestandteil, das
+alle Computer haben.  Die \textit{Komponente} ist das konkrete
+Bestandteil eines einzelnen Computers.
 
-Die Begriffe "`Feld"'\index{Feld} und "`Komponente"'\index{Komponente}
-sind dabei Termini~-- das \textit{Feld} ist die Allgemeinbezeichnung
-für ein Bestandteil, das alle Computer haben.  Die \textit{Komponente}
-ist das konkrete Bestandteil eines einzelnen Computers.
+Zusammengesetzte Daten bilden die DeinProgramm-Sprachen durch
+sogenannte \textit{Records}\index{Records} ab.  Jeder Record gehört
+zu einem bestimmten
+\textit{Record-Typ\index{Record-Typ}}, der festlegt, was für eine
+Sorte Information repräsentiert wird und welche Felder des Records
+des Typs haben.
 
-Die Darstellung für solche \textit{zusammengesetzte
-  Daten\index{zusammengesetzte Daten}}, die aus mehreren
-\textit{Komponenten\index{Komponente}} (in diesem Fall "`\texttt{Cell}"', $2$
-und $250$) bestehen, heißt \textit{Record}.  Alle
-Records für Computer gehören zu einer gemeinsamen Menge, dem
-\textit{Record-Typ\index{Record-Typ}} für Computer.  (Weiter hinten
-in diesem Kapitel wird beschrieben, wie ein Programm eigene
-Record-Typen definieren kann.)  Der Record-Typ für Computer sieht
-feste \textit{Felder\index{Feld}} ("`Prozessor"', "`RAM"' und "`Festplatte"') vor,
-welche die Komponenten aufnehmen.  Für jedes Feld des Record-Typs
-"`Computer"' besitzt also jeder einzelne Computer jeweils eine
-Komponente, in diesem Fall eine für das Prozessor-, eine für das RAM- und eine für das
-Festplatten-Feld.
+Der Record-Typ für Computer sieht feste Felder\index{Feld}
+vor ("`Prozessor"', "`RAM"' und "`Festplatte"').  Ein einzelner Record
+dieses Typs besteht aus Komponenten\index{Komponente}, eine pro
+Feld. (In diesem Fall "`\texttt{Cell}"', $8$ und $250$.)
+Der Record-Typ für Computer ist in der DeinProgramm-Sprachen
+\texttt{Anfänger} eingebaut.\footnote{Weiter hinten in diesem Kapitel
+  beschreiben wir, wie ein Programm eigene Record-Typen definieren
+  kann.}
 
-Der Computerhersteller stellt einen echten Computer her, indem er
-zunächst den Prozessor, den RAM und die Festplatte fertigstellt und
-diese dann zum Computer zusammensetzt.  Umgekehrt nehmen manche
-Bastler aus dem Computer die Einzelteile wieder heraus, zum Beispiel,
-um sie in einem anderen Computer zu verbauen.
-
-In der \drscheme{}-Sprachebene \texttt{Die Macht der Abstraktion - Anfänger} sind
-Computer schon eingebaut.  Ein Computer mit Cell-Prozessor, 2
-Gigabyte RAM und 250 Gigabyte Festplatte wird folgendermaßen hergestellt:
+Für jeden Record-Typ gibt es Prozeduren, mit denen Records
+zusammengebaut und auch wieder auseinandergenommen werden können.
+Analog zum Zusammenbauen eines Computer mit Cell-Prozessor, 8 Gigabyte
+RAM und 250 Gigabyte Festplatte wird der dazugehörige Record mit der
+eingebauten Prozedur \texttt{make-computer} folgendermaßen
+hergestellt:
 %
 \begin{alltt}
-(make-computer "Cell" 2 250)
-\evalsto{} #<record:computer "Cell" 2 250>
+(make-computer "Cell" 8 250)
+\evalsto{} #<record:computer "Cell" 8 250>
 \end{alltt}
 %
-Die Prozedur \texttt{make-computer} hat folgende Signatur:
+\texttt{Make-computer} hat folgende Signatur:
 %
 \begin{alltt}
 (: make-computer (string rational rational -> computer))
 \end{alltt}
 %
-Sie macht also aus einer Zeichenkette und zwei Zahlen einen Wert der eingebauten Sorte
-\texttt{computer} der Computer-Records.
-Die \drscheme{}-REPL druckt Record-Werte mit der Schreibweise
-\verb|#<record:... ...>| aus, damit Sorte und Komponenten sichtbar
-werden.
+Die drei Eingaben sind respektive Prozessor, RAM und Festplatte.
+\texttt{Make-computer} macht daraus einen Wert der eingebauten Sorte
+\texttt{computer} der Computer-Records.  Da \texttt{make-computer}
+einen Computer-Record "`konstruiert"', heißt die Prozedur auch
+\textit{Konstruktor\index{Konstruktor}}.
 
-Computer sind Werte wie andere auch und lassen sich zum Beispiel an
+Mit der Schreibweise
+%
+\begin{verbatim}
+#<record:... ...>
+\end{verbatim}
+%
+werden Record-Typ und Komponenten sichtbar.
+
+Computer-Records sind Werte wie andere auch und lassen sich zum Beispiel an
 Variablen binden:
 %
 \begin{alltt}
 ; Cell, 4 Gbyte RAM, 1000 Gbyte Festplatte
 (define gamer (make-computer "Cell" 4 1000))
+
 gamer
 \evalsto{} #<record:computer "Cell" 4 1000>
 ; Xeon, 2 Gbyte RAM, 500 Gbyte Festplatte
 (define workstation (make-computer "Xeon" 2 500))
+
 workstation
 \evalsto{} #<record:computer "Xeon" 2 500>
 \end{alltt}
 %
-Da die Prozedur \texttt{make-computer} einen Computer
-"`konstruiert"', heißt sie auch
-\textit{Konstruktor\index{Konstruktor}}.  Für das Zerlegen von
-Computern sind die Prozeduren \texttt{computer"=processor},
-\texttt{computer"=ram} und \texttt{computer-hard-drive}
-zuständig:
+Umgekehrt zur Konstruktion nehmen manche Bastler aus dem Computer die
+Einzelteile wieder heraus, zum Beispiel, um sie in einem anderen
+Computer zu verbauen. Für dieses Herausnehmen sind die Prozeduren
+\texttt{computer"=processor}, \texttt{computer"=ram} und
+\texttt{computer-hard-drive} zuständig:
 %
 \begin{alltt}
 (computer-processor gamer)
@@ -140,8 +162,7 @@ zuständig:
 \evalsto{} 1000
 \end{alltt}
 %
-Diese drei Prozeduren extrahieren die Bestandteile aus einem
-Computer und heißen \textit{Selektoren\index{Selektor}}.  Sie haben
+Diese drei Prozeduren heißen \textit{Selektoren\index{Selektor}}.  Sie haben
 folgende Signaturen:
 %
 \begin{alltt}
@@ -177,9 +198,23 @@ Das Gerüst müßte folgendermaßen sein:
     ...))
 \end{alltt}
 %
-Da in den Gesamtspeicher des Computer sowohl der Hauptspeicher als
-auch die Festplatte eingehen, steht schon fest, dass die
-entsprechenden Selektoraufrufe im Rumpf der Prozedur vorkommen müssen:
+Um etwas aus dem Record zu berechnen, muss \texttt{total-memory} (und
+so gut wie jede andere Prozedur auch) die Bestandteile betrachten.  Es
+ist deshalb sinnvoll, die Schablone mit den Aufrufe der Selektoren zu
+bestücken.
+%
+\begin{alltt}
+(define total-memory
+  (lambda (c)
+    ... (computer-processor c) ...
+    ... (computer-ram c) ...
+    ... (computer-hard-drive c) ...))
+\end{alltt}
+%
+Jetzt wo die Schablone fertig ist, können wir uns mit dem Inhalt der
+Aufgabe beschäftigen: Der Prozessor hat nichts mit der
+Speichermenge zu tun, wir können den entsprechenden Selektoraufruf
+also wieder löschen:
 %
 \begin{alltt}
 (define total-memory
@@ -199,12 +234,12 @@ Das Gesamtspeicher ergibt sich aus Addition der beiden Komponenten:
 %
 Fertig!
 
-\texttt{total-memory} ist ein Beispiel für eine Prozedur, die einen
+\texttt{Total-memory} ist ein Beispiel für eine Prozedur, die einen
 Record akzeptiert.  Umgekehrt gibt es auch Prozeduren, die Records
 produzieren.  Angenommen, unser Computerhändler bietet neben der
 Einzelkonfiguration von Prozessor, Hauptspeicher und Festplatte einige
 Standardmodelle an~-- sagen wir, ein Billigmodell, ein Modell für
-Profis (was immer ein "`Profi"' sein mag) und ein Modell für
+Profis (was immer eine "`Profi"' sein mag) und ein Modell für
 Computerspieler.  Je nachdem, welches der Modelle der Kunde auswählt,
 muß die entsprechende Konfiguration zusammengesetzt werden.  Für die
 Standardkonfiguration gibt es drei feste Möglichkeiten, es handelt
@@ -215,15 +250,19 @@ Computer fertigt, könnte folgende Kurzbeschreibung und Signatur haben:
 %
 \begin{verbatim}
 ; Standard-Computer zusammenstellen
-(: standard-computer ((one-of "cheap" "professional" "game") -> computer))
+(: standard-computer
+   ((one-of "cheap" "professional" "game") -> computer))
 \end{verbatim}
 %
 Die Testfälle sollten alle drei Standardkonfigurationen abdecken:
 %
 \begin{verbatim}
-(check-expect (standard-computer "cheap") (make-computer "Sempron" 2 500))
-(check-expect (standard-computer "professional") (make-computer "Xeon" 4 1000))
-(check-expect (standard-computer "game") (make-computer "Quad" 4 750))
+(check-expect (standard-computer "cheap")
+              (make-computer "Sempron" 2 500))
+(check-expect (standard-computer "professional")
+              (make-computer "Xeon" 4 1000))
+(check-expect (standard-computer "game")
+              (make-computer "Quad" 4 750))
 \end{verbatim}
 %
 Hier ist das Gerüst:
@@ -265,7 +304,7 @@ In jedem Zweig müssen wir nun dafür sorgen, dass der entsprechende
 Computer hergestellt wird.  Für das Herstellen von Computer-Records
 ist der Konstruktor \texttt{make-computer} zuständig.  Dementsprechend
 müssen wir in jedem Zweig einen Aufruf an \texttt{make-computer}
-plazieren:
+platzieren, jeweils mit drei Argumenten:
 %
 \begin{verbatim}
 (define standard-computer
@@ -279,11 +318,11 @@ plazieren:
        (make-computer ... ... ...)))))
 \end{verbatim}
 %
-Jetzt müssen wir nur noch die Argumente für die Aufrufe von
+Jetzt müssen wir die Argumente für die Aufrufe von
 \texttt{make-computer} zur Verfügung stellen.  Für jeden Aufruf sind
-das, wie gehabt, der Prozessor, die Größe des Hauptspeichers und die
+das der Prozessor, die Größe des Hauptspeichers und die
 Größe der Festplatte.  Die entsprechenden Angaben können wir zum
-Beispiel den Testfällen entnehmen, und es kommt Folgendes dabei heraus:
+Beispiel den Testfällen entnehmen.  Folgendes kommt dabei heraus:
 %
 \begin{verbatim}
 (define standard-computer
@@ -302,153 +341,401 @@ Fertig!
 \section{Record-Definitionen}
 \label{sec:record-definitions}
 
-Natürlich sind zusammengesetzte Daten in Scheme nicht auf Computer-Konfigurationen
-beschränkt~-- der Programmierer kann neue Arten zusammengesetzter
-Daten selbst definieren.  Voraussetzung für die Definition einer neuen
-Art zusammengesetzter Daten ist eine klare Vorstellung davon, was die
-Komponenten sind.  Dabei hilft eine informelle Beschreibung wie diese
-hier:
+Natürlich sind zusammengesetzte Daten in den DeinProgramm-Sprachen
+nicht auf Computer-Konfigurationen beschränkt.  Sie können beliebige
+neue Arten zusammengesetzter Daten definieren.  Voraussetzung für die
+Definition einer neuen Art zusammengesetzter Daten ist, dass Sie eine klare
+Vorstellung davon haben, was die Komponenten sind.  Dabei hilft eine
+informelle Beschreibung wie diese hier:
 %
 \begin{alltt}
-; Eine kartesische Koordinate in der Ebene besteht aus X- und Y-Koordinate.
+; Ein Computer besteht aus:
+; - Prozessor
+; - Hauptspeicher-Kapazität in Gbyte
+; - Festplatten-Kapazität in Gbyte
 \end{alltt}
 %
-Eine solche \index{Datendefinition}\textit{Datendefinition} läßt sich
-direkt in eine
-\textit{Record-Definition\index{Record-Definition}} in Scheme übersetzen.
-Dies ist eine Form mit dem syntaktischen
-Schlüsselwort \texttt{define-record-procedures}.  Eine
-Record-Definition definiert einen neuen Record-Typ und dabei
-automatisch auch u.~a.\ den Konstruktor und die
-Selektoren~-- nur ihre Namen müssen angegeben werden.
+Eine solche informelle Beschreibung heißt auch
+\index{Datendefinition}\textit{Datendefinition}.  Eine Datendefinition
+für zusammengesetzte Daten können Sie direkt Code umwandeln.  In den
+DeinProgramm-Sprachen ist dafür eine sogenannte
+\textit{Record-Definition\index{Record-Definition}} zuständig.
 
-TBD
+Wenn \texttt{computer}-Records nicht schon in die Anfänger-Sprache
+eingebaut wäre, könnten wir sie selbst definierne mit folgender
+Record-Definition, die den neuen Operator
+\texttt{define-record-procedures} verwendet:
 %
+\begin{verbatim}
+(define-record-procedures computer
+  make-computer
+  ((computer-processor  string)
+   (computer-ram        rational)
+   (computer-hard-drive rational)))
+\end{verbatim}
+%
+Diese Record-Definition hat mehrere Bestandteile:
+%
+\begin{itemize}
+\item Zunächst einmal ist da der Name des Record-Typs,
+  \texttt{computer}.  Diesen können wir später als Signatur einsetzen.
+\item Dann ist da der Name des Konstruktors \texttt{make-computer}.
+\item Dann sind da die Namen der Selektoren,
+  \texttt{computer-processor}, \texttt{computer-ram} und
+  \texttt{computer"=hard"=drive}.
+\item Zu jedem Selektor gehört noch die Signatur des jeweiligen
+  Feldes, also \texttt{string} für den Prozessornamen und
+  \texttt{rational} für die beiden Speichergrößen.
+\end{itemize}
+%
+Eine Record-Definition definiert automatisch den neuen Record-Typ, den
+Konstruktor und die Selektoren unter den Namen in der
+\texttt{define-record-procedures}-Form.
+
+Für ein weiteres Beispiel greifen wir auf folgenden Satz aus der
+Einleitung zurück, den wir schon als Datendefinition auslegen können:
+%
+\begin{verbatim}
+; Eine Uhrzeit besteht aus Stunde und Minute.
+\end{verbatim}
+%
+Für die Entwicklung der dazu passenden Record-Definition müssen wir
+uns einen Namen für den Record-Typ ausdenken.  Dann können wir bereits
+ein karges Gerüst hinschreiben:\index{wallclock-time@\texttt{wallclock-time}}
+%
+\begin{verbatim}
+(define-record-procedures wallclock-time
+  make-wallclock-time
+  (...))
+\end{verbatim}
+%
+Als nächstes müssen wir festlegen, \emph{wie viele} Bestandteile die
+Records haben sollen.  In diesem Fall ("`Stunde und Minute"`) sind es
+zwei.  Wir können das Gerüst entsprechend erweitern:
+%
+\begin{verbatim}
+(define-record-procedures wallclock-time
+  make-wallclock-time
+  ((... ...)
+   (... ...)))
+\end{verbatim}
+%
+Als nächstes kommen die Namen der Selektoren.  Dabei befolgen wir eine
+Konvention, die Selektoren alle mit \texttt{wallclock-time-} anfangen
+zu lassen.  Bei der Benennung des Konstruktor haben wir ebenfalls
+eine Konvention angewendet, dessen Name sich aus \texttt{make-} und
+dem Namen des Record-Typs ergibt.  Also:
+%
+\begin{verbatim}
+(define-record-procedures wallclock-time
+  make-wallclock-time
+  ((wallclock-time-hour   ...)
+   (wallclock-time-minute ...)))
+\end{verbatim}
+%
+Es fehlen noch die Signaturen.  Dass wir die untereinander schreiben,
+dient lediglich der Übersichtlichkeit, ist also ebenfalls eine
+Konvention.  Bei sowohl Stunde als auch Minute handelt es sich um
+natürliche Zahlen:
+%
+\begin{verbatim}
+(define-record-procedures wallclock-time
+  make-wallclock-time
+  ((wallclock-time-hour   natural)
+   (wallclock-time-minute natural)))
+\end{verbatim}
+%
+Es hilft dem Verständnis zumindest am Anfang, dass wird ie Signaturen
+der definierten Prozeduren hinzuschreiben.  Diese ergeben sich direkt
+aus der Record-Definition:
+%
+\begin{verbatim}
+(: make-wallclock-time (natural natural -> wallclock-time))
+(: wallclock-time-hour (wallclock-time -> natural))
+(: wallclock-time-minute (wallclock-time -> natural))
+\end{verbatim}
+%
+Der Konstruktor akzeptiert für jedes Feld ein Argument~-- entsprechend
+stehen die Signaturen der Felder vor dem Pfeil.  Heraus kommt beim
+Konstruktor immer ein Record, da steht also der Name des Record-Types.
+
+\begin{feature}{\texttt{define-record-procedures} (einfach)}{scheme:define-record-procedures-simple}
 Eine \texttt{define"=record"=procedures}"=Form\index{define-record-procedures@\texttt{define-record-procedures}}
 hat folgende allgemeine Gestalt:\label{def:define-record-procedures}
 %
 \begin{alltt}
 (define-record-procedures \(t\)
-  \(c\) \(p\)
-  (\(s\sb{1}\) \(\ldots\) \(s\sb{n}\)))
+  \(c\)
+  ((\(\mathit{sel}\sb{1}\) \(\mathit{sig}\sb{1}\))
+   \(\ldots\)
+   (\(\mathit{sel}\sb{n}\) \(\mathit{sig}\sb{n}\))))
 \end{alltt}
 %
 Diese Form definiert einen Record-Typ mit $n$ Feldern.
-Dabei sind $t$, $c$, $p$, $s_1 \ldots s_n$ allesamt Variablen, für die
+Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, für die
 \texttt{define-record-procedures} Definitionen anlegt:
 %
 \begin{itemize}
 \item $t$ ist der Name des Record-Typs.
 \item $c$ ist der Name des Konstruktors, den
-  \texttt{define-record-procedures} anlegt.
-\item $p$ ist der Name des Prädikats, das
-  \texttt{define-record-procedures} anlegt.
+  \texttt{define-record-procedures} anlegt.  Der Konstruktor hat 
+  folgende Signatur:
+%  
+\begin{alltt}
+(: \(c\) (\(\mathit{sig}\sb{1}\) \(\ldots\) \(\mathit{sig}\sb{n}\) -> \(t\)))
+\end{alltt}
 \item $s_1, \ldots, s_n$ sind die Namen der Selektoren für die Felder
-  des Record-Typen.
+  des Record-Typen.  Der Selektor $s_i$ hat folgende Signatur:
+% 
+\begin{alltt}
+(: \(\mathit{sel}\sb{i}\) (\(t\) -> \(\mathit{sig}\sb{i}\)))
+\end{alltt}
 \end{itemize}
 %
-Beim Entwurf einer Record-Definition hilft es, mit der
-Datendefinition anzufangen, die
-ausführlich beschreibt, was für Komponenten die Daten haben.  Für
-Computer sieht diese Datendefinition folgendermaßen aus:
+\end{feature}
+
+Bei den Selektoren ist es umgekehrt: Da steht immer der Record-Typ
+vorn (sie akzeptieren ja jeweils einen Record) und nach dem Pfeil
+steht die Signatur des jeweiligen Feldes.
+
+Abbildung~\ref{scheme:define-record-procedures-simple} fasst die Form
+von \texttt{define-record-procedures} zusammen.
+
+Hier sind drei Beispiele für Uhrzeiten:
+%
+\begin{verbatim}
+(define wt1 (make-wallclock-time 11 55)) ; fünf vor zwölf
+(define wt2 (make-wallclock-time 0 0)) ; Mitternacht
+(define wt3 (make-wallclock-time 1 1)) ; 1 Uhr 1
+\end{verbatim}
+%
+Auch für Uhrzeiten können wir einige kleinere Aufgaben beispielhaft
+lösen.  Zuerst berechnen wir für eine Uhrzeit die Anzahl der Minuten
+seit Mitternacht.  Hier sind Kurzbeschreibung, Signatur, Testfälle und Gerüst:\index{minutes-since-midnight@\texttt{minutes-since-midnight}}
+%
+\begin{verbatim}
+; Minuten seit Mitternacht berechnen
+(: minutes-since-midnight (wallclock-time -> natural))
+
+(check-expect (minutes-since-midnight wt1) (+ (* 11 60) 55))
+(check-expect (minutes-since-midnight wt2) 0)
+(check-expect (minutes-since-midnight wt3) 61)
+
+(define minutes-since-midnight
+  (lambda (wt)
+    ...))
+\end{verbatim}
+%
+Da es sich bei \texttt{minutes-since-midnight} um eine Prozedur
+handelt, die eine Uhrzeit als Eingabe akzeptiert, fügen wir in die
+Schablone Aufrufe der Selektoren ein:
+%
+\begin{verbatim}
+(define minutes-since-midnight
+  (lambda (wt)
+    ... (wallclock-time-hour wt) ...
+    ... (wallclock-time-minute wt) ...))
+\end{verbatim}
+%
+Jetzt setzen wir noch etwas Wissen über Uhrzeiten ein und
+vervollständigen damit den Rumpf:
+%
+\begin{verbatim}
+(define minutes-since-midnight
+  (lambda (wt)
+    (+ (* 60 (wallclock-time-hour wt))
+       (wallclock-time-minute wt))))
+\end{verbatim}
+%
+Die Umrechnung können wir auch umdrehen, mit einer Prozedur wie folgt:
+%
+\begin{verbatim}
+; Aus Minuten seit Mitternacht die Uhrzeit berechnen
+(: minutes-since-midnight->wallclock-time (natural -> wallclock-time))
+\end{verbatim}
+%
+Der Pfeil \verb|->| gehört zum Namen dazu und steht für die Umwandlung
+einer Größe in eine andere.  Die Testfällesind gegenüber
+\texttt{minutes-since-midnight} umgedreht.
+%
+\begin{verbatim}
+(check-expect (minutes-since-midnight->wallclock-time (+ (* 11 60) 55))
+              wt1)
+(check-expect (minutes-since-midnight->wallclock-time 0)
+              wt2)
+(check-expect (minutes-since-midnight->wallclock-time 61)
+              wt3)
+\end{verbatim}
+%
+Hier ist das Gerüst:\index{minutes-since-midnight->wallclock-time@\texttt{minutes-since-midnight->wallclock-time}}
+%
+\begin{verbatim}
+(define minutes-since-midnight->wallclock-time
+  (lambda (msm)
+    ...))
+\end{verbatim}
+%
+Dies ist eine Prozedur, die eine Uhrzeit produziert~-- sie muss also
+den Konstruktor für \texttt{wallclock"=time} aufrufen.  Daraus ergibt
+sich folgende Schablone:
+%
+\begin{verbatim}
+(define minutes-since-midnight->wallclock-time
+  (lambda (msm)
+    (make-wallclock-time ... ...)))
+\end{verbatim}
+% 
+Um die Schablone zum Rumpf zu vervollständigen, müssen wir aus den
+Minuten seit Mitternacht \texttt{msm} zunächst die Stunde berechnen.
+Dazu brauchen wir eine Prozedur, die ganzzahlig teilt.  Die eingebaute
+Prozedur \texttt{/} macht das leider nicht:
 %
 \begin{alltt}
-; Ein Computer besteht aus:
-; - Prozessor (string)
-; - Hauptspeicher-Kapazität in Gbyte (rational)
-; - Festplatten-Kapazität in Gbyte (rational)
+(/ 61 60)
+\evalsto 1.016
 \end{alltt}
 %
-Hier ist die Datendefinition für kartesische Koordinaten:
+Aber die Prozedur \texttt{quotient} hilft uns weiter:
 %
 \begin{alltt}
-; Eine kartesische Koordinate besteht aus:
-; - X-Anteil (real)
-; - Y-Anteil (real)
+(quotient 61 60)
+\evalsto 1
 \end{alltt}
 %
-Die Datendefinition muss genau soviele Komponenten aufweisen,
-wie die zusammengesetzten Daten Bestandteile haben. 
-Wenn es nicht absolut glaskar ist, sollten in Klammern die Signaturen der
-jeweiligen Komponenten angegeben werden~-- wie in diesen Beispielen.
-
-Aus der Datendefinition ergibt sich direkt die Record-Definition.  
-Insbesondere gehört zu jeder Komponente ein Selektor.
-Die Namen für den Konstruktor, das Prädikat und die Selektoren können
-frei gewählt werden, sollten aber meist einer einheitlichen
-Konvention folgen, um anderen das Lesen des Programms zu erleichern.
-Die gängige Konvention ist, dass der Konstruktor mit \texttt{make-}
-anfängt (\texttt{make-cartesian}), der Name des Prädikats auf ein
-Fragezeichen endet (\texttt{cartesian?}), und die Selektoren mit dem Namen des
-Record-Typs beginnen und auf die
-Namen der Felder enden (\texttt{cartesian-x}, \texttt{cartesian-y}).
-
-TBD
+Das können wir in der Schablone benutzen:
+%
+\begin{verbatim}
+(define minutes-since-midnight->wallclock-time
+  (lambda (msm)
+    (make-wallclock-time (quotient msm 60) ...)))
+\end{verbatim}
+%
+Es fehlt noch die Minute~-- dafür brauchen wir den
+Divisions\emph{rest}.  Den berechnet die eingebaute Prozedur
+\texttt{remainder}:
+%
+\begin{alltt}
+(remainder 67 60)
+\evalsto 7
+(remainder 125 60)
+\evalsto 5
+\end{alltt}
+%
+Damit können wir den Rumpf vervollständigen:
+%
+\begin{verbatim}
+(define minutes-since-midnight->wallclock-time
+  (lambda (msm)
+    (make-wallclock-time (quotient msm 60) (remainder msm 60))))
+\end{verbatim}
 
 \section{Schablonen für  zusammengesetzte Daten}
 
-Zusammengesetzte Daten können Sie an Formulierungen wie "`ein $X$
-besteht aus~\ldots"', "`ein $X$ ist charakterisiert durch~\ldots"' oder "`ein
-$X$ hat folgende Eigenschaften:~\ldots"'  erkennen.
-Diese Formulierung bildet
-dann~-- ordentlich aufgeschrieben und ggf.\ um die Signaturen für die
-Komponenten ergänzt~-- das Herzstück der Datendefinition.  Diese
-Datendefinition können Sie dann direkt in die dazugehörige
-Record-Definition übersetzen.  Diese muss genauso viele Felder haben
-wie die Datendefinition Komponenten beschreibt.
+Dieser Abschnitt fasst die Erkenntnisse aus den Beispielen
+zusammengesetzten Daten in Form von Konstruktionsanleitungen zusammen.
 
-Diese Methode bildet Konstruktionsanleitung~\ref{ka:zusammengesetzt}
-in Anhang~\ref{app:konstruktionsanleitungen}.
+FIXME: Verweis auf Anhang
+
+\subsection{Datenanalyse für zusammengesetzte Daten}
+
+Zusammengesetzte Daten können Sie an Formulierungen wie "`ein $X$
+besteht aus~\ldots"', "`ein $X$ ist charakterisiert durch~\ldots"'
+oder "`ein $X$ hat~\ldots"' erkennen.  Manchmal lautet die
+Formulierung etwas anders.  Die daraus resultierende Datendefinition
+ist ein Kommentar im Programm in folgender Form:
+%
+\begin{alltt}
+; Ein X hat / besteht aus / ist charakterisiert durch:
+; - Bestandteil / Eigenschaft 1
+; - Bestandteil / Eigenschaft 2
+; ...
+; - Bestandteil / Eigenschaft n
+\end{alltt}
+
+\subsection{Record-Definition für zusammengesetzte Daten}
+
+Auf die Datendefinition folgt eine entsprechende Record-Definition.
+Dafür überlegen Sie sich Namen für den Record-Typ $T$ und für die
+Felder, $f_1 \ldots f_n$.  Für jedes Feld sollten Sie außerdem
+die dazu passende Signatur $\mathit{sig}_{i}$.
+Die Record-Definition hat dann folgende
+Form:
+%
+\begin{alltt}
+(define-record-procedures \(T\)
+  make-\(T\)
+  ((\(T\)-\(f\sb{1}\) \(\mathit{sig}\sb{1}\))
+   \(\ldots\)
+   (\(T\)-\(f\sb{n}\) \(\mathit{sig}\sb{n}\))))
+\end{alltt}
+%
+Der Name des Record-Typs \(T\) kann dann als Signatur verwendet
+werden, \texttt{make-\(T\)} ist der Konstruktor und \(T\)-\(f\sb{1}\)
+sind die Selektoren.
+
+Dass der Konstruktorname mit \texttt{make-} anfängt und dass die
+Selektornamen sich aus dem Namen des Typs und der Felder
+zusammensetzt, ist reine Konvention.  Von Ihr sollten Sie aber nur aus
+guten Gründen abweichen.
+
+Unter die Record-Definition gehören die Signaturen für den Konstruktor
+und die Selektoren:
+%
+\begin{alltt}
+(: make-\(T\) (\(\mathit{sig}\sb{1}\) \(\ldots\) \(\mathit{sig}\sb{n}\) -> \(T\)))
+(: \(T\)-\(f\sb{1}\) (\(T\) -> \(\mathit{sig}\sb{1}\)))
+\(\ldots\)
+(: \(T\)-\(f\sb{n}\) (\(T\) -> \(\mathit{sig}\sb{n}\)))
+\end{alltt}
+%
+Wenn Sie genügend Übung in der Verwendung von Konstruktoren und
+Selektoren haben, können Sie die Signaturen (die ja redundant sind)
+auch weglassen: Die relevanten Signaturen für die Felder stehen ja
+schon in der Record-Definition.
 
 \subsection{Zusammengesetzte Daten als Eingabe}
 
-Die Definitionen von \texttt{total-price} folgen dem selben Muster.  Dieses Muster
-ergibt Schablonen für Prozeduren, die Records als Argumente
-akzeptieren und läßt sich auch auf andere Record-Typen folgendermaßen
-in eine Konstruktionsanleitung übertragen:
+Wenn Sie eine Prozedur schreiben, die zusammengesetzte Daten als
+Eingabe akzeptiert (das ergibt sich aus der Signatur), gehen Sie nach
+Schreiben des Skeletts folgendermaßen vor:
 %
 \begin{enumerate}
-\item Stellen Sie fest, von welchen Komponenten des Records das Ergebnis
-  der Prozeduren abhängt.
-\item Für jede dieser Komponenten, schreiben Sie  \texttt{($s$ $c$)} in die
-  Schablone, wobei $s$ der Selektor der Komponente und $c$ der Name
+\item Für jede dieser Komponenten, schreiben Sie  \texttt{($s$ $r$)} in die
+  Schablone, wobei $s$ der Selektor der Komponente und $r$ der Name
   des Record-Parameters ist.
 \item Vervollständigen Sie die Schablone, indem Sie einen Ausdruck
   konstruieren, in dem die Selektor"=Anwendungen vorkommen.
+\item Es ist möglich, dass nicht alle Selektor-Anwendungen im Rumpf
+  verwendet werden: In diesem Fall löschen Sie die Selektor-Anwendung
+  wieder.
 \end{enumerate}
 %
-Konstruktionsanleitung~\ref{ka:zusammengesetzt-input} in
-Anhang~\ref{app:konstruktionsanleitungen} faßt diese Schritte noch
-einmal zusammen.
+Mit etwas Übung können Sie nicht benötigte Selektor-Anwendung auch
+von vornherein weglassen.  Gelegentlich deutet es aber auf einen
+Fehler hin, wenn eine fehlt: Darum ist es oft sinnvoll, sie zunächst
+hinzuschreiben.
 
 \subsection{Zusammengesetzte Daten als Ausgabe}
 
 Prozeduren, die zusammengesetzte Daten als Ausgabe haben, müssen einen
-entsprechenden Record konstruieren, mithin den Konstruktor aufrufen.
-Die Schablone wird also folgendermaßen konstruiert:
+entsprechenden Record konstruieren und deshalb den Konstruktor aufrufen.
+Die Schablone ergibt sich folgendermaßen:
 %
 \begin{quote}
   Wenn die Prozedur zusammengesetzte Daten als Ausgabe hat, schreiben
   Sie einen Aufruf des passenden Record-Konstruktors in den Rumpf,
   zunächst mit einer Ellipse für jedes Feld des Records.
 \end{quote}
-%
-Im nächsten Schritt ersetzen Sie dann die Ellipsen durch Ausdrücke,
-welche die entsprechenden Komponenten berechnen.
 
-Konstruktionsanleitung~\ref{ka:zusammengesetzt-output} in
-Anhang~\ref{app:konstruktionsanleitungen} faßt diese Schritte noch
-einmal zusammen.
-
-\section{Gürteltiere im Computer}
+\section{Ein- und Ausgabe zusammengesetzter Daten}
 \label{sec:armadillo}
 
-Nachdem wir aus den Beispielen die Schablonen für zusammengesetzte
-Daten entwickelt haben, demonstrieren wir diese in diesem Abschnitt
-noch einmal an einem frischen Beispiel:
+In diesem Abschnitt kombinieren wir die Kombination von Ein- und
+Ausgabe zusammengesetzter Daten in einer einzigen Prozedur.
 
-In Texas gibt es viele Gürteltiere, die insbesondere die Highways
-überqueren und dabei leider oft überfahren werden~-- am Straßenrand
+Im Beispiel dafür geht es um Gürteltiere in Texas:
+Die überqueren insbesondere die Highways
+und werden dabei leider oft überfahren~-- am Straßenrand
 sind entsprechend viele Gürteltiere zu sehen.  Außerdem füttern
 freundliche Autofahrer gelegentlich die Gürteltiere.  Mit diesen
 beiden Aspekte wollen wir uns beschäftigen: Was passiert, wenn ein
@@ -463,21 +750,17 @@ Datendefinition übersetzen:
 ; - lebendig oder tot
 \end{verbatim}
 %
-Wiederum handelt es sich sichtlich um zusammengesetzte Daten.  Diesmal
-trifft die Phrase "`besteht aus"' natürlich nicht zu.  Stattdessen
-geht es um die Eigenschaften, von denen ein Gürteltier viele hat.
-Von diesen vielen interessanten Eigenschaften sind aber etliche bei
-allen Gürteltieren gleich (Säugetier, zwei Augen, vier Füße etc.) und
-darum nicht Teil der Datendefinition.  Für unsere Aufgaben sind
-außerdem nur zwei Eigenschaften von Belang, weshalb die
-Datendefinition auch nur diese auflistet.
+Wiederum handelt es sich sichtlich um zusammengesetzte Daten, wie
+aus der Formulierung "<hat"> ersichtlich ist.  Wir beschränken uns
+hier auf die beiden Eigenschaften, die für die Aufgabenstellung
+relevant sind.
 
 Aus der Datendefinition können wir direkt eine passende
 Record-Definition machen:
 % 
 \begin{verbatim}
 (define-record-procedures dillo
-  make-dillo dillo?
+  make-dillo
   (dillo-weight dillo-alive?))
 \end{verbatim}
 %
@@ -490,14 +773,11 @@ beantwortet.  Hier sind die Signaturen für die Record-Prozeduren:
 %
 \begin{verbatim}
 (: make-dillo (natural boolean -> dillo))
-(: dillo? (any -> boolean))
 (: dillo-weight (dillo -> natural))
 (: dillo-alive? (dillo -> boolean))
 \end{verbatim}
 %
-Dabei bedeutet \texttt{any}, dass an dieser Argumentstelle beliebige
-Daten auftreten dürfen.  Riesengürteltiere werden um die 60~kg schwer.   Hier sind einige
-Exemplare:
+Hier sind einige Exemplare:
 %
 \begin{verbatim}
 (define d1 (make-dillo 55000 #t)) ; 55 kg, lebendig 
@@ -506,89 +786,10 @@ Exemplare:
 (define d4 (make-dillo 63000 #f)) ; 63 kg, tot
 \end{verbatim}
 %
-Fangen wir mit dem unangenehmen Teil an, dem Überfahren, das aus einem
-lebenden Gürteltier ein totes macht.  Hier Kurzbeschreibung und
-Signatur:\index{run-over-dillo@\texttt{run-over-dillo}}\label{page:run-over-dillo}
-%
-\begin{verbatim}
-; Gürteltier überfahren
-(: run-over-dillo (dillo -> dillo))
-\end{verbatim}
-%
-Aus dem Beispiel \texttt{d1} können wir den ersten Testfall machen:
-%
-\begin{verbatim}
-(check-expect (run-over-dillo d1) (make-dillo 55000 #f))
-\end{verbatim}
-%
-Wir sollten aber auch berücksichtigen, was \texttt{run-over-dillo} mit
-toten Gürteltieren anstellt: Diese bleiben auch nach dem Überfahren
-tot:
-%
-\begin{verbatim}
-(check-expect (run-over-dillo d2) d2)
-\end{verbatim}
-%
-Hier das Gerüst der Prozedur:
-%
-\begin{verbatim}
-(define run-over-dillo
-  (lambda (d)
-    ...))
-\end{verbatim}
-
-\texttt{Run-over-dillo} hat zusammengesetzte Daten sowohl als Eingabe
-als auch als Ausgabe.  Entsprechend kommen die Schablonen für beide
-Situationen zum Einsatz.  Zunächst die Schablone für zusammengesetzte
-Daten als Eingabe; wir schreiben die Aufrufe der Selektoren auf:
-%
-\begin{verbatim}
-(define run-over-dillo
-  (lambda (d)
-    ... (dillo-weight d) ...
-    ... (dillo-alive? d) ...))
-\end{verbatim}
-%
-Dazu kommt die Schablone für zusammengesetzte Daten als Ausgabe, also
-der Aufruf des Konstruktors:
-%
-\begin{verbatim}
-(define run-over-dillo
-  (lambda (d)
-    (make-dillo ... ...)
-    ... (dillo-weight d) ...
-    ... (dillo-alive? d) ...))
-\end{verbatim}
-%
-Wir müssen beim Aufruf des Konstruktors \texttt{make-dillo} angeben,
-welches Gewicht das frisch überfahrene Gürteltier haben soll und ob es
-noch am Leben ist.  Da das Überfahren das Gewicht nicht ändert, übernimmt
-der Ausdruck für das Gewicht das Gewicht des Eingabe-Gürteltiers aus
-der Schablone:
-%
-\begin{verbatim}
-(define run-over-dillo
-  (lambda (d)
-    (make-dillo (dillo-weight d) ...)
-    ... (dillo-alive? d) ...))
-\end{verbatim}
-%
-Das Gürteltier ist nach dem Überfahren auf jeden Fall tot.  Da es
-keine Rolle spielt, ob das Gürteltier vorher lebendig war oder nicht,
-können wir den Selektoraufruf \texttt{(dillo-alive? d)} verwerfen:
-%
-\begin{verbatim}
-(define run-over-dillo
-  (lambda (d)
-    (make-dillo (dillo-weight d)
-                #f)))
-\end{verbatim}
-%
-Fertig!
-
-Nächste Aufgabe: Gürteltier füttern.  Die Standard-Futter-Portion ist
-dabei 500g, und das Gürteltier nimmt durch die Fütterung um das
-entsprechende Gewicht zu.  Hier Kurzbeschreibung und Signatur:
+Fangen wir damit an, Gürteltiere zu füttern.  Die
+Standard-Futter-Portion ist dabei 500g, und das Gürteltier nimmt durch
+die Fütterung um das entsprechende Gewicht zu.  Hier Kurzbeschreibung
+und Signatur:
 %
 \begin{verbatim}
 ; Gürteltier mit 500g Futter füttern
@@ -601,7 +802,7 @@ Hier der erste, naheliegende Testfall:
 (check-expect (feed-dillo d1) (make-dillo 55500 #t))
 \end{verbatim}
 %
-Auch bei \texttt{feed-dillo} ist relevant, was es mit toten
+Bei \texttt{feed-dillo} ist relevant, was es mit toten
 Gürteltieren macht: Tote Gürteltiere fressen nicht, entsprechend
 nehmen sie auch nicht zu, wenn man ihnen Futter anbietet:
 %
@@ -616,9 +817,20 @@ Hier das Gerüst der Prozedur:
     ...))
 \end{verbatim}
 %
-\texttt{Feed-dillo} hat die gleiche Signatur wie
-\texttt{run-over-dillo}; entsprechend benutzen wir die gleiche
-Schablone:
+\texttt{Feed-dillo} hat zusammengesetzte Daten sowohl als Eingabe
+als auch als Ausgabe.  Entsprechend kommen die Schablonen für beide
+Situationen zum Einsatz.  Zunächst die Schablone für zusammengesetzte
+Daten als Eingabe; wir schreiben die Aufrufe der Selektoren auf:
+%
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    ... (dillo-weight d) ...
+    ... (dillo-alive? d) ...))
+\end{verbatim}
+%
+Dazu kommt die Schablone für zusammengesetzte Daten als Ausgabe, also
+der Aufruf des Konstruktors:
 %
 \begin{verbatim}
 (define feed-dillo
@@ -628,11 +840,14 @@ Schablone:
     ... (dillo-alive? d) ...))
 \end{verbatim}
 %
-Beim zweiten Testfall haben wir gesehen, dass, was \texttt{feed-dillo}
+Der zweite Testfall zeigt, dass, was \texttt{feed-dillo}
 betrifft, die Gürteltiere in zwei verschiedene Gruppen fallen:
 \texttt{Feed-dillo} verhält sich bei lebenden Gürteltieren anders als
 bei toten: eine Fallunterscheidung.  Entsprechend brauchen wir eine
-Verzweigung im Rumpf.  Da sich der Fall "`Gürteltier tot"' dadurch definiert, dass der
+Verzweigung im Rumpf, und zwar nach dem Wert von \texttt{(dillo-alive?
+  d)}, der glücklicherweise schon in der Schablone steht.
+
+Da sich der Fall "`Gürteltier tot"' dadurch definiert, dass der
 Fall "`Gürteltier lebendig"' nicht eintritt, ist die binäre Verzweigung
 angemessen:
 %
@@ -664,6 +879,19 @@ Im ersten Zweig müssen wir schließlich einen neuen Gürteltier-Wert
 berechnen, der die Zunahme berücksichtigt.  Dabei werden der
 Konstruktur-Aufruf und der zweite Selektor-Aufruf aus der Schablone
 verbraucht:
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    (if (dillo-alive? d)
+        (make-dillo ... ...)
+        d)))
+\end{verbatim}
+%
+Wir müssen beim Aufruf des Konstruktors \texttt{make-dillo} angeben,
+welches Gewicht das frisch überfahrene Gürteltier haben soll und ob es
+noch am Leben ist.  Das Gewicht erhöht sich um das Gewicht des
+Futters.  Außerdem ist das Gürteltier noch am Leben, weil der
+Konstruktoraufruf in dem Zweig steht, in dem das so ist:
 %
 \begin{verbatim}
 (define feed-dillo
@@ -672,6 +900,83 @@ verbraucht:
         (make-dillo (+ (dillo-weight d) 500)
                     #t)
         d)))
+\end{verbatim}
+%
+Komme zum unangenehmen, dem Überfahren, das aus einem
+lebenden Gürteltier ein totes macht.  Hier Kurzbeschreibung und
+Signatur:\index{run-over-dillo@\texttt{run-over-dillo}}\label{page:run-over-dillo}
+%
+\begin{verbatim}
+; Gürteltier überfahren
+(: run-over-dillo (dillo -> dillo))
+\end{verbatim}
+%
+Aus dem Beispiel \texttt{d1} können wir den ersten Testfall machen:
+%
+\begin{verbatim}
+(check-expect (run-over-dillo d1) (make-dillo 55000 #f))
+\end{verbatim}
+%
+Wir sollten aber auch berücksichtigen, was \texttt{run-over-dillo} mit
+toten Gürteltieren anstellt.  Diese bleiben auch nach dem Überfahren
+tot:
+%
+\begin{verbatim}
+(check-expect (run-over-dillo d2) d2)
+\end{verbatim}
+%
+Hier das Gerüst der Prozedur:
+%
+\begin{verbatim}
+(define run-over-dillo
+  (lambda (d)
+    ...))
+\end{verbatim}
+%
+\texttt{Run-over-dillo} hat zusammengesetzte Daten sowohl als Eingabe
+als auch als Ausgabe.  Entsprechend kommen ein weiteres Mal die
+Schablonen für beide Situationen zum Einsatz.  Zunächst die Schablone
+für zusammengesetzte Daten als Eingabe; wir schreiben die Aufrufe der
+Selektoren auf:
+%
+\begin{verbatim}
+(define run-over-dillo
+  (lambda (d)
+    ... (dillo-weight d) ...
+    ... (dillo-alive? d) ...))
+\end{verbatim}
+%
+Dazu kommt die Schablone für zusammengesetzte Daten als Ausgabe, also
+der Aufruf des Konstruktors:
+%
+\begin{verbatim}
+(define run-over-dillo
+  (lambda (d)
+    (make-dillo ... ...)
+    ... (dillo-weight d) ...
+    ... (dillo-alive? d) ...))
+\end{verbatim}
+%
+  Da das Überfahren das Gewicht nicht ändert, übernimmt
+der Ausdruck für das Gewicht das Gewicht des Eingabe-Gürteltiers aus
+der Schablone:
+%
+\begin{verbatim}
+(define run-over-dillo
+  (lambda (d)
+    (make-dillo (dillo-weight d) ...)
+    ... (dillo-alive? d) ...))
+\end{verbatim}
+%
+Das Gürteltier ist nach dem Überfahren auf jeden Fall tot.  Da es
+keine Rolle spielt, ob das Gürteltier vorher lebendig war oder nicht,
+können wir den Selektoraufruf \texttt{(dillo-alive? d)} verwerfen:
+%
+\begin{verbatim}
+(define run-over-dillo
+  (lambda (d)
+    (make-dillo (dillo-weight d)
+                #f)))
 \end{verbatim}
 %
 Fertig!
@@ -695,7 +1000,7 @@ Fertig!
   Prozedur
   % 
   \begin{center}
-    \texttt{gcd: number number -> number},
+    \texttt{(: gcd (number number -> number))},
   \end{center}
   % 
   die den größten gemeinsamen Teiler (greatest common divisor) von
@@ -768,73 +1073,7 @@ Fertig!
 
 \begin{aufgabe}
 
-  Schreiben Sie eine Daten- und Record-Definition
-  für \textit{Uhrzeiten} mit Stunden, Minuten und Sekunden.
-  Programmieren Sie folgende Prozeduren für Uhrzeiten:
-
-  \begin{enumerate}
-  \item Test, ob zwei Uhrzeiten gleich sind
-  \item Test, ob eine Uhrzeit früher ist als eine andere
-  \item Test, ob eine Uhrzeit später ist als eine andere
-  \item Test, ob eine Uhrzeit am Vormittag ist
-  \item Test, ob eine Uhrzeit am Nachmittag ist
-  \item Ausgabe der Zeit im 24h-Format, z.B. \verb|"18:45:10"| und
-    \verb|"9:12:25"|
-  \item Ausgabe der Zeit im 12h-Format, z.B. \verb|"6:45:10 p.m."| und
-    \verb|"9:12:25 a.m."|
-
-    \textbf{Hinweis:} Zur Lösung der beiden vorherigen Teilaufgaben
-    brauchen Sie die eingebauten Prozeduren
-    % 
-    \begin{center}
-      \texttt{(: number->string (number -> string))},
-    \end{center}
-    % 
-    die eine Zahl in eine Zeichenkette umwandelt und
-    % 
-    \begin{center}
-      \texttt{(: string-append (string string ... -> string))}, 
-    \end{center}
-    % 
-    die eine beliebige Anzahl von Zeichenketten zu einer Zeichenkette
-    zusammenhängt.
-
-  \item Umrechnung von Sekunden seit Mitternacht in Uhrzeiten
-    
-    \textbf{Hinweis:} Zur Lösung der Aufgabe
-    brauchen Sie die eingebauten Prozeduren
-    % 
-    \begin{center}
-      \texttt{(: quotient (integer integer -> integer))},
-    \end{center}
-    % 
-    um eine ganzzahlige Division durchzuführen und
-    % 
-    \begin{center}
-      \texttt{(: remainder (integer integer -> integer))}, 
-    \end{center}
-    % 
-    um den Rest einer ganzzahligen Division zu bestimmen.
-  \end{enumerate}
-
-  Sie können in jeder Teilaufgabe davon ausgehen, dass nur gültige
-  Uhrzeiten (zwischen 0:00:00 und 23:59:59) übergeben werden.
-
-  Benutzen Sie Abstraktionen und schreiben Sie Hilfsprozeduren an den
-  Stellen, an denen Sie Teilprobleme lösen!
-
-  Halten Sie sich bei jeder Prozedur, die Sie schreiben, an die
-  Konstruktionsanleitungen: Schreiben Sie zuerst die Kurzbeschreibung
-  und die Signatur.  Schreiben Sie als nächstes einige Testfälle.
-  Leiten Sie danach das Gerüst von der Signatur her und vervollständigen
-  Sie den Rumpf der Prozedur.
-
-\end{aufgabe}
-
-
-\begin{aufgabe}
-
-  Heute backen wir einen Kuchen. 
+  Es geht ums Backen von Kuchen.
 
   \begin{enumerate}
   \item Erstellen Sie eine Datendefinition
@@ -988,7 +1227,7 @@ Fertig!
     kürzesten Seite des Pakets.  Schreiben Sie eine Prozedur
     \texttt{add-longest-and-shortest-side}, die als Argument eine
     \textit{Abmessung} bekommt.  Der Rückgabewert von
-    \texttt{add-longest-and-shortest-side} soll die Summe der längsten
+    \texttt{add"=longest"=and"=shortest"=side} soll die Summe der längsten
     und der kürzesten Seite der Abmessung sein.  Lagern Sie die
     Teilprobleme in zwei Hilfsprozeduren aus: \texttt{longest-side}
     und \texttt{shortest-side}.
@@ -1072,134 +1311,6 @@ Fertig!
     berechnet.  Benutzen Sie dafür die von Ihnen programmierten
     Lösungen der verschiedenen Teilprobleme.
     
-  \end{enumerate}
-  
-\end{aufgabe}
-
-\begin{aufgabe}
-
-  Wir repräsentieren einen Lithium-Ionen-Akku als
-  eine Liste von Lithium-Ionen-Zellen.  Eine Zelle besteht aus einer
-  maximalen Ladung (in Milliamperestunden, mAh) und einer momentanen
-  Ladung (ebenfalls in mAh).
-
-  Wenn eine Zelle eine Ladung von 1000mAh hat, bedeutet das, dass die
-  Zelle eine Stromstärke von 1000mA (Milliampere) für eine Stunde lang
-  liefern kann.  Die momentane Ladung darf nie über die maximale
-  Ladung steigen und nie unter 10\% der maximalen Ladung fallen, in
-  unserer Beispielzelle also 100mAh, sonst geht die Zelle kaputt.
-
-  % Die Zellen werden nach der Reihe ge- bzw.  entladen.  Wenn die erste
-  % Zelle auf 400mAh entladen ist, wird die zweite Zelle entladen, dann
-  % die nächste, etc.  Geladen wird in anderer Richtung: Zuerst wird die
-  % letzte Zelle geladen, dann die davor, etc.
-  
-  \begin{enumerate}
-    \setlength{\itemsep}{1cm}
-  \item Führen Sie eine Datenanalyse für Li-Ionen-Akkus und
-    Li-Ionen-Zellen durch, schreiben Sie die Datendefinitionen auf und
-    setzen Sie die Datendefinitionen um.
-
-  \item Schreiben Sie folgende Prozeduren:
-
-    \begin{itemize}
-    \item \texttt{cell-full?}, die überprüft, ob eine
-      Zelle vollständig geladen ist (d.h. ob die momentante
-      Ladung gleich der maximalen Ladung ist)
-
-    \item \texttt{cell-empty?}, die überprüft, ob eine Zelle entladen
-      ist (d.h. ob die momentane Ladung gleich der minimalen Ladung
-      ist, also 10\% der maximalen Ladung)
-
-    \item \texttt{cell-defect?}, die überprüft, ob eine
-      Zelle defekt ist (d.h. ob die momentane Ladung die
-      maximale Ladung überschreitet oder die minimale Ladung
-      unterschreitet)
-
-    \item \texttt{cell-ok?}, die überprüft, ob eine
-      Zelle funktioniert (d.h. ob die momentane Ladung
-      innerhalb der minimalen und maximalen Ladung liegt)
-
-    \end{itemize}
-
-  \item Schreiben Sie folgende Prozeduren:
-
-    \begin{itemize}
-    \item \texttt{battery-full?}, die überprüft, ob ein Akku
-      vollständig geladen ist (d.h. ob alle Zellen voll sind); eine
-      Batterie ohne Zelle gilt als geladen.
-
-    \item \texttt{battery-empty?}, die überprüft, ob ein Akku entladen
-      ist (d.h. ob alle Zellen leer sind); eine Batterie ohne Zelle
-      gilt auch als leer.
-
-    \item \texttt{battery-defect?}, die überprüft, ob ein Akku defekt
-      ist (d.h. ob mindestens eine Zelle defekt ist); eine Batterie
-      ohne Zelle gilt als nicht defekt.
-
-    \item \texttt{battery-ok?}, die überprüft, ob ein Akku
-      funktioniert (d.h. ob alle Zellen funktionieren); eine Batterie
-      ohne Zelle gilt als funktionstüchtig.
-      
-    \end{itemize}
-
-    \textbf{Gehen Sie in den folgenden Teilaufgaben davon aus, dass
-      nur \emph{funktionierende} Zellen und Batterien übergeben
-      werden!}
-
-  \item Das Ladegerät kann eine Zelle um 500mAh pro Stunde
-    aufladen.  Schreiben Sie eine Prozedur \\
-    \texttt{time-to-fully-charge-cell}, die ausrechnet, wieviele
-    Stunden es dauert, bis das Ladegerät die Zelle aufgeladen hat.
-
-  \item Schreiben Sie eine Prozedur
-    \texttt{time-to-fully-charge-battery}, die ausrechnet, wieviele
-    Stunden es dauert, bis das Ladegerät den Akku aufgeladen hat.
-
-  \item Schreiben Sie eine Prozedur \texttt{charge-cell}, die eine
-    Zelle und eine Zeit in Stunden konsumiert und die Zelle
-    zurückgibt, die mit dem in der vorherigen Teilaufgabe genannten
-    Ladegerät für die übergebene Zeit geladen wurde.  Die Ladung darf
-    aber nicht über die maximale Ladung steigen!  Die restliche Zeit
-    verfällt, wenn die Zelle bereits voll ist.
-
-  \item Schreiben Sie eine Prozedur \texttt{charge-battery}, die einen
-    Akku auflädt.  Die Prozedur gibt einen Akku zurück, der mit dem
-    Ladegerät für die übergebene Zeit geladen wurde.  Ist eine Zelle
-    vollständig geladen, so wird die nächste Zelle mit der restlichen
-    Zeit geladen.  Sind alle Zellen geladen und ist die Zeit jedoch
-    noch nicht aufgebraucht, so verstreicht diese.
-
-  \item Das Entladen einer Zelle hängt vom Verbraucher ab: Ein Gerät
-    hat einen Verbrauchswert, angegeben in mA.  Anschaulich betrachtet
-    heißt das, dass das Gerät pro Zeit eine gewissen Strom verbraucht.
-    Schreiben Sie eine Prozedur \texttt{time-to-fully-discharge-cell},
-    die eine Zelle und einen Verbrauch pro Stunde konsumiert und
-    ausrechnet, wie lange es dauert, bis die Zelle entladen ist.
-
-  \item Schreiben Sie eine Prozedur
-    \texttt{time-to-fully-discharge-battery}, die einen Akku und einen
-    Verbrauch pro Stunde konsumiert, und ausrechnet, wie lange es
-    dauert, bis der Akku entladen ist.
-
-  \item Schreiben Sie eine Prozedur \texttt{discharge-cell}, die eine
-    Zelle, einen Verbrauch pro Stunde und die Dauer (in Stunden)
-    konsumiert, für die der Verbraucher den Strom der Zelle
-    verbraucht.  Die Prozedur soll eine Zelle zurückgeben, die für die
-    Dauer den Verbraucher mit Strom versorgt hat.  Die Ladung darf
-    aber nicht unter die minimale Ladung fallen! Die restliche Zeit
-    verfällt, wenn die Zelle bereits leer ist (tatsächlich geht dem
-    Verbraucher einfach der Strom aus...).
-
-  \item Schreiben Sie eine Prozedur \texttt{discharge-battery}, die
-    eine Batterie, einen Verbrauch pro Stunde und die Dauer (in
-    Stunden) konsumiert.  Die Prozedur soll eine Batterie,
-    zurückgeben, die für die Dauer den Verbraucher mit Strom versorgt
-    hat.  Ist die Ladung einer Zelle verbraucht, wird die Ladung der
-    nächsten Zelle für die verbleibende Zeit verbraucht.  Sind alle
-    Zellen entladen und ist die Zeit jedoch noch nicht aufgebraucht,
-    so verstreicht diese, dem Verbraucher geht der Strom aus.
-
   \end{enumerate}
   
 \end{aufgabe}
