@@ -199,13 +199,16 @@
 \definecolor{featuregray}{gray}{0.90}
 
 \newsavebox{\featurebox}
+\newlength{\featureboxwidth}
 \newenvironment{feature}[2]%
 {%
   \gdef\featurecaption{#1}
   \gdef\featurelabel{#2}
   \begin{figure}[t]
+    \setlength{\featureboxwidth}{\textwidth}
+    \addtolength{\featureboxwidth}{-2\fboxsep}
   \begin{lrbox}{\featurebox}
-  \begin{minipage}[t]{\textwidth}
+  \begin{minipage}[t]{\featureboxwidth}
 }%
 {%
   \end{minipage}
