@@ -6,7 +6,7 @@
 \RequirePackage{calc}
 \RequirePackage{setspace}
 \RequirePackage{ebgaramond}
-\RequirePackage{FiraSans}
+\RequirePackage[light]{FiraSans}
 
 \setlength\paperwidth  {17cm}
 \setlength\paperheight {24cm}
