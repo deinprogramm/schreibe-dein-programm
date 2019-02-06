@@ -164,7 +164,7 @@ gängigen Intuition von Listen.
 \section{Mit Listen programmieren}
 
 Als erstes Beispiel für das Programmieren mit Listen schreiben wir
-eine Prozedur, die eine Liste von Zahlen akzeptiert und deren Summe
+eine Funktion, die eine Liste von Zahlen akzeptiert und deren Summe
 liefert.  Dazu werden erst einmal einige Beispiele solcher Listen
 benötigt:
 %
@@ -198,7 +198,7 @@ hat drei Parameter: Die ersten beiden geben ein reales und ein
 erwartetes Ergebnis an
 und der dritte sagt, um wieviel das reale Ergebnis in der positiven
 oder negativen Richtung vom erwarteten Ergebnis abweichen darf. Das Gerüst der
-Prozedur sieht so aus:
+Funktion sieht so aus:
 %
 \begin{verbatim}
 (define list-sum
@@ -254,7 +254,7 @@ die Schablone:
 %
 Jetzt können wir ans Ausfüllen der beiden Zweige gehen: Die erste
 Ellipse muß die Frage beantworten, was die Summe der leeren Liste sein
-soll.  Diese Frage ist bei nahezu \emph{allen} Prozeduren relevant,
+soll.  Diese Frage ist bei nahezu \emph{allen} Funktionen relevant,
 die Listen akzeptieren, es empfiehlt sich darum grundsätzlich, einen
 Testfall für die leere Liste zu formulieren:
 %
@@ -341,7 +341,7 @@ Das können wir in die Schablone von oben einsetzen:
 %
 Dieses Programm ist nicht nur vollständig, es funktioniert auch
 tatsächlich: Alles was wir gemacht haben war, die Kurzbeschreibung
-von \texttt{list-sum} ernst zu nehmen, die behauptet, dass die Prozedur
+von \texttt{list-sum} ernst zu nehmen, die behauptet, dass die Funktion
 die Summe einer beliebigen Liste berechnet: \texttt{(rest lis)} ist
 eine Liste, also kann \texttt{list-sum} auch deren Summe berechnen.
 
@@ -382,8 +382,8 @@ akzeptieren:
 %
 Jetzt wo wir die Schablone haben, gehen wir noch ein weiteres Beispiel
 durch, bei dem wir sie von vornherein anwenden:  Gefragt ist eine
-Prozedur, die eine Liste von Zahlen akzeptiert und feststellt, ob alle
-Listenelemente  positiv sind.  Die Prozedur beantwortet eine
+Funktion, die eine Liste von Zahlen akzeptiert und feststellt, ob alle
+Listenelemente  positiv sind.  Die Funktion beantwortet eine
 Ja/Nein-Frage, die damit auch die Kurzbeschreibung bildet:
 %
 \begin{alltt}
@@ -545,7 +545,7 @@ Dabei sind $t$, $c$, $p$, $s_1,\ldots, s_n$ genau wie bei
 Seite~\pageref{def:define-record-procedures}).  Zusätzlich wird unter
 dem Namen $\mathit{sc}$ ein
 \textit{Signaturkonstruktor}\index{Signaturkonstruktor} definiert.
-Dieser ist eine Prozedur mit genau so vielen Argumenten wie es Felder in dem Record
+Dieser ist eine Funktion mit genau so vielen Argumenten wie es Felder in dem Record
 gibt. Er konstruiert aus den Signaturen der Felder die Signatur von Records des Typs
 $t$.
 
@@ -670,7 +670,7 @@ Prozeduren sowie den Signaturkonstruktor \texttt{list-of}\footnote{In Standard-S
   (gesprochen "`kar"' und "`kudder"'; dies waren die Namen von Anweisungen auf einer
   Maschine, auf der ein Vorläufer von Scheme lief) und das Prädikat
   für die leere Liste \texttt{null?\index{null?@\texttt{null?}}}.} und eine
-eingebaute Prozedur \texttt{list} zur Erzeugung beliebiger Listen.
+eingebaute Funktion \texttt{list} zur Erzeugung beliebiger Listen.
 
 Außerdem werden nichtleere Listen ab dieser Sprachebene in der REPL
 anders ausgedruckt, nämlich, der besseren Übersicht halber, als
@@ -688,7 +688,7 @@ Beispiele:
 \end{alltt}
 %
 \begin{feature}{\texttt{list}}{scheme:list}
-  Die eingebaute Prozedur \texttt{list}\index{list@\texttt{list}} erlaubt es, Listen aus ihren Elementen
+  Die eingebaute Funktion \texttt{list}\index{list@\texttt{list}} erlaubt es, Listen aus ihren Elementen
   ohne Verwendung von \texttt{make-pair} zu erzeugen.  Sie
   akzeptiert eine beliebige Anzahl von Argumenten, macht daraus eine
   Liste und gibt diese zurück:
@@ -716,11 +716,11 @@ sind Kurzbeschreibung und Signatur:
 (: list-length ((list-of %a) -> natural))
 \end{alltt}
 %
-Dieser Prozedur ist egal, welche Signatur
+Dieser Funktion ist egal, welche Signatur
 die Elemente der Liste erfüllen, weil das Konzept der Länge einer
 Liste unabhängig davon ist, was die Elemente sind.
 Dementsprechend steht dort nur die Signaturvariable \verb|%a|.
-Solche Prozeduren, die Argumente akzeptieren, deren Signaturen
+Solche Funktionen, die Argumente akzeptieren, deren Signaturen
 Signaturvariablen enthalten, heißen \textit{polymorph} oder auch
 \textit{parametrisch polymorph} (weil die Signaturvariable eine Art
 Parameter abgibt), und das dazugehörige Konzept heißt
@@ -768,11 +768,11 @@ diese dann zum vollständigen Rumpf ergänzen:
 \end{alltt}
 %
 
-\section{Prozeduren, die Listen produzieren}
+\section{Funktionen, die Listen produzieren}
 
 In den vorherigen Abschnitten haben wir ausschließlich Prozeduren
 programmiert, die Listen \emph{akzeptieren}.  In diesem Abschnitt
-schreiben wir Prozeduren, die Listen \emph{produzieren}.  Das geht mit
+schreiben wir Funktionen, die Listen \emph{produzieren}.  Das geht mit
 Techniken, die wir bereits vorgestellt haben.  Wir machen die Sache
 interessanter, indem wir in einem ersten Beispiel Listen von
 zusammengesetzten Daten betrachten und in einem zweiten Beispiel zwei
@@ -780,13 +780,13 @@ Listen verarbeiten.
 
 \subsection{Gürteltiere überfahren}
 
-Auf Seite~\pageref{page:run-over-dillo} haben wir die Prozedur
+Auf Seite~\pageref{page:run-over-dillo} haben wir die Funktion
 \texttt{run-over-dillo} geschrieben, die für das Überfahren von
 Gürteltieren zuständig ist.  In diesem Abschnitt schreiben wir die
 Prozedur, die das gleich massenweise erledigt, beispielsweise für alle
 Gürteltiere auf einem Highway.  Dazu übernehmen wir Daten- und
 Record-Definition von Gürteltieren aus
-Abschnitt~\ref{page:run-over-dillo} sowie die Prozedurdefinition von
+Abschnitt~\ref{page:run-over-dillo} sowie die Funktiondefinition von
 \texttt{run-over-dillo}.  Gürteltiere können wir in Listen stecken,
 ebenso wie Zahlen, Zeichenketten oder boolesche Werte.  Hier ist ein
 Beispiel:
@@ -885,7 +885,7 @@ Wir müssen also nur die Resultate der beiden Ausdrucke mit
 Fertig!
 
 Dieses Beispiel zeigt, dass wir für Prozeduren, die Listen produzieren,
-keine neue Technik brauchen: Wenn eine Prozedur eine leere Liste
+keine neue Technik brauchen: Wenn eine Funktion eine leere Liste
 produzieren soll, benutzen wir an der entsprechenden Stelle
 \texttt{empty}, und bei nichtleeren Listen benutzen wir
 \texttt{make-pair}, bringen also die Schablone für Prozeduren zum
@@ -937,7 +937,7 @@ folgende Liste:
 \end{alltt}
 %
 Bei dieser Liste fehlt das
-Element 4 in der Mitte, und es ist nicht ersichtlich, wie unsere Prozedur
+Element 4 in der Mitte, und es ist nicht ersichtlich, wie unsere Funktion
 sie passend ergänzen könnte.  Diese
 Möglichkeit führt also in eine Sackgasse. Wir versuchen deshalb, die Schablone  auf
 \texttt{lis-1} 
@@ -999,10 +999,10 @@ sind sie in Scheme bereits unter den Namen
 Listen sind, was Datenstrukturen betrifft, eine Art Alleskleber:
 Sie taugen auch für die Repräsentation von Tabellen,
 Mengen und vielen anderen zusammengesetzten Daten.  Für Listen gibt es
-eine riesige Anzahl praktischer Prozeduren, von denen die Prozeduren in
+eine riesige Anzahl praktischer Funktionen, von denen die Funktionen in
 diesem Kapitel nur die Spitze des Eisberges sind.  Da 
 Listen in Scheme fest eingebaut sind, können sie als universelles
-Kommunikationsmittel zwischen Programmen dienen, weil sich Prozeduren
+Kommunikationsmittel zwischen Programmen dienen, weil sich Funktionen
 auf Listen aus einem Programm auch in einem anderen verwenden lassen.
 Dies unterscheidet Scheme von vielen anderen Programmiersprachen, in
 denen Listen vom Programmierer selbst definiert werden müssen oder nur
@@ -1023,14 +1023,14 @@ bessere Lösung mit Listen oder anderen Repräsentationen finden.
 \end{aufgabe}
 
 \begin{aufgabe}
-Schreiben Sie folgende Prozeduren auf Listen:
+Schreiben Sie folgende Funktionen auf Listen:
   
   \begin{enumerate} 
     
-  \item Eine Prozedur \texttt{count-zeroes}, die die Anzahl von Nullen
+  \item Eine Funktion \texttt{count-zeroes}, die die Anzahl von Nullen
     in einer Liste von Zahlen berechnet.
     
-  \item Eine Prozedur \texttt{contains>10?}, die feststellt, ob eine
+  \item Eine Funktion \texttt{contains>10?}, die feststellt, ob eine
     Liste von Zahlen eine Zahl enthält, die größer als 10 ist.
     
   \item Eine Prozedur \texttt{list-length}, die die Länge einer Liste
@@ -1057,11 +1057,11 @@ Schreiben Sie folgende Prozeduren auf Listen:
     Ackerbestandteile an, die Sie in den nächsten Teilaufgaben in
     Testfällen verwenden können.
 
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{edible-potato?}, die überprüft ob ein übergebener
     Ackerbestandteil eine essbare Kartoffel ist.
 
-  \item Schreiben Sie eine Prozedur \texttt{weight}, 
+  \item Schreiben Sie eine Funktion \texttt{weight}, 
     die das Gewicht eines beliebigen Ackerbestandteils zurückgibt.
 
   \item Schreiben Sie eine Daten- und Recorddefinition
@@ -1069,20 +1069,20 @@ Schreiben Sie folgende Prozeduren auf Listen:
     Geben Sie außerdem mindestens fünf verschiedene Beispiele für Listen
     mit Ackerbestandteilen an.
 
-  \item Schreiben Sie eine Prozedur \texttt{total-weight},
+  \item Schreiben Sie eine Funktion \texttt{total-weight},
     die eine Liste von Ackerbestandteilen akzeptiert und das Gesamtgewicht
     aller Ackerbestandteile in der Liste ausrechnet.
 
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{total-edible-potatoes-weight}, die eine Liste von Ackerbestandteilen
     akzeptiert und das Gesamtgewicht aller essbaren Kartoffeln in der Liste
     ausrechnet.
 
-  \item Schreiben Sie eine Prozedur \texttt{count}, die 
+  \item Schreiben Sie eine Funktion \texttt{count}, die 
     eine Liste von Ackerbestandteilen akzeptiert und die Anzahl der
     Ackerbestandteile in der Liste bestimmt.
 
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{count-edible-potatoes}, die eine Liste von
     Ackerbestandteilen akzeptiert und die Anzahl der essbaren
     Kartoffeln in der Liste bestimmt.
@@ -1092,32 +1092,32 @@ Schreiben Sie folgende Prozeduren auf Listen:
     kommt deswegen mit großen Steinen und Erdklumpen nicht klar.  Der
     Erntevorgang wird abgebrochen, sobald ein Stein oder ein
     Erdklumpen, der schwerer als 1kg ist, in die Maschine gerät.
-    Schreiben Sie die Prozedur \texttt{harvester}, die diesen Vorgang
-    simuliert. Als Eingabe bekommt diese Prozedur eine Liste von
+    Schreiben Sie die Funktion \texttt{harvester}, die diesen Vorgang
+    simuliert. Als Eingabe bekommt diese Funktion eine Liste von
     Ackerbestandteilen, die sie nach und nach abarbeitet.
     Herauskommen soll eine Liste von Ackerbestandteilen, in der die
     geerneteten essbaren Kartoffeln enthalten sind.  Schreiben Sie
     ausreichend Testfälle, beachten Sie auch den Fall, dass die
-    Maschine im Leerlauf betrieben wird.  Verwenden Sie die Prozeduren
+    Maschine im Leerlauf betrieben wird.  Verwenden Sie die Funktionen
     aus den vorherigen Aufgabenteilen.
 
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{heaviest-potato}, die aus einer Liste von
     Ackerbestandteilen die schwerste essbare Kartoffel heraussucht und
     zurückgibt.  Wenn in der Liste keine essbare Kartoffel enthalten ist, soll
     die Prozedur \verb|#f| zurückgeben.
 
-    \item Schreiben Sie eine Prozedur
+    \item Schreiben Sie eine Funktion
       \texttt{filter-edible-potatoes}, die eine Liste von
       Ackerbestandteilen akzeptiert und essbaren Kartoffeln als Liste
       zurückgibt.
 
-    \item Schreiben Sie eine Prozedur
+    \item Schreiben Sie eine Funktion
       \texttt{drop-stones}, die eine Liste von Ackerbestandteilen
       akzeptiert und eine Liste zurückgibt, in der es keine Steine mehr
       gibt.
 
-    \item Schreiben Sie eine Prozedur
+    \item Schreiben Sie eine Funktion
       \texttt{average-weight-edible-potatoes}, die eine Liste von
       Ackerbestandteilen akzeptiert und das durchschnittliche Gewicht
       der essbaren Kartoffeln berechnet.
@@ -1149,7 +1149,7 @@ Schreiben Sie folgende Prozeduren auf Listen:
     Li-Ionen-Zellen durch, schreiben Sie die Datendefinitionen auf und
     setzen Sie die Datendefinitionen um.
 
-  \item Schreiben Sie folgende Prozeduren:
+  \item Schreiben Sie folgende Funktionen:
 
     \begin{itemize}
     \item \texttt{cell-full?}, die überprüft, ob eine
@@ -1171,7 +1171,7 @@ Schreiben Sie folgende Prozeduren auf Listen:
 
     \end{itemize}
 
-  \item Schreiben Sie folgende Prozeduren:
+  \item Schreiben Sie folgende Funktionen:
 
     \begin{itemize}
     \item \texttt{battery-full?}, die überprüft, ob ein Akku
@@ -1197,22 +1197,22 @@ Schreiben Sie folgende Prozeduren auf Listen:
       werden!}
 
   \item Das Ladegerät kann eine Zelle um 500mAh pro Stunde
-    aufladen.  Schreiben Sie eine Prozedur \\
+    aufladen.  Schreiben Sie eine Funktion \\
     \texttt{time-to-fully-charge-cell}, die ausrechnet, wieviele
     Stunden es dauert, bis das Ladegerät die Zelle aufgeladen hat.
 
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{time-to-fully-charge-battery}, die ausrechnet, wieviele
     Stunden es dauert, bis das Ladegerät den Akku aufgeladen hat.
 
-  \item Schreiben Sie eine Prozedur \texttt{charge-cell}, die eine
+  \item Schreiben Sie eine Funktion \texttt{charge-cell}, die eine
     Zelle und eine Zeit in Stunden konsumiert und die Zelle
     zurückgibt, die mit dem in der vorherigen Teilaufgabe genannten
     Ladegerät für die übergebene Zeit geladen wurde.  Die Ladung darf
     aber nicht über die maximale Ladung steigen!  Die restliche Zeit
     verfällt, wenn die Zelle bereits voll ist.
 
-  \item Schreiben Sie eine Prozedur \texttt{charge-battery}, die einen
+  \item Schreiben Sie eine Funktion \texttt{charge-battery}, die einen
     Akku auflädt.  Die Prozedur gibt einen Akku zurück, der mit dem
     Ladegerät für die übergebene Zeit geladen wurde.  Ist eine Zelle
     vollständig geladen, so wird die nächste Zelle mit der restlichen
@@ -1222,16 +1222,16 @@ Schreiben Sie folgende Prozeduren auf Listen:
   \item Das Entladen einer Zelle hängt vom Verbraucher ab: Ein Gerät
     hat einen Verbrauchswert, angegeben in mA.  Anschaulich betrachtet
     heißt das, dass das Gerät pro Zeit eine gewissen Strom verbraucht.
-    Schreiben Sie eine Prozedur \texttt{time-to-fully-discharge-cell},
+    Schreiben Sie eine Funktion \texttt{time-to-fully-discharge-cell},
     die eine Zelle und einen Verbrauch pro Stunde konsumiert und
     ausrechnet, wie lange es dauert, bis die Zelle entladen ist.
 
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{time-to-fully-discharge-battery}, die einen Akku und einen
     Verbrauch pro Stunde konsumiert, und ausrechnet, wie lange es
     dauert, bis der Akku entladen ist.
 
-  \item Schreiben Sie eine Prozedur \texttt{discharge-cell}, die eine
+  \item Schreiben Sie eine Funktion \texttt{discharge-cell}, die eine
     Zelle, einen Verbrauch pro Stunde und die Dauer (in Stunden)
     konsumiert, für die der Verbraucher den Strom der Zelle
     verbraucht.  Die Prozedur soll eine Zelle zurückgeben, die für die
@@ -1240,9 +1240,9 @@ Schreiben Sie folgende Prozeduren auf Listen:
     verfällt, wenn die Zelle bereits leer ist (tatsächlich geht dem
     Verbraucher einfach der Strom aus...).
 
-  \item Schreiben Sie eine Prozedur \texttt{discharge-battery}, die
+  \item Schreiben Sie eine Funktion \texttt{discharge-battery}, die
     eine Batterie, einen Verbrauch pro Stunde und die Dauer (in
-    Stunden) konsumiert.  Die Prozedur soll eine Batterie,
+    Stunden) konsumiert.  Die Funktion soll eine Batterie,
     zurückgeben, die für die Dauer den Verbraucher mit Strom versorgt
     hat.  Ist die Ladung einer Zelle verbraucht, wird die Ladung der
     nächsten Zelle für die verbleibende Zeit verbraucht.  Sind alle
@@ -1269,7 +1269,7 @@ Schreiben Sie folgende Prozeduren auf Listen:
   Schreiben Sie Daten- und Record-Definitionen für Stempelkarten,
   Personalakten und Überweisungen.
 
-  Schreiben Sie eine Prozedur, die eine Liste von Personalakten
+  Schreiben Sie eine Funktion, die eine Liste von Personalakten
   und eine Liste von Stempelkarten für einen Monat akzeptiert, für jeden
   Mitarbeiter die gearbeiteten Stunden aufsummiert und eine
   Liste der Überweisungen zurückliefert.
@@ -1298,7 +1298,7 @@ Schreiben Sie folgende Prozeduren auf Listen:
     Recorddefinitionen für die Fahrzeugtypen \texttt{truck}, \texttt{bus} und
     \texttt{simple-vehicle}. Dabei werden unter \texttt{simple-vehicle} die
     Fahrzeuge zusammengefasst, bei denen keine variablen Kosten anfallen.
-  \item Schreiben Sie  Prozeduren
+  \item Schreiben Sie  Funktionen
     \texttt{tax-truck}, \texttt{tax-bus} und \texttt{tax-simple-vehicle}
     zur Ermittlung der Abgaben für diese Fahrzeugtypen
   \item Definieren Sie einen Datentyp \texttt{vehicle}. Schreiben Sie eine
@@ -1309,7 +1309,7 @@ Schreiben Sie folgende Prozeduren auf Listen:
     bezahlen müssen. Die Prozedur akzeptiert eine Liste von Fahrzeugen und
     berechnet die Gesamtabgaben eines Tages.
   \end{enumerate}
-  Benutzen Sie bei jeder Prozedur und jedem Record, den Sie schreiben,
+  Benutzen Sie bei jeder Funktion und jedem Record, den Sie schreiben,
   die Konstruktionsanleitungen: Erstellen Sie zunächst
   Kurzbeschreibung, Signatur, einige Testfälle und das Gerüst der Prozedur.
   Vervollständigen Sie anschließend das Gerüst und vergewissern Sie sich,
@@ -1322,15 +1322,15 @@ Schreiben Sie folgende Prozeduren auf Listen:
   Sie dazu wie folgt vor:
 
   \begin{enumerate}
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{list-min}, die das kleinste Element einer
     Liste zurückgibt.
 
     Beispiel: \verb|(list-min (list 2 3 4 1 5 6))| ergibt \verb|1|
 
-    Wenn die Prozedur auf eine leere Liste angewendet
-    wird, soll die Prozedur eine \texttt{violation} produzieren.
-  \item Schreiben Sie eine Prozedur
+    Wenn die Funktion auf eine leere Liste angewendet
+    wird, soll die Funktion eine \texttt{violation} produzieren.
+  \item Schreiben Sie eine Funktion
     \texttt{delete-once}, die aus einer Liste von Zahlen das erste
     Vorkommen einer gegebenen Zahl entfernt.
 
@@ -1339,7 +1339,7 @@ Schreiben Sie folgende Prozeduren auf Listen:
     
     (Wenn die Liste die Zahl nicht enthält,
     soll sie unverändert zurückgegeben werden.)
-  \item  Schreiben Sie eine Prozedur \texttt{sort}, die
+  \item  Schreiben Sie eine Funktion \texttt{sort}, die
     eine Liste von Zahlen in aufsteigender Reihenfolge sortiert.
     Benutzen Sie dazu \texttt{list-min} und \texttt{delete-once}.
 
@@ -1362,35 +1362,35 @@ Schreiben Sie folgende Prozeduren auf Listen:
   \begin{enumerate}
   \item Schreiben Sie ein Prädikat für Kreaturen.
 
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{creature-power}, die eine beliebige Kreatur akzeptiert und
     deren Leistung berechnet.  Die Leistung ist die Summe aller
     Eigenschaften.
 
-  \item  Schreiben Sie eine Prozedur
+  \item  Schreiben Sie eine Funktion
     \texttt{find-optimal-breeding-partner}, die eine Grundkreatur
-    $c_1$ und eine Liste von Grundkreaturen akzeptiert.  Die Prozedur
+    $c_1$ und eine Liste von Grundkreaturen akzeptiert.  Die Funktion
     soll die Grundkreatur $c_2$ aus der Liste auswählen und
     zurückgeben, die der beste Kreuzungspartner von $c_1$ ist.  Die
     Kreuzung von $c_1$ und $c_2$ soll also unter allen möglichen
     Kreuzungen die Kreatur mit der höchsten Leistung ergeben.  Falls
-    die Liste der Grundkreaturen leer ist, soll die Prozedur \verb|#f|
+    die Liste der Grundkreaturen leer ist, soll die Funktion \verb|#f|
     zurückgeben.
 
-  \item  Schreiben Sie eine Prozedur
+  \item  Schreiben Sie eine Funktion
     \texttt{breed-optimal-partner}, die eine Grundkreatur $c_1$ und
-    eine Liste von Grundkreaturen akzeptiert.  Die Prozedur soll $c_1$
+    eine Liste von Grundkreaturen akzeptiert.  Die Funktion soll $c_1$
     mit der Grundkreatur aus der Liste kreuzen, die zur
     leistungsstärksten Kreatur führt.  Falls die Liste der
     Grundkreaturen leer ist, soll die Prozedur \verb|#f| zurückgeben.
     Benutzen Sie \texttt{find-optimal-breeding-partner}.
 
-  \item  Schreiben Sie eine Prozedur
+  \item  Schreiben Sie eine Funktion
     \texttt{optimal-breed}, die eine Liste von Grundkreaturen
-    akzeptiert.  Die Prozedur soll die beiden Grundkreaturen aus der
+    akzeptiert.  Die Funktion soll die beiden Grundkreaturen aus der
     Liste miteinander kreuzen, die unter allen möglichen Kreuzungen
     die Kreatur mit der höchsten Leistung ergeben.  Benutzen Sie die
-    Prozeduren aus den vorherigen Teilaufgaben.
+    Funktionen aus den vorherigen Teilaufgaben.
 
   \end{enumerate}
 \end{aufgabe}

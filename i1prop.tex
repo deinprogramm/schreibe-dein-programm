@@ -3,7 +3,7 @@
 % "Namensnennung 4.0 International (CC BY 4.0)"
 % http://creativecommons.org/licenses/by/4.0/deed.de
 
-\chapter{Eigenschaften von Prozeduren}
+\chapter{Eigenschaften von Funktionen}
 \label{cha:properties}
 
 Daß $1+1$ gleich $2$ ist, ist ein \textit{Beispiel} für die
@@ -12,7 +12,7 @@ für eine programmierte Version der Addition durchgehen.  Unter
 Umständen kann ein Beispiel, als Testfall formuliert, einen Fehler in
 einem Programm finden.  Allerdings ist das Formulieren von Beispielen
 mühsam.  Schlimmer noch, eine Menge von Testfällen reicht nur selten
-aus, um die Korrektheit einer Prozedur auch zu garantieren: Die
+aus, um die Korrektheit einer Funktion auch zu garantieren: Die
 Testfälle decken meist nicht alle möglichen Anwendungen einer Prozedur
 ab.  Darum ist es oft sinnvoll, statt isolierter Beispiele allgemeine
 Eigenschaften zu formulieren und zu überprüfen~-- am besten sogar,
@@ -283,7 +283,7 @@ muß ganz außen stehen, damit \drscheme{} Fehlermeldungen den dazu
 passenden Programmstellen zuordnen kann.
 
 Der Vollständigkeit halber braucht \texttt{commutativity} noch eine
-Signatur: \texttt{+} und \texttt{*} sind jeweils Prozeduren, die zwei
+Signatur: \texttt{+} und \texttt{*} sind jeweils Funktionen, die zwei
 Zahlen akzeptieren und wieder eine Zahl zurückliefern.  Der
 Rückgabewert von \texttt{commutativity} ist eine Eigenschaft, für die
 in \drscheme{} die Signatur \texttt{property} fest eingebaut ist.  Die
@@ -321,7 +321,7 @@ die boolesche Werte vergleicht, analog zu \texttt{=}, die nur Zahlen
 vergleichen kann.
 
 Schön wäre natürlich, wenn wir auch für die Kommutativität von
-\texttt{and} die obige Prozedur \texttt{commutativity} verwenden
+\texttt{and} die obige Funktion \texttt{commutativity} verwenden
 könnten: Das Problem ist aber, daß sich die Kommutativität von
 \texttt{and} an zwei weiteren Stellen von der Kommutativität für
 \texttt{*} und \texttt{+} unterscheidet, nämlich bei der Signatur
@@ -355,7 +355,7 @@ Um \texttt{commutativity} auch auf \texttt{and} und \texttt{or}
 loszulassen, gibt es allerdings noch ein weiteres Hindernis: Das
 Argument zu \texttt{op} muß eine Prozedur sein~-- \texttt{and} und
 \texttt{or} sind aber Spezialformen.  Wir können Sie aber zu
-Prozeduren machen, indem wir \texttt{lambda}s darumwickeln:
+Funktionen machen, indem wir \texttt{lambda}s darumwickeln:
 %
 \begin{alltt}
 (check-property (commutativity (lambda (a b) (and a b))
@@ -373,7 +373,7 @@ Signatur.  Wir müssen dazu die ursprüngliche Signatur
 \end{alltt}
 %
 ziemlich radikal renovieren: Das erste Argument ist zwar immer noch
-eine zweistellige Prozedur, aber nicht mehr notwendigerweise auf
+eine zweistellige Funktion, aber nicht mehr notwendigerweise auf
 rationalen Zahlen.  Wir skizzieren erstmal, was wir wissen:
 %
 \begin{alltt}
@@ -387,7 +387,7 @@ Vergleichsprozedur an dritter Stelle ist klar, daß sie ein
 genaue Signatur abhängig vom konkreten Operator und dieser (ebenfalls
 variablen) Signatur, wir müssen also Signaturvariablen verwenden.
 
-Was ist noch bekannt?  Die beiden Argumente der Prozedur \texttt{op}
+Was ist noch bekannt?  Die beiden Argumente der Funktion \texttt{op}
 müssen auf dieselbe Signatur passen, da sie ja vertauschbar sind:
 %
 \begin{verbatim}
@@ -621,16 +621,16 @@ Folgende Eigenschaften sind für binäre Prädikate denkbar:
 \end{itemize}
 \end{mantra}
 
-\section{Eigenschaften von Prozeduren auf Listen}
+\section{Eigenschaften von Funktionen auf Listen}
 
-Es wird Zeit, Eigenschaften von selbstgeschriebenen Prozeduren zu
+Es wird Zeit, Eigenschaften von selbstgeschriebenen Funktionen zu
 überprüfen.  In diesem Abschnitt geht es um einige der Prozeduren, die
 auf Listen operieren: \texttt{concatenate}, \texttt{invert},
 und \texttt{list-sum}.
 
 \subsection{Eigenschaften von \texttt{concatenate}}
 
-Die Prozedur
+Die Funktion
 \texttt{concatenate}\index{concatenate@texttt{concatenate}} aus
 Abschnitt~\ref{sec:concatenate} hängt zwei Listen aneinander.  Auch
 \texttt{concatenate} ist assoziativ: Wenn drei Listen mit Hilfe von
@@ -671,7 +671,7 @@ zuwenig Information über die zugrundeliegenden Werte liefert, als daß
 Grund müssen in \texttt{for-all} immer "`konkrete"' Signaturen ohne
 Signaturvariablen angegeben werden.  (Aus ähnlichen Gründen
 funktionieren auch einige andere Arten von Signaturen nicht bei
-\texttt{for-all}, inbesondere Record-Signaturen.  Prozedursignaturen sind
+\texttt{for-all}, inbesondere Record-Signaturen.  Funktionsignaturen sind
 allerdings zulässig und werden in Abschnitt~\ref{sec:ho-props} behandelt.)
 
 Für \texttt{concatenate} wäre es zwar gründlicher, die Tests auch noch
@@ -844,7 +844,7 @@ Symmetrie:
 
 \subsection{Eigenschaften von \texttt{invert}}
 
-Die Prozedur \texttt{invert} aus Abschnitt~\ref{sec:invert} dreht die
+Die Funktion \texttt{invert} aus Abschnitt~\ref{sec:invert} dreht die
 Reihenfolge der Elemente einer Liste um.  Eine naheliegende
 Eigenschaft von \texttt{invert} ist, daß zweimaliges Umdrehen wieder
 die Ursprungsliste liefern sollte:
@@ -871,7 +871,7 @@ benutzt werden.  Diese Änderung allein funktioniert allerdings nicht:
    (\textbf{number-list=?} lis (invert (invert lis)))))
 \end{alltt}
 %
-Die Prozedur \texttt{number-list=?} funktioniert nur auf Listen von
+Die Funktion \texttt{number-list=?} funktioniert nur auf Listen von
 Zahlen.  Es wäre möglich, \texttt{number-list=?} über der
 Vergleichsprozedur auf den Elementen zu abstrahieren, aber es wäre
 trotzdem umständliche Arbeit nur für den Zweck des Testens.  Deshalb 
@@ -902,8 +902,8 @@ Vergleich wird dabei wie bei \texttt{check-expect} angestellt.
    (expect lis (invert (invert lis)))))
 \end{alltt}
 %
-Viele Prozeduren auf Listen haben Eigenschaften, welche die Prozedur
-jeweils im Zusammenspiel mit einer oder mehreren anderen Prozeduren
+Viele Funktionen auf Listen haben Eigenschaften, welche die Funktion
+jeweils im Zusammenspiel mit einer oder mehreren anderen Funktionen
 zeigen.  Bei Prozeduren mit Listen ist es häufig interessant, das
 Zusammenspiel mit \texttt{concatenate} zu betrachten.  Damit
 \texttt{concatenate} etwas sinnvolles tun kann, sind zwei Listen
@@ -953,7 +953,7 @@ Dies läßt vermuten, daß die gesuchte Eigenschaft folgendermaßen aussieht:
            (concatenate (invert lis-2) (invert lis-1)))))
 \end{alltt}
 %
-\begin{mantra}[Eigenschaften von Prozeduren auf Listen]
+\begin{mantra}[Eigenschaften von Funktionen auf Listen]
   Prozeduren, die Listen akzeptieren, haben häufig interessante
   Eigenschaften im Zusammenspiel mit \texttt{concatenate}.
 \end{mantra}
@@ -961,7 +961,7 @@ Dies läßt vermuten, daß die gesuchte Eigenschaft folgendermaßen aussieht:
 \subsection{Eigenschaften von \texttt{list-sum}}
 
 \texttt{List-sum}\index{list-sum@\texttt{list-sum}} aus
-Abschnitt~\ref{sec:list-sum} ist, wie \texttt{invert}, eine Prozedur,
+Abschnitt~\ref{sec:list-sum} ist, wie \texttt{invert}, eine Funktion,
 die eine Liste akzeptiert.  Genau wie bei \texttt{invert} ist es eine
 gute Idee, die Interaktion zwischen \texttt{list-sum} und
 \texttt{concatenate} zu untersuchen.  Es müssen also wieder zwei
@@ -1101,31 +1101,31 @@ Meldung:
 Eigenschaft falsifizierbar mit \framebox{#<procedure:?>}
 \end{alltt}
 %
-Offenbar ist \drscheme{} also der Ansicht, es hat eine Prozedur gefunden,
+Offenbar ist \drscheme{} also der Ansicht, es hat eine Funktion gefunden,
 welche die Eigenschaft nicht erfüllt, kann aber nicht genau sagen,
 welche Prozedur: Das liegt daran, daß es prinzipiell unmöglich ist,
 zwei Prozeduren auf Gleichheit zu überprüfen~-- Gleichheit zweier
 Prozeduren heißt ja, daß die eine Prozedur angewendet auf einen Satz
-Argumente \emph{immer} das gleiche Ergebnis wie die andere Prozedur
+Argumente \emph{immer} das gleiche Ergebnis wie die andere Funktion
 liefert.  Im obigen Beispiel akzeptiert \texttt{proc} zwei
 Zeichenketten, von denen es unendlich viele gibt; die Gleichheit zu
 überprüfen, würde also unendlich lange dauern.  \texttt{Expect}
 versucht es darum gar nicht erst, sondern sieht es als notwendige
 (nicht als hinreichende) Bedingung für die Gleichheit zweier
 Prozeduren an, daß sie Wert desselben \texttt{lambda}-Ausdrucks sind.
-\texttt{Expect} testet also bei Prozeduren auf sogenannte
+\texttt{Expect} testet also bei Funktionen auf sogenannte
 \textit{intensionale Gleichheit}\index{intensionale
   Gleichheit}\index{Gleichheit!intensional}, was soviel heißt, daß
 \texttt{expect} vergleicht, \emph{auf welche Weise} die beiden
-Prozeduren entstanden sind, nicht aber, ob sich die beiden Prozeduren
+Funktionen entstanden sind, nicht aber, ob sich die beiden Funktionen
 \emph{gleich verhalten}.  Die letztere Eigenschaft heißt \textit{extensionale
   Gleichheit}\index{Gleichheit!extensional}\index{extensionale
   Gleichheit}~-- und ist, wie gesagt, nicht effektiv testbar.
 
-Der \texttt{lambda}-Ausdruck der Prozedur, die von \texttt{(curry
+Der \texttt{lambda}-Ausdruck der Funktion, die von \texttt{(curry
   (uncurry proc))} geliefert wird, ist aber der Rumpf von
 \texttt{curry}, während der \texttt{lambda}-Ausdruck von \texttt{proc}
-i.d.R.\ woanders steht; damit sind die beiden Prozeduren intensional
+i.d.R.\ woanders steht; damit sind die beiden Funktionen intensional
 ungleich, und der obige Test muß fehlschlagen, auch wenn die beiden
 Operanden von \texttt{expect} äquivalent sind.
 
@@ -1202,7 +1202,7 @@ Es gilt also:
 \end{alltt}
 %
 Dort ist der erste Teilausdruck unterstrichen, der beim ersten
-Substitutionsschritt ersetzt wird.  Wenn die Scheme-Prozedur
+Substitutionsschritt ersetzt wird.  Wenn die Scheme-Funktion
 \texttt{+} tatsächlich die mathematische Operation $+$
 realisiert,\footnote{Die Komplikationen durch inexakte Zahlen und
   Rundungen bleiben hier unberücksichtigt.}
@@ -1534,7 +1534,7 @@ Damit die die Behauptung bewiesen.
 \label{sec:invarianten}
 
 Die bisher angewendete Technik für den Beweis rekursiver Prozeduren
-mit Induktion funktioniert bei Prozeduren mit Akkumulator nicht mehr
+mit Induktion funktioniert bei Funktionen mit Akkumulator nicht mehr
 direkt: Angenommen, die Korrektheit der endrekursiven Fakuktät
 \texttt{!} aus Abschnitt~\ref{page:factorial-tail} soll ähnlich die
 die Korrektheit von \texttt{factorial} bewiesen werden.  Wieder sei
@@ -1571,9 +1571,9 @@ Hier gibt es zwar einen rekursiven Aufruf mit Argument \texttt{(-
   \valof{k} 1)}, aber \emph{der Akkumulator hat sich auch verändert.}
 Damit ist die naheliegende Induktionsannahme für \texttt{(!-helper (-
   \valof{k} 1) \valof{a})} (falls der Wert des Akkumulators
-\texttt{acc} $a$ ist) wertlos.  Prozeduren mit Akkumulator sind also
+\texttt{acc} $a$ ist) wertlos.  Funktionen mit Akkumulator sind also
 nicht nur schwieriger zu schreiben als "`regulär"' rekursive
-Prozeduren~-- sie sind auch schwerer zu beweisen.
+Funktionen~-- sie sind auch schwerer zu beweisen.
 
 Stattdessen ist es bei Prozeduren mit Akkumulator nützlich, eine
 \textit{Invariante\index{Invariante}} aufzustellen, also eine
@@ -1610,7 +1610,7 @@ rekursiven Aufruf \texttt{(!-helper \valof{n} \valof{a})} immer:
 Dies ist die Invariante von \texttt{!-helper} und heißt so, weil sie beim
 rekursiven Aufruf von \texttt{!-helper} unverändert bleibt.  Dies
 ist zunächst nur eine Behauptung, aber wenn sie gelten sollte, dann
-folgt daraus automatisch die Korrektheit der Prozedur, da bei $k=0$
+folgt daraus automatisch die Korrektheit der Funktion, da bei $k=0$
 gilt:
 %
 \begin{displaymath}
@@ -1757,7 +1757,7 @@ diese als Eigenschaften von \texttt{/} in Scheme auf.
   Eigenschaft, daß die "`Reihenfolge der Elemente der Liste keine
   Rolle spielt"' klarer zu sehen ist.
 
-  Schreiben Sie dazu eine Prozedur, welche die Reihenfolge der
+  Schreiben Sie dazu eine Funktion, welche die Reihenfolge der
   Elemente einer Liste abhängig von einer natürlichen Zahl $n$
   verändert, z.B.\ indem die $n$te Permutation der Elemente ausgewählt
   wird.
@@ -1841,7 +1841,7 @@ mit \texttt{check-property}.
 
 \begin{aufgabe}
  Beweise mit Hilfe des Substitutionsmodells, daß
-  die \texttt{concatenate}-Prozedur aus Abschnitt~\ref{sec:lists}
+  die \texttt{concatenate}-Funktion aus Abschnitt~\ref{sec:lists}
   assoziativ ist, daß also für Listen $l_1$, $l_2$ und $l_3$ gilt:
 \begin{alltt}
 (concatenate \(l\sb{1}\) (concatenate \(l\sb{2}\) \(l\sb{3}\))) \(=\) (concatenate (concatenate \(l\sb{1}\) \(l\sb{2}\)) \(l\sb{3}\))

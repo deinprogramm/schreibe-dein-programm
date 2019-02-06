@@ -237,7 +237,7 @@ schreiben.  Die Record-Definitionen sehen dann so aus:
 \end{alltt}
 %
 Es sind zwei neue Namen hinzugekommen, \texttt{dillo?} und
-\texttt{parrot?}. Dies sind spezielle Prozeduren, sogenannte
+\texttt{parrot?}. Dies sind spezielle Funktionen, sogenannte
 \texttt{Prädikate}\index{Prädikat} mit folgenden Signaturen:
 %
 \begin{verbatim}
@@ -769,11 +769,11 @@ Fertig!
     Record-Definitionen.
   \item Schreiben Sie eine Prozedur \texttt{stückpreis}, die eine Warenklasse
     konsumiert und den Stückpreis zurückgibt.
-  \item Schreiben Sie eine Prozedur \texttt{buchen}, die eine Warenklasse und die Anzahl der
+  \item Schreiben Sie eine Funktion \texttt{buchen}, die eine Warenklasse und die Anzahl der
     abzubuchenden Exemplare konsumiert, den Bestand der Warenklasse reduziert und die
     Warenklasse zurückgibt. Falls mehr Exemplare gefordert werden, als in der Warenklasse
     vorhanden sind, soll der Bestand auf 0 gesetzt werden.
-  \item Schreiben Sie eine Prozedur \texttt{haltbar?}, die eine
+  \item Schreiben Sie eine Funktion \texttt{haltbar?}, die eine
     Warenklasse und ein Datum konsumiert und \texttt{\#t} zurückgibt, falls das
     Mindesthaltbarkeitsdatum (MHD) nicht überschritten wurde. Falls kein MHD bekannt ist,
     soll \texttt{\#t} zurückgeben werden.
@@ -786,12 +786,12 @@ Fertig!
   dem vorigen Kapitel (Seite~\pageref{aufgabe:knaubichler}):
   
   \begin{enumerate}
-  \item Schreiben Sie nun eine Prozedur, die zwei
+  \item Schreiben Sie nun eine Funktion, die zwei
     Grundkreaturen in beliebiger Reihenfolge akzeptiert, die Kreuzung
     vornimmt und eine neue Kreatur zurückgibt.
     
   \item Schreiben Sie nun eine
-    Prozedur, die drei Grundkreaturen in beliebiger Reihenfolge
+    Funktion, die drei Grundkreaturen in beliebiger Reihenfolge
     akzeptiert, die Kreuzung vornimmt und eine neue Kreatur
     zurückgibt.
   \end{enumerate}
@@ -826,7 +826,7 @@ Fertig!
     \end{center}
     % \end{figure}
 
-  \item Es soll Prozeduren geben, die auf allen Formen funktionieren
+  \item Es soll Funktionen geben, die auf allen Formen funktionieren
     und Folgendes leisten:
 
     \begin{itemize}
@@ -859,7 +859,7 @@ Fertig!
 
   Zeigen Sie den Hackern, was richtiges Software-Engineering ist und
   benutzen Sie die passenden Konstruktionsanleitungen, um Repräsentationen für die Formen und die zugehörigen
-  Prozeduren zu schreiben!
+  Funktionen zu schreiben!
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -885,15 +885,15 @@ Fertig!
     Die Zeitpunkte können Sie durch Zeichenketten repräsentieren.  
     Geben Sie alle Signaturen an!
 
-  \item Schreiben Sie eine Prozedur, die einen
+  \item Schreiben Sie eine Funktion, die einen
     beliebigen Verstoß entgegennimmt und den Ort des Verstoßes
     zurückgibt.
 
-    Schreiben Sie analog eine Prozedur, die einen
+    Schreiben Sie analog eine Funktion, die einen
     beliebigen Verstoß entgegennimmt und den Zeitpunkt des Verstoßes
     zurückgibt.
 
-  \item Schreiben Sie eine Prozedur, die einen
+  \item Schreiben Sie eine Funktion, die einen
     beliebigen Verstoß entgegennimmt, diesen als Gefährdung des
     Straßenverkehrs betrachtet und wieder zurückgibt (d.~h. jeder 
     Verstoß ist ein Verstoß mit Gefährdung).
@@ -917,7 +917,7 @@ Fertig!
     Schreiben Sie Daten- und Recorddefinitionen für die verschiedenen
     Tatbestände.  Geben Sie alle Signaturen an!
 
-  \item Schreiben Sie eine Prozedur, die einen
+  \item Schreiben Sie eine Funktion, die einen
     beliebigen Tatbestand konsumiert und die Anzahl der anfallenden
     Punkte zurückliefert.
   \end{enumerate}
@@ -926,7 +926,7 @@ Fertig!
   Tatbestände berechnen:
 
   \begin{enumerate} \setcounter{enumii}{5}
-  \item Schreiben Sie eine Prozedur, die Falschparken
+  \item Schreiben Sie eine Funktion, die Falschparken
     konsumiert und ein einfaches Vergehen mit 20~Euro Bußgeld zurückgibt.
     Wenn das Falschparken eine Gefährdung des Straßenverkehrs
     darstellt (z.B.  bei Behinderung von Rettungsfahrzeugen),
@@ -962,9 +962,9 @@ Fertig!
       auch keine Freiheitsstrafe)
     \end{itemize}
 
-  \item Schreiben Sie eine Prozedur, die einen
+  \item Schreiben Sie eine Funktion, die einen
     Verstoß konsumiert und dessen Folge zurückgibt.  Benutzen Sie die
-    Prozeduren aus den vorherigen Teilaufgaben.
+    Funktionen aus den vorherigen Teilaufgaben.
   \end{enumerate}
 \end{aufgabe}
 

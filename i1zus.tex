@@ -173,7 +173,7 @@ folgende Signaturen:
 %
 Mit Hilfe des Konstruktors und der Selektoren kann der Programmierer
 weitergehende Prozeduren definieren.  Für den Anfang könnte das
-eine Prozedur sein, die den Gesamtspeicher eines Computers berechnet,
+eine Funktion sein, die den Gesamtspeicher eines Computers berechnet,
 also Hauptspeicher und Festplattenspeicher zusammen.
 Eine solche Prozedur müßte Kurzbeschreibung und Signatur wie folgt haben:\index{total-memory@\texttt{total-memory}}
 %
@@ -199,7 +199,7 @@ Das Gerüst müßte folgendermaßen sein:
 \end{alltt}
 %
 Um etwas aus dem Record zu berechnen, muss \texttt{total-memory} (und
-so gut wie jede andere Prozedur auch) die Bestandteile betrachten.  Es
+so gut wie jede andere Funktion auch) die Bestandteile betrachten.  Es
 ist deshalb sinnvoll, die Schablone mit den Aufrufe der Selektoren zu
 bestücken.
 %
@@ -235,7 +235,7 @@ Das Gesamtspeicher ergibt sich aus Addition der beiden Komponenten:
 Fertig!
 
 \texttt{Total-memory} ist ein Beispiel für eine Prozedur, die einen
-Record akzeptiert.  Umgekehrt gibt es auch Prozeduren, die Records
+Record akzeptiert.  Umgekehrt gibt es auch Funktionen, die Records
 produzieren.  Angenommen, unser Computerhändler bietet neben der
 Einzelkonfiguration von Prozessor, Hauptspeicher und Festplatte einige
 Standardmodelle an~-- sagen wir, ein Billigmodell, ein Modell für
@@ -245,7 +245,7 @@ muß die entsprechende Konfiguration zusammengesetzt werden.  Für die
 Standardkonfiguration gibt es drei feste Möglichkeiten, es handelt
 sich hier also um eine Aufzählung.
 
-Eine Prozedur, die zu einer Standardkonfiguration den passenden
+Eine Funktion, die zu einer Standardkonfiguration den passenden
 Computer fertigt, könnte folgende Kurzbeschreibung und Signatur haben:
 %
 \begin{verbatim}
@@ -446,7 +446,7 @@ natürliche Zahlen:
 \end{verbatim}
 %
 Es hilft dem Verständnis zumindest am Anfang, dass wird ie Signaturen
-der definierten Prozeduren hinzuschreiben.  Diese ergeben sich direkt
+der definierten Funktionen hinzuschreiben.  Diese ergeben sich direkt
 aus der Record-Definition:
 %
 \begin{verbatim}
@@ -526,7 +526,7 @@ seit Mitternacht.  Hier sind Kurzbeschreibung, Signatur, Testfälle und Gerüst:\i
     ...))
 \end{verbatim}
 %
-Da es sich bei \texttt{minutes-since-midnight} um eine Prozedur
+Da es sich bei \texttt{minutes-since-midnight} um eine Funktion
 handelt, die eine Uhrzeit als Eingabe akzeptiert, fügen wir in die
 Schablone Aufrufe der Selektoren ein:
 %
@@ -575,7 +575,7 @@ Hier ist das Gerüst:\index{minutes-since-midnight->wallclock-time@\texttt{minute
     ...))
 \end{verbatim}
 %
-Dies ist eine Prozedur, die eine Uhrzeit produziert~-- sie muss also
+Dies ist eine Funktion, die eine Uhrzeit produziert~-- sie muss also
 den Konstruktor für \texttt{wallclock"=time} aufrufen.  Daraus ergibt
 sich folgende Schablone:
 %
@@ -587,15 +587,15 @@ sich folgende Schablone:
 % 
 Um die Schablone zum Rumpf zu vervollständigen, müssen wir aus den
 Minuten seit Mitternacht \texttt{msm} zunächst die Stunde berechnen.
-Dazu brauchen wir eine Prozedur, die ganzzahlig teilt.  Die eingebaute
-Prozedur \texttt{/} macht das leider nicht:
+Dazu brauchen wir eine Funktion, die ganzzahlig teilt.  Die eingebaute
+Funktion \texttt{/} macht das leider nicht:
 %
 \begin{alltt}
 (/ 61 60)
 \evalsto 1.016
 \end{alltt}
 %
-Aber die Prozedur \texttt{quotient} hilft uns weiter:
+Aber die Funktion \texttt{quotient} hilft uns weiter:
 %
 \begin{alltt}
 (quotient 61 60)
@@ -611,7 +611,7 @@ Das können wir in der Schablone benutzen:
 \end{verbatim}
 %
 Es fehlt noch die Minute~-- dafür brauchen wir den
-Divisions\emph{rest}.  Den berechnet die eingebaute Prozedur
+Divisions\emph{rest}.  Den berechnet die eingebaute Funktion
 \texttt{remainder}:
 %
 \begin{alltt}
@@ -695,7 +695,7 @@ schon in der Record-Definition.
 
 \subsection{Zusammengesetzte Daten als Eingabe}
 
-Wenn Sie eine Prozedur schreiben, die zusammengesetzte Daten als
+Wenn Sie eine Funktion schreiben, die zusammengesetzte Daten als
 Eingabe akzeptiert (das ergibt sich aus der Signatur), gehen Sie nach
 Schreiben des Gerüstes folgendermaßen vor:
 %
@@ -722,7 +722,7 @@ entsprechenden Record konstruieren und deshalb den Konstruktor aufrufen.
 Die Schablone ergibt sich folgendermaßen:
 %
 \begin{quote}
-  Wenn die Prozedur zusammengesetzte Daten als Ausgabe hat, schreiben
+  Wenn die Funktion zusammengesetzte Daten als Ausgabe hat, schreiben
   Sie einen Aufruf des passenden Record-Konstruktors in den Rumpf,
   zunächst mit einer Ellipse für jedes Feld des Records.
 \end{quote}
@@ -731,7 +731,7 @@ Die Schablone ergibt sich folgendermaßen:
 \label{sec:armadillo}
 
 In diesem Abschnitt kombinieren wir die Kombination von Ein- und
-Ausgabe zusammengesetzter Daten in einer einzigen Prozedur.
+Ausgabe zusammengesetzter Daten in einer einzigen Funktion.
 
 Im Beispiel dafür geht es um Gürteltiere in Texas:
 Die überqueren insbesondere die Highways
@@ -997,7 +997,7 @@ Fertig!
   \end{itemize}
 
   \textbf{Hinweis:} Zur Lösung der Aufgabe brauchen Sie die eingebaute
-  Prozedur
+  Funktion
   % 
   \begin{center}
     \texttt{(: gcd (number number -> number))},
@@ -1029,7 +1029,7 @@ Fertig!
 \end{verbatim}
     (Dabei ist angenommen, dass die Record-Definition für ein Qux
     den Namen \texttt{qux} hat.) Entwickeln Sie daraus Gerüst und
-    Schablone der zu schreibenden Prozedur.  Identifizieren Sie die dazu
+    Schablone der zu schreibenden Funktion.  Identifizieren Sie die dazu
     benutzten Konstruktionsanleitungen.
   \end{enumerate}
 
@@ -1047,7 +1047,7 @@ Fertig!
     die Uhrzeit (es wird nur in Stunden gerechnet) und der Name des Dozenten, der
     den Raum belegt.
 
-  \item Schreiben Sie eine Prozedur \texttt{reserve}, die als Argumente einen Eintrag und einen
+  \item Schreiben Sie eine Funktion \texttt{reserve}, die als Argumente einen Eintrag und einen
     Dozentennamen konsumiert und einen Eintrag zurückgibt. Falls der Raum noch nicht belegt
     wurde (d.h. im Eintrag ist der Dozentenname "`"'), soll der Raum reserviert werden und
     damit ein neuer Eintrag zurückgegeben werden, bei dem der Dozentenname gesetzt ist.
@@ -1063,8 +1063,8 @@ Fertig!
   \begin{itemize}
   \item Überlegen Sie sich, wie Sie für einen Computer einen
     geeigneten Preis abhängig von der Konfiguration berechnen würden.
-    Schreiben Sie eine Prozedur, welche Ihre Methode realisiert.
-  \item Schreiben Sie eine Prozedur, die den Speicher eines Computers
+    Schreiben Sie eine Funktion, welche Ihre Methode realisiert.
+  \item Schreiben Sie eine Funktion, die den Speicher eines Computers
     erweitert.  Sie akzeptiert einen Computer und eine Zahl und liefert
     einen neuen Computer, bei dem der Hauptspeicher um die Zahl erhöht
     ist.
@@ -1084,12 +1084,12 @@ Fertig!
   \item Erstellen Sie eine Datendefinition \texttt{cake}
     für Kuchen.  Diese enthält einen Teig, eine Backdauer in Minuten und 
     das Endgewicht des Kuchens.
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{ingredients->dough} welche eine Anzahl an Eiern, eine
     Menge Mehl in Gramm, eine Menge Zucker in Gramm und eine
     Menge Wasser in Milliliter erhält und daraus einen Teig
     herstellt. Gehen Sie davon aus, dass jedes Ei 64g wiegt.
-  \item Schreiben Sie eine Prozedur \texttt{bake-cake}. 
+  \item Schreiben Sie eine Funktion \texttt{bake-cake}. 
     Diese erhält einen Teig, eine Backdauer in Minuten und erstellt einen 
     Kuchen.  Gehen Sie davon aus, dass nach dem Backen noch 80\% des
     Wassers im Kuchen sind.
@@ -1107,16 +1107,16 @@ Fertig!
   beziehungsweise Stunde und Minute.
 
   \begin{enumerate}
-  \item Schreiben Sie eine Prozedur \texttt{date-ok?}, die feststellt,
+  \item Schreiben Sie eine Funktion \texttt{date-ok?}, die feststellt,
     ob ein Datums-Objekt einem tatsächlichen Kalenderdatum entspricht,
     also korrekte Daten wie 1.1.1970 von unsinnigen wie 34.17.2006
     unterscheidet. Lassen Sie dazu Schaltjahre außer Acht. Beachten
     Sie die Monate mit 28, 30 und 31 Tagen.
-  \item Schreiben Sie eine Prozedur \texttt{date-equal?}, die
+  \item Schreiben Sie eine Funktion \texttt{date-equal?}, die
     vergleicht, ob zwei Datums-Objekte gleich sind.
-  \item Schreiben Sie eine Prozedur \texttt{time-ok?}, die feststellt,
+  \item Schreiben Sie eine Funktion \texttt{time-ok?}, die feststellt,
     ob ein Zeit-Objekt einer tatsächlichen Uhrzeit entspricht.
-  \item Schreiben Sie eine Prozedur \texttt{time-overlap?}, die
+  \item Schreiben Sie eine Funktion \texttt{time-overlap?}, die
     überprüft, ob sich zwei Zeiten mit einer jeweils gegebenen Dauer
     (in Minuten) überschneiden. Gehen Sie davon aus, dass es sich um
     Zeiten desselben Tages handelt.
@@ -1127,7 +1127,7 @@ Fertig!
   \end{enumerate}
   %
   \textbf{Hinweis:} Zur Lösung der Aufgabe kann die eingebaute
-  Prozedur
+  Funktion
   \begin{center}
     \texttt{(: remainder natural natural -> natural)}
   \end{center}
@@ -1172,7 +1172,7 @@ Fertig!
     und "'Benzinauto"'. Gehen Sie davon aus, dass die Busse der
     Schadstoffklasse~2, das Dieselauto der Schadstoffklasse~3 und das
     Benzinauto der Schadstoffklasse~4 angehören.
-  \item Schreiben Sie eine Prozedur \texttt{fahrverbot?},
+  \item Schreiben Sie eine Funktion \texttt{fahrverbot?},
     welche überprüft ob ein gegebenes Fahrzeug bei einer gegebenen
     Mindest-Schadstoffklasse noch fahren darf. Gestalten Sie die Signatur
     so, dass er nur Mindest-Schadstoffklassen von 1 bis 4 akzeptiert.
@@ -1183,10 +1183,10 @@ Fertig!
   \item Bürgermeister Boris Palmer hat die Idee, den Tourismus
     dadurch anzukurbeln, dass Sonntags auch Reisebusse die Mühlstrasse in
     der gesperrten Richtunge befahren dürfen. Erweitern Sie hierfür die
-    Prozedur \texttt{sonderrecht?} um den Wochentag und lassen Sie Sonntags
+    Funktion \texttt{sonderrecht?} um den Wochentag und lassen Sie Sonntags
     auch Reisebusse zu.
   \end{enumerate}
-  Verwenden Sie beim Schreiben der Prozedur die
+  Verwenden Sie beim Schreiben der Funktion die
   Konstruktionsanleitungen für Prozeduren und für Fallunterscheidungen. 
   Schreiben Sie Testfälle, die alle Möglichkeiten der   
   Fallunterscheidung abdecken.
@@ -1204,13 +1204,13 @@ Fertig!
     mit Hausnummer, die Postleitzahl, der Ort und das Land.
     
   \item Der Paketdienst verlangt einen Zuschlag für Sendungen, die
-    international verschickt werden.  Schreiben Sie eine Prozedur
+    international verschickt werden.  Schreiben Sie eine Funktion
     \texttt{international?}, die als Argument eine \textit{Adresse}
     bekommt und feststellt, ob die Adresse im Ausland liegt.
 
   \item Der Paketdienst hat einen Sondertarif für Sendungen, die
     innerhalb der gleichen Postleitzahl verschickt werden.  Schreiben
-    Sie eine Prozedur \texttt{same-zip-code?}, die als Argumente zwei
+    Sie eine Funktion \texttt{same-zip-code?}, die als Argumente zwei
     \textit{Adressen} bekommt und feststellt, ob die Postleitzahlen
     und die Länder der beiden Adressen gleich sind.
 
@@ -1241,7 +1241,7 @@ Fertig!
     und eine Zusatz\-option Nachnahme.  Die Beförderungsdauer soll
     \emph{normal}, \emph{next-day} oder \emph{next-morning} sein.
 
-  \item Schreiben Sie eine Prozedur \texttt{parcel-size-class}, die
+  \item Schreiben Sie eine Funktion \texttt{parcel-size-class}, die
     als Argument ein \textit{Paket} bekommt und die Größenklasse
     zurückgibt.  Ausschlaggebend für die Paketgröße ist die Abmessung
     (siehe oben).  Folgende Tabelle enthält die Zuordnung von
@@ -1257,7 +1257,7 @@ Fertig!
       \end{tabular}
     \end{center}
 
-  \item Schreiben Sie eine Prozedur \texttt{calculate-base-postage},
+  \item Schreiben Sie eine Funktion \texttt{calculate-base-postage},
     die als Argument ein \textit{Paket} bekommt und die
     Basis-Portokosten für dieses Paket berechnet.  Legen Sie dabei
     folgende Grundtariftabelle des Paketdienstes zugrunde:
@@ -1275,7 +1275,7 @@ Fertig!
 
     
 
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{transportation-time-factor}, die als Argument ein
     \textit{Paket} bekommt und den Aufschlagsfaktor für die
     Beförderungsdauer zurückliefert.  Legen Sie dabei folgende
@@ -1292,7 +1292,7 @@ Fertig!
       \end{tabular}
     \end{center}
     
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{cash-on-delivery-surcharge}, die als Argument ein
     \textit{Paket} bekommt und den Aufschlag für die Nachnahme
     zurückliefert.  Legen Sie dabei folgende Aufschläge zugrunde:
@@ -1306,7 +1306,7 @@ Fertig!
       \end{tabular}
     \end{center}
 
-  \item Schreiben Sie eine Prozedur \texttt{calculate-postage}, die
+  \item Schreiben Sie eine Funktion \texttt{calculate-postage}, die
     als Argument ein \textit{Paket} bekommt und die Portokosten
     berechnet.  Benutzen Sie dafür die von Ihnen programmierten
     Lösungen der verschiedenen Teilprobleme.
@@ -1368,10 +1368,10 @@ Fertig!
 
   \item Machen Sie eine Datenanalyse und erstellen
     Sie passende Daten- und Recorddefinitionen.  Geben Sie alle
-    Signaturen der Record-Prozeduren an!
+    Signaturen der Record-Funktionen an!
 
   \item Schreiben Sie für jede der oben aufgelisteten
-    Kreuzungen von zwei Grundkreaturen eine Prozedur, die die Kreuzung
+    Kreuzungen von zwei Grundkreaturen eine Funktion, die die Kreuzung
     vornimmt und eine neue Kreatur zurückgibt.
   \end{enumerate}
 \end{aufgabe}

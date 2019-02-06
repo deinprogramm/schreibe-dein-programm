@@ -6,7 +6,7 @@
 \chapter{Programmieren mit Akkumulatoren}
 \label{cha:accu}
 
-Bei den rekursiven Prozeduren der vergangenen Kapitel war der Wert
+Bei den rekursiven Funktionen der vergangenen Kapitel war der Wert
 eines rekursiven Aufrufs stets unabhängig vom Kontext: Die Fakultät
 von 4 "`wußte nicht"', daß sie später noch mit 5 multipliziert wird,
 die Summe der Zahlen von 1 bis 4 "`wußte nicht"', daß später noch 5
@@ -23,7 +23,7 @@ Konstruktionsanleitungen.
 \section{Zwischenergebnisse mitführen}
 \label{sec:intermediate-results}
 
-Gefragt ist eine Prozedur, welche eine Liste invertiert, also die
+Gefragt ist eine Funktion, welche eine Liste invertiert, also die
 Reihenfolge ihrer Elemente umdreht:\index{invert@\texttt{invert}}\label{sec:invert}
 %
 \begin{verbatim}
@@ -51,7 +51,7 @@ in umgekehrter Reihenfolge.  Falls \texttt{lis}, wie im zweiten
 Testfall, also die Liste \verb|#<list 1 2 3 4>| ist, so ist der
 invertierte Rest \verb|#<list 4 3 2>|.  Das gewünschte Ergebnis
 \verb|#<list 4 3 2 1>| entsteht durch das Anhängen des ersten Elements
-\emph{hinten} an die Liste.  Durch Wunschdenken wird eine Prozedur
+\emph{hinten} an die Liste.  Durch Wunschdenken wird eine Funktion
 \texttt{append-element}\index{append-element@\texttt{append-element}}
 angenommen, die hinten an eine Liste ein Element anhängt:
 %
@@ -109,7 +109,7 @@ Die Schablone läßt sich leicht vervollständigen:
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.5\textwidth]{invert-calls.eps}
-  \caption{Prozeduraufrufe bei \texttt{invert}}
+  \caption{Funktionaufrufe bei \texttt{invert}}
   \label{fig:invert-calls}
 \end{figure}
 %
@@ -135,7 +135,7 @@ inakzeptabel: Listen der Länge 10000 sind nichts ungewöhnliches, und
 das Invertieren sollte dem Computer leichtfallen.
 
 Tatsächlich gibt es eine bessere Methode, eine Liste umzudrehen: Die
-obige \texttt{invert}"=Prozedur konstruiert die Ergebnisliste, indem
+obige \texttt{invert}"=Funktion konstruiert die Ergebnisliste, indem
 stets Elemente \emph{hinten} angehängt werden.  Das entspricht 
 nicht der "`natürlichen"' Konstruktion von Listen mit
 \texttt{make-pair}, das ein Element \emph{vorn} anhängt.  
@@ -283,7 +283,7 @@ gut nachvollziehen läßt:
 \end{alltt}
 %
 Tatsächlich arbeitet die neue Prozedur auch effizienter: Da
-\texttt{invert-helper} nicht bei jedem Aufruf selbst wieder eine Prozedur
+\texttt{invert-helper} nicht bei jedem Aufruf selbst wieder eine Funktion
 aufruft, die eine komplette Liste verarbeitet, steigt die Rechenzeit
 nur noch proportional zur Länge der Liste.
 
@@ -298,7 +298,7 @@ in den Ausdrücken selbst nicht sichtbar sind, sind bei \texttt{letrec}\index{let
 die Bindungen sichtbar.  
 \end{feature}
 
-Die Prozedur \texttt{invert-helper} wird nur an einer einzigen Stelle
+Die Funktion \texttt{invert-helper} wird nur an einer einzigen Stelle
 aufgerufen, und zwar innerhalb von \texttt{invert}. Es würde auch kaum einen
 Sinn ergeben, \texttt{invert-helper} von einer anderen Stelle aus
 aufzurufen. Deshalb bietet es sich an, für \texttt{invert-helper} eine lokale
@@ -414,7 +414,7 @@ Schablone für Prozeduren mit Akkumulator, die Listen akzeptieren:
     (proc-helper lis z))))
 \end{alltt}
 %
-Hier ist \texttt{proc} der Name der zu definierenden Prozedur
+Hier ist \texttt{proc} der Name der zu definierenden Funktion
 und \texttt{proc-helper} der Name der Hilfsprozedur mit
 Akkumulator.  Der Anfangswert für den Akkumulator~-- also das initiale
 Zwischenergebnis~-- ist der Wert von \texttt{z}.  Der
@@ -537,7 +537,7 @@ der Rumpf bei $\texttt{n} \neq 0$ reduziert wird, \texttt{(!-helper (- n 1)
   (* n acc))}.  Der Kontext des Aufrufs von \texttt{!-helper} innerhalb
 dieses Ausdrucks ist \texttt{[]}, also \emph{leer}~-- \emph{nichts}
 passiert mehr mit dem Rückgabewert von \texttt{!-helper}, und damit stauen
-sich auch bei der Reduktion keine Kontexte an.  Solche Prozeduraufrufe
+sich auch bei der Reduktion keine Kontexte an.  Solche Funktionaufrufe
 ohne Kontext heißen \textit{endrekursiv\index{endrekursiv}}~-- eben,
 weil nach dem rekursiven Aufruf "`Ende"' ist.\footnote{Das Konzept des
   Aufrufs ohne Kontext ist nicht auf rekursive Aufrufe beschränkt.  Im
@@ -551,7 +551,7 @@ werden, heißen auch \textit{iterative\index{Iteration}} Prozesse.
 Die beiden Varianten der Fakultäts-Prozedur berechnen zwar beide 
 stets das gleiche Ergebnis.  Die beiden Reduktionsfolgen für
 \texttt{(! 4)} aus dem vorigen Abschnitt zeigen allerdings, daß die
-beiden Prozeduren bei der Berechnung unterschiedlich vorgehen:
+beiden Funktionen bei der Berechnung unterschiedlich vorgehen:
 Während die Variante ohne Akkumulator "`von rechts"' multipliziert,
 also folgendermaßen auswertet:
 %
@@ -569,7 +569,7 @@ Die Multiplikationen passieren also in umgekehrter Reihenfolge.
 Dies macht bei der Fakultät keinen Unterschied, da die Multiplikation
 assoziativ ist.  Diese Assoziativität ist jedoch nicht immer
 gegeben~-- insbesondere nicht bei Prozeduren, die Listen zurückgeben.
-Hier zum Beispiel eine Prozedur, die eine Zahl $n$ akzeptiert und eine
+Hier zum Beispiel eine Funktion, die eine Zahl $n$ akzeptiert und eine
 absteigende Liste der Zahlen von $n$ bis $1$ zurückliefert:
 %
 \begin{verbatim}
@@ -641,15 +641,15 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie eine Prozedur \texttt{list-sum+product}, die eine
+  Schreiben Sie eine Funktion \texttt{list-sum+product}, die eine
   Liste von Zahlen akzeptiert und eine zweielementige Liste
   zurückgibt, deren erstes Element die Summe der Listenelemente und
   deren zweites Element ihr Produkt ist.  Schreiben Sie zwei Varianten
-  der Prozedur: eine ohne Akkumulator und eine mit zwei Akkumulatoren.
+  der Funktion: eine ohne Akkumulator und eine mit zwei Akkumulatoren.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie eine Prozedur, die als Eingabe eine Liste von Kursen
+  Schreiben Sie eine Funktion, die als Eingabe eine Liste von Kursen
   einer Aktie (als Zahlen) eines Tages akzeptiert (nach Tageszeit
   aufsteigend sortiert), und als Rückgabewert den höchstmöglichen
   Gewinn liefert, die durch den Kauf und folgenden Verkauf der Aktie
@@ -659,12 +659,12 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreibe zu der Prozedur \texttt{power} aus Aufgabe~\ref{aufg:power} eine
+  Schreibe zu der Funktion \texttt{power} aus Aufgabe~\ref{aufg:power} eine
   endrekursive Variante.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Identifizieren Sie die Kontexte der Aufrufe der Prozeduren namens
+  Identifizieren Sie die Kontexte der Aufrufe der Funktionen namens
   \texttt{p} in folgenden Ausdrücken:
   
 \begin{verbatim}

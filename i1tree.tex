@@ -225,13 +225,13 @@ der Tiefen der Teilbäume:
                (depth (node-right-branch t))))))))
 \end{alltt}
 %
-(\texttt{Max}\index{max@\texttt{max}} ist eine eingebaute Prozedur in
+(\texttt{Max}\index{max@\texttt{max}} ist eine eingebaute Funktion in
 Scheme, die das Maximum ihrer Argumente ermittelt.)
 
 Auch \texttt{depth} folgt einer 
 Schablone, die für viele Prozeduren auf Bäumen
 gilt; Aufgabe~\ref{ex:recipe-trees} beschäftigt sich damit.
-Ihr folgt auch die Prozedur \texttt{node-count}, welche die Anzahl der
+Ihr folgt auch die Funktion \texttt{node-count}, welche die Anzahl der
 Knoten in einem Binärbaum liefert:\index{node-count@\texttt{node-count}}
 %
 \begin{alltt}
@@ -307,8 +307,8 @@ Bäume sind auch Suchbäume parametrisch:
 %
 \begin{alltt}
 ; Ein Suchbaum besteht aus
-; - einer Prozedur, die zwei Markierungen auf Gleichheit testet,
-; - einer Prozedur, die vergleicht, ob eine Markierung kleiner als die andere ist
+; - einer Funktion, die zwei Markierungen auf Gleichheit testet,
+; - einer Funktion, die vergleicht, ob eine Markierung kleiner als die andere ist
 ; - einem Binärbaum
 (: make-search-tree ((%a %a -> boolean) 
                      (%a %a -> boolean) 
@@ -360,7 +360,7 @@ aber schon ein Beispiel zu Testzwecken:
                          the-empty-tree))))
 \end{alltt}
 %
-Die nachfolgende Prozedur \texttt{search"=tree"=member?} 
+Die nachfolgende Funktion \texttt{search"=tree"=member?} 
 stellt fest, ob ein Knoten mit Markierung \texttt{l} in einem
 Suchbaum \texttt{s} vorhanden ist. Die eigentliche Arbeit
 macht die lokale Hilfsprozedur \texttt{member?},\index{search-tree-member?@\texttt{search-tree-member?}}
@@ -455,8 +455,8 @@ die 5, nicht aber die anderen beiden Elemente:\label{label:non-search-tree}
 \end{alltt}
 %
 Aus diesem Grund sollte \texttt{make-search-tree} nur "`intern"'
-verwendet werden.   Ansonsten sollten nur die Prozeduren \texttt{make"=empty"=search"=tree} und eine
-neue Prozedur \texttt{search"=tree"=insert} verwendet werden, die
+verwendet werden.   Ansonsten sollten nur die Funktionen \texttt{make"=empty"=search"=tree} und eine
+neue Funktion \texttt{search"=tree"=insert} verwendet werden, die
 ein neues Element in den
 Suchbaum einfügt und dabei die Suchbaumeigenschaft
 erhält.\index{search-tree-insert@\texttt{search-tree-insert}}
@@ -545,7 +545,7 @@ zurückgeben.  Ansonsten muß
 und \texttt{insert} bastelt aus dem neuen Teilbaum und dem anderen, alten Teilbaum
 einen neuen Baum zusammen.
 
-Das Resultat des Aufrufs von \texttt{insert} am Ende der Prozedur wird
+Das Resultat des Aufrufs von \texttt{insert} am Ende der Funktion wird
 schließlich wieder in einen \texttt{search-tree}-Wert eingepackt,
 mit denselben \texttt{label-equal}- und \texttt{label"=less"=than}"=Operationen wie vorher.
 
@@ -591,7 +591,7 @@ ab, mit denen er konstruiert wird.  Es gibt allerdings Varianten von Suchbäumen,
 
 \section{Eigenschaften der Suchbaum-Operationen}
 
-\texttt{Search-tree-insert} ist eine der komplizierteren Prozeduren in
+\texttt{Search-tree-insert} ist eine der komplizierteren Funktionen in
 diesem Buch; es ist alles andere als offensichtlich, daß sie korrekt
 ist.  Die Testfälle mögen zwar punktuell auf die Korrektheit von
 \texttt{search-tree-insert} und \texttt{search-tree-member?}
@@ -680,7 +680,7 @@ Liste \texttt{search-tree-insert} aufruft, wird sie am einfachsten mit
 Die erste Eigenschaft~-- ob also jedes mit \texttt{search-tree-insert}
 in einen Suchbaum eingefügte Element auch von
 \texttt{search-tree-member?} gefunden wird, läßt sich jetzt mit Hilfe
-der Prozedur \texttt{every?} aus Abschnitt~\ref{page:every}
+der Funktion \texttt{every?} aus Abschnitt~\ref{page:every}
 formulieren.  (Zur Erinnerung: \texttt{every?} wendet ein Prädikat auf
 alle Elemente einer Liste an und gibt \verb|#t| zurück, wenn das
 Prädikat für jedes Element \verb|#t| liefert, sonst \verb|#f|.)
@@ -707,7 +707,7 @@ der ersten Eigenschaft ein beliebiger Suchbaum sowie ein einzelnes Element:
 %
 Der Test ist nur sinnvoll, wenn \texttt{el} \emph{nicht} Element der Liste
 \texttt{els} ist: Das muß erst einmal überprüft werden, und zwar durch
-eine Prozedur, die testet, ob ein Wert Element einer Liste ist.  Hier
+eine Funktion, die testet, ob ein Wert Element einer Liste ist.  Hier
 sind Kurzbeschreibung und Signatur:
 %
 \begin{alltt}
@@ -866,7 +866,7 @@ erfüllt offensichtlich die Suchbaumeigenschaft.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie eine Prozedur \texttt{search-tree-delete}, die ein
+  Schreiben Sie eine Funktion \texttt{search-tree-delete}, die ein
   Element aus einem Suchbaum entfernt.  Beweisen Sie, daß die Prozedur die
   Suchbaumeigenschaft erhält.
 \end{aufgabe}

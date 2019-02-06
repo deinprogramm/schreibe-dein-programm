@@ -1065,7 +1065,7 @@ Auswertungsstrategie von Scheme gelegt.  Tatsächlich definiert das
 Substitutionsmodell eine Variante der
 Call-by-Value-Auswertung.  Zur Erinnerung ist hier noch einmal die
 Definition der wichtigsten Regel des Substitutionsmodells, nämlich der für
-Prozeduranwendungen der Form \texttt{(\(p\) \(o\sb{1}\) \(\ldots\) \(o\sb{n}\))}:
+Funktionanwendungen der Form \texttt{(\(p\) \(o\sb{1}\) \(\ldots\) \(o\sb{n}\))}:
 %
 \begin{quote}
   [\ldots] Zunächst werden Operator $p$ und Operanden $o_1, \ldots, o_n$
@@ -1075,7 +1075,7 @@ Prozeduranwendungen der Form \texttt{(\(p\) \(o\sb{1}\) \(\ldots\) \(o\sb{n}\))}
 Der entscheidende Satz ist dabei der letzte:
 Er bedeutet, daß innen zuerst ausgewertet wird;
 treten bei der Auswertung von Operator und Operanden weitere
-Prozeduranwendungen auf, wird das gleiche Prinzip rekursiv angewendet.
+Funktionanwendungen auf, wird das gleiche Prinzip rekursiv angewendet.
 Damit ist das Substitutionsmodell für Scheme eng verwandt mit der
 Call-by-Value-Auswertung im Lambda-Kalkül.
 

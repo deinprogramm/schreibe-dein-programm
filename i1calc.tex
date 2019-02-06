@@ -649,7 +649,7 @@ besorgt dann den Rest.
   \begin{enumerate}
   \item Schreibe eine Datendefinition für Formeln und dazu passende
     Record-Definitionen.
-  \item Schreibe eine Prozedur \texttt{write-L1}, welche
+  \item Schreibe eine Funktion \texttt{write-L1}, welche
     $\mathcal{L}_1$-Formeln in lesbarer und vollständig geklammerter
     Form ausdruckt!  Dabei soll \texttt{T} für $\top$, \texttt{B} für
     $\bot$, \texttt{!} für die
@@ -708,7 +708,7 @@ besorgt dann den Rest.
 \end{alltt}
     
 
-  \item Schreibe eine Prozedur \texttt{reorder-sequence}, welche eine
+  \item Schreibe eine Funktion \texttt{reorder-sequence}, welche eine
     Sequenz so umsortiert, daß ein Nichtliteral vorn steht, oder
     \texttt{\#f} zurückgibt, falls das nicht möglich ist.
     
@@ -737,7 +737,7 @@ besorgt dann den Rest.
 \prints{} (((!P1)|P2)&P3)
 \end{alltt}
 
-  \item Schreibe nun eine Prozedur \texttt{tautology?}, welche eine
+  \item Schreibe nun eine Funktion \texttt{tautology?}, welche eine
     Sequenz als Parameter akzeptiert, und feststellt, ob sie beweisbar
     ist.  Diese Funktion sollte die Sequenz entweder als Axiom
     identifizieren, oder durch Zerlegung eines Nichtliterals (durch

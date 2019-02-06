@@ -98,7 +98,7 @@ rekursiver Aufruf erfolgt:
 \end{alltt}
 %
 Der rekursive Aufruf \texttt{(factorial (- n 1))} soll nach
-Signatur und Beschreibung der Prozedur das Produkt der Zahlen von 1 bis
+Signatur und Beschreibung der Funktion das Produkt der Zahlen von 1 bis
 $\texttt{n}-1$ berechnen.  Gefragt ist aber das Produkt der Zahlen von
 1 bis \texttt{n}.  Es fehlt noch \texttt{n} selbst, das mit dem
 Ergebnis multipliziert werden muß:
@@ -202,7 +202,7 @@ Konstruktionsanleitung~\ref{ka:N} in
 Anhang~\ref{app:konstruktionsanleitungen} faßt dies noch einmal
 zusammen.
 
-TDB: Prozeduren, die Listen erzeugen etc.
+TDB: Funktionen, die Listen erzeugen etc.
 
 \section*{Aufgaben}
 
@@ -218,7 +218,7 @@ TDB: Prozeduren, die Listen erzeugen etc.
 \begin{aufgabe}\label{ex:evensodds}
   \begin{itemize}
   \item
-    Die eingebaute Prozedur \texttt{even?}\index{even?@\texttt{even?}}
+    Die eingebaute Funktion \texttt{even?}\index{even?@\texttt{even?}}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
     gerade ist und \verb|#f| sonst.
     Schreiben Sie mit Hilfe von \texttt{even?}
@@ -234,7 +234,7 @@ TDB: Prozeduren, die Listen erzeugen etc.
            #<record:pair 10 #<empty-list>>>>>>
 \end{alltt}
   \item
-    Die eingebaute Prozedur \texttt{odd?}\index{odd?@\texttt{odd?}}
+    Die eingebaute Funktion \texttt{odd?}\index{odd?@\texttt{odd?}}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
     ungerade ist und \verb|#f| sonst.
     Schreiben Sie mit Hilfe von \texttt{odd?} eine Prozedur \texttt{odds}, welche für zwei
@@ -252,9 +252,9 @@ TDB: Prozeduren, die Listen erzeugen etc.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Programmieren Sie folgende Prozeduren auf Listen:
+  Programmieren Sie folgende Funktionen auf Listen:
   \begin{enumerate}
-  \item Programmieren Sie eine Prozedur \texttt{take}, die als
+  \item Programmieren Sie eine Funktion \texttt{take}, die als
     Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
     akzeptiert, und die ersten \texttt{n} Elemente der Liste
     \texttt{l} zurückgibt. Beispiel:
@@ -294,7 +294,7 @@ TDB: Prozeduren, die Listen erzeugen etc.
   %
   Die Zahlen an den Kanten des Dreiecks sind allesamt 1.  Eine Zahl im
   Innern des Dreiecks ist die Summe der beiden Zahlen darüber.
-  Schreibe eine Prozedur \texttt{pascal}, die als Argumente die Nummer
+  Schreibe eine Funktion \texttt{pascal}, die als Argumente die Nummer
   einer Zeile und die Nummer einer "`Spalte"' innerhalb des Dreiecks
   akzeptiert, und die Zahl im Pascalschen Dreieck berechnet.  (Sowohl
   Zeilen- als auch Spaltennummer fangen bei~1 an.)
@@ -306,7 +306,7 @@ TDB: Prozeduren, die Listen erzeugen etc.
 \end{aufgabe}
 
 \begin{aufgabe}\label{ex:coke-finances}
-  Schreiben Sie eine Prozedur \texttt{drink-machine}, die das
+  Schreiben Sie eine Funktion \texttt{drink-machine}, die das
   Finanzmanagement eines Getränkeautomaten durchführt.
   
   \texttt{Drink-machine} soll drei Argumente akzeptieren: den Preis eines

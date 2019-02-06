@@ -103,7 +103,7 @@ durch \verb|\"| dargestellt:
 \end{feature}
 %
 Mit Text kann DrRacket auch rechnen, und zwar mit der eingebauten
-Prozedur \texttt{string-append}\index{string-append@\texttt{string-append}}, die zwei Zeichenketten
+Funktion \texttt{string-append}\index{string-append@\texttt{string-append}}, die zwei Zeichenketten
 aneinanderhängt:
 %
 \begin{alltt}
@@ -113,7 +113,7 @@ aneinanderhängt:
 \evalsto{} "Mike ist doof"
 \end{alltt}
 %
-Die eingebaute Prozedur
+Die eingebaute Funktion
 \texttt{string-length}\index{string-length@\texttt{string-length}}
 liefert die Anzahl der Buchstaben in einer Zeichenkette:
 %
@@ -124,7 +124,7 @@ liefert die Anzahl der Buchstaben in einer Zeichenkette:
 \evalsto{} 4
 \end{alltt}
 %
-Die Prozeduren
+Die Funktionen
 \texttt{string->number}\index{string->number@\texttt{string->number}}
 und \texttt{number->string} konvertieren zwischen Zahlen und den
 Zeichenketten, die diese darstellen:
@@ -370,7 +370,7 @@ Diese Abstraktion besteht aus folgenden Bestandteilen:
 \item der Ausdruck \texttt{(/ (- m (* 2 n)) 2)}, der \textit{Rumpf\index{Rumpf}}.
 \end{itemize}
 %
-Die Abstraktion hat als Wert eine \textit{Prozedur\index{Prozedur}}.  Wenn der
+Die Abstraktion hat als Wert eine \textit{Funktion\index{Funktion}}.  Wenn der
 $lambda$-Ausdruck so in einem Programm steht, druckt beim Auswerten
 DrRacket auch aus:
 %
@@ -397,10 +397,10 @@ $n$ eingesetzt werden:
   %
   Die $p_i$ sind jeweils Namen, die \textit{Parameter}\index{Parameter}, und
   $e$ ist der \textit{Rumpf}\index{Rumpf}.  In $e$ dürfen die $p_i$
-  vorkommen.  Der Wert einer Abstraktion ist eine \textit{Prozedur}\index{Prozedur},
+  vorkommen.  Der Wert einer Abstraktion ist eine \textit{Funktion}\index{Funktion},
   welche für jeden Parameter eine Eingabe erwartet.
 
-  Eine \textit{Anwendung} einer Prozedur hat folgende Form:
+  Eine \textit{Anwendung} einer Funktion hat folgende Form:
   %
 \begin{alltt}
 (\(p\) \(a\sb{1}\) \ldots \(a\sb{n}\))
@@ -455,9 +455,9 @@ wieder zu vergessen.
 \section{Kurzbeschreibung und Signatur}
 \label{sec:sorts-and-contracts}
 
-Angenommen, die Prozedurdefinition von \texttt{parking-lot-cars} wird
+Angenommen, die Funktiondefinition von \texttt{parking-lot-cars} wird
 an jemanden weitergegeben, der dieses Buch nicht gelesen hat, aber die
-Prozedur trotzdem einsetzen soll.  Der potentielle Leser kann zwar
+Funktion trotzdem einsetzen soll.  Der potentielle Leser kann zwar
 das Scheme-Programm prinzipiell verstehen, hat aber keinen weiteren
 Hinweis darauf, wofür \texttt{parking-lot-cars} verwendet werden kann.
 
@@ -479,7 +479,7 @@ präzise auszudrücken.
 
 Als nächstes ist eine besondere Formulierung hilfreich, die
 sogenannte \textit{Signatur\index{Signatur}}. Wer nur gelesen hat, dass die
-Prozedur \texttt{parking-lot-cars} zwei Argumente \texttt{n} und
+Funktion \texttt{parking-lot-cars} zwei Argumente \texttt{n} und
 \texttt{m} hat, könnte ja auf den Gedanken kommen, einen Aufruf der
 Form
 
@@ -487,10 +487,10 @@ Form
 (parking-lot-cars "zweiundzwanzig" "achtunddreissig")
 \end{alltt}
 zu notieren.  Das wird bei der Ausführung eine Fehlermeldung erzeugen, weil die
-eingebauten Prozeduren \texttt{/}, \texttt{-} und \texttt{*} nur mit Zahlen in
+eingebauten Funktionen \texttt{/}, \texttt{-} und \texttt{*} nur mit Zahlen in
 Form von Ziffernfolgen umgehen können, aber nicht mit Zeichenketten, die
 vielleicht auch Zahlen bezeichnen könnten.  In der Tat akzeptieren fast alle
-Prozeduren nur Argumente einer ganz bestimmten \emph{Sorte}\index{Sorte}, in
+Funktionen nur Argumente einer ganz bestimmten \emph{Sorte}\index{Sorte}, in
 diesem Fall Argumente der Sorte "`natürliche Zahl"'.
 
 Hier eine Liste der wichtigsten "`eingebauten"' Sorten:
@@ -512,14 +512,14 @@ ist eine Vorstufe für die zu entwickelnde Prozedur und faßt einige
 wichtige Informationen zusammen:
 %
 \begin{enumerate}
-\item den Namen der Prozedur,
+\item den Namen der Funktion,
 \item Anzahl und Sorten der Argumente und
 \item die Sorte des Rückgabewerts der Prozedur.
 \end{enumerate}
 %
 %Die \textit{Signaturen}\index{Signaturen} beschreiben die Sorten, aus
 %denen die Argumente bzw.\ der Rückgabewert stammen.  
-Die Prozedur
+Die Funktion
 \texttt{parking-lot-cars} akzeptiert zwei natürliche Zahlen und
 liefert wieder eine natürliche Zahl.  Deshalb sieht die Signatur von
 \texttt{parking-lot-cars} so aus:
@@ -529,11 +529,11 @@ liefert wieder eine natürliche Zahl.  Deshalb sieht die Signatur von
 \end{alltt}
 %
 %Damit wird die Signatur \verb|(natural natural -> natural)| der
-%Prozedur \texttt{parking-lot-cars} zugeordnet.  
+%Funktion \texttt{parking-lot-cars} zugeordnet.  
 Diese Signatur besagt:
 %
 \begin{itemize}
-\item \texttt{Parking-lot-cars} ist eine Prozedur (das sagt der Pfeil
+\item \texttt{Parking-lot-cars} ist eine Funktion (das sagt der Pfeil
   \verb|->| zusammen mit den Klammern);
 \item \texttt{parking-lot-cars}
   \textit{akzeptiert}\index{akzeptieren} zwei Argumente (vor dem Pfeil
@@ -580,7 +580,7 @@ umfangreich oder kompliziert.
 Spätere Kapitel werden zeigen, dass sich aus vielen Signaturen ganz
 automatisch \textit{Schablonen\index{Schablone}} ergeben, die dem
 Programmierer einen Großteil der Denkarbeit bei der Entwicklung von
-Prozeduren abnehmen.
+Funktionen abnehmen.
 
 Aus diesem Grund schreiben wir in diesem Buch die
 Kurzbeschreibung und die Signatur in das Programm, \emph{bevor} wir
@@ -607,7 +607,7 @@ Schablone sind feste Bestandteile einer
 \textit{Konstruktionsanleitung\index{Konstruktionsanleitung}}, die
 systematisch beschreibt, wie eine Aufgabe schrittweise gelöst werden
 kann.  Dieses Buch wird eine Reihe von Konstruktionsanleitungen
-vorstellen, die sich stets an der Signatur einer Prozedur orientieren.
+vorstellen, die sich stets an der Signatur einer Funktion orientieren.
 Alle Mantras sind in Anhang~\ref{cha:mantras} und die
 Konstruktionsanleitungen in Anhang~\ref{app:konstruktionsanleitungen}
 zusammengefaßt.
@@ -636,10 +636,10 @@ Einfaches Ausprobieren ist da vielleicht schneller:
 \evalsto{} 0
 \end{alltt}
 %
-Bei der Entwicklung der Prozedur sollten also
+Bei der Entwicklung der Funktion sollten also
 \textit{Testfälle\index{Testfall}} konstruiert werden, die an
 ausgewählten Beispielen überprüfen, ob die gerade programmierte
-Prozedur auch korrekt funktioniert.  Testen ist eine unverzichtbare
+Funktion auch korrekt funktioniert.  Testen ist eine unverzichtbare
 Tätigkeit des Programmierers.
 
 Die Testfälle werden am besten \emph{vor} der Definition der Prozedur
@@ -685,9 +685,9 @@ in Zeile 6, Spalte 0
 
 Signaturverletzungen:
 	bekam -1 in Zeile 5, Spalte 14 , Signatur in Zeile 2, Spalte 40 
-	verantwortlich: Prozedur in Zeile 9, Spalte 2 
+	verantwortlich: Funktion in Zeile 9, Spalte 2 
 	bekam -6 in Zeile 6, Spalte 14 , Signatur in Zeile 2, Spalte 40 
-	verantwortlich: Prozedur in Zeile 9, Spalte 2 
+	verantwortlich: Funktion in Zeile 9, Spalte 2 
 \end{alltt}
 %
 Eine großzügige Verwendung
@@ -827,40 +827,40 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   \end{center}
 
   \begin{enumerate}
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{billig-strom}, die den Monatsverbrauch in Kilowattstunden
     akzeptiert und den im Tarif "`Billig-Strom"' zu zahlenden
     monatlichen Rechnungsbetrag 
     berechnet.
 
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{watt-für-wenig}, die den Monatsverbrauch in
     Kilowattstunden akzeptiert und den im Tarif "`Watt für wenig"' zu
     zahlenden monatlichen Rechnungsbetrag
     Verbrauch berechnet.
   \end{enumerate}
   %
-  Halten Sie sich bei jeder Prozedur, die Sie schreiben, an die
+  Halten Sie sich bei jeder Funktion, die Sie schreiben, an die
   Konstruktionsanleitungen: Schreiben Sie zuerst die Kurzbeschreibung
   und die Signatur.  Schreiben Sie als nächstes einige Testfälle.
   Leiten Sie danach das Gerüst von der Signatur her und vervollständigen
-  Sie den Rumpf der Prozedur.
+  Sie den Rumpf der Funktion.
 \end{aufgabe}
 
 \begin{aufgabe}
  Vervielfachung von Strings:
  \begin{itemize}
-  \item Schreiben Sie eine Prozedur \texttt{double-string}, die eine Zeichenkette konsumiert und
+  \item Schreiben Sie eine Funktion \texttt{double-string}, die eine Zeichenkette konsumiert und
     diese "`verdoppelt"', d.h., für eine Eingabe \verb|"Sperber"| den
     Rückgabewert \verb|"SperberSperber"| liefert.
     
-  \item Schreiben Sie eine Prozedur \texttt{quadruple-string}, die eine
+  \item Schreiben Sie eine Funktion \texttt{quadruple-string}, die eine
     Zeichenkette konsumiert und "`vervierfacht"'.
 
-  \item Schreiben Sie eine Prozedur \texttt{octuple-string}, die eine
+  \item Schreiben Sie eine Funktion \texttt{octuple-string}, die eine
     Zeichenkette konsumiert und "`verachtfacht"'.
 
-  \item Schreiben Sie eine Prozedur \texttt{sixteentuple-string}, die
+  \item Schreiben Sie eine Funktion \texttt{sixteentuple-string}, die
     eine Zeichenkette konsumiert und "`versechzehnfacht"'.
   \end{itemize}
   % Schreiben Sie für jede Prozedur Kurzbeschreibung, Signatur, Testfälle, Gerüst und Rumpf.
@@ -891,7 +891,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
     $v_{\text{Fluss}}$ zur Geschwindigkeit des Bootes
     $v_{\text{Boot}}$ berechnet.
 
-  \item Schreiben Sie dann eine Prozedur \texttt{other-shore-offset},
+  \item Schreiben Sie dann eine Funktion \texttt{other-shore-offset},
     die die Länge der Strecke berechnet, die das Boot abgetrieben wird
     (also den Versatz am anderen Ufer, im Schaubild die Strecke $b$).
     % Dazu müssen Sie die Breite des Flusses $a$ mit dem Verhältnis von
@@ -902,14 +902,14 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
     \begin{displaymath}
       a^2 + b^2 = c^2
     \end{displaymath}
-    Schreiben Sie eine Prozedur \texttt{pythagoras}, die $c$ der
+    Schreiben Sie eine Funktion \texttt{pythagoras}, die $c$ der
     obigen Gleichung berechnet.  Erkennen und abstrahieren Sie weitere
     Teilprobleme!
 
   \item Schreiben Sie schließlich eine Prozedur
     \texttt{boat-travel-distance}, die die tatsächliche Strecke
     berechnet, die das Boot zurücklegt.  Benutzen Sie dafür die bisher
-    geschriebenen Prozeduren.
+    geschriebenen Funktionen.
   \end{enumerate}
 \end{aufgabe}
 
@@ -926,52 +926,52 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   Schreiben Sie Prozeduren, die zwischen beiden Maßeinheiten
   umrechnen.  Gehen Sie dazu wie folgt vor:
 
-  Halten Sie sich bei jeder Prozedur, die Sie schreiben, an die
+  Halten Sie sich bei jeder Funktion, die Sie schreiben, an die
   Konstruktionsanleitungen: Schreiben Sie zuerst die Kurzbeschreibung
   und die Signatur.  Schreiben Sie als nächstes einige Testfälle.
   Leiten Sie danach das Gerüst von der Signatur her und vervollständigen
-  Sie den Rumpf der Prozedur.
+  Sie den Rumpf der Funktion.
 
   \begin{enumerate}
 
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{liters-per-hundred-kilometers}, die eine Menge Benzin in
     Liter und die Reichweite dieses Benzins in Kilometer akzeptiert
     und daraus den Verbrauch in Liter pro 100km berechnet.
 
-  \item Schreiben Sie eine Prozedur
+  \item Schreiben Sie eine Funktion
     \texttt{miles-per-gallon}, die eine Entfernung in Meilen und den
     Benzinverbrauch auf diese Entfernung in Gallonen akzeptiert und
     daraus die Reichweite in Meilen pro Gallone berechnet.
 
   \item Definieren Sie eine Konstante
     \texttt{kilometers-per-mile} (eine US-Meile entspricht etwa $1,61$
-    Kilometer) und schreiben Sie zwei Prozeduren
+    Kilometer) und schreiben Sie zwei Funktionen
     \texttt{kilometers->miles} und \texttt{miles->kilometers}, die
     jeweils eine Entfernung in einer Maßeinheit akzeptieren und die
     Entfernung in die jeweils andere Maßeinheit umrechnen.
 
   \item Definieren Sie eine Konstante
     \texttt{liters-per-gallon} (eine Gallone entspricht etwa $3,79$
-    Liter) und schreiben Sie zwei Prozeduren \texttt{liters->gallons}
+    Liter) und schreiben Sie zwei Funktionen \texttt{liters->gallons}
     und \texttt{gallons->liters}, die jeweils eine Menge in einer
     Maßeinheit akzeptieren und die Menge in die jeweils andere
     Maßeinheit umrechnen.
 
-  \item Schreiben Sie die Prozedur
+  \item Schreiben Sie die Funktion
     \texttt{l/100km->mi/gal}, die einen Verbrauch in Liter pro 100km
     akzeptiert und in die Reichweite in Meilen pro Gallone umrechnet.
     Benutzen Sie dafür die Prozeduren, die Sie in den anderen
     Teilaufgaben erstellt haben.  Sollten Sie auf weitere Teilprobleme
     stoßen, abstrahieren Sie diese Teilprobleme in eigene Prozeduren.
 
-  \item Schreiben Sie die Prozedur
+  \item Schreiben Sie die Funktion
     \texttt{mi/gal->l/100km}, die eine Reichweite in Meilen pro
     Gallone akzeptiert und in den Verbrauch in Liter pro 100km
     umrechnet.  Benutzen Sie dafür die Prozeduren, die Sie in den
     anderen Teilaufgaben erstellt haben.  Sollten Sie auf weitere
     Teilprobleme stoßen, abstrahieren Sie diese Teilprobleme in eigene
-    Prozeduren.
+    Funktionen.
 
   \item Finden Sie heraus, wie hoch der Benzinverbrauch
     verschiedener Kraftfahrzeuge ist, die Sie täglich im
@@ -1016,7 +1016,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   Programm um, und zwar \verb|x| in \verb|zwei|, \verb|y| in
   \verb|minuseins| und \verb|z| in \verb|minusdrei|. Achten Sie bei
   der Umbenennung auf die lexikalische Bindung.  Benennen Sie keine
-  Parameter der Prozedur \verb"f" um.
+  Parameter der Funktion \verb"f" um.
 
   Nachdem Sie die Umbenennung durchgeführt haben, welches Ergebnis liefert
   der Ausdruck \verb"(f 4 -2)"? Berechnen Sie das Ergebnis von Hand mit Hilfe
@@ -1043,7 +1043,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   Programm um. Der neue Name der Variable steht als Kommentar im
   Programm hinter dem Pfeil (\verb"-->").  Achten Sie bei der
   Umbenennung auf die lexikalische Bindung.  Benennen Sie keine
-  Parameter der Prozedur \verb"z" um.
+  Parameter der Funktion \verb"z" um.
 
   Berechnen Sie, nachdem Sie die Umbenennung durchgeführt haben, von
   Hand mit dem Substitutionsmodell \verb"(z y x"
@@ -1071,7 +1071,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
 (f y)
 \end{verbatim}
 
-  Benennen Sie hier alle lokalen Variablen, die innerhalb der Prozedur
+  Benennen Sie hier alle lokalen Variablen, die innerhalb der Funktion
   \verb"f" gebunden werden, um. Verändern Sie nicht den Namen der
   Variablen \verb"x", \verb"y" und \verb"z" aus den ersten drei Zeilen
   des Programms.
@@ -1085,7 +1085,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   Beispiel sehen, dass es sehr wichtig ist, diese Informationen
   anderen Programmierern immer zur Verfügung zu stellen. Denn es kann
   auch bei kleinen Programmen schwer sein, die Funktionsweise der
-  einzelnen Prozeduren ohne Kommentare zu verstehen.
+  einzelnen Funktionen ohne Kommentare zu verstehen.
 \end{aufgabe}
 
 %%% Local Variables: 

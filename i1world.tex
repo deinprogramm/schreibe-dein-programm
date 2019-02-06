@@ -12,15 +12,15 @@ TBD
 
 Für die Grafikprogrammierung mit \drscheme{} ist es notwendig, ein
 sogenanntes \textit{Teachpack\index{Teachpack}} zu laden~-- ein
-kleiner Sprachzusatz, in diesem Fall mit einer Reihe von Prozeduren zur Erzeugung von
+kleiner Sprachzusatz, in diesem Fall mit einer Reihe von Funktionen zur Erzeugung von
 Bildern.  Dazu muß im Menü \texttt{Sprache} (oder \texttt{Language} in
 der englischen Ausgabe) der Punkt \texttt{Teachpack hinzufügen}
 (\texttt{Add teachpack}) angewählt werden, und im dann erscheinenden
 Auswahl-Dialog im Verzeichnis \texttt{deinprogramm} die Datei
 \texttt{image22.ss\index{image2.ss@\texttt{image2.ss}}}.
 
-Im Teachpack \texttt{image2.ss} erzeugen verschiedene Prozeduren
-einfache Bilder.  So hat z.B.\ die Prozedur \texttt{rectangle}
+Im Teachpack \texttt{image2.ss} erzeugen verschiedene Funktionen
+einfache Bilder.  So hat z.B.\ die Funktion \texttt{rectangle}
 folgende Signatur:\index{rectangle@\texttt{rectangle}}
 %
 \begin{alltt}
@@ -46,14 +46,14 @@ entsprechend angezeigt wird wie andere Werte auch.
   \label{fig:image-ss}
 \end{figure}
 
-Es gibt es noch weitere Prozeduren, die 
+Es gibt es noch weitere Funktionen, die 
 geometrische Figuren zeichnen:\index{circle@\texttt{circle}}
 %
 \begin{alltt}
 (: circle (natural mode color -> image))
 \end{alltt}
 %
-Die \texttt{circle}-Prozedur liefert einen Kreis, wobei das erste
+Die \texttt{circle}-Funktion liefert einen Kreis, wobei das erste
 Argument den Radius angibt.  Die \texttt{mode}- und
 \texttt{color}-Argumente sind wie bei \texttt{rectangle}.
 %
@@ -61,14 +61,14 @@ Argument den Radius angibt.  Die \texttt{mode}- und
 (: ellipse (natural natural mode color -> image))
 \end{alltt}
 %
-\index{ellipse@\texttt{ellipse}}Diese Prozedur liefert eine Ellipse,
+\index{ellipse@\texttt{ellipse}}Diese Funktion liefert eine Ellipse,
 wobei das erste Argument die Breite und das zweite die Höhe angibt.
 %
 \begin{alltt}
 (: triangle (natural mode color -> image))
 \end{alltt}
 %
-\index{triangle@\texttt{triangle}}Diese Prozedur liefert ein nach oben
+\index{triangle@\texttt{triangle}}Diese Funktion liefert ein nach oben
 zeigendes gleichseitiges Dreieck, wobei das erste Argument die
 Seitenlänge angibt.
 %
@@ -85,7 +85,7 @@ also nicht, wie in der Mathematik üblich, links unten.
 Da diese geometrischen Formen für sich genommen langweilig sind, können
 mehrere Bilder miteinander kombiniert werden.
 
-Zum Aufeinanderlegen gibt es die Prozedur \texttt{overlay\index{overlay@\texttt{overlay}}}:
+Zum Aufeinanderlegen gibt es die Funktion \texttt{overlay\index{overlay@\texttt{overlay}}}:
 %
 \begin{alltt}
 (: overlay (image image h-place v-place -> image))
@@ -141,7 +141,7 @@ Die folgenden Hilfsprozeduren sind Spezialfälle von \texttt{overlay}:
 (: beside (image image v-mode -> image))
 \end{alltt}
 %
-Die Prozedur \texttt{above\index{above@\texttt{above}}} ordnet zwei
+Die Funktion \texttt{above\index{above@\texttt{above}}} ordnet zwei
 Bilder übereinander an, \texttt{beside\index{beside@\texttt{beside}}}
 nebeneinenander.  Dabei ist \texttt{h-mode} eine der Zeichenketten
 \verb|"left"|, \verb|"right"| und \verb|"center"|, die angibt, ob die
@@ -151,7 +151,7 @@ Zeichenketten \verb|"top"|, \verb|"bottom"| und \verb|"center"|, die
 angibt, ob die Bilder bei \texttt{beside} oben, unten oder an der
 Mitte ausgerichtet werden.
 
-Die Prozeduren \texttt{clip} und \texttt{pad} beschneiden bzw.\
+Die Funktionen \texttt{clip} und \texttt{pad} beschneiden bzw.\
 erweitern ein Bild:\index{clip@\texttt{clip}}\index{pad@\texttt{pad}}
 %
 \begin{alltt}
@@ -166,7 +166,7 @@ fügt an den Seiten von $i$ noch transparenten Leerraum an: $l$ Pixel
 links, $r$ Pixel rechts, $t$ Pixel oben und $b$ Pixel unten.
 
 Abbildung~\ref{fig:image-ss} zeigt, wie sich die einige der
-\texttt{image.ss}-Prozeduren in der \drscheme{}-REPL verhalten.
+\texttt{image.ss}-Funktionen in der \drscheme{}-REPL verhalten.
 
 \begin{figure}
   \centering
@@ -229,7 +229,7 @@ Kombination aus Lambda-Ausdruck und Applikation:
 \texttt{Let} ist selbst dann nützlich, wenn ein Zwischenergebnis nicht
 mehrfach verwendet wird.  Es kann die Lesbarkeit des Programmtextes
 erhöhen, besonders wenn ein aussagekräftiger Name verwendet wird.
-Zum Beispiel berechnet die folgende Prozedur das Materialvolumen eines
+Zum Beispiel berechnet die folgende Funktion das Materialvolumen eines
 Rohrs, von dem Außenradius, Dicke und Höhe angegeben sind:\index{pipe-volume@\texttt{pipe-volume}}
 %
 \begin{alltt}
@@ -301,7 +301,7 @@ In der Terminologie von \texttt{universe.ss} ist ein Modell eine
 ist, daß ein Bild eine Ansicht einer kleinen Welt ist.  Damit das
 funktioniert, muß bei \texttt{universe.ss} eine erste Welt angemeldet
 werden, zusammen mit Angaben, wie groß die Ansicht wird.  Dazu gibt es
-die Prozedur \texttt{big-bang}\index{big-bang@\texttt{big-bang}}:
+die Funktion \texttt{big-bang}\index{big-bang@\texttt{big-bang}}:
 %
 \begin{alltt}
 (: big-bang (natural natural number world -> #t))
@@ -333,11 +333,11 @@ entsprechende Ansicht angemeldet werden.  Dafür ist die Prozedur
 (: on-redraw ((world -> image) -> #t))
 \end{alltt}
 %
-Als Argument akzeptiert \texttt{on-redraw} also eine Prozedur, die aus
+Als Argument akzeptiert \texttt{on-redraw} also eine Funktion, die aus
 einer Welt ein Bild macht.  TBD
 
 Auch diese Prozedur muß noch beim Teachpack angemeldet werden.  Dafür
-die Teachpack-Prozedur
+die Teachpack-Funktion
 \texttt{on-tick-event\index{on-tick-event@\texttt{on-tick-event}}}
 zuständig:
 %
@@ -345,7 +345,7 @@ zuständig:
 (: on-tick-event ((world -> world) -> #t))
 \end{alltt}
 %
-Die \texttt{on-tick-event}-Prozedur akzeptiert eine Prozedur, die bei
+Die \texttt{on-tick-event}-Funktion akzeptiert eine Funktion, die bei
 jedem Uhren-Tick aufgerufen wird, um aus der "`alten"' Welt eine neue
 zu machen.  Auf diese Beschreibung und auch auf die Signatur
 paßt aber \texttt{next-time}.  Der Aufruf kann also so aussehen:
@@ -368,7 +368,7 @@ Teachpacks aufrufen, die folgende Signatur hat:
 
 Eine kleine (wenn auch nicht besonders sinnvolle) Erweiterung zeigt,
 wie die Animation auf Benutzereingaben reagieren kann.  Dazu muß sie
-noch eine weitere Prozedur anmelden, und zwar mittels
+noch eine weitere Funktion anmelden, und zwar mittels
 \texttt{on-key-event\index{on-key-event@\texttt{on-key-event}}}, das
 ähnlich funktioniert wie \texttt{on-tick-event}:
 %
@@ -376,7 +376,7 @@ noch eine weitere Prozedur anmelden, und zwar mittels
 (: on-key-event ((world string -> world) -> #t))
 \end{alltt}
 %
-Die Prozedur, die mit \texttt{on-key-event} angemeldet wird, wird
+Die Funktion, die mit \texttt{on-key-event} angemeldet wird, wird
 immer aufgerufen, wenn der Benutzer eine Taste drückt.  Welche Taste
 gedrückt wurde, gibt das zweite Argument 
 an.  Wenn der Benutzer eine reguläre Zeichen-Taste drückt (also keine

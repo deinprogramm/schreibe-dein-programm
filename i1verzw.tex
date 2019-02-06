@@ -16,7 +16,7 @@ Entscheidungen sind daran festgemacht, daß ein Wert zu einer von mehreren
 verschiedenen 
 Kategorien gehören kann~-- es handelt sich dann um eine sogenannte
 \textit{Fallunterscheidung\index{Fallunterscheidung}}; 
-mathematische Funktionen und Scheme-Prozeduren operieren auf Daten mit
+mathematische Funktionen und Scheme-Funktionen operieren auf Daten mit
 Fallunterscheidung durch \textit{Verzweigungen\index{Verzweigung}}.
 Um diese geht es in diesem Kapitel.
 
@@ -104,7 +104,7 @@ Hier ein Beispiel:
 gestellt oder Aussage aufgefaßt, ist $-5 \leq 0$ "`wahr"'.
 \verb|#t|\index{#t@\verb/#t/} steht für "`true\index{true}"' oder
 "`wahr\index{wahr}"'.  \texttt{<=}\index{<=@\texttt{<=}} ist eine
-eingebaute Prozedur, welche auf "`kleiner gleich"' testet.  (Ebenso
+eingebaute Funktion, welche auf "`kleiner gleich"' testet.  (Ebenso
 gibt es auch \texttt{=}\index{=@\texttt{=}} für $=$, 
 \texttt{<}\index{<@\texttt{<}} für $<$,
 \texttt{>}\index{>@\texttt{>}} für $>$ und
@@ -190,7 +190,7 @@ die immer dann \verb|#t| ergeben, wenn \emph{einer} der $e_i$ \verb|#t| ergibt, 
 \evalsto{} #f
 \end{alltt}
 %
-Des weiteren gibt es noch eine eingebaute Prozedur
+Des weiteren gibt es noch eine eingebaute Funktion
 \texttt{not}\index{not@\texttt{not}}, die einen booleschen Wert
 umdreht, sich also folgendermaßen verhält:
 %
@@ -205,7 +205,7 @@ umdreht, sich also folgendermaßen verhält:
 \section{Programmieren mit Fallunterscheidungen}
 
 Zurück zu den Punkten in Flensburg: Zunächst schreiben wir eine
-Prozedur, die zu einem gegebenen Punktestand die entsprechende
+Funktion, die zu einem gegebenen Punktestand die entsprechende
 Zwangsmaßnahme ausrechnet.  Fast alles, was zur Datenanalyse gehört,
 haben wir schon am Anfang des Kapitels gemacht: der Punktestand ist
 eine natürliche Zahl, eine Zwangsmaßnahme ist nichts, ein
@@ -395,7 +395,7 @@ Punktzahlen oberhalb von 18 immer noch der Führerschein entzogen wird:
 
 \section{Konstruktionsanleitung für Fallunterscheidungen}
 
-Bei der Konstruktion der Prozedur \texttt{points-must-do} haben wir
+Bei der Konstruktion der Funktion \texttt{points-must-do} haben wir
 ein bestimmtes Schema angewendet.  Dieses Schema geht zunächst von folgender
 Frage aus:
 %
@@ -442,7 +442,7 @@ Die Schablone für Fallunterscheidungen ist noch einmal
 als Konstruktionsanleitung~\ref{ka:fallunterscheidung} in
 Anhang~\ref{app:konstruktionsanleitungen} zusammengefaßt.
 (Konstruktionsanleitung~\ref{ka:allgemein} beschreibt die Konstruktion
-von Prozeduren im allgemeinen.)
+von Funktionen im allgemeinen.)
 
 \section{Verkürzte Tests}
 
@@ -463,7 +463,7 @@ fehlgeschlagen ist.  Diese Bedingung könnten wir also weglassen.
 Ebenso der letzte Test, der dadurch, daß \verb|(<= p 17)| \verb|#f|
 ergeben hat, immer \verb|#t| ergibt.  Allerdings sind die Zweige damit
 von ihrer Reihenfolge abhängig: Wenn wir zum Beispiel die ersten
-beiden Zweige vertauschten, funktioniert die Prozedur nicht mehr
+beiden Zweige vertauschten, funktioniert die Funktion nicht mehr
 richtig.  In Fällen wie diesen, wo "`vollständige"' Tests einfach zu
 formulieren sind, empfiehlt es sich, dies auch zu tun.
 
@@ -491,7 +491,7 @@ Schreibweise:
     \right.
 \end{displaymath}
 %
-Die dazu passende Scheme-Prozedur unter Verwendung von \texttt{cond}
+Die dazu passende Scheme-Funktion unter Verwendung von \texttt{cond}
 sieht so aus:\index{abs@\texttt{abs}}
 %
 \begin{alltt}
@@ -820,14 +820,14 @@ Ausdruck bringen:
         ...)))
 \end{verbatim}
 %
-Die eingebaute Prozedur \texttt{even?} akzeptiert eine ganze Zahl und
+Die eingebaute Funktion \texttt{even?} akzeptiert eine ganze Zahl und
 liefert \verb|#t|, falls die Zahl gerade ist und \verb|#f|, falls sie
 ungerade ist~-- solche und viele andere nützliche Prozeduren finden
 Sie in der Dokumentation im Hilfezentrum unter "`Sprachebenen und
 Material zu \textit{Die Macht der Abstraktion}"' im Abschnitt
 "`Primitive Operationen"'.
 
-Nur~-- was tun im Fehlerfall?  Dazu gibt eine eingebaute Prozedur
+Nur~-- was tun im Fehlerfall?  Dazu gibt eine eingebaute Funktion
 \texttt{violation}, die eine Fehlermeldung als Zeichenkette akzeptiert
 und, wenn sie aufgerufen wird, das Programm abbricht und die
 Fehlermeldung ausdruckt.  \texttt{Parking-lot-cars} sieht dann
@@ -859,13 +859,13 @@ wenn die Auswertung einen Fehler liefert:
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  Schreiben Sie eine Prozedur \texttt{card-type}, die den Umsatz einer
+  Schreiben Sie eine Funktion \texttt{card-type}, die den Umsatz einer
   Kreditkarte konsumiert und die eine entsprechende Kategorie als
   Zeichenkette zurückgibt.  Verwenden Sie die Konstruktionsanleitung:
   Schreiben Sie die Kurzbeschreibung auf, führen Sie eine
   Datenanalyse durch und schreiben Sie die Signatur auf. Erstellen Sie
   dann das Gerüst und die Testfälle.  Vervollständigen Sie danach den
-  Rumpf der Prozedur und vergewissern Sie sich, dass die Tests
+  Rumpf der Funktion und vergewissern Sie sich, dass die Tests
   erfolgreich laufen. \\
 
   \begin{tabular}{crlcrll}
@@ -881,14 +881,14 @@ wenn die Auswertung einen Fehler liefert:
 
   \begin{enumerate}
 
-  \item Schreiben Sie eine Prozedur \texttt{min-2}, die als Argumente zwei
+  \item Schreiben Sie eine Funktion \texttt{min-2}, die als Argumente zwei
     Zahlen nimmt und die kleinere der beiden Zahlen zurückgibt.  Schreiben
     Sie außerdem eine Prozedur \texttt{min-3}, die als Argumente drei
     Zahlen nimmt und die kleinste der drei Zahlen zurückgibt.  Verwenden
     Sie die Konstruktionsanleitung: Schreiben Sie
     explizit Kurzbeschreibung und Signatur auf, erstellen Sie dann das
     Gerüst und die Testfälle.  Vervollständigen Sie danach den Rumpf der
-    Prozedur und vergewissern Sie sich, dass die Tests erfolgreich laufen.
+    Funktion und vergewissern Sie sich, dass die Tests erfolgreich laufen.
     
   \item Schreiben Sie analog eine Funktion \texttt{max-2} und \texttt{max-3}.
     
@@ -896,7 +896,7 @@ wenn die Auswertung einen Fehler liefert:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie die folgenden Prozeduren:
+  Schreiben Sie die folgenden Funktionen:
   \begin{enumerate}
   \item \texttt{min-of-two}, welche die kleinste von zwei
     gegebenen Zahlen ausgibt
@@ -934,7 +934,7 @@ wenn die Auswertung einen Fehler liefert:
   \item Alle anderen Rückennummern sind ungültig.
   \end{itemize}
  
-  Schreiben Sie nun eine Prozedur mit folgender Signatur:
+  Schreiben Sie nun eine Funktion mit folgender Signatur:
   
   {\small
 \begin{verbatim}
@@ -947,9 +947,9 @@ wenn die Auswertung einen Fehler liefert:
   Die Prozedur soll dabei zu einer gegebenen Rückennummer die
   zugehörige Position berechnen.
 
-  Verwenden Sie beim Schreiben der Prozedur die
+  Verwenden Sie beim Schreiben der Funktion die
   Konstruktionsanleitungen für Prozeduren und für
-  Fallunterscheidungen.  Testen Sie die Prozedur
+  Fallunterscheidungen.  Testen Sie die Funktion
   \texttt{nummer->position} mit mindestens sechs Testfällen, so dass
   alle Fälle abgedeckt sind.
 \end{aufgabe}
@@ -960,7 +960,7 @@ wenn die Auswertung einen Fehler liefert:
   automatisch bestimmt werden.
   
   \begin{enumerate}
-  \item Programmieren Sie eine Prozedur \texttt{zu-langes-parken}
+  \item Programmieren Sie eine Funktion \texttt{zu-langes-parken}
     für die Bewertung von zu langem Parken auf einem kostenpflichtigen
     Parkplatz. Diese bekommt eine Zeitspanne übergeben und gibt das 
     entsprechende Verwarngeld zurück.
@@ -980,7 +980,7 @@ wenn die Auswertung einen Fehler liefert:
     eine für die Punkte in Flensburg \texttt{rote-ampel-punkte} 
     und eine für das Fahrverbot \texttt{rote-ampel-fahrverbot}, 
     welche ausgibt, ob ein Fahrverbot erteilt wird. Übergeben
-    Sie den Prozeduren, wie lange die Ampel schon rot war und ob eine
+    Sie den Funktionen, wie lange die Ampel schon rot war und ob eine
     Gefährdung oder Sachbeschädigung vorlag.
     
     Die Bußgelder sind wie folgend definiert:

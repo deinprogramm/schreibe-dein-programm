@@ -156,7 +156,7 @@ auch hier funktioniert.  Es gibt zwei Möglichkeiten, dies zu tun:
 \end{pspdf}
 % 
 Mit anderen Worten, es wird ein Element von weiter unten
-"`hochgezogen"'.  Es bleibt die Frage, wie die Prozedur das Element
+"`hochgezogen"'.  Es bleibt die Frage, wie die Funktion das Element
 auswählen könnte, das hochgezogen werden muß.  Offensichtlich kann
 entweder ein Element aus dem linken oder aus dem rechten Teilbaum
 ausgewählt werden.  Ideal wäre, wenn der jeweils andere Teilbaum
@@ -318,7 +318,7 @@ könnte etwa so aussehen:
            (node-right-branch n))
 \end{verbatim}
 %
-Per Wunschdenken wird hier eine Prozedur \texttt{find-maximum}
+Per Wunschdenken wird hier eine Funktion \texttt{find-maximum}
 vorausgesetzt:
 %
 \begin{verbatim}
@@ -411,7 +411,7 @@ Dann lautet der Code im \texttt{else}-Zweig:
 %
 Fehlt nur noch die Hilfsprozedur \texttt{find-maximum}.  Beim
 Ermitteln des Maximums hilft die Suchbaumeigenschaft: Es ist einfach
-das Element, das am weitesten rechts im Baum steht.  Die Prozedur ist
+das Element, das am weitesten rechts im Baum steht.  Die Funktion ist
 also ganz einfach zu schreiben.  Komplett sieht
 \texttt{search-tree-delete} dann so aus:
 %
@@ -593,7 +593,7 @@ Flächen der Zimmer berechnen:
 \end{verbatim}
 %
 An dieser Stelle wird eine positive Eigenschaft der bisherigen Daten-
-und Prozedurdefinitionen deutlich.  Angenommen, die Record-Definition
+und Funktiondefinitionen deutlich.  Angenommen, die Record-Definition
 hätte die Grundfläche direkt einer Wohnung zugeordnet:
 %
 \begin{verbatim}
@@ -687,7 +687,7 @@ insbesondere den Selektor \texttt{apartment-rooms}.  Der ist im Zuge
 der Erweiterung um Untermiete unter den Tisch gefallen.  Das Konzept
 der Zimmer einer Wohnungs ist aber immer noch sinnvoll; entsprechend
 ist es möglich, \texttt{apartment-rooms} wieder zur Verfügung zur
-stellen, diesmal als "`normale"' Prozedur mit einer Hilfsprozedur, um
+stellen, diesmal als "`normale"' Funktion mit einer Hilfsprozedur, um
 die Zimmer eines Abschnitts aufzuzählen:
 %
 \begin{verbatim}
@@ -732,7 +732,7 @@ Die Hilfsprozedur \texttt{section-rooms} ist notwendig, weil sie
 rekursiv ist.
 
 "`Von außen"' ist kein Unterschied zwischen dem alten Selektor
-\texttt{apartment-rooms} und der neuen Prozedur zur erkennen~-- die
+\texttt{apartment-rooms} und der neuen Funktion zur erkennen~-- die
 Schnittstelle ist gleich geblieben: Dies ist ein wichtiger Beitrag zur
 \textit{Modularität}\index{Modularität}, die es erlaubt, Änderungen an
 der Wohnungs-Funktionalität vorzunehmen, ohne daß andere
@@ -791,7 +791,7 @@ $y$} wobei $y$ der Bewohner der Wohnung ist:
 \end{verbatim}
 %
 Der Präfix $x$ hängt vom Wohnabschnitt ab, in dem der gesuchte
-Bewohner wohnt.  Per Wunschdenken sei eine Prozedur vorausgesetzt, die
+Bewohner wohnt.  Per Wunschdenken sei eine Funktion vorausgesetzt, die
 in den Abschnitten einer Wohnung nach dem Bewohner sucht und den
 entsprechenden Präfix berechnet:
 %
@@ -800,7 +800,7 @@ entsprechenden Präfix berechnet:
 (: sections-prefix (string (list section) -> string))
 \end{verbatim}
 %
-Mit Hilfe dieser Prozedur kann \texttt{resident-address} erweitert
+Mit Hilfe dieser Funktion kann \texttt{resident-address} erweitert
 werden:
 %
 \begin{verbatim}
@@ -813,7 +813,7 @@ werden:
                        (apartment-resident a)))))
 \end{verbatim}
 %
-Nun zur Prozedur \texttt{sections-prefix}.  Hier ein geeigneter
+Nun zur Funktion \texttt{sections-prefix}.  Hier ein geeigneter
 Testfall:
 %
 \begin{verbatim}
@@ -923,7 +923,7 @@ Einerseits muß \texttt{resident-address} eine Fallunterscheidung für
 den Rückgabewert von \texttt{sections-prefix} einführen; dies heißt
 andererseits aber auch, daß \texttt{resident-address} selbst in die
 Lage kommen kann, daß der gesuchte Bewohner nicht gefunden wird.
-Damit werden neben der Erweiterung des Rumpfes der Prozedur auch eine
+Damit werden neben der Erweiterung des Rumpfes der Funktion auch eine
 Änderung des Vertrags und ein neuer Testfall fällig:
 %
 \begin{verbatim}

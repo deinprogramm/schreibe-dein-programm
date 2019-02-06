@@ -885,7 +885,7 @@ Kurzbeschreibung, Signatur und Gerüst:
 \end{verbatim}
 %
 Da es sich bei \texttt{term} um gemischte Daten handelt, muß~-- wie
-immer~-- eine Verzweigung den Rumpf der Prozedur bilden:
+immer~-- eine Verzweigung den Rumpf der Funktion bilden:
 %
 \begin{verbatim}
 (define term->machine-code
@@ -1122,7 +1122,7 @@ die Tupel aus $S\times E\times C\times D$:
 \end{verbatim}
 %
 Damit kann es an die Zustandsübergangsfunktion gehen.   Sie wird als
-Prozedur realisiert, die einen SECD-Zustand akzeptiert und einen neuen
+Funktion realisiert, die einen SECD-Zustand akzeptiert und einen neuen
 liefert.  Hier sind Kurzbeschreibung, Signatur und Gerüst:
 %
 \begin{verbatim}
@@ -1242,15 +1242,15 @@ $\delta$-Transition berechnen:
        ...))
 \end{verbatim}
 %
-Die Prozedur \texttt{drop} ist gerade die in
-Aufgabe~\ref{ex:kartenspiel} geforderte Prozedur:
+Die Funktion \texttt{drop} ist gerade die in
+Aufgabe~\ref{ex:kartenspiel} geforderte Funktion:
 %
 \begin{verbatim}
 ; die ersten Elemente einer Liste weglassen
 (: drop (natural (list-of %a) -> (list-of %a)))
 \end{verbatim}
 %
-Die \texttt{take-reverse}-Prozedur ist das Pendant zu \texttt{drop},
+Die \texttt{take-reverse}-Funktion ist das Pendant zu \texttt{drop},
 das die ersten $n$ Elemente einer Liste in umgekehrter Reihenfolge
 liefert.  Dies ist am einfachsten über eine endrekursive Hilfsprozedur
 zu erledigen~-- aus Kapitel~\ref{cha:accu} ist ja bekannt, daß bei
@@ -1273,7 +1273,7 @@ umgedreht wird:
 Aus einem Primitiv und einer Liste von Argumenten berechnet
 \texttt{apply-primitive} das Resultat der primitiven Applikation.
 Dabei handelt es sich bei \texttt{primitive} um eine
-Fallunterscheidung, der Rumpf der Prozedur ist also eine entsprechende
+Fallunterscheidung, der Rumpf der Funktion ist also eine entsprechende
 Verzweigung:
 %
 \begin{verbatim}
@@ -1354,7 +1354,7 @@ Hier der Code dazu:
 \end{verbatim}
 %
 Schließlich bleibt noch der Code für die Rückgabe eines Wertes von
-einer Prozedur.  Hier ist die Regel:
+einer Funktion.  Hier ist die Regel:
 %
 \begin{displaymath}
   (w, e, \epsilon, (\underline{s'}, e', \underline{c'}) \underline{d})
@@ -2062,7 +2062,7 @@ Jede Zelle ordnet einer Adresse einen Wert zu:
 (: make-cell (address value -> cell))
 \end{verbatim}
 %
-Die Prozedur \texttt{heap-store}, erweitert den Heap um eine Zelle
+Die Funktion \texttt{heap-store}, erweitert den Heap um eine Zelle
 entsprechend der mathematischen Definition:
 %
 \begin{verbatim}
@@ -2107,7 +2107,7 @@ Es fehlt noch die Hilfsprozedur \texttt{remove-cell}:
 \end{verbatim}
 %
 Als nächstes ist die Operation an der Reihe, die den Wert, der an einer
-Adresse im Heap gespeichert ist.  Die Prozedur \texttt{heap-lookup} benutzt
+Adresse im Heap gespeichert ist.  Die Funktion \texttt{heap-lookup} benutzt
 eine Hilfsprozedur \texttt{cells-lookup}, um in der Liste von Zellen
 nach der richtigen zu suchen:
 %

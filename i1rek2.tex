@@ -59,7 +59,7 @@ Die Lösung des Problems soll eine Prozedur \texttt{load-list}
 sein, welche eine Liste der Artikel zurückliefert, die in den Lastwagen geladen
 werden sollen.  Neben der Liste der Artikel braucht
 \texttt{load-list} auch noch die Tragfähigkeit eines Lastwagens.  Die
-Prozedur soll Kurzbeschreibung und Signatur wie folgt haben:\index{load-list@\texttt{load-list}}
+Funktion soll Kurzbeschreibung und Signatur wie folgt haben:\index{load-list@\texttt{load-list}}
 %
 \begin{alltt}
 ; Maximale Liste von Artikeln berechnen, 
@@ -79,7 +79,7 @@ passieren, wenn das Programm fertig ist:
           #<record:article 10 197>>
 \end{alltt}
 %
-Die Prozedur arbeitet auf Listen, was folgende Schablone nahelegt:
+Die Funktion arbeitet auf Listen, was folgende Schablone nahelegt:
 %
 \begin{alltt}
 (define load-list
@@ -298,7 +298,7 @@ Ergebnis sehr erfreulich; kein Platz wird verschenkt:
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  Schreiben Sie eine Prozedur \texttt{backlog-list}, welche die
+  Schreiben Sie eine Funktion \texttt{backlog-list}, welche die
   gleichen Eingaben wie \texttt{load-list} akzeptiert, aber die
   nach dem Beladen eines Lastwagens im Lager zurückbleibenden Artikel
   zurückgibt.  Die Prozedur soll 
