@@ -140,7 +140,7 @@ in der REPL eine Fehlermeldung:
 > ({\color{green}123} + {\color{green}42})
 {\color{red}Operator darf keine Zahl sein, ist aber 123}
 \end{alltt}
-&
+%
 Etwas ähnliches passiert, wenn Du kein Leerzeichen zwischen den
 Operator und die Operanden oder zwischen die Operanden setzt.  Das
 sieht zum Beispiel so aus:
@@ -208,16 +208,70 @@ Zusammenhang ist \textit{Operand}, darum steht da sinngemäß, dass
 \texttt{+} eine Zahl als ersten Operanden erwartet, aber
 stattdessen die Funktion \texttt{+} bekommen hat.
 
+Ein hilfreicher Trick übrigens: Um einen Ausdruck zu korrigieren,
+kannst Du ihn in der REPL "`zurückholen"', indem Du \texttt{Esc}, und
+dann \texttt{P} drückst~-- probier es aus!
+
 \section{Das Definitionsfenster}
 
-TBD
+Kommen wir zum Definitionsfenster oben.  Dort schreibst Du Dein
+Programm, die REPL kannst Du dann benutzen, um es auszuprobieren.
+Schreib in das Definitionsfenster folgende
+\textit{Definition\index{Definition}}:
+%
+\begin{verbatim}
+(define alles (+ 20 22))
+\end{verbatim}
+%
+Diese Definition besagt, dass der Name \texttt{alles} für das Ergebnis
+von \texttt{(+ 20 22)} steht.  Um das auszuprobieren, drück auf den
+Knopf \texttt{Start} bzw.\ \texttt{Run} rechts oben.  Der Cursor
+landet dann wieder in der REPL, wo Du das Programm ausprobieren
+kannst:
+%
+\begin{alltt}
+alles
+\evalsto{} 42
+\end{alltt}
+%
+In einem Programm kannst Du Zeilenumbrüche und Einrückung benutzen, um
+Dein Programm übersichtlicher zu gestalten.  Zum Beispiel kannst Du
+nach \texttt{alles} die Return-Taste drücken, das Ergebnis sieht so
+aus:
+%
+\begin{alltt}
+(define alles
+  (+ 20 22))
+\end{alltt}
+%
+DrRacket rückt die zweite Zeile ein bisschen ein, um auszudrücken,
+dass sie noch in die Klammern vom \texttt{define} gehört.  Bei
+komplizierteren Ausdrücken ist das hilfreich:
+%
+\begin{verbatim}
+(define alles
+  (+ 20
+     (* 11 2)))
+\end{verbatim}
+%
+Hier stellt DrRacket die Operanden der Summe genau untereinander.
+DrRacket zwingt Dich nicht, die Einrückung genau so zu machen, und
+durch Änderungen im Programm gerät sie auch manchmal aus dem Lot.  In
+dem Fall kannst Du die Tab-Taste drücken (auf den meisten Tastaturen
+steht $\longrightarrow\mid$ auf der Tab-Taste) und in der Zeile, in
+welcher der Cursor steht, wird die Einrückung korrigiert.  Es gibt
+einen Menüunkt \texttt{Racket $\rightarrow$ Alles einrücken} (bzw.\
+\texttt{Racket $\rightarrow$ Reindent All}), der das für das gesamte
+Programm macht: Probier es aus!
 
-FIXME: Einrückung
+Den Inhalt des Definitionsfenster kannst Du abspeichern, indem Du auf
+den Knopf mit der Diskette
+\raisebox{-1ex}{\includegraphics[height=12pt]{i1prog/save}} drückst.
 
-\section{Bausteine für Programme}
-\label{sec:programming-elements}
-
-TBD
+Abspeichern geht mit der REPL nicht, und der REPL-Inhalt verschwindet
+auch jedesmal, wenn Du \texttt{Start} bzw.\ \texttt{Run} drückst.  Du
+kannst aber frühere Eingaben zurückholen, indem Du \texttt{Esc~P}
+drückst.
 
 \section{Rechnen ohne Zahlen}
 
