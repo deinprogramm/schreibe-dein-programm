@@ -140,7 +140,20 @@ in der REPL eine Fehlermeldung:
 > ({\color{green}123} + {\color{green}42})
 {\color{red}Operator darf keine Zahl sein, ist aber 123}
 \end{alltt}
+&
+Etwas ähnliches passiert, wenn Du kein Leerzeichen zwischen den
+Operator und die Operanden oder zwischen die Operanden setzt.  Das
+sieht zum Beispiel so aus:
 %
+\begin{alltt}
+> ({\color{green}+123} {\color{green}42})
+{\color{red}Operator darf keine Zahl sein, ist aber 123}
+\end{alltt}
+%
+Das liegt daran, dass \texttt{+123} zusammen die Zahl "`plus
+hundertdreiundzwanzig"' bildet und nicht etwa in das \texttt{+} und
+\texttt{123} aufgeteilt wird.
+
 Wenn ein Ausdruck wie \texttt{(+ 123 42)} ein Ergebnis wie 165 hat,
 schreiben wir das im Buch zukünftig so, etwas anders als die
 DrRacket-REPL:
