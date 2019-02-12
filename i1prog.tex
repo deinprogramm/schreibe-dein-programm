@@ -6,64 +6,200 @@
 \chapter{Elemente des Programmierens}
 \label{cha:whats-programming}
 
-TBD
+Dieses Kapitel gibt einen Überblick über das wichtigste Handwerkszeug
+des Programmierens: Welche Software Du dafür brauchst, wie Du diese
+Software bedienst, wie kleine Programme aussehen und aus was für
+Elementen sie bestehen.
 
-\section{Handwerkszeug für das Programmieren}
+\section{DrRacket}
 
-In diesem Kapitel wird zum ersten Mal die Programmierumgebung
-\textit{\drscheme{}\index{\drscheme{}}} verwendet.  (Bezugsquelle und
-weitere Hinweise dazu stehen im Vorwort.)  Zur Verwendung mit diesem
-Buch müssen in \drscheme{} die Sprachebenen\index{Sprachebene} zu
-\textit{Schreibe Dein Programm!} aktiviert
-werden.  Dies geschieht durch Auswahl des Menüpunkts \texttt{Sprache
-  $\rightarrow$ Sprache auswählen} (bzw.\ \texttt{Language
-  $\rightarrow$ Choose language} in der englischen Fassung), worauf
-ein Dialog zur Auswahl von sogenannten
-\textit{Sprach\-ebe\-nen\index{Sprachebene}} erscheint.  Dort gibt es
-in der Abteilung \texttt{Lehrsprachen} eine Überschrift namens
-\texttt{DeinProgramm}, unterhalb dessen mehrere Einträge erscheinen, die
-speziell auf die Kapitel dieses Buchs zugeschnitten sind.
+Zunächst einmal benötigst Du die Software \textit{Racket}\index{Racket}, die es zum
+kostenlosen Download auf der Seite \url{https://racket-lang.org/} für
+alle gängingen Plattformen gibt.  Auf der Seite ist ein
+\texttt{Download}-Knopf~-- folge den dortigen Instruktionen für die
+Installation.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=\textwidth]{i1prog/drracket-start}
+  \caption{DrRacket nach dem ersten Start}
+  \label{fig:drracket-start}
+\end{figure}
+
+Zu Racket gehört ein Programm namens
+\textit{DrRacket}\index{DrRacket}: starte es.  Es erscheint ein
+Fenster, das ungefähr so aussehen sollte wie in
+Abbildung~\ref{fig:drracket-start}.  Die Benutzeroberfläche kannst
+Du auf Deutsch umstellen, indem Du im Hilfe-Menü auf \texttt{Deutsche
+  Benutzeroberfläche für DrRacket} drückst.  Wenn Du die Auswahl
+bestätigst, wird DrRacket danach beendet und Du musst es noch einmal
+starten; dann sollten die Menüs auf Deutsch sein.
+
+DrRacket ist eine \textit{Entwicklungsumgebung}, mit der Du Programme
+schreiben und ausführen kannst.  DrRacket unterstützt nicht nur eine
+Programmiersprache, darum musst Du die richtige Programmiersprache für
+dieses Buch noch auswählen.  Dazu wählst Du den Menüpunkt
+\texttt{Sprache $\rightarrow$ Sprache auswählen} (bzw.\
+\texttt{Language $\rightarrow$ Choose language} in der englischen
+Fassung), worauf ein Dialog erscheint.  In dem Dialog gibt es eine
+Abteilung \texttt{Lehrsprachen\index{Lehrsprachen}}, und darunter eine
+Überschrift namens \texttt{DeinProgramm}, unterhalb dessen mehrere
+Einträge erscheinen, die speziell auf die Kapitel dieses Buchs
+zugeschnitten sind.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=\textwidth]{i1prog/drracket-deinprogramm}
+  \caption{DrRacket mit ausgewählter Lehrsprache}
+  \label{fig:drracket-deinprogramm}
+\end{figure}
 
 Für den ersten Teil des Buches ist die Ebene \texttt{Schreibe Dein
-  Programm! - Anfänger} zuständig.\index{Sprachebene!Anfänger} 
-% HK: Die anderen Sprachebenen werden besser an den Stellen angesprochen,
-% wo sie erstmalig gebraucht werden, sonst geht diese Information
-% unter.
+  Programm! - Anfänger} zuständig:\index{Sprachebene!Anfänger} Wähle
+diese aus und drücke dann einmal oben rechts auf den Knopf
+\texttt{Start} (bzw.\ \texttt{Run}), damit die Auswahl aktiv wird.
+Das Ergebnis sollte dann so aussehen wie in
+Abbildung~\ref{fig:drracket-deinprogramm}.
 
-
-\drscheme{}
-bietet dem Programmierer ein zweigeteiltes Fenster:
+Das DrRacket-Fenster besteht aus zwei Teilen:
 %
 \begin{enumerate}
 \item In der oberen Hälfte des Fensters (dem
   \textit{Editor\index{Editor}} oder
   \textit{Definitionsfenster\index{Definitionsfenster}}) steht der
   Programmtext.  Der Editor funktioniert ähnlich wie ein reguläres
-  Textverarbeitungsprogramm.
-\item In der unteren Hälfte des Fensters (dem
-  \textit{Interaktionsfenster\index{Interaktionsfenster}}) werden die 
-  Ausgaben des Programms angezeigt.   Außerdem kann
-  der Programmierer hier "`Fragen"' an das Programm stellen, um
-  einzelne Programmteile gezielt auszuprobieren.
-
-  Im Interaktionsfenster berechnet \drscheme{} die
-  Antworten sofort nach Druck auf die Return-Taste und
-  druckt diese aus.  Der Inhalt des
-  Interaktionsfensters kann allerdings nicht direkt abgespeichert werden.  Der Editor ist
-  also für den entstehenden Programmtext gedacht, das Interaktionsfensters zum
-  schnellen Ausprobieren.
+  Textverarbeitungsprogramm.  Was dort steht, kannst Du abspeichern.
+\item In der unteren Hälfte des Fensters~-- dem
+  \textit{Interaktionsfenster\index{Interaktionsfenster}} oder der
+  sogenannten \textit{REPL\index{REPL}}\footnote{"`REPL"' steht für
+    "`Read-Eval-Print-Loop"'~-- wir werden später zeigen, warum.}
+  werden die Ausgaben des Programms angezeigt.  Außerdem kannst Du
+  hier "`Fragen"' an das Programm stellen, um einzelne Programmteile
+  gezielt auszuprobieren.
 \end{enumerate}
 %
 
-\begin{figure}[tb]
-  \begin{center}
-    TDB
-    \caption{Das Interaktionsfenster von \drscheme{}}
-    \label{fig:drscheme}
-  \end{center}
-\end{figure}
+\section{Ausdrücke und die REPL}
+
+Fangen wir mit der REPL an: Wenn Du gerade \texttt{Start} gedrückt
+hast, dann erscheint der Cursor rechts von dem \verb|>|-Zeichen: Du
+kannst da etwas eingeben und Return drücken~-- DrRacket zeigt dann
+das Ergebnis darunter an.
+
+Wenn Du zum Beispiel \texttt{123} eintippst, zeigt DrRacket gleich
+darunter 123 an.  DrRacket kann auch rechnen.  Dafür musst Du
+allerdings die Rechenaufgaben etwas anders aufschreiben als sonst.
+Zum Beispiel so:
 %
+\begin{verbatim}
+(+ 123 42)
+\end{verbatim}
+%
+Wenn Du das in die REPL tippst, zeigt DrRacket \texttt{165} an, die
+\textit{Summe}\index{Summe} von 123 und 42.  Diese "`Rechenaufgabe"'
+ist ein sogenannter \textit{Ausdruck\index{Ausdruck}}.  Ausdrücke, die
+etwas ausrechnen sollten, haben in den Lehrsprachen immer die gleiche
+Form, und die sieht so aus:
+%
+\begin{alltt}
+(\textnormal{\textit{Operator}} \textnormal{\textit{Operand}} \ldots)
+\end{alltt}
+%
+Das heißt, da stehen \emph{immer} Klammern\index{Klammer} drumherum
+(und die können auch nirgendwo sonst stehen).  Dann steht da der
+\textit{Operator\index{Operator}}, der bestimmt, \emph{was} gemacht
+wird, also die \textit{Operation}.  Danach kommen die
+\textit{Operanden\index{Operand}}, welche die Eingaben\index{Eingabe}
+für die Operation bestimmen.
+
+Zum Merken ist es hilfreich, Ausdrücke entsprechend vorzulesen: Also
+nicht mehr "`Hundertdreiundzwanzig plus zweiundvierzig"', sondern
+"`die \emph{Summ} von Hundertdreiundzwanzig und zweiundvierzig"'.
+
+Wie schon gesagt, die Klammern sind wichtig.  Wenn Du sie vergisst,
+können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
+\texttt{+ 123 42} in der REPL eintippst, sieht das so aus:
+%
+\begin{alltt}
+> + {\color{green}123 42}
+{\color{blue}#<function:+>
+123
+42}
+\end{alltt}
+%
+Das liegt daran, dass ohne Klammern \texttt{+ 123 32} aus \emph{drei}
+Ausdrücken besteht und die REPL darum auch drei Ergebnisse ausdruckt:
+Die Funktion \texttt{+} (was eine Funktion ist, behandeln wir später),
+dann die \texttt{123}, dann \texttt{42}.  Ähnlich verhält es sich mit
+\texttt{123 + 42}~-- probiere es aus!
+
+Wenn Du versehentlich den Operator dazwischen schreibst, erscheint
+in der REPL eine Fehlermeldung:
+%
+\begin{alltt}
+> ({\color{green}123} + {\color{green}42})
+{\color{red}Operator darf keine Zahl sein, ist aber 123}
+\end{alltt}
+%
+Wenn ein Ausdruck wie \texttt{(+ 123 42)} ein Ergebnis wie 165 hat,
+schreiben wir das im Buch zukünftig so, etwas anders als die
+DrRacket-REPL:
+%
+\begin{alltt}
+(+ 123 42)
+\evalsto{} 165
+\end{alltt}
+%
+Es gehen natürlich nicht nur Summen, sonderen auch Differenzen,
+Produkte und Quotienten:
+%
+\begin{alltt}
+(- 123 42)
+\evalsto{} 81
+(* 123 42)
+\evalsto{} 5166
+(/ 123 42)
+2.9\(\overline{\mathtt{285714}}\)
+\end{alltt}
+%
+Beim letzen Ausdruck ist zu sehen, dass Dezimalzahlen mit Punkt und
+nicht mit Komma geschrieben werden.  Der Überstrich bei
+\texttt{2.9\(\overline{\mathtt{285714}}\)} ist eine
+\textit{Periode\index{Periode}}: die Zahl ist also eigentlich
+%
+\begin{alltt}
+2.9285714285714285714285714285714\ldots
+\end{alltt}
+%
+Ausdrücke können auch kombiniert werden, zum Beispiel so:
+%
+\begin{alltt}
+(* 123 (+ 20 22))
+\evalsto{} 5166
+(* 123 (+ (* 2 10) 22))
+\evalsto{} 5166
+\end{alltt}
+%
+Bei der Kombination ist wichtig, dass um jeden Teilausdruck wieder ein
+Klammernpaar kommt.  Ist das nicht der Fall, erscheinen gelegentlich
+auch mal englischsprachige Fehlermeldungen wie diese hier:
+%
+\begin{alltt}
+(* 123 (+ * 2 10 22))
+{\color{red}+: expects a number as 1st argument, given #<function:*>}
+\end{alltt}
+%
+Das liegt daran, dass das \texttt{*} hier an der Stelle eines
+Operanden für die Summe dient.  Ein anderes Wort für Operand in diesem
+Zusammenhang ist \textit{Operand}, darum steht da sinngemäß, dass
+\texttt{+} eine Zahl als ersten Operanden erwartet, aber
+stattdessen die Funktion \texttt{+} bekommen hat.
+
+\section{Das Definitionsfenster}
+
 TBD
+
+FIXME: Einrückung
 
 \section{Bausteine für Programme}
 \label{sec:programming-elements}
