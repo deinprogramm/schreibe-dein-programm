@@ -114,7 +114,7 @@ für die Operation bestimmen.
 
 Zum Merken ist es hilfreich, Ausdrücke entsprechend vorzulesen: Also
 nicht mehr "`Hundertdreiundzwanzig plus zweiundvierzig"', sondern
-"`die \emph{Summ} von Hundertdreiundzwanzig und zweiundvierzig"'.
+"`die \emph{Summe} von Hundertdreiundzwanzig und zweiundvierzig"'.
 
 Wie schon gesagt, die Klammern sind wichtig.  Wenn Du sie vergisst,
 können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
@@ -129,8 +129,9 @@ können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
 %
 Das liegt daran, dass ohne Klammern \texttt{+ 123 32} aus \emph{drei}
 Ausdrücken besteht und die REPL darum auch drei Ergebnisse ausdruckt:
-Die Funktion \texttt{+} (was eine Funktion ist, behandeln wir später),
-dann die \texttt{123}, dann \texttt{42}.  Ähnlich verhält es sich mit
+Die Funktion \texttt{+}, dann die \texttt{123}, dann \texttt{42}.
+(Die Operation \texttt{+} ist eine sogenannte Funktion ist~-- das
+erläutern wir später noch genauer.)  Ähnlich verhält es sich mit
 \texttt{123 + 42}~-- probiere es aus!
 
 Wenn Du versehentlich den Operator dazwischen schreibst, erscheint
@@ -184,6 +185,13 @@ nicht mit Komma geschrieben werden.  Der Überstrich bei
 2.9285714285714285714285714285714\ldots
 \end{alltt}
 %
+Die REPL funktioniert also folgendermaßen: Sie \emph{liest} einen
+Ausdruck ein ("`read"'), berechnet deren Wert oder \emph{wertet}
+diesen \emph{aus} (auf Englisch "`eval"') und zeigt das Ergebnis an
+oder \emph{druckt} dieses \emph{aus} ("`print"')~-- und dann geht es
+von vorn los, wie in einer Schleife ("`loop"').  Die Abfolge
+\emph{Read-Eval-Print-Loop} gibt der REPL ihren Namen.
+
 Ausdrücke können auch kombiniert werden, zum Beispiel so:
 %
 \begin{alltt}
@@ -212,6 +220,24 @@ Ein hilfreicher Trick übrigens: Um einen Ausdruck zu korrigieren,
 kannst Du ihn in der REPL "`zurückholen"', indem Du \texttt{Esc}, und
 dann \texttt{P} drückst~-- probier es aus!
 
+\begin{aufgabe}
+  Schreibe folgende "`mathematischen"' Ausdrücke in der Notation der
+  Lehrsprache in die REPL und lasse die REPL sie auswerten:
+  %
+  \begin{displaymath}
+    \begin{array}{c}
+      55 * 27\\
+      23 * (44 + 27)\\
+      \frac{23}{44} + \frac{44}{23}\\
+      (23 + 42) * (12 + (14 * 2))
+    \end{array}
+  \end{displaymath}
+\end{aufgabe}
+%
+Ein weiterer praktischer Trick ist, dass Du einen geklammerten
+Ausdruck markieren (und dann ausschneiden) kannst, indem Du auf die
+öffnende oder schließende Klammer doppelt klickst.
+
 \section{Das Definitionsfenster}
 
 Kommen wir zum Definitionsfenster oben.  Dort schreibst Du Dein
@@ -234,6 +260,23 @@ alles
 \evalsto{} 42
 \end{alltt}
 %
+Ein Name, der in einem Programm so definiert ist, heißt
+\textit{Variable\index{Variable}}.
+
+Hier sind ein paar weitere Beispiele für Definitionen:
+%
+\begin{alltt}
+(define one 1)
+(define temperature 23)
+(define birgit-prinz 9)
+(define michael-ballack 13)
+\end{alltt}
+%
+Bei der Gestaltung eines Namens gibt es weitgehende
+Freiheiten.\footnote{Anders als in anderen Programmiersprachen sind
+  auch Bindestriche in Namen möglich.}  Nur Leerzeichen sind nicht
+erlaubt.
+
 In einem Programm kannst Du Zeilenumbrüche und Einrückung benutzen, um
 Dein Programm übersichtlicher zu gestalten.  Zum Beispiel kannst Du
 nach \texttt{alles} die Return-Taste drücken, das Ergebnis sieht so
@@ -264,6 +307,20 @@ einen Menüunkt \texttt{Racket $\rightarrow$ Alles einrücken} (bzw.\
 \texttt{Racket $\rightarrow$ Reindent All}), der das für das gesamte
 Programm macht: Probier es aus!
 
+\begin{aufgabe}
+  Bring bei einem mehrzahligen Programm die Einrückung richtig
+  durcheinander, zum Beispiel so:
+\begin{verbatim}
+(define nr
+  (+ 12
+ (- (* 42
+  13)
+    500)))
+\end{verbatim}
+  %
+  Benutze dann die Tab-Taste, um die Einrückung wieder zu korrigieren.
+\end{aufgabe}
+%
 Den Inhalt des Definitionsfenster kannst Du abspeichern, indem Du auf
 den Knopf mit der Diskette
 \raisebox{-1ex}{\includegraphics[height=12pt]{i1prog/save}} drückst.
@@ -275,11 +332,28 @@ drückst.
 
 \section{Rechnen ohne Zahlen}
 
-Ausdrücke und Werte gibt es in Computerprogrammen nicht nur in Form
-von Zahlen.  Zum Beispiel gibt es auch Text, wie in
-Abbildung~\ref{scheme:strings} beschrieben.
-(Kästen wie Abbildung~\ref{scheme:strings} werden in diesem
-Buch noch oft dazu dienen, neue Sprachelemente einzuführen.)
+Computerprogramme können nicht nur mit Zahlen rechnen.  In diesem
+Abschnitt geht es um das Rechnen mit Text und das Rechnen mit Bildern.
+
+\subsection{Rechnen mit Zeichenketten}
+
+Zum Beispiel gibt es auch Text, der in einem Programm immer von
+doppelten Anführungszeichen umschlossen ist, zum Beispiel:
+%
+\begin{alltt}
+"Mike Sperber"
+"Herbert Klaeren"
+"Schreibe Dein Programm!"
+\end{alltt}
+%
+Diese Werte heißen \textit{Zeichenketten\index{Zeichenkette}}.
+
+Die einfachste Art, eine Zeichenkette herzustellen, ist, die
+Buchstaben hinzuschreiben, aus denen sie besteht.  Die
+Anführungszeichen müssen drumherum, um die Zeichenketten von anderen
+Ausdrücken zu unterscheiden.  Die Anführungszeichen gehören aber nicht
+zu den Buchstaben dazu, aus denen die Zeichenkette besteht~--
+\verb|"abc"| besteht aus den drei Buchstaben \texttt{abc}.
 
 \begin{feature}{Zeichenketten}{scheme:strings}
 \textit{Zeichenketten\index{Zeichenkette}} (auf Englisch
@@ -294,7 +368,7 @@ Dabei sind die \(z\sb{i}\) beliebige einzelne Zeichen, außer \verb|"| selbst.
 Beispiel:
 %
 \begin{alltt}
-"Mike was here!"
+"Herbert was here!"
 \end{alltt}
 %
 Das Anführungszeichen (\verb|"|) kann nicht "`ungeschützt"' vorkommen, da es das Ende der
@@ -305,10 +379,19 @@ durch \verb|\"| dargestellt:
 "Herbert sagt, Mike wäre \backwhack{}"doof\backwhack{}"!"
 \end{alltt}
 \end{feature}
-%
-Mit Text kann DrRacket auch rechnen, und zwar mit der eingebauten
-Funktion \texttt{string-append}\index{string-append@\texttt{string-append}}, die zwei Zeichenketten
-aneinanderhängt:
+
+Abbildung~\ref{scheme:strings} beschreibt die genaue Schreibweise für
+solche "`festen"' Zeichenketten.  Feste Schreibweisen für Werte heißen
+allgemein \textit{Literale\index{Literal}}.  Das kennen wir schon von
+den Zahlen: die Zeichenfolge \texttt{123} steht für die Zahl
+"`hundertdreiundzwanzig"'.  Kästen wie Abbildung~\ref{scheme:strings}
+werden in diesem Buch noch oft dazu dienen, neue Sprachelemente
+einzuführen.
+
+Mit Text kann ein Programm auch rechnen, und zwar mit der eingebauten
+Funktion
+\texttt{string"=append}\index{string-append@\texttt{string-append}},
+die zwei Zeichenketten aneinanderhängt:
 %
 \begin{alltt}
 (string-append "Herbert" "Mike")
@@ -328,7 +411,13 @@ liefert die Anzahl der Buchstaben in einer Zeichenkette:
 \evalsto{} 4
 \end{alltt}
 %
-Die Funktionen
+Die Namen \texttt{string-append} und \texttt{string-length} sehen auf
+den ersten Blick "`anders"' aus als \texttt{+} und \texttt{*} zum
+Beispiel, dieser Eindruck täuscht jedoch: Sie sind allesamt Namen von
+vordefinierten Operationen, die Programme benutzen können, oder sie
+selbst definieren zu müssen.
+
+Die vordefinierten Funktionen
 \texttt{string->number}\index{string->number@\texttt{string->number}}
 und \texttt{number->string} konvertieren zwischen Zahlen und den
 Zeichenketten, die diese darstellen:
@@ -340,44 +429,298 @@ Zeichenketten, die diese darstellen:
 \evalsto{} "23"
 \end{alltt}
 %
-Programme können auch mit Bildern rechnen.  Dazu wird eine
-Erweiterung zu DrRacket benötigt, ein sogenanntes
-\textit{Teachpack}\index{Teachpack}:  Wählen Sie dazu im Menü
-\texttt{Sprache} den Punkt \texttt{Teachpack hinzufügen} und wählen
-Sie \texttt{image2.ss} aus.  Danach können Sie zum Beispiel ins
-Programm schreiben:
+\begin{aufgabe}
+  Mache Dir den Unterschied zwischen der Zahl \texttt{23} und der
+  Zeichenkette \verb|"23"|.  Probiere zum Beispiel aus:
+\begin{alltt}
+(+ "23" 42)
+(string-append 23 "42")
+(number->string "23")
+\end{alltt}
+\end{aufgabe}
+
+\subsection{Rechnen mit Bildern}
+
+Programme können auch mit Bildern rechnen.  Dazu wird eine Erweiterung
+zu DrRacket benötigt, ein sogenanntes
+\textit{Teachpack}\index{Teachpack}: Wähle dazu den Menüpunkt
+\texttt{Sprache $\rightarrow$ Teachpack hinzufügen}.  (Beziehungsweise
+\texttt{Language $\rightarrow$ Add Teachpack}.  In dem Dialog, der
+dann erscheint, wähle \texttt{image.rkt} aus und drücke dann
+\texttt{OK}.
+
+Das Teachpack \texttt{image.rkt} enthält zusätzliche vordefinierte
+Funktionen, mit denen wir Bilder herstellen können.  Zum Beispiel
+\texttt{square}, \texttt{circle} und \texttt{star-polygon}:
 %
 \begin{alltt}
 (square 40 "solid" "red")
-\evalsto{} \includegraphics[width=1cm]{square.eps}
+\evalsto{} \includegraphics[height=24pt]{i1prog/square}
 (circle 40 "solid" "green")
-\evalsto{} \includegraphics[width=1cm]{circle.eps}
+\evalsto{} \includegraphics[height=24pt]{i1prog/circle}
 (star-polygon 20 10 3 "solid" "blue")
-\evalsto{} \includegraphics[width=1cm]{starpolygon.eps}
+\evalsto{} \includegraphics[height=24pt]{i1prog/starpolygon}
 \end{alltt}
 %
-Diese Bilder sind Werte wie Zahlen und Zeichenketten auch.
-Insbesondere können sie mit Definitionen an Namen gebunden werden:
+Schauen wir uns das eingebaute \texttt{star-polygon} etwas näher an:
+Es akzeptiert fünf Eingaben, die ersten drei davon sind Zahlen~-- die
+Seitenlänge, die Seitenanzahl und die Anzahl der Ecken, die für jede
+Seite übersprungen werden.  Danach kommen zwei Zeichenketten~--
+\verb|"solid"| heißt, dass das Innere des Sterns ausgefüllt ist und
+\verb|"blue"| ist die Farbe.  Statt \verb|"solid"| kannst Du auch
+\verb|"outline"| schreiben, dann wird auch etwas klarer, was
+"`überspringen"' heißt:
+%
+% filename can't contain hyphen because of alltt
+\begin{alltt}
+(star-polygon 20 10 3 "outline" "blue")
+\evalsto{} \includegraphics[height=24pt]{i1prog/starpolygon_outline}
+\end{alltt}
+%
+\begin{aufgabe}
+  Wofür stehen die Zahleneingaben bei \texttt{square} und
+  \texttt{circle}?  Probiere unterschiedliche Zahlen aus!  Es gibt
+  auch eine eingebaute Funktion \texttt{rectangle}.  Kannst Du ein
+  funktionierendes Beispiel für den Einsatz von \texttt{rectangle}
+  konstruieren?  Außerdem gibt es eine eingebaute Funktion
+  \texttt{ellipse}, die genauso benutzt wird wie \texttt{rectangle}~--
+  probiere sie aus!
+\end{aufgabe}
+%
+Bilder sind Werte wie Zahlen und Zeichenketten auch.  Du kannst
+Definitionen auch Namen dafür vergeben:
 %
 \begin{verbatim}
-(define s1 (square 40 "solid" "slateblue"))
-(define c1 (circle 40 "solid" "slateblue"))
-(define p1 (star-polygon 20 10 3 "solid" "cornflowerblue"))
+(define s1 (square 40 "solid" "red"))
+(define c1 (circle 40 "solid" "green"))
+(define p1 (star-polygon 20 10 3 "solid" "blue"))
 \end{verbatim}
 %
-Mit Bildern kann DrRacket ebenfalls rechnen:
+\begin{aufgabe}
+  Du kannst auch Bilddateien oder Bilder in Webseiten in Dein Programm
+  einfügen, wie in einem Textverarbeitsprogramm.  Probier es aus und
+  gib dem Bild einen Namen!
+\end{aufgabe}
+
+%
+Mit Bildern kann DrRacket auch rechnen:
 %
 \begin{alltt}
-(beside/align "bottom" s1 c1 p1)
-\evalsto{} \includegraphics[width=1cm]{square.eps}\includegraphics[width=1cm]{circle.eps}\includegraphics[width=1cm]{starpolygon.eps}
+(beside s1 p1)
+\evalsto{} \includegraphics[height=24pt]{i1prog/beside.png}
+(above s1 c1)
+\evalsto{} \includegraphics[width=24pt]{i1prog/above.png}
+(above (beside s1 p1) (beside p1 c1))
+\evalsto{} \includegraphics[width=48pt]{i1prog/abovebeside.png}
 \end{alltt}              
 %
-Bilder und Animationen mit Bildern werden ausführlich in
-Kapitel~\ref{cha:representation-and-state} behandelt.
+Das heißt, \texttt{beside} akzeptiert als Eingabe zwei (oder mehr)
+Bilder und macht daraus wieder ein Bild, in dem die Teilbilder
+nebeneinander stehen.  Das gleiche gilt für \texttt{above}, nur dass
+die Bilder übereinander angeordnet werden.  Selbstverständlich können
+\texttt{above} und \texttt{beside} auch kombiniert werden.
 
-\section{Namen und Definitionen}
+\section{Die Macht der Abstraktion}
 
-TBD
+Hier sind zwei Ausdrücke, welche die Bilder aus dem vorigen Abschnitt
+zu einem Muster kombinieren:
+%
+\begin{alltt}
+(above
+ (beside s1 p1)
+ (beside p1 s1))
+\evalsto{} \includegraphics[width=48pt]{i1prog/tile1}
+
+(above
+ (beside p1 c1)
+ (beside c1 p1))
+\evalsto{} \includegraphics[width=48pt]{i1prog/tile2}
+\end{alltt}
+%
+Beide Ausdrücke folgen dem gleichen Muster, sie "`kacheln"' jeweils zwei
+Bilder in einer quadratischen Anordnung.  Das Muster könnte man so
+hinschreiben:
+%
+\begin{verbatim}
+(above
+ (beside a b)
+ (beside b a))
+\end{verbatim}
+%
+Das erste Beispiel entsteht dann, indem für \texttt{a} \texttt{s1}
+eingesetzt wird und für \texttt{b} \texttt{p1}, im zweiten für \texttt{a}
+\texttt{p1} und für \texttt{b} dann \texttt{c1}.
+
+Dieses Muster kannst Du in ein Programm gießen.  Dann müssen wir nicht
+jedesmal \texttt{above \ldots{} beside \ldots{} beside} eintippen.
+Dazu schreibst Du es erst einmal genauso hin, also mit \texttt{a} und
+\texttt{b}.  Wenn Du das Programm startet, erscheint folgende Meldung:
+%
+\begin{alltt}
+\color{red}a: Ungebundene Variable
+\end{alltt}
+%
+Na klar, es gibt ja auch keine Definition für \texttt{a}.  Du könntest
+eine hinschreiben, zum Beispiel:
+%
+\begin{verbatim}
+(define a s1)
+\end{verbatim}
+%
+Aber dann wäre \texttt{a} auf \texttt{s1} festgelegt.  Wir wollen
+stattdessen das Muster verallgemeinern, so dass Du es mehrmals mit
+unterschiedlichen Werten für \texttt{a} und \texttt{b} verwenden
+kannst.  Dieser Verallgemeinerungsprozess heißt beim Programmieren
+\textit{Abstraktion\index{Abstraktion}}.  Dafür müssen wir dem Muster
+noch etwas hinzufügen, um zu sagen, dass wir unterschiedliche Werte
+für \texttt{a} und \texttt{b} einsetzen wollen:
+%
+\begin{verbatim}
+(lambda (a b)
+  (above
+   (beside a b)
+   (beside b a)))
+\end{verbatim}
+%
+Die \texttt{lambda}\index{lambda@\texttt{lambda}} ist eine Art Zauberwort, es sagt soviel wie: "`Für
+die Variablen \texttt{a} und \texttt{b} möchte ich später (und
+vielleicht mehrmals) Werte einsetzen."'  Wenn Du das Programm jetzt
+startest, geht die Fehlermeldung weg und in der REPL erscheint:
+%
+\begin{alltt}
+#<function:\ldots>
+\end{alltt}
+%
+(Der Text anstelle des \ldots{} variiert etwas von Fall zu Fall.)
+
+Das deutet darauf hin, dass bei dem \texttt{lambda} eine Funktion
+herauskommt.  Um etwas damit anfzufangen, gib ihr einen Namen mit
+\texttt{define}:
+%
+\begin{verbatim}
+(define tile
+  (lambda (a b)
+    (above
+     (beside a b)
+     (beside b a))))
+\end{verbatim}
+%
+(Alles schön richtig einrücken! "`Tile"' heißt auf Deutsch
+"`kacheln"'.)
+
+Dadurch ist eine neue Operation entstanden.  Die kannst Du direkt
+verwenden:
+%
+\begin{alltt}
+(tile s1 p1)
+\evalsto{} \includegraphics[width=48pt]{i1prog/tile1}
+
+(tile p1 c1)
+\evalsto{} \includegraphics[width=48pt]{i1prog/tile2}
+\end{alltt}
+%
+Was ist da passiert?  Am einfachsten kann man das in einem speziellen
+Werkzeug sehen, dem \textit{Stepper\index{Stepper}}.  Um ihn zum
+Einsatz zu bringen, sorge dafür, dass im Definitionsfenster folgendes
+Programm steht, also das, was weiter oben schon steht:
+%
+\begin{verbatim}
+(define s1 (square 40 "solid" "red"))
+(define c1 (circle 40 "solid" "green"))
+(define p1 (star-polygon 20 10 3 "solid" "blue"))
+
+(define tile
+  (lambda (a b)
+    (above
+     (beside a b)
+     (beside b a))))
+
+(tile s1 p1)
+(tile p1 c1)
+\end{verbatim}
+%
+Dann drück auf den \texttt{Stepper}-Knopf oben rechts im
+DrRacket-Fenster.  Es erscheint ein neues Fenster, das so aussieht:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{i1prog/stepper-0}
+  \caption{Der Stepper in Aktion}
+  \label{fig:stepper-0}
+\end{figure}
+%
+\noindent Du kannst jetzt mit den Knöpfen mit dem Vorwärts- beziehungsweise dem
+Rückwärts-Pfeil zusehen, wie DrRacket Dein Programm ausführt.  Wenn Du
+ein paar Schritte vorwärts gehst, sieht das so aus:
+%
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{i1prog/stepper-1}
+  \caption{Stepper: Variable ersetzen}
+  \label{fig:stepper-1}
+\end{figure}
+%
+\noindent Du kannst sehen, wie DrRacket jeweils einen Ausdruck einen Schritt auf
+einmal auswertet~-- der ist auf der linken Seite grün~-- und dann
+rechts durch das Resultat ersetzt.  Oben kannst Du sehen, wie der
+Stepper die Variable \texttt{tile} durch den \texttt{lambda}-Ausdruck
+aus der Definition von \texttt{tile} ersetzt. Das macht der Stepper
+auch mit den Definitionen von \texttt{s1} und \texttt{p1}:
+%
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{i1prog/stepper-2}
+  \caption{Stepper: Variable}
+  \label{fig:stepper-2}
+\end{figure}
+%
+\noindent Interessant wird es danach: Die Variablen aus den Definitionen sind
+alle ersetzt.  Hinter dem \texttt{lambda}-Ausdruck stehen jetzt das
+Quadrat und der Stern, und die werden jetzt für die Variablen aus dem
+\texttt{lambda}-Ausdruck eingesetzt, also das Quadrat für \texttt{a}
+und der Stern für \texttt{b}:
+%
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{i1prog/stepper-3}
+  \caption{Der Stepper in Aktion}
+  \label{fig:stepper-3}
+\end{figure}
+%
+\noindent Dabei verschwindet auch das \texttt{lambda}.
+%
+\begin{aufgabe}
+  Probiere das Beispiel im Stepper aus und klicke Dich bis zum Ende
+  durch. Mache Dir dabei klar, wie jeweils die linke mit der rechten
+  Seite zusammenhängt.
+\end{aufgabe}
+%
+
+\begin{feature}{Abstraktion und Anwendung}{scheme:abstraction}
+  Eine Abstraktion\index{Abstraktion} hat folgende Form:
+\begin{alltt}
+(lambda (\(p\sb{1} \ldots p\sb{n}\)) \(e\))
+\end{alltt}
+  %
+  Die $p_i$ sind jeweils Namen, die \textit{Parameter}\index{Parameter}, und
+  $e$ ist der \textit{Rumpf}\index{Rumpf}.  In $e$ dürfen die $p_i$
+  vorkommen.  Der Wert einer Abstraktion ist eine \textit{Funktion}\index{Funktion},
+  welche für jeden Parameter eine Eingabe erwartet.
+
+  Eine \textit{Anwendung} einer Funktion hat folgende Form:
+  %
+\begin{alltt}
+(\(p\) \(a\sb{1}\) \ldots \(a\sb{n}\))
+\end{alltt}
+  %
+  $p$ ist ein Ausdruck, der eine Prozedur ergeben muß, die $a_i$ sind
+  ebenfalls Ausdrücke, die \textit{Argumente}\index{Argument}.  Bei
+  der Auswertung einer Anwendung werden zunächst $p$ und die $a_i$
+  ausgewertet; danach geht es mit der Auswertung des Rumpfes der
+  Prozedur weiter, wobei für die Parameter $p_i$ jeweils die Werte der
+  Argumente $a_i$ eingesetzt werden.
+\end{feature}
+
 
 \section{Information und Daten}
 
@@ -593,30 +936,6 @@ $n$ eingesetzt werden:
 \evalsto{} 3
 \end{alltt}
 
-\begin{feature}{Abstraktion und Anwendung}{scheme:abstraction}
-  Eine Abstraktion\index{Abstraktion} hat folgende Form:
-\begin{alltt}
-(lambda (\(p\sb{1} \ldots p\sb{n}\)) \(e\))
-\end{alltt}
-  %
-  Die $p_i$ sind jeweils Namen, die \textit{Parameter}\index{Parameter}, und
-  $e$ ist der \textit{Rumpf}\index{Rumpf}.  In $e$ dürfen die $p_i$
-  vorkommen.  Der Wert einer Abstraktion ist eine \textit{Funktion}\index{Funktion},
-  welche für jeden Parameter eine Eingabe erwartet.
-
-  Eine \textit{Anwendung} einer Funktion hat folgende Form:
-  %
-\begin{alltt}
-(\(p\) \(a\sb{1}\) \ldots \(a\sb{n}\))
-\end{alltt}
-  %
-  $p$ ist ein Ausdruck, der eine Prozedur ergeben muß, die $a_i$ sind
-  ebenfalls Ausdrücke, die \textit{Argumente}\index{Argument}.  Bei
-  der Auswertung einer Anwendung werden zunächst $p$ und die $a_i$
-  ausgewertet; danach geht es mit der Auswertung des Rumpfes der
-  Prozedur weiter, wobei für die Parameter $p_i$ jeweils die Werte der
-  Argumente $a_i$ eingesetzt werden.
-\end{feature}
 % 
 Abbildung~\ref{scheme:abstraction} erklärt die beiden Konzepte
 "`Abstraktion"' und "`Anwendung"' im allgemeinen.
