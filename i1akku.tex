@@ -12,9 +12,9 @@ von 4 "`wußte nicht"', daß sie später noch mit 5 multipliziert wird,
 die Summe der Zahlen von 1 bis 4 "`wußte nicht"', daß später noch 5
 dazuaddiert wird, etc.  Manche Probleme sind aber so formuliert, daß
 bei der Berechnung ein Zwischenergebnis mitgeführt und aktualisiert
-wird.  Die Konstruktionsanleitungen für Prozeduren, die Listen oder
+wird.  Die Konstruktionsanleitungen für Funktionen, die Listen oder
 natürliche Zahlen verarbeiten, führen aber bei direkter Anwendung zu
-Prozeduren, die kein Zwischenergebnisses mitführen können: Solche
+Funktionen, die kein Zwischenergebnisses mitführen können: Solche
 Probleme erfordern deshalb eine neue Programmiertechnik, das
 Programmieren mit \textit{Akkumulatoren}, und entsprechend angepaßte
 Konstruktionsanleitungen.
@@ -73,7 +73,7 @@ vervollständigen:
                        (first lis))))))
 \end{verbatim}
 %
-Die Prozedur \texttt{append-element} ist ganz ähnlich der Prozedur
+Die Funktion \texttt{append-element} ist ganz ähnlich der Funktion
 \texttt{concatenate} aus Abschnitt~\ref{sec:more-lists}.  Zunächst
 Testfälle:
 %
@@ -125,7 +125,7 @@ lang wie das Invertieren einer Liste der Länge 200 benötigt.  Das
 liegt daran, daß \texttt{invert} bei jedem rekursiven Aufruf
 \texttt{append-element} aufruft, und \texttt{append-element} selbst
 macht soviele rekursive Aufrufe wie die Liste lang ist.  Das wiederum
-heißt aber, daß die Gesamtanzahl der Prozeduraufrufe für das
+heißt aber, daß die Gesamtanzahl der Funktionaufrufe für das
 Invertieren einer Liste der Länge $n$ so steigt wie in
 der Kurve in Abbildung~\ref{fig:invert-calls} gezeigt, also offenbar
 stärker als linear: Das erklärt das überproportionale Ansteigen der
@@ -159,7 +159,7 @@ auftreten: scheinbar einfach.  Allerdings erlaubt die normale
 Konstruktionsanleitung für Listen nicht, dieses Zwischenergebnis
 mitzuführen: Das Ergebnis des rekursiven Aufrufs \texttt{(invert (rest
   lis))} ist unabhängig vom Wert von \texttt{(first lis)}.  Damit aber
-ist es der Prozedur aus der normalen Konstruktionsanleitung unmöglich,
+ist es der Funktion aus der normalen Konstruktionsanleitung unmöglich,
 die obige Folge von Zwischenergebnissen nachzuvollziehen, da von einem
 Zwischenergebnis zum nächsten gerade \texttt{(first lis)} vorn
 angehängt wird.  Für diesen speziellen Fall~-- wenn eine Berechnung das
@@ -226,7 +226,7 @@ angehängt wird:
 \end{verbatim}
 %
 Da der rekursive Aufrufs von \texttt{invert-helper} schließlich direkt das
-Endergebnis zurückgegeben wird, ist damit die Prozedur auch schon fertig:
+Endergebnis zurückgegeben wird, ist damit die Funktion auch schon fertig:
 %
 \begin{verbatim}
 (define invert-helper
@@ -282,12 +282,12 @@ gut nachvollziehen läßt:
 \(\Longrightarrow\) #<list 4 3 2 1>
 \end{alltt}
 %
-Tatsächlich arbeitet die neue Prozedur auch effizienter: Da
+Tatsächlich arbeitet die neue Funktion auch effizienter: Da
 \texttt{invert-helper} nicht bei jedem Aufruf selbst wieder eine Funktion
 aufruft, die eine komplette Liste verarbeitet, steigt die Rechenzeit
 nur noch proportional zur Länge der Liste.
 
-Da die Prozedur \texttt{invert} generell nützlich ist, ist sie unter
+Da die Funktion \texttt{invert} generell nützlich ist, ist sie unter
 dem Namen \texttt{reverse\index{reverse@\texttt{reverse}}} fest eingebaut.
 
 \begin{feature}{\texttt{letrec}}{scheme:letrec}
@@ -309,7 +309,7 @@ vorgestellte \texttt{letrec}-Form löst das Problem.
 
 Akkumulatoren, die Zwischenergebnisse verwalten, sind bei der Lösung
 einer Reihe von Problemen nützlich.  Zum Beispiel könnte eine
-Prozedur, welche die Fakultät $n!$ einer Zahl $n$ berechnet,
+Funktion, welche die Fakultät $n!$ einer Zahl $n$ berechnet,
 vorgehen, indem sie das Produkt $n \cdot \ldots \cdot 1$ schrittweise von
 links her ausrechnet:
 %
@@ -327,7 +327,7 @@ links her ausrechnet:
 Der Anfangswert für das Zwischenergebnis ist 1, also gerade die
 Fakultät von 0.
 
-Für die Konstruktion wird die Schablone für Prozeduren, die natürliche
+Für die Konstruktion wird die Schablone für Funktionen, die natürliche
 Zahlen verarbeiten, um einen Akkumulator erweitert:
 \label{page:factorial-tail}
 %
@@ -382,9 +382,9 @@ bereits fertig:
       (!-helper n 1))))
 \end{verbatim}
 %
-Tatsächlich ist es bei Prozeduren mit Akkumulator grundsätzlich nicht
+Tatsächlich ist es bei Funktionen mit Akkumulator grundsätzlich nicht
 notwendig, für die Ellipsen am Schluß etwas einzusetzen. Bei der
-normalen Schablone für Prozeduren, die Listen bzw.\ natürliche Zahlen
+normalen Schablone für Funktionen, die Listen bzw.\ natürliche Zahlen
 verarbeiten, wird für diese Ellipsen Code eingesetzt, was das erste
 Element der Liste mit dem Ergebnis des rekursiven Ausdrucks 
 zum Rückgabewert kombiniert.  Dies ist beim Einsatz eines Akkumulators
@@ -392,11 +392,11 @@ aber nicht notwendig, da das erste Element der Liste bereits in die
 Berechnung des nächsten Zwischenergebnisses eingeht und dieses
 Zwischenergebnis beim letzten Aufruf bereits das Endergebnis ist.
 
-\section{Schablonen für Prozeduren mit Akkumulator}
+\section{Schablonen für Funktionen mit Akkumulator}
 
 Aus den beiden Beispielen des vorgehenden Abschnitts ergeben sich
-direkt Schablonen für Prozeduren mit Akkumulator.  Zunächst die
-Schablone für Prozeduren mit Akkumulator, die Listen akzeptieren:
+direkt Schablonen für Funktionen mit Akkumulator.  Zunächst die
+Schablone für Funktionen mit Akkumulator, die Listen akzeptieren:
 %
 \begin{alltt}
 (: proc ((list-of elem) -> ...))
@@ -422,7 +422,7 @@ Ausdruck, der für \texttt{(... (first lis) ... acc ...)} einzusetzen
 ist, macht aus dem alten Zwischenergebnis \texttt{acc} das neue
 Zwischenergebnis.
 
-Die Schablone für Prozeduren mit Akkumulator, die natürliche Zahlen
+Die Schablone für Funktionen mit Akkumulator, die natürliche Zahlen
 akzeptieren, ist analog:
 %
 \begin{alltt}
@@ -514,7 +514,7 @@ zwischenzeitlich auftretenden Ausdrücke begrenzt zu sein.  Tatsächlich
 stellt sich das Wachstum der Version ohne Akkumulator bei der Version
 mit Akkumulator nicht ein.
 
-Der Grund dafür sind die Schablonen: In der Schablone für Prozeduren
+Der Grund dafür sind die Schablonen: In der Schablone für Funktionen
 ohne Akkumulator steht \texttt{(... (proc (- n 1)) ...)}, das
 heißt, um den rekursiven Aufruf von \texttt{proc} wird noch
 etwas "`herumgewickelt"', oder, anders gesagt, mit dem Ergebnis des
@@ -532,7 +532,7 @@ multipliziert wird.  Dementsprechend stauen sich in der
 Reduktionsfolge die Multiplikationen mit den verschiedenen Werten von
 \texttt{n}.
 
-Bei der Fakultäts-Prozedur mit Akkumulator ist der Ausdruck, zu dem
+Bei der Fakultäts-Funktion mit Akkumulator ist der Ausdruck, zu dem
 der Rumpf bei $\texttt{n} \neq 0$ reduziert wird, \texttt{(!-helper (- n 1)
   (* n acc))}.  Der Kontext des Aufrufs von \texttt{!-helper} innerhalb
 dieses Ausdrucks ist \texttt{[]}, also \emph{leer}~-- \emph{nichts}
@@ -548,7 +548,7 @@ werden, heißen auch \textit{iterative\index{Iteration}} Prozesse.
 
 \section{Das Phänomen der umgedrehten Liste}
 
-Die beiden Varianten der Fakultäts-Prozedur berechnen zwar beide 
+Die beiden Varianten der Fakultäts-Funktion berechnen zwar beide 
 stets das gleiche Ergebnis.  Die beiden Reduktionsfolgen für
 \texttt{(! 4)} aus dem vorigen Abschnitt zeigen allerdings, daß die
 beiden Funktionen bei der Berechnung unterschiedlich vorgehen:
@@ -568,7 +568,7 @@ multipliziert die Variante mit Akkumulator "`von links"':
 Die Multiplikationen passieren also in umgekehrter Reihenfolge.
 Dies macht bei der Fakultät keinen Unterschied, da die Multiplikation
 assoziativ ist.  Diese Assoziativität ist jedoch nicht immer
-gegeben~-- insbesondere nicht bei Prozeduren, die Listen zurückgeben.
+gegeben~-- insbesondere nicht bei Funktionen, die Listen zurückgeben.
 Hier zum Beispiel eine Funktion, die eine Zahl $n$ akzeptiert und eine
 absteigende Liste der Zahlen von $n$ bis $1$ zurückliefert:
 %
@@ -624,7 +624,7 @@ der Ergebnisliste gelöst werden:
 
 Bei der Auswertung von Programmen durch den Computer wird für die
 Verwaltung von Kontexten Speicherplatz benötigt: Bei rekursiven
-Prozeduren ohne Akkumulator wächst dieser Speicherplatz mit der Größe
+Funktionen ohne Akkumulator wächst dieser Speicherplatz mit der Größe
 der Argumente.  Entsprechend wird prinzipiell kein Speicherplatz
 benötigt, wenn kein Kontext anfällt.  In Scheme wird auch tatsächlich
 kein Speicherplatz für endrekursive Aufrufe verbraucht; dies ist
@@ -655,7 +655,7 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
   Gewinn liefert, die durch den Kauf und folgenden Verkauf der Aktie
   an diesem Tag erreicht werden kann.
 
-  Hinweis: Diese Prozedur benötigt zwei Akkumulatoren.
+  Hinweis: Diese Funktion benötigt zwei Akkumulatoren.
 \end{aufgabe}
 
 \begin{aufgabe}

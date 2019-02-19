@@ -3,16 +3,16 @@
 % "Namensnennung 4.0 International (CC BY 4.0)"
 % http://creativecommons.org/licenses/by/4.0/deed.de
 
-\chapter{Prozeduren über natürlichen Zahlen}
+\chapter{Funktionen über natürlichen Zahlen}
 \label{cha:recursion-numbers}
 
-%\section{Prozeduren über natürlichen Zahlen} HK: Hier die einzige numerierte
+%\section{Funktionen über natürlichen Zahlen} HK: Hier die einzige numerierte
 %section, also zunächst überflüssig
 \label{sec:factorial}
 
 Aus der induktiven Definition der natürlichen Zahlen ergibt sich direkt eine Schablone für die
-Konstruktion von Prozeduren auf den natürlichen Zahlen.  Angenommen,
-es sei eine Prozedur gefragt, die für eine Zahl $n$ das Produkt aller
+Konstruktion von Funktionen auf den natürlichen Zahlen.  Angenommen,
+es sei eine Funktion gefragt, die für eine Zahl $n$ das Produkt aller
 Zahlen von $1$ bis $n$ berechnet. 
 Dieses Produkt heißt 
 \textit{Fakultät}\index{Fakultät}, auf Englisch
@@ -58,7 +58,7 @@ ab:
 %
 Diese Fallunterscheidung läßt sich leichter mit \texttt{if}
 schreiben:\footnote{Es wäre genauso richtig, beide Zweige
-  mit einem Test zu versehen, wie bei den Prozeduren über Listen:
+  mit einem Test zu versehen, wie bei den Funktionen über Listen:
 %
 \begin{alltt}
 (define factorial\\
@@ -185,8 +185,8 @@ Aus diesen Gründen kommt der von
 \texttt{(factorial $n$)} erzeugte Berechnungsprozeß immer zum Schluß.  
 
 Aus der Definition von \texttt{factorial} ergibt sich eine
-Konstruktionsanleitung für Prozeduren, die natürliche Zahlen
-verarbeiten.  Die Schablone für solche Prozeduren sieht folgendermaßen aus:
+Konstruktionsanleitung für Funktionen, die natürliche Zahlen
+verarbeiten.  Die Schablone für solche Funktionen sieht folgendermaßen aus:
 %
 \begin{alltt}
 (: proc (natural -> ...))
@@ -207,7 +207,7 @@ TDB: Funktionen, die Listen erzeugen etc.
 \section*{Aufgaben}
 
 \begin{aufgabe}\label{aufg:power}
-  Schreiben Sie eine Prozedur \texttt{power}, die für eine Basis $b$ und
+  Schreiben Sie eine Funktion \texttt{power}, die für eine Basis $b$ und
   einen Exponenten $e\in\mathbb{N}$ die Potenz $b^e$ ausrechnet.  Also:
 \begin{alltt}
 (power 5 3)
@@ -222,7 +222,7 @@ TDB: Funktionen, die Listen erzeugen etc.
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
     gerade ist und \verb|#f| sonst.
     Schreiben Sie mit Hilfe von \texttt{even?}
-    eine Prozedur namens \texttt{evens}, welche für zwei
+    eine Funktion namens \texttt{evens}, welche für zwei
     Zahlen $a$ und $b$ eine Liste der geraden Zahlen zwischen $a$ und
     $b$ zurückgibt:
 \begin{alltt}
@@ -237,7 +237,7 @@ TDB: Funktionen, die Listen erzeugen etc.
     Die eingebaute Funktion \texttt{odd?}\index{odd?@\texttt{odd?}}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
     ungerade ist und \verb|#f| sonst.
-    Schreiben Sie mit Hilfe von \texttt{odd?} eine Prozedur \texttt{odds}, welche für zwei
+    Schreiben Sie mit Hilfe von \texttt{odd?} eine Funktion \texttt{odds}, welche für zwei
     Zahlen $a$ und $b$ eine Liste der ungeraden Zahlen zwischen $a$ und $b$
     zurückgibt:
 \begin{alltt}

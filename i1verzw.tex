@@ -224,7 +224,7 @@ Kommentar fest:
 %
 FIXME: Signatur benamsen, nach Motivation
 %
-Die Kurzbeschreibung der Prozedur könnte so aussehen:
+Die Kurzbeschreibung der Funktion könnte so aussehen:
 %
 \begin{alltt}
 ; Zwangsmaßnahme bei Flensburg-Punktestand errechnen
@@ -252,7 +252,7 @@ Hier sind zwei mögliche Testfälle:
 (check-expect (points-must-do 18) "Führerscheinentzug")
 \end{alltt}   
 %
-Es folgt das Gerüst der Prozedur:
+Es folgt das Gerüst der Funktion:
 %
 \begin{alltt}
 (define points-must-do
@@ -446,7 +446,7 @@ von Funktionen im allgemeinen.)
 
 \section{Verkürzte Tests}
 
-Natürlich könnten wir die Prozedur auch leicht abkürzen:
+Natürlich könnten wir die Funktion auch leicht abkürzen:
 %
 \begin{alltt}
 (define points-must-do
@@ -798,7 +798,7 @@ Noch einmal zurück zum Parkplatzproblem, das wir auf
 Seite~\ref{page:parking-lot-cars} programmiert hatten.  In
 Abschnitt~\ref{sec:nonsensical-data-prequel} auf
 Seite~\pageref{sec:nonsensical-data-prequel} hatten wir bereits
-bemerkt, daß die Prozedur
+bemerkt, daß die Funktion
 \texttt{parking-lot-cars}\index{parking-lot-cars@\texttt{parking-lot-cars}}
 auch für unsinnige Daten fröhlich ebenso unsinnige Ergebnisse
 ermittelt.
@@ -822,7 +822,7 @@ Ausdruck bringen:
 %
 Die eingebaute Funktion \texttt{even?} akzeptiert eine ganze Zahl und
 liefert \verb|#t|, falls die Zahl gerade ist und \verb|#f|, falls sie
-ungerade ist~-- solche und viele andere nützliche Prozeduren finden
+ungerade ist~-- solche und viele andere nützliche Funktionen finden
 Sie in der Dokumentation im Hilfezentrum unter "`Sprachebenen und
 Material zu \textit{Schreibe Dein Programm!}"' im Abschnitt
 "`Primitive Operationen"'.
@@ -883,7 +883,7 @@ wenn die Auswertung einen Fehler liefert:
 
   \item Schreiben Sie eine Funktion \texttt{min-2}, die als Argumente zwei
     Zahlen nimmt und die kleinere der beiden Zahlen zurückgibt.  Schreiben
-    Sie außerdem eine Prozedur \texttt{min-3}, die als Argumente drei
+    Sie außerdem eine Funktion \texttt{min-3}, die als Argumente drei
     Zahlen nimmt und die kleinste der drei Zahlen zurückgibt.  Verwenden
     Sie die Konstruktionsanleitung: Schreiben Sie
     explizit Kurzbeschreibung und Signatur auf, erstellen Sie dann das
@@ -944,11 +944,11 @@ wenn die Auswertung einen Fehler liefert:
 \end{verbatim}
   }
 
-  Die Prozedur soll dabei zu einer gegebenen Rückennummer die
+  Die Funktion soll dabei zu einer gegebenen Rückennummer die
   zugehörige Position berechnen.
 
   Verwenden Sie beim Schreiben der Funktion die
-  Konstruktionsanleitungen für Prozeduren und für
+  Konstruktionsanleitungen für Funktionen und für
   Fallunterscheidungen.  Testen Sie die Funktion
   \texttt{nummer->position} mit mindestens sechs Testfällen, so dass
   alle Fälle abgedeckt sind.
@@ -976,7 +976,7 @@ wenn die Auswertung einen Fehler liefert:
     
   \item Das Überfahren einer roten Ampel kostet je nach
     Gefährdungslage mehr, gibt Punkte und Fahrverbote. Schreiben Sie
-    zwei Prozeduren, eine für das Bußgeld \texttt{rote-ampel-bußgeld}, 
+    zwei Funktionen, eine für das Bußgeld \texttt{rote-ampel-bußgeld}, 
     eine für die Punkte in Flensburg \texttt{rote-ampel-punkte} 
     und eine für das Fahrverbot \texttt{rote-ampel-fahrverbot}, 
     welche ausgibt, ob ein Fahrverbot erteilt wird. Übergeben

@@ -713,11 +713,11 @@ und der Stern für \texttt{b}:
 (\(p\) \(a\sb{1}\) \ldots \(a\sb{n}\))
 \end{alltt}
   %
-  $p$ ist ein Ausdruck, der eine Prozedur ergeben muß, die $a_i$ sind
+  $p$ ist ein Ausdruck, der eine Funktion ergeben muß, die $a_i$ sind
   ebenfalls Ausdrücke, die \textit{Argumente}\index{Argument}.  Bei
   der Auswertung einer Anwendung werden zunächst $p$ und die $a_i$
   ausgewertet; danach geht es mit der Auswertung des Rumpfes der
-  Prozedur weiter, wobei für die Parameter $p_i$ jeweils die Werte der
+  Funktion weiter, wobei für die Parameter $p_i$ jeweils die Werte der
   Argumente $a_i$ eingesetzt werden.
 \end{feature}
 
@@ -925,7 +925,7 @@ DrRacket auch aus:
 #<procedure>
 \end{alltt}
 %
-Für sich genommen macht eine Prozedur noch nichts Interessantes.  Sie kann jedoch
+Für sich genommen macht eine Funktion noch nichts Interessantes.  Sie kann jedoch
 \emph{angewendet} werden, was heißt, dass konkrete Werte für $m$ und
 $n$ eingesetzt werden:
 %
@@ -1031,13 +1031,13 @@ Hier eine Liste der wichtigsten "`eingebauten"' Sorten:
 \end{center}
 %
 Eine Signatur\index{Signatur}
-ist eine Vorstufe für die zu entwickelnde Prozedur und faßt einige
+ist eine Vorstufe für die zu entwickelnde Funktion und faßt einige
 wichtige Informationen zusammen:
 %
 \begin{enumerate}
 \item den Namen der Funktion,
 \item Anzahl und Sorten der Argumente und
-\item die Sorte des Rückgabewerts der Prozedur.
+\item die Sorte des Rückgabewerts der Funktion.
 \end{enumerate}
 %
 %Die \textit{Signaturen}\index{Signaturen} beschreiben die Sorten, aus
@@ -1062,7 +1062,7 @@ Diese Signatur besagt:
   \textit{akzeptiert}\index{akzeptieren} zwei Argumente (vor dem Pfeil
 stehen zwei Wörter);
 \item die beiden Argumente sind natürliche Zahlen (\texttt{natural});
-\item die Prozedur liefert wieder eine natürliche Zahl (das ist
+\item die Funktion liefert wieder eine natürliche Zahl (das ist
 das \texttt{natural} hinter dem Pfeil).
 \end{itemize}
 %
@@ -1092,7 +1092,7 @@ von \texttt{parking-lot-cars} sieht dann vollständig so aus:\index{parking-lot-
 \end{alltt}
 %
 Signaturen können für alle Arten von Werten deklariert werden, nicht
-nur für Prozeduren.  Zum Beispiel so:
+nur für Funktionen.  Zum Beispiel so:
 %
 \begin{verbatim}
 (: pi real)
@@ -1165,10 +1165,10 @@ ausgewählten Beispielen überprüfen, ob die gerade programmierte
 Funktion auch korrekt funktioniert.  Testen ist eine unverzichtbare
 Tätigkeit des Programmierers.
 
-Die Testfälle werden am besten \emph{vor} der Definition der Prozedur
+Die Testfälle werden am besten \emph{vor} der Definition der Funktion
 aufgestellt, denn  wenn sie erst hinterher geschrieben werden, ist die
 Gefahr groß, dass unbewußt das tatsächliche Ergebnis
-eines Prozeduraufrufs als das gewünschte eingegeben oder besonders
+eines Funktionaufrufs als das gewünschte eingegeben oder besonders
 kritische Beispiele weggelassen werden.  (In der industriellen Praxis ist sogar
 oft üblich, dass jemand anderes als der Autor der Definitionen
 die Testfälle schreibt.)
@@ -1241,7 +1241,7 @@ interpretieren: Es gibt keinen Parkplatz mit 3 Fahrzeugen und 9
 Rädern~-- zumindest nicht mit den Einschränkungen der Aufgabenstellung
 auf vollberäderte PKWs und Motorräder.
 
-Die Prozedur \texttt{parking-lot-cars} stört dies allerdings wenig:
+Die Funktion \texttt{parking-lot-cars} stört dies allerdings wenig:
 Sie liefert munter die Ausgabe \texttt{1.5}.  Allerdings meldet
 DrRacket eine \textit{Signaturverletzung}\index{Signaturverletzung},
 wenn es \texttt{(parking-lot-cars 3 9)} auswertet, da das Ergebnis
@@ -1386,7 +1386,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   \item Schreiben Sie eine Funktion \texttt{sixteentuple-string}, die
     eine Zeichenkette konsumiert und "`versechzehnfacht"'.
   \end{itemize}
-  % Schreiben Sie für jede Prozedur Kurzbeschreibung, Signatur, Testfälle, Gerüst und Rumpf.
+  % Schreiben Sie für jede Funktion Kurzbeschreibung, Signatur, Testfälle, Gerüst und Rumpf.
 
 %Vermeiden Sie bei all diesen Aufgaben, Code mehrfach zu schreiben.
 
@@ -1405,11 +1405,11 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   Geben ist die Breite des Flusses $a$, die Strömungsgeschwindigkeit
   des Flusses $v_{\text{Fluss}}$ und die Geschwindigkeit des Bootes
   $v_{\text{Boot}}$.  Berechnen Sie die Länge der Strecke, die das
-  Boot tatsächlich zurücklegt.  Programmieren Sie dazu Prozeduren, die
+  Boot tatsächlich zurücklegt.  Programmieren Sie dazu Funktionen, die
   folgende Teilprobleme lösen:
 
   \begin{enumerate}
-  \item Schreiben Sie zunächst eine Prozedur \texttt{speed-ratio}, die
+  \item Schreiben Sie zunächst eine Funktion \texttt{speed-ratio}, die
     das Verhältnis der Strömungsgeschwindigkeit des Flusses
     $v_{\text{Fluss}}$ zur Geschwindigkeit des Bootes
     $v_{\text{Boot}}$ berechnet.
@@ -1429,7 +1429,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
     obigen Gleichung berechnet.  Erkennen und abstrahieren Sie weitere
     Teilprobleme!
 
-  \item Schreiben Sie schließlich eine Prozedur
+  \item Schreiben Sie schließlich eine Funktion
     \texttt{boat-travel-distance}, die die tatsächliche Strecke
     berechnet, die das Boot zurücklegt.  Benutzen Sie dafür die bisher
     geschriebenen Funktionen.
@@ -1446,7 +1446,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   \item in den USA ist das gängige Maß die \emph{Reichweite} in Meilen
     pro Gallone (mi/gal).
   \end{itemize}
-  Schreiben Sie Prozeduren, die zwischen beiden Maßeinheiten
+  Schreiben Sie Funktionen, die zwischen beiden Maßeinheiten
   umrechnen.  Gehen Sie dazu wie folgt vor:
 
   Halten Sie sich bei jeder Funktion, die Sie schreiben, an die
@@ -1484,14 +1484,14 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   \item Schreiben Sie die Funktion
     \texttt{l/100km->mi/gal}, die einen Verbrauch in Liter pro 100km
     akzeptiert und in die Reichweite in Meilen pro Gallone umrechnet.
-    Benutzen Sie dafür die Prozeduren, die Sie in den anderen
+    Benutzen Sie dafür die Funktionen, die Sie in den anderen
     Teilaufgaben erstellt haben.  Sollten Sie auf weitere Teilprobleme
-    stoßen, abstrahieren Sie diese Teilprobleme in eigene Prozeduren.
+    stoßen, abstrahieren Sie diese Teilprobleme in eigene Funktionen.
 
   \item Schreiben Sie die Funktion
     \texttt{mi/gal->l/100km}, die eine Reichweite in Meilen pro
     Gallone akzeptiert und in den Verbrauch in Liter pro 100km
-    umrechnet.  Benutzen Sie dafür die Prozeduren, die Sie in den
+    umrechnet.  Benutzen Sie dafür die Funktionen, die Sie in den
     anderen Teilaufgaben erstellt haben.  Sollten Sie auf weitere
     Teilprobleme stoßen, abstrahieren Sie diese Teilprobleme in eigene
     Funktionen.
@@ -1604,7 +1604,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   des Substitutionsmodells und halten Sie die Zwischenschritte fest.
 
   \noindent \emph{Hinweis:} In diesen Aufgaben finden Sie keine
-  Kommentare und Signaturen zu den Prozeduren. Hier können Sie an einem
+  Kommentare und Signaturen zu den Funktionen. Hier können Sie an einem
   Beispiel sehen, dass es sehr wichtig ist, diese Informationen
   anderen Programmierern immer zur Verfügung zu stellen. Denn es kann
   auch bei kleinen Programmen schwer sein, die Funktionsweise der

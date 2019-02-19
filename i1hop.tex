@@ -106,7 +106,7 @@ Prozent identisch, der einzige Unterschied ist die Definition der lokalen
 Variablen \texttt{g1} und \texttt{g2}. Eine solche Duplizierung von Code ist
 immer schlecht, vor allem vor dem Gesichtspunkt der Wartbarkeit von
 Programmen. Wenn etwa der Deutsche Fußballbund die Regeln für die Vergabe von
-Punkten ändern sollte, müssten hier beide Prozeduren in gleicher Weise
+Punkten ändern sollte, müssten hier beide Funktionen in gleicher Weise
 angepasst werden.  Die Lösung für das Problem zeigt sich dadurch, dass der
 gemeinsame Code aus den beiden Funktionen "`ausfaktorisiert"' wird. 
 
@@ -117,7 +117,7 @@ es ein eigenes Mantra:
   \input{mantra:abstraction}
 \end{mantra}
 
-Anwendung dieser Abstraktion könnte zu einer Prozedur \texttt{compute-points}
+Anwendung dieser Abstraktion könnte zu einer Funktion \texttt{compute-points}
 führen, die dann wie folgt für die Definition von \texttt{home-points} und
 \texttt{guest-points} verwendet werden könnte:
 
@@ -132,7 +132,7 @@ Die Signatur von \texttt{compute-points} müsste dann wie folgt sein:
 \end{verbatim}
 Das verdient eine kurze Betrachtung: Hier liegt eine Funktion vor, die zwei
 Funktionen als Argument akzeptiert und eine weitere Funktion als Ergebnis
-liefert. Solche Prozeduren heißen \textit{Prozeduren höherer Ordnung\index{Prozedur!höherer
+liefert. Solche Funktionen heißen \textit{Funktionen höherer Ordnung\index{Funktion!höherer
     Ordnung}} oder
 \textit{Higher-Order-Funktionen\index{Higher-Order-Funktion}}. 
 
@@ -167,7 +167,7 @@ Die jetzt gesuchte Funktion muss Kurzbeschreibung und Signatur wie folgt haben:
 (: games-draw ((list-of game) -> (list-of game)))
 \end{verbatim}
 %
-Die Definition folgt der Konstruktionsanleitung für Prozeduren auf Listen.
+Die Definition folgt der Konstruktionsanleitung für Funktionen auf Listen.
 Hier ist die Schablone:
 %
 \begin{alltt}
@@ -213,7 +213,7 @@ nicht:
 %
 Fertig!
 
-Eine ganz ähnliche Prozedur sortiert aus einer Liste von Spielen diejenigen
+Eine ganz ähnliche Funktion sortiert aus einer Liste von Spielen diejenigen
 aus, an denen eine bestimmte Mannschaft teilgenommen hat:
 \index{games-playing@\texttt{games-playing}}
 %
@@ -246,7 +246,7 @@ sich, abgesehen vom Namen und der Tatsache, dass \texttt{games-playing} noch
 den Namen eines Teams als zusätzlichen Parameter hat, nur an
 einer Stelle: \texttt{games-draw} verwendet
 \texttt{game-draw?} an der Stelle, wo \texttt{games"=playing} 
-\texttt{plays-game?} verwendet.  Eine einzelne Prozedur könnte die
+\texttt{plays-game?} verwendet.  Eine einzelne Funktion könnte die
 Aufgaben sowohl von \texttt{games-draw} als auch von \texttt{games-playing}
 lösen, indem sie an der Stelle, an der \texttt{game-draw?}
 bzw.\ \texttt{plays-game?} steht, verallgemeinert.  Das geht mit
@@ -279,9 +279,9 @@ Das funktioniert tatsächlich:
 \evalsto{} #<list #<record:game 1 "Nürnberg" 1 "Schalke" 2>>
 \end{alltt}
 %
-Das Abstrahieren über Prozeduren funktioniert also genauso wie die
-Abstraktion über andere Werte.  Die Signatur für die Prozedur muß
-natürlich berücksichtigen, dass \texttt{p?} eine Prozedur ist.  Die Prozedur
+Das Abstrahieren über Funktionen funktioniert also genauso wie die
+Abstraktion über andere Werte.  Die Signatur für die Funktion muß
+natürlich berücksichtigen, dass \texttt{p?} eine Funktion ist.  Die Funktion
 \texttt{plays-nürnberg?}, die für \texttt{p?}  verwendet wird, hat die
 Signatur
 %
@@ -295,10 +295,10 @@ und deshalb hat \texttt{filter-games} folgende Signatur:
 (: filter-games ((game -> boolean) (list-of game) -> (list-of game)))
 \end{alltt}
 %
-Tatsächlich steht aber in \texttt{filter-games} außer dem Namen dieser Prozedur
+Tatsächlich steht aber in \texttt{filter-games} außer dem Namen dieser Funktion
 jetzt nichts mehr, das
 überhaupt Bezug darauf nimmt, dass es sich bei den Listenelementen um
-\texttt{game}-Records handelt.  % Tatsächlich funktioniert die Prozedur
+\texttt{game}-Records handelt.  % Tatsächlich funktioniert die Funktion
 % auch auf Listen von Zahlen:
 % %
 % \begin{alltt}
@@ -363,7 +363,7 @@ ersetzt werden:
 In der Definition von \texttt{games-playing} bekam die Funktion
 \texttt{list-filter} statt des Namens eines Prädikats direkt eine
 Funktiondefinition.  Hier handelt es sich also technisch um eine \emph{anonyme
-  Prozedur}; dies wird in Abschnitt~\ref{sec:anonymous-procedures} noch weiter ausgeführt.
+  Funktion}; dies wird in Abschnitt~\ref{sec:anonymous-procedures} noch weiter ausgeführt.
 
 \section{Listen zusammenfalten}
 
@@ -382,7 +382,7 @@ bekannt, welche die Summe einer Liste von Zahlen bildet:
           (list-sum (rest lis)))))))
 \end{alltt}
 %
-Eine eng verwandte Prozedur würde die Elemente einer Liste nicht
+Eine eng verwandte Funktion würde die Elemente einer Liste nicht
 aufsummieren, sondern aufmultiplizieren.   Signatur und Schablone sind
 identisch zu \texttt{list-sum}:\index{list-product@\texttt{list-product}}
 %
@@ -420,7 +420,7 @@ Die Definitionen von \texttt{list-sum} und \texttt{list-product}
 unterscheiden sich, bis auf den Namen, nur an zwei Stellen: beim ersten
 Zweig, wo das jeweilige neutrale Element steht, und bei der Funktion,
 die benutzt wird, um das erste Element mit dem Ergebnis des rekursiven
-Aufrufs zu kombinieren.  Die abstrahierte Prozedur heißt
+Aufrufs zu kombinieren.  Die abstrahierte Funktion heißt
 \texttt{list-fold} und sieht folgendermaßen aus (die Signatur muß noch
 einen Moment warten):\index{list-fold@\texttt{list-fold}}
 %
@@ -547,7 +547,7 @@ Abschnitt~\ref{sec:more-lists} nicht direkt dem Muster entspricht:
 \end{alltt}
 %
 Für das \texttt{combine}-Argument von \texttt{list-fold}
-würde hier eine Prozedur benötigt, die ihr erstes
+würde hier eine Funktion benötigt, die ihr erstes
 Argument \texttt{(first lis)} ignoriert (es spielt ja für die Listenlänge
 keine Rolle) und auf das zweite Argument eins addiert.  Diese
 Hilfsprozedur sieht so aus:\index{add-1-for-length@\texttt{add-1-for-length}}
@@ -566,7 +566,7 @@ Damit funktioniert es:
 \evalsto{} 5
 \end{alltt}
 %
-Für solche Mini-Prozeduren lohnt es sich oft kaum, eine eigene
+Für solche Mini-Funktionen lohnt es sich oft kaum, eine eigene
 Definition anzugeben und einen sinnstiftenden Namen zu finden.  Das
 ist auch nicht notwendig: die rechte Seite der Definition, also der
 Lambda-Ausdruck, kann auch direkt eingesetzt werden:
@@ -576,12 +576,12 @@ Lambda-Ausdruck, kann auch direkt eingesetzt werden:
 \evalsto{} 5
 \end{alltt}
 %
-Meist tauchen Lambda-Ausdrücke zwar als Teil von Prozedurdefinition
-auf, aber es ist natürlich möglich, Prozeduren außerhalb einer
+Meist tauchen Lambda-Ausdrücke zwar als Teil von Funktiondefinition
+auf, aber es ist natürlich möglich, Funktionen außerhalb einer
 Definition zu verwenden, ohne ihnen einen Namen zu geben.  Dafür gab
 es schon in Kapitel~\ref{cha:whats-programming} Beispiele. Mit Hilfe
 solcher "`anonymer Funktionen\index{anonyme
-  Prozedur}\index{Prozedur!anonym}"' läßt sich auch \texttt{list-filter}
+  Funktion}\index{Funktion!anonym}"' läßt sich auch \texttt{list-filter}
 durch \texttt{list-fold} definieren:
 %
 \begin{alltt}
@@ -662,7 +662,7 @@ $\circ$ läßt sich direkt in Scheme
       (f (g x)))))
 \end{alltt}
 %
-Die beiden Argumente für \texttt{f} und \texttt{g} müssen Prozeduren
+Die beiden Argumente für \texttt{f} und \texttt{g} müssen Funktionen
 mit einem Parameter sein:
 %
 \begin{alltt}
@@ -681,7 +681,7 @@ mit einem Parameter sein:
 %
 \texttt{Compose} ist eine
 \textit{Funktionfabrik\index{Funktionfabrik}}~-- sie liefert selbst
-eine Prozedur zurück, die abhängig von \texttt{f} und \texttt{g}
+eine Funktion zurück, die abhängig von \texttt{f} und \texttt{g}
 konstruiert wird.
 
 \texttt{Compose} läßt sich benutzen, um eine weitere praktische
@@ -749,7 +749,7 @@ als \texttt{(+ $a$ $b$)} lassen sich auch als \texttt{((make-add $a$)
   $b$)} schreiben.  Diese Transformation von einer Funktion mit zwei
 Parametern in eine Funktion mit nur einem Parameter, die eine Funktion
 mit einem weiteren Parameter zurückgibt, die dann schließlich den "`Wert"'
-liefert, läßt sich auch auf andere Prozeduren anwenden:\index{make-mult@\texttt{make-mult}}\index{make-prepend@\texttt{make-prepend}}
+liefert, läßt sich auch auf andere Funktionen anwenden:\index{make-mult@\texttt{make-mult}}\index{make-prepend@\texttt{make-prepend}}
 %
 \begin{alltt}
 ; Funktion erzeugen, die mit einer Konstante multipliziert
@@ -759,7 +759,7 @@ liefert, läßt sich auch auf andere Prozeduren anwenden:\index{make-mult@\textt
     (lambda (b)
       (* a b))))
 
-; Prozedur erzeugen, die an eine Liste ein Element vorn anhängt
+; Funktion erzeugen, die an eine Liste ein Element vorn anhängt
 (: make-prepend (a -> ((list-of a) -> (list-of a))))
 (define make-prepend
   (lambda (a)
@@ -768,10 +768,10 @@ liefert, läßt sich auch auf andere Prozeduren anwenden:\index{make-mult@\textt
 \end{alltt}
 %
 Erneut folgt eine ganze Familie von Funktionen einem gemeinsamen
-Muster, und erneut läßt sich dieses Muster als Prozedur höherer
+Muster, und erneut läßt sich dieses Muster als Funktion höherer
 Ordnung formulieren.  Die Funktion \texttt{curry\index{curry@\texttt{curry}}} akzeptiert
 eine Funktion mit zwei Parametern und liefert eine entsprechend
-transformierte Prozedur zurück:
+transformierte Funktion zurück:
 %
 \begin{alltt}
 ; Funktion mit zwei Parametern staffeln
@@ -811,7 +811,7 @@ Die Schönfinkel-Transformation läßt sich auch umdrehen:\index{curry@\texttt{c
 \end{alltt}
 %
 Damit ist die Transformation ein \textit{Isomorphismus\index{Isomorphismus}}; es gilt
-folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isomorphismus}
+folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isomorphismus}
 %
 \begin{center}
   \texttt{(uncurry (curry \(p\))) \(\equiv\) \(p\)}
@@ -842,7 +842,7 @@ folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isom
   \end{alltt}
   % 
   Programmieren Sie \texttt{list-map}, indem sie die Signatur schreiben,
-  das Gerüst der Prozedur erstellen, Testfälle entwerfen und dann das
+  das Gerüst der Funktion erstellen, Testfälle entwerfen und dann das
   Gerüst vervollständigen!
 
   \textbf{Hinweis:} \texttt{List-map} ist unter dem Namen \texttt{map} eingebaut.
@@ -886,10 +886,10 @@ folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isom
   \begin{enumerate}
   \item Schreiben Sie eine Funktion \texttt{list-map}, die eine Funktion auf jedes
     Element einer Liste anwendet.
-  \item Schreiben Sie eine Prozedur \texttt{list-or}, die ein Prädikat auf alle
+  \item Schreiben Sie eine Funktion \texttt{list-or}, die ein Prädikat auf alle
     Elemente einer Liste anwendet und die Resultate mit \texttt{or}
     verknüpft.
-  \item Schreiben Sie eine Prozedur \texttt{count-predicate}, die ein Prädikat auf
+  \item Schreiben Sie eine Funktion \texttt{count-predicate}, die ein Prädikat auf
     alle Elemente einer Liste anwendet und zählt, wie häufig \verb|#t|
     zurückgegeben wird.
   \item Schreiben Sie eine Funktion \texttt{contains?}, die feststellt, ob ein
@@ -968,7 +968,7 @@ folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isom
   \texttt{List-fold} sammelt die Elemente von hinten nach vorn bzw.
   von rechts nach links auf, entsprechend der "`natürlichen"'
   Rekursionsstruktur über Listen.  Das gleiche Spiel läßt sich auch in
-  der anderen Richtung durchführen.  Heraus kommt eine Prozedur
+  der anderen Richtung durchführen.  Heraus kommt eine Funktion
   \texttt{list-fold-left}, die folgende Gleichung (in
   Infix-Schreibweise) erfüllt:
   % 
@@ -1002,11 +1002,11 @@ folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{aufgabe}
 
 \begin{aufgabe}{keine Angabe}
-  Prozeduren können nicht nur als Argumente an
-  andere Prozeduren übergeben, sondern auch als Ergebnisse
+  Funktionen können nicht nur als Argumente an
+  andere Funktionen übergeben, sondern auch als Ergebnisse
   zurückgeliefert werden. Dies soll in dieser Aufgabe genutzt werden,
   um ein einfaches Telefonbuch zu implementieren: Ein Telefonbuch ist
-  als Prozedur repräsentiert, die den Namen einer Person akzeptiert
+  als Funktion repräsentiert, die den Namen einer Person akzeptiert
   und die Telefonnummer der Person zurückliefert. Falls die Person
   nicht im Telefonbuch verzeichnet ist, soll \verb|#f| zurückgeliefert
   werden.
@@ -1143,7 +1143,7 @@ folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isom
   Solche unendlichen Folgen heißen \textit{Streams}.
   Schreiben Sie Daten- und Record-Definition für Streams!
 
-  Hier ist eine Prozedur, die einen Stream aus natürlichen Zahlen,
+  Hier ist eine Funktion, die einen Stream aus natürlichen Zahlen,
   angefangen bei einer Zahl $n$, liefert:
   % 
   \begin{alltt}
@@ -1157,7 +1157,7 @@ folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isom
   % 
   (Dabei ist angenommen, daß der Konstruktor der Record-Definition
   \texttt{make-stream} heißt.)
-  Zur Betrachtung von Streams ist folgende Prozedur nützlich, welche
+  Zur Betrachtung von Streams ist folgende Funktion nützlich, welche
   die ersten $n$ Elemente eines Streams als Liste extrahiert:
   % 
   \begin{alltt}
@@ -1217,7 +1217,7 @@ folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isom
      \end{alltt}
      Um was für Zahlen handelt es sich in dem Beispielaufruf und
      warum?
-   \item Schreiben Sie eine Prozedur \texttt{powers}, die für eine Zahl
+   \item Schreiben Sie eine Funktion \texttt{powers}, die für eine Zahl
      $n$ einen Stream ihrer Potenzen liefert:
      % 
      \begin{alltt}
@@ -1257,7 +1257,7 @@ folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isom
  \end{aufgabe}
 
  \begin{aufgabe}
-  Betrachten Sie folgende mysteriöse Prozedur:
+  Betrachten Sie folgende mysteriöse Funktion:
 \begin{verbatim}
 (: // ((%a -> (%b -> %b)) (list-of %a) -> (%b -> %b)))
 
@@ -1287,7 +1287,7 @@ folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isom
   \item Schreiben Sie mit Hilfe von \texttt{//} eine Funktion
     \texttt{list-sum}, welche die Elemente einer Liste addiert.
   \item Schreiben Sie eine Funktion \texttt{insert}, die eine reelle
-    Zahl $n$ konsumiert und eine Prozedur zurückliefert, die eine
+    Zahl $n$ konsumiert und eine Funktion zurückliefert, die eine
     aufsteigend sortierte Liste von reellen Zahlen konsumiert und
     eine Liste zurückliefert, in der $n$ an die entsprechende
     Stelle der Liste einsortiert wurde.
@@ -1298,7 +1298,7 @@ folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isom
 
 \begin{aufgabe}
   Programmieren Sie eine Version von
-  \texttt{list-fold-left}, nämlich die Prozedur
+  \texttt{list-fold-left}, nämlich die Funktion
   \texttt{list-fold-left-bonus}, die \texttt{list-fold} benutzt aber
   selbst keine Rekursion enthält und auch keine rekursiven
   Hilfsprozeduren aufruft.
@@ -1333,8 +1333,8 @@ folgende Gleichung für Prozeduren $p$ mit zwei Parametern:\label{sec:curry-isom
  \end{aufgabe}
 
 \begin{aufgabe}
-  Beweisen Sie, dass für Prozeduren $p_1$ mit einem Parameter, die
-  einparametrige Prozeduren zurückgeben, und Prozeduren $p_2$ mit zwei
+  Beweisen Sie, dass für Funktionen $p_1$ mit einem Parameter, die
+  einparametrige Funktionen zurückgeben, und Funktionen $p_2$ mit zwei
   Parametern gilt:
   %
   \begin{center}

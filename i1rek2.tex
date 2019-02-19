@@ -55,7 +55,7 @@ Liste beschrieben:
         (make-article 12 373)))
 \end{alltt}
 %
-Die Lösung des Problems soll eine Prozedur \texttt{load-list}
+Die Lösung des Problems soll eine Funktion \texttt{load-list}
 sein, welche eine Liste der Artikel zurückliefert, die in den Lastwagen geladen
 werden sollen.  Neben der Liste der Artikel braucht
 \texttt{load-list} auch noch die Tragfähigkeit eines Lastwagens.  Die
@@ -97,7 +97,7 @@ zweite Fall ist etwas komplizierter.
 Das liegt daran, daß es dort
 eine weitere Fallunterscheidung gibt, je nach dem ersten Artikel
 \texttt{(first articles)}:
-die Prozedur muß entscheiden, ob dieser erste
+die Funktion muß entscheiden, ob dieser erste
 Artikel schließlich in den Lastwagen kommen soll oder nicht.
 Ein erstes Ausschlußkriterium ist, wenn der Artikel schwerer ist als die
 Tragfähigkeit erlaubt:
@@ -117,7 +117,7 @@ Damit ist die Frage, ob der erste Artikel im Lastwagen landet, aber immer
 noch nicht abschließend beantwortet.  Schließlich muß
 \texttt{load-list} noch entscheiden, ob unter Verwendung dieses
 Artikels der Lastwagen optimal vollgepackt werden
-kann.  Dazu muß die Prozedur vergleichen, wie ein Lastwagen \emph{mit}
+kann.  Dazu muß die Funktion vergleichen, wie ein Lastwagen \emph{mit}
 dem ersten Artikel und wie er \emph{ohne} diesen Artikel am besten
 vollgepackt werden würde.   Die Variante "`ohne"' wird mit folgendem
 Ausdruck ausgerechnet:
@@ -168,7 +168,7 @@ Schritt werden die beiden obigen Ausdrücke in die Schablone eingefügt:
 \end{alltt}
 %
 Die Ausdrücke für die beiden Alternativen sind in dieser Form 
-unhandlich groß, was die Prozedur schon unübersichtlich macht, bevor
+unhandlich groß, was die Funktion schon unübersichtlich macht, bevor
 sie überhaupt fertig ist.
 Es lohnt sich also, ihnen Namen zu geben:
 %
@@ -192,7 +192,7 @@ Es lohnt sich also, ihnen Namen zu geben:
 %
 Der Ausdruck
 \texttt{(article-weight (first articles))} kommt zweimal vor.  Die Einführung einer
-weiteren lokalen Variable macht die Prozedur noch übersichtlicher:
+weiteren lokalen Variable macht die Funktion noch übersichtlicher:
 %
 \begin{alltt}
 (define load-list
@@ -214,7 +214,7 @@ weiteren lokalen Variable macht die Prozedur noch übersichtlicher:
 %
 Zurück zur eigentlichen Aufgabe: \texttt{articles-1} und
 \texttt{articles-2} sollen hinsichtlich ihres Gewichts verglichen werden.
-Dies muß natürlich berechnet werden.  Da dafür noch eine Prozedur
+Dies muß natürlich berechnet werden.  Da dafür noch eine Funktion
 fehlt, kommt Wunschdenken zur Anwendung:\index{articles-weight@\texttt{articles-weight}}
 %
 \begin{alltt}
@@ -301,7 +301,7 @@ Ergebnis sehr erfreulich; kein Platz wird verschenkt:
   Schreiben Sie eine Funktion \texttt{backlog-list}, welche die
   gleichen Eingaben wie \texttt{load-list} akzeptiert, aber die
   nach dem Beladen eines Lastwagens im Lager zurückbleibenden Artikel
-  zurückgibt.  Die Prozedur soll 
+  zurückgibt.  Die Funktion soll 
   \texttt{load-list} als Hilfsprozedur verwenden.
 \end{aufgabe}
 

@@ -13,7 +13,7 @@ Umständen kann ein Beispiel, als Testfall formuliert, einen Fehler in
 einem Programm finden.  Allerdings ist das Formulieren von Beispielen
 mühsam.  Schlimmer noch, eine Menge von Testfällen reicht nur selten
 aus, um die Korrektheit einer Funktion auch zu garantieren: Die
-Testfälle decken meist nicht alle möglichen Anwendungen einer Prozedur
+Testfälle decken meist nicht alle möglichen Anwendungen einer Funktion
 ab.  Darum ist es oft sinnvoll, statt isolierter Beispiele allgemeine
 Eigenschaften zu formulieren und zu überprüfen~-- am besten sogar,
 diese zu beweisen.  Dieses Kapitel zeigt, wie das geht.
@@ -62,7 +62,7 @@ Eigenschaft, die besagt, daß \(b\) gilt für \emph{alle} Werte der
 $v_i$, welche die Signaturen $c_i$ erfüllen.
 \end{feature}
 
-In Scheme läßt sich diese Eigenschaft für die eingebaute Prozedur
+In Scheme läßt sich diese Eigenschaft für die eingebaute Funktion
 \texttt{+} aufschreiben~-- das $\forall$ ist auf
 Tastaturen nicht vertreten und wird darum ausgeschrieben (siehe
 Abbildung~\ref{scheme:for-all}):
@@ -316,7 +316,7 @@ Kommutativität und Assoziativität auch für das logische \texttt{and}:
                (and (and a b) c))))
 \end{alltt}
 %
-Hier muß die eingebaute Prozedur \texttt{boolean=?} verwendet werden,
+Hier muß die eingebaute Funktion \texttt{boolean=?} verwendet werden,
 die boolesche Werte vergleicht, analog zu \texttt{=}, die nur Zahlen
 vergleichen kann.
 
@@ -353,7 +353,7 @@ einem \texttt{for-all} vorkommt.
 
 Um \texttt{commutativity} auch auf \texttt{and} und \texttt{or}
 loszulassen, gibt es allerdings noch ein weiteres Hindernis: Das
-Argument zu \texttt{op} muß eine Prozedur sein~-- \texttt{and} und
+Argument zu \texttt{op} muß eine Funktion sein~-- \texttt{and} und
 \texttt{or} sind aber Spezialformen.  Wir können Sie aber zu
 Funktionen machen, indem wir \texttt{lambda}s darumwickeln:
 %
@@ -524,7 +524,7 @@ und wiederum ein Element von $M$ zurückgeben.
 
 \subsection{Eigenschaften von binären Prädikaten}
 
-Die Prozedur \texttt{=} paßt nicht in das Scheme der Eigenschaften
+Die Funktion \texttt{=} paßt nicht in das Scheme der Eigenschaften
 des folgenden Abschnitts.  Sie hat folgende Signatur:
 %
 \begin{alltt}
@@ -624,7 +624,7 @@ Folgende Eigenschaften sind für binäre Prädikate denkbar:
 \section{Eigenschaften von Funktionen auf Listen}
 
 Es wird Zeit, Eigenschaften von selbstgeschriebenen Funktionen zu
-überprüfen.  In diesem Abschnitt geht es um einige der Prozeduren, die
+überprüfen.  In diesem Abschnitt geht es um einige der Funktionen, die
 auf Listen operieren: \texttt{concatenate}, \texttt{invert},
 und \texttt{list-sum}.
 
@@ -681,7 +681,7 @@ nichts anfängt, außer sie in weitere Liste zu stecken, reicht die
 Formulierung der Eigenschaft mit \texttt{(list-of number)} aus.
 
 Es bleibt noch ein weiteres Problem bei der Formulierung der
-Assoziativität für \texttt{concatenate}: Es steht noch keine Prozedur
+Assoziativität für \texttt{concatenate}: Es steht noch keine Funktion
 für den Vergleich der beiden Listen zur Verfügung, die muß erst noch
 geschrieben werden.  Kurzbeschreibung und Signatur:\index{number-list=?@texttt{number-list=?}}
 %
@@ -904,7 +904,7 @@ Vergleich wird dabei wie bei \texttt{check-expect} angestellt.
 %
 Viele Funktionen auf Listen haben Eigenschaften, welche die Funktion
 jeweils im Zusammenspiel mit einer oder mehreren anderen Funktionen
-zeigen.  Bei Prozeduren mit Listen ist es häufig interessant, das
+zeigen.  Bei Funktionen mit Listen ist es häufig interessant, das
 Zusammenspiel mit \texttt{concatenate} zu betrachten.  Damit
 \texttt{concatenate} etwas sinnvolles tun kann, sind zwei Listen
 notwendig:
@@ -954,7 +954,7 @@ Dies läßt vermuten, daß die gesuchte Eigenschaft folgendermaßen aussieht:
 \end{alltt}
 %
 \begin{mantra}[Eigenschaften von Funktionen auf Listen]
-  Prozeduren, die Listen akzeptieren, haben häufig interessante
+  Funktionen, die Listen akzeptieren, haben häufig interessante
   Eigenschaften im Zusammenspiel mit \texttt{concatenate}.
 \end{mantra}
 
@@ -1067,7 +1067,7 @@ anderen Richtung aneinanderzuhängen:\label{sec:list-sum-commutative}
            (list-sum (concatenate lis-2 lis-1)))))
 \end{alltt}
 
-\section{Eigenschaften von Prozeduren höherer Ordnung}
+\section{Eigenschaften von Funktionen höherer Ordnung}
 \label{sec:ho-props}
 
 In Abschnitt~\ref{sec:currying} wurde bereits eine Eigenschaft von
@@ -1084,7 +1084,7 @@ Inverse voneinander.  Auch diese Eigenschaft läßt sich direkt mit
 ist wieder, obwohl \texttt{curry} und \texttt{uncurry} polymorphe
 Signaturen mit Signaturvariablen haben, daß für den Test mit
 \texttt{check-property} eine "`konkrete"' Signatur ohne
-Signaturvariablen für das Prozedur-Argument benutzt werden muß, also
+Signaturvariablen für das Funktion-Argument benutzt werden muß, also
 zum Beispiel \texttt{string}:
 %
 \begin{alltt}
@@ -1103,16 +1103,16 @@ Eigenschaft falsifizierbar mit \framebox{#<procedure:?>}
 %
 Offenbar ist \drscheme{} also der Ansicht, es hat eine Funktion gefunden,
 welche die Eigenschaft nicht erfüllt, kann aber nicht genau sagen,
-welche Prozedur: Das liegt daran, daß es prinzipiell unmöglich ist,
-zwei Prozeduren auf Gleichheit zu überprüfen~-- Gleichheit zweier
-Prozeduren heißt ja, daß die eine Prozedur angewendet auf einen Satz
+welche Funktion: Das liegt daran, daß es prinzipiell unmöglich ist,
+zwei Funktionen auf Gleichheit zu überprüfen~-- Gleichheit zweier
+Funktionen heißt ja, daß die eine Funktion angewendet auf einen Satz
 Argumente \emph{immer} das gleiche Ergebnis wie die andere Funktion
 liefert.  Im obigen Beispiel akzeptiert \texttt{proc} zwei
 Zeichenketten, von denen es unendlich viele gibt; die Gleichheit zu
 überprüfen, würde also unendlich lange dauern.  \texttt{Expect}
 versucht es darum gar nicht erst, sondern sieht es als notwendige
 (nicht als hinreichende) Bedingung für die Gleichheit zweier
-Prozeduren an, daß sie Wert desselben \texttt{lambda}-Ausdrucks sind.
+Funktionen an, daß sie Wert desselben \texttt{lambda}-Ausdrucks sind.
 \texttt{Expect} testet also bei Funktionen auf sogenannte
 \textit{intensionale Gleichheit}\index{intensionale
   Gleichheit}\index{Gleichheit!intensional}, was soviel heißt, daß
@@ -1156,7 +1156,7 @@ An verschiedenen Stellen im Buch wurden Beweise für mathematische
 Funktionen durchgeführt~-- zuletzt in Kapitel~\ref{cha:indu} für
 eine rekursive Funktion.  Beweise über mathematische Funktionen
 erlauben, bei jedem Schrittan beliebigen Stellen Gleichungen
-einzusetzen.  Beweise über Prozeduren in Programmen sind schwieriger,
+einzusetzen.  Beweise über Funktionen in Programmen sind schwieriger,
 da sie das Substitutionsmodell berücksichtigen müssen: Bei jedem
 Reduktionsschritt kommt immer nur eine bestimmte Substitution in
 Frage.
@@ -1224,7 +1224,7 @@ Vergleichsoperation \texttt{=}, die dem mathematischen $=$ entspricht:
 \(=\) \#t
 \end{alltt}
 %
-Die Kommutativität der Scheme-Prozedur \texttt{+} folgt also aus der
+Die Kommutativität der Scheme-Funktion \texttt{+} folgt also aus der
 Kommutativität des mathematischen $+$, durch das sie definiert ist.
 
 \section{Rekursive Programme beweisen}
@@ -1336,7 +1336,7 @@ der Induktionsbeweis für dessen Korrektheit einfach.  Es ist aber
 entscheidend, die zu beweisende Eigenschaft, welche die Korrektheit
 von \texttt{factorial} begründet, sorgfältig aufzuschreiben:
 
-Die Prozedur \texttt{factorial} soll die Fakultät berechnen, es soll
+Die Funktion \texttt{factorial} soll die Fakultät berechnen, es soll
 also für alle natürlichen Zahlen $k$ gelten:
 %
 \begin{alltt}
@@ -1414,7 +1414,7 @@ Die Technik funktioniert auch mit Beispielen, bei denen die zu
 beweisende Eigenschaft nicht so einfach zu sehen ist wie bei
 \texttt{factorial}.
 
-Die folgende Scheme-Prozedur verrät nicht auf den ersten Blick, was
+Die folgende Scheme-Funktion verrät nicht auf den ersten Blick, was
 sie berechnet:
 %
 \begin{alltt}
@@ -1428,7 +1428,7 @@ sie berechnet:
            (/ 1 (* n (+ n 1)))))))
 \end{alltt}
 %
-Tatsächlich berechnet der Prozeduraufruf \texttt{(f \valof{k})} für
+Tatsächlich berechnet der Funktionaufruf \texttt{(f \valof{k})} für
 eine natürliche Zahl $k$ die Zahl
 \(\frac{k}{k+1}\).
 
@@ -1510,7 +1510,7 @@ Induktionsschluß (zu zeigen):
 \end{enumerate}
 Damit die die Behauptung bewiesen.
 
-% Das gleiche Spiel läßt sich auch am Beispiel der Prozedur \texttt{f}
+% Das gleiche Spiel läßt sich auch am Beispiel der Funktion \texttt{f}
 % aus Abschnitt~\ref{sec:rek-scheme-beweisen} demonstrieren.  Eine
 % iterative Variante von \texttt{f} ist:
 % %
@@ -1533,7 +1533,7 @@ Damit die die Behauptung bewiesen.
 \section{Invarianten}
 \label{sec:invarianten}
 
-Die bisher angewendete Technik für den Beweis rekursiver Prozeduren
+Die bisher angewendete Technik für den Beweis rekursiver Funktionen
 mit Induktion funktioniert bei Funktionen mit Akkumulator nicht mehr
 direkt: Angenommen, die Korrektheit der endrekursiven Fakuktät
 \texttt{!} aus Abschnitt~\ref{page:factorial-tail} soll ähnlich die
@@ -1575,7 +1575,7 @@ Damit ist die naheliegende Induktionsannahme für \texttt{(!-helper (-
 nicht nur schwieriger zu schreiben als "`regulär"' rekursive
 Funktionen~-- sie sind auch schwerer zu beweisen.
 
-Stattdessen ist es bei Prozeduren mit Akkumulator nützlich, eine
+Stattdessen ist es bei Funktionen mit Akkumulator nützlich, eine
 \textit{Invariante\index{Invariante}} aufzustellen, also eine
 Eigenschaft, welche Zwischenergebnis und noch zu leistende Arbeit in
 Beziehung setzt.  Wie in Abschnitt~\ref{page:factorial-tail}
@@ -1638,7 +1638,7 @@ folgendermaßen folgern:
 \end{itemize}
 %
 Diese Technik funktioniert auch bei weniger offensichtlichen
-Prozeduren.  Hier eine Prozedur, die äquivalent ist zu der Prozedur
+Funktionen.  Hier eine Funktion, die äquivalent ist zu der Funktion
 \texttt{f} aus Abschnitt~\ref{sec:rek-scheme-beweisen}:
 
 \begin{alltt}
@@ -1658,7 +1658,7 @@ Prozeduren.  Hier eine Prozedur, die äquivalent ist zu der Prozedur
                      acc)))))
 \end{alltt}
 %
-Die Prozedur geht folgendermaßen vor, um das Ergebnis für eine Eingabe
+Die Funktion geht folgendermaßen vor, um das Ergebnis für eine Eingabe
 $n$ zu berechnen:
 %
 \begin{displaymath}
@@ -1682,7 +1682,7 @@ zwei Teilen, z.B.\ wie folgt:
 %
 Der unterstrichene Teil ist gerade der Wert des Akkumulators, die
 Summe rechts davon der noch zu berechnende Summand.  
-Wenn die Prozedur tatsächlich $n/(n+1)$ berechnen sollte, ist dieser
+Wenn die Funktion tatsächlich $n/(n+1)$ berechnen sollte, ist dieser
 rechte Teil im Beispiel $(n-3)/((n-3)+1)$.  Damit ergibt
 sich die Invariante als $a + n/(n+1)$, wobei $a$ der Wert von
 \texttt{acc} ist.  Um die Annahme zu beweisen, daß dies die Invariante
@@ -1777,8 +1777,8 @@ diese als Eigenschaften von \texttt{/} in Scheme auf.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweise, daß für Prozeduren $p_1$ mit einem Parameter, die
-  einparametrige Prozeduren zurückgeben, und Prozeduren $p_2$ mit zwei
+  Beweise, daß für Funktionen $p_1$ mit einem Parameter, die
+  einparametrige Funktionen zurückgeben, und Funktionen $p_2$ mit zwei
   Parametern gilt:
   %
   \begin{center}
@@ -1797,7 +1797,7 @@ diese als Eigenschaften von \texttt{/} in Scheme auf.
 
 \begin{aufgabe}
 Beweisen Sie, daß die
-folgende Prozedur natürliche Zahlen quadriert:
+folgende Funktion natürliche Zahlen quadriert:
 %
 \begin{alltt}
 ; Quadrat einer Zahl berechnen
@@ -1816,7 +1816,7 @@ mit \texttt{check-property}.
 \end{aufgabe}
 
 \begin{aufgabe}
-Beweisen Sie, daß auch die folgende Prozedur \texttt{square}
+Beweisen Sie, daß auch die folgende Funktion \texttt{square}
 natürliche Zahlen quadriert.  Geben Sie die Invariante von
 \texttt{square-helper} an!
 %

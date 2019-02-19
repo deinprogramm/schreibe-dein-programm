@@ -97,7 +97,7 @@ Die Signatur \texttt{empty-list} ist bereits eingebaut und paßt auf
 die leere Liste \texttt{empty} (und nichts sonst).  (Der Name
 \texttt{list} ist in den DMdA-Lehrsprachen bereits vergeben, darum
 heißt die Signatur \texttt{a-list}.)  Jetzt ist es möglich, eine
-Signatur für \texttt{make-pair} sowie die anderen Prozeduren der
+Signatur für \texttt{make-pair} sowie die anderen Funktionen der
 Record-Definition von \texttt{pair} zu vergeben:
 %
 \begin{alltt}
@@ -193,7 +193,7 @@ Für die Testfälle halten die Beispiellisten her:
 \end{verbatim}
 %
 Nicht vergessen: In \texttt{n2} sind Zahlen mit Dezimalpunkt.
-Deshalb müssen wir \texttt{check-within} verwenden.  Diese Prozedur
+Deshalb müssen wir \texttt{check-within} verwenden.  Diese Funktion
 hat drei Parameter: Die ersten beiden geben ein reales und ein
 erwartetes Ergebnis an
 und der dritte sagt, um wieviel das reale Ergebnis in der positiven
@@ -365,7 +365,7 @@ genannt \emph{Selbstbezug}\index{Selbstbezug}.  Dieser Selbstbezug ist
 beim Rest~-- der Selbstaufruf, der in \texttt{list-sum} auf den Rest
 erfolgt, folgt also der Datendefinition.  Ein Selbstaufruf
 heißt auch \textit{rekursiver Aufruf}\index{rekursiver Aufruf} und ist
-damit fester Bestandteil der Schablone für Prozeduren, die Listen
+damit fester Bestandteil der Schablone für Funktionen, die Listen
 akzeptieren:
 %
 \begin{alltt}
@@ -412,7 +412,7 @@ Tat sind alle Elemente der leeren Liste positiv.  Eine andere Art dies
 zu sagen wäre, dass kein Element der leeren Liste nicht positiv ist.
 
 Diese Testfälle reichen sichtlich nicht aus, da alle \verb|#t| ergeben
-sollen: Diese würden auch von folgender Prozedur erfüllt:
+sollen: Diese würden auch von folgender Funktion erfüllt:
 %
 \begin{verbatim}
 (define all-positive?
@@ -470,7 +470,7 @@ kombiniert werden müssen:
 \end{verbatim}
 %
 Konstruktionsanleitung~\ref{ka:listen} auf Seite~\pageref{ka:listen}
-faßt die Schablone für Prozeduren, die Listen akzeptieren, noch einmal
+faßt die Schablone für Funktionen, die Listen akzeptieren, noch einmal
 zusammen.
 
 \section{Signaturkonstruktoren}
@@ -664,7 +664,7 @@ von Programmen zu setzen, ist es an dieser Stelle Zeit, eine neue
 Sprachebene in \drscheme{} auszuwählen, nämlich \texttt{Schreibe Dein Programm!}
 (ohne \texttt{Anfänger}).\index{Sprachebene}  Diese enthält \texttt{make-pair},
 \texttt{pair?}, \texttt{first} und \texttt{rest} als eingebaute
-Prozeduren sowie den Signaturkonstruktor \texttt{list-of}\footnote{In Standard-Scheme heißt der Konstruktor für
+Funktionen sowie den Signaturkonstruktor \texttt{list-of}\footnote{In Standard-Scheme heißt der Konstruktor für
   die eingebauten Paare \texttt{cons\index{cons@\texttt{cons}}}, die
   Selektoren \texttt{car\index{car@\texttt{car}}} und \texttt{cdr\index{cdr@\texttt{cdr}}}
   (gesprochen "`kar"' und "`kudder"'; dies waren die Namen von Anweisungen auf einer
@@ -706,7 +706,7 @@ Beispiele:
 \label{sec:parametric-polymorphism}
 \label{sec:more-lists}
 
-In diesem Abschnitt programmieren wir eine Prozedur, welche die Länge
+In diesem Abschnitt programmieren wir eine Funktion, welche die Länge
 einer Liste ermittelt.\index{list-length@\texttt{list-length}} Das ist
 eine einfache Fingerübung mit einer interessanten Eigenschaft.  Hier
 sind Kurzbeschreibung und Signatur:
@@ -770,7 +770,7 @@ diese dann zum vollständigen Rumpf ergänzen:
 
 \section{Funktionen, die Listen produzieren}
 
-In den vorherigen Abschnitten haben wir ausschließlich Prozeduren
+In den vorherigen Abschnitten haben wir ausschließlich Funktionen
 programmiert, die Listen \emph{akzeptieren}.  In diesem Abschnitt
 schreiben wir Funktionen, die Listen \emph{produzieren}.  Das geht mit
 Techniken, die wir bereits vorgestellt haben.  Wir machen die Sache
@@ -783,7 +783,7 @@ Listen verarbeiten.
 Auf Seite~\pageref{page:run-over-dillo} haben wir die Funktion
 \texttt{run-over-dillo} geschrieben, die für das Überfahren von
 Gürteltieren zuständig ist.  In diesem Abschnitt schreiben wir die
-Prozedur, die das gleich massenweise erledigt, beispielsweise für alle
+Funktion, die das gleich massenweise erledigt, beispielsweise für alle
 Gürteltiere auf einem Highway.  Dazu übernehmen wir Daten- und
 Record-Definition von Gürteltieren aus
 Abschnitt~\ref{page:run-over-dillo} sowie die Funktiondefinition von
@@ -799,7 +799,7 @@ Beispiel:
 Beispielgürteltiere aus Abschnitt~\ref{page:run-over-dillo}.)
 
 Diese Liste hat die Signatur \texttt{(list-of dillo)}.  Wenn wir eine
-Prozedur schreiben wollen, die alle Gürteltiere aus einer Liste
+Funktion schreiben wollen, die alle Gürteltiere aus einer Liste
 überfährt, müßte diese also folgende Kurzbeschreibung und Signatur
 haben:
 %
@@ -829,7 +829,7 @@ Hier ist das Gerüst:
     ...))
 \end{verbatim}
 %
-Die Prozedur akzeptiert eine Liste als Eingabe, wir können also, wie
+Die Funktion akzeptiert eine Liste als Eingabe, wir können also, wie
 schon so oft, die entsprechende Schablone zum Einsatz bringen:
 %
 \begin{verbatim}
@@ -845,7 +845,7 @@ schon so oft, die entsprechende Schablone zum Einsatz bringen:
 Im ersten Zweig ist die Sache klar: Geht eine leere Liste rein, kommt
 auch eine leere Liste raus.  Im zweiten Zweig können wir uns erst
 einmal um das erste Gürteltier kümmern.  Wir haben ja bereits eine
-Prozedur, die ein einzelnes Gürteltier überfährt; diese können wir auf
+Funktion, die ein einzelnes Gürteltier überfährt; diese können wir auf
 das erste Element der Liste anwenden:
 %
 \begin{verbatim}
@@ -884,15 +884,15 @@ Wir müssen also nur die Resultate der beiden Ausdrucke mit
 %
 Fertig!
 
-Dieses Beispiel zeigt, dass wir für Prozeduren, die Listen produzieren,
+Dieses Beispiel zeigt, dass wir für Funktionen, die Listen produzieren,
 keine neue Technik brauchen: Wenn eine Funktion eine leere Liste
 produzieren soll, benutzen wir an der entsprechenden Stelle
 \texttt{empty}, und bei nichtleeren Listen benutzen wir
-\texttt{make-pair}, bringen also die Schablone für Prozeduren zum
+\texttt{make-pair}, bringen also die Schablone für Funktionen zum
 Einsatz, die zusammengesetzte Daten produzieren.
 
 \subsection{Zwei Listen aneinanderhängen}
-In unserem nächsten Beispiel ist eine Prozedur
+In unserem nächsten Beispiel ist eine Funktion
 \texttt{concatenate}\index{concatenate@\texttt{concatenate}} gefragt, die zwei
 Listen aneinanderhängt:\label{sec:concatenate}
 % 
@@ -912,7 +912,7 @@ Kurzbeschreibung, Signatur und Gerüst sehen folgendermaßen aus:\index{concaten
 \end{alltt}
 %
 Die Konstruktionsanleitung aus Abschnitt~\ref{sec:lists} ist
-eigentlich nur für Prozeduren gedacht, die eine einzelne Liste
+eigentlich nur für Funktionen gedacht, die eine einzelne Liste
 akzeptieren.  Welche von beiden ist das $l$ aus der Anleitung?  Im
 Zweifelsfall können wir beide Alternativen ausprobieren.  Wir
 fangen, um die Sache spannender zu machen, mit \texttt{lis-2} an:
@@ -984,7 +984,7 @@ mit \texttt{make-pair}:
 \end{alltt}
 %
 Dieses Beispiel zeigt ein weiteres Schablonenelement, das noch öfter
-vorkommen wird:  Wie bei anderen zusammengesetzten Daten müssen Prozeduren, die
+vorkommen wird:  Wie bei anderen zusammengesetzten Daten müssen Funktionen, die
 Listen konstruieren sollen, irgendwo ein \texttt{make-pair} enthalten.
 
 \texttt{List-length} und \texttt{concatenate} sind gute
@@ -1033,7 +1033,7 @@ Schreiben Sie folgende Funktionen auf Listen:
   \item Eine Funktion \texttt{contains>10?}, die feststellt, ob eine
     Liste von Zahlen eine Zahl enthält, die größer als 10 ist.
     
-  \item Eine Prozedur \texttt{list-length}, die die Länge einer Liste
+  \item Eine Funktion \texttt{list-length}, die die Länge einer Liste
     von Zahlen berechnet.
 
   \end{enumerate}
@@ -1105,7 +1105,7 @@ Schreiben Sie folgende Funktionen auf Listen:
     \texttt{heaviest-potato}, die aus einer Liste von
     Ackerbestandteilen die schwerste essbare Kartoffel heraussucht und
     zurückgibt.  Wenn in der Liste keine essbare Kartoffel enthalten ist, soll
-    die Prozedur \verb|#f| zurückgeben.
+    die Funktion \verb|#f| zurückgeben.
 
     \item Schreiben Sie eine Funktion
       \texttt{filter-edible-potatoes}, die eine Liste von
@@ -1213,7 +1213,7 @@ Schreiben Sie folgende Funktionen auf Listen:
     verfällt, wenn die Zelle bereits voll ist.
 
   \item Schreiben Sie eine Funktion \texttt{charge-battery}, die einen
-    Akku auflädt.  Die Prozedur gibt einen Akku zurück, der mit dem
+    Akku auflädt.  Die Funktion gibt einen Akku zurück, der mit dem
     Ladegerät für die übergebene Zeit geladen wurde.  Ist eine Zelle
     vollständig geladen, so wird die nächste Zelle mit der restlichen
     Zeit geladen.  Sind alle Zellen geladen und ist die Zeit jedoch
@@ -1234,7 +1234,7 @@ Schreiben Sie folgende Funktionen auf Listen:
   \item Schreiben Sie eine Funktion \texttt{discharge-cell}, die eine
     Zelle, einen Verbrauch pro Stunde und die Dauer (in Stunden)
     konsumiert, für die der Verbraucher den Strom der Zelle
-    verbraucht.  Die Prozedur soll eine Zelle zurückgeben, die für die
+    verbraucht.  Die Funktion soll eine Zelle zurückgeben, die für die
     Dauer den Verbraucher mit Strom versorgt hat.  Die Ladung darf
     aber nicht unter die minimale Ladung fallen! Die restliche Zeit
     verfällt, wenn die Zelle bereits leer ist (tatsächlich geht dem
@@ -1302,22 +1302,22 @@ Schreiben Sie folgende Funktionen auf Listen:
     \texttt{tax-truck}, \texttt{tax-bus} und \texttt{tax-simple-vehicle}
     zur Ermittlung der Abgaben für diese Fahrzeugtypen
   \item Definieren Sie einen Datentyp \texttt{vehicle}. Schreiben Sie eine
-    Prozedur \texttt{tax-vehicle}, die die Abgaben für ein beliebiges Fahrzeug 
+    Funktion \texttt{tax-vehicle}, die die Abgaben für ein beliebiges Fahrzeug 
     berechnet.    
-  \item Schreiben Sie nun eine Prozedur \texttt{calculate-tax}, die die täglichen 
+  \item Schreiben Sie nun eine Funktion \texttt{calculate-tax}, die die täglichen 
     Abgaben berechnet, die Sie an das Finanzamt für alle Fahrzeuge auf ihrem Parkplatz
-    bezahlen müssen. Die Prozedur akzeptiert eine Liste von Fahrzeugen und
+    bezahlen müssen. Die Funktion akzeptiert eine Liste von Fahrzeugen und
     berechnet die Gesamtabgaben eines Tages.
   \end{enumerate}
   Benutzen Sie bei jeder Funktion und jedem Record, den Sie schreiben,
   die Konstruktionsanleitungen: Erstellen Sie zunächst
-  Kurzbeschreibung, Signatur, einige Testfälle und das Gerüst der Prozedur.
+  Kurzbeschreibung, Signatur, einige Testfälle und das Gerüst der Funktion.
   Vervollständigen Sie anschließend das Gerüst und vergewissern Sie sich,
   dass die Testfälle korrekt durchlaufen!
 \end{aufgabe}
 
 \begin{aufgabe}
-   Schreiben Sie eine Prozedur, die auf möglichst
+   Schreiben Sie eine Funktion, die auf möglichst
   einfache Weise eine Liste von Zahlen aufsteigend sortiert! Gehen
   Sie dazu wie folgt vor:
 
@@ -1382,7 +1382,7 @@ Schreiben Sie folgende Funktionen auf Listen:
     eine Liste von Grundkreaturen akzeptiert.  Die Funktion soll $c_1$
     mit der Grundkreatur aus der Liste kreuzen, die zur
     leistungsstärksten Kreatur führt.  Falls die Liste der
-    Grundkreaturen leer ist, soll die Prozedur \verb|#f| zurückgeben.
+    Grundkreaturen leer ist, soll die Funktion \verb|#f| zurückgeben.
     Benutzen Sie \texttt{find-optimal-breeding-partner}.
 
   \item  Schreiben Sie eine Funktion

@@ -1034,7 +1034,7 @@ hinzugefügt:
 %
 Für das Entfernen der alten Bindung ist die Hilfsprozedur
 \texttt{remove-environment-binding} zuständig.  Sie folgt einmal mehr
-strikt der Konstruktionsanleitung für Prozeduren, die Listen akzeptieren:
+strikt der Konstruktionsanleitung für Funktionen, die Listen akzeptieren:
 % FIXME: Konstruktionsanleitung
 \begin{verbatim}
 ; die Bindung für eine Variable aus einer Umgebung entfernen
@@ -1133,7 +1133,7 @@ liefert.  Hier sind Kurzbeschreibung, Signatur und Gerüst:
     ...))
 \end{verbatim}
 %
-Entsprechend den Regeln der SECD-Maschine muß der Rumpf der Prozedur
+Entsprechend den Regeln der SECD-Maschine muß der Rumpf der Funktion
 eine Verzeigung zwischen den verschiedenen Fällen bei der
 Code-Komponente von \texttt{state} sein.  Diese folgen den
 Konstruktionsanleitungen für Listen und für gemischte Daten.  Es ist
@@ -1914,7 +1914,7 @@ Entsprechend muß die Auswertungsfunktion das Endergebnis im Heap nachschauen:
 
 
 Für die Implementierung der SECDH-Maschine werden einige der
-Prozeduren wiederverwendet, die für die SECD-Maschine programmiert
+Funktionen wiederverwendet, die für die SECD-Maschine programmiert
 wurden.  Zunächst einmal muß~-- genau wie bei der SECD-Maschine~--
 erst einmal die Übersetzung von Termen in Maschinencode realisiert
 werden.  Zuweisungsterme haben wie in Scheme die folgende Form:
@@ -2404,7 +2404,7 @@ SECD-Maschine realisiert wird:
 
 \begin{aufgabe}
   Anstatt Umgebungen durch Listen von Bindungen zu repräsentieren, ist
-  es auch möglich, Prozeduren zu verwenden, so daß
+  es auch möglich, Funktionen zu verwenden, so daß
   \texttt{lookup-environment} folgendermaßen aussieht:
 \begin{verbatim}
 (define lookup-environment

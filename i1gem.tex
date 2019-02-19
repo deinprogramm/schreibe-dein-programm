@@ -183,7 +183,7 @@ einmal zusammen mit einer Kurzbeschreibung:
 (: animal-weight (animal -> natural))
 \end{verbatim}
 %
-Diese Prozedur sollte entsprechend für Gürteltiere \emph{und}
+Diese Funktion sollte entsprechend für Gürteltiere \emph{und}
 Papageien funktionieren, wir brauchen also Testfälle für beide:
 %
 \begin{verbatim}
@@ -202,8 +202,8 @@ Das Gerüst sieht so aus:
 \end{verbatim}
 %
 Im Rumpf müssen wir zwischen Gürteltieren und Papageien unterscheiden:
-Schließlich muß \texttt{animal-weight} die Prozedur
-\texttt{dillo-weight} für Gürteltiere, für Papageien aber die Prozedur
+Schließlich muß \texttt{animal-weight} die Funktion
+\texttt{dillo-weight} für Gürteltiere, für Papageien aber die Funktion
 \texttt{parrot-weight} aufrufen.  Wir brauchen also~-- wie bei
 Fallunterscheidungen~-- eine Verzweigung, und zwar mit einem Zweig für
 Gürteltiere und einem Zweig für Papageien:
@@ -359,7 +359,7 @@ gemischte Daten.  Zunächst zur Daten- und Signaturdefinition:
   Datensorte zusammengemischt ist.
 \end{itemize}
 %
-Eine Schablone für eine Prozedur und deren Testfälle, die gemischte
+Eine Schablone für eine Funktion und deren Testfälle, die gemischte
 Daten akzeptiert, können Sie folgendermaßen konstruieren:
 %
 \begin{itemize}
@@ -506,7 +506,7 @@ die Fälle \emph{disjunkt} sind, also jeder Wert eindeutig einem der
 Fälle zugeordnet werden kann: Sonst wäre es nicht möglich, eine sinnvolle
 Verzweigung zu schreiben, welche die Fälle unterscheidet.
 
-Nun zu unserer Prozedur zur Ermittlung der Ampelbezeichnung für den
+Nun zu unserer Funktion zur Ermittlung der Ampelbezeichnung für den
 Zuckergehalt.  Hier Kurzbeschreibung und Signatur:
 %
 \begin{verbatim}
@@ -544,7 +544,7 @@ Als nächstes ist, wie immer, das Gerüst dran:
     ...))
 \end{verbatim}         
 %
-Als nächstes wenden wir die Schablone für Prozeduren an, die gemischte
+Als nächstes wenden wir die Schablone für Funktionen an, die gemischte
 Daten akzeptieren.  Wir brauchen eine Verzweigung mit sovielen Zweigen
 wie \texttt{sugar-content} Fälle hat, also drei:
 %
@@ -767,7 +767,7 @@ Fertig!
   \begin{enumerate}
   \item Führen Sie eine Datenanalyse durch und erstellen Sie Daten- und 
     Record-Definitionen.
-  \item Schreiben Sie eine Prozedur \texttt{stückpreis}, die eine Warenklasse
+  \item Schreiben Sie eine Funktion \texttt{stückpreis}, die eine Warenklasse
     konsumiert und den Stückpreis zurückgibt.
   \item Schreiben Sie eine Funktion \texttt{buchen}, die eine Warenklasse und die Anzahl der
     abzubuchenden Exemplare konsumiert, den Bestand der Warenklasse reduziert und die
@@ -849,7 +849,7 @@ Fertig!
 %     \item Größe einer Form um einen Faktor ändern, also eine Form
 %       zurückgeben, deren Größe entsprechend angepasst ist
   \item  Flächeninhalt zweier
-    Formen vergleichen: Für gleich große Formen liefert die Prozedur
+    Formen vergleichen: Für gleich große Formen liefert die Funktion
     \verb|"equal"| zurück, sonst \verb|"smaller"|, wenn die erste
     Form kleiner ist, beziehungsweise \verb|"bigger"|, wenn die erste
     Form größer ist.
@@ -922,7 +922,7 @@ Fertig!
     Punkte zurückliefert.
   \end{enumerate}
 
-  Schreiben Sie nun Prozeduren, die Verstöße konsumieren und die
+  Schreiben Sie nun Funktionen, die Verstöße konsumieren und die
   Tatbestände berechnen:
 
   \begin{enumerate} \setcounter{enumii}{5}
@@ -930,10 +930,10 @@ Fertig!
     konsumiert und ein einfaches Vergehen mit 20~Euro Bußgeld zurückgibt.
     Wenn das Falschparken eine Gefährdung des Straßenverkehrs
     darstellt (z.B.  bei Behinderung von Rettungsfahrzeugen),
-    soll die Prozedur eine Ordnungswidrigkeit mit 40~Euro Bußgeld,
+    soll die Funktion eine Ordnungswidrigkeit mit 40~Euro Bußgeld,
     einem Punkt und keinem Fahrverbot zurückgeben.
 
-  \item Schreiben Sie eine Prozedur, die Überfahren
+  \item Schreiben Sie eine Funktion, die Überfahren
     einer roten Ampel konsumiert und eine Ordnungswidrigkeit
     zurückgibt.  Dabei gilt:
     \begin{itemize}
@@ -943,7 +943,7 @@ Fertig!
       Gefährdung vorlag: 125~Euro, 4~Punkte, 1~Monat Fahrverbot
     \end{itemize}
 
-  \item Schreiben Sie eine Prozedur, die überhöhte
+  \item Schreiben Sie eine Funktion, die überhöhte
     Geschwindigkeit konsumiert und den Tatbestand zurückgibt.  Dabei
     gilt:
     \begin{itemize}

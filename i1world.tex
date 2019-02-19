@@ -183,7 +183,7 @@ wo der Cursor steht.  Die eingefügten Bilder dienen dann als
 Literale für Bild-Objekte.  Abbildung~\ref{fig:image-insert} zeigt ein
 Beispiel.
 
-Die folgenden Prozeduren ermitteln Breite und Höhe
+Die folgenden Funktionen ermitteln Breite und Höhe
 eines Bildes:\index{image-width@\texttt{image-width}}\index{image-height@\texttt{image-height}}
 %
 \begin{alltt}
@@ -326,7 +326,7 @@ reicht etwa aus, damit die Animation dem menschlichen Auge als
 "`Bewegung"' erscheint.)
 
 Damit das Teachpack die Welt in eine Ansicht umwandeln kann, muß eine
-entsprechende Ansicht angemeldet werden.  Dafür ist die Prozedur
+entsprechende Ansicht angemeldet werden.  Dafür ist die Funktion
 \texttt{on-redraw\index{on-redraw@\texttt{on-redraw}}} zuständig:
 %
 \begin{alltt}
@@ -336,7 +336,7 @@ entsprechende Ansicht angemeldet werden.  Dafür ist die Prozedur
 Als Argument akzeptiert \texttt{on-redraw} also eine Funktion, die aus
 einer Welt ein Bild macht.  TBD
 
-Auch diese Prozedur muß noch beim Teachpack angemeldet werden.  Dafür
+Auch diese Funktion muß noch beim Teachpack angemeldet werden.  Dafür
 die Teachpack-Funktion
 \texttt{on-tick-event\index{on-tick-event@\texttt{on-tick-event}}}
 zuständig:
@@ -355,7 +355,7 @@ paßt aber \texttt{next-time}.  Der Aufruf kann also so aussehen:
 \end{alltt}
 %
 Wenn das Programm
-beendet werden soll, muß \texttt{on-tick-event} die Prozedur
+beendet werden soll, muß \texttt{on-tick-event} die Funktion
 \texttt{end-of-time\index{end-of-time@\texttt{end-of-time}}} des
 Teachpacks aufrufen, die folgende Signatur hat:
 %

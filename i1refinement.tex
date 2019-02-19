@@ -108,7 +108,7 @@ zumindest eine grobe Lösungsstrategie zu entwickeln, bevor mit dem
 Programmieren begonnen wird.
 
 Eine Möglichkeit für eine Lösung wäre, den kompletten Suchbaum neu zu
-bilden: Dazu könnte die Lösch-Prozedur alle Elemente in einer Liste
+bilden: Dazu könnte die Lösch-Funktion alle Elemente in einer Liste
 aufsammeln, und dann mit \texttt{search-tree-insert} sukzessive aus
 allen Elementen bis auf das zu löschende einen neuen Suchbaum
 konstruieren.  (Siehe Aufgabe~\ref{ex:naive-delete}.)  Dies wäre
@@ -192,7 +192,7 @@ bereits zwei erkennbare Teilaufgaben:
 \end{enumerate}
 %
 Insbesondere müßte es leicht möglich sein, die zweite Teilaufgabe
-soweit zu lösen, daß die Lösch-Prozedur zu zumindest für \texttt{s3}
+soweit zu lösen, daß die Lösch-Funktion zu zumindest für \texttt{s3}
 funktioniert:
 %
 \begin{verbatim}
@@ -330,7 +330,7 @@ Aber auch im obigen Ausdruck fehlt noch etwas, nämlich der linke
 Teilbaum des neu konstruierten Baums.  Der soll alle Elemente des
 ursprünglichen Teilbaums finden, \emph{außer dem Maximum}.  Wie kann
 \texttt{delete-top} das Maximum loswerden?  Am einfachsten durch die
-Verwendung der Lösch-Prozedur, die gerade geschrieben wird.  Erster
+Verwendung der Lösch-Funktion, die gerade geschrieben wird.  Erster
 Anlauf:
 %
 \begin{verbatim}
@@ -610,10 +610,10 @@ hätte die Grundfläche direkt einer Wohnung zugeordnet:
 \end{verbatim}
 %
 In diesem Fall würde der Selektor \texttt{apartment-area} sich nach
-außen genauso verhalten wie die Prozedur \texttt{apartment-area}~--
+außen genauso verhalten wie die Funktion \texttt{apartment-area}~--
 gleicher Vertrag. gleiche Funktion.  Die Tatsache, daß der
-Record-Selektor eine reguläre Prozedur ist, die sich von
-"`selbstgeschriebenen"' Prozeduren nach außen nicht unterscheidet,
+Record-Selektor eine reguläre Funktion ist, die sich von
+"`selbstgeschriebenen"' Funktionen nach außen nicht unterscheidet,
 isoliert Benutzer der Wohnungs-Funktionalität von den Unterschieden
 zwischen den zwei Varianten.
 
@@ -682,7 +682,7 @@ Apartment, das es enthält:
 \end{verbatim}
 %
 Es kann nun sein, daß die "`Wohnungs-Funktionalität"' schon in ein
-größeres Programm eingebaut wurde, daß dessen Prozeduren benutzt,
+größeres Programm eingebaut wurde, daß dessen Funktionen benutzt,
 insbesondere den Selektor \texttt{apartment-rooms}.  Der ist im Zuge
 der Erweiterung um Untermiete unter den Tisch gefallen.  Das Konzept
 der Zimmer einer Wohnungs ist aber immer noch sinnvoll; entsprechend
@@ -750,7 +750,7 @@ zusätzlicher Testfall ermittelt:
 \end{verbatim}
 %
 Mit den Erweiterungen an den Datendefinitionen sind allerdings auch
-neue Funktionalitäten möglich.  Zum Beispiel könnte eine Prozedur für
+neue Funktionalitäten möglich.  Zum Beispiel könnte eine Funktion für
 die Bewohner einer Wohnung präzise Adressen ausrechnen, etwa so:
 %
 \begin{verbatim}
@@ -765,7 +765,7 @@ die Bewohner einer Wohnung präzise Adressen ausrechnen, etwa so:
               "Sams bei Taschenbier bei Rotkohl")
 \end{verbatim}
 %
-Die Prozedur muß also gleichzeitig nach dem Bewohner suchen und die
+Die Funktion muß also gleichzeitig nach dem Bewohner suchen und die
 Adreßangabe konstruieren.  Wenn der gesuchte Bewohner gerade der
 "`Hauptbewohner"' der Wohnung ist, ist die Aufgabe einfach:
 %
@@ -961,7 +961,7 @@ Am Beispiel der Wohnungsverwaltung werden einige typische Einsichten
   Programm-Entwicklung bekannt ist, treten häufig noch beim
   Programmieren neue Einsichten zutage, die Anpassungen erfordern.
 \item Änderungen an Verträgen~-- also Schnittstellen~-- ziehen häufig
-  andere Änderungen in Prozeduren nach sich, die diese benutzen.   Es
+  andere Änderungen in Funktionen nach sich, die diese benutzen.   Es
   ist wichtig, diese gewissenhaft durchzuführen.
 \end{itemize}
 

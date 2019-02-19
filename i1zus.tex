@@ -99,11 +99,11 @@ Der Record-Typ für Computer ist in der DeinProgramm-Sprachen
   beschreiben wir, wie ein Programm eigene Record-Typen definieren
   kann.}
 
-Für jeden Record-Typ gibt es Prozeduren, mit denen Records
+Für jeden Record-Typ gibt es Funktionen, mit denen Records
 zusammengebaut und auch wieder auseinandergenommen werden können.
 Analog zum Zusammenbauen eines Computer mit Cell-Prozessor, 8 Gigabyte
 RAM und 250 Gigabyte Festplatte wird der dazugehörige Record mit der
-eingebauten Prozedur \texttt{make-computer} folgendermaßen
+eingebauten Funktion \texttt{make-computer} folgendermaßen
 hergestellt:
 %
 \begin{alltt}
@@ -120,7 +120,7 @@ hergestellt:
 Die drei Eingaben sind respektive Prozessor, RAM und Festplatte.
 \texttt{Make-computer} macht daraus einen Wert der eingebauten Sorte
 \texttt{computer} der Computer-Records.  Da \texttt{make-computer}
-einen Computer-Record "`konstruiert"', heißt die Prozedur auch
+einen Computer-Record "`konstruiert"', heißt die Funktion auch
 \textit{Konstruktor\index{Konstruktor}}.
 
 Mit der Schreibweise
@@ -149,7 +149,7 @@ workstation
 %
 Umgekehrt zur Konstruktion nehmen manche Bastler aus dem Computer die
 Einzelteile wieder heraus, zum Beispiel, um sie in einem anderen
-Computer zu verbauen. Für dieses Herausnehmen sind die Prozeduren
+Computer zu verbauen. Für dieses Herausnehmen sind die Funktionen
 \texttt{computer"=processor}, \texttt{computer"=ram} und
 \texttt{computer-hard-drive} zuständig:
 %
@@ -162,7 +162,7 @@ Computer zu verbauen. Für dieses Herausnehmen sind die Prozeduren
 \evalsto{} 1000
 \end{alltt}
 %
-Diese drei Prozeduren heißen \textit{Selektoren\index{Selektor}}.  Sie haben
+Diese drei Funktionen heißen \textit{Selektoren\index{Selektor}}.  Sie haben
 folgende Signaturen:
 %
 \begin{alltt}
@@ -172,10 +172,10 @@ folgende Signaturen:
 \end{alltt}
 %
 Mit Hilfe des Konstruktors und der Selektoren kann der Programmierer
-weitergehende Prozeduren definieren.  Für den Anfang könnte das
+weitergehende Funktionen definieren.  Für den Anfang könnte das
 eine Funktion sein, die den Gesamtspeicher eines Computers berechnet,
 also Hauptspeicher und Festplattenspeicher zusammen.
-Eine solche Prozedur müßte Kurzbeschreibung und Signatur wie folgt haben:\index{total-memory@\texttt{total-memory}}
+Eine solche Funktion müßte Kurzbeschreibung und Signatur wie folgt haben:\index{total-memory@\texttt{total-memory}}
 %
 \begin{alltt}
 ; Gesamtspeicher berechnen
@@ -234,7 +234,7 @@ Das Gesamtspeicher ergibt sich aus Addition der beiden Komponenten:
 %
 Fertig!
 
-\texttt{Total-memory} ist ein Beispiel für eine Prozedur, die einen
+\texttt{Total-memory} ist ein Beispiel für eine Funktion, die einen
 Record akzeptiert.  Umgekehrt gibt es auch Funktionen, die Records
 produzieren.  Angenommen, unser Computerhändler bietet neben der
 Einzelkonfiguration von Prozessor, Hauptspeicher und Festplatte einige
@@ -547,7 +547,7 @@ vervollständigen damit den Rumpf:
        (wallclock-time-minute wt))))
 \end{verbatim}
 %
-Die Umrechnung können wir auch umdrehen, mit einer Prozedur wie folgt:
+Die Umrechnung können wir auch umdrehen, mit einer Funktion wie folgt:
 %
 \begin{verbatim}
 ; Aus Minuten seit Mitternacht die Uhrzeit berechnen
@@ -717,7 +717,7 @@ hinzuschreiben.
 
 \subsection{Zusammengesetzte Daten als Ausgabe}
 
-Prozeduren, die zusammengesetzte Daten als Ausgabe haben, müssen einen
+Funktionen, die zusammengesetzte Daten als Ausgabe haben, müssen einen
 entsprechenden Record konstruieren und deshalb den Konstruktor aufrufen.
 Die Schablone ergibt sich folgendermaßen:
 %
@@ -769,7 +769,7 @@ Record-Definition machen:
 Für das Feld \texttt{alive?} könnten wir unterschiedliche Repräsentationen
 wählen: Eine Aufzählung wäre möglich; die Autoren haben sich für einen
 booleschen Wert entschieden, der die Frage "`Lebt das Gürteltier?"'
-beantwortet.  Hier sind die Signaturen für die Record-Prozeduren:
+beantwortet.  Hier sind die Signaturen für die Record-Funktionen:
 %
 \begin{verbatim}
 (: make-dillo (natural boolean -> dillo))
@@ -810,7 +810,7 @@ nehmen sie auch nicht zu, wenn man ihnen Futter anbietet:
 (check-expect (feed-dillo d2) d2)
 \end{verbatim}
 %
-Hier das Gerüst der Prozedur:
+Hier das Gerüst der Funktion:
 \begin{verbatim}
 (define feed-dillo
   (lambda (d)
@@ -863,7 +863,7 @@ angemessen:
 %
 Nun müssen wir noch die beiden Zweige ergänzen.  Am
 einfachsten ist die Alternative "`Gürteltier tot"', dann nämlich kommt
-das gleiche Gürteltier aus der Prozedur, das hineingegangen ist:
+das gleiche Gürteltier aus der Funktion, das hineingegangen ist:
 %
 \begin{verbatim}
 (define feed-dillo
@@ -925,7 +925,7 @@ tot:
 (check-expect (run-over-dillo d2) d2)
 \end{verbatim}
 %
-Hier das Gerüst der Prozedur:
+Hier das Gerüst der Funktion:
 %
 \begin{verbatim}
 (define run-over-dillo
@@ -986,7 +986,7 @@ Fertig!
 \begin{aufgabe}
 
   Schreiben Sie eine Daten- und eine
-  Record-Definition für \textit{Brüche} und verschiedene Prozeduren
+  Record-Definition für \textit{Brüche} und verschiedene Funktionen
   für das Bruchrechnen:
   \begin{itemize}
   \item Kürzen eines Bruchs
@@ -1017,12 +1017,12 @@ Fertig!
   \item Schreiben Sie eine Daten-Definition für Quxe sowie eine dazu
     passende Record-Definition. Notieren Sie dazu auch die Signaturen der
     Selektoren.
-  \item Schreiben Sie Signatur, Gerüst und Schablone für eine Prozedur,
+  \item Schreiben Sie Signatur, Gerüst und Schablone für eine Funktion,
     die ein Qux konsumiert und eine Zeichenkette zurückgibt.
     Identifizieren Sie die dazu benutzten Konstruktionsanleitungen.
     Achten Sie darauf, dass Sie auch die Konstruktionsanleitungen für die
     Komponenten von Qux-Records zur Anwendung bringen.
-  \item Nehmen Sie an, Sie hätten für eine zu schreibende Prozedur
+  \item Nehmen Sie an, Sie hätten für eine zu schreibende Funktion
     \texttt{quxop2} die folgende Signatur festgelegt:
 \begin{verbatim}
 (: quxop2 (natural (one-of "Hx" "Bx" "Px") -> qux))
@@ -1058,7 +1058,7 @@ Fertig!
 
 \begin{aufgabe}
 
-  Schreiben Sie weitere Prozeduren für die Computer aus Abschnitt~\ref{sec:computer-konfigurieren}:
+  Schreiben Sie weitere Funktionen für die Computer aus Abschnitt~\ref{sec:computer-konfigurieren}:
   %
   \begin{itemize}
   \item Überlegen Sie sich, wie Sie für einen Computer einen
@@ -1120,7 +1120,7 @@ Fertig!
     überprüft, ob sich zwei Zeiten mit einer jeweils gegebenen Dauer
     (in Minuten) überschneiden. Gehen Sie davon aus, dass es sich um
     Zeiten desselben Tages handelt.
-  \item Schreiben Sie eine Prozedur \texttt{overlap?}, die prüft, ob
+  \item Schreiben Sie eine Funktion \texttt{overlap?}, die prüft, ob
     sich zwei gegebene Termine überschneiden. Beachten Sie die Dauer
     der Termine. Gehen Sie davon aus, dass die Termine nicht über
     Mitternacht liegen.
@@ -1177,7 +1177,7 @@ Fertig!
     Mindest-Schadstoffklasse noch fahren darf. Gestalten Sie die Signatur
     so, dass er nur Mindest-Schadstoffklassen von 1 bis 4 akzeptiert.
   \item Die Mühlstraße in Tübingen ist in einer Richtung für
-    alle Fahrzeuge außer Stadtbusse gesperrt. Schreiben Sie eine Prozedur
+    alle Fahrzeuge außer Stadtbusse gesperrt. Schreiben Sie eine Funktion
     \texttt{sonderrecht?}, die überprüft ob ein gegebenes Fahrzeug die
     Mühlstraße in der gesperrten Richtung befahren darf.  
   \item Bürgermeister Boris Palmer hat die Idee, den Tourismus
@@ -1187,7 +1187,7 @@ Fertig!
     auch Reisebusse zu.
   \end{enumerate}
   Verwenden Sie beim Schreiben der Funktion die
-  Konstruktionsanleitungen für Prozeduren und für Fallunterscheidungen. 
+  Konstruktionsanleitungen für Funktionen und für Fallunterscheidungen. 
   Schreiben Sie Testfälle, die alle Möglichkeiten der   
   Fallunterscheidung abdecken.
   
@@ -1224,7 +1224,7 @@ Fertig!
     Größenklassen \textit{Small}, \textit{Medium} und \textit{Large},
     um die Kosten für das Paket zu berechnen.  Ausschlaggebendes
     Kriterium für die Paketgröße ist die Summe der längsten und der
-    kürzesten Seite des Pakets.  Schreiben Sie eine Prozedur
+    kürzesten Seite des Pakets.  Schreiben Sie eine Funktion
     \texttt{add-longest-and-shortest-side}, die als Argument eine
     \textit{Abmessung} bekommt.  Der Rückgabewert von
     \texttt{add"=longest"=and"=shortest"=side} soll die Summe der längsten

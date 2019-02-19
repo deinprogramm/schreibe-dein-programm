@@ -229,7 +229,7 @@ der Tiefen der Teilbäume:
 Scheme, die das Maximum ihrer Argumente ermittelt.)
 
 Auch \texttt{depth} folgt einer 
-Schablone, die für viele Prozeduren auf Bäumen
+Schablone, die für viele Funktionen auf Bäumen
 gilt; Aufgabe~\ref{ex:recipe-trees} beschäftigt sich damit.
 Ihr folgt auch die Funktion \texttt{node-count}, welche die Anzahl der
 Knoten in einem Binärbaum liefert:\index{node-count@\texttt{node-count}}
@@ -344,7 +344,7 @@ beim leeren Suchbaum an:\index{make-empty-search-tree@\texttt{make-empty-search-
                       the-empty-tree)))
 \end{alltt}
 %
-Ohne weiterführende Prozeduren gibt es hier noch nichts zu testen. Hier kommt
+Ohne weiterführende Funktionen gibt es hier noch nichts zu testen. Hier kommt
 aber schon ein Beispiel zu Testzwecken:
 
 \begin{alltt}
@@ -493,7 +493,7 @@ Die Testfälle werden dann wie zuvor mit Hilfe von
 %
 Zu beachten ist, daß die Definition von \texttt{s3} im Programm
 \emph{hinter} die Definition von \texttt{search-tree-insert} gestellt
-wird, da diese Prozedur für die Auswertung der rechten Seite benötigt wird.
+wird, da diese Funktion für die Auswertung der rechten Seite benötigt wird.
 %
 \begin{alltt}
 (define search-tree-insert
@@ -549,7 +549,7 @@ Das Resultat des Aufrufs von \texttt{insert} am Ende der Funktion wird
 schließlich wieder in einen \texttt{search-tree}-Wert eingepackt,
 mit denselben \texttt{label-equal}- und \texttt{label"=less"=than}"=Operationen wie vorher.
 
-Die Prozedur \texttt{search-tree-member?} muß für den Suchbaum in
+Die Funktion \texttt{search-tree-member?} muß für den Suchbaum in
 Abbildung~\ref{fig:searchtree} nicht alle Elemente nach dem gesuchten
 durchforsten; \texttt{search-tree-member?} sucht auf direktem Weg
 von der Wurzel des Suchbaums nach unten zum gesuchten Element.  Da pro
@@ -717,7 +717,7 @@ sind Kurzbeschreibung und Signatur:
 %
 Das erste Argument ist ein Gleichheitsprädikat, welches den gesuchten
 Wert mit den Listenelementen vergleicht.  Hier sind einige Tests,
-Gerüst und Schablone für die Prozedur, die eine Liste akzeptiert:
+Gerüst und Schablone für die Funktion, die eine Liste akzeptiert:
 %
 \begin{alltt}
 (check-expect (member? = 5 empty) #f)
@@ -736,9 +736,9 @@ Gerüst und Schablone für die Prozedur, die eine Liste akzeptiert:
 \end{alltt}
 %
 Im \texttt{empty?}-Zweig ist die Liste leer, das Ergebnis also
-\verb|#f|.  Im anderen Fall muß die Prozedur feststellen, ob
+\verb|#f|.  Im anderen Fall muß die Funktion feststellen, ob
 \texttt{(first lis)} gerade das gesuchte Element \texttt{el} ist.
-Vollständig sieht die Prozedur so aus:
+Vollständig sieht die Funktion so aus:
 %
 \begin{alltt}
 (define member?
@@ -849,12 +849,12 @@ erfüllt offensichtlich die Suchbaumeigenschaft.
 
 \begin{aufgabe}
   \label{ex:recipe-trees}
-  Formulieren Sie eine spezielle Schablone für Prozeduren, die
+  Formulieren Sie eine spezielle Schablone für Funktionen, die
   Binärbäume akzeptieren!
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie eine Prozedur, die einen Binärbaum akzeptiert
+  Schreiben Sie eine Funktion, die einen Binärbaum akzeptiert
   und eine Liste aller Markierungen in dem Baum zurückgibt.
 \end{aufgabe}
 
@@ -867,7 +867,7 @@ erfüllt offensichtlich die Suchbaumeigenschaft.
 
 \begin{aufgabe}
   Schreiben Sie eine Funktion \texttt{search-tree-delete}, die ein
-  Element aus einem Suchbaum entfernt.  Beweisen Sie, daß die Prozedur die
+  Element aus einem Suchbaum entfernt.  Beweisen Sie, daß die Funktion die
   Suchbaumeigenschaft erhält.
 \end{aufgabe}
 
@@ -885,7 +885,7 @@ erfüllt offensichtlich die Suchbaumeigenschaft.
   und dem \textit{Wert} bestehen.  Schreiben Sie dazu parametrische Daten-,
   Record- und Signaturdefinitionen. Ändern Sie \texttt{search-tree-insert}
   dahingehend, daß es Schlüssel und Element akzeptiert.  Schreiben Sie eine
-  Prozedur \texttt{search-tree-find}, die zu einem Schlüssel den
+  Funktion \texttt{search-tree-find}, die zu einem Schlüssel den
   zugehörigen Wert findet.
 \end{aufgabe}
 
