@@ -7,14 +7,14 @@
 \chapter{Fallunterscheidungen und Verzweigungen}
 \label{cha:conditionals}
 
-Computerprogramme müssen bei manchen Daten, die sie
-verarbeiten, zwischen verschiedenen Möglichkeiten differenzieren: Ist
-die Wassertemperatur warm genug zum Baden?  Welche von fünf
-Tupperschüsseln ist für eine bestimmte Menge Kartoffelsalat groß
+Computerprogramme mÃ¼ssen bei manchen Daten, die sie
+verarbeiten, zwischen verschiedenen MÃ¶glichkeiten differenzieren: Ist
+die Wassertemperatur warm genug zum Baden?  Welche von fÃ¼nf
+TupperschÃ¼sseln ist fÃ¼r eine bestimmte Menge Kartoffelsalat groÃŸ
 genug?  Welches ist die richtige Abzweigung nach Dortmund?  Solche
-Entscheidungen sind daran festgemacht, daß ein Wert zu einer von mehreren
+Entscheidungen sind daran festgemacht, daÃŸ ein Wert zu einer von mehreren
 verschiedenen 
-Kategorien gehören kann~-- es handelt sich dann um eine sogenannte
+Kategorien gehÃ¶ren kann~-- es handelt sich dann um eine sogenannte
 \textit{Fallunterscheidung\index{Fallunterscheidung}}; 
 mathematische Funktionen und Scheme-Funktionen operieren auf Daten mit
 Fallunterscheidung durch \textit{Verzweigungen\index{Verzweigung}}.
@@ -23,10 +23,10 @@ Um diese geht es in diesem Kapitel.
 \section{Fallunterscheidungen}
 \label{sec:fallunterscheidungen}
 
-Zu den "`Flensburg"'-Punkten, die es bei Verstößen gegen die
-Straßenverkehrsordnung gibt, hat eine Seite im Internet folgendes zu
+Zu den "`Flensburg"'-Punkten, die es bei VerstÃ¶ÃŸen gegen die
+StraÃŸenverkehrsordnung gibt, hat eine Seite im Internet folgendes zu
 sagen:
-%%%% Das ist leider nicht mehr die gültige Version der Punkte! HK
+%%%% Das ist leider nicht mehr die gÃ¼ltige Version der Punkte! HK
 %
 \begin{description}
 \item[0 bis 3 Punkte] Keine Sanktionen
@@ -37,40 +37,40 @@ sagen:
 \item[14 bis 17 Punkte]
 Bei freiwilliger Teilnahme an verkehrspsychologischer Beratung: 2 Punkte Abzug
 \item[Ab 18 Punkte]
-Führerschein wird entzogen
+FÃ¼hrerschein wird entzogen
 \end{description}
 %
-Wir können zu dieser Aufstellung eine Reihe von Fragestellungen
+Wir kÃ¶nnen zu dieser Aufstellung eine Reihe von Fragestellungen
 bearbeiten, zum Beispiel welche Sanktionen durch eine bestimmte
 Punktezahl verpflichtend werden oder wieviele Punkte ein Autofahrer
-nach einer bestimmten Maßnahme noch auf dem Konto hat.  In jedem Fall
-teilt die Aufstellung mögliche Punktezahlen in bestimmte Kategorien
-ein, je nach Maßnahme.  Folgende Maßnahmen gibt es:
+nach einer bestimmten MaÃŸnahme noch auf dem Konto hat.  In jedem Fall
+teilt die Aufstellung mÃ¶gliche Punktezahlen in bestimmte Kategorien
+ein, je nach MaÃŸnahme.  Folgende MaÃŸnahmen gibt es:
 %
 \begin{itemize}
 \item nichts
 \item Aufbauseminar
 \item verkehrspsychologische Beratung
-\item Führerscheinentzug
+\item FÃ¼hrerscheinentzug
 \end{itemize}
 %
-Dies ist eine \textit{Aufzählung}\index{Aufzählung}.
+Dies ist eine \textit{AufzÃ¤hlung}\index{AufzÃ¤hlung}.
 
-Wir fangen mit der Fragestellung an, welche Zwangsmaßnahme für eine
-bestimmte Punktezahl angeordnet wird.  Zwangsmaßnahmen gibt es nur
-drei: keine, Aufbauseminar und Führerscheinentzug, da die
+Wir fangen mit der Fragestellung an, welche ZwangsmaÃŸnahme fÃ¼r eine
+bestimmte Punktezahl angeordnet wird.  ZwangsmaÃŸnahmen gibt es nur
+drei: keine, Aufbauseminar und FÃ¼hrerscheinentzug, da die
 verkehrspsychologische Beratung rein freiwillig ist.  Entsprechend
-zerfällt die Punkteskala in drei Teile: $0-13$, $14-17$ und ab $18$.
-Die Punktezahl gehört also zu einer von drei
+zerfÃ¤llt die Punkteskala in drei Teile: $0-13$, $14-17$ und ab $18$.
+Die Punktezahl gehÃ¶rt also zu einer von drei
 \textit{Kategorien}\index{Kategorie}.
 
 Wenn die Menge, aus der ein Wert kommt, in eine feste
 Anzahl von Kategorien aufgeteilt wird und bei einem Wert nur die
-Kategorie zählt, ist diese Menge durch eine \textit{Fallunterscheidung} definiert.
-Aufzählungen sind damit auch Fallunterscheidungen.
+Kategorie zÃ¤hlt, ist diese Menge durch eine \textit{Fallunterscheidung} definiert.
+AufzÃ¤hlungen sind damit auch Fallunterscheidungen.
 
-Eine Funktion, die  aus einem Punktestand die Zwangsmaßnahme ermittelt,
-sieht folgendermaßen aus:
+Eine Funktion, die  aus einem Punktestand die ZwangsmaÃŸnahme ermittelt,
+sieht folgendermaÃŸen aus:
 %
 \begin{displaymath}
   m(p) \deq
@@ -79,20 +79,20 @@ sieht folgendermaßen aus:
     \\
     \textit{Aufbauseminar} & \textrm{falls $p \geq 14, p \leq 17$}
     \\
-    \textit{Führerscheinentzug } & \textrm{falls $p \geq 18$}
+    \textit{FÃ¼hrerscheinentzug } & \textrm{falls $p \geq 18$}
   \end{cases}
 \end{displaymath}
 %
-Die Notation mit der großen geschweiften Klammer heißt
+Die Notation mit der groÃŸen geschweiften Klammer heiÃŸt
 \textit{Verzweigung\index{Verzweigung}} (engl.\
 \textit{conditional\index{conditional}}); ein Ausdruck wie $p\leq 13$,
 der wahr oder falsch sein kann,
-heißt \textit{Bedingung\index{Bedingung}} oder
+heiÃŸt \textit{Bedingung\index{Bedingung}} oder
 \textit{Test\index{Test}}.
 
-\section{Boolesche Ausdrücke in Scheme}
+\section{Boolesche AusdrÃ¼cke in Scheme}
 
-Tests gibt es auch in Scheme; sie sind dort Ausdrücke.
+Tests gibt es auch in Scheme; sie sind dort AusdrÃ¼cke.
 Hier ein Beispiel:
 %
 \begin{alltt}
@@ -100,15 +100,15 @@ Hier ein Beispiel:
 \evalsto{} #t
 \end{alltt}
 %
-\texttt{(<= -5 0)} ist die Scheme-Schreibweise für $-5 \leq 0$.  Als Frage
-gestellt oder Aussage aufgefaßt, ist $-5 \leq 0$ "`wahr"'.
-\verb|#t|\index{#t@\verb/#t/} steht für "`true\index{true}"' oder
+\texttt{(<= -5 0)} ist die Scheme-Schreibweise fÃ¼r $-5 \leq 0$.  Als Frage
+gestellt oder Aussage aufgefaÃŸt, ist $-5 \leq 0$ "`wahr"'.
+\verb|#t|\index{#t@\verb/#t/} steht fÃ¼r "`true\index{true}"' oder
 "`wahr\index{wahr}"'.  \texttt{<=}\index{<=@\texttt{<=}} ist eine
 eingebaute Funktion, welche auf "`kleiner gleich"' testet.  (Ebenso
-gibt es auch \texttt{=}\index{=@\texttt{=}} für $=$, 
-\texttt{<}\index{<@\texttt{<}} für $<$,
-\texttt{>}\index{>@\texttt{>}} für $>$ und
-\texttt{>=}\index{>=@\texttt{>=}} für $\geq$.)
+gibt es auch \texttt{=}\index{=@\texttt{=}} fÃ¼r $=$, 
+\texttt{<}\index{<@\texttt{<}} fÃ¼r $<$,
+\texttt{>}\index{>@\texttt{>}} fÃ¼r $>$ und
+\texttt{>=}\index{>=@\texttt{>=}} fÃ¼r $\geq$.)
 
 Ein Test kann auch negativ ausfallen:
 %
@@ -117,16 +117,16 @@ Ein Test kann auch negativ ausfallen:
 \evalsto{} #f
 \end{alltt}
 %
-\verb|#f|\index{#f@\verb/#f/} steht für "`false"' oder "`falsch"'.
-"`Wahr"' und "`falsch"' heißen zusammen \textit{boolesche
+\verb|#f|\index{#f@\verb/#f/} steht fÃ¼r "`false"' oder "`falsch"'.
+"`Wahr"' und "`falsch"' heiÃŸen zusammen \textit{boolesche
   Werte\index{boolescher Wert}} oder auch
 \textit{Wahrheitswerte\index{Wahrheitswert}}.\footnote{Die booleschen
   Werte sind benannt nach \textit{George Boole}
-  (1815--1864), der zuerst einen algebraischen Ansatz für die
+  (1815--1864), der zuerst einen algebraischen Ansatz fÃ¼r die
   Behandlung von Logik mit den Werten "`wahr"' und "`falsch"'
   formulierte.}
 
-Analog zu \texttt{=} für Zahlen können Zeichenketten mit
+Analog zu \texttt{=} fÃ¼r Zahlen kÃ¶nnen Zeichenketten mit
 \texttt{string=?}\index{string=?@\texttt{string=?}} verglichen werden:
 \begin{alltt}
 (string=? "Mike" "Mike")
@@ -135,7 +135,7 @@ Analog zu \texttt{=} für Zahlen können Zeichenketten mit
 \evalsto{} #f
 \end{alltt}
 
-\verb|#t| und \verb|#f| sind wie Zahlen Literale, können also
+\verb|#t| und \verb|#f| sind wie Zahlen Literale, kÃ¶nnen also
 auch in Programmen stehen:
 %
 \begin{alltt}
@@ -168,7 +168,7 @@ ergibt immer dann \verb|#t|, wenn alle $e_i$ \verb|#t| ergeben, sonst
 \evalsto{} #f
 \end{alltt}
 %
-Entsprechend gibt es Ausdrücke der Form\index{or@\texttt{or}}
+Entsprechend gibt es AusdrÃ¼cke der Form\index{or@\texttt{or}}
 %
 \begin{alltt}
 (or \(e\sb{1}\) \(e\sb{2}\) \(\ldots\) \(e\sb{n}\))
@@ -192,7 +192,7 @@ die immer dann \verb|#t| ergeben, wenn \emph{einer} der $e_i$ \verb|#t| ergibt, 
 %
 Des weiteren gibt es noch eine eingebaute Funktion
 \texttt{not}\index{not@\texttt{not}}, die einen booleschen Wert
-umdreht, sich also folgendermaßen verhält:
+umdreht, sich also folgendermaÃŸen verhÃ¤lt:
 %
 \begin{alltt}
 (not #f)
@@ -204,30 +204,30 @@ umdreht, sich also folgendermaßen verhält:
 
 \section{Programmieren mit Fallunterscheidungen}
 
-Zurück zu den Punkten in Flensburg: Zunächst schreiben wir eine
+ZurÃ¼ck zu den Punkten in Flensburg: ZunÃ¤chst schreiben wir eine
 Funktion, die zu einem gegebenen Punktestand die entsprechende
-Zwangsmaßnahme ausrechnet.  Fast alles, was zur Datenanalyse gehört,
+ZwangsmaÃŸnahme ausrechnet.  Fast alles, was zur Datenanalyse gehÃ¶rt,
 haben wir schon am Anfang des Kapitels gemacht: der Punktestand ist
-eine natürliche Zahl, eine Zwangsmaßnahme ist nichts, ein
-Aufbauseminar oder der Führerscheinentzug.  Diese Informationen müssen
+eine natÃ¼rliche Zahl, eine ZwangsmaÃŸnahme ist nichts, ein
+Aufbauseminar oder der FÃ¼hrerscheinentzug.  Diese Informationen mÃ¼ssen
 wir noch in Daten umwandeln~-- dazu benutzen wir einfach die
 entsprechenden Zeichenketten \verb|"nichts"|, \verb|"Aufbauseminar"|
-und \verb|"Führerscheinentzug"| und halten das Ergebnis in einem
+und \verb|"FÃ¼hrerscheinentzug"| und halten das Ergebnis in einem
 Kommentar fest:
 %
 \begin{alltt}
-; Eine Zwangsmaßnahme ist einer der folgenden Werte:
+; Eine ZwangsmaÃŸnahme ist einer der folgenden Werte:
 ; - "nichts"
 ; - "Aufbauseminar"
-; - "Führerscheinentzug"
+; - "FÃ¼hrerscheinentzug"
 \end{alltt}
 %
 FIXME: Signatur benamsen, nach Motivation
 %
-Die Kurzbeschreibung der Prozedur könnte so aussehen:
+Die Kurzbeschreibung der Prozedur kÃ¶nnte so aussehen:
 %
 \begin{alltt}
-; Zwangsmaßnahme bei Flensburg-Punktestand errechnen
+; ZwangsmaÃŸnahme bei Flensburg-Punktestand errechnen
 \end{alltt}
 %
 Eine passende Signatur ist diese
@@ -236,23 +236,23 @@ hier:\index{points-must-do@\texttt{points-must-do}}\label{page:points-must-do}
 \begin{alltt}
 (: points-must-do (natural -> (one-of "nichts"
                                       "Aufbauseminar"
-                                      "Führerscheinentzug")))
+                                      "FÃ¼hrerscheinentzug")))
 \end{alltt}
 %
 Die Konstruktion \texttt{one-of}\index{one-of@\texttt{one-of}}
 bei Signaturen ist neu: In der obigen
-Signatur bedeutet es, daß der Aggregatzustand einer der in der
+Signatur bedeutet es, daÃŸ der Aggregatzustand einer der in der
 \texttt{one-of}-Signatur angegegebenen Werte ist, also eine der
-Zeichenketten \verb|"nichts"|, \verb|"Aufbauseminar"| und \verb|"Führerscheinentzug"|.
+Zeichenketten \verb|"nichts"|, \verb|"Aufbauseminar"| und \verb|"FÃ¼hrerscheinentzug"|.
 
-Hier sind zwei mögliche Testfälle:
+Hier sind zwei mÃ¶gliche TestfÃ¤lle:
 %
 \begin{alltt}
 (check-expect (points-must-do 14) "Aufbauseminar")
-(check-expect (points-must-do 18) "Führerscheinentzug")
+(check-expect (points-must-do 18) "FÃ¼hrerscheinentzug")
 \end{alltt}   
 %
-Es folgt das Gerüst der Prozedur:
+Es folgt das GerÃ¼st der Prozedur:
 %
 \begin{alltt}
 (define points-must-do
@@ -260,7 +260,7 @@ Es folgt das Gerüst der Prozedur:
     ...))
 \end{alltt}
 %
-Auf jeden Fall muß das \texttt{p} irgendwo im Rumpf vorkommen:
+Auf jeden Fall muÃŸ das \texttt{p} irgendwo im Rumpf vorkommen:
 %
 \begin{alltt}
 (define points-must-do
@@ -282,14 +282,14 @@ Ein \texttt{cond}"=Ausdruck hat die folgende Form:
   (else \(a\sb{n}\))))
 \end{alltt}
 %
-Dabei sind die $t_i$ und die $a_i$ ihrerseits Ausdrücke.  Der
+Dabei sind die $t_i$ und die $a_i$ ihrerseits AusdrÃ¼cke.  Der
 \texttt{cond}-Ausdruck wertet nacheinander alle Tests $t_i$ aus;
 sobald ein Test $t_k$ \texttt{\#t} ergibt, wird der
 \texttt{cond}-Ausdruck durch das entsprechende $a_k$ ersetzt.  Wenn
 alle Tests fehlschlagen, wird durch $a_n$ ersetzt.  Die Paarungen
-\texttt{($t_i$ $a_i$)} heißen \textit{Zweige\index{Zweig}} des
+\texttt{($t_i$ $a_i$)} heiÃŸen \textit{Zweige\index{Zweig}} des
 \texttt{cond}-Ausdruckes, und der Zweig mit \texttt{else} (auf deutsch
-"`sonst"') heißt
+"`sonst"') heiÃŸt
 \textit{\texttt{else}-Zweig\index{else-Zweig@\texttt{else}-Zweig}}.
 Der \texttt{else}-Zweig kann auch fehlen~-- dann sollte aber immer
 einer der Tests \texttt{\#t} ergeben.  Wenn doch einmal bei allen
@@ -299,9 +299,9 @@ und gibt eine Fehlermeldung aus.
 %
 Jetzt brauchen wir, wie bei der mathematischen Funktion $m$ aus
 Abschnitt~\ref{sec:fallunterscheidungen}, eine Verzweigung, nur eben
-in Scheme.  Abbildung~\ref{scheme:cond} beschreibt das dafür
-zuständige \texttt{cond}.   Es ist also von vorneherein klar, daß eine
-\texttt{cond}-Form im Rumpf von \texttt{points-must-do} auftauchen muß:
+in Scheme.  Abbildung~\ref{scheme:cond} beschreibt das dafÃ¼r
+zustÃ¤ndige \texttt{cond}.   Es ist also von vorneherein klar, daÃŸ eine
+\texttt{cond}-Form im Rumpf von \texttt{points-must-do} auftauchen muÃŸ:
 %
 \begin{alltt}
 (define points-must-do
@@ -312,7 +312,7 @@ zuständige \texttt{cond}.   Es ist also von vorneherein klar, daß eine
 Bei der Konstruktion der \texttt{cond}-Formen ist entscheidend,
 wieviele Zweige sie hat.  Dabei gibt es eine einfache Faustregel~-- da
 die Eingabe von \texttt{points-must-do}~-- die Punktzahl~-- in
-\emph{drei} Kategorien zerfällt, braucht die \texttt{cond}-Form auch
+\emph{drei} Kategorien zerfÃ¤llt, braucht die \texttt{cond}-Form auch
 \emph{drei} Zweige:
 %
 \begin{alltt}
@@ -324,10 +324,10 @@ die Eingabe von \texttt{points-must-do}~-- die Punktzahl~-- in
       (... ...))))
 \end{alltt}
 %
-Wir benötigen jetzt für jeden \texttt{cond}-Zweig einen Test, der die
-entsprechende Kategorie bei den Punkten identifiziert.  Dazu müssen
+Wir benÃ¶tigen jetzt fÃ¼r jeden \texttt{cond}-Zweig einen Test, der die
+entsprechende Kategorie bei den Punkten identifiziert.  Dazu mÃ¼ssen
 wir nur die entsprechenden Bedingungen aus der mathematischen Fassung
-nach Scheme übersetzen.  Heraus kommt folgendes:
+nach Scheme Ã¼bersetzen.  Heraus kommt folgendes:
 %
 \begin{alltt}
 (define points-must-do
@@ -338,8 +338,8 @@ nach Scheme übersetzen.  Heraus kommt folgendes:
       ((>= p 18) ...))))
 \end{alltt}
 %
-Der letzte Schritt ist einfach~-- wir fügen für jeden Zweig die zum
-Test passende Maßnahme ein:
+Der letzte Schritt ist einfach~-- wir fÃ¼gen fÃ¼r jeden Zweig die zum
+Test passende MaÃŸnahme ein:
 %
 \begin{alltt}
 (define points-must-do
@@ -347,12 +347,12 @@ Test passende Maßnahme ein:
     (cond
       ((<= p 13) "nichts")
       ((and (>= p 14) (<= p 17)) "Aufbauseminar")
-      ((>= p 18) "Führerscheinentzug"))))
+      ((>= p 18) "FÃ¼hrerscheinentzug"))))
 \end{alltt}
 %
-Fertig~-- könnte man meinen.  Wenn Sie das Programm in der REPL laufen lassen,
-meldet DrRacket zwei bestandene Tests.  Allerdings fällt Ihnen
-vielleicht auf, daß das Programm im Definitionsfenster nach dem Lauf
+Fertig~-- kÃ¶nnte man meinen.  Wenn Sie das Programm in der REPL laufen lassen,
+meldet DrRacket zwei bestandene Tests.  Allerdings fÃ¤llt Ihnen
+vielleicht auf, daÃŸ das Programm im Definitionsfenster nach dem Lauf
 so aussieht:
 %
 \begin{alltt}
@@ -361,15 +361,15 @@ so aussieht:
     (cond
       ((<= p 13) \colorbox{featuregray}{"nichts"})
       ((and (>= p 14) (<= p 17)) "Aufbauseminar")
-      ((>= p 18) "Führerscheinentzug"))))
+      ((>= p 18) "FÃ¼hrerscheinentzug"))))
 \end{alltt}
 %
 Das \verb|"nichts"| ist farbig unterlegt, weil DrRacket diesen
-Ausdruck noch nie ausgewertet hat.  Das ist nicht gut, weil es heißt,
-daß der entsprechende Zweig durch die Tests noch nicht strapaziert
-wurde~-- er ist also möglicherweise fehlerhaft.  Anders gesagt: Die
+Ausdruck noch nie ausgewertet hat.  Das ist nicht gut, weil es heiÃŸt,
+daÃŸ der entsprechende Zweig durch die Tests noch nicht strapaziert
+wurde~-- er ist also mÃ¶glicherweise fehlerhaft.  Anders gesagt: Die
 \textit{Abdeckung}\index{Abdeckung} des Programms durch die Tests ist
-unvollständig.  Wenn wir einen Testfall für den ersten Zweig ergänzen,
+unvollstÃ¤ndig.  Wenn wir einen Testfall fÃ¼r den ersten Zweig ergÃ¤nzen,
 verschwindet die farbige Unterlegung:
 %
 \begin{alltt}
@@ -377,34 +377,34 @@ verschwindet die farbige Unterlegung:
 \end{alltt}
 %
 Trotzdem sind die bestehenden Tests noch suboptimal~-- wer sagt
-schließlich, daß das Programm zum Beispiel bei 13 Punkten, also genau
+schlieÃŸlich, daÃŸ das Programm zum Beispiel bei 13 Punkten, also genau
 an der Grenze zwischen dem ersten und zweiten Zweig, das richtige tut.
-Wir sollten für diese Eckfälle\index{Eckfall} auch Testfälle
-bereitstellen sowie einen Testfall, der sicherstellt, daß auch bei
-Punktzahlen oberhalb von 18 immer noch der Führerschein entzogen wird:
+Wir sollten fÃ¼r diese EckfÃ¤lle\index{Eckfall} auch TestfÃ¤lle
+bereitstellen sowie einen Testfall, der sicherstellt, daÃŸ auch bei
+Punktzahlen oberhalb von 18 immer noch der FÃ¼hrerschein entzogen wird:
 %
 \begin{alltt}
 (check-expect (points-must-do 13) "nichts")
 (check-expect (points-must-do 17) "Aufbauseminar")
-(check-expect (points-must-do 100) "Führerscheinentzug")
+(check-expect (points-must-do 100) "FÃ¼hrerscheinentzug")
 \end{alltt}
 
-\begin{mantra}[Abdeckung und Eckfälle]\label{mantra:coverage}
+\begin{mantra}[Abdeckung und EckfÃ¤lle]\label{mantra:coverage}
   \input{mantra:coverage}
 \end{mantra}
 
-\section{Konstruktionsanleitung für Fallunterscheidungen}
+\section{Konstruktionsanleitung fÃ¼r Fallunterscheidungen}
 
 Bei der Konstruktion der Funktion \texttt{points-must-do} haben wir
-ein bestimmtes Schema angewendet.  Dieses Schema geht zunächst von folgender
+ein bestimmtes Schema angewendet.  Dieses Schema geht zunÃ¤chst von folgender
 Frage aus:
 %
 \begin{quote}
   \emph{Wieviele} Kategorien gibt es bei der Fallunterscheidung?
 \end{quote}
 %
-Ist die Frage beantwortet~-- durch eine Zahl $n$~-- können wir bereits
-etwas Code in den Rumpf schreiben, nämlich eine Verzweigung mit $n$
+Ist die Frage beantwortet~-- durch eine Zahl $n$~-- kÃ¶nnen wir bereits
+etwas Code in den Rumpf schreiben, nÃ¤mlich eine Verzweigung mit $n$
 Zweigen:
 %
 \begin{alltt}
@@ -416,37 +416,37 @@ Zweigen:
       (... ...))))
 \end{alltt}
 %
-Solch ein "`Rumpf mit Lücken"' (die Ellipsen\index{Ellipse}
-\texttt{\ldots} stehen für noch zu ergänzende Programmteile) ist eine
+Solch ein "`Rumpf mit LÃ¼cken"' (die Ellipsen\index{Ellipse}
+\texttt{\ldots} stehen fÃ¼r noch zu ergÃ¤nzende Programmteile) ist eine
 \textit{Schablone\index{Schablone}}.  Wir, die Autoren, empfehlen
 Ihnen, die Schablone bereits hinzuschreiben, wenn Sie die Anzahl der
-Kategorien bereits kennen, noch bevor Sie weiter über die
+Kategorien bereits kennen, noch bevor Sie weiter Ã¼ber die
 Problemstellung nachdenken.  Das hilft oft, etwaige Denkblockaden zu
-lösen.
+lÃ¶sen.
 
 Die Schablone folgt in diesem Fall aus der Struktur der Daten, also
 dem Ergebnis der Datenanalyse.  Es gibt noch andere Arten von Daten,
 jede mit ihrer eigenen Schablone.  Diese werden wir im Rest des Buchs
 entwickeln.
-Für alle folgenden Konstruktionsanleitungen gilt deshalb folgendes Mantra:
+FÃ¼r alle folgenden Konstruktionsanleitungen gilt deshalb folgendes Mantra:
 
 \begin{mantra}[Schablone]\label{mantra:data-analysis}
   \input{mantra:data-analysis}
 \end{mantra}
 
-Was die Fallunterscheidung betrifft, können wir die Schablone aber
-noch weiterentwickeln, indem wir Tests für die einzelnen Fälle der
-Fallunterscheidung ergänzen.
+Was die Fallunterscheidung betrifft, kÃ¶nnen wir die Schablone aber
+noch weiterentwickeln, indem wir Tests fÃ¼r die einzelnen FÃ¤lle der
+Fallunterscheidung ergÃ¤nzen.
 
-Die Schablone für Fallunterscheidungen ist noch einmal
+Die Schablone fÃ¼r Fallunterscheidungen ist noch einmal
 als Konstruktionsanleitung~\ref{ka:fallunterscheidung} in
-Anhang~\ref{app:konstruktionsanleitungen} zusammengefaßt.
+Anhang~\ref{app:konstruktionsanleitungen} zusammengefaÃŸt.
 (Konstruktionsanleitung~\ref{ka:allgemein} beschreibt die Konstruktion
 von Funktionen im allgemeinen.)
 
-\section{Verkürzte Tests}
+\section{VerkÃ¼rzte Tests}
 
-Natürlich könnten wir die Prozedur auch leicht abkürzen:
+NatÃ¼rlich kÃ¶nnten wir die Prozedur auch leicht abkÃ¼rzen:
 %
 \begin{alltt}
 (define points-must-do
@@ -454,31 +454,31 @@ Natürlich könnten wir die Prozedur auch leicht abkürzen:
     (cond
       ((<= p 13) "nichts")
       ((<= p 17) "Aufbauseminar")
-      (else "Führerscheinentzug"))))
+      (else "FÃ¼hrerscheinentzug"))))
 \end{alltt}
 %
 Wenn die Auswertung den Test im zweiten Zweig erreicht, steht schon
-fest, daß die Punktezahl $\geq 14$ ist, da der Test \verb|(<= p 13)|
-fehlgeschlagen ist.  Diese Bedingung könnten wir also weglassen.
-Ebenso der letzte Test, der dadurch, daß \verb|(<= p 17)| \verb|#f|
+fest, daÃŸ die Punktezahl $\geq 14$ ist, da der Test \verb|(<= p 13)|
+fehlgeschlagen ist.  Diese Bedingung kÃ¶nnten wir also weglassen.
+Ebenso der letzte Test, der dadurch, daÃŸ \verb|(<= p 17)| \verb|#f|
 ergeben hat, immer \verb|#t| ergibt.  Allerdings sind die Zweige damit
-von ihrer Reihenfolge abhängig: Wenn wir zum Beispiel die ersten
+von ihrer Reihenfolge abhÃ¤ngig: Wenn wir zum Beispiel die ersten
 beiden Zweige vertauschten, funktioniert die Funktion nicht mehr
-richtig.  In Fällen wie diesen, wo "`vollständige"' Tests einfach zu
+richtig.  In FÃ¤llen wie diesen, wo "`vollstÃ¤ndige"' Tests einfach zu
 formulieren sind, empfiehlt es sich, dies auch zu tun.
 
-\begin{mantra}[Vollständige Tests]\label{mantra:comprehensive-tests}
+\begin{mantra}[VollstÃ¤ndige Tests]\label{mantra:comprehensive-tests}
   \input{mantra:comprehensive-tests}
 \end{mantra}
 
-\section{Binäre Verzweigungen und syntaktischer Zucker}
+\section{BinÃ¤re Verzweigungen und syntaktischer Zucker}
 \label{sec:binaere-verzweigungen}
 
 Bei manchen Fallunterscheidungen definiert sich die letzte Kategorie
-dadurch, daß ein Wert in keine der anderen Kategorien gehört.  Dann
+dadurch, daÃŸ ein Wert in keine der anderen Kategorien gehÃ¶rt.  Dann
 ist die Benutzung eines \texttt{else}-Zweigs im \texttt{cond}
 sinnvoll.
-FIXME: Beispiel wäre schön, dann vielleicht früher.  
+FIXME: Beispiel wÃ¤re schÃ¶n, dann vielleicht frÃ¼her.  
 Manchmal gibt es dabei nur zwei Kategorien, wie
 zum Beispiel beim Absolutbetrag.  Hier die Definition dazu in mathematischer
 Schreibweise:
@@ -506,10 +506,10 @@ sieht so aus:\index{abs@\texttt{abs}}
 FIXME: besseres Beispiel
 
 %
-Dieser Spezialfall mit nur zwei Kategorien, genannt \textit{binäre
-  Verzweigung\index{binäre Verzweigung}\index{Verzweigung!binär}} kommt in der Praxis
-häufig vor.  In Scheme gibt es dafür eine eigene Spezialform,
-genannt \texttt{if\index{if@\texttt{if}}}, die hier kürzer ausfällt
+Dieser Spezialfall mit nur zwei Kategorien, genannt \textit{binÃ¤re
+  Verzweigung\index{binÃ¤re Verzweigung}\index{Verzweigung!binÃ¤r}} kommt in der Praxis
+hÃ¤ufig vor.  In Scheme gibt es dafÃ¼r eine eigene Spezialform,
+genannt \texttt{if\index{if@\texttt{if}}}, die hier kÃ¼rzer ausfÃ¤llt
 als \texttt{cond}:
 %
 \begin{alltt}
@@ -527,13 +527,13 @@ Eine \texttt{if}-Form hat folgende Form:
 \end{alltt}
 Dabei ist $t$ der Test und $k$ und $a$ sind die
 beiden Zweige: die \textit{Konsequente\index{Konsequente}} $k$ und die
-\textit{Alternative\index{Alternative}} $a$.  Abhängig vom Ausgang des
+\textit{Alternative\index{Alternative}} $a$.  AbhÃ¤ngig vom Ausgang des
 Tests ist der Wert der Verzweigung entweder der Wert der Konsequente
 oder der Wert der Alternative.
 
-Tatsächlich ist \texttt{if} die "`primitivere"' Form als
-\texttt{cond}: jede \texttt{cond}-Form kann in eine äquivalente
-\texttt{if}-Form übersetzt werden, und zwar nach
+TatsÃ¤chlich ist \texttt{if} die "`primitivere"' Form als
+\texttt{cond}: jede \texttt{cond}-Form kann in eine Ã¤quivalente
+\texttt{if}-Form Ã¼bersetzt werden, und zwar nach
 folgendem Schema:
 %
 \begin{alltt}
@@ -542,37 +542,37 @@ folgendem Schema:
 \end{alltt}
 %
 Die geschachtelte \texttt{if}-Form auf der rechten Seite der
-Übersetzung wertet, genau wie die \texttt{cond}-Form, nacheinander
+Ãœbersetzung wertet, genau wie die \texttt{cond}-Form, nacheinander
 alle Tests aus, bis einer \verb|#t| liefert.  Die rechte Seite des
 \texttt{cond}-Zweigs ist dann gerade die Konsequente des \texttt{if}s.
 Erst wenn alle Tests fehlschlagen ist die Alternative des letzten
-\texttt{if}-Ausdrucks dran, nämlich $a_n$ aus dem \texttt{else}-Zweig.
+\texttt{if}-Ausdrucks dran, nÃ¤mlich $a_n$ aus dem \texttt{else}-Zweig.
 
-Da sich mit Hilfe dieser Übersetzung jede \texttt{cond}-Form durch
-geschachtelte \texttt{if}-Formen ersetzen läßt, ist \texttt{cond}
+Da sich mit Hilfe dieser Ãœbersetzung jede \texttt{cond}-Form durch
+geschachtelte \texttt{if}-Formen ersetzen lÃ¤ÃŸt, ist \texttt{cond}
 streng genommen gar nicht notwendig.  \texttt{Cond} ist deswegen eine
 sogenannte \textit{abgeleitete Form\index{abgeleitete
     Form}}\index{Form!abgeleitet}.  Da \texttt{cond} und andere
 abgeleitete Formen trotzdem praktisch und angenehm zu verwenden sind
-und damit dem Programmierer die Arbeit versüßen,
-heißen abgeleitete Formen auch \textit{syntaktischer
+und damit dem Programmierer die Arbeit versÃ¼ÃŸen,
+heiÃŸen abgeleitete Formen auch \textit{syntaktischer
   Zucker\index{syntaktischer Zucker}\index{Zucker, syntaktischer}}.
 
 Um die Funktionsweise von Verzweigungen genau zu beschreiben, dient
-folgende zusätzliche Regel für das Substitutionsmodell aus
+folgende zusÃ¤tzliche Regel fÃ¼r das Substitutionsmodell aus
 Abschnitt~\ref{sec:substitution-model}:
 %
 \begin{description}
-\item[binäre Verzweigungen] Bei der Auswertung einer Verzweigung wird
-  zunächst der Wert des Tests festgestellt.  Ist dieser Wert \verb|#t|,
+\item[binÃ¤re Verzweigungen] Bei der Auswertung einer Verzweigung wird
+  zunÃ¤chst der Wert des Tests festgestellt.  Ist dieser Wert \verb|#t|,
   so ist der Wert der Verzweigung der Wert der Konsequente.  Ist er
   \verb|#f|, so ist der Wert der Verzweigung der Wert der
   Alternative.  Ist der Wert des Tests kein boolescher Wert ist, ist das Programm fehlerhaft.
 \end{description}
 %
 Auch \texttt{and} und \texttt{or} sind eigentlich syntaktischer Zucker:
-Es ist immer möglich, einen \texttt{and}-Ausdruck in \texttt{if}s
-zu übersetzen.  Es gelten folgende Übersetzungsregeln:
+Es ist immer mÃ¶glich, einen \texttt{and}-Ausdruck in \texttt{if}s
+zu Ã¼bersetzen.  Es gelten folgende Ãœbersetzungsregeln:
 %
 \begin{alltt}
 (and) \(\mapsto\) #t
@@ -580,7 +580,7 @@ zu übersetzen.  Es gelten folgende Übersetzungsregeln:
 \end{alltt}
 %
 Ein \texttt{and}-Ausdruck mit mehreren Operanden wird so schrittweise
-in eine Kaskade von \texttt{if}-Ausdrücken übersetzt:
+in eine Kaskade von \texttt{if}-AusdrÃ¼cken Ã¼bersetzt:
 %
 \begin{alltt}
 (and a b c)
@@ -590,8 +590,8 @@ in eine Kaskade von \texttt{if}-Ausdrücken übersetzt:
 \(\mapsto{}\) (if a (if b (if c #t #f) #f) #f)
 \end{alltt}
 %
-Ebenso lassen sich \texttt{or}-Ausdrücke immer in
-\texttt{if}-Ausdrücke übersetzen, und zwar mit folgender Übersetzung:
+Ebenso lassen sich \texttt{or}-AusdrÃ¼cke immer in
+\texttt{if}-AusdrÃ¼cke Ã¼bersetzen, und zwar mit folgender Ãœbersetzung:
 %
 \begin{alltt}
 (or) \(\mapsto\) #f
@@ -610,19 +610,19 @@ Beispiel:
 
 \section{Signaturdefinitionen}
 
-Nehmen wir uns zu Übungszwecken noch eine weitere Aufgabe vor: Nehmen
+Nehmen wir uns zu Ãœbungszwecken noch eine weitere Aufgabe vor: Nehmen
 wir an, jemand nimmt bei einem bestimmten Punktestand in Flensburg an
-einer freiwilligen Maßnahme teil~-- was ist der Punktestand nach der
-Maßnahme?  Die bekannten Größen sind:
+einer freiwilligen MaÃŸnahme teil~-- was ist der Punktestand nach der
+MaÃŸnahme?  Die bekannten GrÃ¶ÃŸen sind:
 %
 \begin{itemize}
-\item Punktestand vor der Maßnahme (natürliche Zahl)
-\item freiwillige Maßnahme (siehe Abschnitt~\ref{sec:fallunterscheidungen})
+\item Punktestand vor der MaÃŸnahme (natÃ¼rliche Zahl)
+\item freiwillige MaÃŸnahme (siehe Abschnitt~\ref{sec:fallunterscheidungen})
 \end{itemize}
 %
-Die unbekannte Größe ist der Punktestand nach der Maßnahme.
+Die unbekannte GrÃ¶ÃŸe ist der Punktestand nach der MaÃŸnahme.
 
-Die Kurzbeschreibung könnte so lauten:
+Die Kurzbeschreibung kÃ¶nnte so lauten:
 %
 \begin{verbatim}
 ; Punktestand in Flensburg senken
@@ -634,15 +634,15 @@ Die Signatur folgt aus der Datenanalyse:\index{improve-points@\texttt{improve-po
 (: improve-points (natural (one-of "nichts"
                                    "Aufbauseminar"
                                    "verkehrspsychologische Beratung"
-                                   "Führerscheinentzug")
+                                   "FÃ¼hrerscheinentzug")
                     -> natural))
 \end{verbatim}
 %
-Der \texttt{one-of}-Teil der Signatur macht sich da ganz schön breit,
+Der \texttt{one-of}-Teil der Signatur macht sich da ganz schÃ¶n breit,
 zumal er sich weitgehend deckt mit dem entsprechenden Teil der
 Signatur von \texttt{points-must-do} auf
 Seite~\pageref{page:points-must-do}.  Entsprechend sollten wir genauso
-wie bei anderen Werten der Signatur für "`Flensburg"=Maßnahmen"' einen
+wie bei anderen Werten der Signatur fÃ¼r "`Flensburg"=MaÃŸnahmen"' einen
 Namen geben.  Das geht mit einer fast ganz normalen Definition:\index{Signaturdefinition}
 %
 \begin{verbatim}
@@ -651,17 +651,17 @@ Namen geben.  Das geht mit einer fast ganz normalen Definition:\index{Signaturde
    (one-of "nichts"
            "Aufbauseminar"
            "verkehrspsychologische Beratung"
-           "Führerscheinentzug")))
+           "FÃ¼hrerscheinentzug")))
 \end{verbatim}
 %
-Das Wörtchen \texttt{signature}\index{signature@texttt{signature}}\label{page:signature} ist aus technischen Gründen
-nötig.\footnote{Es sorgt unter anderem dafür, daß Signaturdefinitionen
+Das WÃ¶rtchen \texttt{signature}\index{signature@texttt{signature}}\label{page:signature} ist aus technischen GrÃ¼nden
+nÃ¶tig.\footnote{Es sorgt unter anderem dafÃ¼r, daÃŸ Signaturdefinitionen
   in beliebiger Reihenfolge geschrieben werden und die Links in den
   Fehlermeldungen von DrRacket auf die richtige Stelle zeigen.}
-Faustregel: Signaturen außerhalb von Formen \texttt{(: \ldots)} müssen immer in ein \texttt{(signature
+Faustregel: Signaturen auÃŸerhalb von Formen \texttt{(: \ldots)} mÃ¼ssen immer in ein \texttt{(signature
   \ldots)} eingeschachtelt werden..
 
-Mit dieser Definition gewappnet können wir die Signatur abkürzen:
+Mit dieser Definition gewappnet kÃ¶nnen wir die Signatur abkÃ¼rzen:
 %
 \begin{verbatim}
 (: improve-points (natural action -> natural)) 
@@ -684,7 +684,7 @@ erzielen:\label{page:improve-points-tests}
 (check-expect (improve-points 18 "verkehrspsychologische Beratung") 18)
 \end{verbatim}
 %
-Hier das Gerüst:
+Hier das GerÃ¼st:
 %
 \begin{verbatim}
 (define improve-points
@@ -692,24 +692,24 @@ Hier das Gerüst:
     ...))
 \end{verbatim}
 %
-Bei der Konstruktion der Schablone müssen wir uns entscheiden, an
+Bei der Konstruktion der Schablone mÃ¼ssen wir uns entscheiden, an
 welchem Parameter wir uns orientieren, \texttt{p} oder \texttt{a}.
-Die Entscheidung ist willkürlich~-- wir entscheiden uns erst einmal
-für \texttt{p}.  (Ausgehend von \texttt{a} kommt eine andere aber
-genauso gute Lösung heraus~-- das sei Ihnen in
-Aufgabe~\ref{aufgabe:improve-points-a} als Fingerübung empfohlen.)
-Bei \texttt{p} gibt es in Bezug auf diese Aufgabe fünf Kategorien:
+Die Entscheidung ist willkÃ¼rlich~-- wir entscheiden uns erst einmal
+fÃ¼r \texttt{p}.  (Ausgehend von \texttt{a} kommt eine andere aber
+genauso gute LÃ¶sung heraus~-- das sei Ihnen in
+Aufgabe~\ref{aufgabe:improve-points-a} als FingerÃ¼bung empfohlen.)
+Bei \texttt{p} gibt es in Bezug auf diese Aufgabe fÃ¼nf Kategorien:
 %
 \begin{description}
-\item[0--3 Punkte] Da bringt keine Maßnahme etwas.
+\item[0--3 Punkte] Da bringt keine MaÃŸnahme etwas.
 \item[4--8 Punkte] Da bringt ein Aufbauseminar 4 Punkte Abzug.
 \item[9--13 Punkte] Da bringt ein Aufbauseminar 2 Punkte Abzug.
 \item[14--17 Punkte] Da bringt eine verkehrspsychologische Beratung 2
   Punkte Abzug.
-\item[über 18 Punkte] Auch hier hilft keine Maßnahme.
+\item[Ã¼ber 18 Punkte] Auch hier hilft keine MaÃŸnahme.
 \end{description}
 %
-Wir brauchen also ein \texttt{cond} mit fünf Zweigen:
+Wir brauchen also ein \texttt{cond} mit fÃ¼nf Zweigen:
 %
 \begin{verbatim}
 (define improve-points
@@ -722,7 +722,7 @@ Wir brauchen also ein \texttt{cond} mit fünf Zweigen:
       (... ...))))
 \end{verbatim}
 %
-Jetzt müssen wir Tests erfinden, die den Kategorien entsprechen:
+Jetzt mÃ¼ssen wir Tests erfinden, die den Kategorien entsprechen:
 %
 \begin{verbatim}
 (define improve-points
@@ -735,7 +735,7 @@ Jetzt müssen wir Tests erfinden, die den Kategorien entsprechen:
       ((>= p 18) ...))))
 \end{verbatim}
 %
-Wir fangen mal mit den einfachsten Fällen an~-- unten und oben in der
+Wir fangen mal mit den einfachsten FÃ¤llen an~-- unten und oben in der
 Punkteskala, wo sich nichts bewegt:
 %
 \begin{verbatim}
@@ -749,9 +749,9 @@ Punkteskala, wo sich nichts bewegt:
       ((>= p 18) p))))
 \end{verbatim}
 %
-Im zweiten Zweig~-- zwischen vier und acht Punkten~-- zählt nur ein
-Aufbauseminar, alle anderen Maßnahmen bringen nichts.  Darum ist hier
-eine binäre Verzweigung angemessen:
+Im zweiten Zweig~-- zwischen vier und acht Punkten~-- zÃ¤hlt nur ein
+Aufbauseminar, alle anderen MaÃŸnahmen bringen nichts.  Darum ist hier
+eine binÃ¤re Verzweigung angemessen:
 %
 \begin{verbatim}
 (define improve-points
@@ -788,25 +788,25 @@ Entsprechend funktionieren auch der dritte und der vierte Zweig:
 \end{verbatim}
 %
 Fertig!  Es gibt trotzdem noch einen Wermutstropfen: Die Abdeckung ist
-trotz der vielen Tests immer noch nicht vollständig~-- siehe
+trotz der vielen Tests immer noch nicht vollstÃ¤ndig~-- siehe
 Aufgabe~\ref{aufgabe:improve-points-coverage}
 
 \section{Unsinnige Daten abfangen}
 \label{sec:nonsensical-data}
 
-Noch einmal zurück zum Parkplatzproblem, das wir auf
+Noch einmal zurÃ¼ck zum Parkplatzproblem, das wir auf
 Seite~\ref{page:parking-lot-cars} programmiert hatten.  In
 Abschnitt~\ref{sec:nonsensical-data-prequel} auf
 Seite~\pageref{sec:nonsensical-data-prequel} hatten wir bereits
-bemerkt, daß die Prozedur
+bemerkt, daÃŸ die Prozedur
 \texttt{parking-lot-cars}\index{parking-lot-cars@\texttt{parking-lot-cars}}
-auch für unsinnige Daten fröhlich ebenso unsinnige Ergebnisse
+auch fÃ¼r unsinnige Daten frÃ¶hlich ebenso unsinnige Ergebnisse
 ermittelt.
 
 Auf Seite~\ref{page:parking-lot-problem} wurde bereits eine Bedingung
-für sinnvolle Daten formuliert: Wenn $n$ die Anzahl der Fahrzeuge und
-$m$ die Anzahl der Räder ist, dann muß $m$ gerade sein sowie $2n\leq
-m\leq 4n$ gelten.  Wir können das in einer binären Verzweigung zum
+fÃ¼r sinnvolle Daten formuliert: Wenn $n$ die Anzahl der Fahrzeuge und
+$m$ die Anzahl der RÃ¤der ist, dann muÃŸ $m$ gerade sein sowie $2n\leq
+m\leq 4n$ gelten.  Wir kÃ¶nnen das in einer binÃ¤ren Verzweigung zum
 Ausdruck bringen:
 %
 \begin{verbatim}
@@ -822,7 +822,7 @@ Ausdruck bringen:
 %
 Die eingebaute Funktion \texttt{even?} akzeptiert eine ganze Zahl und
 liefert \verb|#t|, falls die Zahl gerade ist und \verb|#f|, falls sie
-ungerade ist~-- solche und viele andere nützliche Prozeduren finden
+ungerade ist~-- solche und viele andere nÃ¼tzliche Prozeduren finden
 Sie in der Dokumentation im Hilfezentrum unter "`Sprachebenen und
 Material zu \textit{Schreibe Dein Programm!}"' im Abschnitt
 "`Primitive Operationen"'.
@@ -831,7 +831,7 @@ Nur~-- was tun im Fehlerfall?  Dazu gibt eine eingebaute Funktion
 \texttt{violation}, die eine Fehlermeldung als Zeichenkette akzeptiert
 und, wenn sie aufgerufen wird, das Programm abbricht und die
 Fehlermeldung ausdruckt.  \texttt{Parking-lot-cars} sieht dann
-vollständig so aus:
+vollstÃ¤ndig so aus:
 %
 \begin{verbatim}
 (define parking-lot-cars
@@ -844,16 +844,16 @@ vollständig so aus:
         (violation "unsinnige Daten"))))
 \end{verbatim}
 %
-Natürlich sollten wir auch den Fehlerfall testen~-- das geht nicht mit
-\texttt{check-expect}, das ja erwartet, daß ein Testausdruck einen
-ordnungsgemäßen Wert liefert.  Für Fehlerfälle gibt es
-\texttt{check-error}, das Testfälle erzeugt, die dann bestanden sind,
+NatÃ¼rlich sollten wir auch den Fehlerfall testen~-- das geht nicht mit
+\texttt{check-expect}, das ja erwartet, daÃŸ ein Testausdruck einen
+ordnungsgemÃ¤ÃŸen Wert liefert.  FÃ¼r FehlerfÃ¤lle gibt es
+\texttt{check-error}, das TestfÃ¤lle erzeugt, die dann bestanden sind,
 wenn die Auswertung einen Fehler liefert:
 %
 \begin{verbatim}
-(check-error (parking-lot-cars 10 10)) ; zu wenige Räder
-(check-error (parking-lot-cars 3 9))   ; ungerade Räderzahl
-(check-error (parking-lot-cars 2 10))  ; zu viele Räder
+(check-error (parking-lot-cars 10 10)) ; zu wenige RÃ¤der
+(check-error (parking-lot-cars 3 9))   ; ungerade RÃ¤derzahl
+(check-error (parking-lot-cars 2 10))  ; zu viele RÃ¤der
 \end{verbatim}
 
 \section*{Aufgaben}
@@ -861,15 +861,15 @@ wenn die Auswertung einen Fehler liefert:
 \begin{aufgabe}
   Schreiben Sie eine Funktion \texttt{card-type}, die den Umsatz einer
   Kreditkarte konsumiert und die eine entsprechende Kategorie als
-  Zeichenkette zurückgibt.  Verwenden Sie die Konstruktionsanleitung:
-  Schreiben Sie die Kurzbeschreibung auf, führen Sie eine
+  Zeichenkette zurÃ¼ckgibt.  Verwenden Sie die Konstruktionsanleitung:
+  Schreiben Sie die Kurzbeschreibung auf, fÃ¼hren Sie eine
   Datenanalyse durch und schreiben Sie die Signatur auf. Erstellen Sie
-  dann das Gerüst und die Testfälle.  Vervollständigen Sie danach den
+  dann das GerÃ¼st und die TestfÃ¤lle.  VervollstÃ¤ndigen Sie danach den
   Rumpf der Funktion und vergewissern Sie sich, dass die Tests
   erfolgreich laufen. \\
 
   \begin{tabular}{crlcrll}
-    &        & Umsatz & $<$ & $15.000$   & $\Longrightarrow$ & Weiß \\
+    &        & Umsatz & $<$ & $15.000$   & $\Longrightarrow$ & WeiÃŸ \\
     $15.000$  & $\leq$ & Umsatz & $<$ & $50.000 $  & $\Longrightarrow$ & Gold \\
     $50.000$  & $\leq$ & Umsatz & $\leq$ & $150.000 $ 
     & $\Longrightarrow$ & Platin \\
@@ -882,12 +882,12 @@ wenn die Auswertung einen Fehler liefert:
   \begin{enumerate}
 
   \item Schreiben Sie eine Funktion \texttt{min-2}, die als Argumente zwei
-    Zahlen nimmt und die kleinere der beiden Zahlen zurückgibt.  Schreiben
-    Sie außerdem eine Prozedur \texttt{min-3}, die als Argumente drei
-    Zahlen nimmt und die kleinste der drei Zahlen zurückgibt.  Verwenden
+    Zahlen nimmt und die kleinere der beiden Zahlen zurÃ¼ckgibt.  Schreiben
+    Sie auÃŸerdem eine Prozedur \texttt{min-3}, die als Argumente drei
+    Zahlen nimmt und die kleinste der drei Zahlen zurÃ¼ckgibt.  Verwenden
     Sie die Konstruktionsanleitung: Schreiben Sie
     explizit Kurzbeschreibung und Signatur auf, erstellen Sie dann das
-    Gerüst und die Testfälle.  Vervollständigen Sie danach den Rumpf der
+    GerÃ¼st und die TestfÃ¤lle.  VervollstÃ¤ndigen Sie danach den Rumpf der
     Funktion und vergewissern Sie sich, dass die Tests erfolgreich laufen.
     
   \item Schreiben Sie analog eine Funktion \texttt{max-2} und \texttt{max-3}.
@@ -902,9 +902,9 @@ wenn die Auswertung einen Fehler liefert:
     gegebenen Zahlen ausgibt
   \item \texttt{min-of-three}, welche die kleinste von drei
     gegebenen Zahlen ausgibt
-  \item \texttt{is-min-of-three?}, die überprüft ob die erste
+  \item \texttt{is-min-of-three?}, die Ã¼berprÃ¼ft ob die erste
     von drei gegebenen Zahlen das Minimum ist
-  \item \texttt{valid-value?}, die überprüft ob die erste von
+  \item \texttt{valid-value?}, die Ã¼berprÃ¼ft ob die erste von
     drei gegebenen Zahlen zwischen den beiden anderen liegt; gehen Sie
     davon aus, dass der Aufruf immer \texttt{(valid-value? value min max)}
     lautet 
@@ -922,16 +922,16 @@ wenn die Auswertung einen Fehler liefert:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beim Fußball lässt die Rückennummer eines Spielers
-  häufig Rückschlüsse auf seine Position zu. Wir machen dabei folgende
+  Beim FuÃŸball lÃ¤sst die RÃ¼ckennummer eines Spielers
+  hÃ¤ufig RÃ¼ckschlÃ¼sse auf seine Position zu. Wir machen dabei folgende
   Annahmen:
   \begin{itemize}
-  \item Ein \emph{Torwart} hat die Rückennummer 1.
-  \item Ein \emph{Abwehrspieler} hat die Rückennummer 2, 3, 4 oder 5.
-  \item Ein \emph{Mittelfeldspieler} hat die Rückennummer 6, 7, 8 oder 10.
-  \item Ein \emph{Stürmer} hat die Rückennummer 9 oder 11.
-  \item Ein \emph{Ersatzspieler} hat eine Rückennummer zwischen 12 und 99.
-  \item Alle anderen Rückennummern sind ungültig.
+  \item Ein \emph{Torwart} hat die RÃ¼ckennummer 1.
+  \item Ein \emph{Abwehrspieler} hat die RÃ¼ckennummer 2, 3, 4 oder 5.
+  \item Ein \emph{Mittelfeldspieler} hat die RÃ¼ckennummer 6, 7, 8 oder 10.
+  \item Ein \emph{StÃ¼rmer} hat die RÃ¼ckennummer 9 oder 11.
+  \item Ein \emph{Ersatzspieler} hat eine RÃ¼ckennummer zwischen 12 und 99.
+  \item Alle anderen RÃ¼ckennummern sind ungÃ¼ltig.
   \end{itemize}
  
   Schreiben Sie nun eine Funktion mit folgender Signatur:
@@ -940,60 +940,60 @@ wenn die Auswertung einen Fehler liefert:
 \begin{verbatim}
  (: nummer->position
     (number ->
-      (one-of "Torwart" "Abwehr" "Mittelfeld" "Sturm" "Ersatz" "Ungültig")))
+      (one-of "Torwart" "Abwehr" "Mittelfeld" "Sturm" "Ersatz" "UngÃ¼ltig")))
 \end{verbatim}
   }
 
-  Die Prozedur soll dabei zu einer gegebenen Rückennummer die
-  zugehörige Position berechnen.
+  Die Prozedur soll dabei zu einer gegebenen RÃ¼ckennummer die
+  zugehÃ¶rige Position berechnen.
 
   Verwenden Sie beim Schreiben der Funktion die
-  Konstruktionsanleitungen für Prozeduren und für
+  Konstruktionsanleitungen fÃ¼r Prozeduren und fÃ¼r
   Fallunterscheidungen.  Testen Sie die Funktion
-  \texttt{nummer->position} mit mindestens sechs Testfällen, so dass
-  alle Fälle abgedeckt sind.
+  \texttt{nummer->position} mit mindestens sechs TestfÃ¤llen, so dass
+  alle FÃ¤lle abgedeckt sind.
 \end{aufgabe}
 
 
 \begin{aufgabe}
-  Schreiben Sie ein Programm, mit dem Bußgelder
+  Schreiben Sie ein Programm, mit dem BuÃŸgelder
   automatisch bestimmt werden.
   
   \begin{enumerate}
   \item Programmieren Sie eine Funktion \texttt{zu-langes-parken}
-    für die Bewertung von zu langem Parken auf einem kostenpflichtigen
-    Parkplatz. Diese bekommt eine Zeitspanne übergeben und gibt das 
-    entsprechende Verwarngeld zurück.
+    fÃ¼r die Bewertung von zu langem Parken auf einem kostenpflichtigen
+    Parkplatz. Diese bekommt eine Zeitspanne Ã¼bergeben und gibt das 
+    entsprechende Verwarngeld zurÃ¼ck.
     
     Diese Verwarnungen sind wie folgt festgelegt:
     \begin{itemize}
-    \item Überschreitung der Höchstparkdauer bis 30 Minuten: \euro{5}
+    \item Ãœberschreitung der HÃ¶chstparkdauer bis 30 Minuten: \euro{5}
     \item bis zu einer Stunde: \euro{10}
     \item bis zu zwei Stunden: \euro{15}
     \item bis zu drei Stunden: \euro{20}
-    \item länger als drei Stunden:  \euro{25}
+    \item lÃ¤nger als drei Stunden:  \euro{25}
     \end{itemize}
     
-  \item Das Überfahren einer roten Ampel kostet je nach
-    Gefährdungslage mehr, gibt Punkte und Fahrverbote. Schreiben Sie
-    zwei Prozeduren, eine für das Bußgeld \texttt{rote-ampel-bußgeld}, 
-    eine für die Punkte in Flensburg \texttt{rote-ampel-punkte} 
-    und eine für das Fahrverbot \texttt{rote-ampel-fahrverbot}, 
-    welche ausgibt, ob ein Fahrverbot erteilt wird. Übergeben
+  \item Das Ãœberfahren einer roten Ampel kostet je nach
+    GefÃ¤hrdungslage mehr, gibt Punkte und Fahrverbote. Schreiben Sie
+    zwei Prozeduren, eine fÃ¼r das BuÃŸgeld \texttt{rote-ampel-buÃŸgeld}, 
+    eine fÃ¼r die Punkte in Flensburg \texttt{rote-ampel-punkte} 
+    und eine fÃ¼r das Fahrverbot \texttt{rote-ampel-fahrverbot}, 
+    welche ausgibt, ob ein Fahrverbot erteilt wird. Ãœbergeben
     Sie den Funktionen, wie lange die Ampel schon rot war und ob eine
-    Gefährdung oder Sachbeschädigung vorlag.
+    GefÃ¤hrdung oder SachbeschÃ¤digung vorlag.
     
-    Die Bußgelder sind wie folgend definiert:
+    Die BuÃŸgelder sind wie folgend definiert:
     \begin{itemize}
-    \item Bei Rot über die Ampel innerhalb der ersten Sekunde			
+    \item Bei Rot Ã¼ber die Ampel innerhalb der ersten Sekunde			
       \euro{50} und 3 Punkte.
-    \item Bei Rot über die Ampel innerhalb der ersten Sekunde mit
-      Gefährdung oder Sachbeschädigung \euro{125}, 4 		
+    \item Bei Rot Ã¼ber die Ampel innerhalb der ersten Sekunde mit
+      GefÃ¤hrdung oder SachbeschÃ¤digung \euro{125}, 4 		
       Punkte und 1 Monat Fahrverbot.
-    \item Bei Rot über die Ampel nach der ersten Sekunde \euro{125},
+    \item Bei Rot Ã¼ber die Ampel nach der ersten Sekunde \euro{125},
       4 Punkte und 1 Monat Fahrverbot.
-    \item Bei Rot über die Ampel nach der ersten Sekunde mit
-      Gefährdung oder Sachbeschädigung \euro{200}, 4
+    \item Bei Rot Ã¼ber die Ampel nach der ersten Sekunde mit
+      GefÃ¤hrdung oder SachbeschÃ¤digung \euro{200}, 4
       Punkte und 1 Monat Fahrverbot.
     \end{itemize}
     

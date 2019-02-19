@@ -6,15 +6,15 @@
 
 \begin{feature}{\texttt{let*}}{scheme:letast}
 \texttt{Let*}\index{let*@\texttt{let*}} ist eine sequentielle
-Variante von \texttt{let} mit der gleichen äußeren Form:
+Variante von \texttt{let} mit der gleichen Ã¤uÃŸeren Form:
 %
 \begin{alltt}
 (let* ((\(v\sb{1}\) \(e\sb{1}\)) \(\ldots\) (\(v\sb{n}\) \(e\sb{n}\))) \(b\))
 \end{alltt}
 %
-Während bei \texttt{let} keine der $v_i$ in den $e_i$ sichtbar ist,
+WÃ¤hrend bei \texttt{let} keine der $v_i$ in den $e_i$ sichtbar ist,
 sind bei \texttt{let*} in jedem $e_i$ die \emph{vorhergehenden} $v_j$
-für $j<i$ sichtbar.  Es gilt also:
+fÃ¼r $j<i$ sichtbar.  Es gilt also:
 %
 \begin{verbatim}
 (define x 23)
@@ -25,7 +25,7 @@ für $j<i$ sichtbar.  Es gilt also:
 \end{verbatim}
 %
 \texttt{Let*} ist ebenfalls syntaktischer Zucker und wird in eine
-Serie geschachtelter \texttt{let}-Ausdrücke übersetzt:
+Serie geschachtelter \texttt{let}-AusdrÃ¼cke Ã¼bersetzt:
 %
 \begin{alltt}
 (let* ((\(v\sb{1}\) \(e\sb{1}\)) (\(v\sb{2}\) \(e\sb{2}\)) \(\ldots\)) \(b\))
@@ -41,13 +41,13 @@ Serie geschachtelter \texttt{let}-Ausdrücke übersetzt:
 \end{verbatim}
 %
 Allerdings gibt es auch eine sequentielle Form von \texttt{let}~---
-\texttt{let*}~--- die in Abbildung~\ref{scheme:letast} erläutert ist.
+\texttt{let*}~--- die in Abbildung~\ref{scheme:letast} erlÃ¤utert ist.
 \section*{Aufgaben}
 
 \begin{aufgabe}
 \begin{enumerate}\item
   Schreibe eine Funktion \texttt{min} mit zwei Parametern, welche als
-  Ergebnis die kleinere zweier Zahlen liefert.  Das Gerüst könnte so
+  Ergebnis die kleinere zweier Zahlen liefert.  Das GerÃ¼st kÃ¶nnte so
   aussehen:
   %
 \begin{verbatim}
@@ -56,11 +56,11 @@ Allerdings gibt es auch eine sequentielle Form von \texttt{let}~---
     ...))
 \end{verbatim}
 \item Schreibe eine Funktion namens \texttt{min-3} mit \emph{drei}
-  Parametern, die deren Minimum berechnet, ohne daß im Rumpf von
+  Parametern, die deren Minimum berechnet, ohne daÃŸ im Rumpf von
   \texttt{min-3} ein \texttt{if} vorkommt.
 \item
   Schreibe eine Funktion, die drei Zahlen als Argumente nimmt, und die
-  Summe der Quadrate der beiden größeren Zahlen zurückgibt.
+  Summe der Quadrate der beiden grÃ¶ÃŸeren Zahlen zurÃ¼ckgibt.
 \end{enumerate}
 \end{aufgabe}
 
@@ -81,7 +81,7 @@ Betrachte die folgende Scheme-Definition:
     %
   \begin{enumerate}
   \item Welchen Wert hat der Ausdruck \texttt{(foo 3)}?
-  \item Führe die Auswertung von \texttt{(foo 1)} nach dem
+  \item FÃ¼hre die Auswertung von \texttt{(foo 1)} nach dem
     Substitutionsmodell durch!
   \end{enumerate}
 \end{aufgabe}

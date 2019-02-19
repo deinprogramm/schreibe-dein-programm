@@ -3,10 +3,10 @@
 % "Namensnennung 4.0 International (CC BY 4.0)"
 % http://creativecommons.org/licenses/by/4.0/deed.de
 
-\chapter{Der $\lambda$-Kalkül}
+\chapter{Der $\lambda$-KalkÃ¼l}
 \label{chap:lambda}
 
-\index{Lambda-Kalkül@$\lambda$-Kalkül}
+\index{Lambda-KalkÃ¼l@$\lambda$-KalkÃ¼l}
 
 Nachdem die bisherigen Kapitel den Bogen von der praktischen Konstruktion
 einfacher Programme bis zur
@@ -14,27 +14,27 @@ objektorientierten Programmierung geschlagen haben, beleuchtet dieses Kapitel
 eine wichtige theoretische Grundlage der
 Programmierung.
 
-Für die Informatik ist der Begriff des \emph{logischen Kalküls\index{Kalkül}\index{logischer Kalkül}} von zentraler Bedeutung.
-Ein Kalkül dient dazu, auf formale Art und Weise wahre Aussagen abzuleiten, ohne daß
-es dabei nötig wird, über den Sinn der Aussagen nachzudenken.   
-Der $\lambda$-Kalkül ist ein logischer Kalkül, der als die Basis für
+FÃ¼r die Informatik ist der Begriff des \emph{logischen KalkÃ¼ls\index{KalkÃ¼l}\index{logischer KalkÃ¼l}} von zentraler Bedeutung.
+Ein KalkÃ¼l dient dazu, auf formale Art und Weise wahre Aussagen abzuleiten, ohne daÃŸ
+es dabei nÃ¶tig wird, Ã¼ber den Sinn der Aussagen nachzudenken.   
+Der $\lambda$-KalkÃ¼l ist ein logischer KalkÃ¼l, der als die Basis fÃ¼r
 eine formale Beschreibung des Verhaltens von Computerprogrammen dient.
-Scheme baut direkt auf dem $\lambda$-Kalkül auf: es ist kein
-Zufall, daß das Schlüsselwort für die Abstraktion \texttt{lambda}
-heißt.  Es gibt noch viele weitere Einsatzgebiete für den $\lambda$-Kalkül,
+Scheme baut direkt auf dem $\lambda$-KalkÃ¼l auf: es ist kein
+Zufall, daÃŸ das SchlÃ¼sselwort fÃ¼r die Abstraktion \texttt{lambda}
+heiÃŸt.  Es gibt noch viele weitere Einsatzgebiete fÃ¼r den $\lambda$-KalkÃ¼l,
 insbesondere bei der Konstruktion von besonders effizienten
-Übersetzern für Programmiersprachen, in der Logik und der Linguistik,
-und bei der Entwicklung und Sicherheitsüberprüfung von mobilem Code im
+Ãœbersetzern fÃ¼r Programmiersprachen, in der Logik und der Linguistik,
+und bei der Entwicklung und SicherheitsÃ¼berprÃ¼fung von mobilem Code im
 Internet.
 
 \section{Sprache und Reduktionssemantik}
 \label{sec:sprache}
 
-\begin{definition}[Sprache des $\lambda$-Kalküls
+\begin{definition}[Sprache des $\lambda$-KalkÃ¼ls
   $\mathcal{L}_{\lambda}$]
   
-  Sei $V$ eine abzählbare Menge von Variablen. 
-  Die Sprache des $\lambda$"=Kalküls, die Menge der
+  Sei $V$ eine abzÃ¤hlbare Menge von Variablen. 
+  Die Sprache des $\lambda$"=KalkÃ¼ls, die Menge der
   \textit{$\lambda$-Terme\index{Lambda-Term@$\lambda$-Term}},
   $\mathcal{L}_{\lambda}$\index{L@$\mathcal{L}_{\lambda}$}, ist
   durch folgende Grammatik definiert:
@@ -44,41 +44,41 @@ Internet.
     \> \| ($\lambda$\meta{$V$}.$\mathcal{L}_{\lambda}$)
   \end{grammar}
 %
-Ein $\lambda$-Term der Form $(e_0~e_1)$ heißt 
+Ein $\lambda$-Term der Form $(e_0~e_1)$ heiÃŸt 
 \textit{Applikation\index{Applikation}} mit \textit{Operator\index{Operator}} $e_0$ und \textit{Operand\index{Operand}}
-$e_1$.  Ein Term der Form $(\lambda x.e)$ heißt \textit{Abstraktion\index{Abstraktion}},
-wobei $x$ \textit{Parameter\index{Parameter}} der Abstraktion heißt und $e$
-\textit{Rumpf\index{Rumpf}}.  In diesem Kapitel steht $e$ immer für
-einen $\lambda$-Term, $v$ und $x$ stehen für Variablen.
+$e_1$.  Ein Term der Form $(\lambda x.e)$ heiÃŸt \textit{Abstraktion\index{Abstraktion}},
+wobei $x$ \textit{Parameter\index{Parameter}} der Abstraktion heiÃŸt und $e$
+\textit{Rumpf\index{Rumpf}}.  In diesem Kapitel steht $e$ immer fÃ¼r
+einen $\lambda$-Term, $v$ und $x$ stehen fÃ¼r Variablen.
 \end{definition}
 %
-Es ist kein Zufall, daß Scheme genau die gleichen Begriffe verwendet
-wie der $\lambda$-Kalkül.  Ein Lambda-Ausdruck mit einem
-Parameter entspricht einer Abstraktion im $\lambda$-Kalkül,
+Es ist kein Zufall, daÃŸ Scheme genau die gleichen Begriffe verwendet
+wie der $\lambda$-KalkÃ¼l.  Ein Lambda-Ausdruck mit einem
+Parameter entspricht einer Abstraktion im $\lambda$-KalkÃ¼l,
 und die Applikationen in Scheme entsprechen den Applikationen im
-$\lambda$-Kalkül.  Scheme wurde bewußt auf dem
-$\lambda$-Kalkül aufgebaut.
+$\lambda$-KalkÃ¼l.  Scheme wurde bewuÃŸt auf dem
+$\lambda$-KalkÃ¼l aufgebaut.
 
-Die Intuition für die Bedeutung der $\lambda$-Terme ist ähnlich wie in
-Scheme: Eine Abstraktion steht für eine mathematische Funktion,
-speziell für eine solche Funktion, die sich durch ein Computerprogramm
-berechnen läßt.\footnote{Die Wahl des Buchstabens $\lambda$ für die
+Die Intuition fÃ¼r die Bedeutung der $\lambda$-Terme ist Ã¤hnlich wie in
+Scheme: Eine Abstraktion steht fÃ¼r eine mathematische Funktion,
+speziell fÃ¼r eine solche Funktion, die sich durch ein Computerprogramm
+berechnen lÃ¤ÃŸt.\footnote{Die Wahl des Buchstabens $\lambda$ fÃ¼r die
   Notation von Abstraktionen war eher ein Unfall: Zur Zeit der
-  Entstehung des Kalküls war der Ausdruck $2\hat{x}+1$ eine historische Notation für eine
+  Entstehung des KalkÃ¼ls war der Ausdruck $2\hat{x}+1$ eine historische Notation fÃ¼r eine
   Funktion $f$ mit $f(x)\deq{}2x+1$.  \textsc{Alonzo Church},
-  der Erfinder des $\lambda$-Kalküls, hatte ursprünglich
-  die Notation $\hat{x}.2x+1$ in der ersten Publikation über den
-  Kalkül vorgesehen.  Der Schriftsetzer konnte allerdings aus
-  technischen Gründen
-  das Hütchen nicht über dem $x$ positionieren und setzte es deshalb
+  der Erfinder des $\lambda$-KalkÃ¼ls, hatte ursprÃ¼nglich
+  die Notation $\hat{x}.2x+1$ in der ersten Publikation Ã¼ber den
+  KalkÃ¼l vorgesehen.  Der Schriftsetzer konnte allerdings aus
+  technischen GrÃ¼nden
+  das HÃ¼tchen nicht Ã¼ber dem $x$ positionieren und setzte es deshalb
   davor, womit aus dem Ausdruck $\hat{~}\thinspace{}x.2x+1$ wurde.  Ein weiterer
-  Setzer machte aus dem einsamen Hütchen ein $\lambda$ und der
-  $\lambda$-Kalkül war geboren.}  Eine Applikation steht gerade für
+  Setzer machte aus dem einsamen HÃ¼tchen ein $\lambda$ und der
+  $\lambda$-KalkÃ¼l war geboren.}  Eine Applikation steht gerade fÃ¼r
 die Applikation einer Funktion, und eine Variable bezieht sich auf den
-Parameter einer umschließenden Abstraktion und steht für den Operanden
+Parameter einer umschlieÃŸenden Abstraktion und steht fÃ¼r den Operanden
 der Applikation.
 
-Der einfachste $\lambda$-Term ist die Identität\index{Identität}:
+Der einfachste $\lambda$-Term ist die IdentitÃ¤t\index{IdentitÃ¤t}:
 %
 \begin{displaymath}
   (\lambda x.x)
@@ -91,8 +91,8 @@ $x$ an:
   (\lambda f.(\lambda x.(f~x)))
 \end{displaymath}
 %
-An diesem Beispiel wird deutlich, daß sich im $\lambda$-Kalkül, wie
-in Scheme auch, die Klammern schnell häufen, wenn die Terme größer
+An diesem Beispiel wird deutlich, daÃŸ sich im $\lambda$-KalkÃ¼l, wie
+in Scheme auch, die Klammern schnell hÃ¤ufen, wenn die Terme grÃ¶ÃŸer
 werden.  Darum werden redundante Klammern beim Aufschreiben von
 $\lambda$-Termen oft weggelassen.  Damit wird aus dem obigen Term der
 folgende:
@@ -101,47 +101,47 @@ folgende:
   \lambda f.\lambda x.f~x
 \end{displaymath}
 %
-Dieser Ausdruck läßt sich unterschiedlich
+Dieser Ausdruck lÃ¤ÃŸt sich unterschiedlich
 klammern: $(\lambda f.((\lambda x.f)~x))$, $(\lambda
 f.(\lambda x.(f~x)))$ oder $((\lambda f.\lambda x.f)~x)$.  Bei
 solchen Mehrdeutigkeiten 
-erstreckt sich der Rumpf einer Abstraktion so weit wie möglich nach rechts.
+erstreckt sich der Rumpf einer Abstraktion so weit wie mÃ¶glich nach rechts.
 Die richtige Variante ist also  $(\lambda
 f.(\lambda x.(f~x)))$.
 
 Die Funktionen im
-$\lambda$-Kalkül sind auf einen Parameter
-beschränkt.  Dies ist keine wirkliche
-Einschränkung: Funktionen mit mehreren Parametern werden 
-geschönfinkelt\index{schönfinkeln}, um aus ihnen mehrstufige Funktionen mit jeweils einem
+$\lambda$-KalkÃ¼l sind auf einen Parameter
+beschrÃ¤nkt.  Dies ist keine wirkliche
+EinschrÃ¤nkung: Funktionen mit mehreren Parametern werden 
+geschÃ¶nfinkelt\index{schÃ¶nfinkeln}, um aus ihnen mehrstufige Funktionen mit jeweils einem
 Parameter zu machen, vgl.\ Abschnitt~\ref{sec:currying}.
 
 Wegen der Verwandtschaft zwischen Funktionen mit mehreren Parametern
-und ihren geschönfinkelten Pendants gibt es zwei weitere Abkürzungen
+und ihren geschÃ¶nfinkelten Pendants gibt es zwei weitere AbkÃ¼rzungen
 in der Notation von $\lambda$-Termen:
 %
 \begin{itemize}
-\item $\lambda x_1 \ldots x_n.e$ steht für $\lambda x_1.(\lambda
+\item $\lambda x_1 \ldots x_n.e$ steht fÃ¼r $\lambda x_1.(\lambda
   x_2.(\ldots\lambda x_n.e)\ldots)$.
-\item $e_0 \ldots e_n$ steht für $(\ldots(e_0~e_1)~e_2) \ldots e_n)$.
+\item $e_0 \ldots e_n$ steht fÃ¼r $(\ldots(e_0~e_1)~e_2) \ldots e_n)$.
 \end{itemize}
 %
-Dementsprechend ist $\lambda fxy.f~x~y$ eine andere Schreibweise für
+Dementsprechend ist $\lambda fxy.f~x~y$ eine andere Schreibweise fÃ¼r
 den Term \[(\lambda f.(\lambda x.(\lambda y.((f~x)~y))))\ .\]
 
-Bemerkenswert am $\lambda$-Kalkül ist, daß es dort \emph{nur}
+Bemerkenswert am $\lambda$-KalkÃ¼l ist, daÃŸ es dort \emph{nur}
 Funktionen gibt, noch nicht einmal Zahlen, boolesche Werte oder
-Datenstrukturen.  Darum erscheint die Sprache des Kalküls auf den
-ersten Blick noch spartanisch und unintuitiv: So unmittelbar läßt sich
+Datenstrukturen.  Darum erscheint die Sprache des KalkÃ¼ls auf den
+ersten Blick noch spartanisch und unintuitiv: So unmittelbar lÃ¤ÃŸt sich
 noch nicht einmal eine Funktion hinschreiben, die zwei Zahlen addiert~--
-schließlich gibt es keine Zahlen.  Wie sich jedoch weiter unten in
+schlieÃŸlich gibt es keine Zahlen.  Wie sich jedoch weiter unten in
 Abschnitt~\ref{sec:lambdaprog} herausstellen wird, lassen sich all diese
 Dinge durch Funktionen nachbilden.
 
-Der $\lambda$-Kalkül selbst legt das Verhalten von $\lambda$-Termen
-fest; er ist ein Reduktionskalkül, der beschreibt, wie ein
-$\lambda$-Term in einen anderen, gleichbedeutenden, überführt werden
-kann.  Die Konstruktion dieses Kalküls erfordert sehr sorgfältigen
+Der $\lambda$-KalkÃ¼l selbst legt das Verhalten von $\lambda$-Termen
+fest; er ist ein ReduktionskalkÃ¼l, der beschreibt, wie ein
+$\lambda$-Term in einen anderen, gleichbedeutenden, Ã¼berfÃ¼hrt werden
+kann.  Die Konstruktion dieses KalkÃ¼ls erfordert sehr sorgfÃ¤ltigen
 Umgang mit Variablen, was eine Hilfsdefinition notwendig macht:
 %
 \begin{definition}[Freie und gebundene Variablen]
@@ -166,10 +166,10 @@ Umgang mit Variablen, was eine Hilfsdefinition notwendig macht:
     \end{cases}
   \end{align*}
   %
-  Außerdem ist \index{var@$\var$}$\var(e) \deq{} \free(e)\cup\bound(e)$ die \emph{Menge der
-    Variablen} von $e$.  (Es läßt sich leicht zeigen, daß diese Menge
-  alle vorkommenden Variablen eines $\lambda$-Terms enthält.)  Ein
-  $\lambda$-Term $e$ heißt \emph{abgeschlossen\index{abgeschlossen}} bzw.\ 
+  AuÃŸerdem ist \index{var@$\var$}$\var(e) \deq{} \free(e)\cup\bound(e)$ die \emph{Menge der
+    Variablen} von $e$.  (Es lÃ¤ÃŸt sich leicht zeigen, daÃŸ diese Menge
+  alle vorkommenden Variablen eines $\lambda$-Terms enthÃ¤lt.)  Ein
+  $\lambda$-Term $e$ heiÃŸt \emph{abgeschlossen\index{abgeschlossen}} bzw.\ 
   \textit{Kombinator\index{Kombinator}}, falls $\free(e)=\varnothing$.
 \end{definition}
 %
@@ -192,27 +192,27 @@ gebunden vorkommen:
   \bound(\lambda x.y~(\lambda y.y)) &=& \{ x, y\}
 \end{eqnarray*}
 %
-Entscheidend ist dabei, daß das $y$ einmal innerhalb und einmal
-außerhalb einer bindenden Abstraktion auftaucht. Das Frei- und
+Entscheidend ist dabei, daÃŸ das $y$ einmal innerhalb und einmal
+auÃŸerhalb einer bindenden Abstraktion auftaucht. Das Frei- und
 Gebundensein bezieht sich also immer auf bestimmte \emph{Vorkommen\index{Vorkommen}}
 einer Variablen in einem $\lambda$-Term.
 
-Im $\lambda$-Kalkül gilt, genau wie Scheme, das Prinzip der
+Im $\lambda$-KalkÃ¼l gilt, genau wie Scheme, das Prinzip der
 lexikalischen Bindung\index{lexikalische Bindung} (siehe Abschnitt~\ref{sec:lexical-binding}): das
-Vorkommen einer Variable $v$ als $\lambda$-Term gehört immer zur
-innersten umschließenden Abstraktion $\lambda v.e$, deren Parameter
+Vorkommen einer Variable $v$ als $\lambda$-Term gehÃ¶rt immer zur
+innersten umschlieÃŸenden Abstraktion $\lambda v.e$, deren Parameter
 ebenfalls $v$ ist.  Bei $\lambda x.y~(\lambda y.y))$ aus dem Beispiel
-oben ist also das erste $y$ das freie, während das zweite $y$ durch
+oben ist also das erste $y$ das freie, wÃ¤hrend das zweite $y$ durch
 die zweite Abstraktion gebunden wird.
 
-Der $\lambda$-Reduktionskalkül ist darauf
+Der $\lambda$-ReduktionskalkÃ¼l ist darauf
 angewiesen, Variablen durch andere zu ersetzen, ohne dabei die
-Zugehörigkeit von Variablenvorkommen und den dazu passenden
-Abstraktionen zu verändern.  Der Mechanismus dafür heißt auch hier
+ZugehÃ¶rigkeit von Variablenvorkommen und den dazu passenden
+Abstraktionen zu verÃ¤ndern.  Der Mechanismus dafÃ¼r heiÃŸt auch hier
 \textit{Substitution}:
 %
 \begin{definition}[Substitution]\index{Substitution}
-  Für $e,f\in \mathcal{L}_{\lambda}$ ist $e[v\mapsto f]$~-- in $e$ wird $v$ durch $f$
+  FÃ¼r $e,f\in \mathcal{L}_{\lambda}$ ist $e[v\mapsto f]$~-- in $e$ wird $v$ durch $f$
   \textit{substituiert}~-- induktiv definiert:\index{*@$\mapsto$}
 
   \begin{displaymath}
@@ -234,7 +234,7 @@ Abstraktionen zu verändern.  Der Mechanismus dafür heißt auch hier
 %
 Die Definition der Substitution erscheint auf den ersten Blick
 kompliziert, folgt aber letztlich nur direkt dem Prinzip der
-lexikalischen Bindung.  Die erste Regel besagt, daß das Vorkommen
+lexikalischen Bindung.  Die erste Regel besagt, daÃŸ das Vorkommen
 einer Variable durch eine Substitution genau dieser Variablen ersetzt
 wird:
 %
@@ -242,27 +242,27 @@ wird:
       v[v\mapsto f] = f
 \end{displaymath}
 %
-Die zweite Regel besagt, daß das Vorkommen einer \emph{anderen}
+Die zweite Regel besagt, daÃŸ das Vorkommen einer \emph{anderen}
 Variable durch die Substitution nicht betroffen wird:
 %
 \begin{displaymath}
     x[v\mapsto f] = x \qquad x\neq v
 \end{displaymath}
 %
-Die dritte Regel ist auf den ersten Blick etwas überraschend:
+Die dritte Regel ist auf den ersten Blick etwas Ã¼berraschend:
 %
 \begin{displaymath}
     (\lambda v.e_0)[v\mapsto f] = \lambda v.e_0
 \end{displaymath}
 %
 Ein $\lambda$-Ausdruck, dessen Parameter gerade die Variable ist, die
-substitutiert werden soll, bleibt unverändert.  Das liegt daran, daß
-mit dem $\lambda$-Ausdruck die Zugehörigkeit aller Vorkommen von $v$
-in $e_0$ bereits festgelegt ist: ein Vorkommen von $v$ in $e_0$ gehört
+substitutiert werden soll, bleibt unverÃ¤ndert.  Das liegt daran, daÃŸ
+mit dem $\lambda$-Ausdruck die ZugehÃ¶rigkeit aller Vorkommen von $v$
+in $e_0$ bereits festgelegt ist: ein Vorkommen von $v$ in $e_0$ gehÃ¶rt
 entweder zu dieser Abstraktion oder einer anderen Abstraktion mit $v$
 als Parameter, die in $e_0$ weiter innen steht~-- $v$ ist in $(\lambda
 v.e_0)$ gebunden und $v\in\bound(\lambda v.e_0)$.
-Da die Substitution diese Zugehörigkeiten nicht verändern darf, läßt
+Da die Substitution diese ZugehÃ¶rigkeiten nicht verÃ¤ndern darf, lÃ¤ÃŸt
 sie das $v$ in Ruhe.
 
 Anders sieht es aus, wenn die Variable der Abstraktion eine andere
@@ -274,14 +274,14 @@ ist~-- die vierte Regel:
 \end{displaymath}
 %
 In diesem Fall wird die Substitution auf den Rumpf der Abstraktion
-angewendet.  Wichtig ist dabei, daß $x$ nicht frei in $f$ vorkommt~-- sonst
-könnte es vorkommen, daß beim Einsetzen von $f$ ein freies Vorkommen
-von $x$ plötzlich durch die umschließende Abstraktion gebunden wird.
-Damit würde auch wieder die durch die lexikalische Bindung\index{lexikalische Bindung} definierte
-Zugehörigkeitsregel verletzt.
+angewendet.  Wichtig ist dabei, daÃŸ $x$ nicht frei in $f$ vorkommt~-- sonst
+kÃ¶nnte es vorkommen, daÃŸ beim Einsetzen von $f$ ein freies Vorkommen
+von $x$ plÃ¶tzlich durch die umschlieÃŸende Abstraktion gebunden wird.
+Damit wÃ¼rde auch wieder die durch die lexikalische Bindung\index{lexikalische Bindung} definierte
+ZugehÃ¶rigkeitsregel verletzt.
 
 Was passiert, wenn $x$ eben doch frei in $f$ vorkommt, beschreibt die
-fünfte Regel:
+fÃ¼nfte Regel:
 %
 \begin{displaymath}
   \begin{array}{lr}
@@ -290,12 +290,12 @@ fünfte Regel:
   \end{array}
 \end{displaymath}
 %
-Hier kann es passieren, daß die freien $x$ in $f$ durch die
+Hier kann es passieren, daÃŸ die freien $x$ in $f$ durch die
 Abstraktion "`eingefangen"' werden.  Aus diesem Grund wird einfach das
 $x$ in der Abstraktion aus dem Weg geschafft und durch ein
 "`frisches"' $x'$ ersetzt, das noch nirgendwo frei vorkommt.
 
-Die letzte Regel beschreibt schließlich, wie die Substitution auf
+Die letzte Regel beschreibt schlieÃŸlich, wie die Substitution auf
 Applikationen wirkt: sie taucht einfach in Operator und Operanden
 rekursiv ab:
 %
@@ -303,7 +303,7 @@ rekursiv ab:
       (e_0~e_1)[v\mapsto f] = (e_0[v\mapsto f])(e_1[v\mapsto f])
 \end{displaymath}
 %
-Hier ist ein etwas umfangreicheres Beispiel für die Substitution:
+Hier ist ein etwas umfangreicheres Beispiel fÃ¼r die Substitution:
 %
 \begin{eqnarray*}
   (\lambda x.\lambda y.x~(\lambda z.z)~z)[z \mapsto x~y]
@@ -328,18 +328,18 @@ Hier ist ein etwas umfangreicheres Beispiel für die Substitution:
 \end{eqnarray*}
 %
 Deutlich zu sehen ist, wie die freien Variablen $x$ und $y$ aus der
-Substitution $z\mapsto x~y$ auch im Ergebnis frei bleiben, während die
-gebundenen Variablen $x$ und $y$ aus dem ursprünglichen Term umbenannt
-werden, um eine irrtümliche Bindung ihrer hereinsubstitutierten
+Substitution $z\mapsto x~y$ auch im Ergebnis frei bleiben, wÃ¤hrend die
+gebundenen Variablen $x$ und $y$ aus dem ursprÃ¼nglichen Term umbenannt
+werden, um eine irrtÃ¼mliche Bindung ihrer hereinsubstitutierten
 Namensvettern zu vermeiden.
 
-Mit Hilfe der Definition der Substitution ist es möglich,
-die Reduktionsregeln des $\lambda$-Kalküls zu formulieren. 
+Mit Hilfe der Definition der Substitution ist es mÃ¶glich,
+die Reduktionsregeln des $\lambda$-KalkÃ¼ls zu formulieren. 
 %\footnote{Warum die Reduktionen ausgerechnet $\alpha$,
-%  $\beta$ und $\eta$ heißen, ist leider nicht mehr bekannt.}:
+%  $\beta$ und $\eta$ heiÃŸen, ist leider nicht mehr bekannt.}:
 %
 \begin{definition}[Reduktionsregeln]\index{beta-Reduktion@$\beta$-Reduktion}\index{alpha-Reduktion@$\alpha$-Reduktion}\index{*@$\rightarrow_{\alpha}$}\index{*@$\rightarrow_{\beta}$}
-  Die Reduktionsregeln im $\lambda$"=Kalkül sind
+  Die Reduktionsregeln im $\lambda$"=KalkÃ¼l sind
   die $\alpha$"=Reduktion $\rightarrow_{\alpha}$ und die
   $\beta$-Reduktion $\rightarrow_{\beta}$:% und $\eta$:
   %
@@ -352,20 +352,20 @@ die Reduktionsregeln des $\lambda$-Kalküls zu formulieren.
 %    (\lambda x.e~x) & \rightarrow_{\eta} e \quad & x\not\in\free(e)
   \end{alignat*}
   %
-  Für $x\in\{\alpha,\beta\}$ ist $\overset{\ast}{\rightarrow_x}$
-  jeweils der reflexiv-transitive Abschluß der Relation.  (Siehe dazu
+  FÃ¼r $x\in\{\alpha,\beta\}$ ist $\overset{\ast}{\rightarrow_x}$
+  jeweils der reflexiv-transitive AbschluÃŸ der Relation.  (Siehe dazu
   Definition~\ref{def:relation-closure}). %too verbose % in
   % Abschnitt~\ref{sec:relationen} in Anhang~\ref{cha:math}.)  
-  Außerdem ist
-  $\leftrightarrow_x$ jeweils der symmetrische Abschluß, und
+  AuÃŸerdem ist
+  $\leftrightarrow_x$ jeweils der symmetrische AbschluÃŸ, und
   $\overset{\ast}{\leftrightarrow_x}$ der
-  reflexiv-transitiv-symmetrische Abschluß.
+  reflexiv-transitiv-symmetrische AbschluÃŸ.
 \end{definition}
 %
 Die $\alpha$-Reduktion (oft auch \textit{$\alpha$-Konversion} genannt)
 benennt eine gebundene Variable in eine andere um.
 
-Die $\beta$-Reduktion, die zentrale Regel des $\lambda$-Kalküls, steht für
+Die $\beta$-Reduktion, die zentrale Regel des $\lambda$-KalkÃ¼ls, steht fÃ¼r
 Funktionsapplikation: eine Abstraktion
 wird angewendet, indem die Vorkommen ihres Parameters durch den
 Operanden einer Applikation ersetzt werden.
@@ -380,11 +380,11 @@ Operanden einer Applikation ersetzt werden.
 %\end{displaymath}
 %%
 %Wichtig ist dabei die Voraussetzung der $\eta$-Regel: $x$ darf nicht
-%frei in $e$ vorkommen, was dafür sorgt, daß die Substitution von $x$
+%frei in $e$ vorkommen, was dafÃ¼r sorgt, daÃŸ die Substitution von $x$
 %durch $f$ in $e$ keinerlei Wirkung hat.
 %\end{comment}
 
-Wie in anderen Reduktionskalkülen auch, also zum Beispiel wie in
+Wie in anderen ReduktionskalkÃ¼len auch, also zum Beispiel wie in
 RC$_1$, werden die Regeln auf Subterme fortgesetzt.  So gilt zum
 Beispiel:
 %
@@ -392,36 +392,36 @@ Beispiel:
   \lambda x.(\lambda y.y)~x \rightarrow_{\beta} \lambda x.x
 \end{displaymath}
 %
-Auch der Begriff des Redex ist im $\lambda$-Kalkül analog zu RC$_1$
+Auch der Begriff des Redex ist im $\lambda$-KalkÃ¼l analog zu RC$_1$
 und bezeichnet einen reduzierbaren Subterm.  Im obigen Beispiel ist
 der Redex gerade $(\lambda y.y)~x$.
 
-Als Reduktionskalkül ist die Hauptaufgabe des $\lambda$-Kalküls der
-Beweis von Gleichungen: Zwei Terme gelten als äquivalent wenn
-sie durch Reduktionen ineinander überführt werden können.\index{Äquivalenz!im $\lambda$-Kalkül}
+Als ReduktionskalkÃ¼l ist die Hauptaufgabe des $\lambda$-KalkÃ¼ls der
+Beweis von Gleichungen: Zwei Terme gelten als Ã¤quivalent wenn
+sie durch Reduktionen ineinander Ã¼berfÃ¼hrt werden kÃ¶nnen.\index{Ã„quivalenz!im $\lambda$-KalkÃ¼l}
 %
-\begin{definition}[Äquivalenz im $\lambda$-Kalkül]
-  Zwei Terme $e_1, e_2\in\mathcal{L}_{\lambda}$ heißen
-  \textit{$\alpha\beta$-äquivalent} oder einfach nur
-  \textit{äquivalent}, wenn
+\begin{definition}[Ã„quivalenz im $\lambda$-KalkÃ¼l]
+  Zwei Terme $e_1, e_2\in\mathcal{L}_{\lambda}$ heiÃŸen
+  \textit{$\alpha\beta$-Ã¤quivalent} oder einfach nur
+  \textit{Ã¤quivalent}, wenn
   %
   \(e_1 \overset{\ast}{\leftrightarrow_{\alpha,\beta}} e_2\)
   %
   gilt, wobei \(\leftrightarrow_{\alpha,\beta} \deq{}
   \leftrightarrow_{\alpha} \cup \leftrightarrow_{\beta}\).
 
-  Die Schreibweise dafür ist \(e_1\equiv e_2\).
+  Die Schreibweise dafÃ¼r ist \(e_1\equiv e_2\).
 \end{definition}
 
 \section{Normalformen}
 \label{sec:normalformen}
 
 \index{Normalform}
-Im $\lambda$-Kalkül ist es erlaubt,
-jederzeit beliebige Teilausdrücke zu reduzieren, solange sie nur
-$\alpha$- oder $\beta$-Redexe sind.  Zum Beispiel gibt es für den
-folgenden $\lambda$-Term zwei verschiedene Möglichkeiten zur
-$\beta$-Reduktion.  Der gewählte Redex ist jeweils unterstrichen:
+Im $\lambda$-KalkÃ¼l ist es erlaubt,
+jederzeit beliebige TeilausdrÃ¼cke zu reduzieren, solange sie nur
+$\alpha$- oder $\beta$-Redexe sind.  Zum Beispiel gibt es fÃ¼r den
+folgenden $\lambda$-Term zwei verschiedene MÃ¶glichkeiten zur
+$\beta$-Reduktion.  Der gewÃ¤hlte Redex ist jeweils unterstrichen:
 %
 \begin{eqnarray*}
   ((\lambda x.\underline{(\lambda y.y)~z)}~a) &\rightarrow_{\beta}& (\lambda x.z)~a\\
@@ -431,10 +431,10 @@ $\beta$-Reduktion.  Der gewählte Redex ist jeweils unterstrichen:
 In diesem Beispiel kommt eine weitere
 $\beta$-Reduktion sowohl von $(\lambda x.z)~a$ als auch von $(\lambda
 y.y)~z$ zum gleichen Ergebnis $z$~-- ein Indiz
-dafür, daß schließlich alle Abfolgen von $\beta$-Reduktionen zum
-gleichen Ergebnis kommen.  Eine solche Eigenschaft eines Kalküls heißt
+dafÃ¼r, daÃŸ schlieÃŸlich alle Abfolgen von $\beta$-Reduktionen zum
+gleichen Ergebnis kommen.  Eine solche Eigenschaft eines KalkÃ¼ls heiÃŸt
 \textit{Normalformeigenschaft}.  Hier ist die Definition des
-Normalformbegriffs für den $\lambda$-Kalkül:
+Normalformbegriffs fÃ¼r den $\lambda$-KalkÃ¼l:
 %
 \begin{definition}[Normalform]
   Sei $e$ ein $\lambda$-Term.  Ein $\lambda$-Term $e'$ ist eine
@@ -444,14 +444,14 @@ Normalformbegriffs für den $\lambda$-Kalkül:
   $e'\rightarrow_\beta e''$.
 \end{definition}
 %
-Nun wäre es schön, wenn Normalformen dazu benutzt werden könnten, um
-den Beweis von Gleichungen im Kalkül zu erleichtern: Der Beweis von
+Nun wÃ¤re es schÃ¶n, wenn Normalformen dazu benutzt werden kÃ¶nnten, um
+den Beweis von Gleichungen im KalkÃ¼l zu erleichtern: Der Beweis von
 $e_1 \equiv e_2$ erfordert dann lediglich den Vergleich der
 Normalformen von $e_1$ und $e_2$ ~-- wenn diese
-$\alpha$-äquivalent sind, dann gilt $e_1\equiv e_2$, sonst nicht.
+$\alpha$-Ã¤quivalent sind, dann gilt $e_1\equiv e_2$, sonst nicht.
 
 Leider haben manche
-$\lambda$-Terme überhaupt keine Normalform.  Hier ein
+$\lambda$-Terme Ã¼berhaupt keine Normalform.  Hier ein
 Beispiel:
 %
 \begin{displaymath}
@@ -459,10 +459,10 @@ Beispiel:
 \end{displaymath}
 %
 Solche Terme ohne Normalformen lassen sich endlos weiterreduzieren,
-ohne daß der Prozeß jemals zum Schluß kommt.  Sie entsprechen damit
+ohne daÃŸ der ProzeÃŸ jemals zum SchluÃŸ kommt.  Sie entsprechen damit
 Programmen, die endlos weiterrechnen.
 Dies ist kein spezieller Defekt des
-$\lambda$-Kalküls: Jeder Kalkül, der mächtig genug ist, um beliebige
+$\lambda$-KalkÃ¼ls: Jeder KalkÃ¼l, der mÃ¤chtig genug ist, um beliebige
 Computerprogramme zu modellieren, hat diese Eigenschaft.
 
 \begin{figure}[tb]
@@ -485,7 +485,7 @@ Normalformen ist der Satz von Church/Rosser:
 \begin{satz}[Church/Rosser-Eigenschaft]\index{Church/Rosser-Eigenschaft}
   \label{satz:church-rosser}
   Die $\beta$-Reduktionsregel hat die 
-  \textit{Church/Rosser"=Eigenschaft}:  Für
+  \textit{Church/Rosser"=Eigenschaft}:  FÃ¼r
   beliebige $\lambda$-Terme $e_1$ und  $e_2$ mit
   $e_1 \overset{\ast}{\leftrightarrow_\beta} e_2$,
   gibt es immer einen $\lambda$-Term $e'$ mit
@@ -496,54 +496,54 @@ Normalformen ist der Satz von Church/Rosser:
 Abbildung~\ref{fig:church-rosser} stellt die Aussage des Satzes von
 Church/Rosser grafisch dar.
 Der Beweis des Satzes ist leider recht umfangreich und technisch.
-Die einschlägige Literatur über den $\lambda$-Kalkül hat ihn
-vorrätig~\cite{HindleySeldin1986}.
+Die einschlÃ¤gige Literatur Ã¼ber den $\lambda$-KalkÃ¼l hat ihn
+vorrÃ¤tig~\cite{HindleySeldin1986}.
 
-Die Church/Rosser-Eigenschaft ebnet den Weg für Benutzung von
-Normalformen zum Finden von Beweisen im $\lambda$-Kalkül:
+Die Church/Rosser-Eigenschaft ebnet den Weg fÃ¼r Benutzung von
+Normalformen zum Finden von Beweisen im $\lambda$-KalkÃ¼l:
 %
 \begin{satz}[Eindeutigkeit der Normalform]
   \label{satz:normalform}
-  Ein $\lambda$-Term $e$ hat höchstens eine Normalform modulo
+  Ein $\lambda$-Term $e$ hat hÃ¶chstens eine Normalform modulo
   $\alpha$-Reduktion.
 \end{satz}
 %
   \begin{beweis}
     Angenommen, es gebe zwei unterschiedliche Normalformen $e_1$ und
-    $e_2$ von $e$.  Nach Satz~\ref{satz:church-rosser} muß es dann
+    $e_2$ von $e$.  Nach Satz~\ref{satz:church-rosser} muÃŸ es dann
     aber einen weiteren $\lambda$-Term $e'$ geben mit   $e_1\overset{\ast}{\rightarrow_\beta} e'$ und
   $e_2\overset{\ast}{\rightarrow_\beta} e'$.  Entweder sind $e_1$ und
     $e_2$ also nicht unterschiedlich, oder zumindest einer von
     beiden ist keine Normalform im Widerspruch zur Annahme.
   \end{beweis}
 %
-  Satz~\ref{satz:normalform} bestätigt, daß
-  der $\lambda$-Kalkül ein sinnvoller Mechanismus für die Beschreibung
+  Satz~\ref{satz:normalform} bestÃ¤tigt, daÃŸ
+  der $\lambda$-KalkÃ¼l ein sinnvoller Mechanismus fÃ¼r die Beschreibung
   des Verhaltens von Computerprogrammen ist: Bei einem $\lambda$-Term
-  ist es gleichgültig, in welcher Reihenfolge die Reduktionen
+  ist es gleichgÃ¼ltig, in welcher Reihenfolge die Reduktionen
   angewendet werden: Jede Reduktionsfolge, die zu einer Normalform
-  führt, führt immer zur gleichen Normalform.
+  fÃ¼hrt, fÃ¼hrt immer zur gleichen Normalform.
 
-\section{Der $\lambda$-Kalkül als Programmiersprache}
+\section{Der $\lambda$-KalkÃ¼l als Programmiersprache}
 \label{sec:lambdaprog}
 
-Mit dem Normalformsatz ist geklärt, daß Terme im
-$\lambda$-Kalkül, die eine Normalform besitzen, so etwas wie einen
-"`Sinn"' haben, der unabhängig von der Reihenfolge der
-Reduktionsschritte ist.  Bleibt die Frage, ob der $\lambda$-Kalkül
-"`groß genug"' ist, um Computerprogramme abzubilden.
+Mit dem Normalformsatz ist geklÃ¤rt, daÃŸ Terme im
+$\lambda$-KalkÃ¼l, die eine Normalform besitzen, so etwas wie einen
+"`Sinn"' haben, der unabhÃ¤ngig von der Reihenfolge der
+Reduktionsschritte ist.  Bleibt die Frage, ob der $\lambda$-KalkÃ¼l
+"`groÃŸ genug"' ist, um Computerprogramme abzubilden.
 
 Auf den ersten Blick erscheint das etwas unwahrscheinlich: In der Welt
-des $\lambda$-Kalküls gibt es direkt
+des $\lambda$-KalkÃ¼ls gibt es direkt
 keine eingebauten booleschen Werte oder Zahlen.
-Diese lassen sich jedoch durch Funktionen nachbilden.  Das heißt,
-daß der $\lambda$-Kalkül ebenso mächtig wie eine ausgewachsene
-Programmiersprache ist.  Dadurch, daß er aber nur eine zentrale
+Diese lassen sich jedoch durch Funktionen nachbilden.  Das heiÃŸt,
+daÃŸ der $\lambda$-KalkÃ¼l ebenso mÃ¤chtig wie eine ausgewachsene
+Programmiersprache ist.  Dadurch, daÃŸ er aber nur eine zentrale
 Reduktionsregel besitzt, eignet er sich aber viel besser als eine
-komplizierte Programmiersprache für die formale Manipulation.
+komplizierte Programmiersprache fÃ¼r die formale Manipulation.
 
 Dieser Abschnitt zeigt, wie sich die wichtigsten Elemente einer
-Programmiersprache im Kalkül nachbilden lassen:
+Programmiersprache im KalkÃ¼l nachbilden lassen:
 %
 \begin{itemize}
 \item Verzweigungen und boolesche Werte
@@ -554,16 +554,16 @@ Programmiersprache im Kalkül nachbilden lassen:
 \subsection{Verzweigungen}
 \label{sec:booleans}
 %
-Verzweigungen haben ihre primäre Daseinsberechtigung in Verbindung mit
+Verzweigungen haben ihre primÃ¤re Daseinsberechtigung in Verbindung mit
 booleschen Werten\index{boolescher Wert} und umgekehrt.
-Die binäre Verzweigung\index{Verzweigung} in Scheme
+Die binÃ¤re Verzweigung\index{Verzweigung} in Scheme
 \texttt{(if \(t\) \(k\) \(a\))}
-wählt, abhängig vom Wert von $t$,
+wÃ¤hlt, abhÃ¤ngig vom Wert von $t$,
 entweder die Konsequente $k$ oder die Alternative $a$ aus.  Die Nachbildung im
-$\lambda$-Kalkül stellt dieses Prinzip auf den Kopf: die Maschinerie
-für die Auswahl zwischen Konsequente und Alternative wird in die
+$\lambda$-KalkÃ¼l stellt dieses Prinzip auf den Kopf: die Maschinerie
+fÃ¼r die Auswahl zwischen Konsequente und Alternative wird in die
 booleschen Werte selbst gesteckt.  $\mathit{true}$\index{true@$\mathit{true}$} ist ein
-$\lambda$-Term, der das erste von zwei Argumenten auswählt und das
+$\lambda$-Term, der das erste von zwei Argumenten auswÃ¤hlt und das
 zweite verwirft; $\mathit{false}$\index{false@$\mathit{false}$} selektiert das zweite und verwirft
 das erste:
 %
@@ -573,14 +573,14 @@ das erste:
 \end{align*}
 %
 Damit hat die Verzweigung selbst nicht mehr viel zu tun; sie wendet
-einfach den Test, der einen booleschen Wert ergeben muß, auf
+einfach den Test, der einen booleschen Wert ergeben muÃŸ, auf
 Konsequente und Alternative an:
 %
 \begin{displaymath}
   \mathit{if} \deq{} \lambda t x y.t~x~y
 \end{displaymath}
 %
-Daß $\mathit{if}$\index{if@$\mathit{if}$} tatsächlich so funktioniert wie angenommen, läßt
+DaÃŸ $\mathit{if}$\index{if@$\mathit{if}$} tatsÃ¤chlich so funktioniert wie angenommen, lÃ¤ÃŸt
 sich an einem Beispiel leicht sehen:
 %
 \begin{displaymath}
@@ -595,20 +595,20 @@ sich an einem Beispiel leicht sehen:
     & \rightarrow_\beta e_1  \end{split}
 \end{displaymath}
 %
-Für $\mathit{false}$ geht der Beweis analog.
+FÃ¼r $\mathit{false}$ geht der Beweis analog.
 
-\subsection{Natürliche Zahlen}
+\subsection{NatÃ¼rliche Zahlen}
 
 Die Nachbildung von Zahlen ist etwas komplizierter als die der
-booleschen Werte.  Eine Methode dafür ist
+booleschen Werte.  Eine Methode dafÃ¼r ist
 die Verwendung von \textit{Church-Numeralen\index{Church-Numeral}}.  Das
-Church-Numeral $\lceil n\rceil$ einer natürlichen Zahl\index{natürliche Zahl}
+Church-Numeral $\lceil n\rceil$ einer natÃ¼rlichen Zahl\index{natÃ¼rliche Zahl}
 $n$ ist eine Funktion, die eine $n$-fache Applikation vornimmt.
 %
 \begin{displaymath}
   \lceil n\rceil \deq{} \lambda f\lambda x.f^n(x)
 \end{displaymath}
-Für einen $\lambda$-Term $f$ ist $f^n : \mathcal{L}_{\lambda}\rightarrow\mathcal{L}_{\lambda}$ folgendermaßen induktiv definiert:
+FÃ¼r einen $\lambda$-Term $f$ ist $f^n : \mathcal{L}_{\lambda}\rightarrow\mathcal{L}_{\lambda}$ folgendermaÃŸen induktiv definiert:
 %
 \begin{displaymath}
   f^n(e) \deq
@@ -622,30 +622,30 @@ $\lceil 0\rceil$\index{*@$\lceil \:\rceil$} ist nach dieser Definition
 $\lambda f.\lambda x.x$, $\lceil 1\rceil$ ist $\lambda f.\lambda x.f~x$,
 $\lceil 2\rceil$ ist $\lambda f.\lambda x.f(f~x)$, usw.
 
-Die Nachfolgeroperation\index{Nachfolger} hängt eine zusätzliche Applikation an:\index{succ@$\mathit{succ}$}
+Die Nachfolgeroperation\index{Nachfolger} hÃ¤ngt eine zusÃ¤tzliche Applikation an:\index{succ@$\mathit{succ}$}
 %
 \begin{displaymath}
   \mathit{succ} \deq{} \lambda n.\lambda f.\lambda x.n~f~(f~x)
 \end{displaymath}
 %
-Der folgende Term bildet die Vorgängerfunktion ab\index{Vorgänger}\index{pred@$\mathit{pred}$}:
+Der folgende Term bildet die VorgÃ¤ngerfunktion ab\index{VorgÃ¤nger}\index{pred@$\mathit{pred}$}:
 %
 \begin{displaymath}
   \mathit{pred} \deq{} \lambda x.\lambda y.\lambda z.x~(\lambda p.\lambda
   q.q~(p~y))~((\lambda x.\lambda y.x)~z)~(\lambda x.x)
 \end{displaymath}
 %
-Der Beweis dafür, daß sich $\mathit{pred}$ in bezug auf $\mathit{succ}$ wie die
-Vorgängerfunktion verhält, ist Übungsaufgabe~\ref{ex:pred}.
+Der Beweis dafÃ¼r, daÃŸ sich $\mathit{pred}$ in bezug auf $\mathit{succ}$ wie die
+VorgÃ¤ngerfunktion verhÃ¤lt, ist Ãœbungsaufgabe~\ref{ex:pred}.
 
-In Verbindung mit den booleschen Werten läßt sich eine Zahl daraufhin
+In Verbindung mit den booleschen Werten lÃ¤ÃŸt sich eine Zahl daraufhin
 testen, ob sie $0$ ist:\index{zerop@$\mathit{zerop}$}
 %
 \begin{displaymath}
   \mathit{zerop} \deq{} \lambda n.n~(\lambda x.\mathit{false})~\mathit{true}
 \end{displaymath}
 %
-Die Funktionsweise von $\mathit{zerop}$ läßt sich am einfachsten an
+Die Funktionsweise von $\mathit{zerop}$ lÃ¤ÃŸt sich am einfachsten an
 einem Beispiel erkennen:
 %
 \begin{displaymath}
@@ -662,44 +662,44 @@ einem Beispiel erkennen:
 
 \subsection{Rekursion und Fixpunktsatz}
 %
-Schließlich fehlt noch die Rekursion\index{Rekursion}.  Das Hauptproblem dabei ist, daß
-es im $\lambda$-Kalkül kein Pendant zu \texttt{define} oder
-\texttt{letrec} gibt: Es gibt keine direkte Möglichkeit, eine
+SchlieÃŸlich fehlt noch die Rekursion\index{Rekursion}.  Das Hauptproblem dabei ist, daÃŸ
+es im $\lambda$-KalkÃ¼l kein Pendant zu \texttt{define} oder
+\texttt{letrec} gibt: Es gibt keine direkte MÃ¶glichkeit, eine
 rekursive Bindung herzustellen.  Zur Realisierung von Rekursion ist
 deshalb ein Kunstgriff notwendig, der sich an der rekursiven
-Definition der Fakultät zeigen läßt.
-Schön wäre eine Definition wie folgt, wobei Zahlen ohne $\lceil\:\rceil$ für
+Definition der FakultÃ¤t zeigen lÃ¤ÃŸt.
+SchÃ¶n wÃ¤re eine Definition wie folgt, wobei Zahlen ohne $\lceil\:\rceil$ fÃ¼r
 ihre Church-Numerale stehen:\index{fac@$\mathit{fac}$}
 %
 \begin{displaymath}
   \mathit{fac} \deq{} \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}~(\mathit{pred}~x)))
 \end{displaymath}
 %
-$=$ und $\ast$ stehen dabei für $\lambda$-Terme, die Church-Numerale
+$=$ und $\ast$ stehen dabei fÃ¼r $\lambda$-Terme, die Church-Numerale
 vergleichen bzw.\ multiplizieren.  (Ihre Formulierung ist Teil der
-Übungsaufgabe~\ref{ex:church}.)
+Ãœbungsaufgabe~\ref{ex:church}.)
 
 Leider ist diese Formulierung von $\mathit{fac}$ keine richtige
 Definition: $\mathit{fac}$ taucht sowohl auf der linken
 als auch auf der rechten Seite auf.  Wenn $\mathit{fac}$ aus der
-rechten Seite entfernt wird, bleibt folgender Term übrig:
+rechten Seite entfernt wird, bleibt folgender Term Ã¼brig:
 %
 \begin{displaymath}
   \lambda x.\mathit{if}~(\mathit{zerop}~x~1)~1~(\ast~x~(?~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Immerhin ist zu sehen, daß dieser Term korrekt die Fakultät von $0$
-ausrechnet, nämlich $1$.  Für alle Zahlen größer als $0$ ist es allerdings
+Immerhin ist zu sehen, daÃŸ dieser Term korrekt die FakultÃ¤t von $0$
+ausrechnet, nÃ¤mlich $1$.  FÃ¼r alle Zahlen grÃ¶ÃŸer als $0$ ist es allerdings
 schlecht bestellt, da der Term "`$?$"' noch unbekannt ist.
-Weil der obige Term nur für $0$ taugt, sei er mit $\mathit{fac}_0$
+Weil der obige Term nur fÃ¼r $0$ taugt, sei er mit $\mathit{fac}_0$
 benannt:
 %
 \begin{displaymath}
   \mathit{fac}_0 \deq \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(?~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Nun wäre es schön, einen Term zu haben, der zumindest auch die
-Fakultät von $1$ ausrechnen kann.  Dazu wird $\mathit{fac}_0$ in
+Nun wÃ¤re es schÃ¶n, einen Term zu haben, der zumindest auch die
+FakultÃ¤t von $1$ ausrechnen kann.  Dazu wird $\mathit{fac}_0$ in
 seine eigene Definition anstelle des $?$ eingesetzt.  Das Ergebnis
 sieht so aus:
 %
@@ -707,24 +707,24 @@ sieht so aus:
   \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}_0~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Da $\mathit{fac}_0$ keinen Selbstbezug enthält, läßt sich seine
+Da $\mathit{fac}_0$ keinen Selbstbezug enthÃ¤lt, lÃ¤ÃŸt sich seine
 Definition einsetzen; das Ergebnis soll der Funktion entsprechend
-$\mathit{fac}_1$ heißen:
+$\mathit{fac}_1$ heiÃŸen:
 %
 \begin{displaymath}
   \mathit{fac}_1 \deq{} \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~((\lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(?~(\mathit{pred}~x))))~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Auf die gleiche Art und Weise läßt sich ein Term konstruieren, der
-alle Fakultäten bis 2 ausrechnen kann:
+Auf die gleiche Art und Weise lÃ¤ÃŸt sich ein Term konstruieren, der
+alle FakultÃ¤ten bis 2 ausrechnen kann:
 %
 \begin{displaymath}
   \mathit{fac}_2 \deq{} \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}_1~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Dieses Muster läßt sich immer so weiter fortsetzen.  Leider entsteht
-dabei trotzdem nie ein Term, der die Fakultäten \emph{aller}
-natürlichen Zahlen berechnen kann, da die Terme immer endlich groß
+Dieses Muster lÃ¤ÃŸt sich immer so weiter fortsetzen.  Leider entsteht
+dabei trotzdem nie ein Term, der die FakultÃ¤ten \emph{aller}
+natÃ¼rlichen Zahlen berechnen kann, da die Terme immer endlich groÃŸ
 bleiben.
 
 Immerhin aber enthalten alle $\mathit{fac}_n$-Terme das
@@ -736,7 +736,7 @@ das Problem anzuwenden:
   \lambda\mathit{fac}.\lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Dieser Term soll $\mathit{FAC}$\index{FAC@$\mathit{FAC}$} heißen.  Nun lassen sich die
+Dieser Term soll $\mathit{FAC}$\index{FAC@$\mathit{FAC}$} heiÃŸen.  Nun lassen sich die
 $\mathit{fac}_n$-Funktionen mit Hilfe von $\mathit{FAC}$ einfacher beschreiben:
 %
 \begin{eqnarray*}
@@ -747,16 +747,16 @@ $\mathit{fac}_n$-Funktionen mit Hilfe von $\mathit{FAC}$ einfacher beschreiben:
    &\ldots&
 \end{eqnarray*}
 %
-$\mathit{FAC}$ ist also eine Fabrik für Fakultätsfunktionen und
-teilt mit allen $\mathit{fac}_i$ die Eigenschaft, daß ihre
+$\mathit{FAC}$ ist also eine Fabrik fÃ¼r FakultÃ¤tsfunktionen und
+teilt mit allen $\mathit{fac}_i$ die Eigenschaft, daÃŸ ihre
 Definition nicht rekursiv ist.
 
 Damit ist zwar die Notation weniger schreibintensiv geworden,
-aber das fundamentale Problem ist noch nicht gelöst: Eine korrekte
-Definition von $\mathit{fac}$ müßte eine unendliche
+aber das fundamentale Problem ist noch nicht gelÃ¶st: Eine korrekte
+Definition von $\mathit{fac}$ mÃ¼ÃŸte eine unendliche
 Kette von Applikationen von $\mathit{FAC}$ enthalten.
-Da sich ein Term mit einer unendlichen Kette von Applikationen nicht aufschreiben läßt, hilft im Moment nur Wunschdenken weiter.
-Dafür sei angenommen, $\mathit{fac}$ wäre bereits gefunden.  Dann gilt folgende
+Da sich ein Term mit einer unendlichen Kette von Applikationen nicht aufschreiben lÃ¤ÃŸt, hilft im Moment nur Wunschdenken weiter.
+DafÃ¼r sei angenommen, $\mathit{fac}$ wÃ¤re bereits gefunden.  Dann gilt folgende
 Gleichung:
 %
 \begin{displaymath}
@@ -819,27 +819,27 @@ Gleichung:
     &\overset{\ast}{\rightarrow_{\beta}}&
     6
     \end{eqnarray*}
-    \caption{Berechnung der Fakultät von 3 im $\lambda$-Kalkül}
+    \caption{Berechnung der FakultÃ¤t von 3 im $\lambda$-KalkÃ¼l}
     \label{fig:fac3}
   \end{center}
 \end{figure}
 
-Die eine zusätzliche Applikation, die $\mathit{FAC}$ vornimmt, landet
+Die eine zusÃ¤tzliche Applikation, die $\mathit{FAC}$ vornimmt, landet
 auf einem ohnehin schon unendlichen Stapel,
-macht diesen also auch nicht größer.  Damit ist aber $\mathit{fac}$ ein sogenannter
+macht diesen also auch nicht grÃ¶ÃŸer.  Damit ist aber $\mathit{fac}$ ein sogenannter
 \textit{Fixpunkt\index{Fixpunkt}} von $\mathit{FAC}$:  Wenn $\mathit{fac}$
 hineingeht, kommt es auch genauso wieder heraus.  Wenn es nun eine
-Möglichkeit gäbe, für einen $\lambda$-Term einen Fixpunkt zu finden,
-wäre das Problem gelöst.  Der folgende Satz zeigt, daß dies tatsächlich
-möglich ist:
+MÃ¶glichkeit gÃ¤be, fÃ¼r einen $\lambda$-Term einen Fixpunkt zu finden,
+wÃ¤re das Problem gelÃ¶st.  Der folgende Satz zeigt, daÃŸ dies tatsÃ¤chlich
+mÃ¶glich ist:
 %
 \begin{satz}[Fixpunktsatz]\index{Fixpunktsatz}
   \label{satz:fixpunkt}
-  Für jeden $\lambda$-Term $F$ gibt es einen $\lambda$-Term $X$ mit
+  FÃ¼r jeden $\lambda$-Term $F$ gibt es einen $\lambda$-Term $X$ mit
   $F~X\equiv X$.
 \end{satz}
 \begin{beweis}
-  Wähle $X \deq{} Y~F$, wobei
+  WÃ¤hle $X \deq{} Y~F$, wobei
   %
   \begin{displaymath}
     Y \deq{} \lambda f.(\lambda x.f~(x~x))~(\lambda x.f~(x~x)).
@@ -863,16 +863,16 @@ möglich ist:
 \end{beweis}
 %
 Der $\lambda$-Term $Y$\index{Y@$Y$}, der Fixpunkte
-berechnet, heißt
-\textit{Fixpunktkombinator\index{Fixpunktkombinator}}.  Mit seiner Hilfe läßt sich
-die Fakultät definieren:
+berechnet, heiÃŸt
+\textit{Fixpunktkombinator\index{Fixpunktkombinator}}.  Mit seiner Hilfe lÃ¤ÃŸt sich
+die FakultÃ¤t definieren:
 %
 \begin{displaymath}
   \mathit{fac} \deq{} Y~\mathit{FAC}
 \end{displaymath}
 %
 
-Abbildung~\ref{fig:fac3} zeigt, wie die Berechnung der Fakultät von
+Abbildung~\ref{fig:fac3} zeigt, wie die Berechnung der FakultÃ¤t von
 $3$ mit dieser Definition funktioniert.
 
 \section{Auswertungsstrategien}
@@ -880,28 +880,28 @@ $3$ mit dieser Definition funktioniert.
 
 \index{Auswertungsstrategie}Die Definitionen des vorangegangenen Abschnitts zusammen mit dem Satz
 von Church/\linebreak[0]Rosser sind wichtige Meilensteine auf dem Weg zur
-Verwendung des $\lambda$-Kalküls als Basis für reale
+Verwendung des $\lambda$-KalkÃ¼ls als Basis fÃ¼r reale
 Programmiersprachen.  Leider hat die Anwendung des Satzes von
-Church/Rosser noch einen Haken in der Praxis: Er besagt zwar, daß sich
-die Äquivalenz von zwei Termen dadurch beweisen läßt, daß ihre
-Normalformen verglichen werden.  Leider sagt er nichts darüber,
+Church/Rosser noch einen Haken in der Praxis: Er besagt zwar, daÃŸ sich
+die Ã„quivalenz von zwei Termen dadurch beweisen lÃ¤ÃŸt, daÃŸ ihre
+Normalformen verglichen werden.  Leider sagt er nichts darÃ¼ber,
 wie diese Normalformen gefunden werden.
 
-Zum systematischen Finden von Normalformen gehört
+Zum systematischen Finden von Normalformen gehÃ¶rt
 eine \textit{Auswertungsstrategie}.  Eine
-solche Strategie ist dafür zuständig, von den $\beta$-Redexen
+solche Strategie ist dafÃ¼r zustÃ¤ndig, von den $\beta$-Redexen
 innerhalb eines $\lambda$-Terms denjenigen auszusuchen, der
-tatsächlich reduziert wird.  Für den $\lambda$-Kalkül gibt es mehrere
-populäre Auswertungsstrategien, die jeweils ihre eigenen Vor- und
+tatsÃ¤chlich reduziert wird.  FÃ¼r den $\lambda$-KalkÃ¼l gibt es mehrere
+populÃ¤re Auswertungsstrategien, die jeweils ihre eigenen Vor- und
 Nachteile haben, was das effektive Finden von Normalformen betrifft.
 
-Eine populäre Auswertungsstrategie ist die Linksaußen-Reduktion\index{Linksaußen-Reduktion}, auch
+Eine populÃ¤re Auswertungsstrategie ist die LinksauÃŸen-Reduktion\index{LinksauÃŸen-Reduktion}, auch
 \textit{normal-order reduction\index{normal-order reduction}} oder
 \textit{leftmost-outermost reduction\index{leftmost-outermost reduction}} genannt:
 %
-\begin{definition}[Linksaußen-Reduktion]
+\begin{definition}[LinksauÃŸen-Reduktion]
   Die Relation $\rightarrow_{\beta o}$, die
-  \textit{Linksaußen-Reduktion}, ist durch die gleiche Regel wie
+  \textit{LinksauÃŸen-Reduktion}, ist durch die gleiche Regel wie
   die $\beta$-Reduktion definiert:
   %
   \begin{displaymath}
@@ -909,18 +909,18 @@ Eine populäre Auswertungsstrategie ist die Linksaußen-Reduktion\index{Linksaußen
   \end{displaymath}
   %
   Diese Regel darf nur auf bestimmte Subterme angewendet werden,
-  nämlich solche $\beta$-Redexe, die möglichst weit
-  links außen stehen.
+  nÃ¤mlich solche $\beta$-Redexe, die mÃ¶glichst weit
+  links auÃŸen stehen.
 \end{definition}
 %
-Die Linksaußen-Reduktion hat folgende äußerst angenehme Eigenschaft:
+Die LinksauÃŸen-Reduktion hat folgende Ã¤uÃŸerst angenehme Eigenschaft:
 %
 \begin{satz}
   Wenn $e'$ eine Normalform von $e$ ist, so gilt
   $e\overset{\ast}{\rightarrow_{\beta o}} e'$.
 \end{satz}
 %
-Falls es also eine Normalform gibt, so findet die Linksaußen-Reduktion
+Falls es also eine Normalform gibt, so findet die LinksauÃŸen-Reduktion
 sie auch.
 
 Es gibt allerdings noch weitere Auswertungsstrategien.  Die sogenannte
@@ -928,9 +928,9 @@ Call-by-Name-Auswertung basiert auf dem Konzept der \textit{schwachen
   Kopfnormalform\index{schwache Kopfnormalform}\index{Kopfnormalform!schwach}}:
 
 \begin{definition}[Schwache Kopfnormalform]\label{def:wert}
-  Unter den $\lambda$"=Termen heißen die Abstraktionen auch
+  Unter den $\lambda$"=Termen heiÃŸen die Abstraktionen auch
   \textit{Werte} oder \textit{schwache Kopfnormalformen}.  Ein
-  $\lambda$-Term, der kein Wert\index{Wert} ist, heißt \textit{Nichtwert\index{Nichtwert}}.  %In
+  $\lambda$-Term, der kein Wert\index{Wert} ist, heiÃŸt \textit{Nichtwert\index{Nichtwert}}.  %In
 %  Grammatiken werden Werte durch das Nichtterminal \meta{value}
 %  bezeichnet:
 %  \begin{grammar}
@@ -942,7 +942,7 @@ Call-by-Name-Auswertung basiert auf dem Konzept der \textit{schwachen
   Die Relation $\rightarrow_{\beta n}$, die
   \textit{Call"=by"=Name"=Reduktion}, ist durch folgende Regel
   definiert,
-  die wiederum identisch zur normalen Regel für $\beta$-Reduktion ist:
+  die wiederum identisch zur normalen Regel fÃ¼r $\beta$-Reduktion ist:
   %
   \begin{displaymath}
     (\lambda v.e)~f \rightarrow_{\beta n} e[v\mapsto f]
@@ -950,23 +950,23 @@ Call-by-Name-Auswertung basiert auf dem Konzept der \textit{schwachen
   %
   Diese Regel darf nur in einem Gesamtterm angewendet werden,
   wenn dieser noch nicht in schwacher Kopfnormalform ist, und auch dann
-  nur auf Subterme, die $\beta$-Redexe sind, die möglichst weit
-  links außen stehen.
+  nur auf Subterme, die $\beta$-Redexe sind, die mÃ¶glichst weit
+  links auÃŸen stehen.
 \end{definition}
 %
-Die Call-by-Name-Auswertung ist damit ähnlich zur
-Linksaußen"=Auswertung, aber nicht ganz so aggressiv: sie gibt sich
+Die Call-by-Name-Auswertung ist damit Ã¤hnlich zur
+LinksauÃŸen"=Auswertung, aber nicht ganz so aggressiv: sie gibt sich
 schon mit einer schwachen Kopfnormalform zufrieden anstatt einer
 "`richtigen"' Normalform.  Dies ist bei der Verwendung als
 Auswertungsstrategie in Programmiersprachen allerdings schon
 genug: die weitere Auswertung des Rumpfes einer schwachen
 Kopfnormalform wird einfach verschoben auf die Zeit der Applikation.
 
-Linksaußen- und Call-by-Name-Auswertung finden zwar immer eine
+LinksauÃŸen- und Call-by-Name-Auswertung finden zwar immer eine
 Normalform bzw.\ eine schwache Kopfnormalform, wenn es eine solche
 gibt; gelegentlich aber geschieht dies nicht auf die effektivste Art
-und Weise.  Im folgendem Term wird bei Linksaußen- und
-Call-by-Name-Reduktion zuerst der äußere Redex reduziert:
+und Weise.  Im folgendem Term wird bei LinksauÃŸen- und
+Call-by-Name-Reduktion zuerst der Ã¤uÃŸere Redex reduziert:
 %
 \begin{displaymath}
   \begin{array}{rl}
@@ -983,7 +983,7 @@ Call-by-Name-Reduktion zuerst der äußere Redex reduziert:
 \end{displaymath}
 %
 Bei dieser Reduktionsfolge wurde der Subterm $((\lambda y.y)~z)$
-zunächst "`verdoppelt"' und mußte demnach auch zweimal reduziert
+zunÃ¤chst "`verdoppelt"' und muÃŸte demnach auch zweimal reduziert
 werden.  Eine andere Auswertungsstrategie verspricht die Vermeidung
 solcher doppelter Arbeit:  Die meisten Programmiersprachen verwenden
 eine Strategie, die von der sogenannten \textit{Linksinnen-Reduktion},
@@ -991,7 +991,7 @@ auch genannt \emph{applicative-order reduction\index{applicative-order reduction
 \emph{leftmost-innermost reduction\index{leftmost-innermost reduction}} abgeleitet ist:
 %
 \begin{definition}[Linksinnen-Reduktion]\index{Linksinnen-Reduktion}
-  In dieser Definition steht $w$ immmer für einen Wert.
+  In dieser Definition steht $w$ immmer fÃ¼r einen Wert.
   Die Relation $\rightarrow_{\beta i}$, die
   \textit{Linksinnen"=Reduktion}, ist definiert durch die
   folgende Regel:
@@ -1001,11 +1001,11 @@ auch genannt \emph{applicative-order reduction\index{applicative-order reduction
   \end{displaymath}
   %
   $\rightarrow_{\beta i}$ ist dabei nur anwendbar auf Subterme, die
-  möglichst weit links innen stehen.
+  mÃ¶glichst weit links innen stehen.
 \end{definition}
 %
 Die Linksinnen-Reduktion ist beim obigen Beispiel effektiver, da
-zunächst das Argument der äußeren Applikation ausgewertet wird:
+zunÃ¤chst das Argument der Ã¤uÃŸeren Applikation ausgewertet wird:
 %
 \begin{displaymath}
   \begin{array}{rl}
@@ -1021,11 +1021,11 @@ zunächst das Argument der äußeren Applikation ausgewertet wird:
 \end{array}
 \end{displaymath}
 %
-Leider führt die Linksinnen-Reduktion nicht immer zu einer Normalform,
-selbst wenn es die Linksaußen-Reduktion tut.  Der Term
+Leider fÃ¼hrt die Linksinnen-Reduktion nicht immer zu einer Normalform,
+selbst wenn es die LinksauÃŸen-Reduktion tut.  Der Term
 \[ (\lambda x.\lambda y.y)~((\lambda z.z~z)~(\lambda z.z~z)) \]
 zum Beispiel hat zwei Redexe, einmal den ganzen Term und dann noch
-\[(\lambda z.z~z)~(\lambda z.z~z).\]  Die Linksinnen-Strategie wählt
+\[(\lambda z.z~z)~(\lambda z.z~z).\]  Die Linksinnen-Strategie wÃ¤hlt
 den inneren Subterm als ersten Redex aus:
 %
 \begin{displaymath}
@@ -1034,8 +1034,8 @@ den inneren Subterm als ersten Redex aus:
   (\lambda z.z~z)~(\lambda z.z~z).
 \end{displaymath}
 %
-Damit läuft die Linksinnen-Reduktion unendlich im Kreis, während
-die Linksaußen"=Reduktion sofort den gesamten Term reduziert und die
+Damit lÃ¤uft die Linksinnen-Reduktion unendlich im Kreis, wÃ¤hrend
+die LinksauÃŸen"=Reduktion sofort den gesamten Term reduziert und die
 Normalform $\lambda y.y$ liefert.
 
 Eine Ableitung der Linksinnen-Reduktion, die in den meisten
@@ -1043,7 +1043,7 @@ Programmiersprachen Anwendung findet, ist die
 \textit{Call-by-Value-Reduktion\index{Call-by-Value-Reduktion}}:
 %
 \begin{definition}[Call-by-Value-Reduktion]\label{def:call-by-value}
-  In dieser Definition steht $w$ immmer für einen Wert und $e$ für
+  In dieser Definition steht $w$ immmer fÃ¼r einen Wert und $e$ fÃ¼r
   einen Nichtwert.  Die Relation $\rightarrow_{\beta v}$, die
   \textit{Call"=by"=Value"=Reduktion}, ist definiert durch die
   folgende Regel:
@@ -1054,63 +1054,63 @@ Programmiersprachen Anwendung findet, ist die
   %
   $\rightarrow_{\beta v}$ darf nur in einem Gesamtterm angewendet
   werden, wenn dieser keine schwache Kopfnormalform ist,
-  und dann nur auf einen Subterm, der möglichst weit links innen steht.
+  und dann nur auf einen Subterm, der mÃ¶glichst weit links innen steht.
 \end{definition}
 
 \section{Die Auswertungsstrategie von Scheme}
 \label{sec:scheme-auswertung}
 
-Mit der Call-by-Value-Reduktion ist die Grundlage für die
-Auswertungsstrategie von Scheme gelegt.  Tatsächlich definiert das
+Mit der Call-by-Value-Reduktion ist die Grundlage fÃ¼r die
+Auswertungsstrategie von Scheme gelegt.  TatsÃ¤chlich definiert das
 Substitutionsmodell eine Variante der
 Call-by-Value-Auswertung.  Zur Erinnerung ist hier noch einmal die
-Definition der wichtigsten Regel des Substitutionsmodells, nämlich der für
+Definition der wichtigsten Regel des Substitutionsmodells, nÃ¤mlich der fÃ¼r
 Funktionanwendungen der Form \texttt{(\(p\) \(o\sb{1}\) \(\ldots\) \(o\sb{n}\))}:
 %
 \begin{quote}
-  [\ldots] Zunächst werden Operator $p$ und Operanden $o_1, \ldots, o_n$
-  ausgewertet.  Der Wert von $p$ muß eine Prozedur sein. [\ldots]
+  [\ldots] ZunÃ¤chst werden Operator $p$ und Operanden $o_1, \ldots, o_n$
+  ausgewertet.  Der Wert von $p$ muÃŸ eine Prozedur sein. [\ldots]
 \end{quote}
 %
 Der entscheidende Satz ist dabei der letzte:
-Er bedeutet, daß innen zuerst ausgewertet wird;
+Er bedeutet, daÃŸ innen zuerst ausgewertet wird;
 treten bei der Auswertung von Operator und Operanden weitere
 Funktionanwendungen auf, wird das gleiche Prinzip rekursiv angewendet.
-Damit ist das Substitutionsmodell für Scheme eng verwandt mit der
-Call-by-Value-Auswertung im Lambda-Kalkül.
+Damit ist das Substitutionsmodell fÃ¼r Scheme eng verwandt mit der
+Call-by-Value-Auswertung im Lambda-KalkÃ¼l.
 
 Der einzige Unterschied zwischen der offiziellen Definition der
-Call"=by"=Value"=Auswertung im $\lambda$-Kalkül und Scheme ist, daß in
+Call"=by"=Value"=Auswertung im $\lambda$-KalkÃ¼l und Scheme ist, daÃŸ in
 Scheme nicht
 notwendigerweise von links nach rechts reduziert wird: Der
 Scheme-Standard~\cite{KelseyClingerRees1998,R6RS} schreibt nicht vor, in welcher Reihenfolge Operator
 und Operanden ausgewertet werden.  Es kann im Prinzip sogar passieren,
-daß bei jedem Pro\-ze\-dur\-auf\-ruf eine andere Auswertungsreihenfolge
+daÃŸ bei jedem Pro\-ze\-dur\-auf\-ruf eine andere Auswertungsreihenfolge
 benutzt wird.
 
-Trotzdem ist es üblich, bei Programmiersprachen, die von innen nach
-außen auswerten, von
+Trotzdem ist es Ã¼blich, bei Programmiersprachen, die von innen nach
+auÃŸen auswerten, von
 \textit{Call-by-Value-Sprachen\index{Call-by-Value-Sprache}}
 oder \textit{strikten\index{strikte Sprache} Sprachen} zu sprechen.  Neben
-Scheme gehören auch C, Java, Pascal und ML und viele andere zu den
+Scheme gehÃ¶ren auch C, Java, Pascal und ML und viele andere zu den
 strikten Sprachen.
 
 Es gibt auch \textit{nicht-strikte\index{nicht-strikte Sprache}}
 Sprachen wie z.B.\ Haskell,
 die auf der sogenannten \textit{lazy evaluation\index{lazy evaluation}} beruhen.  Ihre
 Auswertungsstrategie ist eng mit der Call-by-Name-Auswertung im
-$\lambda$-Kalkül verwandt.  Allerdings vermeiden diese Sprachen die
-mehrfache überflüssige Auswertung von Ausdrücken dadurch, daß sie den
+$\lambda$-KalkÃ¼l verwandt.  Allerdings vermeiden diese Sprachen die
+mehrfache Ã¼berflÃ¼ssige Auswertung von AusdrÃ¼cken dadurch, daÃŸ sie den
 Wert beim ersten Mal abspeichern und danach wiederverwenden.
 
-\section*{Übungsaufgaben}
+\section*{Ãœbungsaufgaben}
 \begin{aufgabe}\label{ex:pred}
-  Beweise, daß $\mathit{pred}$ den Vorgänger eines
+  Beweise, daÃŸ $\mathit{pred}$ den VorgÃ¤nger eines
   positiven Church-Numerals berechnet!
 \end{aufgabe}
 
 \begin{aufgabe}\label{ex:church}
-  Beweise, daß es Lambda-Terme für die folgenden arithmetischen
+  Beweise, daÃŸ es Lambda-Terme fÃ¼r die folgenden arithmetischen
   Operationen auf Church-Numeralen gibt:
   %
   \begin{eqnarray*}
@@ -1119,7 +1119,7 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
     \mathit{mult} \lceil m\rceil \lceil n\rceil &=& \lceil mn\rceil
     \\
     \mathit{exp} \lceil m\rceil \lceil n\rceil &=& \lceil m^n\rceil
-    \textrm{ für } m>0\\
+    \textrm{ fÃ¼r } m>0\\
     \mathit{=}\lceil m\rceil \lceil n\rceil &=&
     \begin{cases}
       \mathit{true} & \text{falls } m = n\\
@@ -1133,10 +1133,10 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
     \mathit{mult} &\deq{}& \lambda x.\lambda y.\lambda z.x(yz)\\
     \mathit{exp} &\deq{}& \lambda x.\lambda y.y x
   \end{eqnarray*}
-  und gibt eine eigene Definition für $=$ an.
+  und gibt eine eigene Definition fÃ¼r $=$ an.
   %
-  Dabei läßt sich die Korrektheit von $\mathit{add}$ direkt beweisen.
-  Für $\mathit{mult}$ und $\mathit{exp}$ beweise und benutze dazu
+  Dabei lÃ¤ÃŸt sich die Korrektheit von $\mathit{add}$ direkt beweisen.
+  FÃ¼r $\mathit{mult}$ und $\mathit{exp}$ beweise und benutze dazu
   folgende Hilfslemmata:
   %
   \begin{displaymath}
@@ -1145,11 +1145,11 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
   \begin{displaymath}
     \label{eq:lem-2}
     \lceil n\rceil^m x \leftrightarrow_{\beta} \lceil n^m\rceil
-    \textrm{ für } m>0
+    \textrm{ fÃ¼r } m>0
   \end{displaymath}
 \end{aufgabe}
 \begin{aufgabe}
-  Der Y-Kombinator ließe sich auch in Scheme
+  Der Y-Kombinator lieÃŸe sich auch in Scheme
   schreiben als:
  %
 \begin{verbatim}
@@ -1159,10 +1159,10 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
      (lambda (x) (f (x x))))))
 \end{verbatim}
   %
-  Zeige durch Ausprobieren, daß \texttt{y} mit dieser Definition in
-  Scheme nicht funktioniert.  Warum ist das so?  Benutze für die
-  Erklärung das Substitutionsmodell!
-  Zeige, daß die folgende Variante von \texttt{y} ein
+  Zeige durch Ausprobieren, daÃŸ \texttt{y} mit dieser Definition in
+  Scheme nicht funktioniert.  Warum ist das so?  Benutze fÃ¼r die
+  ErklÃ¤rung das Substitutionsmodell!
+  Zeige, daÃŸ die folgende Variante von \texttt{y} ein
   Fixpunktkombinator ist, der in Scheme funktioniert:
   %
 \begin{verbatim}
@@ -1176,7 +1176,7 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
 
 \end{aufgabe}
 \begin{aufgabe} (Quelle: Ralf Hinze, Bonn)
-  Zeige, daß $F$ mit der folgenden Definition ebenfalls ein
+  Zeige, daÃŸ $F$ mit der folgenden Definition ebenfalls ein
   Fixpunktkombinator ist:
   \begin{eqnarray*}
     F &\deq{}& G^{[26]}
@@ -1184,7 +1184,7 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
     G &\deq{}& \lambda abcdefghijklmnopqstuvwxyzr.r(dasisteinfixpunktkombinator)
   \end{eqnarray*}
   %
-  Dabei steht $G^{[26]}$ für den Lambda-Term, der durch 26faches
+  Dabei steht $G^{[26]}$ fÃ¼r den Lambda-Term, der durch 26faches
   Hintereinanderschreiben von $G$ entsteht, also $GG\ldots G = (\ldots
   ((G G) G)\ldots G)$.
   

@@ -6,28 +6,28 @@
 \chapter{Programmieren mit Listen}
 \label{cha:rek}
 
-Die bisher betrachteten Daten hatten alle immer eine feste Größe~--
+Die bisher betrachteten Daten hatten alle immer eine feste GrÃ¶ÃŸe~--
 die Anzahl der Komponenten zusammengesetzter ist fest, ebenso wie die
-Anzahl der Fälle bei Fallunterscheidungen oder gemischten Daten.  Das
-reicht nicht für alle Anwendungen: Die Bücher im Regal, die Wagen
+Anzahl der FÃ¤lle bei Fallunterscheidungen oder gemischten Daten.  Das
+reicht nicht fÃ¼r alle Anwendungen: Die BÃ¼cher im Regal, die Wagen
 eines Zuges, die Fotos im Album sind allesamt in ihrer Anzahl
-variabel.  Für die Repräsentation solcher Informationen wird also eine
-neue Art der Datendefinition benötigt, welche die schon bekannten
-zusammengesetzten und gemischten Daten ergänzt: der
-\textit{Selbstbezug}.  Selbstbezüge können benutzt werden, um solche
-Daten variabler Größe abzubilden, insbesondere in sogenannten
+variabel.  FÃ¼r die ReprÃ¤sentation solcher Informationen wird also eine
+neue Art der Datendefinition benÃ¶tigt, welche die schon bekannten
+zusammengesetzten und gemischten Daten ergÃ¤nzt: der
+\textit{Selbstbezug}.  SelbstbezÃ¼ge kÃ¶nnen benutzt werden, um solche
+Daten variabler GrÃ¶ÃŸe abzubilden, insbesondere in sogenannten
 \textit{Listen}.
 
-\section{Listen repräsentieren}
+\section{Listen reprÃ¤sentieren}
 \label{sec:lists}
 
-\index{Liste}Hier sind einige Listen aus dem täglichen Leben:
+\index{Liste}Hier sind einige Listen aus dem tÃ¤glichen Leben:
 %
 \begin{center}
   \begin{tabular}{l@{\qquad}l@{\qquad}l@{\qquad}l@{\qquad}l@{\qquad}l}
   Brot & Herbert & 1 & Phidipides & Dauerwelle & Pumps \\
   Butter & Mike & 2 & Diabetes & Dreadlocks \\
-  Käse & & 3 & Bursitis & Irokese \\
+  KÃ¤se & & 3 & Bursitis & Irokese \\
   & & 4 & Woody & Vokuhila \\
   && 5 & Hepatitis \\
   && 6 & Zeus \\
@@ -36,14 +36,14 @@ Daten variabler Größe abzubilden, insbesondere in sogenannten
 \end{tabular}
 \end{center}
 %
-Keine dieser Listen ist auf ihre jeweilige Länge festgelegt: Zur Liste
-mit "`Brot"' könnten beispielsweise noch "`Gurken"' hinzukommen.  Damit ist es
-nicht möglich, diese Listen jeweils durch die bereits bekannten
-zusammengesetzten Daten und Records zu repräsentieren, da bei ihnen
+Keine dieser Listen ist auf ihre jeweilige LÃ¤nge festgelegt: Zur Liste
+mit "`Brot"' kÃ¶nnten beispielsweise noch "`Gurken"' hinzukommen.  Damit ist es
+nicht mÃ¶glich, diese Listen jeweils durch die bereits bekannten
+zusammengesetzten Daten und Records zu reprÃ¤sentieren, da bei ihnen
 die Liste der Komponenten schon in der Datendefinition festgelegt
 ist.  Hier kommen Listen im Sinne der Programmierung ins Spiel, die es
-erlauben, "`zusammengesetzte Daten variabler Länge"' zu
-repräsentieren.  Die einfachste Sorte Liste ist bereits eingebaut:
+erlauben, "`zusammengesetzte Daten variabler LÃ¤nge"' zu
+reprÃ¤sentieren.  Die einfachste Sorte Liste ist bereits eingebaut:
 %
 \begin{alltt}
 empty
@@ -54,7 +54,7 @@ Dies ist die \textit{leere Liste}\index{leere
   Liste}\index{Liste!leer}.  Um Listen herzustellen, die nicht leer
 sind, dienen \textit{Paare}\index{Paar}, eine besonders allgemein
 verwendbare Sorte zusammengesetzter Daten.  Hier sind Daten- und
-Record-Definition für Paare:\index{pair@\texttt{pair}}\index{make-pair@\texttt{make-pair}}\index{pair?@\texttt{pair?}}\index{first@\texttt{first}}\index{rest@\texttt{rest}}\label{def:pair}
+Record-Definition fÃ¼r Paare:\index{pair@\texttt{pair}}\index{make-pair@\texttt{make-pair}}\index{pair?@\texttt{pair?}}\index{first@\texttt{first}}\index{rest@\texttt{rest}}\label{def:pair}
 %
 \begin{alltt}
 ; Ein Paar besteht aus:
@@ -65,13 +65,13 @@ Record-Definition für Paare:\index{pair@\texttt{pair}}\index{make-pair@\texttt{m
   (first rest))
 \end{alltt}
 %
-Für eine Signatur für den Konstruktor ist es noch zu früh, da es noch
-keine Signatur für den Begriff "`Liste"' aus der Datendefinition
+FÃ¼r eine Signatur fÃ¼r den Konstruktor ist es noch zu frÃ¼h, da es noch
+keine Signatur fÃ¼r den Begriff "`Liste"' aus der Datendefinition
 gibt.  Diese folgt in wenigen Augenblicken.
 
 Ein Paar kann nun benutzt werden, um die letzte Liste aus der obigen
-Tabelle zu repräsentieren.  "`Pumps"' wird als Zeichenkette zum ersten
-Element des Paars.  Die \texttt{rest}-Komponente des Paars muß eine
+Tabelle zu reprÃ¤sentieren.  "`Pumps"' wird als Zeichenkette zum ersten
+Element des Paars.  Die \texttt{rest}-Komponente des Paars muÃŸ eine
 Liste sein~-- dabei ist zu beachten, dass insbesondere die leere Liste
 eine Liste ist, dort also verwendet werden kann:
 %
@@ -93,11 +93,11 @@ Listen sind also gemischte Daten:\index{a-list@\texttt{a-list}}\label{def:a-list
           pair)))
 \end{alltt}
 %
-Die Signatur \texttt{empty-list} ist bereits eingebaut und paßt auf
+Die Signatur \texttt{empty-list} ist bereits eingebaut und paÃŸt auf
 die leere Liste \texttt{empty} (und nichts sonst).  (Der Name
 \texttt{list} ist in den DMdA-Lehrsprachen bereits vergeben, darum
-heißt die Signatur \texttt{a-list}.)  Jetzt ist es möglich, eine
-Signatur für \texttt{make-pair} sowie die anderen Prozeduren der
+heiÃŸt die Signatur \texttt{a-list}.)  Jetzt ist es mÃ¶glich, eine
+Signatur fÃ¼r \texttt{make-pair} sowie die anderen Prozeduren der
 Record-Definition von \texttt{pair} zu vergeben:
 %
 \begin{alltt}
@@ -109,10 +109,10 @@ Record-Definition von \texttt{pair} zu vergeben:
 %
 Hinter der Bezeichnung \verb$%a$ verbirgt sich eine 
 \emph{Signaturvariable}\index{Signaturvariable}: Sie
-steht für eine beliebige Sorte, die aber in den zwei Zeilen, wo sie vorkommt,
+steht fÃ¼r eine beliebige Sorte, die aber in den zwei Zeilen, wo sie vorkommt,
 die gleiche Sorte darstellen soll.  Damit ist \verb$%a$ etwas anderes als
-\texttt{any}, welches erlauben würde, dass die Rückgabesorte von \texttt{first}
-verschieden wäre von der Sorte, welche der Konstruktor \texttt{make-pair} zuvor
+\texttt{any}, welches erlauben wÃ¼rde, dass die RÃ¼ckgabesorte von \texttt{first}
+verschieden wÃ¤re von der Sorte, welche der Konstruktor \texttt{make-pair} zuvor
 verwendet hat.
 
 So weit, so gut: Bisher gab es die leere Liste und eine Liste mit einem
@@ -124,49 +124,49 @@ Element.  Wie kommen mehr Elemente in eine Liste?  Indem
 \evalsto{}#<record:pair "Mike" #<record:pair "Herbert" #<empty-list>>>
 \end{alltt}
 %
-Zu einer Liste mit zwei Elementen gehören also zwei Paare.
-Entsprechend für drei Elemente:
+Zu einer Liste mit zwei Elementen gehÃ¶ren also zwei Paare.
+Entsprechend fÃ¼r drei Elemente:
 %
 \begin{alltt}
-(make-pair "Brot" (make-pair "Butter" (make-pair "Käse" empty)))
-\evalsto{}#<record:pair "Brot" #<record:pair "Butter" #<record:pair "Käse" #<empty-list>>>>
+(make-pair "Brot" (make-pair "Butter" (make-pair "KÃ¤se" empty)))
+\evalsto{}#<record:pair "Brot" #<record:pair "Butter" #<record:pair "KÃ¤se" #<empty-list>>>>
 \end{alltt}
 %
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.8\textwidth]{pair-lists1}
-  \caption{Liste mit Paaren repräsentiert}
+  \caption{Liste mit Paaren reprÃ¤sentiert}
   \label{fig:pair-lists-1}
 \end{figure}
 Diesmal sind drei Paare im Spiel.  Die Liste wird jeweils
 "`terminiert"' durch die leere Liste.  Abbildung~\ref{fig:pair-lists-1}
 zeigt, wie die Listen aussehen, wenn sie wie andere zusammengesetzte
-Daten als Tabellen dargestellt sind~-- das $\bot$ steht für die leere
+Daten als Tabellen dargestellt sind~-- das $\bot$ steht fÃ¼r die leere
 Liste. Das sieht aus wie ineinandergeschachtelte russische Puppen und
-entspricht damit nicht der gängigen Intuition, wie Listen aufgebaut
-sind, aber es funktioniert.  Für viel mehr als drei Elemente
+entspricht damit nicht der gÃ¤ngigen Intuition, wie Listen aufgebaut
+sind, aber es funktioniert.  FÃ¼r viel mehr als drei Elemente
 funktioniert die Darstellungsweise allerdings nicht: Darum bevorzugen
-wir ab hier sogenannte "`Zeigerdiagramme"', bei denen alle Paare gleich groß
+wir ab hier sogenannte "`Zeigerdiagramme"', bei denen alle Paare gleich groÃŸ
 dargestellt sind und ein Pfeil zeigt, dass ein Paar die
 \texttt{rest}-Komponente eines anderen Paares bildet.
 Abbildung~\ref{fig:pair-lists-2} zeigt das Pfeildiagramm, das
-Abbildung~\ref{fig:pair-lists-1} entspricht; es paßt besser zur
-gängigen Intuition von Listen.
+Abbildung~\ref{fig:pair-lists-1} entspricht; es paÃŸt besser zur
+gÃ¤ngigen Intuition von Listen.
 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.8\textwidth]{pair-lists2}
-  \caption{Liste mit Paaren repräsentiert, als Pfeildiagramm}
+  \caption{Liste mit Paaren reprÃ¤sentiert, als Pfeildiagramm}
   \label{fig:pair-lists-2}
 \end{figure}
 
 
 \section{Mit Listen programmieren}
 
-Als erstes Beispiel für das Programmieren mit Listen schreiben wir
+Als erstes Beispiel fÃ¼r das Programmieren mit Listen schreiben wir
 eine Funktion, die eine Liste von Zahlen akzeptiert und deren Summe
 liefert.  Dazu werden erst einmal einige Beispiele solcher Listen
-benötigt:
+benÃ¶tigt:
 %
 \begin{verbatim}
 ; Liste mit den Zahlen 1 2 3
@@ -184,7 +184,7 @@ Hier Kurzbeschreibung und Vertrag:\label{sec:list-sum}\index{list-sum@\texttt{li
 (: list-sum (a-list -> number))
 \end{verbatim}
 %
-Für die Testfälle halten die Beispiellisten her:
+FÃ¼r die TestfÃ¤lle halten die Beispiellisten her:
 %
 \begin{verbatim}
 (check-expect (list-sum n1) 6)
@@ -193,11 +193,11 @@ Für die Testfälle halten die Beispiellisten her:
 \end{verbatim}
 %
 Nicht vergessen: In \texttt{n2} sind Zahlen mit Dezimalpunkt.
-Deshalb müssen wir \texttt{check-within} verwenden.  Diese Prozedur
+Deshalb mÃ¼ssen wir \texttt{check-within} verwenden.  Diese Prozedur
 hat drei Parameter: Die ersten beiden geben ein reales und ein
 erwartetes Ergebnis an
 und der dritte sagt, um wieviel das reale Ergebnis in der positiven
-oder negativen Richtung vom erwarteten Ergebnis abweichen darf. Das Gerüst der
+oder negativen Richtung vom erwarteten Ergebnis abweichen darf. Das GerÃ¼st der
 Funktion sieht so aus:
 %
 \begin{verbatim}
@@ -206,13 +206,13 @@ Funktion sieht so aus:
     ...))
 \end{verbatim}
 %
-(Es empfiehlt sich, als Bezeichner für Listen nicht einfach nur ein
+(Es empfiehlt sich, als Bezeichner fÃ¼r Listen nicht einfach nur ein
 \texttt{l} zu verwenden, da es in vielen Schriftarten der Ziffer
-\texttt{1} ähnlich sieht.)
+\texttt{1} Ã¤hnlich sieht.)
 
-Zur Erinnerung: Listen sind zunächst gemischte Daten~-- die Definition
-von \texttt{a-list} benutzt \texttt{mixed} mit zwei Fällen.  Entsprechend kommt die
-Konstruktionsanleitung für gemischte Daten zur Anwendung:
+Zur Erinnerung: Listen sind zunÃ¤chst gemischte Daten~-- die Definition
+von \texttt{a-list} benutzt \texttt{mixed} mit zwei FÃ¤llen.  Entsprechend kommt die
+Konstruktionsanleitung fÃ¼r gemischte Daten zur Anwendung:
 %
 \begin{verbatim}
 (define list-sum
@@ -222,12 +222,12 @@ Konstruktionsanleitung für gemischte Daten zur Anwendung:
       (... ...))))
 \end{verbatim}
 %
-Als nächstes sollten wir die Tests ergänzen, die auf die leere
-Liste bzw.\ Paare testen.  Für \texttt{empty} hat dieses Buch Ihnen
-den Test bisher vorenthalten: Das eingebaute Prädikat
-\texttt{empty?}\index{empty?@\texttt{empty?}} liefert \verb|#t| für
-die leere Liste und \verb|#f| für jeden anderen Wert.  Für Paare ist
-das Prädikat \texttt{pair?} bereits von der Record-Definition
+Als nÃ¤chstes sollten wir die Tests ergÃ¤nzen, die auf die leere
+Liste bzw.\ Paare testen.  FÃ¼r \texttt{empty} hat dieses Buch Ihnen
+den Test bisher vorenthalten: Das eingebaute PrÃ¤dikat
+\texttt{empty?}\index{empty?@\texttt{empty?}} liefert \verb|#t| fÃ¼r
+die leere Liste und \verb|#f| fÃ¼r jeden anderen Wert.  FÃ¼r Paare ist
+das PrÃ¤dikat \texttt{pair?} bereits von der Record-Definition
 definiert:
 %
 \begin{verbatim}
@@ -239,8 +239,8 @@ definiert:
 \end{verbatim}
 %
 Beim zweiten Zweig des \texttt{cond} handelt es sich um
-zusammengesetzte Daten. Ergo ergänzen wir entsprechend der
-Konstruktionsanleitung für zusammengesetzte Daten Selektor-Aufrufe in
+zusammengesetzte Daten. Ergo ergÃ¤nzen wir entsprechend der
+Konstruktionsanleitung fÃ¼r zusammengesetzte Daten Selektor-Aufrufe in
 die Schablone:
 %
 \begin{verbatim}
@@ -252,20 +252,20 @@ die Schablone:
        ... (first lis) ... (rest lis) ...))))
 \end{verbatim}
 %
-Jetzt können wir ans Ausfüllen der beiden Zweige gehen: Die erste
-Ellipse muß die Frage beantworten, was die Summe der leeren Liste sein
+Jetzt kÃ¶nnen wir ans AusfÃ¼llen der beiden Zweige gehen: Die erste
+Ellipse muÃŸ die Frage beantworten, was die Summe der leeren Liste sein
 soll.  Diese Frage ist bei nahezu \emph{allen} Funktionen relevant,
-die Listen akzeptieren, es empfiehlt sich darum grundsätzlich, einen
-Testfall für die leere Liste zu formulieren:
+die Listen akzeptieren, es empfiehlt sich darum grundsÃ¤tzlich, einen
+Testfall fÃ¼r die leere Liste zu formulieren:
 %
 \begin{alltt}
 (check-expect (list-sum empty) \textrm{?})
 \end{alltt}
 %
-Die Antwort ist nicht ganz offensichtlich, wir können 
-sie aber durch folgende Überlegung gewinnen: Betrachten wir Listen aus
-Einsen, dann entspricht deren Summe immer der Länge der Liste.  Wenn
-die Liste leer ist hat sie die Länge $0$, entsprechend ist also auch
+Die Antwort ist nicht ganz offensichtlich, wir kÃ¶nnen 
+sie aber durch folgende Ãœberlegung gewinnen: Betrachten wir Listen aus
+Einsen, dann entspricht deren Summe immer der LÃ¤nge der Liste.  Wenn
+die Liste leer ist hat sie die LÃ¤nge $0$, entsprechend ist also auch
 ihre Summe $0$:
 %
 \begin{alltt}
@@ -281,7 +281,7 @@ ihre Summe $0$:
 %
 Bleibt der zweite Zweig mit den Paaren.  Hier hilft es, die beiden
 Selektor-Aufrufe \texttt{(first lis)} und \texttt{(rest lis)} auf die
-Daten zurückzubeziehen.  \texttt{(first lis)} liefert für die drei
+Daten zurÃ¼ckzubeziehen.  \texttt{(first lis)} liefert fÃ¼r die drei
 Beispiellisten folgende Werte:
 %
 \begin{alltt}
@@ -294,7 +294,7 @@ Beispiellisten folgende Werte:
 \end{alltt}
 %
 Das ist jeweils das \emph{erste Element}~-- kein Wunder, dass der
-Selektor \texttt{first}\index{first@\texttt{first}} heißt.  Nun für \texttt{rest}\index{rest@\texttt{rest}}:
+Selektor \texttt{first}\index{first@\texttt{first}} heiÃŸt.  Nun fÃ¼r \texttt{rest}\index{rest@\texttt{rest}}:
 %
 \begin{alltt}
 (rest n1)
@@ -305,18 +305,18 @@ Selektor \texttt{first}\index{first@\texttt{first}} heißt.  Nun für \texttt{rest
 \evalsto{} #<record:pair 3 #<record:pair 5 #<record:pair 7 #<empty-list>>>>
 \end{alltt}
 %
-Dies sind jeweils Listen mit allen Elementen \emph{außer dem
+Dies sind jeweils Listen mit allen Elementen \emph{auÃŸer dem
   ersten}, also quasi den \emph{Rest}~-- daher der Name \texttt{rest}
-für den Selektor.
+fÃ¼r den Selektor.
 
-Zurück zur Schablone: Was können wir mit dem ersten Element der Liste
+ZurÃ¼ck zur Schablone: Was kÃ¶nnen wir mit dem ersten Element der Liste
 und dem Rest der Liste anfangen?  Hier kommt ein besonderer Trick zum
-Zug~-- da der Rest der Liste wieder eine Liste ist, können
+Zug~-- da der Rest der Liste wieder eine Liste ist, kÃ¶nnen
 wir von der Summe des Rests sprechen.  Wenn diese Summe bekannt
-ist~-- also \emph{die Summe aller Elemente außer des ersten}, dann
-könnten wir (und das Programm auch) die Gesamtsumme ermitteln, indem wir
+ist~-- also \emph{die Summe aller Elemente auÃŸer des ersten}, dann
+kÃ¶nnten wir (und das Programm auch) die Gesamtsumme ermitteln, indem wir
 auf diese Summe das noch fehlende erste Element addieren.  "`Die Summe
-aller Elemente außer des ersten"' können wir so aufschreiben:
+aller Elemente auÃŸer des ersten"' kÃ¶nnen wir so aufschreiben:
 %
 \begin{alltt}
 (list-sum (rest lis))
@@ -328,7 +328,7 @@ Entsprechend die Summe des ersten Elements und der Summe des Rests:
 (+ (first lis) (list-sum (rest lis)))
 \end{alltt}
 %
-Das können wir in die Schablone von oben einsetzen:
+Das kÃ¶nnen wir in die Schablone von oben einsetzen:
 %
 \begin{verbatim}
 (define list-sum
@@ -339,15 +339,15 @@ Das können wir in die Schablone von oben einsetzen:
        (+ (first lis) (list-sum (rest lis)))))))
 \end{verbatim}
 %
-Dieses Programm ist nicht nur vollständig, es funktioniert auch
-tatsächlich: Alles was wir gemacht haben war, die Kurzbeschreibung
+Dieses Programm ist nicht nur vollstÃ¤ndig, es funktioniert auch
+tatsÃ¤chlich: Alles was wir gemacht haben war, die Kurzbeschreibung
 von \texttt{list-sum} ernst zu nehmen, die behauptet, dass die Funktion
 die Summe einer beliebigen Liste berechnet: \texttt{(rest lis)} ist
 eine Liste, also kann \texttt{list-sum} auch deren Summe berechnen.
 
 Um den "`Selbstaufruf"' von \texttt{list-sum} noch besser zu
-verstehen, betrachten wir noch einmal die Datendefinition für
-Listen zusammen mit der Datendefinition für Paare:
+verstehen, betrachten wir noch einmal die Datendefinition fÃ¼r
+Listen zusammen mit der Datendefinition fÃ¼r Paare:
 
 \begin{pspdf}
 \begin{ttfamily}\obeylines
@@ -360,12 +360,12 @@ Listen zusammen mit der Datendefinition für Paare:
 \end{ttfamily}
 \end{pspdf}
 
-Die Datendefinition enthält einen Verweis auf \emph{sich selbst},
+Die Datendefinition enthÃ¤lt einen Verweis auf \emph{sich selbst},
 genannt \emph{Selbstbezug}\index{Selbstbezug}.  Dieser Selbstbezug ist
 beim Rest~-- der Selbstaufruf, der in \texttt{list-sum} auf den Rest
 erfolgt, folgt also der Datendefinition.  Ein Selbstaufruf
-heißt auch \textit{rekursiver Aufruf}\index{rekursiver Aufruf} und ist
-damit fester Bestandteil der Schablone für Prozeduren, die Listen
+heiÃŸt auch \textit{rekursiver Aufruf}\index{rekursiver Aufruf} und ist
+damit fester Bestandteil der Schablone fÃ¼r Prozeduren, die Listen
 akzeptieren:
 %
 \begin{alltt}
@@ -396,9 +396,9 @@ Hier ist der dazu passende Vertrag:\index{all-positive?@\texttt{all-positive?}}
 (: all-positive? (a-list -> boolean))
 \end{verbatim}
 %
-Für Testfälle stehen die leere Liste sowie die drei Beispiellisten
+FÃ¼r TestfÃ¤lle stehen die leere Liste sowie die drei Beispiellisten
 \texttt{n1}, \texttt{n2} und \texttt{n3} aus dem vorherigen Beispiel
-zur Verfügung:
+zur VerfÃ¼gung:
 %
 \begin{verbatim}
 (check-expect (all-positive? empty) #t)
@@ -409,10 +409,10 @@ zur Verfügung:
 %
 Der \texttt{empty}-Testfall ist vielleicht etwas verwirrend: In der
 Tat sind alle Elemente der leeren Liste positiv.  Eine andere Art dies
-zu sagen wäre, dass kein Element der leeren Liste nicht positiv ist.
+zu sagen wÃ¤re, dass kein Element der leeren Liste nicht positiv ist.
 
-Diese Testfälle reichen sichtlich nicht aus, da alle \verb|#t| ergeben
-sollen: Diese würden auch von folgender Prozedur erfüllt:
+Diese TestfÃ¤lle reichen sichtlich nicht aus, da alle \verb|#t| ergeben
+sollen: Diese wÃ¼rden auch von folgender Prozedur erfÃ¼llt:
 %
 \begin{verbatim}
 (define all-positive?
@@ -420,7 +420,7 @@ sollen: Diese würden auch von folgender Prozedur erfüllt:
     #t))
 \end{verbatim}
 %
-Also werden noch Beispiele mit nicht-positiven Elementen benötigt~--
+Also werden noch Beispiele mit nicht-positiven Elementen benÃ¶tigt~--
 insbesondere eins mit dem Grenzfall $0$:
 \begin{verbatim}
 (check-expect (all-positive? (make-pair -5 empty)) #f)
@@ -428,7 +428,7 @@ insbesondere eins mit dem Grenzfall $0$:
 (check-expect (all-positive? (make-pair 1 (make-pair -2 empty))) #f)
 \end{verbatim}
 %
-Das Gerüst ist wie folgt:
+Das GerÃ¼st ist wie folgt:
 %
 \begin{verbatim}
 (define all-positive?
@@ -436,7 +436,7 @@ Das Gerüst ist wie folgt:
     ...))
 \end{verbatim}
 %
-Wir können nun die Schablone für Listen direkt benutzen:
+Wir kÃ¶nnen nun die Schablone fÃ¼r Listen direkt benutzen:
 %
 \begin{verbatim}
 (define all-positive?
@@ -450,14 +450,14 @@ Wir können nun die Schablone für Listen direkt benutzen:
 %
 Das Ergebnis im ersten Zweig wird durch den ersten Testfall diktiert:
 \verb|#t|.  Wie schon zuvor machen wir uns die Bedeutung der
-Ausdrücke im \texttt{pair}-Zweig klar:
+AusdrÃ¼cke im \texttt{pair}-Zweig klar:
 \texttt{(first lis)} ist das erste Element der Liste.
 \texttt{(all-positive? (rest lis))} besagt, ob alle Elemente
 des Rests von \texttt{lis} positiv sind.  Es sind nur dann alle
 Elemente von \texttt{lis} positiv, wenn \texttt{(first lis)}
 positiv ist \emph{und} \texttt{(all-positive? (rest lis))} als Ergebnis
-\verb|#t| liefert.  Damit ist klar, wie die beiden Ausdrücke
-kombiniert werden müssen:
+\verb|#t| liefert.  Damit ist klar, wie die beiden AusdrÃ¼cke
+kombiniert werden mÃ¼ssen:
 %
 \begin{verbatim}
 (define all-positive?
@@ -470,7 +470,7 @@ kombiniert werden müssen:
 \end{verbatim}
 %
 Konstruktionsanleitung~\ref{ka:listen} auf Seite~\pageref{ka:listen}
-faßt die Schablone für Prozeduren, die Listen akzeptieren, noch einmal
+faÃŸt die Schablone fÃ¼r Prozeduren, die Listen akzeptieren, noch einmal
 zusammen.
 
 \section{Signaturkonstruktoren}
@@ -479,21 +479,21 @@ Die Beispiellisten vom Anfang dieses Kapitels sind allesamt
 \textit{homogen}\index{homogen}: Alle Elemente der Liste sind jeweils
 von derselben Sorte.  Es gibt eine Liste von Essenszutaten, eine von
 Eigennamen, eine von Zahlen, eine von dramatischen Figuren, eine von
-Frisuren und eine von Schuhen.  Die Datendefinition für
+Frisuren und eine von Schuhen.  Die Datendefinition fÃ¼r
 \texttt{a-list} von Seite~\ref{def:a-list} ist da allerdings nicht
-festgelegt: es heißt ausdrücklich, dass jedes Paar ein
-\emph{beliebiges} Element enthält.  So ist beispielsweise auch
-folgende Liste zulässig:
+festgelegt: es heiÃŸt ausdrÃ¼cklich, dass jedes Paar ein
+\emph{beliebiges} Element enthÃ¤lt.  So ist beispielsweise auch
+folgende Liste zulÃ¤ssig:
 %
 \begin{verbatim}
 (: ml1 a-list)
 (define ml1 (make-pair 5 (make-pair "Herbert" empty)))
 \end{verbatim}
 %
-In den meisten Fällen gehören jedoch alle Elemente einer Liste zu
-derselben Sorte beziehungsweise haben dieselbe Signatur: Schön wäre
-es, wenn die Signatur für die Liste dokumentieren könnte, welche
-Signatur die Elemente haben.  Wir könnten bei
+In den meisten FÃ¤llen gehÃ¶ren jedoch alle Elemente einer Liste zu
+derselben Sorte beziehungsweise haben dieselbe Signatur: SchÃ¶n wÃ¤re
+es, wenn die Signatur fÃ¼r die Liste dokumentieren kÃ¶nnte, welche
+Signatur die Elemente haben.  Wir kÃ¶nnten bei
 der Definition von \texttt{pair} die Signatur der Elemente angeben,
 also \texttt{pair} zum Beispiel auf Elemente der Signatur
 \texttt{number} fest abonnieren: 
@@ -508,7 +508,7 @@ also \texttt{pair} zum Beispiel auf Elemente der Signatur
 (: rest (pair -> list-of-\textbf{numbers}))
 \end{alltt}
 %
-Entsprechend würden wir die daraus resultierende Signatur für Listen
+Entsprechend wÃ¼rden wir die daraus resultierende Signatur fÃ¼r Listen
 nicht mehr \texttt{a-list} sondern \texttt{list-of-numbers} nennen:\index{list-of-numbers@\texttt{list-of-numbers}}
 %
 \begin{verbatim}
@@ -518,12 +518,12 @@ nicht mehr \texttt{a-list} sondern \texttt{list-of-numbers} nennen:\index{list-o
           pair)))
 \end{verbatim}
 %
-Das funktioniert zwar, hat aber den Nachteil, dass wir dann für jede
-neue Elementsorte eine neue Definition von Listen schreiben müssen:
-\texttt{list-of-strings}, \texttt{list-of-shoes} etc.  Das wäre nicht
-nur mühsam, sondern würde auch viel Code ohne Sinn und Verstand
-mehrmals kopieren.  Besser wäre es natürlich, die Macht der
-Abstraktion zum Tragen zu bringen und über die Elementsignatur zu
+Das funktioniert zwar, hat aber den Nachteil, dass wir dann fÃ¼r jede
+neue Elementsorte eine neue Definition von Listen schreiben mÃ¼ssen:
+\texttt{list-of-strings}, \texttt{list-of-shoes} etc.  Das wÃ¤re nicht
+nur mÃ¼hsam, sondern wÃ¼rde auch viel Code ohne Sinn und Verstand
+mehrmals kopieren.  Besser wÃ¤re es natÃ¼rlich, die Macht der
+Abstraktion zum Tragen zu bringen und Ã¼ber die Elementsignatur zu
 abstrahieren.  Dazu brauchen wir allerdings eine etwas aufgebohrte
 Form von \texttt{define-record-procedures}, genannt
 \texttt{define"=record"=procedures"=parametric}.\index{define-record-procedures-parametric@\texttt{define-record-procedures-parametric}}
@@ -542,7 +542,7 @@ allgemeine Gestalt:
 %
 Dabei sind $t$, $c$, $p$, $s_1,\ldots, s_n$ genau wie bei
 \texttt{define-record-procedures} (siehe
-Seite~\pageref{def:define-record-procedures}).  Zusätzlich wird unter
+Seite~\pageref{def:define-record-procedures}).  ZusÃ¤tzlich wird unter
 dem Namen $\mathit{sc}$ ein
 \textit{Signaturkonstruktor}\index{Signaturkonstruktor} definiert.
 Dieser ist eine Funktion mit genau so vielen Argumenten wie es Felder in dem Record
@@ -550,11 +550,11 @@ gibt. Er konstruiert aus den Signaturen der Felder die Signatur von Records des 
 $t$.
 
 Anmerkung: Die Signaturen der Felder werden jeweils erst bei Aufrufen
-der Selektoren überprüft.
+der Selektoren Ã¼berprÃ¼ft.
 \end{feature}
 
 Mit
-\texttt{define-record-procedures-parametric} können wir die
+\texttt{define-record-procedures-parametric} kÃ¶nnen wir die
 Record-Definition von \texttt{pair} erweitern:
 %
 \begin{verbatim}
@@ -563,13 +563,13 @@ Record-Definition von \texttt{pair} erweitern:
   (first rest))
 \end{verbatim}
 %
-\texttt{Pair-of} ist der Signaturkonstruktor.  (Das angehängte
-\texttt{-of} ist, ähnlich wie das \texttt{make-} bei den
-Konstruktoren, das \texttt{?} beim Prädikat und den Feld-Namen bei den
+\texttt{Pair-of} ist der Signaturkonstruktor.  (Das angehÃ¤ngte
+\texttt{-of} ist, Ã¤hnlich wie das \texttt{make-} bei den
+Konstruktoren, das \texttt{?} beim PrÃ¤dikat und den Feld-Namen bei den
 Selektoren reine Konvention.)
 
-Konstruktor, Prädikat
-und Selektoren für das neue \texttt{pair} haben die folgenden
+Konstruktor, PrÃ¤dikat
+und Selektoren fÃ¼r das neue \texttt{pair} haben die folgenden
 Signaturen:
 %
 \begin{verbatim}
@@ -580,12 +580,12 @@ Signaturen:
 \end{verbatim}
 %
 Hier sind  \verb|%a| und \verb|%b| wiederum
-\textit{Signaturvariablen}, die für beliebige
+\textit{Signaturvariablen}, die fÃ¼r beliebige
 Signaturen stehen.  Die Tatsache, dass hier zwei verschiedene Signaturvariablen
-verwendet wurden bringt die zusätzliche Information für den
+verwendet wurden bringt die zusÃ¤tzliche Information fÃ¼r den
 menschlichen Leser zum Ausdruck, dass die
 Argumente von \texttt{pair-of} zu potentiell
-unterschiedlichen Signaturen gehören.
+unterschiedlichen Signaturen gehÃ¶ren.
 
 Zu lesen sind die obigen Signaturdeklarationen so:
 %
@@ -603,14 +603,14 @@ Zu lesen sind die obigen Signaturdeklarationen so:
 
 Diese Signaturen sind allerdings noch unbefriedigend, da sie nicht zum
 Ausdruck bringen, dass das zweite Argument von \texttt{make-pair} immer
-eine \emph{Liste} sein muß beziehungsweise daß \texttt{rest} immer
+eine \emph{Liste} sein muÃŸ beziehungsweise daÃŸ \texttt{rest} immer
 eine Liste liefert.  Diese Problematik stellen wir noch einen Moment
-hintenan, werden aber später zu ihr zurückkehren~-- zunächst einmal zu
-den Signaturen für Listen.
+hintenan, werden aber spÃ¤ter zu ihr zurÃ¼ckkehren~-- zunÃ¤chst einmal zu
+den Signaturen fÃ¼r Listen.
 
-Mit Hilfe von \texttt{pair-of} können wir versuchen, einen Ersatz für
+Mit Hilfe von \texttt{pair-of} kÃ¶nnen wir versuchen, einen Ersatz fÃ¼r
 \texttt{a-list} zu definieren, der spezifiziert, auf welche Signatur
-die Elemente der Liste passen.  Das könnte so aussehen:
+die Elemente der Liste passen.  Das kÃ¶nnte so aussehen:
 %
 \begin{alltt}
 (define list-of-numbers
@@ -619,7 +619,7 @@ die Elemente der Liste passen.  Das könnte so aussehen:
            (pair-of \textbf{number} list-of-numbers))))
 \end{alltt}
 %
-Entsprechend für Zeichenketten:
+Entsprechend fÃ¼r Zeichenketten:
 %
 \begin{alltt}
 (define list-of-strings
@@ -628,11 +628,11 @@ Entsprechend für Zeichenketten:
            (pair-of \textbf{string} list-of-strings))))
 \end{alltt}
 %
-Wie schon oben angemerkt, wäre es unbefriedigend, für jede Elementsignatur eine
-eigene Listensignatur definieren zu müssen, immer auf die gleiche
-Weise.  Aber glücklicherweise unterscheiden sich
+Wie schon oben angemerkt, wÃ¤re es unbefriedigend, fÃ¼r jede Elementsignatur eine
+eigene Listensignatur definieren zu mÃ¼ssen, immer auf die gleiche
+Weise.  Aber glÃ¼cklicherweise unterscheiden sich
 \texttt{list-of-numbers} und \texttt{list-of-strings} nur an einer
-einzigen Stelle, und über die können wir abstrahieren:
+einzigen Stelle, und Ã¼ber die kÃ¶nnen wir abstrahieren:
 %
 \begin{verbatim}
 (define list-of
@@ -642,11 +642,11 @@ einzigen Stelle, und über die können wir abstrahieren:
              (pair-of x (list-of x))))))
 \end{verbatim}
 %
-Fertig!  Nun können wir Signaturen für Listen von Zahlen als
+Fertig!  Nun kÃ¶nnen wir Signaturen fÃ¼r Listen von Zahlen als
 \texttt{(list-of number)}, Listen von Zeichenketten als
 \texttt{(list-of string)} und Listen von beliebigen Werten als
-\texttt{(list-of any)} schreiben.  Außerdem können wir diese
-Definition jetzt verwenden, um bessere Signaturen für
+\texttt{(list-of any)} schreiben.  AuÃŸerdem kÃ¶nnen wir diese
+Definition jetzt verwenden, um bessere Signaturen fÃ¼r
 \texttt{make-pair}, \texttt{first} und \texttt{rest} anzugeben:
 %
 \begin{verbatim}
@@ -658,22 +658,22 @@ Definition jetzt verwenden, um bessere Signaturen für
 
 \section{Eingebaute Listen}
 
-Da Listen in diesem Buch noch oft vorkommen und es umständlich
-ist, jedesmal die Definitionen für \texttt{pair} und \texttt{list-of} an den Anfang
+Da Listen in diesem Buch noch oft vorkommen und es umstÃ¤ndlich
+ist, jedesmal die Definitionen fÃ¼r \texttt{pair} und \texttt{list-of} an den Anfang
 von Programmen zu setzen, ist es an dieser Stelle Zeit, eine neue
-Sprachebene in \drscheme{} auszuwählen, nämlich \texttt{Schreibe Dein Programm!}
-(ohne \texttt{Anfänger}).\index{Sprachebene}  Diese enthält \texttt{make-pair},
+Sprachebene in \drscheme{} auszuwÃ¤hlen, nÃ¤mlich \texttt{Schreibe Dein Programm!}
+(ohne \texttt{AnfÃ¤nger}).\index{Sprachebene}  Diese enthÃ¤lt \texttt{make-pair},
 \texttt{pair?}, \texttt{first} und \texttt{rest} als eingebaute
-Prozeduren sowie den Signaturkonstruktor \texttt{list-of}\footnote{In Standard-Scheme heißt der Konstruktor für
+Prozeduren sowie den Signaturkonstruktor \texttt{list-of}\footnote{In Standard-Scheme heiÃŸt der Konstruktor fÃ¼r
   die eingebauten Paare \texttt{cons\index{cons@\texttt{cons}}}, die
   Selektoren \texttt{car\index{car@\texttt{car}}} und \texttt{cdr\index{cdr@\texttt{cdr}}}
   (gesprochen "`kar"' und "`kudder"'; dies waren die Namen von Anweisungen auf einer
-  Maschine, auf der ein Vorläufer von Scheme lief) und das Prädikat
-  für die leere Liste \texttt{null?\index{null?@\texttt{null?}}}.} und eine
+  Maschine, auf der ein VorlÃ¤ufer von Scheme lief) und das PrÃ¤dikat
+  fÃ¼r die leere Liste \texttt{null?\index{null?@\texttt{null?}}}.} und eine
 eingebaute Funktion \texttt{list} zur Erzeugung beliebiger Listen.
 
-Außerdem werden nichtleere Listen ab dieser Sprachebene in der REPL
-anders ausgedruckt, nämlich, der besseren Übersicht halber, als
+AuÃŸerdem werden nichtleere Listen ab dieser Sprachebene in der REPL
+anders ausgedruckt, nÃ¤mlich, der besseren Ãœbersicht halber, als
 \verb|#<list ...>|,
 wobei die Listenelemente zwischen den spitzen Klammern aufgereiht sind.
 Beispiele:
@@ -691,7 +691,7 @@ Beispiele:
   Die eingebaute Funktion \texttt{list}\index{list@\texttt{list}} erlaubt es, Listen aus ihren Elementen
   ohne Verwendung von \texttt{make-pair} zu erzeugen.  Sie
   akzeptiert eine beliebige Anzahl von Argumenten, macht daraus eine
-  Liste und gibt diese zurück:
+  Liste und gibt diese zurÃ¼ck:
 %
 \begin{alltt}
 (list 1 2 3)
@@ -706,31 +706,31 @@ Beispiele:
 \label{sec:parametric-polymorphism}
 \label{sec:more-lists}
 
-In diesem Abschnitt programmieren wir eine Prozedur, welche die Länge
+In diesem Abschnitt programmieren wir eine Prozedur, welche die LÃ¤nge
 einer Liste ermittelt.\index{list-length@\texttt{list-length}} Das ist
-eine einfache Fingerübung mit einer interessanten Eigenschaft.  Hier
+eine einfache FingerÃ¼bung mit einer interessanten Eigenschaft.  Hier
 sind Kurzbeschreibung und Signatur:
 %
 \begin{alltt}
-; Länge einer Liste berechnen
+; LÃ¤nge einer Liste berechnen
 (: list-length ((list-of %a) -> natural))
 \end{alltt}
 %
 Dieser Funktion ist egal, welche Signatur
-die Elemente der Liste erfüllen, weil das Konzept der Länge einer
-Liste unabhängig davon ist, was die Elemente sind.
+die Elemente der Liste erfÃ¼llen, weil das Konzept der LÃ¤nge einer
+Liste unabhÃ¤ngig davon ist, was die Elemente sind.
 Dementsprechend steht dort nur die Signaturvariable \verb|%a|.
 Solche Funktionen, die Argumente akzeptieren, deren Signaturen
-Signaturvariablen enthalten, heißen \textit{polymorph} oder auch
+Signaturvariablen enthalten, heiÃŸen \textit{polymorph} oder auch
 \textit{parametrisch polymorph} (weil die Signaturvariable eine Art
-Parameter abgibt), und das dazugehörige Konzept heißt
+Parameter abgibt), und das dazugehÃ¶rige Konzept heiÃŸt
 \textit{parametrische
   Polymorphie}\index{Polymorphie}\index{parametrische Polymorphie}:
-ein großes Wort, das hier für eine kleine Sache steht.  Interessantere
-Beispiele für parametrische Polymorphie wird es in
+ein groÃŸes Wort, das hier fÃ¼r eine kleine Sache steht.  Interessantere
+Beispiele fÃ¼r parametrische Polymorphie wird es in
 Kapitel~\ref{cha:higher-order} geben.
 
-Weiter mit \texttt{list-length}~-- hier ist das Gerüst:
+Weiter mit \texttt{list-length}~-- hier ist das GerÃ¼st:
 %
 \begin{alltt}
 (define list-length
@@ -751,11 +751,11 @@ Die Schablone ist wie gehabt:
 \end{alltt}
 %
 Es ist \texttt{list-length} egal, was der Wert von \texttt{(first
-  lis)} ist.  Die Länge der Liste ist unabhängig davon, was für Werte
+  lis)} ist.  Die LÃ¤nge der Liste ist unabhÃ¤ngig davon, was fÃ¼r Werte
 sich darin befinden: entscheidend ist nur, wieviele es sind.  (Dieser
-Umstand ist gerade verantwortlich für die parametrische Polymorphie.)
-Damit können wir \texttt{(first lis)} aus der Schablone streichen und
-diese dann zum vollständigen Rumpf ergänzen:
+Umstand ist gerade verantwortlich fÃ¼r die parametrische Polymorphie.)
+Damit kÃ¶nnen wir \texttt{(first lis)} aus der Schablone streichen und
+diese dann zum vollstÃ¤ndigen Rumpf ergÃ¤nzen:
 %
 \begin{alltt}
 (define list-length
@@ -770,7 +770,7 @@ diese dann zum vollständigen Rumpf ergänzen:
 
 \section{Funktionen, die Listen produzieren}
 
-In den vorherigen Abschnitten haben wir ausschließlich Prozeduren
+In den vorherigen Abschnitten haben wir ausschlieÃŸlich Prozeduren
 programmiert, die Listen \emph{akzeptieren}.  In diesem Abschnitt
 schreiben wir Funktionen, die Listen \emph{produzieren}.  Das geht mit
 Techniken, die wir bereits vorgestellt haben.  Wir machen die Sache
@@ -778,33 +778,33 @@ interessanter, indem wir in einem ersten Beispiel Listen von
 zusammengesetzten Daten betrachten und in einem zweiten Beispiel zwei
 Listen verarbeiten.
 
-\subsection{Gürteltiere überfahren}
+\subsection{GÃ¼rteltiere Ã¼berfahren}
 
 Auf Seite~\pageref{page:run-over-dillo} haben wir die Funktion
-\texttt{run-over-dillo} geschrieben, die für das Überfahren von
-Gürteltieren zuständig ist.  In diesem Abschnitt schreiben wir die
-Prozedur, die das gleich massenweise erledigt, beispielsweise für alle
-Gürteltiere auf einem Highway.  Dazu übernehmen wir Daten- und
-Record-Definition von Gürteltieren aus
+\texttt{run-over-dillo} geschrieben, die fÃ¼r das Ãœberfahren von
+GÃ¼rteltieren zustÃ¤ndig ist.  In diesem Abschnitt schreiben wir die
+Prozedur, die das gleich massenweise erledigt, beispielsweise fÃ¼r alle
+GÃ¼rteltiere auf einem Highway.  Dazu Ã¼bernehmen wir Daten- und
+Record-Definition von GÃ¼rteltieren aus
 Abschnitt~\ref{page:run-over-dillo} sowie die Funktiondefinition von
-\texttt{run-over-dillo}.  Gürteltiere können wir in Listen stecken,
+\texttt{run-over-dillo}.  GÃ¼rteltiere kÃ¶nnen wir in Listen stecken,
 ebenso wie Zahlen, Zeichenketten oder boolesche Werte.  Hier ist ein
 Beispiel:
 %
 \begin{verbatim}
-; Gürteltiere auf Highway 75
+; GÃ¼rteltiere auf Highway 75
 (define dl75 (list d1 d2 d3 d4))
 \end{verbatim}
 (\texttt{D1}, \texttt{d2}, \texttt{d3} und \texttt{d4} sind die
-Beispielgürteltiere aus Abschnitt~\ref{page:run-over-dillo}.)
+BeispielgÃ¼rteltiere aus Abschnitt~\ref{page:run-over-dillo}.)
 
 Diese Liste hat die Signatur \texttt{(list-of dillo)}.  Wenn wir eine
-Prozedur schreiben wollen, die alle Gürteltiere aus einer Liste
-überfährt, müßte diese also folgende Kurzbeschreibung und Signatur
+Prozedur schreiben wollen, die alle GÃ¼rteltiere aus einer Liste
+Ã¼berfÃ¤hrt, mÃ¼ÃŸte diese also folgende Kurzbeschreibung und Signatur
 haben:
 %
 \begin{verbatim}
-; Gürteltiere überfahren
+; GÃ¼rteltiere Ã¼berfahren
 (: run-over-dillos ((list-of dillo) -> (list-of dillo)))
 \end{verbatim}
 %
@@ -819,9 +819,9 @@ Als Testfall kann obige Beispielliste herhalten:
 \end{verbatim}
 %
 Zur Erinnerung: \texttt{d2} und \texttt{d4} sind bereits tot,
-dementsprechend sind sie überfahren wie zuvor.
+dementsprechend sind sie Ã¼berfahren wie zuvor.
 
-Hier ist das Gerüst:
+Hier ist das GerÃ¼st:
 %
 \begin{verbatim}
 (define run-over-dillos
@@ -829,7 +829,7 @@ Hier ist das Gerüst:
     ...))
 \end{verbatim}
 %
-Die Prozedur akzeptiert eine Liste als Eingabe, wir können also, wie
+Die Prozedur akzeptiert eine Liste als Eingabe, wir kÃ¶nnen also, wie
 schon so oft, die entsprechende Schablone zum Einsatz bringen:
 %
 \begin{verbatim}
@@ -843,9 +843,9 @@ schon so oft, die entsprechende Schablone zum Einsatz bringen:
 \end{verbatim}
 %
 Im ersten Zweig ist die Sache klar: Geht eine leere Liste rein, kommt
-auch eine leere Liste raus.  Im zweiten Zweig können wir uns erst
-einmal um das erste Gürteltier kümmern.  Wir haben ja bereits eine
-Prozedur, die ein einzelnes Gürteltier überfährt; diese können wir auf
+auch eine leere Liste raus.  Im zweiten Zweig kÃ¶nnen wir uns erst
+einmal um das erste GÃ¼rteltier kÃ¼mmern.  Wir haben ja bereits eine
+Prozedur, die ein einzelnes GÃ¼rteltier Ã¼berfÃ¤hrt; diese kÃ¶nnen wir auf
 das erste Element der Liste anwenden:
 %
 \begin{verbatim}
@@ -858,18 +858,18 @@ das erste Element der Liste anwenden:
       ... (run-over-dillos (rest dls)) ...))))
 \end{verbatim}
 %
-Lesen wir noch einmal die beiden Ausdrücke, die im zweiten Zweig
+Lesen wir noch einmal die beiden AusdrÃ¼cke, die im zweiten Zweig
 stehen:
 %
 \begin{itemize}
-\item \texttt{(run-over-dillo (first dls))} ist das erste Gürteltier
-  der Liste, überfahren.
+\item \texttt{(run-over-dillo (first dls))} ist das erste GÃ¼rteltier
+  der Liste, Ã¼berfahren.
 \item \texttt{(run-over-dillos (rest dls))} ist eine Liste der
-  restlichen Gürteltiere, überfahren.
+  restlichen GÃ¼rteltiere, Ã¼berfahren.
 \end{itemize}
 %
-Gefragt ist eine Liste \emph{aller} Gürteltiere, überfahren:
-Wir müssen also nur die Resultate der beiden Ausdrucke mit
+Gefragt ist eine Liste \emph{aller} GÃ¼rteltiere, Ã¼berfahren:
+Wir mÃ¼ssen also nur die Resultate der beiden Ausdrucke mit
 \texttt{make-pair} kombinieren:
 %
 \begin{verbatim}
@@ -884,27 +884,27 @@ Wir müssen also nur die Resultate der beiden Ausdrucke mit
 %
 Fertig!
 
-Dieses Beispiel zeigt, dass wir für Prozeduren, die Listen produzieren,
+Dieses Beispiel zeigt, dass wir fÃ¼r Prozeduren, die Listen produzieren,
 keine neue Technik brauchen: Wenn eine Funktion eine leere Liste
 produzieren soll, benutzen wir an der entsprechenden Stelle
 \texttt{empty}, und bei nichtleeren Listen benutzen wir
-\texttt{make-pair}, bringen also die Schablone für Prozeduren zum
+\texttt{make-pair}, bringen also die Schablone fÃ¼r Prozeduren zum
 Einsatz, die zusammengesetzte Daten produzieren.
 
-\subsection{Zwei Listen aneinanderhängen}
-In unserem nächsten Beispiel ist eine Prozedur
+\subsection{Zwei Listen aneinanderhÃ¤ngen}
+In unserem nÃ¤chsten Beispiel ist eine Prozedur
 \texttt{concatenate}\index{concatenate@\texttt{concatenate}} gefragt, die zwei
-Listen aneinanderhängt:\label{sec:concatenate}
+Listen aneinanderhÃ¤ngt:\label{sec:concatenate}
 % 
 \begin{alltt}
 (concatenate (list 1 2 3) (list 4 5 6))
 \evalsto{} #<list 1 2 3 4 5 6>
 \end{alltt}
 %
-Kurzbeschreibung, Signatur und Gerüst sehen folgendermaßen aus:\index{concatenate@\texttt{concatenate}}
+Kurzbeschreibung, Signatur und GerÃ¼st sehen folgendermaÃŸen aus:\index{concatenate@\texttt{concatenate}}
 %
 \begin{alltt}
-; zwei Listen aneinanderhängen
+; zwei Listen aneinanderhÃ¤ngen
 (: concatenate ((list-of %a) (list-of %a) -> (list-of %a)))
 (define concatenate
   (lambda (lis-1 lis-2)
@@ -912,9 +912,9 @@ Kurzbeschreibung, Signatur und Gerüst sehen folgendermaßen aus:\index{concatenat
 \end{alltt}
 %
 Die Konstruktionsanleitung aus Abschnitt~\ref{sec:lists} ist
-eigentlich nur für Prozeduren gedacht, die eine einzelne Liste
+eigentlich nur fÃ¼r Prozeduren gedacht, die eine einzelne Liste
 akzeptieren.  Welche von beiden ist das $l$ aus der Anleitung?  Im
-Zweifelsfall können wir beide Alternativen ausprobieren.  Wir
+Zweifelsfall kÃ¶nnen wir beide Alternativen ausprobieren.  Wir
 fangen, um die Sache spannender zu machen, mit \texttt{lis-2} an:
 %
 \begin{alltt}
@@ -928,7 +928,7 @@ fangen, um die Sache spannender zu machen, mit \texttt{lis-2} an:
 \end{alltt}
 %
 Der erste Zweig des \texttt{cond} ist noch einfach: Wenn
-\texttt{lis-2} leer ist, muß \texttt{lis-1} herauskommen.  Jedoch wäre für
+\texttt{lis-2} leer ist, muÃŸ \texttt{lis-1} herauskommen.  Jedoch wÃ¤re fÃ¼r
 das obige Beispiel der Wert von \texttt{(concatenate lis-1 (rest lis-2))} die
 folgende Liste:
 %
@@ -938,8 +938,8 @@ folgende Liste:
 %
 Bei dieser Liste fehlt das
 Element 4 in der Mitte, und es ist nicht ersichtlich, wie unsere Funktion
-sie passend ergänzen könnte.  Diese
-Möglichkeit führt also in eine Sackgasse. Wir versuchen deshalb, die Schablone  auf
+sie passend ergÃ¤nzen kÃ¶nnte.  Diese
+MÃ¶glichkeit fÃ¼hrt also in eine Sackgasse. Wir versuchen deshalb, die Schablone  auf
 \texttt{lis-1} 
  statt auf \texttt{lis-2} anzuwenden:
 %
@@ -954,15 +954,15 @@ Möglichkeit führt also in eine Sackgasse. Wir versuchen deshalb, die Schablone  
 \end{alltt}
 %
 Die erste Ellipse ist einfach zu ersetzen:  Ist die erste Liste
-leer, ist das Ergebnis die zweite Liste \texttt{lis-2}.  Für den
-zweiten Fall sollten wir uns noch einmal ins Gedächtnis rufen,
-was für einen Wert \texttt{(concatenate (rest lis-1) lis-2)} liefert: das Ergebnis
+leer, ist das Ergebnis die zweite Liste \texttt{lis-2}.  FÃ¼r den
+zweiten Fall sollten wir uns noch einmal ins GedÃ¤chtnis rufen,
+was fÃ¼r einen Wert \texttt{(concatenate (rest lis-1) lis-2)} liefert: das Ergebnis
 dieses Aufrufs ist eine
 Liste, die aus \texttt{(rest lis-1)} und \texttt{lis-2} zusammengesetzt
-wurde.  Auf das obige Beispiel übertragen, mit \texttt{lis-1} $=$
+wurde.  Auf das obige Beispiel Ã¼bertragen, mit \texttt{lis-1} $=$
 \verb|#<list 1 2 3>| und \texttt{lis-2} $=$
 \verb|#<list 4 5 6>|, ist \texttt{(rest lis-1)} $=$ \verb|#<list 2 3>|.
-Der Wert von \texttt{(concatenate (rest lis-1) lis-2)} wäre
+Der Wert von \texttt{(concatenate (rest lis-1) lis-2)} wÃ¤re
 also:
 %
 \begin{alltt}
@@ -970,7 +970,7 @@ also:
 \end{alltt}
 %
 Es fehlt das erste Element von \texttt{lis-1}, \texttt{(first
-  lis-1)}, das vorn an das Ergebnis angehängt werden muß.  Das geht
+  lis-1)}, das vorn an das Ergebnis angehÃ¤ngt werden muÃŸ.  Das geht
 mit \texttt{make-pair}:
 %
 \begin{alltt}
@@ -983,12 +983,12 @@ mit \texttt{make-pair}:
                   (concatenate (rest lis-1) lis-2))))))
 \end{alltt}
 %
-Dieses Beispiel zeigt ein weiteres Schablonenelement, das noch öfter
-vorkommen wird:  Wie bei anderen zusammengesetzten Daten müssen Prozeduren, die
+Dieses Beispiel zeigt ein weiteres Schablonenelement, das noch Ã¶fter
+vorkommen wird:  Wie bei anderen zusammengesetzten Daten mÃ¼ssen Prozeduren, die
 Listen konstruieren sollen, irgendwo ein \texttt{make-pair} enthalten.
 
 \texttt{List-length} und \texttt{concatenate} sind gute
-Programmierübungen.  Da viele Programme diese Operationen benötigen,
+ProgrammierÃ¼bungen.  Da viele Programme diese Operationen benÃ¶tigen,
 sind sie in Scheme bereits unter den Namen
 \texttt{length}\index{length@\texttt{length}} und
 \texttt{append}\index{append@\texttt{append}} eingebaut.
@@ -997,29 +997,29 @@ sind sie in Scheme bereits unter den Namen
 \section*{Anmerkungen}
 
 Listen sind, was Datenstrukturen betrifft, eine Art Alleskleber:
-Sie taugen auch für die Repräsentation von Tabellen,
-Mengen und vielen anderen zusammengesetzten Daten.  Für Listen gibt es
+Sie taugen auch fÃ¼r die ReprÃ¤sentation von Tabellen,
+Mengen und vielen anderen zusammengesetzten Daten.  FÃ¼r Listen gibt es
 eine riesige Anzahl praktischer Funktionen, von denen die Funktionen in
 diesem Kapitel nur die Spitze des Eisberges sind.  Da 
-Listen in Scheme fest eingebaut sind, können sie als universelles
+Listen in Scheme fest eingebaut sind, kÃ¶nnen sie als universelles
 Kommunikationsmittel zwischen Programmen dienen, weil sich Funktionen
 auf Listen aus einem Programm auch in einem anderen verwenden lassen.
 Dies unterscheidet Scheme von vielen anderen Programmiersprachen, in
-denen Listen vom Programmierer selbst definiert werden müssen oder nur
+denen Listen vom Programmierer selbst definiert werden mÃ¼ssen oder nur
 eine untergeordnete Rolle spielen.
 
 Viele andere Programmiersprachen bauen auf \textit{Felder\index{Feld}} oder
-\textit{Arrays\index{Array}} als fundamentale Datenstrukturen für die
-Repräsentation von Folgen.  Diese gibt es in
+\textit{Arrays\index{Array}} als fundamentale Datenstrukturen fÃ¼r die
+ReprÃ¤sentation von Folgen.  Diese gibt es in
 Scheme auch (unter dem Namen \textit{Vektor\index{Vektor}}), finden jedoch
-nur selten Verwendung: Oft läßt sich eine
-bessere Lösung mit Listen oder anderen Repräsentationen finden.
+nur selten Verwendung: Oft lÃ¤ÃŸt sich eine
+bessere LÃ¶sung mit Listen oder anderen ReprÃ¤sentationen finden.
 
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  Schreiben Sie Ausdrücke für Listen, welche die Beispiellisten vom
-  Anfang von Abschnitt~\ref{sec:lists} repräsentieren.
+  Schreiben Sie AusdrÃ¼cke fÃ¼r Listen, welche die Beispiellisten vom
+  Anfang von Abschnitt~\ref{sec:lists} reprÃ¤sentieren.
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1031,9 +1031,9 @@ Schreiben Sie folgende Funktionen auf Listen:
     in einer Liste von Zahlen berechnet.
     
   \item Eine Funktion \texttt{contains>10?}, die feststellt, ob eine
-    Liste von Zahlen eine Zahl enthält, die größer als 10 ist.
+    Liste von Zahlen eine Zahl enthÃ¤lt, die grÃ¶ÃŸer als 10 ist.
     
-  \item Eine Prozedur \texttt{list-length}, die die Länge einer Liste
+  \item Eine Prozedur \texttt{list-length}, die die LÃ¤nge einer Liste
     von Zahlen berechnet.
 
   \end{enumerate}
@@ -1045,28 +1045,28 @@ Schreiben Sie folgende Funktionen auf Listen:
   dargestellt~--- Kartoffeln, Erdklumpen und Steine.  Ein
   Ackerbestandteil ist also eine Kartoffel, ein Erdklumpen oder ein
   Stein.  Jedes dieser Ackerbestandteile hat ein Gewicht in Gramm;
-  Kartoffeln besitzen außerdem zusätzlich noch die Eigenschaft, ob sie
-  essbar sind oder nicht (und daher aussortiert werden müssen).
-  Schreiben Sie ein Programm für eine Kartoffel-Erntemaschine, die die
+  Kartoffeln besitzen auÃŸerdem zusÃ¤tzlich noch die Eigenschaft, ob sie
+  essbar sind oder nicht (und daher aussortiert werden mÃ¼ssen).
+  Schreiben Sie ein Programm fÃ¼r eine Kartoffel-Erntemaschine, die die
   essbaren Kartoffeln aus den Ackerbestandteilen herausfiltern muss.
 
   \begin{enumerate}
-  \item Führen Sie eine Datenanalyse für
+  \item FÃ¼hren Sie eine Datenanalyse fÃ¼r
     Ackerbestandteile durch und schreiben Sie passende Daten- und
-    Recorddefinitionen.  Geben Sie ein paar Beispiele für
-    Ackerbestandteile an, die Sie in den nächsten Teilaufgaben in
-    Testfällen verwenden können.
+    Recorddefinitionen.  Geben Sie ein paar Beispiele fÃ¼r
+    Ackerbestandteile an, die Sie in den nÃ¤chsten Teilaufgaben in
+    TestfÃ¤llen verwenden kÃ¶nnen.
 
   \item Schreiben Sie eine Funktion
-    \texttt{edible-potato?}, die überprüft ob ein übergebener
+    \texttt{edible-potato?}, die Ã¼berprÃ¼ft ob ein Ã¼bergebener
     Ackerbestandteil eine essbare Kartoffel ist.
 
   \item Schreiben Sie eine Funktion \texttt{weight}, 
-    die das Gewicht eines beliebigen Ackerbestandteils zurückgibt.
+    die das Gewicht eines beliebigen Ackerbestandteils zurÃ¼ckgibt.
 
   \item Schreiben Sie eine Daten- und Recorddefinition
-    für Listen von Ackerbestandteilen.  Geben Sie alle Signaturen an!
-    Geben Sie außerdem mindestens fünf verschiedene Beispiele für Listen
+    fÃ¼r Listen von Ackerbestandteilen.  Geben Sie alle Signaturen an!
+    Geben Sie auÃŸerdem mindestens fÃ¼nf verschiedene Beispiele fÃ¼r Listen
     mit Ackerbestandteilen an.
 
   \item Schreiben Sie eine Funktion \texttt{total-weight},
@@ -1089,32 +1089,32 @@ Schreiben Sie folgende Funktionen auf Listen:
 
   \item Eine Maschine soll nun die Kartoffeln aus dem
     Acker automatisch ernten.  Leider ist die Maschine sehr alt und
-    kommt deswegen mit großen Steinen und Erdklumpen nicht klar.  Der
+    kommt deswegen mit groÃŸen Steinen und Erdklumpen nicht klar.  Der
     Erntevorgang wird abgebrochen, sobald ein Stein oder ein
-    Erdklumpen, der schwerer als 1kg ist, in die Maschine gerät.
+    Erdklumpen, der schwerer als 1kg ist, in die Maschine gerÃ¤t.
     Schreiben Sie die Funktion \texttt{harvester}, die diesen Vorgang
     simuliert. Als Eingabe bekommt diese Funktion eine Liste von
     Ackerbestandteilen, die sie nach und nach abarbeitet.
     Herauskommen soll eine Liste von Ackerbestandteilen, in der die
     geerneteten essbaren Kartoffeln enthalten sind.  Schreiben Sie
-    ausreichend Testfälle, beachten Sie auch den Fall, dass die
+    ausreichend TestfÃ¤lle, beachten Sie auch den Fall, dass die
     Maschine im Leerlauf betrieben wird.  Verwenden Sie die Funktionen
     aus den vorherigen Aufgabenteilen.
 
   \item Schreiben Sie eine Funktion
     \texttt{heaviest-potato}, die aus einer Liste von
     Ackerbestandteilen die schwerste essbare Kartoffel heraussucht und
-    zurückgibt.  Wenn in der Liste keine essbare Kartoffel enthalten ist, soll
-    die Prozedur \verb|#f| zurückgeben.
+    zurÃ¼ckgibt.  Wenn in der Liste keine essbare Kartoffel enthalten ist, soll
+    die Prozedur \verb|#f| zurÃ¼ckgeben.
 
     \item Schreiben Sie eine Funktion
       \texttt{filter-edible-potatoes}, die eine Liste von
       Ackerbestandteilen akzeptiert und essbaren Kartoffeln als Liste
-      zurückgibt.
+      zurÃ¼ckgibt.
 
     \item Schreiben Sie eine Funktion
       \texttt{drop-stones}, die eine Liste von Ackerbestandteilen
-      akzeptiert und eine Liste zurückgibt, in der es keine Steine mehr
+      akzeptiert und eine Liste zurÃ¼ckgibt, in der es keine Steine mehr
       gibt.
 
     \item Schreiben Sie eine Funktion
@@ -1127,45 +1127,45 @@ Schreiben Sie folgende Funktionen auf Listen:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Wir repräsentieren einen Lithium-Ionen-Akku als
+  Wir reprÃ¤sentieren einen Lithium-Ionen-Akku als
   eine Liste von Lithium-Ionen-Zellen.  Eine Zelle besteht aus einer
   maximalen Ladung (in Milliamperestunden, mAh) und einer momentanen
   Ladung (ebenfalls in mAh).
 
   Wenn eine Zelle eine Ladung von 1000mAh hat, bedeutet das, dass die
-  Zelle eine Stromstärke von 1000mA (Milliampere) für eine Stunde lang
-  liefern kann.  Die momentane Ladung darf nie über die maximale
+  Zelle eine StromstÃ¤rke von 1000mA (Milliampere) fÃ¼r eine Stunde lang
+  liefern kann.  Die momentane Ladung darf nie Ã¼ber die maximale
   Ladung steigen und nie unter 10\% der maximalen Ladung fallen, in
   unserer Beispielzelle also 100mAh, sonst geht die Zelle kaputt.
 
   % Die Zellen werden nach der Reihe ge- bzw.  entladen.  Wenn die erste
   % Zelle auf 400mAh entladen ist, wird die zweite Zelle entladen, dann
-  % die nächste, etc.  Geladen wird in anderer Richtung: Zuerst wird die
+  % die nÃ¤chste, etc.  Geladen wird in anderer Richtung: Zuerst wird die
   % letzte Zelle geladen, dann die davor, etc.
   
   \begin{enumerate}
     \setlength{\itemsep}{1cm}
-  \item Führen Sie eine Datenanalyse für Li-Ionen-Akkus und
+  \item FÃ¼hren Sie eine Datenanalyse fÃ¼r Li-Ionen-Akkus und
     Li-Ionen-Zellen durch, schreiben Sie die Datendefinitionen auf und
     setzen Sie die Datendefinitionen um.
 
   \item Schreiben Sie folgende Funktionen:
 
     \begin{itemize}
-    \item \texttt{cell-full?}, die überprüft, ob eine
-      Zelle vollständig geladen ist (d.h. ob die momentante
+    \item \texttt{cell-full?}, die Ã¼berprÃ¼ft, ob eine
+      Zelle vollstÃ¤ndig geladen ist (d.h. ob die momentante
       Ladung gleich der maximalen Ladung ist)
 
-    \item \texttt{cell-empty?}, die überprüft, ob eine Zelle entladen
+    \item \texttt{cell-empty?}, die Ã¼berprÃ¼ft, ob eine Zelle entladen
       ist (d.h. ob die momentane Ladung gleich der minimalen Ladung
       ist, also 10\% der maximalen Ladung)
 
-    \item \texttt{cell-defect?}, die überprüft, ob eine
+    \item \texttt{cell-defect?}, die Ã¼berprÃ¼ft, ob eine
       Zelle defekt ist (d.h. ob die momentane Ladung die
-      maximale Ladung überschreitet oder die minimale Ladung
+      maximale Ladung Ã¼berschreitet oder die minimale Ladung
       unterschreitet)
 
-    \item \texttt{cell-ok?}, die überprüft, ob eine
+    \item \texttt{cell-ok?}, die Ã¼berprÃ¼ft, ob eine
       Zelle funktioniert (d.h. ob die momentane Ladung
       innerhalb der minimalen und maximalen Ladung liegt)
 
@@ -1174,54 +1174,54 @@ Schreiben Sie folgende Funktionen auf Listen:
   \item Schreiben Sie folgende Funktionen:
 
     \begin{itemize}
-    \item \texttt{battery-full?}, die überprüft, ob ein Akku
-      vollständig geladen ist (d.h. ob alle Zellen voll sind); eine
+    \item \texttt{battery-full?}, die Ã¼berprÃ¼ft, ob ein Akku
+      vollstÃ¤ndig geladen ist (d.h. ob alle Zellen voll sind); eine
       Batterie ohne Zelle gilt als geladen.
 
-    \item \texttt{battery-empty?}, die überprüft, ob ein Akku entladen
+    \item \texttt{battery-empty?}, die Ã¼berprÃ¼ft, ob ein Akku entladen
       ist (d.h. ob alle Zellen leer sind); eine Batterie ohne Zelle
       gilt auch als leer.
 
-    \item \texttt{battery-defect?}, die überprüft, ob ein Akku defekt
+    \item \texttt{battery-defect?}, die Ã¼berprÃ¼ft, ob ein Akku defekt
       ist (d.h. ob mindestens eine Zelle defekt ist); eine Batterie
       ohne Zelle gilt als nicht defekt.
 
-    \item \texttt{battery-ok?}, die überprüft, ob ein Akku
+    \item \texttt{battery-ok?}, die Ã¼berprÃ¼ft, ob ein Akku
       funktioniert (d.h. ob alle Zellen funktionieren); eine Batterie
-      ohne Zelle gilt als funktionstüchtig.
+      ohne Zelle gilt als funktionstÃ¼chtig.
       
     \end{itemize}
 
     \textbf{Gehen Sie in den folgenden Teilaufgaben davon aus, dass
-      nur \emph{funktionierende} Zellen und Batterien übergeben
+      nur \emph{funktionierende} Zellen und Batterien Ã¼bergeben
       werden!}
 
-  \item Das Ladegerät kann eine Zelle um 500mAh pro Stunde
+  \item Das LadegerÃ¤t kann eine Zelle um 500mAh pro Stunde
     aufladen.  Schreiben Sie eine Funktion \\
     \texttt{time-to-fully-charge-cell}, die ausrechnet, wieviele
-    Stunden es dauert, bis das Ladegerät die Zelle aufgeladen hat.
+    Stunden es dauert, bis das LadegerÃ¤t die Zelle aufgeladen hat.
 
   \item Schreiben Sie eine Funktion
     \texttt{time-to-fully-charge-battery}, die ausrechnet, wieviele
-    Stunden es dauert, bis das Ladegerät den Akku aufgeladen hat.
+    Stunden es dauert, bis das LadegerÃ¤t den Akku aufgeladen hat.
 
   \item Schreiben Sie eine Funktion \texttt{charge-cell}, die eine
     Zelle und eine Zeit in Stunden konsumiert und die Zelle
-    zurückgibt, die mit dem in der vorherigen Teilaufgabe genannten
-    Ladegerät für die übergebene Zeit geladen wurde.  Die Ladung darf
-    aber nicht über die maximale Ladung steigen!  Die restliche Zeit
-    verfällt, wenn die Zelle bereits voll ist.
+    zurÃ¼ckgibt, die mit dem in der vorherigen Teilaufgabe genannten
+    LadegerÃ¤t fÃ¼r die Ã¼bergebene Zeit geladen wurde.  Die Ladung darf
+    aber nicht Ã¼ber die maximale Ladung steigen!  Die restliche Zeit
+    verfÃ¤llt, wenn die Zelle bereits voll ist.
 
   \item Schreiben Sie eine Funktion \texttt{charge-battery}, die einen
-    Akku auflädt.  Die Prozedur gibt einen Akku zurück, der mit dem
-    Ladegerät für die übergebene Zeit geladen wurde.  Ist eine Zelle
-    vollständig geladen, so wird die nächste Zelle mit der restlichen
+    Akku auflÃ¤dt.  Die Prozedur gibt einen Akku zurÃ¼ck, der mit dem
+    LadegerÃ¤t fÃ¼r die Ã¼bergebene Zeit geladen wurde.  Ist eine Zelle
+    vollstÃ¤ndig geladen, so wird die nÃ¤chste Zelle mit der restlichen
     Zeit geladen.  Sind alle Zellen geladen und ist die Zeit jedoch
     noch nicht aufgebraucht, so verstreicht diese.
 
-  \item Das Entladen einer Zelle hängt vom Verbraucher ab: Ein Gerät
+  \item Das Entladen einer Zelle hÃ¤ngt vom Verbraucher ab: Ein GerÃ¤t
     hat einen Verbrauchswert, angegeben in mA.  Anschaulich betrachtet
-    heißt das, dass das Gerät pro Zeit eine gewissen Strom verbraucht.
+    heiÃŸt das, dass das GerÃ¤t pro Zeit eine gewissen Strom verbraucht.
     Schreiben Sie eine Funktion \texttt{time-to-fully-discharge-cell},
     die eine Zelle und einen Verbrauch pro Stunde konsumiert und
     ausrechnet, wie lange es dauert, bis die Zelle entladen ist.
@@ -1233,19 +1233,19 @@ Schreiben Sie folgende Funktionen auf Listen:
 
   \item Schreiben Sie eine Funktion \texttt{discharge-cell}, die eine
     Zelle, einen Verbrauch pro Stunde und die Dauer (in Stunden)
-    konsumiert, für die der Verbraucher den Strom der Zelle
-    verbraucht.  Die Prozedur soll eine Zelle zurückgeben, die für die
+    konsumiert, fÃ¼r die der Verbraucher den Strom der Zelle
+    verbraucht.  Die Prozedur soll eine Zelle zurÃ¼ckgeben, die fÃ¼r die
     Dauer den Verbraucher mit Strom versorgt hat.  Die Ladung darf
     aber nicht unter die minimale Ladung fallen! Die restliche Zeit
-    verfällt, wenn die Zelle bereits leer ist (tatsächlich geht dem
+    verfÃ¤llt, wenn die Zelle bereits leer ist (tatsÃ¤chlich geht dem
     Verbraucher einfach der Strom aus...).
 
   \item Schreiben Sie eine Funktion \texttt{discharge-battery}, die
     eine Batterie, einen Verbrauch pro Stunde und die Dauer (in
     Stunden) konsumiert.  Die Funktion soll eine Batterie,
-    zurückgeben, die für die Dauer den Verbraucher mit Strom versorgt
+    zurÃ¼ckgeben, die fÃ¼r die Dauer den Verbraucher mit Strom versorgt
     hat.  Ist die Ladung einer Zelle verbraucht, wird die Ladung der
-    nächsten Zelle für die verbleibende Zeit verbraucht.  Sind alle
+    nÃ¤chsten Zelle fÃ¼r die verbleibende Zeit verbraucht.  Sind alle
     Zellen entladen und ist die Zeit jedoch noch nicht aufgebraucht,
     so verstreicht diese, dem Verbraucher geht der Strom aus.
 
@@ -1259,30 +1259,30 @@ Schreiben Sie folgende Funktionen auf Listen:
   Mitarbeiters vermerkt sowie eine Liste von jeweils gearbeiteten
   Stunden. Gehen Sie der Einfachheit halber davon aus, dass nur ganze Stunden
   notiert werden.
-  Außerdem gibt es für jeden Mitarbeiter eine Personalakte
+  AuÃŸerdem gibt es fÃ¼r jeden Mitarbeiter eine Personalakte
   mit Name, Nummer und Stundenlohn (auch nur in ganzen Euros) des Mitarbeiters.
   Am Ende jedes Monats 
-  muss an jeden Mitarbeiter der Lohn überwiesen werden.  Dazu werden
-  Überweisungen erzeugt; jede Überweisung besteht aus der
-  Mitarbeiternummer und einem Überweisungsbetrag.
+  muss an jeden Mitarbeiter der Lohn Ã¼berwiesen werden.  Dazu werden
+  Ãœberweisungen erzeugt; jede Ãœberweisung besteht aus der
+  Mitarbeiternummer und einem Ãœberweisungsbetrag.
 
-  Schreiben Sie Daten- und Record-Definitionen für Stempelkarten,
-  Personalakten und Überweisungen.
+  Schreiben Sie Daten- und Record-Definitionen fÃ¼r Stempelkarten,
+  Personalakten und Ãœberweisungen.
 
   Schreiben Sie eine Funktion, die eine Liste von Personalakten
-  und eine Liste von Stempelkarten für einen Monat akzeptiert, für jeden
+  und eine Liste von Stempelkarten fÃ¼r einen Monat akzeptiert, fÃ¼r jeden
   Mitarbeiter die gearbeiteten Stunden aufsummiert und eine
-  Liste der Überweisungen zurückliefert.
+  Liste der Ãœberweisungen zurÃ¼ckliefert.
 \end{aufgabe}
 
 \begin{aufgabe}
    Sie sind Besitzer eines Parkplatzes mit
-  Bereichen für unterschiedliche Fahrzeuge:  PKWs (\texttt{car}), Lastwagen
+  Bereichen fÃ¼r unterschiedliche Fahrzeuge:  PKWs (\texttt{car}), Lastwagen
   (\texttt{truck}), Wohnmobile (\texttt{caravan)}, Busse (\texttt{bus})
-  und Fahrräder (\texttt{bike}). 
-  Wegen der Finanznot hat die Stadt Tübingen beschlossen, dass 
-  Sie für jedes Fahrzeug, das auf Ihrem Parkplatz
-  parkt, Abgaben entrichten müssen, und zwar pro Tag je:
+  und FahrrÃ¤der (\texttt{bike}). 
+  Wegen der Finanznot hat die Stadt TÃ¼bingen beschlossen, dass 
+  Sie fÃ¼r jedes Fahrzeug, das auf Ihrem Parkplatz
+  parkt, Abgaben entrichten mÃ¼ssen, und zwar pro Tag je:
   \begin{list}{-}{}
   \item \texttt{car}: 3 Cent
   \item \texttt{truck}: 5 Cent + 3 Cent pro Achse
@@ -1290,41 +1290,41 @@ Schreiben Sie folgende Funktionen auf Listen:
   \item \texttt{bus}: 10 Cent + 1 Cent pro Sitzplatz
   \item \texttt{bike}: 1 Cent.
   \end{list} 
-  Der Fahrzeughalter kann die Abgaben nur für den jeweiligen Tag begleichen, 
-  so dass Sie die Parkdauer nicht beachten müssen.
+  Der Fahrzeughalter kann die Abgaben nur fÃ¼r den jeweiligen Tag begleichen, 
+  so dass Sie die Parkdauer nicht beachten mÃ¼ssen.
 
   \begin{enumerate}
   \item Machen Sie eine Datenanalyse und schreiben Sie Daten- und 
-    Recorddefinitionen für die Fahrzeugtypen \texttt{truck}, \texttt{bus} und
+    Recorddefinitionen fÃ¼r die Fahrzeugtypen \texttt{truck}, \texttt{bus} und
     \texttt{simple-vehicle}. Dabei werden unter \texttt{simple-vehicle} die
     Fahrzeuge zusammengefasst, bei denen keine variablen Kosten anfallen.
   \item Schreiben Sie  Funktionen
     \texttt{tax-truck}, \texttt{tax-bus} und \texttt{tax-simple-vehicle}
-    zur Ermittlung der Abgaben für diese Fahrzeugtypen
+    zur Ermittlung der Abgaben fÃ¼r diese Fahrzeugtypen
   \item Definieren Sie einen Datentyp \texttt{vehicle}. Schreiben Sie eine
-    Prozedur \texttt{tax-vehicle}, die die Abgaben für ein beliebiges Fahrzeug 
+    Prozedur \texttt{tax-vehicle}, die die Abgaben fÃ¼r ein beliebiges Fahrzeug 
     berechnet.    
-  \item Schreiben Sie nun eine Prozedur \texttt{calculate-tax}, die die täglichen 
-    Abgaben berechnet, die Sie an das Finanzamt für alle Fahrzeuge auf ihrem Parkplatz
-    bezahlen müssen. Die Prozedur akzeptiert eine Liste von Fahrzeugen und
+  \item Schreiben Sie nun eine Prozedur \texttt{calculate-tax}, die die tÃ¤glichen 
+    Abgaben berechnet, die Sie an das Finanzamt fÃ¼r alle Fahrzeuge auf ihrem Parkplatz
+    bezahlen mÃ¼ssen. Die Prozedur akzeptiert eine Liste von Fahrzeugen und
     berechnet die Gesamtabgaben eines Tages.
   \end{enumerate}
   Benutzen Sie bei jeder Funktion und jedem Record, den Sie schreiben,
-  die Konstruktionsanleitungen: Erstellen Sie zunächst
-  Kurzbeschreibung, Signatur, einige Testfälle und das Gerüst der Prozedur.
-  Vervollständigen Sie anschließend das Gerüst und vergewissern Sie sich,
-  dass die Testfälle korrekt durchlaufen!
+  die Konstruktionsanleitungen: Erstellen Sie zunÃ¤chst
+  Kurzbeschreibung, Signatur, einige TestfÃ¤lle und das GerÃ¼st der Prozedur.
+  VervollstÃ¤ndigen Sie anschlieÃŸend das GerÃ¼st und vergewissern Sie sich,
+  dass die TestfÃ¤lle korrekt durchlaufen!
 \end{aufgabe}
 
 \begin{aufgabe}
-   Schreiben Sie eine Prozedur, die auf möglichst
+   Schreiben Sie eine Prozedur, die auf mÃ¶glichst
   einfache Weise eine Liste von Zahlen aufsteigend sortiert! Gehen
   Sie dazu wie folgt vor:
 
   \begin{enumerate}
   \item Schreiben Sie eine Funktion
     \texttt{list-min}, die das kleinste Element einer
-    Liste zurückgibt.
+    Liste zurÃ¼ckgibt.
 
     Beispiel: \verb|(list-min (list 2 3 4 1 5 6))| ergibt \verb|1|
 
@@ -1337,8 +1337,8 @@ Schreiben Sie folgende Funktionen auf Listen:
     Beispiel: \verb|(delete-once 5 (list 1 2 5 3 4 5))| ergibt
     \verb|#<list 1 2 3 4 5>|
     
-    (Wenn die Liste die Zahl nicht enthält,
-    soll sie unverändert zurückgegeben werden.)
+    (Wenn die Liste die Zahl nicht enthÃ¤lt,
+    soll sie unverÃ¤ndert zurÃ¼ckgegeben werden.)
   \item  Schreiben Sie eine Funktion \texttt{sort}, die
     eine Liste von Zahlen in aufsteigender Reihenfolge sortiert.
     Benutzen Sie dazu \texttt{list-min} und \texttt{delete-once}.
@@ -1350,17 +1350,17 @@ Schreiben Sie folgende Funktionen auf Listen:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Da Sie jetzt mit Listen programmieren können, bittet Dr.~Knaubichler
+  Da Sie jetzt mit Listen programmieren kÃ¶nnen, bittet Dr.~Knaubichler
   Sie nochmals um Ihre Hilfe (siehe Aufgabe~\ref{aufgabe:knaubichler2}
   aus dem vorigen Kapitel, Seite~\pageref{aufgabe:knaubichler2}):
   Schreiben Sie ein Programm, das aus einer Liste von Grundkreaturen
-  die zwei Grundkreaturen auswählt, die miteinander gekreuzt die
-  leistungsstärkste Kreatur ergeben.
+  die zwei Grundkreaturen auswÃ¤hlt, die miteinander gekreuzt die
+  leistungsstÃ¤rkste Kreatur ergeben.
 
   Gehen Sie dazu wie folgt vor:
 
   \begin{enumerate}
-  \item Schreiben Sie ein Prädikat für Kreaturen.
+  \item Schreiben Sie ein PrÃ¤dikat fÃ¼r Kreaturen.
 
   \item Schreiben Sie eine Funktion
     \texttt{creature-power}, die eine beliebige Kreatur akzeptiert und
@@ -1370,26 +1370,26 @@ Schreiben Sie folgende Funktionen auf Listen:
   \item  Schreiben Sie eine Funktion
     \texttt{find-optimal-breeding-partner}, die eine Grundkreatur
     $c_1$ und eine Liste von Grundkreaturen akzeptiert.  Die Funktion
-    soll die Grundkreatur $c_2$ aus der Liste auswählen und
-    zurückgeben, die der beste Kreuzungspartner von $c_1$ ist.  Die
-    Kreuzung von $c_1$ und $c_2$ soll also unter allen möglichen
-    Kreuzungen die Kreatur mit der höchsten Leistung ergeben.  Falls
+    soll die Grundkreatur $c_2$ aus der Liste auswÃ¤hlen und
+    zurÃ¼ckgeben, die der beste Kreuzungspartner von $c_1$ ist.  Die
+    Kreuzung von $c_1$ und $c_2$ soll also unter allen mÃ¶glichen
+    Kreuzungen die Kreatur mit der hÃ¶chsten Leistung ergeben.  Falls
     die Liste der Grundkreaturen leer ist, soll die Funktion \verb|#f|
-    zurückgeben.
+    zurÃ¼ckgeben.
 
   \item  Schreiben Sie eine Funktion
     \texttt{breed-optimal-partner}, die eine Grundkreatur $c_1$ und
     eine Liste von Grundkreaturen akzeptiert.  Die Funktion soll $c_1$
     mit der Grundkreatur aus der Liste kreuzen, die zur
-    leistungsstärksten Kreatur führt.  Falls die Liste der
-    Grundkreaturen leer ist, soll die Prozedur \verb|#f| zurückgeben.
+    leistungsstÃ¤rksten Kreatur fÃ¼hrt.  Falls die Liste der
+    Grundkreaturen leer ist, soll die Prozedur \verb|#f| zurÃ¼ckgeben.
     Benutzen Sie \texttt{find-optimal-breeding-partner}.
 
   \item  Schreiben Sie eine Funktion
     \texttt{optimal-breed}, die eine Liste von Grundkreaturen
     akzeptiert.  Die Funktion soll die beiden Grundkreaturen aus der
-    Liste miteinander kreuzen, die unter allen möglichen Kreuzungen
-    die Kreatur mit der höchsten Leistung ergeben.  Benutzen Sie die
+    Liste miteinander kreuzen, die unter allen mÃ¶glichen Kreuzungen
+    die Kreatur mit der hÃ¶chsten Leistung ergeben.  Benutzen Sie die
     Funktionen aus den vorherigen Teilaufgaben.
 
   \end{enumerate}

@@ -12,15 +12,15 @@ FIXME: Vielleicht sowas wie Mergesort, parallele Listenverarbeitung
 
 FIXME: Backtracking sagen
 
-Hier ist ein weiteres Problem, zu dessen Lˆsung 
+Hier ist ein weiteres Problem, zu dessen L√∂sung 
 Listen hervorragend taugen:
 Die Aufgabe ist, einen Lastwagen optimal auszulasten: Aus einem Lager mit zu
 transportierenden Artikeln, jeder mit einem bestimmten Gewicht, sind solche Artikel
-auszuw‰hlen, dass die Tragf‰higkeit des Lastwagens mˆglichst gut ausgeschˆpft
+auszuw√§hlen, dass die Tragf√§higkeit des Lastwagens m√∂glichst gut ausgesch√∂pft
 wird.
 
-F¸r die Lˆsung muﬂ erst einmal festgelegt werden, wie Ein- und Ausgabe
-des Programms aussehen sollen.  Die elementare Grˆﬂe im Problem ist
+F√ºr die L√∂sung mu√ü erst einmal festgelegt werden, wie Ein- und Ausgabe
+des Programms aussehen sollen.  Die elementare Gr√∂√üe im Problem ist
 ein \textit{Artikel}, der aus einer Artikelnummer und seinem Gewicht
 besteht.  Folgende Daten- und Record-Definition passen dazu:\index{title@\texttt{title}}
 %
@@ -55,10 +55,10 @@ Liste beschrieben:
         (make-article 12 373)))
 \end{alltt}
 %
-Die Lˆsung des Problems soll eine Prozedur \texttt{load-list}
-sein, welche eine Liste der Artikel zur¸ckliefert, die in den Lastwagen geladen
+Die L√∂sung des Problems soll eine Prozedur \texttt{load-list}
+sein, welche eine Liste der Artikel zur√ºckliefert, die in den Lastwagen geladen
 werden sollen.  Neben der Liste der Artikel braucht
-\texttt{load-list} auch noch die Tragf‰higkeit eines Lastwagens.  Die
+\texttt{load-list} auch noch die Tragf√§higkeit eines Lastwagens.  Die
 Funktion soll Kurzbeschreibung und Signatur wie folgt haben:\index{load-list@\texttt{load-list}}
 %
 \begin{alltt}
@@ -67,7 +67,7 @@ Funktion soll Kurzbeschreibung und Signatur wie folgt haben:\index{load-list@\te
 (: load-list (list(article) number -> list(article))
 \end{alltt}
 %
-Im Fall des Beispiel-Lagers und eines Lastwagens mit 1800 kg Tragf‰higkeit
+Im Fall des Beispiel-Lagers und eines Lastwagens mit 1800 kg Tragf√§higkeit
 soll folgendes
 passieren, wenn das Programm fertig ist:
 %
@@ -94,13 +94,13 @@ Die Funktion arbeitet auf Listen, was folgende Schablone nahelegt:
 Wenn keine Artikel da sind, kommen
 auch keine in den Lastwagen.  Die Liste im ersten Zweig ist also leer.  Der
 zweite Fall ist etwas komplizierter.
-Das liegt daran, daﬂ es dort
+Das liegt daran, da√ü es dort
 eine weitere Fallunterscheidung gibt, je nach dem ersten Artikel
 \texttt{(first articles)}:
-die Prozedur muﬂ entscheiden, ob dieser erste
-Artikel schlieﬂlich in den Lastwagen kommen soll oder nicht.
-Ein erstes Ausschluﬂkriterium ist, wenn der Artikel schwerer ist als die
-Tragf‰higkeit erlaubt:
+die Prozedur mu√ü entscheiden, ob dieser erste
+Artikel schlie√ülich in den Lastwagen kommen soll oder nicht.
+Ein erstes Ausschlu√ükriterium ist, wenn der Artikel schwerer ist als die
+Tragf√§higkeit erlaubt:
 %
 \begin{alltt}
 (define load-list
@@ -114,12 +114,12 @@ Tragf‰higkeit erlaubt:
 \end{alltt}
 %
 Damit ist die Frage, ob der erste Artikel im Lastwagen landet, aber immer
-noch nicht abschlieﬂend beantwortet.  Schlieﬂlich muﬂ
+noch nicht abschlie√üend beantwortet.  Schlie√ülich mu√ü
 \texttt{load-list} noch entscheiden, ob unter Verwendung dieses
 Artikels der Lastwagen optimal vollgepackt werden
-kann.  Dazu muﬂ die Prozedur vergleichen, wie ein Lastwagen \emph{mit}
+kann.  Dazu mu√ü die Prozedur vergleichen, wie ein Lastwagen \emph{mit}
 dem ersten Artikel und wie er \emph{ohne} diesen Artikel am besten
-vollgepackt werden w¸rde.   Die Variante "`ohne"' wird mit folgendem
+vollgepackt werden w√ºrde.   Die Variante "`ohne"' wird mit folgendem
 Ausdruck ausgerechnet:
 %
 \begin{alltt}
@@ -127,18 +127,18 @@ Ausdruck ausgerechnet:
 \end{alltt}
 %
 Die Variante "`mit"' ist etwas trickreicher~-- sie entsteht, wenn im
-Lastwagen der Platz f¸r den ersten Artikel reserviert wird und
-der Rest der Tragf‰higkeit mit den restlichen Artikeln optimal gef¸llt wird.
-Die optimale F¸llung f¸r den Rest wird mit folgendem Ausdruck
-berechnet, der die Induktionsannahme f¸r \texttt{load-list} benutzt:
+Lastwagen der Platz f√ºr den ersten Artikel reserviert wird und
+der Rest der Tragf√§higkeit mit den restlichen Artikeln optimal gef√ºllt wird.
+Die optimale F√ºllung f√ºr den Rest wird mit folgendem Ausdruck
+berechnet, der die Induktionsannahme f√ºr \texttt{load-list} benutzt:
 %
 \begin{alltt}
   (load-list (rest articles) 
                  (- capacity (article-weight (first articles))))
 \end{alltt}
 %
-Die vollst‰ndige Artikelliste entsteht dann durch nachtr‰gliches
-Wieder-Anh‰ngen des ersten Artikels:
+Die vollst√§ndige Artikelliste entsteht dann durch nachtr√§gliches
+Wieder-Anh√§ngen des ersten Artikels:
 %
 \begin{alltt}
   (make-pair (first articles)
@@ -146,9 +146,9 @@ Wieder-Anh‰ngen des ersten Artikels:
                             (- capacity (article-weight (first articles)))))
 \end{alltt}
 %
-Diese beiden Listen m¸ssen jetzt nach ihrem Gesamtgewicht verglichen
-werden.  Die Liste mit dem grˆﬂeren Gewicht gewinnt.  Als erster
-Schritt werden die beiden obigen Ausdr¸cke in die Schablone eingef¸gt:
+Diese beiden Listen m√ºssen jetzt nach ihrem Gesamtgewicht verglichen
+werden.  Die Liste mit dem gr√∂√üeren Gewicht gewinnt.  Als erster
+Schritt werden die beiden obigen Ausdr√ºcke in die Schablone eingef√ºgt:
 %
 \begin{alltt}
 (define load-list
@@ -167,9 +167,9 @@ Schritt werden die beiden obigen Ausdr¸cke in die Schablone eingef¸gt:
             ...)))))
 \end{alltt}
 %
-Die Ausdr¸cke f¸r die beiden Alternativen sind in dieser Form 
-unhandlich groﬂ, was die Prozedur schon un¸bersichtlich macht, bevor
-sie ¸berhaupt fertig ist.
+Die Ausdr√ºcke f√ºr die beiden Alternativen sind in dieser Form 
+unhandlich gro√ü, was die Prozedur schon un√ºbersichtlich macht, bevor
+sie √ºberhaupt fertig ist.
 Es lohnt sich also, ihnen Namen zu geben:
 %
 \begin{alltt}
@@ -191,8 +191,8 @@ Es lohnt sich also, ihnen Namen zu geben:
 \end{alltt}
 %
 Der Ausdruck
-\texttt{(article-weight (first articles))} kommt zweimal vor.  Die Einf¸hrung einer
-weiteren lokalen Variable macht die Prozedur noch ¸bersichtlicher:
+\texttt{(article-weight (first articles))} kommt zweimal vor.  Die Einf√ºhrung einer
+weiteren lokalen Variable macht die Prozedur noch √ºbersichtlicher:
 %
 \begin{alltt}
 (define load-list
@@ -212,9 +212,9 @@ weiteren lokalen Variable macht die Prozedur noch ¸bersichtlicher:
               ...)))))))))
 \end{alltt}
 %
-Zur¸ck zur eigentlichen Aufgabe: \texttt{articles-1} und
+Zur√ºck zur eigentlichen Aufgabe: \texttt{articles-1} und
 \texttt{articles-2} sollen hinsichtlich ihres Gewichts verglichen werden.
-Dies muﬂ nat¸rlich berechnet werden.  Da daf¸r noch eine Prozedur
+Dies mu√ü nat√ºrlich berechnet werden.  Da daf√ºr noch eine Prozedur
 fehlt, kommt Wunschdenken zur Anwendung:\index{articles-weight@\texttt{articles-weight}}
 %
 \begin{alltt}
@@ -222,7 +222,7 @@ fehlt, kommt Wunschdenken zur Anwendung:\index{articles-weight@\texttt{articles-
 (: articles-weight (list(article) -> number)
 \end{alltt}
 % 
-Damit kann \texttt{load-list} vervollst‰ndigt werden:
+Damit kann \texttt{load-list} vervollst√§ndigt werden:
 %
 \begin{alltt}
 (define load-list
@@ -246,7 +246,7 @@ Damit kann \texttt{load-list} vervollst‰ndigt werden:
 \end{alltt}
 %
 Es fehlt noch \texttt{articles-weight}, die wieder streng nach Anleitung
-geht und f¸r welche die Schablone folgendermaﬂen aussieht:
+geht und f√ºr welche die Schablone folgenderma√üen aussieht:
 %
 \begin{alltt}
 (define articles-weight
@@ -273,7 +273,7 @@ Artikel nur das Gewicht:
 \end{alltt}
 %
 Nach Induktionsannahme liefert \texttt{(articles-weight (rest articles))} das
-Gewicht der restlichen Artikel.  Das Gewicht des ersten Artikels muﬂ also
+Gewicht der restlichen Artikel.  Das Gewicht des ersten Artikels mu√ü also
 nur addiert werden:
 %
 \begin{alltt}
@@ -286,7 +286,7 @@ nur addiert werden:
          (articles-weight (rest articles)))))))
 \end{alltt}
 %
-Mit \texttt{articles-weight} l‰ﬂt sich bestimmen, wie voll der
+Mit \texttt{articles-weight} l√§√üt sich bestimmen, wie voll der
 Lastwagen beladen ist.  Im Falle von \texttt{stock} ist das
 Ergebnis sehr erfreulich; kein Platz wird verschenkt:
 %
@@ -300,8 +300,8 @@ Ergebnis sehr erfreulich; kein Platz wird verschenkt:
 \begin{aufgabe}
   Schreiben Sie eine Funktion \texttt{backlog-list}, welche die
   gleichen Eingaben wie \texttt{load-list} akzeptiert, aber die
-  nach dem Beladen eines Lastwagens im Lager zur¸ckbleibenden Artikel
-  zur¸ckgibt.  Die Prozedur soll 
+  nach dem Beladen eines Lastwagens im Lager zur√ºckbleibenden Artikel
+  zur√ºckgibt.  Die Prozedur soll 
   \texttt{load-list} als Hilfsprozedur verwenden.
 \end{aufgabe}
 

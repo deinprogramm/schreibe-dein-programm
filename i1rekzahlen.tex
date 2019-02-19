@@ -3,19 +3,19 @@
 % "Namensnennung 4.0 International (CC BY 4.0)"
 % http://creativecommons.org/licenses/by/4.0/deed.de
 
-\chapter{Prozeduren über natürlichen Zahlen}
+\chapter{Prozeduren Ã¼ber natÃ¼rlichen Zahlen}
 \label{cha:recursion-numbers}
 
-%\section{Prozeduren über natürlichen Zahlen} HK: Hier die einzige numerierte
-%section, also zunächst überflüssig
+%\section{Prozeduren Ã¼ber natÃ¼rlichen Zahlen} HK: Hier die einzige numerierte
+%section, also zunÃ¤chst Ã¼berflÃ¼ssig
 \label{sec:factorial}
 
-Aus der induktiven Definition der natürlichen Zahlen ergibt sich direkt eine Schablone für die
-Konstruktion von Prozeduren auf den natürlichen Zahlen.  Angenommen,
-es sei eine Prozedur gefragt, die für eine Zahl $n$ das Produkt aller
+Aus der induktiven Definition der natÃ¼rlichen Zahlen ergibt sich direkt eine Schablone fÃ¼r die
+Konstruktion von Prozeduren auf den natÃ¼rlichen Zahlen.  Angenommen,
+es sei eine Prozedur gefragt, die fÃ¼r eine Zahl $n$ das Produkt aller
 Zahlen von $1$ bis $n$ berechnet. 
-Dieses Produkt heißt 
-\textit{Fakultät}\index{Fakultät}, auf Englisch
+Dieses Produkt heiÃŸt 
+\textit{FakultÃ¤t}\index{FakultÃ¤t}, auf Englisch
 \textit{factorial\index{factorial@\texttt{factorial}}}. 
   Beschreibung und Signatur sind wie folgt:
 %
@@ -25,7 +25,7 @@ Dieses Produkt heißt
 \end{alltt}
 \label{page:factorial}
 %
-Das Gerüst ergibt sich aus der Signatur:
+Das GerÃ¼st ergibt sich aus der Signatur:
 %
 \begin{alltt}
 (define factorial
@@ -33,9 +33,9 @@ Das Gerüst ergibt sich aus der Signatur:
     ...))
 \end{alltt}
 %
-Wie oben festgestellt, handelt es sich bei den natürlichen Zahlen um
-eine Fallunterscheidung mit zwei Fällen.  In der Schablone muß also
-eine Verzweigung mit zwei Fällen stehen:
+Wie oben festgestellt, handelt es sich bei den natÃ¼rlichen Zahlen um
+eine Fallunterscheidung mit zwei FÃ¤llen.  In der Schablone muÃŸ also
+eine Verzweigung mit zwei FÃ¤llen stehen:
 %
 \begin{alltt}
 (define factorial
@@ -56,9 +56,9 @@ ab:
       (else ...))))
 \end{alltt}
 %
-Diese Fallunterscheidung läßt sich leichter mit \texttt{if}
-schreiben:\footnote{Es wäre genauso richtig, beide Zweige
-  mit einem Test zu versehen, wie bei den Prozeduren über Listen:
+Diese Fallunterscheidung lÃ¤ÃŸt sich leichter mit \texttt{if}
+schreiben:\footnote{Es wÃ¤re genauso richtig, beide Zweige
+  mit einem Test zu versehen, wie bei den Prozeduren Ã¼ber Listen:
 %
 \begin{alltt}
 (define factorial\\
@@ -68,7 +68,7 @@ schreiben:\footnote{Es wäre genauso richtig, beide Zweige
 \hspace*{0em}~~~~~~((> n 0) ...))))
 \end{alltt}
 %
-Umgekehrt ließe sich auch die Fallunterscheidung bei 
+Umgekehrt lieÃŸe sich auch die Fallunterscheidung bei 
 Listen mit \texttt{if} schreiben.  Welche
 Variante am besten ist, ist Geschmackssache.}
 %
@@ -81,10 +81,10 @@ Variante am besten ist, ist Geschmackssache.}
 \end{alltt}
 %
 Der Fall $0$ ist hier gar nicht so einfach zu beantworten.  Was sind
-schließlich "`die Zahlen von $1$ bis $0$"'?  Dafür ist der andere Zweig
-einfacher zu ergänzen: hier ist nämlich die Konstruktionsanleitung für
+schlieÃŸlich "`die Zahlen von $1$ bis $0$"'?  DafÃ¼r ist der andere Zweig
+einfacher zu ergÃ¤nzen: hier ist nÃ¤mlich die Konstruktionsanleitung fÃ¼r
 zusammengesetzte Daten anwendbar.  Als Selektor wird die
-Vorgängeroperation angewendet, es steht also \texttt{(- n 1)} in der
+VorgÃ¤ngeroperation angewendet, es steht also \texttt{(- n 1)} in der
 Alternative.
 Genau wie bei den endlichen Folgen liegt nahe, dass auf \texttt{(- n 1)} ein
 rekursiver Aufruf erfolgt:
@@ -101,7 +101,7 @@ Der rekursive Aufruf \texttt{(factorial (- n 1))} soll nach
 Signatur und Beschreibung der Funktion das Produkt der Zahlen von 1 bis
 $\texttt{n}-1$ berechnen.  Gefragt ist aber das Produkt der Zahlen von
 1 bis \texttt{n}.  Es fehlt noch \texttt{n} selbst, das mit dem
-Ergebnis multipliziert werden muß:
+Ergebnis multipliziert werden muÃŸ:
 %
 \begin{alltt}
 (define factorial
@@ -111,8 +111,8 @@ Ergebnis multipliziert werden muß:
         (* n (factorial (- n 1))))))
 \end{alltt}
 %
-Es fehlt schließlich noch der erste Zweig der \texttt{if}-Form.  In
-Fällen wie diesem, wo die Antwort nicht offensichtlich ist,
+Es fehlt schlieÃŸlich noch der erste Zweig der \texttt{if}-Form.  In
+FÃ¤llen wie diesem, wo die Antwort nicht offensichtlich ist,
 lohnt es sich, ein oder zwei einfache Beispiele durchzurechnen, die meist die
 Antwort zwingend festlegen.  Das einfachste Beispiel ist wohl 1~--
 das Produkt der Zahlen von 1 bis 1 sollte 1 sein.  Auswertung mit dem
@@ -130,9 +130,9 @@ Substitutionsmodell ergibt:
 \end{alltt}
 %
 Damit ist klar, dass die unbekannte Zahl, die an Stelle der 
-\texttt{...} stehen muß, multipliziert mit 1 wiederum 1 ergeben muß.
-Die einzige Zahl, die diese Bedingung erfüllt, ist 1 selbst.  Die
-vollständige Definition von \texttt{factorial} ist also:
+\texttt{...} stehen muÃŸ, multipliziert mit 1 wiederum 1 ergeben muÃŸ.
+Die einzige Zahl, die diese Bedingung erfÃ¼llt, ist 1 selbst.  Die
+vollstÃ¤ndige Definition von \texttt{factorial} ist also:
 %
 \begin{alltt}
 (define factorial
@@ -142,8 +142,8 @@ vollständige Definition von \texttt{factorial} ist also:
         (* n (factorial (- n 1))))))
 \end{alltt}
 %
-An einem größeren Beispiel läßt sich anhand des Substitutionsmodells
-oder im Stepper besonders gut sehen, wie die Rekursion verläuft:
+An einem grÃ¶ÃŸeren Beispiel lÃ¤ÃŸt sich anhand des Substitutionsmodells
+oder im Stepper besonders gut sehen, wie die Rekursion verlÃ¤uft:
 %
 \begin{alltt}
 (factorial 4)
@@ -175,18 +175,18 @@ Die typischen Beobachtungen an diesem Beispiel sind:
 \begin{itemize}
 \item \texttt{Factorial} ruft sich nie mit derselben Zahl $n$ auf, mit
   der es selbst aufgerufen wurde, sondern immer mit $n-1$.
-\item Die natürlichen Zahlen sind so strukturiert, dass die Kette $n,
-  n-1, n-2 \ldots$ irgendwann bei $0$ abbrechen muß.
+\item Die natÃ¼rlichen Zahlen sind so strukturiert, dass die Kette $n,
+  n-1, n-2 \ldots$ irgendwann bei $0$ abbrechen muÃŸ.
 \item \texttt{Factorial} ruft sich bei $n=0$ \emph{nicht}
   selbst auf.
 \end{itemize}
 %
-Aus diesen Gründen kommt der von
-\texttt{(factorial $n$)} erzeugte Berechnungsprozeß immer zum Schluß.  
+Aus diesen GrÃ¼nden kommt der von
+\texttt{(factorial $n$)} erzeugte BerechnungsprozeÃŸ immer zum SchluÃŸ.  
 
 Aus der Definition von \texttt{factorial} ergibt sich eine
-Konstruktionsanleitung für Prozeduren, die natürliche Zahlen
-verarbeiten.  Die Schablone für solche Prozeduren sieht folgendermaßen aus:
+Konstruktionsanleitung fÃ¼r Prozeduren, die natÃ¼rliche Zahlen
+verarbeiten.  Die Schablone fÃ¼r solche Prozeduren sieht folgendermaÃŸen aus:
 %
 \begin{alltt}
 (: proc (natural -> ...))
@@ -199,7 +199,7 @@ verarbeiten.  Die Schablone für solche Prozeduren sieht folgendermaßen aus:
 \label{sec:ka-recursion-numbers}
 %
 Konstruktionsanleitung~\ref{ka:N} in
-Anhang~\ref{app:konstruktionsanleitungen} faßt dies noch einmal
+Anhang~\ref{app:konstruktionsanleitungen} faÃŸt dies noch einmal
 zusammen.
 
 TDB: Funktionen, die Listen erzeugen etc.
@@ -207,7 +207,7 @@ TDB: Funktionen, die Listen erzeugen etc.
 \section*{Aufgaben}
 
 \begin{aufgabe}\label{aufg:power}
-  Schreiben Sie eine Prozedur \texttt{power}, die für eine Basis $b$ und
+  Schreiben Sie eine Prozedur \texttt{power}, die fÃ¼r eine Basis $b$ und
   einen Exponenten $e\in\mathbb{N}$ die Potenz $b^e$ ausrechnet.  Also:
 \begin{alltt}
 (power 5 3)
@@ -222,9 +222,9 @@ TDB: Funktionen, die Listen erzeugen etc.
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
     gerade ist und \verb|#f| sonst.
     Schreiben Sie mit Hilfe von \texttt{even?}
-    eine Prozedur namens \texttt{evens}, welche für zwei
+    eine Prozedur namens \texttt{evens}, welche fÃ¼r zwei
     Zahlen $a$ und $b$ eine Liste der geraden Zahlen zwischen $a$ und
-    $b$ zurückgibt:
+    $b$ zurÃ¼ckgibt:
 \begin{alltt}
 (evens 1 10)
 \evalsto{} #<record:pair 2
@@ -237,9 +237,9 @@ TDB: Funktionen, die Listen erzeugen etc.
     Die eingebaute Funktion \texttt{odd?}\index{odd?@\texttt{odd?}}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
     ungerade ist und \verb|#f| sonst.
-    Schreiben Sie mit Hilfe von \texttt{odd?} eine Prozedur \texttt{odds}, welche für zwei
+    Schreiben Sie mit Hilfe von \texttt{odd?} eine Prozedur \texttt{odds}, welche fÃ¼r zwei
     Zahlen $a$ und $b$ eine Liste der ungeraden Zahlen zwischen $a$ und $b$
-    zurückgibt:
+    zurÃ¼ckgibt:
 \begin{alltt}
 (odds 1 10)
 \evalsto{} #<record:pair 1
@@ -257,7 +257,7 @@ TDB: Funktionen, die Listen erzeugen etc.
   \item Programmieren Sie eine Funktion \texttt{take}, die als
     Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
     akzeptiert, und die ersten \texttt{n} Elemente der Liste
-    \texttt{l} zurückgibt. Beispiel:
+    \texttt{l} zurÃ¼ckgibt. Beispiel:
     \begin{alltt}
       (take (list 1 2 3 4 5 6 7 8) 5)
       \evalsto{} #<list 1 2 3 4 5>
@@ -269,7 +269,7 @@ TDB: Funktionen, die Listen erzeugen etc.
   \item Programmieren Sie eine Funktion \texttt{drop}, die als
     Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
     akzeptiert, und die Liste \texttt{l} ohne die ersten \texttt{n}
-    Elemente zurückgibt.  Beispiel:
+    Elemente zurÃ¼ckgibt.  Beispiel:
     \begin{alltt}
       (drop (list 1 2 3 4 5 6 7 8) 3)
       \evalsto{} #<list 4 5 6 7 8>
@@ -281,7 +281,7 @@ TDB: Funktionen, die Listen erzeugen etc.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Das folgende Zahlenmuster heißt das \textit{Pascalsche
+  Das folgende Zahlenmuster heiÃŸt das \textit{Pascalsche
     Dreieck}:\index{Pascalsches Dreieck}
   \begin{center}
     1\\
@@ -293,7 +293,7 @@ TDB: Funktionen, die Listen erzeugen etc.
   \end{center}
   %
   Die Zahlen an den Kanten des Dreiecks sind allesamt 1.  Eine Zahl im
-  Innern des Dreiecks ist die Summe der beiden Zahlen darüber.
+  Innern des Dreiecks ist die Summe der beiden Zahlen darÃ¼ber.
   Schreibe eine Funktion \texttt{pascal}, die als Argumente die Nummer
   einer Zeile und die Nummer einer "`Spalte"' innerhalb des Dreiecks
   akzeptiert, und die Zahl im Pascalschen Dreieck berechnet.  (Sowohl
@@ -307,15 +307,15 @@ TDB: Funktionen, die Listen erzeugen etc.
 
 \begin{aufgabe}\label{ex:coke-finances}
   Schreiben Sie eine Funktion \texttt{drink-machine}, die das
-  Finanzmanagement eines Getränkeautomaten durchführt.
+  Finanzmanagement eines GetrÃ¤nkeautomaten durchfÃ¼hrt.
   
   \texttt{Drink-machine} soll drei Argumente akzeptieren: den Preis eines
-  Getränks (in Euro-Cents), eine Liste der Centbeträge der
-  Wechselgeldmünzen, die noch im Automaten sind, und den Geldbetrag,
+  GetrÃ¤nks (in Euro-Cents), eine Liste der CentbetrÃ¤ge der
+  WechselgeldmÃ¼nzen, die noch im Automaten sind, und den Geldbetrag,
   den der Kunde eingeworfen hat.  (Also gibt es ein Listenelement pro
-  Münze. Falls z.B.\ mehrere Groschen im Automaten sind, finden sich
+  MÃ¼nze. Falls z.B.\ mehrere Groschen im Automaten sind, finden sich
   in der Liste mehrmals die Zahl 10.)  Herauskommen soll eine Liste
-  der Centbeträge der Münzen, welche die Maschine herausgibt oder
+  der CentbetrÃ¤ge der MÃ¼nzen, welche die Maschine herausgibt oder
   \verb|#f|, falls die Maschine nicht herausgeben kann.
   %
 \begin{alltt}

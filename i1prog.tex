@@ -6,17 +6,17 @@
 \chapter{Elemente des Programmierens}
 \label{cha:whats-programming}
 
-Dieses Kapitel gibt einen Überblick über das wichtigste Handwerkszeug
-des Programmierens: Welche Software Du dafür brauchst, wie Du diese
-Software bedienst, wie kleine Programme aussehen und aus was für
+Dieses Kapitel gibt einen Ãœberblick Ã¼ber das wichtigste Handwerkszeug
+des Programmierens: Welche Software Du dafÃ¼r brauchst, wie Du diese
+Software bedienst, wie kleine Programme aussehen und aus was fÃ¼r
 Elementen sie bestehen.
 
 \section{DrRacket}
 
-Zunächst einmal benötigst Du die Software \textit{Racket}\index{Racket}, die es zum
-kostenlosen Download auf der Seite \url{https://racket-lang.org/} für
-alle gängingen Plattformen gibt.  Auf der Seite ist ein
-\texttt{Download}-Knopf~-- folge den dortigen Instruktionen für die
+ZunÃ¤chst einmal benÃ¶tigst Du die Software \textit{Racket}\index{Racket}, die es zum
+kostenlosen Download auf der Seite \url{https://racket-lang.org/} fÃ¼r
+alle gÃ¤ngingen Plattformen gibt.  Auf der Seite ist ein
+\texttt{Download}-Knopf~-- folge den dortigen Instruktionen fÃ¼r die
 Installation.
 
 \begin{figure}[tb]
@@ -26,37 +26,37 @@ Installation.
   \label{fig:drracket-start}
 \end{figure}
 
-Zu Racket gehört ein Programm namens
+Zu Racket gehÃ¶rt ein Programm namens
 \textit{DrRacket}\index{DrRacket}: starte es.  Es erscheint ein
-Fenster, das ungefähr so aussehen sollte wie in
-Abbildung~\ref{fig:drracket-start}.  Die Benutzeroberfläche kannst
-Du auf Deutsch umstellen, indem Du im Hilfe-Menü auf \texttt{Deutsche
-  Benutzeroberfläche für DrRacket} drückst.  Wenn Du die Auswahl
-bestätigst, wird DrRacket danach beendet und Du musst es noch einmal
-starten; dann sollten die Menüs auf Deutsch sein.
+Fenster, das ungefÃ¤hr so aussehen sollte wie in
+Abbildung~\ref{fig:drracket-start}.  Die BenutzeroberflÃ¤che kannst
+Du auf Deutsch umstellen, indem Du im Hilfe-MenÃ¼ auf \texttt{Deutsche
+  BenutzeroberflÃ¤che fÃ¼r DrRacket} drÃ¼ckst.  Wenn Du die Auswahl
+bestÃ¤tigst, wird DrRacket danach beendet und Du musst es noch einmal
+starten; dann sollten die MenÃ¼s auf Deutsch sein.
 
 DrRacket ist eine \textit{Entwicklungsumgebung}, mit der Du Programme
-schreiben und ausführen kannst.  DrRacket unterstützt nicht nur eine
-Programmiersprache, darum musst Du die richtige Programmiersprache für
-dieses Buch noch auswählen.  Dazu wählst Du den Menüpunkt
-\texttt{Sprache $\rightarrow$ Sprache auswählen} (bzw.\
+schreiben und ausfÃ¼hren kannst.  DrRacket unterstÃ¼tzt nicht nur eine
+Programmiersprache, darum musst Du die richtige Programmiersprache fÃ¼r
+dieses Buch noch auswÃ¤hlen.  Dazu wÃ¤hlst Du den MenÃ¼punkt
+\texttt{Sprache $\rightarrow$ Sprache auswÃ¤hlen} (bzw.\
 \texttt{Language $\rightarrow$ Choose language} in der englischen
 Fassung), worauf ein Dialog erscheint.  In dem Dialog gibt es eine
 Abteilung \texttt{Lehrsprachen\index{Lehrsprachen}}, und darunter eine
-Überschrift namens \texttt{DeinProgramm}, unterhalb dessen mehrere
-Einträge erscheinen, die speziell auf die Kapitel dieses Buchs
+Ãœberschrift namens \texttt{DeinProgramm}, unterhalb dessen mehrere
+EintrÃ¤ge erscheinen, die speziell auf die Kapitel dieses Buchs
 zugeschnitten sind.
 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=\textwidth]{i1prog/drracket-deinprogramm}
-  \caption{DrRacket mit ausgewählter Lehrsprache}
+  \caption{DrRacket mit ausgewÃ¤hlter Lehrsprache}
   \label{fig:drracket-deinprogramm}
 \end{figure}
 
-Für den ersten Teil des Buches ist die Ebene \texttt{Schreibe Dein
-  Programm! - Anfänger} zuständig:\index{Sprachebene!Anfänger} Wähle
-diese aus und drücke dann einmal oben rechts auf den Knopf
+FÃ¼r den ersten Teil des Buches ist die Ebene \texttt{Schreibe Dein
+  Programm! - AnfÃ¤nger} zustÃ¤ndig:\index{Sprachebene!AnfÃ¤nger} WÃ¤hle
+diese aus und drÃ¼cke dann einmal oben rechts auf den Knopf
 \texttt{Start} (bzw.\ \texttt{Run}), damit die Auswahl aktiv wird.
 Das Ergebnis sollte dann so aussehen wie in
 Abbildung~\ref{fig:drracket-deinprogramm}.
@@ -64,30 +64,30 @@ Abbildung~\ref{fig:drracket-deinprogramm}.
 Das DrRacket-Fenster besteht aus zwei Teilen:
 %
 \begin{enumerate}
-\item In der oberen Hälfte des Fensters (dem
+\item In der oberen HÃ¤lfte des Fensters (dem
   \textit{Editor\index{Editor}} oder
   \textit{Definitionsfenster\index{Definitionsfenster}}) steht der
-  Programmtext.  Der Editor funktioniert ähnlich wie ein reguläres
+  Programmtext.  Der Editor funktioniert Ã¤hnlich wie ein regulÃ¤res
   Textverarbeitungsprogramm.  Was dort steht, kannst Du abspeichern.
-\item In der unteren Hälfte des Fensters~-- dem
+\item In der unteren HÃ¤lfte des Fensters~-- dem
   \textit{Interaktionsfenster\index{Interaktionsfenster}} oder der
-  sogenannten \textit{REPL\index{REPL}}\footnote{"`REPL"' steht für
-    "`Read-Eval-Print-Loop"'~-- wir werden später zeigen, warum.}
-  werden die Ausgaben des Programms angezeigt.  Außerdem kannst Du
+  sogenannten \textit{REPL\index{REPL}}\footnote{"`REPL"' steht fÃ¼r
+    "`Read-Eval-Print-Loop"'~-- wir werden spÃ¤ter zeigen, warum.}
+  werden die Ausgaben des Programms angezeigt.  AuÃŸerdem kannst Du
   hier "`Fragen"' an das Programm stellen, um einzelne Programmteile
   gezielt auszuprobieren.
 \end{enumerate}
 %
 
-\section{Ausdrücke und die REPL}
+\section{AusdrÃ¼cke und die REPL}
 
-Fangen wir mit der REPL an: Wenn Du gerade \texttt{Start} gedrückt
+Fangen wir mit der REPL an: Wenn Du gerade \texttt{Start} gedrÃ¼ckt
 hast, dann erscheint der Cursor rechts von dem \verb|>|-Zeichen: Du
-kannst da etwas eingeben und Return drücken~-- DrRacket zeigt dann
+kannst da etwas eingeben und Return drÃ¼cken~-- DrRacket zeigt dann
 das Ergebnis darunter an.
 
 Wenn Du zum Beispiel \texttt{123} eintippst, zeigt DrRacket gleich
-darunter 123 an.  DrRacket kann auch rechnen.  Dafür musst Du
+darunter 123 an.  DrRacket kann auch rechnen.  DafÃ¼r musst Du
 allerdings die Rechenaufgaben etwas anders aufschreiben als sonst.
 Zum Beispiel so:
 %
@@ -97,7 +97,7 @@ Zum Beispiel so:
 %
 Wenn Du das in die REPL tippst, zeigt DrRacket \texttt{165} an, die
 \textit{Summe}\index{Summe} von 123 und 42.  Diese "`Rechenaufgabe"'
-ist ein sogenannter \textit{Ausdruck\index{Ausdruck}}.  Ausdrücke, die
+ist ein sogenannter \textit{Ausdruck\index{Ausdruck}}.  AusdrÃ¼cke, die
 etwas ausrechnen sollten, haben in den Lehrsprachen immer die gleiche
 Form, und die sieht so aus:
 %
@@ -105,19 +105,19 @@ Form, und die sieht so aus:
 (\textnormal{\textit{Operator}} \textnormal{\textit{Operand}} \ldots)
 \end{alltt}
 %
-Das heißt, da stehen \emph{immer} Klammern\index{Klammer} drumherum
-(und die können auch nirgendwo sonst stehen).  Dann steht da der
+Das heiÃŸt, da stehen \emph{immer} Klammern\index{Klammer} drumherum
+(und die kÃ¶nnen auch nirgendwo sonst stehen).  Dann steht da der
 \textit{Operator\index{Operator}}, der bestimmt, \emph{was} gemacht
 wird, also die \textit{Operation}.  Danach kommen die
 \textit{Operanden\index{Operand}}, welche die Eingaben\index{Eingabe}
-für die Operation bestimmen.
+fÃ¼r die Operation bestimmen.
 
-Zum Merken ist es hilfreich, Ausdrücke entsprechend vorzulesen: Also
+Zum Merken ist es hilfreich, AusdrÃ¼cke entsprechend vorzulesen: Also
 nicht mehr "`Hundertdreiundzwanzig plus zweiundvierzig"', sondern
 "`die \emph{Summe} von Hundertdreiundzwanzig und zweiundvierzig"'.
 
 Wie schon gesagt, die Klammern sind wichtig.  Wenn Du sie vergisst,
-können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
+kÃ¶nnen verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
 \texttt{+ 123 42} in der REPL eintippst, sieht das so aus:
 %
 \begin{alltt}
@@ -128,10 +128,10 @@ können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
 \end{alltt}
 %
 Das liegt daran, dass ohne Klammern \texttt{+ 123 32} aus \emph{drei}
-Ausdrücken besteht und die REPL darum auch drei Ergebnisse ausdruckt:
+AusdrÃ¼cken besteht und die REPL darum auch drei Ergebnisse ausdruckt:
 Die Funktion \texttt{+}, dann die \texttt{123}, dann \texttt{42}.
 (Die Operation \texttt{+} ist eine sogenannte Funktion ist~-- das
-erläutern wir später noch genauer.)  Ähnlich verhält es sich mit
+erlÃ¤utern wir spÃ¤ter noch genauer.)  Ã„hnlich verhÃ¤lt es sich mit
 \texttt{123 + 42}~-- probiere es aus!
 
 Wenn Du versehentlich den Operator dazwischen schreibst, erscheint
@@ -142,7 +142,7 @@ in der REPL eine Fehlermeldung:
 {\color{red}Operator darf keine Zahl sein, ist aber 123}
 \end{alltt}
 %
-Etwas ähnliches passiert, wenn Du kein Leerzeichen zwischen den
+Etwas Ã¤hnliches passiert, wenn Du kein Leerzeichen zwischen den
 Operator und die Operanden oder zwischen die Operanden setzt.  Das
 sieht zum Beispiel so aus:
 %
@@ -156,7 +156,7 @@ hundertdreiundzwanzig"' bildet und nicht etwa in das \texttt{+} und
 \texttt{123} aufgeteilt wird.
 
 Wenn ein Ausdruck wie \texttt{(+ 123 42)} ein Ergebnis wie 165 hat,
-schreiben wir das im Buch zukünftig so, etwas anders als die
+schreiben wir das im Buch zukÃ¼nftig so, etwas anders als die
 DrRacket-REPL:
 %
 \begin{alltt}
@@ -164,7 +164,7 @@ DrRacket-REPL:
 \evalsto{} 165
 \end{alltt}
 %
-Es gehen natürlich nicht nur Summen, sonderen auch Differenzen,
+Es gehen natÃ¼rlich nicht nur Summen, sonderen auch Differenzen,
 Produkte und Quotienten:
 %
 \begin{alltt}
@@ -177,7 +177,7 @@ Produkte und Quotienten:
 \end{alltt}
 %
 Beim letzen Ausdruck ist zu sehen, dass Dezimalzahlen mit Punkt und
-nicht mit Komma geschrieben werden.  Der Überstrich bei
+nicht mit Komma geschrieben werden.  Der Ãœberstrich bei
 \texttt{2.9\(\overline{\mathtt{285714}}\)} ist eine
 \textit{Periode\index{Periode}}: die Zahl ist also eigentlich
 %
@@ -185,14 +185,14 @@ nicht mit Komma geschrieben werden.  Der Überstrich bei
 2.9285714285714285714285714285714\ldots
 \end{alltt}
 %
-Die REPL funktioniert also folgendermaßen: Sie \emph{liest} einen
+Die REPL funktioniert also folgendermaÃŸen: Sie \emph{liest} einen
 Ausdruck ein ("`read"'), berechnet deren Wert oder \emph{wertet}
 diesen \emph{aus} (auf Englisch "`eval"') und zeigt das Ergebnis an
 oder \emph{druckt} dieses \emph{aus} ("`print"')~-- und dann geht es
 von vorn los, wie in einer Schleife ("`loop"').  Die Abfolge
 \emph{Read-Eval-Print-Loop} gibt der REPL ihren Namen.
 
-Ausdrücke können auch kombiniert werden, zum Beispiel so:
+AusdrÃ¼cke kÃ¶nnen auch kombiniert werden, zum Beispiel so:
 %
 \begin{alltt}
 (* 123 (+ 20 22))
@@ -211,17 +211,17 @@ auch mal englischsprachige Fehlermeldungen wie diese hier:
 \end{alltt}
 %
 Das liegt daran, dass das \texttt{*} hier an der Stelle eines
-Operanden für die Summe dient.  Ein anderes Wort für Operand in diesem
-Zusammenhang ist \textit{Operand}, darum steht da sinngemäß, dass
+Operanden fÃ¼r die Summe dient.  Ein anderes Wort fÃ¼r Operand in diesem
+Zusammenhang ist \textit{Operand}, darum steht da sinngemÃ¤ÃŸ, dass
 \texttt{+} eine Zahl als ersten Operanden erwartet, aber
 stattdessen die Funktion \texttt{+} bekommen hat.
 
-Ein hilfreicher Trick übrigens: Um einen Ausdruck zu korrigieren,
-kannst Du ihn in der REPL "`zurückholen"', indem Du \texttt{Esc}, und
-dann \texttt{P} drückst~-- probier es aus!
+Ein hilfreicher Trick Ã¼brigens: Um einen Ausdruck zu korrigieren,
+kannst Du ihn in der REPL "`zurÃ¼ckholen"', indem Du \texttt{Esc}, und
+dann \texttt{P} drÃ¼ckst~-- probier es aus!
 
 \begin{aufgabe}
-  Schreibe folgende "`mathematischen"' Ausdrücke in der Notation der
+  Schreibe folgende "`mathematischen"' AusdrÃ¼cke in der Notation der
   Lehrsprache in die REPL und lasse die REPL sie auswerten:
   %
   \begin{displaymath}
@@ -236,7 +236,7 @@ dann \texttt{P} drückst~-- probier es aus!
 %
 Ein weiterer praktischer Trick ist, dass Du einen geklammerten
 Ausdruck markieren (und dann ausschneiden) kannst, indem Du auf die
-öffnende oder schließende Klammer doppelt klickst.
+Ã¶ffnende oder schlieÃŸende Klammer doppelt klickst.
 
 \section{Das Definitionsfenster}
 
@@ -249,8 +249,8 @@ Schreib in das Definitionsfenster folgende
 (define alles (+ 20 22))
 \end{verbatim}
 %
-Diese Definition besagt, dass der Name \texttt{alles} für das Ergebnis
-von \texttt{(+ 20 22)} steht.  Um das auszuprobieren, drück auf den
+Diese Definition besagt, dass der Name \texttt{alles} fÃ¼r das Ergebnis
+von \texttt{(+ 20 22)} steht.  Um das auszuprobieren, drÃ¼ck auf den
 Knopf \texttt{Start} bzw.\ \texttt{Run} rechts oben.  Der Cursor
 landet dann wieder in der REPL, wo Du das Programm ausprobieren
 kannst:
@@ -260,10 +260,10 @@ alles
 \evalsto{} 42
 \end{alltt}
 %
-Ein Name, der in einem Programm so definiert ist, heißt
+Ein Name, der in einem Programm so definiert ist, heiÃŸt
 \textit{Variable\index{Variable}}.
 
-Hier sind ein paar weitere Beispiele für Definitionen:
+Hier sind ein paar weitere Beispiele fÃ¼r Definitionen:
 %
 \begin{alltt}
 (define one 1)
@@ -274,12 +274,12 @@ Hier sind ein paar weitere Beispiele für Definitionen:
 %
 Bei der Gestaltung eines Namens gibt es weitgehende
 Freiheiten.\footnote{Anders als in anderen Programmiersprachen sind
-  auch Bindestriche in Namen möglich.}  Nur Leerzeichen sind nicht
+  auch Bindestriche in Namen mÃ¶glich.}  Nur Leerzeichen sind nicht
 erlaubt.
 
-In einem Programm kannst Du Zeilenumbrüche und Einrückung benutzen, um
-Dein Programm übersichtlicher zu gestalten.  Zum Beispiel kannst Du
-nach \texttt{alles} die Return-Taste drücken, das Ergebnis sieht so
+In einem Programm kannst Du ZeilenumbrÃ¼che und EinrÃ¼ckung benutzen, um
+Dein Programm Ã¼bersichtlicher zu gestalten.  Zum Beispiel kannst Du
+nach \texttt{alles} die Return-Taste drÃ¼cken, das Ergebnis sieht so
 aus:
 %
 \begin{alltt}
@@ -287,9 +287,9 @@ aus:
   (+ 20 22))
 \end{alltt}
 %
-DrRacket rückt die zweite Zeile ein bisschen ein, um auszudrücken,
-dass sie noch in die Klammern vom \texttt{define} gehört.  Bei
-komplizierteren Ausdrücken ist das hilfreich:
+DrRacket rÃ¼ckt die zweite Zeile ein bisschen ein, um auszudrÃ¼cken,
+dass sie noch in die Klammern vom \texttt{define} gehÃ¶rt.  Bei
+komplizierteren AusdrÃ¼cken ist das hilfreich:
 %
 \begin{verbatim}
 (define alles
@@ -298,17 +298,17 @@ komplizierteren Ausdrücken ist das hilfreich:
 \end{verbatim}
 %
 Hier stellt DrRacket die Operanden der Summe genau untereinander.
-DrRacket zwingt Dich nicht, die Einrückung genau so zu machen, und
-durch Änderungen im Programm gerät sie auch manchmal aus dem Lot.  In
-dem Fall kannst Du die Tab-Taste drücken (auf den meisten Tastaturen
+DrRacket zwingt Dich nicht, die EinrÃ¼ckung genau so zu machen, und
+durch Ã„nderungen im Programm gerÃ¤t sie auch manchmal aus dem Lot.  In
+dem Fall kannst Du die Tab-Taste drÃ¼cken (auf den meisten Tastaturen
 steht $\longrightarrow\mid$ auf der Tab-Taste) und in der Zeile, in
-welcher der Cursor steht, wird die Einrückung korrigiert.  Es gibt
-einen Menüunkt \texttt{Racket $\rightarrow$ Alles einrücken} (bzw.\
-\texttt{Racket $\rightarrow$ Reindent All}), der das für das gesamte
+welcher der Cursor steht, wird die EinrÃ¼ckung korrigiert.  Es gibt
+einen MenÃ¼unkt \texttt{Racket $\rightarrow$ Alles einrÃ¼cken} (bzw.\
+\texttt{Racket $\rightarrow$ Reindent All}), der das fÃ¼r das gesamte
 Programm macht: Probier es aus!
 
 \begin{aufgabe}
-  Bring bei einem mehrzahligen Programm die Einrückung richtig
+  Bring bei einem mehrzahligen Programm die EinrÃ¼ckung richtig
   durcheinander, zum Beispiel so:
 \begin{verbatim}
 (define nr
@@ -318,27 +318,27 @@ Programm macht: Probier es aus!
     500)))
 \end{verbatim}
   %
-  Benutze dann die Tab-Taste, um die Einrückung wieder zu korrigieren.
+  Benutze dann die Tab-Taste, um die EinrÃ¼ckung wieder zu korrigieren.
 \end{aufgabe}
 %
 Den Inhalt des Definitionsfenster kannst Du abspeichern, indem Du auf
 den Knopf mit der Diskette
-\raisebox{-1ex}{\includegraphics[height=12pt]{i1prog/save}} drückst.
+\raisebox{-1ex}{\includegraphics[height=12pt]{i1prog/save}} drÃ¼ckst.
 
 Abspeichern geht mit der REPL nicht, und der REPL-Inhalt verschwindet
-auch jedesmal, wenn Du \texttt{Start} bzw.\ \texttt{Run} drückst.  Du
-kannst aber frühere Eingaben zurückholen, indem Du \texttt{Esc~P}
-drückst.
+auch jedesmal, wenn Du \texttt{Start} bzw.\ \texttt{Run} drÃ¼ckst.  Du
+kannst aber frÃ¼here Eingaben zurÃ¼ckholen, indem Du \texttt{Esc~P}
+drÃ¼ckst.
 
 \section{Rechnen ohne Zahlen}
 
-Computerprogramme können nicht nur mit Zahlen rechnen.  In diesem
+Computerprogramme kÃ¶nnen nicht nur mit Zahlen rechnen.  In diesem
 Abschnitt geht es um das Rechnen mit Text und das Rechnen mit Bildern.
 
 \subsection{Rechnen mit Zeichenketten}
 
 Zum Beispiel gibt es auch Text, der in einem Programm immer von
-doppelten Anführungszeichen umschlossen ist, zum Beispiel:
+doppelten AnfÃ¼hrungszeichen umschlossen ist, zum Beispiel:
 %
 \begin{alltt}
 "Mike Sperber"
@@ -346,52 +346,52 @@ doppelten Anführungszeichen umschlossen ist, zum Beispiel:
 "Schreibe Dein Programm!"
 \end{alltt}
 %
-Diese Werte heißen \textit{Zeichenketten\index{Zeichenkette}}.
+Diese Werte heiÃŸen \textit{Zeichenketten\index{Zeichenkette}}.
 
 Die einfachste Art, eine Zeichenkette herzustellen, ist, die
 Buchstaben hinzuschreiben, aus denen sie besteht.  Die
-Anführungszeichen müssen drumherum, um die Zeichenketten von anderen
-Ausdrücken zu unterscheiden.  Die Anführungszeichen gehören aber nicht
+AnfÃ¼hrungszeichen mÃ¼ssen drumherum, um die Zeichenketten von anderen
+AusdrÃ¼cken zu unterscheiden.  Die AnfÃ¼hrungszeichen gehÃ¶ren aber nicht
 zu den Buchstaben dazu, aus denen die Zeichenkette besteht~--
 \verb|"abc"| besteht aus den drei Buchstaben \texttt{abc}.
 
 \begin{feature}{Zeichenketten}{scheme:strings}
 \textit{Zeichenketten\index{Zeichenkette}} (auf Englisch
-\textit{Strings}\index{String}) repräsentieren Text.
-Literale für Zeichenketten haben folgende Form:
+\textit{Strings}\index{String}) reprÃ¤sentieren Text.
+Literale fÃ¼r Zeichenketten haben folgende Form:
 %
 \begin{alltt}
 "\(z\sb{1}\)\(z\sb{2}\) \(\ldots\) \(z\sb{n}\)"
 \end{alltt}
 %
-Dabei sind die \(z\sb{i}\) beliebige einzelne Zeichen, außer \verb|"| selbst.
+Dabei sind die \(z\sb{i}\) beliebige einzelne Zeichen, auÃŸer \verb|"| selbst.
 Beispiel:
 %
 \begin{alltt}
 "Herbert was here!"
 \end{alltt}
 %
-Das Anführungszeichen (\verb|"|) kann nicht "`ungeschützt"' vorkommen, da es das Ende der
+Das AnfÃ¼hrungszeichen (\verb|"|) kann nicht "`ungeschÃ¼tzt"' vorkommen, da es das Ende der
 Zeichenkette markiert. Es wird als Zeichen innerhalb einer Zeichenkette
 durch \verb|\"| dargestellt:
 %
 \begin{alltt}
-"Herbert sagt, Mike wäre \backwhack{}"doof\backwhack{}"!"
+"Herbert sagt, Mike wÃ¤re \backwhack{}"doof\backwhack{}"!"
 \end{alltt}
 \end{feature}
 
-Abbildung~\ref{scheme:strings} beschreibt die genaue Schreibweise für
-solche "`festen"' Zeichenketten.  Feste Schreibweisen für Werte heißen
+Abbildung~\ref{scheme:strings} beschreibt die genaue Schreibweise fÃ¼r
+solche "`festen"' Zeichenketten.  Feste Schreibweisen fÃ¼r Werte heiÃŸen
 allgemein \textit{Literale\index{Literal}}.  Das kennen wir schon von
-den Zahlen: die Zeichenfolge \texttt{123} steht für die Zahl
-"`hundertdreiundzwanzig"'.  Kästen wie Abbildung~\ref{scheme:strings}
+den Zahlen: die Zeichenfolge \texttt{123} steht fÃ¼r die Zahl
+"`hundertdreiundzwanzig"'.  KÃ¤sten wie Abbildung~\ref{scheme:strings}
 werden in diesem Buch noch oft dazu dienen, neue Sprachelemente
-einzuführen.
+einzufÃ¼hren.
 
 Mit Text kann ein Programm auch rechnen, und zwar mit der eingebauten
 Funktion
 \texttt{string"=append}\index{string-append@\texttt{string-append}},
-die zwei Zeichenketten aneinanderhängt:
+die zwei Zeichenketten aneinanderhÃ¤ngt:
 %
 \begin{alltt}
 (string-append "Herbert" "Mike")
@@ -413,9 +413,9 @@ liefert die Anzahl der Buchstaben in einer Zeichenkette:
 %
 Die Namen \texttt{string-append} und \texttt{string-length} sehen auf
 den ersten Blick "`anders"' aus als \texttt{+} und \texttt{*} zum
-Beispiel, dieser Eindruck täuscht jedoch: Sie sind allesamt Namen von
-vordefinierten Operationen, die Programme benutzen können, oder sie
-selbst definieren zu müssen.
+Beispiel, dieser Eindruck tÃ¤uscht jedoch: Sie sind allesamt Namen von
+vordefinierten Operationen, die Programme benutzen kÃ¶nnen, oder sie
+selbst definieren zu mÃ¼ssen.
 
 Die vordefinierten Funktionen
 \texttt{string->number}\index{string->number@\texttt{string->number}}
@@ -441,16 +441,16 @@ Zeichenketten, die diese darstellen:
 
 \subsection{Rechnen mit Bildern}
 
-Programme können auch mit Bildern rechnen.  Dazu wird eine Erweiterung
-zu DrRacket benötigt, ein sogenanntes
-\textit{Teachpack}\index{Teachpack}: Wähle dazu den Menüpunkt
-\texttt{Sprache $\rightarrow$ Teachpack hinzufügen}.  (Beziehungsweise
+Programme kÃ¶nnen auch mit Bildern rechnen.  Dazu wird eine Erweiterung
+zu DrRacket benÃ¶tigt, ein sogenanntes
+\textit{Teachpack}\index{Teachpack}: WÃ¤hle dazu den MenÃ¼punkt
+\texttt{Sprache $\rightarrow$ Teachpack hinzufÃ¼gen}.  (Beziehungsweise
 \texttt{Language $\rightarrow$ Add Teachpack}.  In dem Dialog, der
-dann erscheint, wähle \texttt{image.rkt} aus und drücke dann
+dann erscheint, wÃ¤hle \texttt{image.rkt} aus und drÃ¼cke dann
 \texttt{OK}.
 
-Das Teachpack \texttt{image.rkt} enthält zusätzliche vordefinierte
-Funktionen, mit denen wir Bilder herstellen können.  Zum Beispiel
+Das Teachpack \texttt{image.rkt} enthÃ¤lt zusÃ¤tzliche vordefinierte
+Funktionen, mit denen wir Bilder herstellen kÃ¶nnen.  Zum Beispiel
 \texttt{square}, \texttt{circle} und \texttt{star-polygon}:
 %
 \begin{alltt}
@@ -462,14 +462,14 @@ Funktionen, mit denen wir Bilder herstellen können.  Zum Beispiel
 \evalsto{} \includegraphics[height=24pt]{i1prog/starpolygon}
 \end{alltt}
 %
-Schauen wir uns das eingebaute \texttt{star-polygon} etwas näher an:
-Es akzeptiert fünf Eingaben, die ersten drei davon sind Zahlen~-- die
-Seitenlänge, die Seitenanzahl und die Anzahl der Ecken, die für jede
-Seite übersprungen werden.  Danach kommen zwei Zeichenketten~--
-\verb|"solid"| heißt, dass das Innere des Sterns ausgefüllt ist und
+Schauen wir uns das eingebaute \texttt{star-polygon} etwas nÃ¤her an:
+Es akzeptiert fÃ¼nf Eingaben, die ersten drei davon sind Zahlen~-- die
+SeitenlÃ¤nge, die Seitenanzahl und die Anzahl der Ecken, die fÃ¼r jede
+Seite Ã¼bersprungen werden.  Danach kommen zwei Zeichenketten~--
+\verb|"solid"| heiÃŸt, dass das Innere des Sterns ausgefÃ¼llt ist und
 \verb|"blue"| ist die Farbe.  Statt \verb|"solid"| kannst Du auch
 \verb|"outline"| schreiben, dann wird auch etwas klarer, was
-"`überspringen"' heißt:
+"`Ã¼berspringen"' heiÃŸt:
 %
 % filename can't contain hyphen because of alltt
 \begin{alltt}
@@ -478,17 +478,17 @@ Seite übersprungen werden.  Danach kommen zwei Zeichenketten~--
 \end{alltt}
 %
 \begin{aufgabe}
-  Wofür stehen die Zahleneingaben bei \texttt{square} und
+  WofÃ¼r stehen die Zahleneingaben bei \texttt{square} und
   \texttt{circle}?  Probiere unterschiedliche Zahlen aus!  Es gibt
   auch eine eingebaute Funktion \texttt{rectangle}.  Kannst Du ein
-  funktionierendes Beispiel für den Einsatz von \texttt{rectangle}
-  konstruieren?  Außerdem gibt es eine eingebaute Funktion
+  funktionierendes Beispiel fÃ¼r den Einsatz von \texttt{rectangle}
+  konstruieren?  AuÃŸerdem gibt es eine eingebaute Funktion
   \texttt{ellipse}, die genauso benutzt wird wie \texttt{rectangle}~--
   probiere sie aus!
 \end{aufgabe}
 %
 Bilder sind Werte wie Zahlen und Zeichenketten auch.  Du kannst
-Definitionen auch Namen dafür vergeben:
+Definitionen auch Namen dafÃ¼r vergeben:
 %
 \begin{verbatim}
 (define s1 (square 40 "solid" "red"))
@@ -498,7 +498,7 @@ Definitionen auch Namen dafür vergeben:
 %
 \begin{aufgabe}
   Du kannst auch Bilddateien oder Bilder in Webseiten in Dein Programm
-  einfügen, wie in einem Textverarbeitsprogramm.  Probier es aus und
+  einfÃ¼gen, wie in einem Textverarbeitsprogramm.  Probier es aus und
   gib dem Bild einen Namen!
 \end{aufgabe}
 
@@ -514,15 +514,15 @@ Mit Bildern kann DrRacket auch rechnen:
 \evalsto{} \includegraphics[width=48pt]{i1prog/abovebeside.png}
 \end{alltt}              
 %
-Das heißt, \texttt{beside} akzeptiert als Eingabe zwei (oder mehr)
+Das heiÃŸt, \texttt{beside} akzeptiert als Eingabe zwei (oder mehr)
 Bilder und macht daraus wieder ein Bild, in dem die Teilbilder
-nebeneinander stehen.  Das gleiche gilt für \texttt{above}, nur dass
-die Bilder übereinander angeordnet werden.  Selbstverständlich können
+nebeneinander stehen.  Das gleiche gilt fÃ¼r \texttt{above}, nur dass
+die Bilder Ã¼bereinander angeordnet werden.  SelbstverstÃ¤ndlich kÃ¶nnen
 \texttt{above} und \texttt{beside} auch kombiniert werden.
 
 \section{Die Macht der Abstraktion}
 
-Hier sind zwei Ausdrücke, welche die Bilder aus dem vorigen Abschnitt
+Hier sind zwei AusdrÃ¼cke, welche die Bilder aus dem vorigen Abschnitt
 zu einem Muster kombinieren:
 %
 \begin{alltt}
@@ -537,8 +537,8 @@ zu einem Muster kombinieren:
 \evalsto{} \includegraphics[width=48pt]{i1prog/tile2}
 \end{alltt}
 %
-Beide Ausdrücke folgen dem gleichen Muster, sie "`kacheln"' jeweils zwei
-Bilder in einer quadratischen Anordnung.  Das Muster könnte man so
+Beide AusdrÃ¼cke folgen dem gleichen Muster, sie "`kacheln"' jeweils zwei
+Bilder in einer quadratischen Anordnung.  Das Muster kÃ¶nnte man so
 hinschreiben:
 %
 \begin{verbatim}
@@ -547,11 +547,11 @@ hinschreiben:
  (beside b a))
 \end{verbatim}
 %
-Das erste Beispiel entsteht dann, indem für \texttt{a} \texttt{s1}
-eingesetzt wird und für \texttt{b} \texttt{p1}, im zweiten für \texttt{a}
-\texttt{p1} und für \texttt{b} dann \texttt{c1}.
+Das erste Beispiel entsteht dann, indem fÃ¼r \texttt{a} \texttt{s1}
+eingesetzt wird und fÃ¼r \texttt{b} \texttt{p1}, im zweiten fÃ¼r \texttt{a}
+\texttt{p1} und fÃ¼r \texttt{b} dann \texttt{c1}.
 
-Dieses Muster kannst Du in ein Programm gießen.  Dann müssen wir nicht
+Dieses Muster kannst Du in ein Programm gieÃŸen.  Dann mÃ¼ssen wir nicht
 jedesmal \texttt{above \ldots{} beside \ldots{} beside} eintippen.
 Dazu schreibst Du es erst einmal genauso hin, also mit \texttt{a} und
 \texttt{b}.  Wenn Du das Programm startet, erscheint folgende Meldung:
@@ -560,20 +560,20 @@ Dazu schreibst Du es erst einmal genauso hin, also mit \texttt{a} und
 \color{red}a: Ungebundene Variable
 \end{alltt}
 %
-Na klar, es gibt ja auch keine Definition für \texttt{a}.  Du könntest
+Na klar, es gibt ja auch keine Definition fÃ¼r \texttt{a}.  Du kÃ¶nntest
 eine hinschreiben, zum Beispiel:
 %
 \begin{verbatim}
 (define a s1)
 \end{verbatim}
 %
-Aber dann wäre \texttt{a} auf \texttt{s1} festgelegt.  Wir wollen
+Aber dann wÃ¤re \texttt{a} auf \texttt{s1} festgelegt.  Wir wollen
 stattdessen das Muster verallgemeinern, so dass Du es mehrmals mit
-unterschiedlichen Werten für \texttt{a} und \texttt{b} verwenden
-kannst.  Dieser Verallgemeinerungsprozess heißt beim Programmieren
-\textit{Abstraktion\index{Abstraktion}}.  Dafür müssen wir dem Muster
-noch etwas hinzufügen, um zu sagen, dass wir unterschiedliche Werte
-für \texttt{a} und \texttt{b} einsetzen wollen:
+unterschiedlichen Werten fÃ¼r \texttt{a} und \texttt{b} verwenden
+kannst.  Dieser Verallgemeinerungsprozess heiÃŸt beim Programmieren
+\textit{Abstraktion\index{Abstraktion}}.  DafÃ¼r mÃ¼ssen wir dem Muster
+noch etwas hinzufÃ¼gen, um zu sagen, dass wir unterschiedliche Werte
+fÃ¼r \texttt{a} und \texttt{b} einsetzen wollen:
 %
 \begin{verbatim}
 (lambda (a b)
@@ -582,8 +582,8 @@ für \texttt{a} und \texttt{b} einsetzen wollen:
    (beside b a)))
 \end{verbatim}
 %
-Die \texttt{lambda}\index{lambda@\texttt{lambda}} ist eine Art Zauberwort, es sagt soviel wie: "`Für
-die Variablen \texttt{a} und \texttt{b} möchte ich später (und
+Die \texttt{lambda}\index{lambda@\texttt{lambda}} ist eine Art Zauberwort, es sagt soviel wie: "`FÃ¼r
+die Variablen \texttt{a} und \texttt{b} mÃ¶chte ich spÃ¤ter (und
 vielleicht mehrmals) Werte einsetzen."'  Wenn Du das Programm jetzt
 startest, geht die Fehlermeldung weg und in der REPL erscheint:
 %
@@ -605,7 +605,7 @@ herauskommt.  Um etwas damit anfzufangen, gib ihr einen Namen mit
      (beside b a))))
 \end{verbatim}
 %
-(Alles schön richtig einrücken! "`Tile"' heißt auf Deutsch
+(Alles schÃ¶n richtig einrÃ¼cken! "`Tile"' heiÃŸt auf Deutsch
 "`kacheln"'.)
 
 Dadurch ist eine neue Operation entstanden.  Die kannst Du direkt
@@ -621,7 +621,7 @@ verwenden:
 %
 Was ist da passiert?  Am einfachsten kann man das in einem speziellen
 Werkzeug sehen, dem \textit{Stepper\index{Stepper}}.  Um ihn zum
-Einsatz zu bringen, sorge dafür, dass im Definitionsfenster folgendes
+Einsatz zu bringen, sorge dafÃ¼r, dass im Definitionsfenster folgendes
 Programm steht, also das, was weiter oben schon steht:
 %
 \begin{verbatim}
@@ -639,7 +639,7 @@ Programm steht, also das, was weiter oben schon steht:
 (tile p1 c1)
 \end{verbatim}
 %
-Dann drück auf den \texttt{Stepper}-Knopf oben rechts im
+Dann drÃ¼ck auf den \texttt{Stepper}-Knopf oben rechts im
 DrRacket-Fenster.  Es erscheint ein neues Fenster, das so aussieht:
 
 \begin{figure}[H]
@@ -649,9 +649,9 @@ DrRacket-Fenster.  Es erscheint ein neues Fenster, das so aussieht:
   \label{fig:stepper-0}
 \end{figure}
 %
-\noindent Du kannst jetzt mit den Knöpfen mit dem Vorwärts- beziehungsweise dem
-Rückwärts-Pfeil zusehen, wie DrRacket Dein Programm ausführt.  Wenn Du
-ein paar Schritte vorwärts gehst, sieht das so aus:
+\noindent Du kannst jetzt mit den KnÃ¶pfen mit dem VorwÃ¤rts- beziehungsweise dem
+RÃ¼ckwÃ¤rts-Pfeil zusehen, wie DrRacket Dein Programm ausfÃ¼hrt.  Wenn Du
+ein paar Schritte vorwÃ¤rts gehst, sieht das so aus:
 %
 \begin{figure}[H]
   \centering
@@ -661,7 +661,7 @@ ein paar Schritte vorwärts gehst, sieht das so aus:
 \end{figure}
 %
 \noindent Du kannst sehen, wie DrRacket jeweils einen Ausdruck einen Schritt auf
-einmal auswertet~-- der ist auf der linken Seite grün~-- und dann
+einmal auswertet~-- der ist auf der linken Seite grÃ¼n~-- und dann
 rechts durch das Resultat ersetzt.  Oben kannst Du sehen, wie der
 Stepper die Variable \texttt{tile} durch den \texttt{lambda}-Ausdruck
 aus der Definition von \texttt{tile} ersetzt. Das macht der Stepper
@@ -676,9 +676,9 @@ auch mit den Definitionen von \texttt{s1} und \texttt{p1}:
 %
 \noindent Interessant wird es danach: Die Variablen aus den Definitionen sind
 alle ersetzt.  Hinter dem \texttt{lambda}-Ausdruck stehen jetzt das
-Quadrat und der Stern, und die werden jetzt für die Variablen aus dem
-\texttt{lambda}-Ausdruck eingesetzt, also das Quadrat für \texttt{a}
-und der Stern für \texttt{b}:
+Quadrat und der Stern, und die werden jetzt fÃ¼r die Variablen aus dem
+\texttt{lambda}-Ausdruck eingesetzt, also das Quadrat fÃ¼r \texttt{a}
+und der Stern fÃ¼r \texttt{b}:
 %
 \begin{figure}[H]
   \centering
@@ -692,7 +692,7 @@ und der Stern für \texttt{b}:
 \begin{aufgabe}
   Probiere das Beispiel im Stepper aus und klicke Dich bis zum Ende
   durch. Mache Dir dabei klar, wie jeweils die linke mit der rechten
-  Seite zusammenhängt.
+  Seite zusammenhÃ¤ngt.
 \end{aufgabe}
 %
 
@@ -703,9 +703,9 @@ und der Stern für \texttt{b}:
 \end{alltt}
   %
   Die $p_i$ sind jeweils Namen, die \textit{Parameter}\index{Parameter}, und
-  $e$ ist der \textit{Rumpf}\index{Rumpf}.  In $e$ dürfen die $p_i$
+  $e$ ist der \textit{Rumpf}\index{Rumpf}.  In $e$ dÃ¼rfen die $p_i$
   vorkommen.  Der Wert einer Abstraktion ist eine \textit{Funktion}\index{Funktion},
-  welche für jeden Parameter eine Eingabe erwartet.
+  welche fÃ¼r jeden Parameter eine Eingabe erwartet.
 
   Eine \textit{Anwendung} einer Funktion hat folgende Form:
   %
@@ -713,11 +713,11 @@ und der Stern für \texttt{b}:
 (\(p\) \(a\sb{1}\) \ldots \(a\sb{n}\))
 \end{alltt}
   %
-  $p$ ist ein Ausdruck, der eine Prozedur ergeben muß, die $a_i$ sind
-  ebenfalls Ausdrücke, die \textit{Argumente}\index{Argument}.  Bei
-  der Auswertung einer Anwendung werden zunächst $p$ und die $a_i$
+  $p$ ist ein Ausdruck, der eine Prozedur ergeben muÃŸ, die $a_i$ sind
+  ebenfalls AusdrÃ¼cke, die \textit{Argumente}\index{Argument}.  Bei
+  der Auswertung einer Anwendung werden zunÃ¤chst $p$ und die $a_i$
   ausgewertet; danach geht es mit der Auswertung des Rumpfes der
-  Prozedur weiter, wobei für die Parameter $p_i$ jeweils die Werte der
+  Prozedur weiter, wobei fÃ¼r die Parameter $p_i$ jeweils die Werte der
   Argumente $a_i$ eingesetzt werden.
 \end{feature}
 
@@ -732,58 +732,58 @@ Eine Definition wie
 %
 suggeriert, dass die Zahl 19 an dieser Stelle eine Bedeutung "`in der
 realen Welt"' hat, zum Beispiel in einem Programm, das eine Registrierkasse
-steuert oder das bei der Steuererklärung hilft.  Die Bedeutung könnte
-folgende Aussage sein: "`Der Mehrwertsteuersatz beträgt 19\%."'
-Dieser Satz repräsentiert \textit{Information}\index{Information},
-also einen Fakt über die Welt oder zumindest den Ausschnitt der Welt, in
+steuert oder das bei der SteuererklÃ¤rung hilft.  Die Bedeutung kÃ¶nnte
+folgende Aussage sein: "`Der Mehrwertsteuersatz betrÃ¤gt 19\%."'
+Dieser Satz reprÃ¤sentiert \textit{Information}\index{Information},
+also einen Fakt Ã¼ber die Welt oder zumindest den Ausschnitt der Welt, in
 dem das Programm arbeiten soll.  In Computerprogrammen wird
 Information in eine vereinfachte Form gebracht, mit der das Programm
 rechnen kann~-- in diesem Fall die Zahl 19.  Diese vereinfachte Form
-heißt \textit{Daten}\index{Daten}: Daten sind
-\textit{Repräsentationen}\index{Repräsentation} für Information.
+heiÃŸt \textit{Daten}\index{Daten}: Daten sind
+\textit{ReprÃ¤sentationen}\index{ReprÃ¤sentation} fÃ¼r Information.
 Beim Programmieren ist eine
-unserer Hauptaufgaben entsprechend, die richtigen Form für die Daten
-zu wählen, um die für das Programm relevanten Informationen
-darzustellen die Informationen dann in Daten zu übersetzen.
+unserer Hauptaufgaben entsprechend, die richtigen Form fÃ¼r die Daten
+zu wÃ¤hlen, um die fÃ¼r das Programm relevanten Informationen
+darzustellen die Informationen dann in Daten zu Ã¼bersetzen.
 
 Nicht immer ist offensichtlich, welche Information durch bestimmte
-Daten repräsentiert werden.  Das Datum 23 zum Beispiel könnte eine Reihe
+Daten reprÃ¤sentiert werden.  Das Datum 23 zum Beispiel kÃ¶nnte eine Reihe
 von Informationen darstellen:
 %
 \begin{itemize}
 \item die Anzahl der Haare von Bruce Willis
-\item die aktuelle Außentemperatur in °C in Tübingen
-\item die Außentemperatur vom 1.7.2000 in °C in Tübingen
-\item die Größe in m$^2$ des Schlafzimmers
-\item die Rückennummer von Michael Jordan
+\item die aktuelle AuÃŸentemperatur in Â°C in TÃ¼bingen
+\item die AuÃŸentemperatur vom 1.7.2000 in Â°C in TÃ¼bingen
+\item die GrÃ¶ÃŸe in m$^2$ des Schlafzimmers
+\item die RÃ¼ckennummer von Michael Jordan
 \end{itemize}
 %
-Damit andere unsere Programme lesen können, werden wir also immer
-wieder klarstellen müssen, wie Information in Daten zu übersetzen ist
+Damit andere unsere Programme lesen kÃ¶nnen, werden wir also immer
+wieder klarstellen mÃ¼ssen, wie Information in Daten zu Ã¼bersetzen ist
 und umgekehrt.
 
-Manche Programme können auch Informationen direkt verarbeiten, meist
-dadurch, dass sie diese erst in Daten übersetzen und dann die Daten
-weiterverarbeiten.  Der Teil, der diese Übersetzung leistet, heißt
-\textit{Benutzerschnittstelle}\index{Benutzerschnittstelle}.  Zunächst
-werden wir uns allerdings primär mit rein datenverarbeitenden
-Programmen beschäftigen; Benutzerschnittstellen kommen später.
+Manche Programme kÃ¶nnen auch Informationen direkt verarbeiten, meist
+dadurch, dass sie diese erst in Daten Ã¼bersetzen und dann die Daten
+weiterverarbeiten.  Der Teil, der diese Ãœbersetzung leistet, heiÃŸt
+\textit{Benutzerschnittstelle}\index{Benutzerschnittstelle}.  ZunÃ¤chst
+werden wir uns allerdings primÃ¤r mit rein datenverarbeitenden
+Programmen beschÃ¤ftigen; Benutzerschnittstellen kommen spÃ¤ter.
 
-\section{Domänenwissen}
+\section{DomÃ¤nenwissen}
 \label{sec:domaenenwissen}
 
 Hier ist eine einfache Denksportaufgabe:
 %
 \begin{quote}
-  Auf einem Parkplatz stehen PKWs und Motorräder ohne Beiwagen.
-  Zusammen seien es $n$ Fahrzeuge mit insgesamt $m$ Rädern.  Bestimmen
+  Auf einem Parkplatz stehen PKWs und MotorrÃ¤der ohne Beiwagen.
+  Zusammen seien es $n$ Fahrzeuge mit insgesamt $m$ RÃ¤dern.  Bestimmen
   Sie die Anzahl $P$ der PKWs.
 \end{quote}
 %
-Die Anzahl $P$ der PKWs plus die Anzahl $M$ der Motorräder muß
-offensichtlich die Gesamtzahl $n$ der Fahrzeuge ergeben.  Außerdem hat
-jeder PKW vier Räder und jedes Motorrad zwei Räder. Die Radzahlen der
-PKWs und Motorräder zusammen müssen $m$ ergeben.  Es ergibt sich
+Die Anzahl $P$ der PKWs plus die Anzahl $M$ der MotorrÃ¤der muÃŸ
+offensichtlich die Gesamtzahl $n$ der Fahrzeuge ergeben.  AuÃŸerdem hat
+jeder PKW vier RÃ¤der und jedes Motorrad zwei RÃ¤der. Die Radzahlen der
+PKWs und MotorrÃ¤der zusammen mÃ¼ssen $m$ ergeben.  Es ergibt sich
 folgendes Gleichungsystem:
 %
 \begin{eqnarray*}
@@ -791,12 +791,12 @@ folgendes Gleichungsystem:
   4P+2M&=&m
 \end{eqnarray*}
 %
-Auflösen der ersten Gleichung nach $M$ ergibt
+AuflÃ¶sen der ersten Gleichung nach $M$ ergibt
 \begin{eqnarray*}
   M &=& n-P
 \end{eqnarray*}
 % 
-und Einsetzen in die zweite Gleichung führt zu
+und Einsetzen in die zweite Gleichung fÃ¼hrt zu
 \begin{eqnarray*}
   4P+2(n-P) &=& m\\
   4P+2n-2P &=& m\\
@@ -804,8 +804,8 @@ und Einsetzen in die zweite Gleichung führt zu
   P &=& \frac{m-2n}{2}
 \end{eqnarray*}
 %
-Am Ende steht also eine Formel, die wir für konkrete $m$ und $n$ auch
-in einen Ausdruck verwandeln können:
+Am Ende steht also eine Formel, die wir fÃ¼r konkrete $m$ und $n$ auch
+in einen Ausdruck verwandeln kÃ¶nnen:
 %
 \begin{alltt}
 (/ (- 10 (* 2 4)) 2)
@@ -814,23 +814,23 @@ in einen Ausdruck verwandeln können:
 \evalsto{} 3
 \end{alltt}
 %
-Um zu den Ausdrücken zu kommen, welche die Anzahl der PKWs ausrechnen,
-haben wir sogenanntes \textit{Domänenwissen}\index{Domänenwissen}
-benutzt: Die "`Domäne"' der Aufgabe sind PKWs und Motorräder, und wir
-wissen, dass PKWs jeweils vier Räder und Motorräder zwei haben.
-Schließlich haben wir noch Algebra benutzt, um aus dem Domänenwissen
+Um zu den AusdrÃ¼cken zu kommen, welche die Anzahl der PKWs ausrechnen,
+haben wir sogenanntes \textit{DomÃ¤nenwissen}\index{DomÃ¤nenwissen}
+benutzt: Die "`DomÃ¤ne"' der Aufgabe sind PKWs und MotorrÃ¤der, und wir
+wissen, dass PKWs jeweils vier RÃ¤der und MotorrÃ¤der zwei haben.
+SchlieÃŸlich haben wir noch Algebra benutzt, um aus dem DomÃ¤nenwissen
 eine Formel zu machen.
 
 \section{Kommentare und Formatierung}
 
-Der Ausdruck \texttt{(/ (- 10 (* 2 4)) 2)} ist für unbedarfte Leser
-schwer zu verstehen.  Manchmal hilft ein erläuternder Text beim
-Verständnis:
+Der Ausdruck \texttt{(/ (- 10 (* 2 4)) 2)} ist fÃ¼r unbedarfte Leser
+schwer zu verstehen.  Manchmal hilft ein erlÃ¤uternder Text beim
+VerstÃ¤ndnis:
 %
 \begin{alltt}
-(/ (- 10 (* 2 4)) 2) ; 10 Räder, 4 Fahrzeuge
+(/ (- 10 (* 2 4)) 2) ; 10 RÃ¤der, 4 Fahrzeuge
 \evalsto{} 1
-(/ (- 12 (* 2 3)) 2) ; 12 Räder, 3 Fahrzeuge
+(/ (- 12 (* 2 3)) 2) ; 12 RÃ¤der, 3 Fahrzeuge
 \evalsto{} 3
 \end{alltt}
 
@@ -843,11 +843,11 @@ Verständnis:
 %
 Der Text nach dem Semikolon ist ein \textit{Kommentar}\index{Kommentar} (siehe
 Abbildung~\ref{scheme:comment}), der von DrRacket ignoriert wird, aber
-für menschliche Leser hilfreich ist.
+fÃ¼r menschliche Leser hilfreich ist.
 
-Beim Verständnis kann außerdem die
+Beim VerstÃ¤ndnis kann auÃŸerdem die
 \textit{Formatierung}\index{Formatierung} des Programms helfen.  Die
-obigen Ausdrücke können auch folgendermaßen geschrieben werden:
+obigen AusdrÃ¼cke kÃ¶nnen auch folgendermaÃŸen geschrieben werden:
 %
 \begin{alltt}
 (/ (- 10 (* 2 4))
@@ -856,26 +856,26 @@ obigen Ausdrücke können auch folgendermaßen geschrieben werden:
    2)
 \end{alltt}
 %
-Daß die \texttt{2} jetzt jeweils in einer weiteren Zeile steht, läßt
-die Ausdrücke so ähnlich aussehen wie der Bruch in der Formel.  Die
-Einrückung vor der \texttt{2} macht klar, dass die \texttt{2} noch in
-die Klammern vom \texttt{/} gehört.
+DaÃŸ die \texttt{2} jetzt jeweils in einer weiteren Zeile steht, lÃ¤ÃŸt
+die AusdrÃ¼cke so Ã¤hnlich aussehen wie der Bruch in der Formel.  Die
+EinrÃ¼ckung vor der \texttt{2} macht klar, dass die \texttt{2} noch in
+die Klammern vom \texttt{/} gehÃ¶rt.
 
-Wir als Programmierer müssen uns selbst darum kümmern, an sinnvollen
-Stellen eine neue Zeile anzufangen.  Um die Einrückung kann sich
-allerdings DrRacket automatisch kümmern: Die Tab-Taste (links auf der
-Tastatur, meist $\rightarrow$\verb/|/ o.ä.\ bedruckt) rückt die Zeile,
-in der sich der Cursor befindet, ein.  Außerdem gibt es noch den
-Menüpunkt \texttt{Racket} $\rightarrow$ \texttt{Alles einrücken}, der
-das gesamte Programm einrückt.
+Wir als Programmierer mÃ¼ssen uns selbst darum kÃ¼mmern, an sinnvollen
+Stellen eine neue Zeile anzufangen.  Um die EinrÃ¼ckung kann sich
+allerdings DrRacket automatisch kÃ¼mmern: Die Tab-Taste (links auf der
+Tastatur, meist $\rightarrow$\verb/|/ o.Ã¤.\ bedruckt) rÃ¼ckt die Zeile,
+in der sich der Cursor befindet, ein.  AuÃŸerdem gibt es noch den
+MenÃ¼punkt \texttt{Racket} $\rightarrow$ \texttt{Alles einrÃ¼cken}, der
+das gesamte Programm einrÃ¼ckt.
 
 \section{Abstraktion}
 
 Beim Parkplatzproblem aus Abschnitt~\ref{sec:domaenenwissen} ist es
-umständlich, für jede Kombination aus konkreten $m$ und $n$ die 
-Formel neu hinzuschreiben und andere Werte für $m$ und $n$
-einzusetzen.  Außerdem ist es fehleranfällig.  Es muß also besser
-gehen.  Ein erster Schritt in die richtige Richtung ist, für $m$ und
+umstÃ¤ndlich, fÃ¼r jede Kombination aus konkreten $m$ und $n$ die 
+Formel neu hinzuschreiben und andere Werte fÃ¼r $m$ und $n$
+einzusetzen.  AuÃŸerdem ist es fehleranfÃ¤llig.  Es muÃŸ also besser
+gehen.  Ein erster Schritt in die richtige Richtung ist, fÃ¼r $m$ und
 $n$ auch im Programm Namen zu verwenden:
 %
 \begin{alltt}
@@ -884,7 +884,7 @@ $n$ auch im Programm Namen zu verwenden:
 (/ (- m (* 2 n)) 2)
 \end{alltt}
 %
-Immerhin ist die ursprüngliche Formel jetzt wieder erkennbar.  Leider
+Immerhin ist die ursprÃ¼ngliche Formel jetzt wieder erkennbar.  Leider
 kann sie nur einmal verwendet werden.  Schreiben wir in dasselbe
 Programm die hier darunter:
 %
@@ -897,13 +897,13 @@ Programm die hier darunter:
 \ldots{} dann meckert DrRacket:
 %
 \begin{alltt}
-m: Für diesen Namen gibt es schon eine Definition
+m: FÃ¼r diesen Namen gibt es schon eine Definition
 \end{alltt}
 %
-Für jeden Namen kann es nur eine Definition geben.  Wir bräuchten
-Formeln, die wir mehrfach verwenden können, bei denen wir sagen können
-"`ich werde die Formeln mehrmals benutzen und möchte jedesmal andere
-Werte für $n$ und $m$ einsetzen"'. Das geht beim Programmieren mit
+FÃ¼r jeden Namen kann es nur eine Definition geben.  Wir brÃ¤uchten
+Formeln, die wir mehrfach verwenden kÃ¶nnen, bei denen wir sagen kÃ¶nnen
+"`ich werde die Formeln mehrmals benutzen und mÃ¶chte jedesmal andere
+Werte fÃ¼r $n$ und $m$ einsetzen"'. Das geht beim Programmieren mit
 \textit{Abstraktion}\index{Abstraktion} und sieht konkret so aus:
 %
 \begin{alltt}
@@ -912,7 +912,7 @@ Werte für $n$ und $m$ einsetzen"'. Das geht beim Programmieren mit
 %
 Diese Abstraktion besteht aus folgenden Bestandteilen:
 \begin{itemize}
-\item das Schlüsselwort \texttt{lambda},
+\item das SchlÃ¼sselwort \texttt{lambda},
 \item die Namen \texttt{n} und \texttt{m}, die \textit{Parameter},\index{Parameter}
 \item der Ausdruck \texttt{(/ (- m (* 2 n)) 2)}, der \textit{Rumpf\index{Rumpf}}.
 \end{itemize}
@@ -925,8 +925,8 @@ DrRacket auch aus:
 #<procedure>
 \end{alltt}
 %
-Für sich genommen macht eine Prozedur noch nichts Interessantes.  Sie kann jedoch
-\emph{angewendet} werden, was heißt, dass konkrete Werte für $m$ und
+FÃ¼r sich genommen macht eine Prozedur noch nichts Interessantes.  Sie kann jedoch
+\emph{angewendet} werden, was heiÃŸt, dass konkrete Werte fÃ¼r $m$ und
 $n$ eingesetzt werden:
 %
 \begin{alltt}
@@ -937,12 +937,12 @@ $n$ eingesetzt werden:
 \end{alltt}
 
 % 
-Abbildung~\ref{scheme:abstraction} erklärt die beiden Konzepte
+Abbildung~\ref{scheme:abstraction} erklÃ¤rt die beiden Konzepte
 "`Abstraktion"' und "`Anwendung"' im allgemeinen.
 
 Bisher ist jedoch noch nicht viel gewonnen, weil wir den
-$lambda$-Ausdruck jedesmal wiederholen mußten.  Da er jedoch beide
-Male genau gleich ist, können wir ihm mit \texttt{define} einen Namen
+$lambda$-Ausdruck jedesmal wiederholen muÃŸten.  Da er jedoch beide
+Male genau gleich ist, kÃ¶nnen wir ihm mit \texttt{define} einen Namen
 geben:
 %
 \begin{alltt}
@@ -951,7 +951,7 @@ geben:
 \end{alltt}
 %
 Am besten verteilen wir das Programm gleich noch auf etwas mehr Zeilen
-und rücken es ein, um es lesbarer zu machen:
+und rÃ¼cken es ein, um es lesbarer zu machen:
 %
 \begin{alltt}
 (define parking-lot-cars
@@ -960,7 +960,7 @@ und rücken es ein, um es lesbarer zu machen:
        2)))
 \end{alltt}
 %
-\texttt{Parking-lot-cars} können wir jetzt mehrfach verwenden:
+\texttt{Parking-lot-cars} kÃ¶nnen wir jetzt mehrfach verwenden:
 %
 \begin{alltt}
 (parking-lot-cars 4 10)
@@ -970,10 +970,10 @@ und rücken es ein, um es lesbarer zu machen:
 \end{alltt}
 %
 Das sieht doch schon besser aus: Der Name \texttt{parking-lot-cars}
-ist außerdem sprechend und erlaubt uns, die eigentliche Formel auch
+ist auÃŸerdem sprechend und erlaubt uns, die eigentliche Formel auch
 wieder zu vergessen.
 
-% FIXME: Warum heißt es eigentlich $lambda$?
+% FIXME: Warum heiÃŸt es eigentlich $lambda$?
 
 \section{Kurzbeschreibung und Signatur}
 \label{sec:sorts-and-contracts}
@@ -982,45 +982,45 @@ Angenommen, die Funktiondefinition von \texttt{parking-lot-cars} wird
 an jemanden weitergegeben, der dieses Buch nicht gelesen hat, aber die
 Funktion trotzdem einsetzen soll.  Der potentielle Leser kann zwar
 das Scheme-Programm prinzipiell verstehen, hat aber keinen weiteren
-Hinweis darauf, wofür \texttt{parking-lot-cars} verwendet werden kann.
+Hinweis darauf, wofÃ¼r \texttt{parking-lot-cars} verwendet werden kann.
 
-Das Problem ist, daß die Definition von \texttt{parking-lot-cars} 
+Das Problem ist, daÃŸ die Definition von \texttt{parking-lot-cars} 
 das Endprodukt des Denkprozesses ist, der in Kapitel~\ref{cha:intro}
-beschrieben wurde.  Der Denkprozeß selbst, der mit der Aufgabenstellung
-anfängt, ist nicht Teil der Definition.  Darum ist es hilfreich, wenn
+beschrieben wurde.  Der DenkprozeÃŸ selbst, der mit der Aufgabenstellung
+anfÃ¤ngt, ist nicht Teil der Definition.  Darum ist es hilfreich, wenn
 wichtige Aspekte des Denkprozesses als Kommentare  bei den Definitionen
 stehen.  Ein stets sinnvoller Kommentar ist eine \textit{Kurzbeschreibung}\index{Kurzbeschreibung} der
 Aufgabenstellung:
 %
 \begin{alltt}
-; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
+; aus der Anzahl der Fahrzeuge und RÃ¤der die Anzahl der PKWs bestimmen
 \end{alltt}
 %
-Für die Kurzbeschreibung reicht in der Regel \emph{eine Zeile}: Nehmen
-Sie diese Einschränkung als Gelegenheit, sich knapp, prägnant und
-präzise auszudrücken.
+FÃ¼r die Kurzbeschreibung reicht in der Regel \emph{eine Zeile}: Nehmen
+Sie diese EinschrÃ¤nkung als Gelegenheit, sich knapp, prÃ¤gnant und
+prÃ¤zise auszudrÃ¼cken.
 
-Als nächstes ist eine besondere Formulierung hilfreich, die
+Als nÃ¤chstes ist eine besondere Formulierung hilfreich, die
 sogenannte \textit{Signatur\index{Signatur}}. Wer nur gelesen hat, dass die
 Funktion \texttt{parking-lot-cars} zwei Argumente \texttt{n} und
-\texttt{m} hat, könnte ja auf den Gedanken kommen, einen Aufruf der
+\texttt{m} hat, kÃ¶nnte ja auf den Gedanken kommen, einen Aufruf der
 Form
 
 \begin{alltt}
 (parking-lot-cars "zweiundzwanzig" "achtunddreissig")
 \end{alltt}
-zu notieren.  Das wird bei der Ausführung eine Fehlermeldung erzeugen, weil die
+zu notieren.  Das wird bei der AusfÃ¼hrung eine Fehlermeldung erzeugen, weil die
 eingebauten Funktionen \texttt{/}, \texttt{-} und \texttt{*} nur mit Zahlen in
-Form von Ziffernfolgen umgehen können, aber nicht mit Zeichenketten, die
-vielleicht auch Zahlen bezeichnen könnten.  In der Tat akzeptieren fast alle
+Form von Ziffernfolgen umgehen kÃ¶nnen, aber nicht mit Zeichenketten, die
+vielleicht auch Zahlen bezeichnen kÃ¶nnten.  In der Tat akzeptieren fast alle
 Funktionen nur Argumente einer ganz bestimmten \emph{Sorte}\index{Sorte}, in
-diesem Fall Argumente der Sorte "`natürliche Zahl"'.
+diesem Fall Argumente der Sorte "`natÃ¼rliche Zahl"'.
 
 Hier eine Liste der wichtigsten "`eingebauten"' Sorten:
 %
 \begin{center}
   \begin{tabular}{l|l}
-    natürliche Zahlen & \texttt{natural}\\\hline
+    natÃ¼rliche Zahlen & \texttt{natural}\\\hline
     ganze Zahlen & \texttt{integer}\\\hline
     rationale Zahlen & \texttt{rational}\\\hline
     reelle Zahlen & \texttt{real}\\\hline
@@ -1031,20 +1031,20 @@ Hier eine Liste der wichtigsten "`eingebauten"' Sorten:
 \end{center}
 %
 Eine Signatur\index{Signatur}
-ist eine Vorstufe für die zu entwickelnde Prozedur und faßt einige
+ist eine Vorstufe fÃ¼r die zu entwickelnde Prozedur und faÃŸt einige
 wichtige Informationen zusammen:
 %
 \begin{enumerate}
 \item den Namen der Funktion,
 \item Anzahl und Sorten der Argumente und
-\item die Sorte des Rückgabewerts der Prozedur.
+\item die Sorte des RÃ¼ckgabewerts der Prozedur.
 \end{enumerate}
 %
 %Die \textit{Signaturen}\index{Signaturen} beschreiben die Sorten, aus
-%denen die Argumente bzw.\ der Rückgabewert stammen.  
+%denen die Argumente bzw.\ der RÃ¼ckgabewert stammen.  
 Die Funktion
-\texttt{parking-lot-cars} akzeptiert zwei natürliche Zahlen und
-liefert wieder eine natürliche Zahl.  Deshalb sieht die Signatur von
+\texttt{parking-lot-cars} akzeptiert zwei natÃ¼rliche Zahlen und
+liefert wieder eine natÃ¼rliche Zahl.  Deshalb sieht die Signatur von
 \texttt{parking-lot-cars} so aus:
 %
 \begin{alltt}
@@ -1060,18 +1060,18 @@ Diese Signatur besagt:
   \verb|->| zusammen mit den Klammern);
 \item \texttt{parking-lot-cars}
   \textit{akzeptiert}\index{akzeptieren} zwei Argumente (vor dem Pfeil
-stehen zwei Wörter);
-\item die beiden Argumente sind natürliche Zahlen (\texttt{natural});
-\item die Prozedur liefert wieder eine natürliche Zahl (das ist
+stehen zwei WÃ¶rter);
+\item die beiden Argumente sind natÃ¼rliche Zahlen (\texttt{natural});
+\item die Prozedur liefert wieder eine natÃ¼rliche Zahl (das ist
 das \texttt{natural} hinter dem Pfeil).
 \end{itemize}
 %
-Die Signatur ähnelt also der mathematischen Notation für Funktionen,
+Die Signatur Ã¤hnelt also der mathematischen Notation fÃ¼r Funktionen,
 die einen bestimmten Typ haben.
 
-Aus der Signatur ergeben sich, wenn für die beiden Argumente
+Aus der Signatur ergeben sich, wenn fÃ¼r die beiden Argumente
 sprechende Namen gefunden worden sind, die ersten beiden Zeilen der folgenden
-Definition, das sogenannte \textit{Gerüst\index{Gerüst}}:
+Definition, das sogenannte \textit{GerÃ¼st\index{GerÃ¼st}}:
 %
 \begin{alltt}
 (define parking-lot-cars
@@ -1080,10 +1080,10 @@ Definition, das sogenannte \textit{Gerüst\index{Gerüst}}:
 \end{alltt}
 %
 Es bleibt, die passende Formel einzusetzen.  Die Definition
-von \texttt{parking-lot-cars} sieht dann vollständig so aus:\index{parking-lot-cars@\texttt{parking-lot-cars}}
+von \texttt{parking-lot-cars} sieht dann vollstÃ¤ndig so aus:\index{parking-lot-cars@\texttt{parking-lot-cars}}
 %
 \begin{alltt}
-; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
+; aus der Anzahl der Fahrzeuge und RÃ¤der die Anzahl der PKWs bestimmen
 (: parking-lot-cars (natural natural -> natural))
 (define parking-lot-cars
   (lambda (n m)
@@ -1091,8 +1091,8 @@ von \texttt{parking-lot-cars} sieht dann vollständig so aus:\index{parking-lot-c
        2)))
 \end{alltt}
 %
-Signaturen können für alle Arten von Werten deklariert werden, nicht
-nur für Prozeduren.  Zum Beispiel so:
+Signaturen kÃ¶nnen fÃ¼r alle Arten von Werten deklariert werden, nicht
+nur fÃ¼r Prozeduren.  Zum Beispiel so:
 %
 \begin{verbatim}
 (: pi real)
@@ -1100,50 +1100,50 @@ nur für Prozeduren.  Zum Beispiel so:
 %
 Bei \texttt{parking-lot-cars} ist die Signatur noch nicht besonders
 umfangreich oder kompliziert.
-Spätere Kapitel werden zeigen, dass sich aus vielen Signaturen ganz
+SpÃ¤tere Kapitel werden zeigen, dass sich aus vielen Signaturen ganz
 automatisch \textit{Schablonen\index{Schablone}} ergeben, die dem
-Programmierer einen Großteil der Denkarbeit bei der Entwicklung von
+Programmierer einen GroÃŸteil der Denkarbeit bei der Entwicklung von
 Funktionen abnehmen.
 
 Aus diesem Grund schreiben wir in diesem Buch die
 Kurzbeschreibung und die Signatur in das Programm, \emph{bevor} wir
 die Definition entwickeln: 
 Die
-nachträgliche Entwicklung dieser Kommentare ist mühselig und
-langweilig.  Außerdem sind die Kurzbeschreibung und die
-Signatur ein hilfreicher Teil des Problemlösungsprozesses.
-Schon mancher Programmierer~-- Anfänger und Profi~--
+nachtrÃ¤gliche Entwicklung dieser Kommentare ist mÃ¼hselig und
+langweilig.  AuÃŸerdem sind die Kurzbeschreibung und die
+Signatur ein hilfreicher Teil des ProblemlÃ¶sungsprozesses.
+Schon mancher Programmierer~-- AnfÃ¤nger und Profi~--
 ist an Aufgaben gescheitert, die sich mit Hilfe systematischen Vorgehens
-anhand der Signatur leicht hätten lösen lassen.
+anhand der Signatur leicht hÃ¤tten lÃ¶sen lassen.
 
 Aus dem fernen Osten stammt der Begriff des "`Mantras"' als einem
 Sinnspruch, den es sich lohnt, auswendig zu lernen.  Hier das erste Mantra:
 %
-\begin{mantra}[Signatur vor Ausführung]\label{mantra:contract}
+\begin{mantra}[Signatur vor AusfÃ¼hrung]\label{mantra:contract}
 \input{mantra:contract}
 \end{mantra}
 %
-Ab jetzt werden sich die Programmbeispiele in diesem Buch natürlich
-an dieses Mantra halten.  Kurzbeschreibung, Signatur, Testfälle
-(beschrieben im nächsten Abschnitt) Gerüst und
+Ab jetzt werden sich die Programmbeispiele in diesem Buch natÃ¼rlich
+an dieses Mantra halten.  Kurzbeschreibung, Signatur, TestfÃ¤lle
+(beschrieben im nÃ¤chsten Abschnitt) GerÃ¼st und
 Schablone sind feste Bestandteile einer
 \textit{Konstruktionsanleitung\index{Konstruktionsanleitung}}, die
-systematisch beschreibt, wie eine Aufgabe schrittweise gelöst werden
+systematisch beschreibt, wie eine Aufgabe schrittweise gelÃ¶st werden
 kann.  Dieses Buch wird eine Reihe von Konstruktionsanleitungen
 vorstellen, die sich stets an der Signatur einer Funktion orientieren.
 Alle Mantras sind in Anhang~\ref{cha:mantras} und die
 Konstruktionsanleitungen in Anhang~\ref{app:konstruktionsanleitungen}
-zusammengefaßt.
+zusammengefaÃŸt.
 
-\section{Testfälle}
+\section{TestfÃ¤lle}
 \label{sec:test-cases}
 
 \index{Testfall}Vertrauen ist gut~-- aber Fehler passieren, auch bei 
-sorgfältiger Programmierung.  Angenommen, bei der Programmierung von
-\texttt{parking-lot-cars} wäre folgendes herausgekommen:
+sorgfÃ¤ltiger Programmierung.  Angenommen, bei der Programmierung von
+\texttt{parking-lot-cars} wÃ¤re folgendes herausgekommen:
 %
 \begin{alltt}
-; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
+; aus der Anzahl der Fahrzeuge und RÃ¤der die Anzahl der PKWs bestimmen
 (: parking-lot-cars (natural natural -> natural))
 (define parking-lot-cars
   (lambda (n m)
@@ -1160,23 +1160,23 @@ Einfaches Ausprobieren ist da vielleicht schneller:
 \end{alltt}
 %
 Bei der Entwicklung der Funktion sollten also
-\textit{Testfälle\index{Testfall}} konstruiert werden, die an
-ausgewählten Beispielen überprüfen, ob die gerade programmierte
+\textit{TestfÃ¤lle\index{Testfall}} konstruiert werden, die an
+ausgewÃ¤hlten Beispielen Ã¼berprÃ¼fen, ob die gerade programmierte
 Funktion auch korrekt funktioniert.  Testen ist eine unverzichtbare
-Tätigkeit des Programmierers.
+TÃ¤tigkeit des Programmierers.
 
-Die Testfälle werden am besten \emph{vor} der Definition der Prozedur
+Die TestfÃ¤lle werden am besten \emph{vor} der Definition der Prozedur
 aufgestellt, denn  wenn sie erst hinterher geschrieben werden, ist die
-Gefahr groß, dass unbewußt das tatsächliche Ergebnis
-eines Prozeduraufrufs als das gewünschte eingegeben oder besonders
+Gefahr groÃŸ, dass unbewuÃŸt das tatsÃ¤chliche Ergebnis
+eines Prozeduraufrufs als das gewÃ¼nschte eingegeben oder besonders
 kritische Beispiele weggelassen werden.  (In der industriellen Praxis ist sogar
-oft üblich, dass jemand anderes als der Autor der Definitionen
-die Testfälle schreibt.)
+oft Ã¼blich, dass jemand anderes als der Autor der Definitionen
+die TestfÃ¤lle schreibt.)
 
-Es ist mühselig, bei der Programmentwicklung ständig Testfälle in die
+Es ist mÃ¼hselig, bei der Programmentwicklung stÃ¤ndig TestfÃ¤lle in die
 REPL einzutippen und durch einen Vergleich mit den erwarteten
 Ergebnissen herauszubekommen, ob alles in Ordnung ist.  In \drscheme{}
-geht es deshalb auch einfacher.  Testfälle können zusammen mit den
+geht es deshalb auch einfacher.  TestfÃ¤lle kÃ¶nnen zusammen mit den
 erwarteten Ergebnissen wie folgt spezifiziert werden:
 
 \begin{alltt}
@@ -1185,12 +1185,12 @@ erwarteten Ergebnissen wie folgt spezifiziert werden:
 (check-expect (parking-lot-cars 10 28) 4)  
 \end{alltt}
 
-Beim Druck auf den \texttt{Start}-Knopf überprüft \drscheme{}, ob die
-tatsächlichen Ergebnisse der Ausdrücke mit den Soll-Werten
-übereinstimmen.  Für fehlgeschlagene Testfälle öffnet sich ein neues Fenster
-mit Informationen über die Unterschiede zwischen erwarteten und
-tatsächlichen Ergebnissen; ansonsten gibt es eine kurze Meldung, dass die
-Testfälle erfolgreich waren.  Für die obere inkorrekte Version kommt
+Beim Druck auf den \texttt{Start}-Knopf Ã¼berprÃ¼ft \drscheme{}, ob die
+tatsÃ¤chlichen Ergebnisse der AusdrÃ¼cke mit den Soll-Werten
+Ã¼bereinstimmen.  FÃ¼r fehlgeschlagene TestfÃ¤lle Ã¶ffnet sich ein neues Fenster
+mit Informationen Ã¼ber die Unterschiede zwischen erwarteten und
+tatsÃ¤chlichen Ergebnissen; ansonsten gibt es eine kurze Meldung, dass die
+TestfÃ¤lle erfolgreich waren.  FÃ¼r die obere inkorrekte Version kommt
 zum Beispiel Folgendes heraus:
 %
 \begin{alltt}
@@ -1199,11 +1199,11 @@ zum Beispiel Folgendes heraus:
 2 Signaturverletzungen.
 
 Check-Fehler:
-	Der tatsächliche Wert 0 ist nicht der erwartete Wert 1.
+	Der tatsÃ¤chliche Wert 0 ist nicht der erwartete Wert 1.
 in Zeile 4, Spalte 0 
-	Der tatsächliche Wert -1 ist nicht der erwartete Wert 1.
+	Der tatsÃ¤chliche Wert -1 ist nicht der erwartete Wert 1.
 in Zeile 5, Spalte 0 
-	Der tatsächliche Wert -6 ist nicht der erwartete Wert 4.
+	Der tatsÃ¤chliche Wert -6 ist nicht der erwartete Wert 4.
 in Zeile 6, Spalte 0 
 
 Signaturverletzungen:
@@ -1213,11 +1213,11 @@ Signaturverletzungen:
 	verantwortlich: Funktion in Zeile 9, Spalte 2 
 \end{alltt}
 %
-Eine großzügige Verwendung
-von Testfällen kann viele Programmierfehler
+Eine groÃŸzÃ¼gige Verwendung
+von TestfÃ¤llen kann viele Programmierfehler
 aufdecken und damit die Programmierung erleichtern und beschleunigen.
 
-\begin{mantra}[Testfälle]\label{mantra:test}
+\begin{mantra}[TestfÃ¤lle]\label{mantra:test}
 \input{mantra:test}
 \end{mantra}
 
@@ -1226,8 +1226,8 @@ aufdecken und damit die Programmierung erleichtern und beschleunigen.
 \section{Unsinnige Daten}
 \label{sec:nonsensical-data-prequel}
 
-Die Testfälle aus dem vorangegangenen Abschnitt sind alle
-"`sinnvoll"'~-- die Eingabedaten passen alle zu tatsächlichen
+Die TestfÃ¤lle aus dem vorangegangenen Abschnitt sind alle
+"`sinnvoll"'~-- die Eingabedaten passen alle zu tatsÃ¤chlichen
 Parkplatzsituationen.  Was ist aber hiermit?
 %
 \begin{alltt}
@@ -1238,22 +1238,22 @@ Wie schon in Kapitel~\ref{page:parking-lot-problem}
 (Seite~\pageref{page:parking-lot-problem}) bereits angedeutet, 
 lassen sich die \emph{Daten} 3 und 9 nicht als \emph{Information}
 interpretieren: Es gibt keinen Parkplatz mit 3 Fahrzeugen und 9
-Rädern~-- zumindest nicht mit den Einschränkungen der Aufgabenstellung
-auf vollberäderte PKWs und Motorräder.
+RÃ¤dern~-- zumindest nicht mit den EinschrÃ¤nkungen der Aufgabenstellung
+auf vollberÃ¤derte PKWs und MotorrÃ¤der.
 
-Die Prozedur \texttt{parking-lot-cars} stört dies allerdings wenig:
+Die Prozedur \texttt{parking-lot-cars} stÃ¶rt dies allerdings wenig:
 Sie liefert munter die Ausgabe \texttt{1.5}.  Allerdings meldet
 DrRacket eine \textit{Signaturverletzung}\index{Signaturverletzung},
 wenn es \texttt{(parking-lot-cars 3 9)} auswertet, da das Ergebnis
-keine natürliche Zahl ist wie in der Signatur angegeben.  
+keine natÃ¼rliche Zahl ist wie in der Signatur angegeben.  
 
-Das Programm sollte natürlich abseits der Signaturverletzung unsinnige
-Daten soweit möglich und praktikabel zurückweisen.  Für die Eingabe
-\texttt{(parking-lot-cars 3 16)} hätte es nämlich keine Signaturverletzung
-gegeben, sondern es wäre eine zunächst unschuldig aussehende $5$
-herausgekommen. Da hätte es zuerst noch der Beobachtung bedurft, dass unmöglich
-$5$ von $3$ Fahrzeugen PKWs sein können. Noch fehlen uns
-die Mittel, solche unsinnigen Eingaben zurückzuweisen; in Abschnitt~\ref{sec:nonsensical-data} werden wir
+Das Programm sollte natÃ¼rlich abseits der Signaturverletzung unsinnige
+Daten soweit mÃ¶glich und praktikabel zurÃ¼ckweisen.  FÃ¼r die Eingabe
+\texttt{(parking-lot-cars 3 16)} hÃ¤tte es nÃ¤mlich keine Signaturverletzung
+gegeben, sondern es wÃ¤re eine zunÃ¤chst unschuldig aussehende $5$
+herausgekommen. Da hÃ¤tte es zuerst noch der Beobachtung bedurft, dass unmÃ¶glich
+$5$ von $3$ Fahrzeugen PKWs sein kÃ¶nnen. Noch fehlen uns
+die Mittel, solche unsinnigen Eingaben zurÃ¼ckzuweisen; in Abschnitt~\ref{sec:nonsensical-data} werden wir
 dies nachholen.
 
 \section{Probleme und Teilprobleme}
@@ -1279,7 +1279,7 @@ an:
 %
 Bei der Auswertung \textit{substituiert}\index{Substitution} DrRacket
 jeweils Namen durch ihre Werte.  Der erste Schritt ist also,
-\texttt{parking-lot-cars} durch den dazugehörigen
+\texttt{parking-lot-cars} durch den dazugehÃ¶rigen
 \texttt{lambda}-Ausdruck zu ersetzen:
 %
 \begin{alltt}
@@ -1289,7 +1289,7 @@ jeweils Namen durch ihre Werte.  Der erste Schritt ist also,
 \end{alltt}
 %
 Jetzt steht dort die Anwendung eines \texttt{lambda}-Ausdrucks auf die
-zwei Zahlen \texttt{4} und \texttt{10}: Diese Argumente werden für die
+zwei Zahlen \texttt{4} und \texttt{10}: Diese Argumente werden fÃ¼r die
 ensprechenden Parameter \texttt{n} und \texttt{m} eingesetzt:
 %
 \begin{alltt}
@@ -1298,7 +1298,7 @@ ensprechenden Parameter \texttt{n} und \texttt{m} eingesetzt:
 (/ (- 10 (* 2 4)) 2)
 \end{alltt}
 %
-Nun werden sukzessive die Teilausdrücke ausgewertet.  Das passiert
+Nun werden sukzessive die TeilausdrÃ¼cke ausgewertet.  Das passiert
 immer von links nach rechts.  Bei einer Anwendung werden erst einmal
 alle Argumente fertig ausgewertet, bevor es mit der Substitution der
 Parameter und dem Rumpf der Prozezedur weitergeht:
@@ -1314,7 +1314,7 @@ Parameter und dem Rumpf der Prozezedur weitergeht:
 \end{alltt}
 %
 Diese Vorgehensweise entspricht der Algebra aus der Mathematik, wo wir
-auch Ausdrücke umformen, indem wir gleiches durch gleiches ersetzen.
+auch AusdrÃ¼cke umformen, indem wir gleiches durch gleiches ersetzen.
 
 \begin{figure}[tb]
   \centering
@@ -1325,9 +1325,9 @@ auch Ausdrücke umformen, indem wir gleiches durch gleiches ersetzen.
 %
 Normalerweise zeigt uns DrRacket nur das Endergebnis dieses Prozesses
 an.  Es ist aber auch in der Lage, die Schritte einzeln zu
-visualisieren: Dazu müssen Sie auf den \texttt{Step}-Knopf drücken.
+visualisieren: Dazu mÃ¼ssen Sie auf den \texttt{Step}-Knopf drÃ¼cken.
 Es erscheint ein neues Fenster, der sogenannte \textit{Stepper}\index{Stepper}.
-Sie können dann vorwärts und rückwärts durch den Substitutionsprozeß
+Sie kÃ¶nnen dann vorwÃ¤rts und rÃ¼ckwÃ¤rts durch den SubstitutionsprozeÃŸ
 navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
 
 \section*{Aufgaben}
@@ -1335,16 +1335,16 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
 
 \begin{aufgabe}
   Betrachten Sie folgende Stromtarife.  Beide Tarife
-  bestehen aus einer monatlichen Grundgebühr und einem Teil, der sich
+  bestehen aus einer monatlichen GrundgebÃ¼hr und einem Teil, der sich
   nach den verbrauchten Kilowattstunden (kWh) richtet.
   %
   \begin{center}
     \begin{tabular}{l|c|c|}
-      & Grundgebühr pro Monat & Verbrauchspreis pro kWh \\
+      & GrundgebÃ¼hr pro Monat & Verbrauchspreis pro kWh \\
       \hline
       Tarif "`Billig-Strom"' & 4,90 Euro & 19 Cent \\
       \hline
-      Tarif "`Watt für wenig"' & 8,20 Euro & 16 Cent \\
+      Tarif "`Watt fÃ¼r wenig"' & 8,20 Euro & 16 Cent \\
       \hline
     \end{tabular}
   \end{center}
@@ -1357,16 +1357,16 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
     berechnet.
 
   \item Schreiben Sie eine Funktion
-    \texttt{watt-für-wenig}, die den Monatsverbrauch in
-    Kilowattstunden akzeptiert und den im Tarif "`Watt für wenig"' zu
+    \texttt{watt-fÃ¼r-wenig}, die den Monatsverbrauch in
+    Kilowattstunden akzeptiert und den im Tarif "`Watt fÃ¼r wenig"' zu
     zahlenden monatlichen Rechnungsbetrag
     Verbrauch berechnet.
   \end{enumerate}
   %
   Halten Sie sich bei jeder Funktion, die Sie schreiben, an die
   Konstruktionsanleitungen: Schreiben Sie zuerst die Kurzbeschreibung
-  und die Signatur.  Schreiben Sie als nächstes einige Testfälle.
-  Leiten Sie danach das Gerüst von der Signatur her und vervollständigen
+  und die Signatur.  Schreiben Sie als nÃ¤chstes einige TestfÃ¤lle.
+  Leiten Sie danach das GerÃ¼st von der Signatur her und vervollstÃ¤ndigen
   Sie den Rumpf der Funktion.
 \end{aufgabe}
 
@@ -1374,8 +1374,8 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
  Vervielfachung von Strings:
  \begin{itemize}
   \item Schreiben Sie eine Funktion \texttt{double-string}, die eine Zeichenkette konsumiert und
-    diese "`verdoppelt"', d.h., für eine Eingabe \verb|"Sperber"| den
-    Rückgabewert \verb|"SperberSperber"| liefert.
+    diese "`verdoppelt"', d.h., fÃ¼r eine Eingabe \verb|"Sperber"| den
+    RÃ¼ckgabewert \verb|"SperberSperber"| liefert.
     
   \item Schreiben Sie eine Funktion \texttt{quadruple-string}, die eine
     Zeichenkette konsumiert und "`vervierfacht"'.
@@ -1386,7 +1386,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   \item Schreiben Sie eine Funktion \texttt{sixteentuple-string}, die
     eine Zeichenkette konsumiert und "`versechzehnfacht"'.
   \end{itemize}
-  % Schreiben Sie für jede Prozedur Kurzbeschreibung, Signatur, Testfälle, Gerüst und Rumpf.
+  % Schreiben Sie fÃ¼r jede Prozedur Kurzbeschreibung, Signatur, TestfÃ¤lle, GerÃ¼st und Rumpf.
 
 %Vermeiden Sie bei all diesen Aufgaben, Code mehrfach zu schreiben.
 
@@ -1394,30 +1394,30 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
 
 \begin{aufgabe}
 
- Ein Boot überquert einen Fluss mit Strömung und
-  kommt durch die Strömung vom geplanten Kurs ab.  Dadurch wird die
-  Strecke, die das Boot tatsächlich zurücklegt, länger.
+ Ein Boot Ã¼berquert einen Fluss mit StrÃ¶mung und
+  kommt durch die StrÃ¶mung vom geplanten Kurs ab.  Dadurch wird die
+  Strecke, die das Boot tatsÃ¤chlich zurÃ¼cklegt, lÃ¤nger.
 
   \begin{center}
     \includegraphics{riverboat}
   \end{center}
 
-  Geben ist die Breite des Flusses $a$, die Strömungsgeschwindigkeit
+  Geben ist die Breite des Flusses $a$, die StrÃ¶mungsgeschwindigkeit
   des Flusses $v_{\text{Fluss}}$ und die Geschwindigkeit des Bootes
-  $v_{\text{Boot}}$.  Berechnen Sie die Länge der Strecke, die das
-  Boot tatsächlich zurücklegt.  Programmieren Sie dazu Prozeduren, die
-  folgende Teilprobleme lösen:
+  $v_{\text{Boot}}$.  Berechnen Sie die LÃ¤nge der Strecke, die das
+  Boot tatsÃ¤chlich zurÃ¼cklegt.  Programmieren Sie dazu Prozeduren, die
+  folgende Teilprobleme lÃ¶sen:
 
   \begin{enumerate}
-  \item Schreiben Sie zunächst eine Prozedur \texttt{speed-ratio}, die
-    das Verhältnis der Strömungsgeschwindigkeit des Flusses
+  \item Schreiben Sie zunÃ¤chst eine Prozedur \texttt{speed-ratio}, die
+    das VerhÃ¤ltnis der StrÃ¶mungsgeschwindigkeit des Flusses
     $v_{\text{Fluss}}$ zur Geschwindigkeit des Bootes
     $v_{\text{Boot}}$ berechnet.
 
   \item Schreiben Sie dann eine Funktion \texttt{other-shore-offset},
-    die die Länge der Strecke berechnet, die das Boot abgetrieben wird
+    die die LÃ¤nge der Strecke berechnet, die das Boot abgetrieben wird
     (also den Versatz am anderen Ufer, im Schaubild die Strecke $b$).
-    % Dazu müssen Sie die Breite des Flusses $a$ mit dem Verhältnis von
+    % Dazu mÃ¼ssen Sie die Breite des Flusses $a$ mit dem VerhÃ¤ltnis von
     % $v_{\text{Fluss}}$ zu $v_{\text{Boot}}$ multiplizieren.
 
   \item Um $c$ zu berechnen, brauchen Sie den \textit{Satz des
@@ -1429,9 +1429,9 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
     obigen Gleichung berechnet.  Erkennen und abstrahieren Sie weitere
     Teilprobleme!
 
-  \item Schreiben Sie schließlich eine Prozedur
-    \texttt{boat-travel-distance}, die die tatsächliche Strecke
-    berechnet, die das Boot zurücklegt.  Benutzen Sie dafür die bisher
+  \item Schreiben Sie schlieÃŸlich eine Prozedur
+    \texttt{boat-travel-distance}, die die tatsÃ¤chliche Strecke
+    berechnet, die das Boot zurÃ¼cklegt.  Benutzen Sie dafÃ¼r die bisher
     geschriebenen Funktionen.
   \end{enumerate}
 \end{aufgabe}
@@ -1439,20 +1439,20 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
 \begin{aufgabe}
 
   In den USA und in Europa gibt es unterschiedliche
-  Maße für die Energieeffizienz von Kraftfahrzeugen:
+  MaÃŸe fÃ¼r die Energieeffizienz von Kraftfahrzeugen:
   \begin{itemize}
-  \item In Europa ist das gängige Maß der \emph{Verbrauch} in Liter
+  \item In Europa ist das gÃ¤ngige MaÃŸ der \emph{Verbrauch} in Liter
     pro 100km (l/100km);
-  \item in den USA ist das gängige Maß die \emph{Reichweite} in Meilen
+  \item in den USA ist das gÃ¤ngige MaÃŸ die \emph{Reichweite} in Meilen
     pro Gallone (mi/gal).
   \end{itemize}
-  Schreiben Sie Prozeduren, die zwischen beiden Maßeinheiten
+  Schreiben Sie Prozeduren, die zwischen beiden MaÃŸeinheiten
   umrechnen.  Gehen Sie dazu wie folgt vor:
 
   Halten Sie sich bei jeder Funktion, die Sie schreiben, an die
   Konstruktionsanleitungen: Schreiben Sie zuerst die Kurzbeschreibung
-  und die Signatur.  Schreiben Sie als nächstes einige Testfälle.
-  Leiten Sie danach das Gerüst von der Signatur her und vervollständigen
+  und die Signatur.  Schreiben Sie als nÃ¤chstes einige TestfÃ¤lle.
+  Leiten Sie danach das GerÃ¼st von der Signatur her und vervollstÃ¤ndigen
   Sie den Rumpf der Funktion.
 
   \begin{enumerate}
@@ -1471,47 +1471,47 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
     \texttt{kilometers-per-mile} (eine US-Meile entspricht etwa $1,61$
     Kilometer) und schreiben Sie zwei Funktionen
     \texttt{kilometers->miles} und \texttt{miles->kilometers}, die
-    jeweils eine Entfernung in einer Maßeinheit akzeptieren und die
-    Entfernung in die jeweils andere Maßeinheit umrechnen.
+    jeweils eine Entfernung in einer MaÃŸeinheit akzeptieren und die
+    Entfernung in die jeweils andere MaÃŸeinheit umrechnen.
 
   \item Definieren Sie eine Konstante
     \texttt{liters-per-gallon} (eine Gallone entspricht etwa $3,79$
     Liter) und schreiben Sie zwei Funktionen \texttt{liters->gallons}
     und \texttt{gallons->liters}, die jeweils eine Menge in einer
-    Maßeinheit akzeptieren und die Menge in die jeweils andere
-    Maßeinheit umrechnen.
+    MaÃŸeinheit akzeptieren und die Menge in die jeweils andere
+    MaÃŸeinheit umrechnen.
 
   \item Schreiben Sie die Funktion
     \texttt{l/100km->mi/gal}, die einen Verbrauch in Liter pro 100km
     akzeptiert und in die Reichweite in Meilen pro Gallone umrechnet.
-    Benutzen Sie dafür die Prozeduren, die Sie in den anderen
+    Benutzen Sie dafÃ¼r die Prozeduren, die Sie in den anderen
     Teilaufgaben erstellt haben.  Sollten Sie auf weitere Teilprobleme
-    stoßen, abstrahieren Sie diese Teilprobleme in eigene Prozeduren.
+    stoÃŸen, abstrahieren Sie diese Teilprobleme in eigene Prozeduren.
 
   \item Schreiben Sie die Funktion
     \texttt{mi/gal->l/100km}, die eine Reichweite in Meilen pro
     Gallone akzeptiert und in den Verbrauch in Liter pro 100km
-    umrechnet.  Benutzen Sie dafür die Prozeduren, die Sie in den
+    umrechnet.  Benutzen Sie dafÃ¼r die Prozeduren, die Sie in den
     anderen Teilaufgaben erstellt haben.  Sollten Sie auf weitere
-    Teilprobleme stoßen, abstrahieren Sie diese Teilprobleme in eigene
+    Teilprobleme stoÃŸen, abstrahieren Sie diese Teilprobleme in eigene
     Funktionen.
 
   \item Finden Sie heraus, wie hoch der Benzinverbrauch
-    verschiedener Kraftfahrzeuge ist, die Sie täglich im
-    Straßenverkehr in Deutschland sehen.  Vergleichen Sie diesen
-    Verbrauch mit den Reichweitenangaben typischer Kraftfahrzeuge für
+    verschiedener Kraftfahrzeuge ist, die Sie tÃ¤glich im
+    StraÃŸenverkehr in Deutschland sehen.  Vergleichen Sie diesen
+    Verbrauch mit den Reichweitenangaben typischer Kraftfahrzeuge fÃ¼r
     den US-amerikanischen Markt.
   \end{enumerate}
 
 \end{aufgabe}
 
-% In vielen Ländern sind die Benzinpreise ein Grund zur allgemeinen
+% In vielen LÃ¤ndern sind die Benzinpreise ein Grund zur allgemeinen
 % Aufregung. In Deutschland wird immer die magische Marke von 1,50
-% Euro pro Liter genannt, die USA haben große Angst vor der 4 Dollar
+% Euro pro Liter genannt, die USA haben groÃŸe Angst vor der 4 Dollar
 % pro Gallone. Auch sind Spritsparende Autos immer beliebter, in
 % Deutschland wird auf das 3 Liter auf 100km Auto gehofft, die USA
-% wünschen sich mehr 55 Meilen pro Gallone Autos.  Diese verschiedenen
-% Maßstäbe sind verwirrend.
+% wÃ¼nschen sich mehr 55 Meilen pro Gallone Autos.  Diese verschiedenen
+% MaÃŸstÃ¤be sind verwirrend.
 
 % FIXME: Hier taucht noch "Substitutionsmodell" auf.
 
@@ -1541,7 +1541,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   der Umbenennung auf die lexikalische Bindung.  Benennen Sie keine
   Parameter der Funktion \verb"f" um.
 
-  Nachdem Sie die Umbenennung durchgeführt haben, welches Ergebnis liefert
+  Nachdem Sie die Umbenennung durchgefÃ¼hrt haben, welches Ergebnis liefert
   der Ausdruck \verb"(f 4 -2)"? Berechnen Sie das Ergebnis von Hand mit Hilfe
   des Substitutionsmodells und halten Sie die Zwischenschritte fest.
 \end{aufgabe}
@@ -1568,7 +1568,7 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
   Umbenennung auf die lexikalische Bindung.  Benennen Sie keine
   Parameter der Funktion \verb"z" um.
 
-  Berechnen Sie, nachdem Sie die Umbenennung durchgeführt haben, von
+  Berechnen Sie, nachdem Sie die Umbenennung durchgefÃ¼hrt haben, von
   Hand mit dem Substitutionsmodell \verb"(z y x"
   \verb"(lambda (z) (+ x z))))" und halten Sie die Zwischenschritte
   fest.
@@ -1595,18 +1595,18 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
 \end{verbatim}
 
   Benennen Sie hier alle lokalen Variablen, die innerhalb der Funktion
-  \verb"f" gebunden werden, um. Verändern Sie nicht den Namen der
+  \verb"f" gebunden werden, um. VerÃ¤ndern Sie nicht den Namen der
   Variablen \verb"x", \verb"y" und \verb"z" aus den ersten drei Zeilen
   des Programms.
 
-  Nachdem Sie die Umbenennung durchgeführt haben, welches Ergebnis liefert
+  Nachdem Sie die Umbenennung durchgefÃ¼hrt haben, welches Ergebnis liefert
   der Ausdruck \verb"(f y)"? Berechnen Sie das Ergebnis von Hand mithilfe
   des Substitutionsmodells und halten Sie die Zwischenschritte fest.
 
   \noindent \emph{Hinweis:} In diesen Aufgaben finden Sie keine
-  Kommentare und Signaturen zu den Prozeduren. Hier können Sie an einem
+  Kommentare und Signaturen zu den Prozeduren. Hier kÃ¶nnen Sie an einem
   Beispiel sehen, dass es sehr wichtig ist, diese Informationen
-  anderen Programmierern immer zur Verfügung zu stellen. Denn es kann
+  anderen Programmierern immer zur VerfÃ¼gung zu stellen. Denn es kann
   auch bei kleinen Programmen schwer sein, die Funktionsweise der
   einzelnen Funktionen ohne Kommentare zu verstehen.
 \end{aufgabe}

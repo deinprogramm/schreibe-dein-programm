@@ -6,48 +6,48 @@
 \chapter{Eigenschaften von Funktionen}
 \label{cha:properties}
 
-Daß $1+1$ gleich $2$ ist, ist ein \textit{Beispiel} für die
-Arbeitsweise der Addition.  Dieses Beispiel könnte auch als Testfall
-für eine programmierte Version der Addition durchgehen.  Unter
-Umständen kann ein Beispiel, als Testfall formuliert, einen Fehler in
+DaÃŸ $1+1$ gleich $2$ ist, ist ein \textit{Beispiel} fÃ¼r die
+Arbeitsweise der Addition.  Dieses Beispiel kÃ¶nnte auch als Testfall
+fÃ¼r eine programmierte Version der Addition durchgehen.  Unter
+UmstÃ¤nden kann ein Beispiel, als Testfall formuliert, einen Fehler in
 einem Programm finden.  Allerdings ist das Formulieren von Beispielen
-mühsam.  Schlimmer noch, eine Menge von Testfällen reicht nur selten
+mÃ¼hsam.  Schlimmer noch, eine Menge von TestfÃ¤llen reicht nur selten
 aus, um die Korrektheit einer Funktion auch zu garantieren: Die
-Testfälle decken meist nicht alle möglichen Anwendungen einer Prozedur
+TestfÃ¤lle decken meist nicht alle mÃ¶glichen Anwendungen einer Prozedur
 ab.  Darum ist es oft sinnvoll, statt isolierter Beispiele allgemeine
-Eigenschaften zu formulieren und zu überprüfen~-- am besten sogar,
+Eigenschaften zu formulieren und zu Ã¼berprÃ¼fen~-- am besten sogar,
 diese zu beweisen.  Dieses Kapitel zeigt, wie das geht.
 
 \section{Eigenschaften von eingebauten Operationen}
 
-In diesem Abschnitt wird die Formulierung und Überprüfung von
+In diesem Abschnitt wird die Formulierung und ÃœberprÃ¼fung von
 Eigenschaften anhand von bekannten eingebauten Operationen wie
 \texttt{+}, \texttt{and}, \texttt{=} etc.\ demonstriert.
 
-\subsection{Binäre Operationen}
+\subsection{BinÃ¤re Operationen}
 \label{sec:eigenschaften-binaere-operationen}
 
 Eine allgemein bekannte Eigenschaft der Addition ist die
-\index{Kommutativität}\textit{Kommutativität}:
+\index{KommutativitÃ¤t}\textit{KommutativitÃ¤t}:
 %
 \begin{displaymath}
 a + b = b + a
 \end{displaymath}
 %
 Auch wenn intuitiv die Bedeutung klar ist, ist  die Eigenschaft genau
-genommen so noch nicht präzise schriftlich festgehalten, da nicht
-notiert ist, was $a$ und $b$ sind: Die Idee ist natürlich,
-daß $a$ und $b$ beliebige \emph{Zahlen} sind.  Im allgemeinen also:
+genommen so noch nicht prÃ¤zise schriftlich festgehalten, da nicht
+notiert ist, was $a$ und $b$ sind: Die Idee ist natÃ¼rlich,
+daÃŸ $a$ und $b$ beliebige \emph{Zahlen} sind.  Im allgemeinen also:
 %
 \begin{displaymath}
 \forall a \in \mathbb{C}, b \in \mathbb{C}:\ a + b = b + a 
 \end{displaymath}
 %
-(Wer sich mit der Vorstellung komplexer Zahlen nicht wohlfühlt, kann
+(Wer sich mit der Vorstellung komplexer Zahlen nicht wohlfÃ¼hlt, kann
 das $\mathbb{C}$ auch durch $\mathbb{R}$ oder $\mathbb{Q}$ ersetzen.)
 
 \begin{feature}{\texttt{for-all}}{scheme:for-all}
-  \texttt{For-all}\index{for-all@\texttt{for-all}} ermöglicht das
+  \texttt{For-all}\index{for-all@\texttt{for-all}} ermÃ¶glicht das
   Formulieren von \textit{Eigenschaften\index{Eigenschaft}}.  Ein
   \texttt{for-all}-Ausdruck hat die folgende allgemeine Form:
 %
@@ -55,14 +55,14 @@ das $\mathbb{C}$ auch durch $\mathbb{R}$ oder $\mathbb{Q}$ ersetzen.)
 (for-all ((\(v\sb{1}\) \(c\sb{1}\)) \(\ldots\) (\(v\sb{n}\) \(c\sb{n}\))) \(b\))
 \end{alltt}
 %
-Dabei müssen die $v_i$ Variablen sein, die $c_i$ Signaturen und $b$ (der
+Dabei mÃ¼ssen die $v_i$ Variablen sein, die $c_i$ Signaturen und $b$ (der
 Rumpf) ein Ausdruck, der entweder einen booleschen Wert oder eine
 Eigenschaft liefert.  Der \texttt{for-all}-Ausdruck hat als Wert eine
-Eigenschaft, die besagt, daß \(b\) gilt für \emph{alle} Werte der
-$v_i$, welche die Signaturen $c_i$ erfüllen.
+Eigenschaft, die besagt, daÃŸ \(b\) gilt fÃ¼r \emph{alle} Werte der
+$v_i$, welche die Signaturen $c_i$ erfÃ¼llen.
 \end{feature}
 
-In Scheme läßt sich diese Eigenschaft für die eingebaute Prozedur
+In Scheme lÃ¤ÃŸt sich diese Eigenschaft fÃ¼r die eingebaute Prozedur
 \texttt{+} aufschreiben~-- das $\forall$ ist auf
 Tastaturen nicht vertreten und wird darum ausgeschrieben (siehe
 Abbildung~\ref{scheme:for-all}):
@@ -90,22 +90,22 @@ testet eine Eigenschaft analog zu \texttt{check-expect}.  Eine
 (check-property \(e\)) 
 \end{alltt}
 %
-$e$ ist ein Ausdruck, der eine Eigenschaft liefern muß~-- in der Regel
+$e$ ist ein Ausdruck, der eine Eigenschaft liefern muÃŸ~-- in der Regel
 also ein \texttt{for-all}-Ausdruck.
 
-Bei der Auswertung setzt \texttt{check-property} für die Variablen der
-\texttt{for-all}-Ausdrücke verschiedene Werte ein und testet, ob die
-Eigenschaft jeweils erfüllt ist.
+Bei der Auswertung setzt \texttt{check-property} fÃ¼r die Variablen der
+\texttt{for-all}-AusdrÃ¼cke verschiedene Werte ein und testet, ob die
+Eigenschaft jeweils erfÃ¼llt ist.
 
-\texttt{Check-property} funktioniert nur für Eigenschaften, bei denen
-aus den Signaturen sinnvoll Werte generiert werden können.  Dies ist
-für die meisten eingebauten Signaturen der Fall, aber nicht für
+\texttt{Check-property} funktioniert nur fÃ¼r Eigenschaften, bei denen
+aus den Signaturen sinnvoll Werte generiert werden kÃ¶nnen.  Dies ist
+fÃ¼r die meisten eingebauten Signaturen der Fall, aber nicht fÃ¼r
 Signaturvariablen und Signaturen, die mit \texttt{predicate},
 \texttt{property} oder \texttt{define-record-procedures} definiert
 wurden.
 \end{feature}
 %
-Bessere Informationen lassen sich erzielen, wenn \texttt{for-all}-Ausdrücke in
+Bessere Informationen lassen sich erzielen, wenn \texttt{for-all}-AusdrÃ¼cke in
 eine  \texttt{check-property}-Form
 (siehe Abbildung~\ref{scheme:check-property}) eingebettet werden:
 %
@@ -118,7 +118,7 @@ eine  \texttt{check-property}-Form
 %
 \texttt{Check-property} fungiert, wie \texttt{check-expect} oder
 \texttt{check-within}, als Testfall und wird auch als solcher
-ausgewertet.  Da \texttt{+} tatsächlich kommutativ ist, läuft der
+ausgewertet.  Da \texttt{+} tatsÃ¤chlich kommutativ ist, lÃ¤uft der
 Testfall auch anstandslos durch.
 
 Interessanter wird es erst bei Eigenschaften, die nicht stimmen.  Zum
@@ -132,15 +132,15 @@ Beispiel ist die Subtraktion \texttt{-} nicht kommutativ:
       (- b a))))
 \end{alltt}
 %
-Hierfür liefert \drscheme{} folgende Meldung:
+HierfÃ¼r liefert \drscheme{} folgende Meldung:
 %
 \begin{alltt}
         Eigenschaft falsifizierbar mit a = \framebox{0.0} b = \framebox{-1.5}
 \end{alltt}
 %
-\textit{Falsifizierbar}\index{falsifizierbar} bedeutet, daß es ein
-\textit{Gegenbeispiel\index{Gegenbeispiel}} für die Eigenschaft gibt,
-also Werte für die Variablen \texttt{a} und \texttt{b}, welche die
+\textit{Falsifizierbar}\index{falsifizierbar} bedeutet, daÃŸ es ein
+\textit{Gegenbeispiel\index{Gegenbeispiel}} fÃ¼r die Eigenschaft gibt,
+also Werte fÃ¼r die Variablen \texttt{a} und \texttt{b}, welche die
 Eigenschaft falsch werden lassen.  \drscheme{} hat in diesem Fall ein
 Gegenbeispiel gefunden, bei dem \texttt{a} den Wert $0.0$ und
 \texttt{b} den Wert $1.5$ hat:
@@ -152,18 +152,18 @@ Gegenbeispiel gefunden, bei dem \texttt{a} den Wert $0.0$ und
 \evalsto{} -1.5
 \end{alltt}
 %
-Dieses Beispiel widerlegt also tatsächlich die Behauptung der Eigenschaft.
+Dieses Beispiel widerlegt also tatsÃ¤chlich die Behauptung der Eigenschaft.
 
-Hinter den Kulissen hat \drscheme{} verschiedene Werte für \texttt{a} und
+Hinter den Kulissen hat \drscheme{} verschiedene Werte fÃ¼r \texttt{a} und
 \texttt{b} durchprobiert und in die Eigenschaft eingesetzt, also effektiv
-nach einem Gegenbeispiel gesucht.  Für die Kommutativität von
+nach einem Gegenbeispiel gesucht.  FÃ¼r die KommutativitÃ¤t von
 \texttt{+} gibt es kein Gegenbeispiel~-- \drscheme{} konnte also auch
-keins finden.  Daß ausgerechnet das merkwürdige Beispiel $0.0$ und
+keins finden.  DaÃŸ ausgerechnet das merkwÃ¼rdige Beispiel $0.0$ und
 $-1.5$ herauskam, liegt an der relativ komplexen Suchstrategie von
 \drscheme{}.
 
 Auf diese Art und Weise lassen sich eine Reihe von interessanten
-Eigenschaften formulieren, so zum Beispiel die Assoziativität\index{Assoziativität} von
+Eigenschaften formulieren, so zum Beispiel die AssoziativitÃ¤t\index{AssoziativitÃ¤t} von
 \texttt{+}:\label{sec:plus-not-associative}
 %
 \begin{alltt}
@@ -175,7 +175,7 @@ Eigenschaften formulieren, so zum Beispiel die Assoziativität\index{Assoziativit
        (+ (+ a b) c))))
 \end{alltt}
 %
-Hierbei gibt es allerdings eine böse Überraschung~-- \drscheme{} produziert
+Hierbei gibt es allerdings eine bÃ¶se Ãœberraschung~-- \drscheme{} produziert
 ein Gegenbeispiel:
 %
 \begin{alltt}
@@ -183,7 +183,7 @@ Eigenschaft falsifizierbar mit
   a = \framebox{2.6666666666666665} b = \framebox{6.857142857142857} c = \framebox{-6.857142857142857}
 \end{alltt}
 %
-Es ist kein Zufall, daß es sich um Zahlen mit vielen Nachkommastellen
+Es ist kein Zufall, daÃŸ es sich um Zahlen mit vielen Nachkommastellen
 handelt.  Wenn dieses Gegenbeispiel in die Eigenschaft eingesetzt
 wird, liefert die REPL folgende Ergebnisse:
 %
@@ -194,18 +194,18 @@ wird, liefert die REPL folgende Ergebnisse:
 \evalsto{} 2.666666666666667
 \end{alltt}
 %
-Hier wird sichtbar daß, wie bereits in
-Abschnitt~\ref{sec:programming-elements} erwähnt, bei Berechnungen mit
+Hier wird sichtbar daÃŸ, wie bereits in
+Abschnitt~\ref{sec:programming-elements} erwÃ¤hnt, bei Berechnungen mit
 sogenannten \textit{inexakten Zahlen\index{inexakte Zahlen}}, das sind
 Zahlen mit einem Dezimalpunkt, die mathematischen Operationen nur mit
-einer begrenzten Anzahl von Stellen durchgeführt werden und dann runden~-- da
-auch noch binär und nicht dezimal gerundet wird, sieht das Ergebnis
-dieser Rundung oft unintuitiv aus.  Dieses Beispiel zeigt nun, daß
-Addition plus binäre Rundung nicht assoziativ ist.  Die Assoziativität
-gilt nur für das Rechnen mit \textit{exakten Zahlen\index{exakte
+einer begrenzten Anzahl von Stellen durchgefÃ¼hrt werden und dann runden~-- da
+auch noch binÃ¤r und nicht dezimal gerundet wird, sieht das Ergebnis
+dieser Rundung oft unintuitiv aus.  Dieses Beispiel zeigt nun, daÃŸ
+Addition plus binÃ¤re Rundung nicht assoziativ ist.  Die AssoziativitÃ¤t
+gilt nur fÃ¼r das Rechnen mit \textit{exakten Zahlen\index{exakte
     Zahlen}}.  Immerhin sind alle Zahlen mit der Signatur
 \texttt{rational} exakt, die
-Eigenschaft läßt sich also reformulieren:
+Eigenschaft lÃ¤ÃŸt sich also reformulieren:
 %
 \begin{alltt}
 (check-property
@@ -216,13 +216,13 @@ Eigenschaft läßt sich also reformulieren:
        (+ (+ a b) c))))
 \end{alltt}
 %
-Und tatsächlich, in dieser Form wird die Eigenschaft nicht
+Und tatsÃ¤chlich, in dieser Form wird die Eigenschaft nicht
 beanstandet.
 
-Kommutativität und Assoziativität sind jeweils Eigenschaften einer
+KommutativitÃ¤t und AssoziativitÃ¤t sind jeweils Eigenschaften einer
 einzelnen Operation, in diesem Fall \texttt{+}.  Manche Eigenschaften
 beschreiben auch das Zusammenspiel mehrerer Operationen, wie zum
-Beispiel die Distributivität, die für Addition und Multiplikation
+Beispiel die DistributivitÃ¤t, die fÃ¼r Addition und Multiplikation
 gilt:
 %
 \begin{displaymath}
@@ -230,7 +230,7 @@ gilt:
 a\cdot(b+c) = a\cdot b + b\cdot c
 \end{displaymath}
 %
-Auch dies läßt sich direkt nach Scheme übersetzen, diesmal gleich mit
+Auch dies lÃ¤ÃŸt sich direkt nach Scheme Ã¼bersetzen, diesmal gleich mit
 \texttt{rational} statt \texttt{number}:
 %
 \begin{alltt}
@@ -254,12 +254,12 @@ Neben der Addition ist auch die Multiplikation kommutativ:
       (* b a))))
 \end{alltt}
 %
-Wenn Sie diese Eigenschaft neben die Kommutativität für \texttt{+}
-legen, sehen Sie, daß diese fast identisch sind und damit natürliche
-Kandidaten für Abstraktion: Nur die Operation~-- \texttt{*} im einen
-und \texttt{+} im anderen Fall~-- ist unterschiedlich.  Wenn wir über
+Wenn Sie diese Eigenschaft neben die KommutativitÃ¤t fÃ¼r \texttt{+}
+legen, sehen Sie, daÃŸ diese fast identisch sind und damit natÃ¼rliche
+Kandidaten fÃ¼r Abstraktion: Nur die Operation~-- \texttt{*} im einen
+und \texttt{+} im anderen Fall~-- ist unterschiedlich.  Wenn wir Ã¼ber
 die Operation abstrahieren, bekommen wir so etwas wie eine allgemeine
-Definition der Kommutativität, und das sieht so aus:
+Definition der KommutativitÃ¤t, und das sieht so aus:
 
 \begin{alltt}
 (define commutativity
@@ -270,7 +270,7 @@ Definition der Kommutativität, und das sieht so aus:
          (op b a)))))
 \end{alltt}
 %
-Mit Hilfe dieser Definition können wir die Kommutativität von
+Mit Hilfe dieser Definition kÃ¶nnen wir die KommutativitÃ¤t von
 \texttt{+} und \texttt{*} deutlich kompakter formulieren:
 %
 \begin{alltt}
@@ -278,14 +278,14 @@ Mit Hilfe dieser Definition können wir die Kommutativität von
 (check-property (commutativity +))
 \end{alltt}
 %
-Über dem \texttt{check-property} können wir nicht abstrahieren~-- es
-muß ganz außen stehen, damit \drscheme{} Fehlermeldungen den dazu
+Ãœber dem \texttt{check-property} kÃ¶nnen wir nicht abstrahieren~-- es
+muÃŸ ganz auÃŸen stehen, damit \drscheme{} Fehlermeldungen den dazu
 passenden Programmstellen zuordnen kann.
 
-Der Vollständigkeit halber braucht \texttt{commutativity} noch eine
+Der VollstÃ¤ndigkeit halber braucht \texttt{commutativity} noch eine
 Signatur: \texttt{+} und \texttt{*} sind jeweils Funktionen, die zwei
-Zahlen akzeptieren und wieder eine Zahl zurückliefern.  Der
-Rückgabewert von \texttt{commutativity} ist eine Eigenschaft, für die
+Zahlen akzeptieren und wieder eine Zahl zurÃ¼ckliefern.  Der
+RÃ¼ckgabewert von \texttt{commutativity} ist eine Eigenschaft, fÃ¼r die
 in \drscheme{} die Signatur \texttt{property} fest eingebaut ist.  Die
 fertige Signatur ist also diese hier:
 %
@@ -293,13 +293,13 @@ fertige Signatur ist also diese hier:
 (: commutativity ((rational rational -> rational) -> property))
 \end{alltt}
 
-Diese drei Eigenschaften~-- Kommutativität, Assoziativität und
-Distributivität~-- tauchen immer wieder auf, da sie nicht nur für
+Diese drei Eigenschaften~-- KommutativitÃ¤t, AssoziativitÃ¤t und
+DistributivitÃ¤t~-- tauchen immer wieder auf, da sie nicht nur fÃ¼r
 arithmetische Operationen gelten (auch die Multiplikation ist
 kommutativ und assoziativ) sondern auch anderswo.  
 
 Zum Beispiel gelten
-Kommutativität und Assoziativität auch für das logische \texttt{and}:
+KommutativitÃ¤t und AssoziativitÃ¤t auch fÃ¼r das logische \texttt{and}:
 %
 \begin{alltt}
 (check-property
@@ -316,19 +316,19 @@ Kommutativität und Assoziativität auch für das logische \texttt{and}:
                (and (and a b) c))))
 \end{alltt}
 %
-Hier muß die eingebaute Prozedur \texttt{boolean=?} verwendet werden,
+Hier muÃŸ die eingebaute Prozedur \texttt{boolean=?} verwendet werden,
 die boolesche Werte vergleicht, analog zu \texttt{=}, die nur Zahlen
 vergleichen kann.
 
-Schön wäre natürlich, wenn wir auch für die Kommutativität von
+SchÃ¶n wÃ¤re natÃ¼rlich, wenn wir auch fÃ¼r die KommutativitÃ¤t von
 \texttt{and} die obige Funktion \texttt{commutativity} verwenden
-könnten: Das Problem ist aber, daß sich die Kommutativität von
-\texttt{and} an zwei weiteren Stellen von der Kommutativität für
-\texttt{*} und \texttt{+} unterscheidet, nämlich bei der Signatur
+kÃ¶nnten: Das Problem ist aber, daÃŸ sich die KommutativitÃ¤t von
+\texttt{and} an zwei weiteren Stellen von der KommutativitÃ¤t fÃ¼r
+\texttt{*} und \texttt{+} unterscheidet, nÃ¤mlich bei der Signatur
 (\texttt{boolean} statt \texttt{rational}) und auch bei der
 Vergleichsoperation (\texttt{boolean=?} statt \texttt{=}).  Um auch
 \texttt{and} in den Einzugsbereich von \texttt{commutativity} zu
-holen, müssen wir also auch noch über diese beiden Werte abstrahieren:
+holen, mÃ¼ssen wir also auch noch Ã¼ber diese beiden Werte abstrahieren:
 %
 \begin{alltt}
 (define commutativity
@@ -339,7 +339,7 @@ holen, müssen wir also auch noch über diese beiden Werte abstrahieren:
           (op b a)))))
 \end{alltt}
 %
-Für \texttt{*} und \texttt{+} müssen wir \texttt{commutativity} nun
+FÃ¼r \texttt{*} und \texttt{+} mÃ¼ssen wir \texttt{commutativity} nun
 wie folgt aufrufen:
 %
 \begin{alltt}
@@ -348,13 +348,13 @@ wie folgt aufrufen:
 \end{alltt}
 %
 Denken Sie an das \texttt{signature}, das immer notwendig ist, wenn
-eine Signatur außerhalb einer Signaturdeklaration mit \texttt{:} sowie
+eine Signatur auÃŸerhalb einer Signaturdeklaration mit \texttt{:} sowie
 einem \texttt{for-all} vorkommt.
 
 Um \texttt{commutativity} auch auf \texttt{and} und \texttt{or}
 loszulassen, gibt es allerdings noch ein weiteres Hindernis: Das
-Argument zu \texttt{op} muß eine Prozedur sein~-- \texttt{and} und
-\texttt{or} sind aber Spezialformen.  Wir können Sie aber zu
+Argument zu \texttt{op} muÃŸ eine Prozedur sein~-- \texttt{and} und
+\texttt{or} sind aber Spezialformen.  Wir kÃ¶nnen Sie aber zu
 Funktionen machen, indem wir \texttt{lambda}s darumwickeln:
 %
 \begin{alltt}
@@ -366,7 +366,7 @@ Funktionen machen, indem wir \texttt{lambda}s darumwickeln:
 \end{alltt}
 %
 Bei der neuen Version von \texttt{commutativity} fehlt noch die
-Signatur.  Wir müssen dazu die ursprüngliche Signatur
+Signatur.  Wir mÃ¼ssen dazu die ursprÃ¼ngliche Signatur
 %
 \begin{alltt}
 (: commutativity ((rational rational -> rational) -> property))
@@ -380,34 +380,34 @@ rationalen Zahlen.  Wir skizzieren erstmal, was wir wissen:
 (: commutativity ((? ? -> ?) signature (? ? -> boolean) -> property))
 \end{alltt}
 %
-Die eingebaute Signatur \texttt{signature} ist für Signaturen
-zuständig~-- das zweite Argument ist ja eine Signatur.  Von der
-Vergleichsprozedur an dritter Stelle ist klar, daß sie ein
-\texttt{boolean} liefert.  Für die restlichen Fragezeichen ist die
-genaue Signatur abhängig vom konkreten Operator und dieser (ebenfalls
-variablen) Signatur, wir müssen also Signaturvariablen verwenden.
+Die eingebaute Signatur \texttt{signature} ist fÃ¼r Signaturen
+zustÃ¤ndig~-- das zweite Argument ist ja eine Signatur.  Von der
+Vergleichsprozedur an dritter Stelle ist klar, daÃŸ sie ein
+\texttt{boolean} liefert.  FÃ¼r die restlichen Fragezeichen ist die
+genaue Signatur abhÃ¤ngig vom konkreten Operator und dieser (ebenfalls
+variablen) Signatur, wir mÃ¼ssen also Signaturvariablen verwenden.
 
 Was ist noch bekannt?  Die beiden Argumente der Funktion \texttt{op}
-müssen auf dieselbe Signatur passen, da sie ja vertauschbar sind:
+mÃ¼ssen auf dieselbe Signatur passen, da sie ja vertauschbar sind:
 %
 \begin{verbatim}
 (: commutativity ((%a %a -> ?) signature (? ? -> boolean) -> property))
 \end{verbatim}
 %
-Außerdem wird der Rückgabewert von \texttt{op} in die
-Vergleichsprozedur gefüttert, für die restliche drei Fragezeichen
-müssen wir also dieselbe Signatur einsetzen.  Ist erforderlich, daß
-der Rückgabewert von \texttt{op} auf die gleiche Signatur paßt wie die
-Argumente?  Der Rückgabewert wird nicht wieder in \texttt{op}
-hineingefüttert, die Antwort ist also nein.  Wir können also eine
+AuÃŸerdem wird der RÃ¼ckgabewert von \texttt{op} in die
+Vergleichsprozedur gefÃ¼ttert, fÃ¼r die restliche drei Fragezeichen
+mÃ¼ssen wir also dieselbe Signatur einsetzen.  Ist erforderlich, daÃŸ
+der RÃ¼ckgabewert von \texttt{op} auf die gleiche Signatur paÃŸt wie die
+Argumente?  Der RÃ¼ckgabewert wird nicht wieder in \texttt{op}
+hineingefÃ¼ttert, die Antwort ist also nein.  Wir kÃ¶nnen also eine
 von \verb|%a| verschiedene Signaturvariable benutzen:
 %
 \begin{verbatim}
 (: commutativity ((%a %a -> %b) signature (%b %b -> boolean) -> property))
 \end{verbatim}
 %
-Genauso wie bei der Kommutativität können wir auch bei der
-Assoziativität abstrahieren.  Hier die Abstraktion, die dabei
+Genauso wie bei der KommutativitÃ¤t kÃ¶nnen wir auch bei der
+AssoziativitÃ¤t abstrahieren.  Hier die Abstraktion, die dabei
 herauskommt:
 %
 \begin{verbatim}
@@ -420,7 +420,7 @@ herauskommt:
           (op (op a b) c)))))
 \end{verbatim}
 %
-Benutzen können wir Sie ähnlich wie bei der Kommutativität:
+Benutzen kÃ¶nnen wir Sie Ã¤hnlich wie bei der KommutativitÃ¤t:
 %
 \begin{alltt}
 (check-property (associativity + (signature rational) =))
@@ -434,17 +434,17 @@ Benutzen können wir Sie ähnlich wie bei der Kommutativität:
 \end{alltt}
 %
 Auch hier die Formulierung der Signatur nicht so einfach.  Die erste
-Skizze könnte so aussehen:
+Skizze kÃ¶nnte so aussehen:
 %
 \begin{alltt}
 (: associativity ((? ? -> ?) signature (? ? -> boolean) -> property))
 \end{alltt}
 %
-Wie bei \texttt{commutativity} wird der Rückgabewert von \texttt{op}
-als Argument für die Vergleichsprozedur verwendet: Die letzten drei
-Fragezeichen müssen also wieder gleich sein.  Anders als bei der
-Kommutativität wird der Rückgabewert von \texttt{op} auch wieder als
-Argument in \texttt{op} hereingefüttert.  Damit müssen auch die ersten
+Wie bei \texttt{commutativity} wird der RÃ¼ckgabewert von \texttt{op}
+als Argument fÃ¼r die Vergleichsprozedur verwendet: Die letzten drei
+Fragezeichen mÃ¼ssen also wieder gleich sein.  Anders als bei der
+KommutativitÃ¤t wird der RÃ¼ckgabewert von \texttt{op} auch wieder als
+Argument in \texttt{op} hereingefÃ¼ttert.  Damit mÃ¼ssen auch die ersten
 beiden Fragezeichen den anderen entsprechen.  Die beste Signatur ist
 also wie folgt:
 %
@@ -453,11 +453,11 @@ also wie folgt:
 \end{alltt}
 %
 \texttt{And} und
-\texttt{or} erfüllen auch zwei Distributivgesetze.  Damit beschäftigt
+\texttt{or} erfÃ¼llen auch zwei Distributivgesetze.  Damit beschÃ¤ftigt
 sich Aufgabe~\ref{aufgabe:boolean-distrib}.
 
 Auch das \textrm{DeMorgan'sche Gesetz\index{DeMorgan'sches Gesetz}}
-(siehe Abschnitt~\ref{sec:aussagenlogik}) läßt sich in Scheme
+(siehe Abschnitt~\ref{sec:aussagenlogik}) lÃ¤ÃŸt sich in Scheme
 formulieren:
 %
 \begin{alltt}
@@ -468,10 +468,10 @@ formulieren:
               (or (not a) (not b)))))
 \end{alltt}
 %
-Bei vielen Operationen ist außerdem interessant, ob sie ein
+Bei vielen Operationen ist auÃŸerdem interessant, ob sie ein
 \textit{neutrales Element\index{neutrales Element}} besitzen, also ein
-Argument, das dafür sorgt, daß die Operation ein anderes Argument
-unverändert zurückgibt.  Die Addition hat z.B.\ die $0$ als neutrales
+Argument, das dafÃ¼r sorgt, daÃŸ die Operation ein anderes Argument
+unverÃ¤ndert zurÃ¼ckgibt.  Die Addition hat z.B.\ die $0$ als neutrales
 Element:
 %
 \begin{alltt}
@@ -480,15 +480,15 @@ Element:
     (= (+ a 0) a)))
 \end{alltt}
 %
-Streng genommen ist damit nur gesichert, daß $0$ \textit{rechtsneutrales
+Streng genommen ist damit nur gesichert, daÃŸ $0$ \textit{rechtsneutrales
   Element} ist, also von rechts addiert das andere Argument
-unverändert herauskommt.  Aus der Kommutativität folgt aber, daß jedes
+unverÃ¤ndert herauskommt.  Aus der KommutativitÃ¤t folgt aber, daÃŸ jedes
 rechtsneutrale Element auch ein linksneutrales Element ist.
 
 Bei manchen Operationen gibt es neben dem neutralen Element zu jedem
 Element auch ein \textit{inverses Element\index{inverses Element}}:
-Wenn eine binäre Operation auf ein Element und sein Inverses
-angewendet wird, so muß das neutrale Element herauskommen.  Bei der
+Wenn eine binÃ¤re Operation auf ein Element und sein Inverses
+angewendet wird, so muÃŸ das neutrale Element herauskommen.  Bei der
 Addition entsteht das Inverse zu einer Zahl durch Umdrehen des
 Vorzeichens:
 %
@@ -506,15 +506,15 @@ Hier noch einmal eine Zusammenfassung der in diesem Abschnitt
 behandelten Eigenschaften, mit Kurzfassungen der mathematischen
 Formulierungen:
 
-\begin{mantra}[Eigenschaften von binären Operationen]
+\begin{mantra}[Eigenschaften von binÃ¤ren Operationen]
 %
-Folgende Eigenschaften sind prinzipiell auf alle \textit{binären}
+Folgende Eigenschaften sind prinzipiell auf alle \textit{binÃ¤ren}
 Operationen denkbar, die zwei Elemente einer Menge $M$ akzeptieren
-und wiederum ein Element von $M$ zurückgeben.
+und wiederum ein Element von $M$ zurÃ¼ckgeben.
 \begin{itemize}
-\item Kommutativität $a \star b = b \star a$
-\item Assoziativität $(a \star b) \star c = a \star (b \star c)$
-\item Distributivität $a \otimes (b \star c) = (a \otimes b) \star (a
+\item KommutativitÃ¤t $a \star b = b \star a$
+\item AssoziativitÃ¤t $(a \star b) \star c = a \star (b \star c)$
+\item DistributivitÃ¤t $a \otimes (b \star c) = (a \otimes b) \star (a
   \otimes c)$; $(b \star c) \otimes a = (b \otimes a) \star (c
   \otimes a)$
 \item neutrales Element ($a\star \nu = a$; $\nu\star a = a$)
@@ -522,9 +522,9 @@ und wiederum ein Element von $M$ zurückgeben.
 \end{itemize}
 \end{mantra}
 
-\subsection{Eigenschaften von binären Prädikaten}
+\subsection{Eigenschaften von binÃ¤ren PrÃ¤dikaten}
 
-Die Prozedur \texttt{=} paßt nicht in das Scheme der Eigenschaften
+Die Prozedur \texttt{=} paÃŸt nicht in das Scheme der Eigenschaften
 des folgenden Abschnitts.  Sie hat folgende Signatur:
 %
 \begin{alltt}
@@ -532,19 +532,19 @@ des folgenden Abschnitts.  Sie hat folgende Signatur:
 \end{alltt}
 %
 Damit akzeptiert sie zwar zwei Argumente aus derselben Menge, liefert
-aber einen booleschen Wert zurück.  Stattdessen handelt es sich um ein
-\textit{binäres Prädikat\index{binäres
-    Prädikat}\index{Prädikat!binär}} bzw.\ eine \textit{binäre
-  Relation\index{binäre Relation}\index{Relation!binär}}.  Für binäre
+aber einen booleschen Wert zurÃ¼ck.  Stattdessen handelt es sich um ein
+\textit{binÃ¤res PrÃ¤dikat\index{binÃ¤res
+    PrÃ¤dikat}\index{PrÃ¤dikat!binÃ¤r}} bzw.\ eine \textit{binÃ¤re
+  Relation\index{binÃ¤re Relation}\index{Relation!binÃ¤r}}.  FÃ¼r binÃ¤re
 Relationen kommt ein anderer Satz von Eigenschaften in Frage.  (Die
 mathematische Seite ist in Anhang~\ref{sec:relationen} beschrieben.)
 Insbesondere ist \texttt{=} eine
-\textit{Äquivalenzrelation\index{Äquivalenzrelation}} und damit
+\textit{Ã„quivalenzrelation\index{Ã„quivalenzrelation}} und damit
 \textit{reflexiv\index{reflexiv}},
 \textit{symmetrisch\index{symmetrisch}} und
 \textit{transitiv\index{transitiv}}.
 
-Die Reflexivität besagt, daß jedes Element der Grundmenge (in diesem
+Die ReflexivitÃ¤t besagt, daÃŸ jedes Element der Grundmenge (in diesem
 Fall die Menge der Zahlen) zu sich selbst in Beziehung steht:
 %
 \begin{alltt}
@@ -553,9 +553,9 @@ Fall die Menge der Zahlen) zu sich selbst in Beziehung steht:
    (= a a)))
 \end{alltt}
 %
-Die Symmetrie bedeutet für \texttt{=}, daß aus \texttt{(= a b)
+Die Symmetrie bedeutet fÃ¼r \texttt{=}, daÃŸ aus \texttt{(= a b)
   \evalsto{} \#t} das "`Spiegelbild"' \texttt{(= b a) \evalsto{} \#t}
-folgt.  Mathematisch geschrieben sähe das so aus:
+folgt.  Mathematisch geschrieben sÃ¤he das so aus:
 %
 \begin{displaymath}
   \forall a \in \mathbb{C}, b\in\mathbb{C}:\ a = b \Rightarrow b = a
@@ -564,22 +564,22 @@ folgt.  Mathematisch geschrieben sähe das so aus:
 \begin{feature}{\texttt{==>}}{scheme:implies}
 
 Eine \textit{Implikation}\index{Implikation} in einer Eigenschaft wird
-folgendermaßen geschrieben:
+folgendermaÃŸen geschrieben:
 \begin{alltt}
 (==> \(e\) \(e\sb{p}\))
 \end{alltt}
 %
-Dabei muß $e$ ein Ausdruck mit booleschem Wert sein (die
+Dabei muÃŸ $e$ ein Ausdruck mit booleschem Wert sein (die
 \textit{Voraussetzung}) und \(e\sb{p}\) eine Eigenschaft oder ein
 boolescher Ausdruck.  Die Implikation liefert ihrerseits wieder eine
 Eigenschaft, die gilt, wenn \(e\sb{p}\) immer dann gilt, wenn die
-Voraussetzung erfüllt ist, also \verb|#t| liefert.
+Voraussetzung erfÃ¼llt ist, also \verb|#t| liefert.
 \end{feature}
 
 Der Implikationspfeil $\Rightarrow$ wird in Scheme
 \texttt{==>}\index{==>@\texttt{==>}} geschrieben.  (Siehe
 Abbildung~\ref{scheme:implies}.)  Der Test der
-Symmetrie sieht also folgendermaßen aus:
+Symmetrie sieht also folgendermaÃŸen aus:
 %
 \begin{alltt}
 (check-property
@@ -589,8 +589,8 @@ Symmetrie sieht also folgendermaßen aus:
         (= b a))))
 \end{alltt}
 %
-Ähnlich läuft es mit der Transitivität: Wenn zwei Zahlen $a$ und $b$
-gleich sind sowie $b$ und eine dritte Zahl $c$, dann müssen auch $a$
+Ã„hnlich lÃ¤uft es mit der TransitivitÃ¤t: Wenn zwei Zahlen $a$ und $b$
+gleich sind sowie $b$ und eine dritte Zahl $c$, dann mÃ¼ssen auch $a$
 und $c$ gleich sein:
 %
 \begin{alltt}
@@ -602,18 +602,18 @@ und $c$ gleich sein:
         (= a c))))
 \end{alltt}
 %
-Neben den drei Eigenschaften von Äquivalenzrelationen tritt auch
+Neben den drei Eigenschaften von Ã„quivalenzrelationen tritt auch
 gelegentlich die Eigenschaft
 \textit{Antisymmetrie}\index{antisymmetrisch} auf (die mathematische
 Definition steht in Anhang~\ref{sec:relationen}).
 
-\begin{mantra}[Eigenschaften von binären Prädikaten]
+\begin{mantra}[Eigenschaften von binÃ¤ren PrÃ¤dikaten]
 %
-Folgende Eigenschaften sind für binäre Prädikate denkbar:
+Folgende Eigenschaften sind fÃ¼r binÃ¤re PrÃ¤dikate denkbar:
 \begin{itemize}
-\item Reflexivität $a \leftrightsquigarrow a$
+\item ReflexivitÃ¤t $a \leftrightsquigarrow a$
 \item Symmetrie $a \leftrightsquigarrow b \Rightarrow b \leftrightsquigarrow a$
-\item Transitivität $a \leftrightsquigarrow b \wedge b
+\item TransitivitÃ¤t $a \leftrightsquigarrow b \wedge b
   \leftrightsquigarrow c
   \Rightarrow a \leftrightsquigarrow c$
 \item Antisymmetrie $a \leftrightsquigarrow b \wedge  b
@@ -624,7 +624,7 @@ Folgende Eigenschaften sind für binäre Prädikate denkbar:
 \section{Eigenschaften von Funktionen auf Listen}
 
 Es wird Zeit, Eigenschaften von selbstgeschriebenen Funktionen zu
-überprüfen.  In diesem Abschnitt geht es um einige der Prozeduren, die
+Ã¼berprÃ¼fen.  In diesem Abschnitt geht es um einige der Prozeduren, die
 auf Listen operieren: \texttt{concatenate}, \texttt{invert},
 und \texttt{list-sum}.
 
@@ -632,13 +632,13 @@ und \texttt{list-sum}.
 
 Die Funktion
 \texttt{concatenate}\index{concatenate@texttt{concatenate}} aus
-Abschnitt~\ref{sec:concatenate} hängt zwei Listen aneinander.  Auch
+Abschnitt~\ref{sec:concatenate} hÃ¤ngt zwei Listen aneinander.  Auch
 \texttt{concatenate} ist assoziativ: Wenn drei Listen mit Hilfe von
-\texttt{concatenate} aneinandergehängt werden, spielt es keine Rolle,
+\texttt{concatenate} aneinandergehÃ¤ngt werden, spielt es keine Rolle,
 ob zuerst die ersten beiden oder zuerst die letzten beiden Listen
-aneinandergehängt werden.  Nach dem Muster der Assoziativität von
+aneinandergehÃ¤ngt werden.  Nach dem Muster der AssoziativitÃ¤t von
 \texttt{+} und \texttt{and} sieht der Test dieser Eigenschaft
-folgendermaßen aus:
+folgendermaÃŸen aus:
 %
 \begin{alltt}
 (check-property
@@ -652,7 +652,7 @@ Beim Test ist die Signatur von \texttt{lis-1}, \texttt{lis-2} und
 (: concatenate ((list-of %a) (list-of %a) -> (list-of %a)))
 \end{alltt}
 %
-suggeriert allerdings, daß die Signatur von \texttt{lis-1},
+suggeriert allerdings, daÃŸ die Signatur von \texttt{lis-1},
 \texttt{lis-2} und \texttt{lis-3} jeweils \texttt{(list-of \%a)} lauten
 sollte, also allgemeiner als \texttt{(list-of number)}.  Signaturen mit
 Signaturvariablen funktionieren allerdings nicht im Zusammenhang mit
@@ -665,24 +665,24 @@ Eigenschaften, wie folgendes Beispiel zeigt:
 \end{alltt}
 %
 Dieser Code liefert die Fehlermeldung "`Signatur hat keinen
-Generator"': Das liegt daran, daß die Signaturvariable \texttt{\%a}
-zuwenig Information über die zugrundeliegenden Werte liefert, als daß
-\drscheme{} sinnvoll Werte für die Tests generieren könnte.  Aus diesem
-Grund müssen in \texttt{for-all} immer "`konkrete"' Signaturen ohne
-Signaturvariablen angegeben werden.  (Aus ähnlichen Gründen
+Generator"': Das liegt daran, daÃŸ die Signaturvariable \texttt{\%a}
+zuwenig Information Ã¼ber die zugrundeliegenden Werte liefert, als daÃŸ
+\drscheme{} sinnvoll Werte fÃ¼r die Tests generieren kÃ¶nnte.  Aus diesem
+Grund mÃ¼ssen in \texttt{for-all} immer "`konkrete"' Signaturen ohne
+Signaturvariablen angegeben werden.  (Aus Ã¤hnlichen GrÃ¼nden
 funktionieren auch einige andere Arten von Signaturen nicht bei
 \texttt{for-all}, inbesondere Record-Signaturen.  Funktionsignaturen sind
-allerdings zulässig und werden in Abschnitt~\ref{sec:ho-props} behandelt.)
+allerdings zulÃ¤ssig und werden in Abschnitt~\ref{sec:ho-props} behandelt.)
 
-Für \texttt{concatenate} wäre es zwar gründlicher, die Tests auch noch
-für andere Sorten von Listenelementen als \texttt{number}
-durchzuführen~-- da aber \texttt{concatenate} mit den Listenelementen
-nichts anfängt, außer sie in weitere Liste zu stecken, reicht die
+FÃ¼r \texttt{concatenate} wÃ¤re es zwar grÃ¼ndlicher, die Tests auch noch
+fÃ¼r andere Sorten von Listenelementen als \texttt{number}
+durchzufÃ¼hren~-- da aber \texttt{concatenate} mit den Listenelementen
+nichts anfÃ¤ngt, auÃŸer sie in weitere Liste zu stecken, reicht die
 Formulierung der Eigenschaft mit \texttt{(list-of number)} aus.
 
 Es bleibt noch ein weiteres Problem bei der Formulierung der
-Assoziativität für \texttt{concatenate}: Es steht noch keine Prozedur
-für den Vergleich der beiden Listen zur Verfügung, die muß erst noch
+AssoziativitÃ¤t fÃ¼r \texttt{concatenate}: Es steht noch keine Prozedur
+fÃ¼r den Vergleich der beiden Listen zur VerfÃ¼gung, die muÃŸ erst noch
 geschrieben werden.  Kurzbeschreibung und Signatur:\index{number-list=?@texttt{number-list=?}}
 %
 \begin{alltt}
@@ -690,8 +690,8 @@ geschrieben werden.  Kurzbeschreibung und Signatur:\index{number-list=?@texttt{n
 (: number-list=? ((list-of number) (list-of number) -> boolean))
 \end{alltt}
 %
-Die Testfälle sollten insbesondere Listen unterschiedlicher Länge
-berücksichtigen:
+Die TestfÃ¤lle sollten insbesondere Listen unterschiedlicher LÃ¤nge
+berÃ¼cksichtigen:
 %
 \begin{alltt}
 (check-expect (number-list=? empty empty) #t)
@@ -701,7 +701,7 @@ berücksichtigen:
 (check-expect (number-list=? (list 1.0 2.0 3.0) (list 1.0 2.1 3.0)) #f)
 \end{alltt}
 %
-Die erste Schablone, ausgewählt nach dem ersten Listenparameter
+Die erste Schablone, ausgewÃ¤hlt nach dem ersten Listenparameter
 \texttt{lis-1}, sieht so aus:
 % 
 \begin{alltt}
@@ -715,7 +715,7 @@ Die erste Schablone, ausgewählt nach dem ersten Listenparameter
        ... (number-list=? (rest lis-1) ...) ...))))
 \end{alltt}
 %
-Die Schablone für den zweiten Listenparameter \texttt{lis-2} wird in
+Die Schablone fÃ¼r den zweiten Listenparameter \texttt{lis-2} wird in
 beide Zweige des \texttt{cond} eingesetzt:
 %
 \begin{alltt}
@@ -738,21 +738,21 @@ beide Zweige des \texttt{cond} eingesetzt:
           ... (number-list=? ... (rest lis-2))))))))
 \end{alltt}
 %
-Es gibt also insgesamt vier Fälle bei den Verzweigungen:
+Es gibt also insgesamt vier FÃ¤lle bei den Verzweigungen:
 \begin{itemize}
 \item Im ersten
 Fall sind beide Listen leer, das Ergebnis ist also \texttt{\#t}.
 \item Im zweiten Fall ist die erste Liste leer und die zweite
   nichtleer.  Das Ergebnis ist also \texttt{\#f} und die
-  Schablonenelemente sind überflüssig.
+  Schablonenelemente sind Ã¼berflÃ¼ssig.
 \item Im dritten Fall ist die erste Liste nichtleer und die zweite
   leer.  Das Ergebnis ist also wiederum \texttt{\#f}.
 \item Im vierten Fall sind beide Listen nichtleer und in der Schablone
   stehen die jeweils ersten Elemente von \texttt{lis-1} und
   \texttt{lis-2}.  Die beiden Listen sind nur gleich, wenn die beiden
-  ersten Elemente gleich sind.  Außerdem müssen natürlich die beiden
+  ersten Elemente gleich sind.  AuÃŸerdem mÃ¼ssen natÃ¼rlich die beiden
   Reste der Listen ebenfalls gleich sind~-- die beiden rekursiven
-  Aufrufe aus den Schablonen können also kombiniert werden:
+  Aufrufe aus den Schablonen kÃ¶nnen also kombiniert werden:
 \end{itemize}
 %
 \begin{alltt}
@@ -771,14 +771,14 @@ Fall sind beide Listen leer, das Ergebnis ist also \texttt{\#t}.
                (number-list=? (rest lis-1) (rest lis-2)))))))))
 \end{alltt}
 %
-Damit kann jetzt die Assoziativität von \texttt{concatenate} getestet werden:
+Damit kann jetzt die AssoziativitÃ¤t von \texttt{concatenate} getestet werden:
 %
 \begin{alltt}
 (check-property
  (associativity concatenate (signature (list-of number)) number-list=?))
 \end{alltt}
 %
-\texttt{Concatenate} hat außerdem ein neutrales Element, und zwar
+\texttt{Concatenate} hat auÃŸerdem ein neutrales Element, und zwar
 sowohl im linken als auch im rechten Argument:
 %
 \begin{alltt}
@@ -799,7 +799,7 @@ Der entsprechende Test sieht so aus:
  (commutativity concatenate (signature (list-of number)) number-list=?))
 \end{alltt}
 %
-\drscheme{} liefert hierfür ein Gegenbeispiel:
+\drscheme{} liefert hierfÃ¼r ein Gegenbeispiel:
 %
 \begin{alltt}
 Eigenschaft falsifizierbar mit
@@ -809,13 +809,13 @@ Eigenschaft falsifizierbar mit
 \subsection{Eigenschaften von \texttt{number-list=?}}
 
 Wie der Zufall so will, hat auch die Hilfsprozedur
-\texttt{number-list=?} interessante Eigenschaften: Wie \texttt{=} muß
-auch \texttt{number-list=?} eine Äquivalenzrelation sein~--
-schließlich testet sie wie \texttt{=} auf Gleichheit.  Die
-dazugehörigen Eigenschaften~-- Reflexivität, Symmetrie und
-Transitivität~-- können ebenso wie bei \texttt{=} formuliert werden:
+\texttt{number-list=?} interessante Eigenschaften: Wie \texttt{=} muÃŸ
+auch \texttt{number-list=?} eine Ã„quivalenzrelation sein~--
+schlieÃŸlich testet sie wie \texttt{=} auf Gleichheit.  Die
+dazugehÃ¶rigen Eigenschaften~-- ReflexivitÃ¤t, Symmetrie und
+TransitivitÃ¤t~-- kÃ¶nnen ebenso wie bei \texttt{=} formuliert werden:
 
-Reflexivität:
+ReflexivitÃ¤t:
 %
 \begin{alltt}
 (check-property
@@ -830,7 +830,7 @@ Symmetrie:
     (==> (number-list=? lis-1 lis-2)
          (number-list=? lis-2 lis-1))))
 \end{alltt}
- Transitivität
+ TransitivitÃ¤t
 \begin{alltt}
 (check-property
  (for-all ((lis-1 (list-of number))
@@ -846,7 +846,7 @@ Symmetrie:
 
 Die Funktion \texttt{invert} aus Abschnitt~\ref{sec:invert} dreht die
 Reihenfolge der Elemente einer Liste um.  Eine naheliegende
-Eigenschaft von \texttt{invert} ist, daß zweimaliges Umdrehen wieder
+Eigenschaft von \texttt{invert} ist, daÃŸ zweimaliges Umdrehen wieder
 die Ursprungsliste liefern sollte:
 %
 \begin{alltt}
@@ -855,15 +855,15 @@ die Ursprungsliste liefern sollte:
    (number-list=? lis (invert (invert lis)))))
 \end{alltt}
 %
-Auch bei \texttt{invert} enthält die Signatur eine Signaturvariable:
+Auch bei \texttt{invert} enthÃ¤lt die Signatur eine Signaturvariable:
 %
 \begin{alltt}
 (: invert ((list-of %a) -> (list-of %a)))
 \end{alltt}
 %
 Genau wie bei \texttt{concatenate} macht \texttt{invert} mit den
-Listenelementen nichts spezielles, es können also auch zum Beispiel Zeichenketten
-benutzt werden.  Diese Änderung allein funktioniert allerdings nicht:
+Listenelementen nichts spezielles, es kÃ¶nnen also auch zum Beispiel Zeichenketten
+benutzt werden.  Diese Ã„nderung allein funktioniert allerdings nicht:
 %
 \begin{alltt}
 (check-property
@@ -872,11 +872,11 @@ benutzt werden.  Diese Änderung allein funktioniert allerdings nicht:
 \end{alltt}
 %
 Die Funktion \texttt{number-list=?} funktioniert nur auf Listen von
-Zahlen.  Es wäre möglich, \texttt{number-list=?} über der
-Vergleichsprozedur auf den Elementen zu abstrahieren, aber es wäre
-trotzdem umständliche Arbeit nur für den Zweck des Testens.  Deshalb 
+Zahlen.  Es wÃ¤re mÃ¶glich, \texttt{number-list=?} Ã¼ber der
+Vergleichsprozedur auf den Elementen zu abstrahieren, aber es wÃ¤re
+trotzdem umstÃ¤ndliche Arbeit nur fÃ¼r den Zweck des Testens.  Deshalb 
 gibt es eine Vereinfachung analog zu \texttt{check-expect}.  Die eingebaute Form \texttt{expect}
-akzeptiert zwei beliebige Werte und ist dann erfüllt, wenn diese Werte
+akzeptiert zwei beliebige Werte und ist dann erfÃ¼llt, wenn diese Werte
 gleich sind.  (Siehe Abbildung~\ref{scheme:expect}.)  Die Eigenschaft
 von \texttt{invert} sieht damit so aus:
 
@@ -890,8 +890,8 @@ von \texttt{invert} sieht damit so aus:
 (expect \(e\sb{1}\)  \(e\sb{2}\))
 \end{alltt}
 %
-$e_1$ und $e_2$ sind Ausdrücke.  Die resultierende Eigenschaft ist
-erfüllt, wenn $e_1$ und $e_2$ den gleichen Wert liefern~-- der
+$e_1$ und $e_2$ sind AusdrÃ¼cke.  Die resultierende Eigenschaft ist
+erfÃ¼llt, wenn $e_1$ und $e_2$ den gleichen Wert liefern~-- der
 Vergleich wird dabei wie bei \texttt{check-expect} angestellt.
 
 \end{feature}
@@ -904,7 +904,7 @@ Vergleich wird dabei wie bei \texttt{check-expect} angestellt.
 %
 Viele Funktionen auf Listen haben Eigenschaften, welche die Funktion
 jeweils im Zusammenspiel mit einer oder mehreren anderen Funktionen
-zeigen.  Bei Prozeduren mit Listen ist es häufig interessant, das
+zeigen.  Bei Prozeduren mit Listen ist es hÃ¤ufig interessant, das
 Zusammenspiel mit \texttt{concatenate} zu betrachten.  Damit
 \texttt{concatenate} etwas sinnvolles tun kann, sind zwei Listen
 notwendig:
@@ -929,7 +929,7 @@ Auf diese zwei Listen kann \texttt{concatenate} aber auch jeweils
     ... (invert (concatenate lis-1 lis-2)) ...))
 \end{alltt}
 %
-Wie läßt sich die Liste \texttt{(invert (concatenate lis-1 lis-2))}
+Wie lÃ¤ÃŸt sich die Liste \texttt{(invert (concatenate lis-1 lis-2))}
 noch beschreiben?
 Angenommen, \texttt{lis-1} ist die Liste \texttt{\#<list 1 2 3>} und
 \texttt{lis-2} die Liste \texttt{\#<list 4 5 6>}.  Dann gilt:
@@ -943,7 +943,7 @@ Angenommen, \texttt{lis-1} ist die Liste \texttt{\#<list 1 2 3>} und
 \(\Longrightarrow\) \ldots{} \(\Longrightarrow\) #<list \(\underbrace{\texttt{6 5 4}}\sb{\texttt{(invert lis-2)}}\) \(\underbrace{\texttt{3 2 1}}\sb{\texttt{(invert lis-1)}}\)>
 \end{alltt}
 %
-Dies läßt vermuten, daß die gesuchte Eigenschaft folgendermaßen aussieht:
+Dies lÃ¤ÃŸt vermuten, daÃŸ die gesuchte Eigenschaft folgendermaÃŸen aussieht:
 %
 \begin{alltt}
 (check-property
@@ -954,7 +954,7 @@ Dies läßt vermuten, daß die gesuchte Eigenschaft folgendermaßen aussieht:
 \end{alltt}
 %
 \begin{mantra}[Eigenschaften von Funktionen auf Listen]
-  Prozeduren, die Listen akzeptieren, haben häufig interessante
+  Prozeduren, die Listen akzeptieren, haben hÃ¤ufig interessante
   Eigenschaften im Zusammenspiel mit \texttt{concatenate}.
 \end{mantra}
 
@@ -964,7 +964,7 @@ Dies läßt vermuten, daß die gesuchte Eigenschaft folgendermaßen aussieht:
 Abschnitt~\ref{sec:list-sum} ist, wie \texttt{invert}, eine Funktion,
 die eine Liste akzeptiert.  Genau wie bei \texttt{invert} ist es eine
 gute Idee, die Interaktion zwischen \texttt{list-sum} und
-\texttt{concatenate} zu untersuchen.  Es müssen also wieder zwei
+\texttt{concatenate} zu untersuchen.  Es mÃ¼ssen also wieder zwei
 Listen her~-- die zu \texttt{invert} analoge Vorgehensweise liefert
 folgende Schablone:
 %
@@ -978,7 +978,7 @@ folgende Schablone:
 \end{alltt}
 %
 Da \texttt{list-sum} die Elemente der Liste addiert und die Addition
-assoziativ ist, müßte folgendes gelten:
+assoziativ ist, mÃ¼ÃŸte folgendes gelten:
 %
 \begin{alltt}
 (check-property
@@ -988,10 +988,10 @@ assoziativ ist, müßte folgendes gelten:
             (list-sum (concatenate lis-1 lis-2)))))
 \end{alltt}
 %
-Hier allerdings schlägt das Rundungsproblem aus
+Hier allerdings schlÃ¤gt das Rundungsproblem aus
 Abschnitt~\ref{sec:plus-not-associative} wieder zu: Die Addition auf
 \texttt{number} ist eben \emph{nicht} assoziativ, aber immerhin auf
-\texttt{rational}.  Der fertige Test muß also so aussehen:
+\texttt{rational}.  Der fertige Test muÃŸ also so aussehen:
 %
 \begin{alltt}
 (check-property
@@ -1016,16 +1016,16 @@ Abbildung~\ref{scheme:expect-within}.)
 (expect-within \(e\sb{1}\)  \(e\sb{2}\) \(e\sb{\delta}\))
 \end{alltt}
 %
-$e_1$, $e_2$ und $e\sb{\delta}$ sind Ausdrücke, wobei $e\sb{\delta}$
-eine reelle Zahl liefern muß.  Die resultierende Eigenschaft ist
-erfüllt, wenn $e_1$ und $e_2$ den gleichen Wert liefern~-- der
+$e_1$, $e_2$ und $e\sb{\delta}$ sind AusdrÃ¼cke, wobei $e\sb{\delta}$
+eine reelle Zahl liefern muÃŸ.  Die resultierende Eigenschaft ist
+erfÃ¼llt, wenn $e_1$ und $e_2$ den gleichen Wert liefern~-- der
 Vergleich wird dabei wie bei \texttt{check-within} angestellt, d.h.\
-alle inexakten Zahlen in den Ergebnissen von $e_1$ und $e_2$ müssen
-nicht gleich sein, dürfen sich aber höchstens um $e\sb{\delta}$
+alle inexakten Zahlen in den Ergebnissen von $e_1$ und $e_2$ mÃ¼ssen
+nicht gleich sein, dÃ¼rfen sich aber hÃ¶chstens um $e\sb{\delta}$
 voneinander unterscheiden.
 \end{feature}
 
-Mit \texttt{expect-within} sieht der Testfall folgendermaßen aus:
+Mit \texttt{expect-within} sieht der Testfall folgendermaÃŸen aus:
 %
 \begin{alltt}
 (check-property
@@ -1036,9 +1036,9 @@ Mit \texttt{expect-within} sieht der Testfall folgendermaßen aus:
                    0.1)))
 \end{alltt}
 %
-Auch dieser Testfall läuft durch.
+Auch dieser Testfall lÃ¤uft durch.
 
-Auch der Test für die Assoziativität von \texttt{+} aus
+Auch der Test fÃ¼r die AssoziativitÃ¤t von \texttt{+} aus
 Abschnitt~\ref{sec:plus-not-associative} kann mit
 \texttt{expect-within} formuliert werden:
 %
@@ -1052,12 +1052,12 @@ Abschnitt~\ref{sec:plus-not-associative} kann mit
                    0.1)))
 \end{alltt}
 %
-So wie sich die Assoziativität von \texttt{+} in einer Eigenschaft von
-\texttt{list-sum} niederschlägt, tut dies auch die Kommutativität: Sie
-besagt, daß die Reihenfolge der Elemente der Liste keine Rolle spielt.
-Eine einfache Möglichkeit, dies zu testen, ist wiederum mit zwei
+So wie sich die AssoziativitÃ¤t von \texttt{+} in einer Eigenschaft von
+\texttt{list-sum} niederschlÃ¤gt, tut dies auch die KommutativitÃ¤t: Sie
+besagt, daÃŸ die Reihenfolge der Elemente der Liste keine Rolle spielt.
+Eine einfache MÃ¶glichkeit, dies zu testen, ist wiederum mit zwei
 Listen zu arbeiten und diese einmal in der einen und dann in der
-anderen Richtung aneinanderzuhängen:\label{sec:list-sum-commutative}
+anderen Richtung aneinanderzuhÃ¤ngen:\label{sec:list-sum-commutative}
 %
 \begin{alltt}
 (check-property
@@ -1067,24 +1067,24 @@ anderen Richtung aneinanderzuhängen:\label{sec:list-sum-commutative}
            (list-sum (concatenate lis-2 lis-1)))))
 \end{alltt}
 
-\section{Eigenschaften von Prozeduren höherer Ordnung}
+\section{Eigenschaften von Prozeduren hÃ¶herer Ordnung}
 \label{sec:ho-props}
 
 In Abschnitt~\ref{sec:currying} wurde bereits eine Eigenschaft von
 \texttt{curry}\index{curry@\texttt{curry}} und
-\texttt{uncurry}\index{uncurry@\texttt{uncurry}} aufgeführt:
+\texttt{uncurry}\index{uncurry@\texttt{uncurry}} aufgefÃ¼hrt:
 %
 \begin{center}
   \texttt{(uncurry (curry \(p\))) \(\equiv\) \(p\)}
 \end{center}
 %
 Mit anderen Worten: \texttt{curry} und \texttt{uncurry} sind jeweils
-Inverse voneinander.  Auch diese Eigenschaft läßt sich direkt mit
+Inverse voneinander.  Auch diese Eigenschaft lÃ¤ÃŸt sich direkt mit
 \texttt{check-property} und \texttt{for-all} formulieren.  Zu beachten
 ist wieder, obwohl \texttt{curry} und \texttt{uncurry} polymorphe
-Signaturen mit Signaturvariablen haben, daß für den Test mit
+Signaturen mit Signaturvariablen haben, daÃŸ fÃ¼r den Test mit
 \texttt{check-property} eine "`konkrete"' Signatur ohne
-Signaturvariablen für das Prozedur-Argument benutzt werden muß, also
+Signaturvariablen fÃ¼r das Prozedur-Argument benutzt werden muÃŸ, also
 zum Beispiel \texttt{string}:
 %
 \begin{alltt}
@@ -1094,7 +1094,7 @@ zum Beispiel \texttt{string}:
            proc)))
 \end{alltt}
 %
-Leider schlägt dieser Test fehl, und zwar mit einer mysteriösen
+Leider schlÃ¤gt dieser Test fehl, und zwar mit einer mysteriÃ¶sen
 Meldung:
 %
 \begin{alltt}
@@ -1102,34 +1102,34 @@ Eigenschaft falsifizierbar mit \framebox{#<procedure:?>}
 \end{alltt}
 %
 Offenbar ist \drscheme{} also der Ansicht, es hat eine Funktion gefunden,
-welche die Eigenschaft nicht erfüllt, kann aber nicht genau sagen,
-welche Prozedur: Das liegt daran, daß es prinzipiell unmöglich ist,
-zwei Prozeduren auf Gleichheit zu überprüfen~-- Gleichheit zweier
-Prozeduren heißt ja, daß die eine Prozedur angewendet auf einen Satz
+welche die Eigenschaft nicht erfÃ¼llt, kann aber nicht genau sagen,
+welche Prozedur: Das liegt daran, daÃŸ es prinzipiell unmÃ¶glich ist,
+zwei Prozeduren auf Gleichheit zu Ã¼berprÃ¼fen~-- Gleichheit zweier
+Prozeduren heiÃŸt ja, daÃŸ die eine Prozedur angewendet auf einen Satz
 Argumente \emph{immer} das gleiche Ergebnis wie die andere Funktion
 liefert.  Im obigen Beispiel akzeptiert \texttt{proc} zwei
 Zeichenketten, von denen es unendlich viele gibt; die Gleichheit zu
-überprüfen, würde also unendlich lange dauern.  \texttt{Expect}
+Ã¼berprÃ¼fen, wÃ¼rde also unendlich lange dauern.  \texttt{Expect}
 versucht es darum gar nicht erst, sondern sieht es als notwendige
-(nicht als hinreichende) Bedingung für die Gleichheit zweier
-Prozeduren an, daß sie Wert desselben \texttt{lambda}-Ausdrucks sind.
+(nicht als hinreichende) Bedingung fÃ¼r die Gleichheit zweier
+Prozeduren an, daÃŸ sie Wert desselben \texttt{lambda}-Ausdrucks sind.
 \texttt{Expect} testet also bei Funktionen auf sogenannte
 \textit{intensionale Gleichheit}\index{intensionale
-  Gleichheit}\index{Gleichheit!intensional}, was soviel heißt, daß
+  Gleichheit}\index{Gleichheit!intensional}, was soviel heiÃŸt, daÃŸ
 \texttt{expect} vergleicht, \emph{auf welche Weise} die beiden
 Funktionen entstanden sind, nicht aber, ob sich die beiden Funktionen
-\emph{gleich verhalten}.  Die letztere Eigenschaft heißt \textit{extensionale
+\emph{gleich verhalten}.  Die letztere Eigenschaft heiÃŸt \textit{extensionale
   Gleichheit}\index{Gleichheit!extensional}\index{extensionale
   Gleichheit}~-- und ist, wie gesagt, nicht effektiv testbar.
 
 Der \texttt{lambda}-Ausdruck der Funktion, die von \texttt{(curry
   (uncurry proc))} geliefert wird, ist aber der Rumpf von
-\texttt{curry}, während der \texttt{lambda}-Ausdruck von \texttt{proc}
+\texttt{curry}, wÃ¤hrend der \texttt{lambda}-Ausdruck von \texttt{proc}
 i.d.R.\ woanders steht; damit sind die beiden Funktionen intensional
-ungleich, und der obige Test muß fehlschlagen, auch wenn die beiden
-Operanden von \texttt{expect} äquivalent sind.
+ungleich, und der obige Test muÃŸ fehlschlagen, auch wenn die beiden
+Operanden von \texttt{expect} Ã¤quivalent sind.
 
-Damit ein \texttt{check-property}-Test die Äquivalenz testen kann, muß
+Damit ein \texttt{check-property}-Test die Ã„quivalenz testen kann, muÃŸ
 er selbst \texttt{(curry (uncurry proc))} anwenden:
 %
 \begin{alltt}
@@ -1145,27 +1145,27 @@ Dieser Test funktioniert.
 
 \section{Programme beweisen}
 
-\texttt{Check-property} ist nützlich, um zu überprüfen, ob eine
+\texttt{Check-property} ist nÃ¼tzlich, um zu Ã¼berprÃ¼fen, ob eine
 Eigenschaft gilt oder nicht.  Da \texttt{check-property} allerdings
-nur eine endliche Menge zufälliger Tests durchführt, reicht es nicht
-aus, um sicherzugehen, daß eine bestimmte Eigenschaft für alle Werte
+nur eine endliche Menge zufÃ¤lliger Tests durchfÃ¼hrt, reicht es nicht
+aus, um sicherzugehen, daÃŸ eine bestimmte Eigenschaft fÃ¼r alle Werte
 der \texttt{for-all}-Variablen gilt: Dazu ist ein mathematischer
 Beweis notwendig.
 
-An verschiedenen Stellen im Buch wurden Beweise für mathematische
-Funktionen durchgeführt~-- zuletzt in Kapitel~\ref{cha:indu} für
-eine rekursive Funktion.  Beweise über mathematische Funktionen
+An verschiedenen Stellen im Buch wurden Beweise fÃ¼r mathematische
+Funktionen durchgefÃ¼hrt~-- zuletzt in Kapitel~\ref{cha:indu} fÃ¼r
+eine rekursive Funktion.  Beweise Ã¼ber mathematische Funktionen
 erlauben, bei jedem Schrittan beliebigen Stellen Gleichungen
-einzusetzen.  Beweise über Prozeduren in Programmen sind schwieriger,
-da sie das Substitutionsmodell berücksichtigen müssen: Bei jedem
+einzusetzen.  Beweise Ã¼ber Prozeduren in Programmen sind schwieriger,
+da sie das Substitutionsmodell berÃ¼cksichtigen mÃ¼ssen: Bei jedem
 Reduktionsschritt kommt immer nur eine bestimmte Substitution in
 Frage.
 
 \subsection{Arithmetische Gesetze beweisen}
 \label{sec:scheme-arithmetik-beweis}
 
-Als erstes Beispiel für den Beweis an einem Programm dient der Beweis
-der Kommutativität von \texttt{+}.  Der Beweis ist nicht besonders
+Als erstes Beispiel fÃ¼r den Beweis an einem Programm dient der Beweis
+der KommutativitÃ¤t von \texttt{+}.  Der Beweis ist nicht besonders
 tiefgreifend, demonstriert aber die wichtigsten Techniken, die beim
 Beweisen von Programmen zum Einsatz kommen.  Zu beweisen ist:
 %
@@ -1174,26 +1174,26 @@ Beweisen von Programmen zum Einsatz kommen.  Zu beweisen ist:
 \(\Longrightarrow\ldots\Longrightarrow\) \#t
 \end{alltt}
 %
-\ldots{} und zwar für beliebige Bindungen von \texttt{a} und
+\ldots{} und zwar fÃ¼r beliebige Bindungen von \texttt{a} und
 \texttt{b} an Zahlen.  Seien die Zahlen, die an \texttt{a} bzw.\
 \texttt{b} gebunden sind, $x$ und $y$ mit $x,y\in\mathbb{C}$.  (Die
-"`mathematischen"' Namen könnten auch $a$ und $b$ sein, aber das birgt
+"`mathematischen"' Namen kÃ¶nnten auch $a$ und $b$ sein, aber das birgt
 ein Verwirrungsrisiko mit \texttt{a} und \texttt{b}.)  Wenn nun also
-der obige Term für bestimmte Werte von $x$ und $y$ im
-Substitutionsmodell reduziert wird, wird zuerst $x$ für \texttt{a} und
-$y$ für \texttt{b} eingesetzt.  Für $x=5$ und $y=17$ also:
+der obige Term fÃ¼r bestimmte Werte von $x$ und $y$ im
+Substitutionsmodell reduziert wird, wird zuerst $x$ fÃ¼r \texttt{a} und
+$y$ fÃ¼r \texttt{b} eingesetzt.  FÃ¼r $x=5$ und $y=17$ also:
 %
 \begin{alltt}
 (= (+ 5 17) (+ 17 5))
 \end{alltt}
 %
-Der Beweis soll aber für beliebige Werte für $x$ und $y$
-funktionieren: $x$ und $y$ müssen also im Beweis auftauchen.
+Der Beweis soll aber fÃ¼r beliebige Werte fÃ¼r $x$ und $y$
+funktionieren: $x$ und $y$ mÃ¼ssen also im Beweis auftauchen.
 Um den Unterschied zwischen Variablen des Programms \texttt{a} und
-\texttt{b} und den Zahlen zu machen, die für $x$ und $y$ eingesetzt
+\texttt{b} und den Zahlen zu machen, die fÃ¼r $x$ und $y$ eingesetzt
 werden, werden diese noch mit \valof{\_} umgeben: \valof{x} in
 einem Reduktionsschritt des Substitutionsmodell ist also ein
-Platzhalter für "`die Zahl, für die $x$ steht"'~-- entsprechend für $y$.
+Platzhalter fÃ¼r "`die Zahl, fÃ¼r die $x$ steht"'~-- entsprechend fÃ¼r $y$.
 Es gilt also:
 
 \begin{alltt}
@@ -1203,11 +1203,11 @@ Es gilt also:
 %
 Dort ist der erste Teilausdruck unterstrichen, der beim ersten
 Substitutionsschritt ersetzt wird.  Wenn die Scheme-Funktion
-\texttt{+} tatsächlich die mathematische Operation $+$
+\texttt{+} tatsÃ¤chlich die mathematische Operation $+$
 realisiert,\footnote{Die Komplikationen durch inexakte Zahlen und
-  Rundungen bleiben hier unberücksichtigt.}
+  Rundungen bleiben hier unberÃ¼cksichtigt.}
 wird der Teilausdruck \texttt{(+ \valof{x} \valof{y})} durch $x+y$
-ersetzt~-- beziehungsweise durch die Zahl, für die der mathematische
+ersetzt~-- beziehungsweise durch die Zahl, fÃ¼r die der mathematische
 Ausdruck $x+y$ steht.  Es kommt also wieder \valof{\_} zum Einsatz:
 %
 \begin{alltt}
@@ -1215,7 +1215,7 @@ Ausdruck $x+y$ steht.  Es kommt also wieder \valof{\_} zum Einsatz:
 \(\Longrightarrow\) (= \valof{x+y} \redex{(+ \valof{y} \valof{x})})
 \end{alltt}
 %
-Entsprechend geht es weiter mit der zweiten Summe und schließlich der
+Entsprechend geht es weiter mit der zweiten Summe und schlieÃŸlich der
 Vergleichsoperation \texttt{=}, die dem mathematischen $=$ entspricht:
 %
 \begin{alltt}
@@ -1224,21 +1224,21 @@ Vergleichsoperation \texttt{=}, die dem mathematischen $=$ entspricht:
 \(=\) \#t
 \end{alltt}
 %
-Die Kommutativität der Scheme-Prozedur \texttt{+} folgt also aus der
-Kommutativität des mathematischen $+$, durch das sie definiert ist.
+Die KommutativitÃ¤t der Scheme-Prozedur \texttt{+} folgt also aus der
+KommutativitÃ¤t des mathematischen $+$, durch das sie definiert ist.
 
 \section{Rekursive Programme beweisen}
 \label{sec:rek-scheme-beweisen}
 
-Beweise über rekursive Programme sind anspruchsvoller als der
-Beweis der Kommutativität von \texttt{+}, benutzen aber die gleichen
+Beweise Ã¼ber rekursive Programme sind anspruchsvoller als der
+Beweis der KommutativitÃ¤t von \texttt{+}, benutzen aber die gleichen
 Techniken sowie~-- genau wie bei Beweisen mathematischer rekursiver
 Funktionen~-- Induktion als Beweisprinzip. 
 
 \subsection{Rekursive Programme auf Listen}
 
 Als erstes Beispiel dient
-die Reflexivität.  Es gilt für die Bindung von \texttt{lis} an eine
+die ReflexivitÃ¤t.  Es gilt fÃ¼r die Bindung von \texttt{lis} an eine
 beliebige Liste von Zahlen folgendes zu beweisen:
 %
 \begin{alltt}
@@ -1246,8 +1246,8 @@ beliebige Liste von Zahlen folgendes zu beweisen:
 \(\Longrightarrow\ldots\Longrightarrow\) \#t
 \end{alltt}
 %
-Wieder wird für den Wert der Bindung eine mathematische Variable
-eingeführt~-- $l$.  Dann läuft der Beweis auf folgendes hinaus:
+Wieder wird fÃ¼r den Wert der Bindung eine mathematische Variable
+eingefÃ¼hrt~-- $l$.  Dann lÃ¤uft der Beweis auf folgendes hinaus:
 %
 \begin{alltt}
 (number-list=? lis lis)
@@ -1255,17 +1255,17 @@ eingeführt~-- $l$.  Dann läuft der Beweis auf folgendes hinaus:
 \(\Longrightarrow\ldots\Longrightarrow\) \#t
 \end{alltt}
 %
-\ldots~und dies ist zu beweisen für \emph{alle} Listen von Zahlen $l$.
-Für diesen Beweis kommt uns die induktive Struktur der Listen zur
+\ldots~und dies ist zu beweisen fÃ¼r \emph{alle} Listen von Zahlen $l$.
+FÃ¼r diesen Beweis kommt uns die induktive Struktur der Listen zur
 Hilfe, die der Struktur der endlichen Folgen~-- bekannt aus
 Abschnitt~\ref{sec:finite-sequences} auf
-Seite~\pageref{sec:finite-sequences}~-- entspricht.  Dazu müssen wir
-zunächst einmal unterscheiden allen Fällen der gemischten
+Seite~\pageref{sec:finite-sequences}~-- entspricht.  Dazu mÃ¼ssen wir
+zunÃ¤chst einmal unterscheiden allen FÃ¤llen der gemischten
 Datendefinition, also zwischen den leeren und den nichtleeren Listen.
 
 \paragraph{Leere Liste}
 Angenommen, $l$ ist die leere Liste.  Dann beginnt die Reduktion
-folgendermaßen:
+folgendermaÃŸen:
 %
 \begin{alltt}
 (number-list=? \valof{l} \valof{l})
@@ -1280,9 +1280,9 @@ folgendermaßen:
 %
 
 \paragraph{Nichtleere Liste}
-Für diesen Fall stimmt die Behauptung also.  Angenommen, $l$ ist
+FÃ¼r diesen Fall stimmt die Behauptung also.  Angenommen, $l$ ist
 \emph{nicht} die leere Liste, hat also erstes Element $f$ und Rest
-$r$.  In diesem Fall können wir strukturelle Induktion benutzen.  Die
+$r$.  In diesem Fall kÃ¶nnen wir strukturelle Induktion benutzen.  Die
 \emph{Induktionsvoraussetzung} bezieht sich dann auf den Rest $r$:
 %
 \begin{alltt}
@@ -1290,8 +1290,8 @@ $r$.  In diesem Fall können wir strukturelle Induktion benutzen.  Die
 \(\Longrightarrow\ldots\Longrightarrow\) #t
 \end{alltt}
 %
-Diese können wir benutzen.  Zunächst einmal müssen wir aber soweit
-reduzieren wie möglich:
+Diese kÃ¶nnen wir benutzen.  ZunÃ¤chst einmal mÃ¼ssen wir aber soweit
+reduzieren wie mÃ¶glich:
 %
 \begin{alltt}
 (number-list=? \valof{l} \valof{l})
@@ -1322,7 +1322,7 @@ weiter:
 \(\Longrightarrow\) (number-list=? \valof{r} \valof{r})
 \end{alltt}
 %
-Nach der Induktionsvoraussetzung wissen wir aber, daß der letzte
+Nach der Induktionsvoraussetzung wissen wir aber, daÃŸ der letzte
 Ausdruck zu \verb|#t| reduziert wird.  Die Behauptung ist damit
 bewisen.
 
@@ -1331,23 +1331,23 @@ bewisen.
 
 Die Definition von \texttt{factorial}\index{factorial@\texttt{factorial}} am Anfang von
 Abschnitt~\ref{sec:factorial} folgt der induktiven Definition der
-zugrundeliegenden Daten, der natürlichen Zahlen.  Dementsprechend ist
-der Induktionsbeweis für dessen Korrektheit einfach.  Es ist aber
+zugrundeliegenden Daten, der natÃ¼rlichen Zahlen.  Dementsprechend ist
+der Induktionsbeweis fÃ¼r dessen Korrektheit einfach.  Es ist aber
 entscheidend, die zu beweisende Eigenschaft, welche die Korrektheit
-von \texttt{factorial} begründet, sorgfältig aufzuschreiben:
+von \texttt{factorial} begrÃ¼ndet, sorgfÃ¤ltig aufzuschreiben:
 
-Die Prozedur \texttt{factorial} soll die Fakultät berechnen, es soll
-also für alle natürlichen Zahlen $k$ gelten:
+Die Prozedur \texttt{factorial} soll die FakultÃ¤t berechnen, es soll
+also fÃ¼r alle natÃ¼rlichen Zahlen $k$ gelten:
 %
 \begin{alltt}
 (factorial \valof{k})
 \(\Longrightarrow\ldots\Longrightarrow\) \valof{k!}
 \end{alltt}
 %
-(Diese Eigenschaft läßt sich nicht sinnvoll mit \texttt{for-all}
-hinschreiben, da die mathematische Fakultät nicht fest eingebaut ist.)
+(Diese Eigenschaft lÃ¤ÃŸt sich nicht sinnvoll mit \texttt{for-all}
+hinschreiben, da die mathematische FakultÃ¤t nicht fest eingebaut ist.)
 
-Da es um natürliche Zahlen geht, ist vollständige Induktion
+Da es um natÃ¼rliche Zahlen geht, ist vollstÃ¤ndige Induktion
 anwendbar.  Wir verwenden das Schema aus
 Abschnitt~\ref{sec:nat-induction-ka} auf
 Seite~\pageref{sec:nat-induction-ka}:
@@ -1360,7 +1360,7 @@ Seite~\pageref{sec:nat-induction-ka}:
 \(Longrightarrow\) \valof{0!}
 \end{alltt}
 %
-\item Beweis für $k=0$:
+\item Beweis fÃ¼r $k=0$:
 \begin{alltt}
 (factorial 0)
 \(\Longrightarrow\) ((lambda (n) \ldots) 0)
@@ -1377,7 +1377,7 @@ Seite~\pageref{sec:nat-induction-ka}:
 \(\Longrightarrow\ldots\Longrightarrow\) \valof{k!}
 \end{alltt}
 
-\item Induktionsschluß (zu zeigen):
+\item InduktionsschluÃŸ (zu zeigen):
 
 \begin{alltt}
 (factorial \valof{k+1})
@@ -1414,7 +1414,7 @@ Die Technik funktioniert auch mit Beispielen, bei denen die zu
 beweisende Eigenschaft nicht so einfach zu sehen ist wie bei
 \texttt{factorial}.
 
-Die folgende Scheme-Prozedur verrät nicht auf den ersten Blick, was
+Die folgende Scheme-Prozedur verrÃ¤t nicht auf den ersten Blick, was
 sie berechnet:
 %
 \begin{alltt}
@@ -1428,12 +1428,12 @@ sie berechnet:
            (/ 1 (* n (+ n 1)))))))
 \end{alltt}
 %
-Tatsächlich berechnet der Prozeduraufruf \texttt{(f \valof{k})} für
-eine natürliche Zahl $k$ die Zahl
+TatsÃ¤chlich berechnet der Prozeduraufruf \texttt{(f \valof{k})} fÃ¼r
+eine natÃ¼rliche Zahl $k$ die Zahl
 \(\frac{k}{k+1}\).
 
 Die Eigenschaft ist plausibel, wie sich mit \texttt{check-property}
-feststellen läßt:
+feststellen lÃ¤ÃŸt:
 %
 \begin{alltt}
 (check-property
@@ -1447,7 +1447,7 @@ Schema vor:
 \begin{enumerate}
 \item Behauptung:
 
-  Für alle $k\in\mathbb{N}$ gilt:
+  FÃ¼r alle $k\in\mathbb{N}$ gilt:
 
 \begin{alltt}
 (f \valof{k})
@@ -1479,7 +1479,7 @@ Schema vor:
 \end{alltt}
 
 \item
-Induktionsschluß (zu zeigen):
+InduktionsschluÃŸ (zu zeigen):
 %
 \begin{alltt}
 (f \valof{k+1})
@@ -1510,7 +1510,7 @@ Induktionsschluß (zu zeigen):
 \end{enumerate}
 Damit die die Behauptung bewiesen.
 
-% Das gleiche Spiel läßt sich auch am Beispiel der Prozedur \texttt{f}
+% Das gleiche Spiel lÃ¤ÃŸt sich auch am Beispiel der Prozedur \texttt{f}
 % aus Abschnitt~\ref{sec:rek-scheme-beweisen} demonstrieren.  Eine
 % iterative Variante von \texttt{f} ist:
 % %
@@ -1533,12 +1533,12 @@ Damit die die Behauptung bewiesen.
 \section{Invarianten}
 \label{sec:invarianten}
 
-Die bisher angewendete Technik für den Beweis rekursiver Prozeduren
+Die bisher angewendete Technik fÃ¼r den Beweis rekursiver Prozeduren
 mit Induktion funktioniert bei Funktionen mit Akkumulator nicht mehr
-direkt: Angenommen, die Korrektheit der endrekursiven Fakuktät
-\texttt{!} aus Abschnitt~\ref{page:factorial-tail} soll ähnlich die
+direkt: Angenommen, die Korrektheit der endrekursiven FakuktÃ¤t
+\texttt{!} aus Abschnitt~\ref{page:factorial-tail} soll Ã¤hnlich die
 die Korrektheit von \texttt{factorial} bewiesen werden.  Wieder sei
-\texttt{n} an eine natürliche Zahl $k$ gebunden:
+\texttt{n} an eine natÃ¼rliche Zahl $k$ gebunden:
 %
 \begin{alltt}
 (! n)
@@ -1549,8 +1549,8 @@ die Korrektheit von \texttt{factorial} bewiesen werden.  Wieder sei
 \(\Longrightarrow\) (if (= \valof{k} 0) 1 (!-helper (- \valof{k} 1) (* 1 \valof{k})))
 \end{alltt}
 %
-Wie bei \texttt{factorial} muß zwischen $k=0$ und $k>0$ unterschieden
-werden.  Für $k=0$ geht es folgendermaßen weiter:
+Wie bei \texttt{factorial} muÃŸ zwischen $k=0$ und $k>0$ unterschieden
+werden.  FÃ¼r $k=0$ geht es folgendermaÃŸen weiter:
 %
 \begin{alltt}
 \(\Longrightarrow\) (if (= \valof{k} 0) 1 (!-helper (- \valof{k} 1) (* 1 \valof{k})))
@@ -1558,8 +1558,8 @@ werden.  Für $k=0$ geht es folgendermaßen weiter:
 \(\Longrightarrow\) 1
 \end{alltt}
 %
-Für $k=0$ funktioniert also der Beweis.  Für $k>0$ allerdings verläuft
-die Reduktion folgendermaßen:
+FÃ¼r $k=0$ funktioniert also der Beweis.  FÃ¼r $k>0$ allerdings verlÃ¤uft
+die Reduktion folgendermaÃŸen:
 %
 \begin{alltt}
 \(\Longrightarrow\) (if (= \valof{k} 0) 1 (!-helper (- \valof{k} 1) (* 1 \valof{k})))
@@ -1568,26 +1568,26 @@ die Reduktion folgendermaßen:
 \end{alltt}
 %
 Hier gibt es zwar einen rekursiven Aufruf mit Argument \texttt{(-
-  \valof{k} 1)}, aber \emph{der Akkumulator hat sich auch verändert.}
-Damit ist die naheliegende Induktionsannahme für \texttt{(!-helper (-
+  \valof{k} 1)}, aber \emph{der Akkumulator hat sich auch verÃ¤ndert.}
+Damit ist die naheliegende Induktionsannahme fÃ¼r \texttt{(!-helper (-
   \valof{k} 1) \valof{a})} (falls der Wert des Akkumulators
 \texttt{acc} $a$ ist) wertlos.  Funktionen mit Akkumulator sind also
-nicht nur schwieriger zu schreiben als "`regulär"' rekursive
+nicht nur schwieriger zu schreiben als "`regulÃ¤r"' rekursive
 Funktionen~-- sie sind auch schwerer zu beweisen.
 
-Stattdessen ist es bei Prozeduren mit Akkumulator nützlich, eine
+Stattdessen ist es bei Prozeduren mit Akkumulator nÃ¼tzlich, eine
 \textit{Invariante\index{Invariante}} aufzustellen, also eine
 Eigenschaft, welche Zwischenergebnis und noch zu leistende Arbeit in
 Beziehung setzt.  Wie in Abschnitt~\ref{page:factorial-tail}
-beschrieben, geht die Fakultätsprozedur mit Akkumulator folgendermaßen
+beschrieben, geht die FakultÃ¤tsprozedur mit Akkumulator folgendermaÃŸen
 vor, um \texttt{(! 4)} auszurechnen:
 %
 \begin{displaymath}
   (((1 \cdot 4)\cdot 3)\cdot 2)\cdot 1
 \end{displaymath}
 %
-Bei jedem rekursiven Aufruf läßt sich dieser Aufruf in "`geleistete
-Arbeit"' (die durch den Akkumulator repräsentiert ist) und "`noch zu
+Bei jedem rekursiven Aufruf lÃ¤ÃŸt sich dieser Aufruf in "`geleistete
+Arbeit"' (die durch den Akkumulator reprÃ¤sentiert ist) und "`noch zu
 leistende Arbeit"' unterteilen.  Zum Beispiel entsteht ein rekursiver
 Aufruf \texttt{(!-helper 2 12)}, bei der Akkumulator der Wert des
 unterstrichenen Teilaufrufs ist:
@@ -1596,20 +1596,20 @@ unterstrichenen Teilaufrufs ist:
   (\underline{((1 \cdot 4)\cdot 3)}\cdot 2)\cdot 1
 \end{displaymath}
 %
-Es ist zu sehen, daß die noch zu leistende Arbeit gerade darin
-besteht, den Akkumulator noch mit der Fakultät von 2 zu
+Es ist zu sehen, daÃŸ die noch zu leistende Arbeit gerade darin
+besteht, den Akkumulator noch mit der FakultÃ¤t von 2 zu
 multiplizieren.  Wenn bei einem rekursiven Aufruf von \texttt{!-helper} der
 Wert von \texttt{n} $k$ ist und der Wert des Akkumulators $a$, und am
-Ende die Fakultät von $N$ berechnet werden soll, dann gilt bei jedem
+Ende die FakultÃ¤t von $N$ berechnet werden soll, dann gilt bei jedem
 rekursiven Aufruf \texttt{(!-helper \valof{n} \valof{a})} immer:
 %
 \begin{displaymath}
   a \cdot k! = N!
 \end{displaymath}
 %
-Dies ist die Invariante von \texttt{!-helper} und heißt so, weil sie beim
-rekursiven Aufruf von \texttt{!-helper} unverändert bleibt.  Dies
-ist zunächst nur eine Behauptung, aber wenn sie gelten sollte, dann
+Dies ist die Invariante von \texttt{!-helper} und heiÃŸt so, weil sie beim
+rekursiven Aufruf von \texttt{!-helper} unverÃ¤ndert bleibt.  Dies
+ist zunÃ¤chst nur eine Behauptung, aber wenn sie gelten sollte, dann
 folgt daraus automatisch die Korrektheit der Funktion, da bei $k=0$
 gilt:
 %
@@ -1617,19 +1617,19 @@ gilt:
   a \cdot 0! = a \cdot 1 = a = N!
 \end{displaymath}
 %
-Daß $a \cdot k! = N!$ tatsächlich die Invariante ist, läßt sich
-folgendermaßen folgern:
+DaÃŸ $a \cdot k! = N!$ tatsÃ¤chlich die Invariante ist, lÃ¤ÃŸt sich
+folgendermaÃŸen folgern:
 %
 \begin{itemize}
-\item Sie gilt für den ersten Aufruf von \texttt{!-helper} von
+\item Sie gilt fÃ¼r den ersten Aufruf von \texttt{!-helper} von
   \texttt{!}, da dort $k=N$ und $a=1$ gilt, also:
   \begin{displaymath}
     a \cdot k! = 1 \cdot N! = N!
   \end{displaymath}
-\item Jeder rekursive Aufruf erhält die Invariante.  Angenommen, sie
-  gilt für $k$ und $a$, dann sind die neuen Werte für $k$ und $a$ im
+\item Jeder rekursive Aufruf erhÃ¤lt die Invariante.  Angenommen, sie
+  gilt fÃ¼r $k$ und $a$, dann sind die neuen Werte fÃ¼r $k$ und $a$ im
   rekursiven Aufruf \texttt{(!-helper (- \valof{n} 1) (* \valof{a} \valof{k}))} gerade
-  $k\mapsto k-1$ und $a \mapsto a\cdot n$, die Invariante wäre also:
+  $k\mapsto k-1$ und $a \mapsto a\cdot n$, die Invariante wÃ¤re also:
   \begin{eqnarray*}
     (a \cdot k) \cdot (k-1)! &=& a \cdot (k \cdot (k-1)!\\
     &=& a\cdot k!\\
@@ -1638,7 +1638,7 @@ folgendermaßen folgern:
 \end{itemize}
 %
 Diese Technik funktioniert auch bei weniger offensichtlichen
-Prozeduren.  Hier eine Prozedur, die äquivalent ist zu der Prozedur
+Prozeduren.  Hier eine Prozedur, die Ã¤quivalent ist zu der Prozedur
 \texttt{f} aus Abschnitt~\ref{sec:rek-scheme-beweisen}:
 
 \begin{alltt}
@@ -1658,7 +1658,7 @@ Prozeduren.  Hier eine Prozedur, die äquivalent ist zu der Prozedur
                      acc)))))
 \end{alltt}
 %
-Die Prozedur geht folgendermaßen vor, um das Ergebnis für eine Eingabe
+Die Prozedur geht folgendermaÃŸen vor, um das Ergebnis fÃ¼r eine Eingabe
 $n$ zu berechnen:
 %
 \begin{displaymath}
@@ -1682,13 +1682,13 @@ zwei Teilen, z.B.\ wie folgt:
 %
 Der unterstrichene Teil ist gerade der Wert des Akkumulators, die
 Summe rechts davon der noch zu berechnende Summand.  
-Wenn die Prozedur tatsächlich $n/(n+1)$ berechnen sollte, ist dieser
+Wenn die Prozedur tatsÃ¤chlich $n/(n+1)$ berechnen sollte, ist dieser
 rechte Teil im Beispiel $(n-3)/((n-3)+1)$.  Damit ergibt
 sich die Invariante als $a + n/(n+1)$, wobei $a$ der Wert von
-\texttt{acc} ist.  Um die Annahme zu beweisen, daß dies die Invariante
-ist, muß im wesentlichen folgende Gleichung bewiesen werden:
+\texttt{acc} ist.  Um die Annahme zu beweisen, daÃŸ dies die Invariante
+ist, muÃŸ im wesentlichen folgende Gleichung bewiesen werden:
 \[a+ \frac{n}{n+1} = a + \frac{n-1}{n} + \frac{1}{n\cdot (n+1)}\]
-Dies ist eine lohnende Fingerübung.
+Dies ist eine lohnende FingerÃ¼bung.
 
 
 \section*{Aufgaben}
@@ -1699,37 +1699,37 @@ diese als Eigenschaften von \texttt{/} in Scheme auf.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie eine möglichst vollständige Liste interessanter
+  Schreiben Sie eine mÃ¶glichst vollstÃ¤ndige Liste interessanter
   Eigenschaften sowohl der Ihnen bekannten arithmetischen Operationen
   als auch der logischen Operationen auf.  Beziehen Sie dazu auch die
-  Vergleichsoperationen $<$, $\leq$ etc.\ ein.  Finden Sie außerdem
-  für jede Operation eine interessante Eigenschaft, die \emph{nicht}
-  gilt und überprüfen, ob \drscheme{} jeweils ein Gegenbeispiel
+  Vergleichsoperationen $<$, $\leq$ etc.\ ein.  Finden Sie auÃŸerdem
+  fÃ¼r jede Operation eine interessante Eigenschaft, die \emph{nicht}
+  gilt und Ã¼berprÃ¼fen, ob \drscheme{} jeweils ein Gegenbeispiel
   findet.
 \end{aufgabe}
 
 \begin{aufgabe}
   \label{aufgabe:boolean-distrib}
-  Für \texttt{and} und \texttt{or} gelten zwei Distributivgesetze
-  analog dem Distributivgesetz für \texttt{*} und \texttt{+}:
+  FÃ¼r \texttt{and} und \texttt{or} gelten zwei Distributivgesetze
+  analog dem Distributivgesetz fÃ¼r \texttt{*} und \texttt{+}:
   Formulieren Sie diese als Eigenschaften und lassen Sie \drscheme{}
-  sie überprüfen.
+  sie Ã¼berprÃ¼fen.
 
-  Abstrahieren Sie dann über die nun insgesamt drei Distributivgesetze
+  Abstrahieren Sie dann Ã¼ber die nun insgesamt drei Distributivgesetze
   analog zu \texttt{commutativity} und \texttt{associativity} und
   formulieren Sie die drei Distributivgesetze mit Hilfe der
-  Abstraktion neu.  Schreiben Sie eine möglichst aussagekräftige
-  Signatur für Ihre Abstraktion!
+  Abstraktion neu.  Schreiben Sie eine mÃ¶glichst aussagekrÃ¤ftige
+  Signatur fÃ¼r Ihre Abstraktion!
 \end{aufgabe}
 
 \begin{aufgabe}  Schreiben Sie Abstraktionen analog zu \texttt{commutativity} und
-  \texttt{associativity} für folgende Eigenschaften:
+  \texttt{associativity} fÃ¼r folgende Eigenschaften:
   \begin{enumerate}
   \item DeMorgan
-  \item Reflexivität
+  \item ReflexivitÃ¤t
   \item Symmetrie
   \item Antisymmetrie
-  \item Transitivität
+  \item TransitivitÃ¤t
   \item linksneutrales Element
   \item rechtsneutrales Element
   \item inverses Element
@@ -1738,11 +1738,11 @@ diese als Eigenschaften von \texttt{/} in Scheme auf.
 
 
 \begin{aufgabe}
-  Versuchen Sie, die Eigenschafts-Tests für \texttt{number-list=?}
+  Versuchen Sie, die Eigenschafts-Tests fÃ¼r \texttt{number-list=?}
   auszutricksen, also eine fehlerhafte Version von
   \texttt{number-list=?} zu schreiben, die alle drei
   \texttt{check-property}-Tests besteht.
-  Die \texttt{check-expect}-Tests sind für diese Aufgabe nicht relevant.
+  Die \texttt{check-expect}-Tests sind fÃ¼r diese Aufgabe nicht relevant.
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1751,20 +1751,20 @@ diese als Eigenschaften von \texttt{/} in Scheme auf.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Finden Sie eine präzisere Formulierung der Kommutativität von
+  Finden Sie eine prÃ¤zisere Formulierung der KommutativitÃ¤t von
   \texttt{list-sum} als die in
   Abschnitt~\ref{sec:list-sum-commutative}, also eine, an der sich die
-  Eigenschaft, daß die "`Reihenfolge der Elemente der Liste keine
+  Eigenschaft, daÃŸ die "`Reihenfolge der Elemente der Liste keine
   Rolle spielt"' klarer zu sehen ist.
 
   Schreiben Sie dazu eine Funktion, welche die Reihenfolge der
-  Elemente einer Liste abhängig von einer natürlichen Zahl $n$
-  verändert, z.B.\ indem die $n$te Permutation der Elemente ausgewählt
+  Elemente einer Liste abhÃ¤ngig von einer natÃ¼rlichen Zahl $n$
+  verÃ¤ndert, z.B.\ indem die $n$te Permutation der Elemente ausgewÃ¤hlt
   wird.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie einen \texttt{check-property}-Test für folgende Eigenschaft:
+  Schreiben Sie einen \texttt{check-property}-Test fÃ¼r folgende Eigenschaft:
   \begin{center}
     \texttt{(uncurry (curry $p_2$))} $\equiv$ $p_2$
   \end{center}
@@ -1772,13 +1772,13 @@ diese als Eigenschaften von \texttt{/} in Scheme auf.
 
 \begin{aufgabe}
   Formulieren Sie sinnvolle Eigenschaften von \texttt{compose} und
-  \texttt{repeat} von Seite~\ref{page:repeat} und überprüfen Sie
+  \texttt{repeat} von Seite~\ref{page:repeat} und Ã¼berprÃ¼fen Sie
   diese mit \texttt{check-property}!
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweise, daß für Prozeduren $p_1$ mit einem Parameter, die
-  einparametrige Prozeduren zurückgeben, und Prozeduren $p_2$ mit zwei
+  Beweise, daÃŸ fÃ¼r Prozeduren $p_1$ mit einem Parameter, die
+  einparametrige Prozeduren zurÃ¼ckgeben, und Prozeduren $p_2$ mit zwei
   Parametern gilt:
   %
   \begin{center}
@@ -1788,16 +1788,16 @@ diese als Eigenschaften von \texttt{/} in Scheme auf.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweisen Sie die entsprechend dem Beweis der Kommutativität von
+  Beweisen Sie die entsprechend dem Beweis der KommutativitÃ¤t von
   \texttt{+} in Abschnitt~\ref{sec:scheme-arithmetik-beweis} die
-  Assoziativität von \texttt{+} sowie die Distributivität von
+  AssoziativitÃ¤t von \texttt{+} sowie die DistributivitÃ¤t von
   \texttt{+} und \texttt{*} aus
   Abschnitt~\ref{sec:eigenschaften-binaere-operationen}.
 \end{aufgabe}
 
 \begin{aufgabe}
-Beweisen Sie, daß die
-folgende Prozedur natürliche Zahlen quadriert:
+Beweisen Sie, daÃŸ die
+folgende Prozedur natÃ¼rliche Zahlen quadriert:
 %
 \begin{alltt}
 ; Quadrat einer Zahl berechnen
@@ -1810,14 +1810,14 @@ folgende Prozedur natürliche Zahlen quadriert:
            (- (+ n n) 1)))))
 \end{alltt}
 %
-Formulieren Sie dazu auch eine Eigenschaft und überprüfen Sie diese
+Formulieren Sie dazu auch eine Eigenschaft und Ã¼berprÃ¼fen Sie diese
 mit \texttt{check-property}.
 %
 \end{aufgabe}
 
 \begin{aufgabe}
-Beweisen Sie, daß auch die folgende Prozedur \texttt{square}
-natürliche Zahlen quadriert.  Geben Sie die Invariante von
+Beweisen Sie, daÃŸ auch die folgende Prozedur \texttt{square}
+natÃ¼rliche Zahlen quadriert.  Geben Sie die Invariante von
 \texttt{square-helper} an!
 %
 \begin{alltt}
@@ -1835,14 +1835,14 @@ natürliche Zahlen quadriert.  Geben Sie die Invariante von
                        (+ acc
                           (- (+ n n) 1))))))
 \end{alltt}
-Formulieren Sie dazu auch eine Eigenschaft und überprüfen Sie diese
+Formulieren Sie dazu auch eine Eigenschaft und Ã¼berprÃ¼fen Sie diese
 mit \texttt{check-property}.
 \end{aufgabe}
 
 \begin{aufgabe}
- Beweise mit Hilfe des Substitutionsmodells, daß
+ Beweise mit Hilfe des Substitutionsmodells, daÃŸ
   die \texttt{concatenate}-Funktion aus Abschnitt~\ref{sec:lists}
-  assoziativ ist, daß also für Listen $l_1$, $l_2$ und $l_3$ gilt:
+  assoziativ ist, daÃŸ also fÃ¼r Listen $l_1$, $l_2$ und $l_3$ gilt:
 \begin{alltt}
 (concatenate \(l\sb{1}\) (concatenate \(l\sb{2}\) \(l\sb{3}\))) \(=\) (concatenate (concatenate \(l\sb{1}\) \(l\sb{2}\)) \(l\sb{3}\))
 \end{alltt}

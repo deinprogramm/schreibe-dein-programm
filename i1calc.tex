@@ -1,6 +1,6 @@
 % $Id$
 
-\chapter{Logische Kalküle}
+\chapter{Logische KalkÃ¼le}
 \label{chap:calc}
 
 Nachdem die bisherigen Kapitel den Bogen von der praktischen Konstruktion
@@ -9,54 +9,54 @@ objektorientierten Programmierung geschlagen haben, beleuchtet dieses Kapitel
 einige weitere theoretische Grundlagen der
 Programmierung.
 
-Für die Informatik ist der Begriff des \emph{logischen Kalküls\index{Kalkül}\index{logischer Kalkül}} von zentraler Bedeutung.
-Ein Kalkül dient dazu, auf formale Art und Weise wahre Aussagen abzuleiten, ohne daß
-es dabei nötig wird, den Sinn der Aussagen zu begreifen.   
-Logische Kalküle bilden außerdem eine mathematische Grundlage, um die
-Bedeutung von Programmen präzise zu erklären.  Der $\lambda$-Kalkül,
-um den es im nächsten Kapitel geht, ist ein Beispiel.
+FÃ¼r die Informatik ist der Begriff des \emph{logischen KalkÃ¼ls\index{KalkÃ¼l}\index{logischer KalkÃ¼l}} von zentraler Bedeutung.
+Ein KalkÃ¼l dient dazu, auf formale Art und Weise wahre Aussagen abzuleiten, ohne daÃŸ
+es dabei nÃ¶tig wird, den Sinn der Aussagen zu begreifen.   
+Logische KalkÃ¼le bilden auÃŸerdem eine mathematische Grundlage, um die
+Bedeutung von Programmen prÃ¤zise zu erklÃ¤ren.  Der $\lambda$-KalkÃ¼l,
+um den es im nÃ¤chsten Kapitel geht, ist ein Beispiel.
 
 \section{Wahrheit und Beweisbarkeit}
 \label{sec:truth-provability}
 
 \index{Wahrheit}\index{Beweisbarkeit}Im Zentrum
 dieses Kapitels steht die vertraute \textit{Aussagenlogik},\index{Aussagenlogik} in
-Anhang~\ref{sec:aussagenlogik} kurz zusammengefaßt.  Die "`elementaren
+Anhang~\ref{sec:aussagenlogik} kurz zusammengefaÃŸt.  Die "`elementaren
 Bestandteile"' von Aussagen sehen zum Beispiel so aus:
 %
 \begin{enumerate}
-\item Das Gras ist grün.
-\item Der Himmel ist grün.
-\item Axl ist grün im Gesicht.
+\item Das Gras ist grÃ¼n.
+\item Der Himmel ist grÃ¼n.
+\item Axl ist grÃ¼n im Gesicht.
 \end{enumerate}
 %
 Die erste dieser Aussagen ist wahr, die zweite falsch, und die
-Wahrheit der dritten Aussage hängt von den Umständen ab.  Tatsächlich
-hängen auch die beiden anderen Aussagen von Umständen ab: Sie gelten zwar in
+Wahrheit der dritten Aussage hÃ¤ngt von den UmstÃ¤nden ab.  TatsÃ¤chlich
+hÃ¤ngen auch die beiden anderen Aussagen von UmstÃ¤nden ab: Sie gelten zwar in
 unserer Welt (von Spitzfindigkeiten einmal abgesehen), aber es sind
 Welten\index{Welt} (auch \textit{Modelle\index{Modell}} genannt)
-vorstellbar, in denen das Gras blau und der Himmel grün ist.
+vorstellbar, in denen das Gras blau und der Himmel grÃ¼n ist.
 
 Neben den elementaren
 Aussagen\index{Aussage}\index{Aussage!elementar}\index{elementare Aussage}
 gibt es auch zusammengesetzte Aussagen\index{Aussage!zusammengesetzt}\index{zusammengesetzte Aussage}:
 %
 \begin{enumerate}
-\item Das Gras ist grün und der Himmel ist grün.
-\item Das Gras ist grün und das Gras ist nicht grün.
-\item Das Gras ist grün oder das Gras ist nicht grün.
-\item Wenn Axl grün im Gesicht ist, so ist er nicht blau im Gesicht.
+\item Das Gras ist grÃ¼n und der Himmel ist grÃ¼n.
+\item Das Gras ist grÃ¼n und das Gras ist nicht grÃ¼n.
+\item Das Gras ist grÃ¼n oder das Gras ist nicht grÃ¼n.
+\item Wenn Axl grÃ¼n im Gesicht ist, so ist er nicht blau im Gesicht.
 \end{enumerate}
 %
-Die Wahrheit der ersten Aussage hängt von der Wahrheit ihrer
+Die Wahrheit der ersten Aussage hÃ¤ngt von der Wahrheit ihrer
 Teilaussagen ab.  Die Wahrheit der zweiten und dritten Aussage ist
-allerdings völlig unabhängig von der Wahrheit der Teilaussagen: die
+allerdings vÃ¶llig unabhÃ¤ngig von der Wahrheit der Teilaussagen: die
 zweite ist immer falsch, die dritte immer wahr.  Die vierte Aussage
-ist in manchen Welten nicht wahr: Axls Gesicht könnte grün mit
-blauen Punkten sein.  Sie wird höchstens dadurch wahr, daß zusätzlich postuliert
-wird, daß beide Teilaussagen nicht gleichzeitig wahr sein können,
-also daß, wenn Axl blau im Gesicht ist, er nicht grün im Gesicht ist,
-und wenn er grün im Gesicht ist, er dann nicht blau im Gesicht ist.
+ist in manchen Welten nicht wahr: Axls Gesicht kÃ¶nnte grÃ¼n mit
+blauen Punkten sein.  Sie wird hÃ¶chstens dadurch wahr, daÃŸ zusÃ¤tzlich postuliert
+wird, daÃŸ beide Teilaussagen nicht gleichzeitig wahr sein kÃ¶nnen,
+also daÃŸ, wenn Axl blau im Gesicht ist, er nicht grÃ¼n im Gesicht ist,
+und wenn er grÃ¼n im Gesicht ist, er dann nicht blau im Gesicht ist.
 
 Es gibt also mindestens zwei Varianten der Wahrheit:
 %
@@ -65,48 +65,48 @@ Es gibt also mindestens zwei Varianten der Wahrheit:
 \item Eine Aussage ist wahr in allen Welten.
 \end{itemize}
 %
-Feststellen läßt sich die Wahrheit durch Einsetzen von
+Feststellen lÃ¤ÃŸt sich die Wahrheit durch Einsetzen von
 Wahrheitswerten~-- wahr oder falsch~--
-für die elementaren Aussagen wie in
+fÃ¼r die elementaren Aussagen wie in
 Anhang~\ref{sec:aussagenlogik}.  In der
 Aussagenlogik\index{Aussagenlogik} wird also eine Welt durch die Menge der in ihr wahren
 elementaren Aussagen bestimmt.  Diese legen damit auch die Bedeutung jeder
 zusammengesetzten Aussage fest.
 
 Um die
-zweite Art Wahrheit festzustellen, ist es notwendig, alle möglichen
+zweite Art Wahrheit festzustellen, ist es notwendig, alle mÃ¶glichen
 Belegungen von Wahrheitswerten durchzuprobieren.  
-Das Durchprobier-Verfahren ist häufig mühsam oder gar völlig unmöglich.  
-Allerdings ist es möglich, die zweite Sorte Wahrheit völlig
-unabhängig von irgendwelchen Wahrheitsbelegungen festzustellen; dazu
-sind die logischen Kalküle da.  Ein logischer Kalkül dient der
-Formulierung eines \textit{Beweises\index{Beweis}} für eine Formel.  Ist ein Beweis
-gefunden, so ist die Wahrheit in allen Welten garantiert, sofern der Kalkül
+Das Durchprobier-Verfahren ist hÃ¤ufig mÃ¼hsam oder gar vÃ¶llig unmÃ¶glich.  
+Allerdings ist es mÃ¶glich, die zweite Sorte Wahrheit vÃ¶llig
+unabhÃ¤ngig von irgendwelchen Wahrheitsbelegungen festzustellen; dazu
+sind die logischen KalkÃ¼le da.  Ein logischer KalkÃ¼l dient der
+Formulierung eines \textit{Beweises\index{Beweis}} fÃ¼r eine Formel.  Ist ein Beweis
+gefunden, so ist die Wahrheit in allen Welten garantiert, sofern der KalkÃ¼l
 selbst korrekt ist.  Damit gibt
 es in der Logik neben der Wahrheit auch noch den Begriff der
 \textit{Beweisbarkeit}.  Entsprechend gibt es zwei Zweige der Logik:
 die \textit{Modelltheorie\index{Modelltheorie}} und die \textit{Beweistheorie\index{Beweistheorie}}.
 
-\section{Ein Kalkül für die Aussagenlogik}
+\section{Ein KalkÃ¼l fÃ¼r die Aussagenlogik}
 \label{sec:calculus-logic}
 
-In diesem Abschnitt geht es um einen einfachen Kalkül für die
-Aussagenlogik.  Generell besteht ein logischer Kalkül aus
+In diesem Abschnitt geht es um einen einfachen KalkÃ¼l fÃ¼r die
+Aussagenlogik.  Generell besteht ein logischer KalkÃ¼l aus
 \begin{enumerate}
 \item einer Menge von \emph{Axiomen}, d.~h.\ grundlegenden \index{Axiom}
   Aussagen, deren Wahrheit unbestreitbar ist, und
 \item einer Menge von \textit{Regeln},\index{Regel}  mit denen neue wahre
-  Aussagen aus anderen Aussagen abgeleitet werden können, wenn deren Wahrheit
+  Aussagen aus anderen Aussagen abgeleitet werden kÃ¶nnen, wenn deren Wahrheit
   bereits feststeht.
 \end{enumerate}
 %
-Ein \emph{Beweis} einer Aussage in einem bestimmten Kalkül besteht in der
+Ein \emph{Beweis} einer Aussage in einem bestimmten KalkÃ¼l besteht in der
 Angabe einer endlichen Folge von Regelanwendungen, welche diese Aussage auf die
-Axiome des Kalküls zurückführen.  Zunächst gehört zu einem Kalkül
-\index{Kalkül} eine Sprache, in der sich die zu beweisenden Aussagen
+Axiome des KalkÃ¼ls zurÃ¼ckfÃ¼hren.  ZunÃ¤chst gehÃ¶rt zu einem KalkÃ¼l
+\index{KalkÃ¼l} eine Sprache, in der sich die zu beweisenden Aussagen
 formulieren lassen.
 
-Für die Definition der Sprache $\mathcal{L}_1$ der Aussagenlogik
+FÃ¼r die Definition der Sprache $\mathcal{L}_1$ der Aussagenlogik
 wird der Begriff der Termmenge aus Kapitel~\ref{cha:indu} herangezogen:
 %
 \begin{definition} Sei $\mathcal{V}=\{P_1,P_2,\ldots,
@@ -133,26 +133,26 @@ wird der Begriff der Termmenge aus Kapitel~\ref{cha:indu} herangezogen:
 %
 
 Logiker schreiben aussagenlogische Formeln in
-der üblichen Infixnotation und lassen dabei Klammern weg, sofern
-Mißverständnisse ausgeschlossen sind.
+der Ã¼blichen Infixnotation und lassen dabei Klammern weg, sofern
+MiÃŸverstÃ¤ndnisse ausgeschlossen sind.
 %
 Als Konvention bezeichnen die Buchstaben $L, M, N$  Literale 
 und $A, B, C, D, F, G$ Formeln.
 
-Die möglichen Formeln der Sprache $\mathcal{L}_1$ sind gegenüber der
-in Anhang~\ref{sec:aussagenlogik} beschriebenen Aussagenlogik eingeschränkt:
-Negationen dürfen nur direkt vor Literalen stehen, d.h.\ Ausdrücke wie
+Die mÃ¶glichen Formeln der Sprache $\mathcal{L}_1$ sind gegenÃ¼ber der
+in Anhang~\ref{sec:aussagenlogik} beschriebenen Aussagenlogik eingeschrÃ¤nkt:
+Negationen dÃ¼rfen nur direkt vor Literalen stehen, d.h.\ AusdrÃ¼cke wie
 $\neg(L\vee M)$ sind in $\mathcal{L}_1$ nicht enthalten.  Das bedeutet 
-keine ernsthafte Einschränkung, denn alle Ausdrücke lassen sich unter Erhaltung 
+keine ernsthafte EinschrÃ¤nkung, denn alle AusdrÃ¼cke lassen sich unter Erhaltung 
 ihres Wahrheitswerts
 mit Hilfe der DeMorgan'schen Gesetze (siehe Anhang~\ref{sec:aussagenlogik})
-so umformulieren, daß sie in $\mathcal{L}_1$ enthalten
+so umformulieren, daÃŸ sie in $\mathcal{L}_1$ enthalten
 sind (im Beispiel: $\neg L\wedge \neg M$; siehe auch
 Aufgabe~\ref{ex:negation}). 
 
-In \textit{Sequenzenkalkülen\index{Sequenzenkalkül}},
+In \textit{SequenzenkalkÃ¼len\index{SequenzenkalkÃ¼l}},
 lassen sich Beweise besonders einfach finden.
-Sequenzenkalküle beschäftigen sich statt mit einzelnen Formeln
+SequenzenkalkÃ¼le beschÃ¤ftigen sich statt mit einzelnen Formeln
 allgemeiner mit Sequenzen daraus.
 Eine \textit{Sequenz\index{Sequenz}} ist eine endliche Multimenge
 (siehe Anhang~\ref{sec:multisets}) von Formeln in
@@ -164,8 +164,8 @@ identifiziert.
 Sequenzen werden mit $\Gamma, \Pi, \Delta$ etc.\ bezeichnet.  
 
 
-\begin{definition}[Kalkül SC$_1$]\index{Kalkül}\index{Kalkül!SC$_1$}\index{SC1@SC$_1$}
-Der Kalkül SC$_1$ ist gegeben durch die Sprache $\mathcal{L}_1$ und die
+\begin{definition}[KalkÃ¼l SC$_1$]\index{KalkÃ¼l}\index{KalkÃ¼l!SC$_1$}\index{SC1@SC$_1$}
+Der KalkÃ¼l SC$_1$ ist gegeben durch die Sprache $\mathcal{L}_1$ und die
 Axiome 
 %
 \begin{equation}
@@ -176,7 +176,7 @@ Axiome
 \neg P_i, P_i, \Gamma
 \label{S2}
 \end{equation}
-für alle Sequenzen $\Gamma$ und alle $i\in\{1,\ldots,N\}$, außerdem für alle
+fÃ¼r alle Sequenzen $\Gamma$ und alle $i\in\{1,\ldots,N\}$, auÃŸerdem fÃ¼r alle
 Sequenzen $\Gamma$ die Regeln
 %
 \begin{equation}
@@ -194,47 +194,47 @@ Sequenzen $\Gamma$ die Regeln
 %
 \end{definition}
 
-Mit Kalkülen wird rein syntaktisch, d. h. also ohne Bezug auf irgendeine
-Semantik operiert.   Trotzdem sollen mit Hilfe eines Kalküls semantisch
+Mit KalkÃ¼len wird rein syntaktisch, d. h. also ohne Bezug auf irgendeine
+Semantik operiert.   Trotzdem sollen mit Hilfe eines KalkÃ¼ls semantisch
 korrekte Resultate entstehen.  Deshalb steht auch hinter SC$_1$ eine
 semantische Vorstellung:
 $\top$ (sprich: "`top"') und $\bot$ (sprich: "`bottom"') sind Symbole, die
-für die Wahrheitswerte "`wahr"' bzw.\ "`falsch"' stehen.
+fÃ¼r die Wahrheitswerte "`wahr"' bzw.\ "`falsch"' stehen.
 Eine Sequenz wird als Disjunktion ihrer Formeln
-betrachtet, d.h.\ die Sequenz $A, B, C$ steht für "`$A$ oder $B$
+betrachtet, d.h.\ die Sequenz $A, B, C$ steht fÃ¼r "`$A$ oder $B$
 oder $C$"'.  Die Axiome formalisieren folgende Einsichten:
-(\ref{S1}) "`wahr oder $\Gamma$"' ist für alle $\Gamma$ wahr,
-ebenso (\ref{S2}) für jede Aussage $P$ die Aussage "`$P$ oder nicht
+(\ref{S1}) "`wahr oder $\Gamma$"' ist fÃ¼r alle $\Gamma$ wahr,
+ebenso (\ref{S2}) fÃ¼r jede Aussage $P$ die Aussage "`$P$ oder nicht
 $P$"'.    
 
-Die Regeln sind folgendermaßen zu lesen:
+Die Regeln sind folgendermaÃŸen zu lesen:
 %
-Über dem "`Bruchstrich"', der in diesem Zusammenhang \textit{Inferenzstrich\index{Inferenzstrich}}
-genannt wird, befinden sich \emph{Voraussetzungen} oder \textit{Prämissen\index{Prämisse}}.  In
+Ãœber dem "`Bruchstrich"', der in diesem Zusammenhang \textit{Inferenzstrich\index{Inferenzstrich}}
+genannt wird, befinden sich \emph{Voraussetzungen} oder \textit{PrÃ¤missen\index{PrÃ¤misse}}.  In
 einem Beweis sind dies entweder Axiome oder "`schon bewiesene"' Sequenzen.
-Unter dem Inferenzstrich befindet sich die \textit{Schlußfolgerung\index{Schlußfolgerung}} oder
-\emph{Konsequenz\index{Konsequenz}} der Regel, die Sequenz, die bewiesen wird.  Für
-$A$ und $B$ können beliebige Formeln eingesetzt werden.
+Unter dem Inferenzstrich befindet sich die \textit{SchluÃŸfolgerung\index{SchluÃŸfolgerung}} oder
+\emph{Konsequenz\index{Konsequenz}} der Regel, die Sequenz, die bewiesen wird.  FÃ¼r
+$A$ und $B$ kÃ¶nnen beliebige Formeln eingesetzt werden.
 
 Auch die Regeln formalisieren fundamentale Einsichten:
 Ist "`$A$ oder $B$
-oder $\Gamma$"' bewiesen (\ref{Sd}), so auch "`$A\vee B$ oder $\Gamma$"'.  Für
-einen Beweis von $A\wedge B$ muß es separate Beweise sowohl für $A$
-als auch für $B$ geben
+oder $\Gamma$"' bewiesen (\ref{Sd}), so auch "`$A\vee B$ oder $\Gamma$"'.  FÃ¼r
+einen Beweis von $A\wedge B$ muÃŸ es separate Beweise sowohl fÃ¼r $A$
+als auch fÃ¼r $B$ geben
 (\ref{Sc}). 
 
-\begin{definition}[Beweis in SC$_1$] Ein \emph{Beweis} für eine Sequenz
+\begin{definition}[Beweis in SC$_1$] Ein \emph{Beweis} fÃ¼r eine Sequenz
   $\Gamma$ in SC$_1$ ist ein Baum, an dessen Wurzel $\Gamma$ und an dessen
-  Blättern Axiome stehen und an dessen inneren Knoten Regeln angewendet werden.
-  Eine Sequenz $\Gamma$ heißt \emph{beweisbar} in SC$_1$ genau dann, wenn es
-  einen Beweis für $\Gamma$ gibt.  Dafür wird auch das folgende Zeichen
+  BlÃ¤ttern Axiome stehen und an dessen inneren Knoten Regeln angewendet werden.
+  Eine Sequenz $\Gamma$ heiÃŸt \emph{beweisbar} in SC$_1$ genau dann, wenn es
+  einen Beweis fÃ¼r $\Gamma$ gibt.  DafÃ¼r wird auch das folgende Zeichen
   verwendet: \index{Beweis}\index{Beweisbarkeit}\index{*@$\vdash$}
 \begin{displaymath}
   \vdash \Gamma\index{*@$\vdash$}
 \end{displaymath}
 \end{definition}
 
-Hier ist ein Beweis für die Formel
+Hier ist ein Beweis fÃ¼r die Formel
 $(P_1\wedge P_2)\vee(\neg P_1\vee \neg P_2)$:
 %
 \begin{displaymath}
@@ -258,33 +258,33 @@ $(P_1\wedge P_2)\vee(\neg P_1\vee \neg P_2)$:
   \end{prooftree}
 \end{displaymath}
 %
-Die verwendeten Axiome sowie Schlüsse sind durch ihre Nummern
-gekennzeichnet.  Bei der Anwendung von (\ref{S2}) in der rechten Hälfte wird
-deutlich, daß bei Sequenzen die Reihenfolge keine Rolle spielt.
+Die verwendeten Axiome sowie SchlÃ¼sse sind durch ihre Nummern
+gekennzeichnet.  Bei der Anwendung von (\ref{S2}) in der rechten HÃ¤lfte wird
+deutlich, daÃŸ bei Sequenzen die Reihenfolge keine Rolle spielt.
 
 Die Konstruktion eines Beweises geht
 von der zu beweisenden Formel bzw.\ Sequenz aus und
-versucht, diese durch Anwendung von Regeln auf die Axiome zurückzuführen.  Aus
+versucht, diese durch Anwendung von Regeln auf die Axiome zurÃ¼ckzufÃ¼hren.  Aus
 einem "`Beweisziel"' entsteht somit nach und nach eine ganze Folge von
-"`Unterzielen"', die zu erfüllen sind.  Es werden also bei der Konstruktion eines
+"`Unterzielen"', die zu erfÃ¼llen sind.  Es werden also bei der Konstruktion eines
 Beweises die Inferenzregeln von unten nach
 oben angewendet.
 
-\section{Modelle für die Aussagenlogik}
+\section{Modelle fÃ¼r die Aussagenlogik}
 \label{sec:models}
 
-Die im vorangegangenen Abschnitt eingeführte Beweisbarkeit ist ein
-syntaktisches Konzept: Hier wird mit Formeln gearbeitet, ohne daß deren
+Die im vorangegangenen Abschnitt eingefÃ¼hrte Beweisbarkeit ist ein
+syntaktisches Konzept: Hier wird mit Formeln gearbeitet, ohne daÃŸ deren
 Bedeutung dabei eine Rolle spielt.  Der in
 Abschnitt~\ref{sec:truth-provability} bereits angesprochene Ansatz der
-Modelltheorie setzt dagegen voraus, daß jeder
+Modelltheorie setzt dagegen voraus, daÃŸ jeder
 Formel in der Sprache $\mathcal{L}_1$ eine Bedeutung gegeben wird:  
 
 \begin{definition}[Modell der Aussagenlogik]
   Sei $\Gamma=A_1,\ldots,A_n$ eine Sequenz von aussagenlogischen Formeln $A_i\in
-  \mathcal{L}_1$ über einem Variablenalphabet
+  \mathcal{L}_1$ Ã¼ber einem Variablenalphabet
   $\mathcal{V}$, $B$ die boolesche Algebra mit $\top_B=\mathrm{W}$ und $\bot_B=\mathrm{F}$, $f:\mathcal{V}\rightarrow 
-  B$ eine Variablenbelegung.  Dann heißt $f$ ein \emph{Modell\index{Modell}} der
+  B$ eine Variablenbelegung.  Dann heiÃŸt $f$ ein \emph{Modell\index{Modell}} der
   Aussagenlogik und kann zu einem
   Homomorphismus $\hat{f}$ forgesetzt werden.
 
@@ -296,10 +296,10 @@ Formel in der Sprache $\mathcal{L}_1$ eine Bedeutung gegeben wird:
   \[ \widehat{\mbox{$f$}^*}(A_1,\dots,A_n) = \hat{f}(A_1)\vee\dots\vee\hat{f}(A_n)\]
 \end{definition}
 
-Mit diesen Grundlagen läßt sich nun folgendes definieren:
+Mit diesen Grundlagen lÃ¤ÃŸt sich nun folgendes definieren:
 
 \begin{definition}
-  Eine Sequenz $\Gamma$ heißt \emph{wahr\index{wahr} im Modell} $f$, geschrieben
+  Eine Sequenz $\Gamma$ heiÃŸt \emph{wahr\index{wahr} im Modell} $f$, geschrieben
   als
 %
 \(
@@ -308,7 +308,7 @@ Mit diesen Grundlagen läßt sich nun folgendes definieren:
 genau dann, wenn gilt
 \(\widehat{\mbox{$f$}^*}(\Gamma) = \mathrm{W}\).
 %
-$\Gamma$ heißt \emph{allgemeingültig\index{allgemeingültig}} oder eine \emph{Tautologie\index{Tautologie}}, in Zeichen
+$\Gamma$ heiÃŸt \emph{allgemeingÃ¼ltig\index{allgemeingÃ¼ltig}} oder eine \emph{Tautologie\index{Tautologie}}, in Zeichen
 %
 \(
   \models \Gamma\ ,\index{*@$\models$}
@@ -318,19 +318,19 @@ genau dann, wenn $\Gamma$ in allen Modellen wahr ist.
 
 \end{definition}
 
-\section{Korrektheit, Konsistenz und Vollständigkeit}
+\section{Korrektheit, Konsistenz und VollstÃ¤ndigkeit}
 \label{sec:kkv}
 
 Interessant ist nun die Frage, wie die intuitive, semantische Vorstellung
 von Wahrheit in der Modelltheorie und der syntaktische Begriff der
-Beweisbarkeit zusammenhängen.  Idealerweise sollen diese natürlich
+Beweisbarkeit zusammenhÃ¤ngen.  Idealerweise sollen diese natÃ¼rlich
 zusammenfallen, und im SC$_1$ ist dies der Fall.  
 Die folgende 
 Definition charakterisiert diese Beziehnungen:
 
 \begin{definition}
 %
-Ein logischer Kalkül, der eine Negationsoperation $\neg$ hat, heißt 
+Ein logischer KalkÃ¼l, der eine Negationsoperation $\neg$ hat, heiÃŸt 
 \begin{itemize}
 \item \textit{konsistent\index{konsistent}},
   wenn es keine Formel $A$ gibt mit $\vdash A$ und 
@@ -339,7 +339,7 @@ Ein logischer Kalkül, der eine Negationsoperation $\neg$ hat, heißt
   \(
     \textrm{falls } \vdash A \textrm{, so } \models A
     \),
-\item  \textit{vollständig\index{vollständig}}, wenn gilt:
+\item  \textit{vollstÃ¤ndig\index{vollstÃ¤ndig}}, wenn gilt:
   \(
     \textrm{falls } \models A \textrm{, so } \vdash A
     \).
@@ -347,14 +347,14 @@ Ein logischer Kalkül, der eine Negationsoperation $\neg$ hat, heißt
 \end{definition}
                                 
 
-Logische Kalküle, die nicht konsistent sind, können auch nicht
-korrekt sein, denn die Formel $A\wedge\neg A$ wäre in einem inkonsistenten
-Kalkül beweisbar, aber sie kann in keinem Modell außer dem trivialen
-("`einpunktigen"') Modell wahr sein, welches überhaupt nur einen einzigen Wert
+Logische KalkÃ¼le, die nicht konsistent sind, kÃ¶nnen auch nicht
+korrekt sein, denn die Formel $A\wedge\neg A$ wÃ¤re in einem inkonsistenten
+KalkÃ¼l beweisbar, aber sie kann in keinem Modell auÃŸer dem trivialen
+("`einpunktigen"') Modell wahr sein, welches Ã¼berhaupt nur einen einzigen Wert
 beinhaltet, der $\top$ ebenso wie $\bot$ darstellt.
 %
 \begin{satz}
-  SC$_1$ ist konsistent, korrekt und vollständig.
+  SC$_1$ ist konsistent, korrekt und vollstÃ¤ndig.
 \end{satz}
 
 \begin{beweis}
@@ -362,49 +362,49 @@ beinhaltet, der $\top$ ebenso wie $\bot$ darstellt.
   \item[Korrektheit] Sei $f : V\rightarrow \{ \mathrm{W}, \mathrm{F}\}$ eine
     Variablenbelegung.  
 
-    Für Axiom~\ref{S1} gilt 
-    $\widehat{\mbox{$f$}^*}(\top,\Gamma)=\mathrm{W}\vee\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$ und für Axiom~\ref{S2} gilt $\widehat{\mbox{$f$}^*}(P_i,\neg P_i,\Gamma)=f(P_i)\vee\neg f(P_i)\vee\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$.
+    FÃ¼r Axiom~\ref{S1} gilt 
+    $\widehat{\mbox{$f$}^*}(\top,\Gamma)=\mathrm{W}\vee\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$ und fÃ¼r Axiom~\ref{S2} gilt $\widehat{\mbox{$f$}^*}(P_i,\neg P_i,\Gamma)=f(P_i)\vee\neg f(P_i)\vee\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$.
     
-    Gelte nun $\widehat{\mbox{$f$}^*}(A, B, \Gamma)=\mathrm{W}$.  Dann muß ${\hat{f}}(A)=\mathrm{W}$,
+    Gelte nun $\widehat{\mbox{$f$}^*}(A, B, \Gamma)=\mathrm{W}$.  Dann muÃŸ ${\hat{f}}(A)=\mathrm{W}$,
     ${\hat{f}}(B)=\mathrm{W}$ oder
     $\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$ gelten.
     Es gilt in jedem Fall
     ${\hat{f}}(A\vee B)=\mathrm{W}$ oder $\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$.
-    Regel (\ref{Sd}) erhält also die Wahrheit.
+    Regel (\ref{Sd}) erhÃ¤lt also die Wahrheit.
     
     Gelte nun $\widehat{\mbox{$f$}^*}(A, \Gamma)=\mathrm{W}$ und $\widehat{\mbox{$f$}^*}(B, \Gamma)=\mathrm{W}$.
-    Wenn nun $\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$ nicht gilt, so muß ${\hat{f}}(A)=\mathrm{W}$ und
+    Wenn nun $\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$ nicht gilt, so muÃŸ ${\hat{f}}(A)=\mathrm{W}$ und
     ${\hat{f}}(B)=\mathrm{W}$ gelten.  Dann gilt aber auch ${\hat{f}}(A\wedge B)=\mathrm{W}$.
-    Auch die Regel (\ref{Sc}) erhält also die Wahrheit.
+    Auch die Regel (\ref{Sc}) erhÃ¤lt also die Wahrheit.
     
-    In einem Beweisbaum haben deshalb zunächst alle Axiome~-- also alle
-    Blätter~-- den Wahrheitswert $\mathrm{W}$.  Wahrheit vererbt sich in den Regeln
-    von oben nach unten; durch strukturelle Induktion folgt also, daß auch
-    die Sequenz ganz unten im Beweisbaum den Wahrheitswert $\mathrm{W}$ haben muß.
-  \item[Vollständigkeit] Sei $\Gamma$ eine Sequenz mit
-    $\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$ für alle Variablenbelegungen $f$.
-    Dann läßt sich mit $\Gamma$ als Wurzel ein 
+    In einem Beweisbaum haben deshalb zunÃ¤chst alle Axiome~-- also alle
+    BlÃ¤tter~-- den Wahrheitswert $\mathrm{W}$.  Wahrheit vererbt sich in den Regeln
+    von oben nach unten; durch strukturelle Induktion folgt also, daÃŸ auch
+    die Sequenz ganz unten im Beweisbaum den Wahrheitswert $\mathrm{W}$ haben muÃŸ.
+  \item[VollstÃ¤ndigkeit] Sei $\Gamma$ eine Sequenz mit
+    $\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$ fÃ¼r alle Variablenbelegungen $f$.
+    Dann lÃ¤ÃŸt sich mit $\Gamma$ als Wurzel ein 
     Beweisbaum konstruieren, indem systematisch alle Formeln durch Anwendung
     der Regeln (\ref{Sc}) und (\ref{Sd}) zerlegt werden, bis nur noch Literale
-    übrig sind.
-    Analog zum Beweis für die Korrektheit wird Wahrheit
+    Ã¼brig sind.
+    Analog zum Beweis fÃ¼r die Korrektheit wird Wahrheit
     auch von unten nach oben vererbt, wie sich anhand der
-    Regeln sehen läßt.
+    Regeln sehen lÃ¤ÃŸt.
     
-    Die Blätter des Baums haben also unter allen Variablenbelegungen den
-    Wahrheitswert $\mathrm{W}$.  Angenommen, ein solches Blatt $\Delta$ hätte weder die
+    Die BlÃ¤tter des Baums haben also unter allen Variablenbelegungen den
+    Wahrheitswert $\mathrm{W}$.  Angenommen, ein solches Blatt $\Delta$ hÃ¤tte weder die
     Form (\ref{S1}) noch die Form (\ref{S2}).  Dann besteht es nur aus $\bot$
     und Literalen der Form $P_i$ und Literalen der Form $\neg P_j$, wobei
-    für ein $i$ die Literale $P_i$ und $\neg P_i$ nicht gleichzeitig auftreten.
-    ($\bot$ allein ist offensichtlich nicht möglich.)  Dann läßt sich aber eine
-    Belegung $f'$ konstruieren mit $f'(P_i) = \mathrm{F}$ für
-    $P_i\in \Delta$ und $f'(P_j) = \mathrm{W}$ für
-    $\neg P_j\in \Delta$.  Für deren Fortsetzung $\widehat{\mbox{$f'$}^*}$ gilt dann
+    fÃ¼r ein $i$ die Literale $P_i$ und $\neg P_i$ nicht gleichzeitig auftreten.
+    ($\bot$ allein ist offensichtlich nicht mÃ¶glich.)  Dann lÃ¤ÃŸt sich aber eine
+    Belegung $f'$ konstruieren mit $f'(P_i) = \mathrm{F}$ fÃ¼r
+    $P_i\in \Delta$ und $f'(P_j) = \mathrm{W}$ fÃ¼r
+    $\neg P_j\in \Delta$.  FÃ¼r deren Fortsetzung $\widehat{\mbox{$f'$}^*}$ gilt dann
     $\widehat{\mbox{$f'$}^*}(\Delta)=\mathrm{F}$ im Widerspruch zur Voraussetzung.
   \item[Konsistenz] Sei $A$ eine Formel mit $\vdash A$ und $\vdash
-    \neg A$.  Aus der Korrektheit folgt dann, daß für jede
+    \neg A$.  Aus der Korrektheit folgt dann, daÃŸ fÃ¼r jede
     Belegung $f$ gilt ${\hat{f}}(A) = \mathrm{W} =
-    {\hat{f}}(\neg A)$.  Das ist aber unmöglich, da 
+    {\hat{f}}(\neg A)$.  Das ist aber unmÃ¶glich, da 
     \[{\hat{f}}(\neg A)
     = \left\{\begin{array}{ll}
         \mathrm{F} & \mbox{\rm falls\ }{\hat{f}}(A)=\mathrm{W}\\
@@ -414,22 +414,22 @@ beinhaltet, der $\top$ ebenso wie $\bot$ darstellt.
 \end{beweis}
   
 
-\section{Der Reduktionskalkül RC$_1$}
+\section{Der ReduktionskalkÃ¼l RC$_1$}
 \label{sec:rc1}
 
-SC$_1$ ist ein sogenannter \textit{Inferenzkalkül\index{Inferenzkalkül}}: Beweise sind Bäume, in
+SC$_1$ ist ein sogenannter \textit{InferenzkalkÃ¼l\index{InferenzkalkÃ¼l}}: Beweise sind BÃ¤ume, in
 denen Anwendungen von Regeln durch Inferenzstriche getrennt sind.  Es gibt
-jedoch noch andere Methoden, logische Kalküle aufzubauen.  Die sogenannten
-\textit{Reduktionskalküle\index{Reduktionskalkül}} benutzen das Prinzip der algebraischen
+jedoch noch andere Methoden, logische KalkÃ¼le aufzubauen.  Die sogenannten
+\textit{ReduktionskalkÃ¼le\index{ReduktionskalkÃ¼l}} benutzen das Prinzip der algebraischen
 Vereinfachung: Eine logische Formel wird schrittweise durch die Anwendung von
 Gleichungen vereinfacht, wobei gelegentlich Teilterme durch andere, 
-\emph{äquivalente} Terme ersetzt werden.  %Wir haben dies in einem
+\emph{Ã¤quivalente} Terme ersetzt werden.  %Wir haben dies in einem
 %vergangenen Abschnitt (Beispiel~\ref{bsp:cons}) bereits als "`Rechnen in einem
 %Gleichungssystem"' informell ausgenutzt.
 (Das Substitutionsmodell aus Abschnitt~\ref{sec:substitution-model}
-ist damit auch eine spezielle Art Reduktionskalkül.)
+ist damit auch eine spezielle Art ReduktionskalkÃ¼l.)
 
-Der Kalkül RC$_1$\index{RC1@RC$_1$} ist, wie SC$_1$, eine Formalisierung der Aussagenlogik und
+Der KalkÃ¼l RC$_1$\index{RC1@RC$_1$} ist, wie SC$_1$, eine Formalisierung der Aussagenlogik und
 benutzt die gleiche Sprache, $\mathcal{L}_1$.  Kommt am Ende $\top$ heraus, ist
 die Formel eine Tautologie.  Hier sind die Regeln von RC$_1$:
 %
@@ -450,12 +450,12 @@ die Formel eine Tautologie.  Hier sind die Regeln von RC$_1$:
 \end{eqnarray}
 \end{definition}
 %
-Eine logische Formel läßt sich
+Eine logische Formel lÃ¤ÃŸt sich
 mit Hilfe einer Reduktionsregel dann vereinfachen, wenn sie der Form
-der linken Seite der Regel entspricht.  (Formal gesagt muß die Formel
-auf die linke Seite einer Regel \textit{passen\index{paßt auf}}.)  
-Sie heißt dann ein \emph{Redex\index{Redex}} (aus
-\emph{reducible expression} abgekürzt) und wird durch die
+der linken Seite der Regel entspricht.  (Formal gesagt muÃŸ die Formel
+auf die linke Seite einer Regel \textit{passen\index{paÃŸt auf}}.)  
+Sie heiÃŸt dann ein \emph{Redex\index{Redex}} (aus
+\emph{reducible expression} abgekÃ¼rzt) und wird durch die
 Entsprechung der rechten Regelseite ersetzt.  Hier ein Beispiel:
 %
 \begin{displaymath}
@@ -463,8 +463,8 @@ Entsprechung der rechten Regelseite ersetzt.  Hier ein Beispiel:
     P_1\vee \neg P_2)
 \end{displaymath}
 %
-Diese Formel hat die Form der linken Seite von Regel~(\ref{eq:d1}) und läßt
-sich folgendermaßen mit $A=P_1$,
+Diese Formel hat die Form der linken Seite von Regel~(\ref{eq:d1}) und lÃ¤ÃŸt
+sich folgendermaÃŸen mit $A=P_1$,
 $B=P_2$ und $C=(\neg P_1\vee\neg{P_2})$
 reduzieren:
 %
@@ -476,12 +476,12 @@ reduzieren:
 Auf
 diese Art und Weise bildet $\triangleright$ eine Relation auf
 $\mathcal{L}_1$.
-Es ist leicht zu beweisen~-- z.B.\ in SC$_1$~-- daß bei den
-Reduktionsregeln jeweils linke und rechte Seite äquivalent sind.
+Es ist leicht zu beweisen~-- z.B.\ in SC$_1$~-- daÃŸ bei den
+Reduktionsregeln jeweils linke und rechte Seite Ã¤quivalent sind.
 
-Leider läßt sich $E_2$ nicht weiter reduzieren~-- sie paßt auf
+Leider lÃ¤ÃŸt sich $E_2$ nicht weiter reduzieren~-- sie paÃŸt auf
 keine linke Regelseite.  Das ist insbesondere deswegen bedauerlich, weil es sich
-um eine Tautologie handelt.  Jedoch läßt sich $E_2$ als $E_2 = E_2^{(1)} \wedge
+um eine Tautologie handelt.  Jedoch lÃ¤ÃŸt sich $E_2$ als $E_2 = E_2^{(1)} \wedge
 E_2^{(2)}$ schreiben und beide \textit{Teilformeln} $E_2^{(1)}$ und $E_2^{(2)}$
 passen auf die Regel~(\ref{eq:t}).  Nach Anwendung von Regel~(\ref{eq:t}) auf die beiden
 Teilformeln kommt folgende Formel heraus:
@@ -490,10 +490,10 @@ Teilformeln kommt folgende Formel heraus:
     E_3 \deq{} \top \wedge \top
   \end{displaymath}
 %
-  Diese läßt sich wiederum mit Regel~(\ref{eq:e2}) zu $\top$ reduzieren,
+  Diese lÃ¤ÃŸt sich wiederum mit Regel~(\ref{eq:e2}) zu $\top$ reduzieren,
   und fertig ist der Beweis.
 
-Zu $\triangleright$ gehört eine abgeleitete
+Zu $\triangleright$ gehÃ¶rt eine abgeleitete
 Relation $\blacktriangleright$, die auch auf
 Subtermen von Formeln arbeiten kann, also auch Redexe im Inneren einer Formel
 finden kann:
@@ -501,16 +501,16 @@ finden kann:
 \begin{definition}[Erweiterung von $\triangleright$ auf Subterme]
   $\blacktriangleright$\index{*@$\blacktriangleright$} ist die \textit{Erweiterung von $\triangleright$ auf
     Subterme}: Sei $A$ eine Formel aus $\mathcal{L}_1$, in der eine andere
-  Formel $B$ an einer bestimmten Stelle vorkommt.  Sei $C$ eine Formel, für die
+  Formel $B$ an einer bestimmten Stelle vorkommt.  Sei $C$ eine Formel, fÃ¼r die
   $B\triangleright C$ gilt.  Wenn
-  $A\blacktriangleright D$ gilt, entsteht die Formel $D$ dadurch, daß in $A$
+  $A\blacktriangleright D$ gilt, entsteht die Formel $D$ dadurch, daÃŸ in $A$
   das Vorkommen von $B$ durch $C$ ersetzt wird.  
 \end{definition}
 %
 Abbildung~\ref{fig:reduction} zeigt die Situation: Bei der Anwendung
 der Reduktionsregel $\blacktriangleright$ auf einen Term bleibt der
-umschließende, weiße Teil des Terms unverändert, nur der Rest wird
-gemäß $\triangleright$ reduziert und ersetzt.
+umschlieÃŸende, weiÃŸe Teil des Terms unverÃ¤ndert, nur der Rest wird
+gemÃ¤ÃŸ $\triangleright$ reduziert und ersetzt.
 
 \begin{figure}[tb]
   \begin{center}
@@ -525,7 +525,7 @@ gemäß $\triangleright$ reduziert und ersetzt.
 \end{figure}
 
 
-Nun läßt sich Beweisbarkeit in RC$_1$ definieren:
+Nun lÃ¤ÃŸt sich Beweisbarkeit in RC$_1$ definieren:
 %
 \begin{definition}[Beweisbarkeit in RC$_1$]
   Eine Formel $A$ ist \textit{in RC$_1$ beweisbar} (geschrieben
@@ -534,28 +534,28 @@ Nun läßt sich Beweisbarkeit in RC$_1$ definieren:
 \end{definition}
 %
 Dabei ist $\blacktriangleright^\ast$ der
-transitiv-reflexive Abschluß von $\blacktriangleright$.  (Siehe dazu
+transitiv-reflexive AbschluÃŸ von $\blacktriangleright$.  (Siehe dazu
   Definition~\ref{def:relation-closure} in
   Anhang~\ref{sec:relationen}.)
 
-Diese drei Zutaten machen einen Reduktionskalkül aus:
+Diese drei Zutaten machen einen ReduktionskalkÃ¼l aus:
 Reduktionsregeln, Erweiterung auf Subterme und reflexiv-transitiver
-Abschluß.
+AbschluÃŸ.
 
 \begin{satz}
-  RC$_1$ ist korrekt, konsistent und vollständig.
+  RC$_1$ ist korrekt, konsistent und vollstÃ¤ndig.
 \end{satz}
 
 \begin{beweis}
 
-Für $A\blacktriangleright B$ sind $A$ und $B$ immer
-äquivalent.  Daraus folgen Konsistenz und Korrektheit.
+FÃ¼r $A\blacktriangleright B$ sind $A$ und $B$ immer
+Ã¤quivalent.  Daraus folgen Konsistenz und Korrektheit.
 
-Der Beweis für die Vollständigkeit ist etwas aufwendiger und wird
+Der Beweis fÃ¼r die VollstÃ¤ndigkeit ist etwas aufwendiger und wird
 darum nur skizziert.  Prinzipiell schwierig ist er allerdings nicht:
 
-Die Reduktionsregeln~\ref{eq:a}, \ref{eq:d1} und \ref{eq:d2} für sich
-gesehen überführen eine Formel in die folgende Form:
+Die Reduktionsregeln~\ref{eq:a}, \ref{eq:d1} und \ref{eq:d2} fÃ¼r sich
+gesehen Ã¼berfÃ¼hren eine Formel in die folgende Form:
 %
 \begin{eqnarray*}
   &&(L_1^{(1)}\vee (L_2^{(1)} \vee(\ldots \vee L_{k_1}^{(1)})\ldots))\\
@@ -565,7 +565,7 @@ gesehen überführen eine Formel in die folgende Form:
   (L_1^{(n)}\vee (L_2^{(n)} \vee(\ldots \vee L_{k_n}^{(n)})\ldots))
 \end{eqnarray*}
 %
-(Diese Form heißt auch \textit{konjunktive Normalform\index{Normalform!konjunktiv}\index{konjunktive Normalform}}.)  Eine Formel
+(Diese Form heiÃŸt auch \textit{konjunktive Normalform\index{Normalform!konjunktiv}\index{konjunktive Normalform}}.)  Eine Formel
 dieser Form ist genau dann wahr, wenn alle Teilformeln
 %
 \begin{displaymath}
@@ -573,40 +573,40 @@ dieser Form ist genau dann wahr, wenn alle Teilformeln
 \end{displaymath}
 %
 wahr sind.  Eine solche Teilformel ist genau dann wahr, wenn sie
-entweder $\top$ enthält oder zwei Literale $L_l^{(j)}$ und $\neg L_m^{(j)}$
-mit $L_l^{(j)} = L_m^{(j)}$.  Genau diese beiden Fälle werden
-aber von den Regeln~(\ref{eq:e1}) und (\ref{eq:t}) abgedeckt, so daß sich
+entweder $\top$ enthÃ¤lt oder zwei Literale $L_l^{(j)}$ und $\neg L_m^{(j)}$
+mit $L_l^{(j)} = L_m^{(j)}$.  Genau diese beiden FÃ¤lle werden
+aber von den Regeln~(\ref{eq:e1}) und (\ref{eq:t}) abgedeckt, so daÃŸ sich
 diese Teilformeln zu $\top$ reduzieren lassen.  Regel~(\ref{eq:e2})
 besorgt dann den Rest.
 \end{beweis}
                                 
 %\section*{Anmerkungen}
-%Im allgemeinen ist Beweisbarkeit ein schwächeres Konzept als Allgemeingültigkeit, sobald
-%einigermaßen leistungsfähige mathematische Systeme studiert werden.
+%Im allgemeinen ist Beweisbarkeit ein schwÃ¤cheres Konzept als AllgemeingÃ¼ltigkeit, sobald
+%einigermaÃŸen leistungsfÃ¤hige mathematische Systeme studiert werden.
 
 \section*{Aufgaben}
 
 \begin{aufgabe}
   Zeige mit Hilfe der Wahrheitstafeln aus
   Anhang~\ref{sec:aussagenlogik}, wie sich aussagenlogische
-  Formeln, die Implikation $\Rightarrow$ enthalten, in äquivalente
-  Formeln ohne $\Rightarrow$ übersetzen lassen.
+  Formeln, die Implikation $\Rightarrow$ enthalten, in Ã¤quivalente
+  Formeln ohne $\Rightarrow$ Ã¼bersetzen lassen.
 \end{aufgabe}
 
 \begin{aufgabe}
   \textit{Gant\=os Axt\index{Gantos Axt@Gant\=os Axt}} ist ein Zen-Koan folgenden Inhalts:
   %
   \begin{quote}
-    Eines Tages sagte Tokusan zu seinem Schüler Gant\=o: "`Ich habe
-    zwei Mönche, die schon seit vielen Jahren hier sind.  Geh hin und
-    prüfe sie."' Gant\=o nahm eine Axt und begab sich zu der Hütte, in
-    der die zwei Mönche meditierten.  Er hob die Axt und sprach:
-    "`Wenn ihr ein Wort sagt, so werde ich euch die Köpfe abhauen, und
-    wenn ihr kein Wort sagt, werde ich euch ebenfalls die Köpfe
+    Eines Tages sagte Tokusan zu seinem SchÃ¼ler Gant\=o: "`Ich habe
+    zwei MÃ¶nche, die schon seit vielen Jahren hier sind.  Geh hin und
+    prÃ¼fe sie."' Gant\=o nahm eine Axt und begab sich zu der HÃ¼tte, in
+    der die zwei MÃ¶nche meditierten.  Er hob die Axt und sprach:
+    "`Wenn ihr ein Wort sagt, so werde ich euch die KÃ¶pfe abhauen, und
+    wenn ihr kein Wort sagt, werde ich euch ebenfalls die KÃ¶pfe
     abhauen."'
   \end{quote}
   %
-  Werden den Mönchen die Köpfe abgehauen?  Beweise deine Antwort in
+  Werden den MÃ¶nchen die KÃ¶pfe abgehauen?  Beweise deine Antwort in
   SC$_1$!
 \end{aufgabe}
 
@@ -626,34 +626,34 @@ besorgt dann den Rest.
 
 \begin{aufgabe}\label{ex:negation}
  Eine aussagenlogische Formel mit Variablen $\neg
-  F$, wobei $F$ selbst kein $\neg$ enthält, ist äquivalent zu $\eta(F)$, wobei $\eta(F)$ aus $F$ dadurch
-  entsteht, daß alle aussagenlogischen Konstanten und Variablen umgedreht werden
+  F$, wobei $F$ selbst kein $\neg$ enthÃ¤lt, ist Ã¤quivalent zu $\eta(F)$, wobei $\eta(F)$ aus $F$ dadurch
+  entsteht, daÃŸ alle aussagenlogischen Konstanten und Variablen umgedreht werden
   ($W\mapsto F, F\mapsto W$, $\neg X\mapsto X$, $X \mapsto \neg X$)
   und jeweils $\vee$ durch  $\wedge$ und umgekehrt ersetzt wird.  Zum
   Beispiel ist also $\neg(A\wedge(B\vee \neg C)) \equiv \neg A\vee (\neg B\wedge C)$.
 
   \begin{itemize}
-  \item Schreibe eine induktive Definition für $\eta$.
+  \item Schreibe eine induktive Definition fÃ¼r $\eta$.
   \item Beweise die Behauptung mittels struktureller Induktion und den
     DeMorgan'schen Gesetzen (Anhang~\ref{sec:aussagenlogik}).
-    \item Beweise in SC$_1$, daß $A,\eta(A)$ für
+    \item Beweise in SC$_1$, daÃŸ $A,\eta(A)$ fÃ¼r
     jede Formel $A$ beweisbar ist.
-    Benutze dazu strukturelle Induktion über
+    Benutze dazu strukturelle Induktion Ã¼ber
     $A$!
   \end{itemize}
 \end{aufgabe}
 
 \begin{aufgabe}\label{ex:sc1-scheme}
-  Programmiere Abstraktionen für den Umgang mit
+  Programmiere Abstraktionen fÃ¼r den Umgang mit
   $\mathcal{L}_1$-Formeln in Scheme!
   \begin{enumerate}
-  \item Schreibe eine Datendefinition für Formeln und dazu passende
+  \item Schreibe eine Datendefinition fÃ¼r Formeln und dazu passende
     Record-Definitionen.
   \item Schreibe eine Funktion \texttt{write-L1}, welche
-    $\mathcal{L}_1$-Formeln in lesbarer und vollständig geklammerter
-    Form ausdruckt!  Dabei soll \texttt{T} für $\top$, \texttt{B} für
-    $\bot$, \texttt{!} für die
-    Negation, \texttt{\&} für die Konjunktion, und \verb&|& für die
+    $\mathcal{L}_1$-Formeln in lesbarer und vollstÃ¤ndig geklammerter
+    Form ausdruckt!  Dabei soll \texttt{T} fÃ¼r $\top$, \texttt{B} fÃ¼r
+    $\bot$, \texttt{!} fÃ¼r die
+    Negation, \texttt{\&} fÃ¼r die Konjunktion, und \verb&|& fÃ¼r die
     Disjunktion stehen:
 \begin{alltt}
 (write-L1
@@ -666,17 +666,17 @@ besorgt dann den Rest.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Basierend auf den Abstraktionen für
+  Basierend auf den Abstraktionen fÃ¼r
   $\mathcal{L}_1$-Formeln von Aufgabe~\ref{ex:sc1-scheme}, schreibe ein Programm, das
-  für Formeln herausfindet, ob sie in SC$_1$ beweisbar sind oder
+  fÃ¼r Formeln herausfindet, ob sie in SC$_1$ beweisbar sind oder
   nicht!
 
   \begin{enumerate}
-  \item Schreibe ein Prädikat \texttt{literal?}, das feststellt, ob
+  \item Schreibe ein PrÃ¤dikat \texttt{literal?}, das feststellt, ob
     eine Formel die Form $\top$, $\bot$, $P_i$ oder
     $\neg P_i$ hat.
-  \item Benutze für die Repräsentation von Sequenzen Listen von
-    Formeln. Schreibe ein Prädikat \texttt{axiom?}, das feststellt, ob
+  \item Benutze fÃ¼r die ReprÃ¤sentation von Sequenzen Listen von
+    Formeln. Schreibe ein PrÃ¤dikat \texttt{axiom?}, das feststellt, ob
     eine gegebene Sequenz ein Axiom ist, also ob $\top$ in der Liste
     vorkommt, oder zu einer Variable die entsprechende negierte
     Variante.
@@ -709,8 +709,8 @@ besorgt dann den Rest.
     
 
   \item Schreibe eine Funktion \texttt{reorder-sequence}, welche eine
-    Sequenz so umsortiert, daß ein Nichtliteral vorn steht, oder
-    \texttt{\#f} zurückgibt, falls das nicht möglich ist.
+    Sequenz so umsortiert, daÃŸ ein Nichtliteral vorn steht, oder
+    \texttt{\#f} zurÃ¼ckgibt, falls das nicht mÃ¶glich ist.
     
     Anleitung: Benutze dazu eine endrekursive mit \texttt{letrec}
     gebundene interne Hilfsprozedur, welche die Sequenz absucht und
@@ -748,8 +748,8 @@ besorgt dann den Rest.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweise, daß folgende Axiome bzw.\ Regeln zu
-  SC$_1$ hinzugefügt werden können, ohne daß der Kalkül mächtiger
+  Beweise, daÃŸ folgende Axiome bzw.\ Regeln zu
+  SC$_1$ hinzugefÃ¼gt werden kÃ¶nnen, ohne daÃŸ der KalkÃ¼l mÃ¤chtiger
   wird:
   %
     \begin{displaymath}
@@ -766,21 +766,21 @@ besorgt dann den Rest.
       \end{prooftree}
   \end{displaymath}
   %
-  Betrachte dazu einen fiktiven Kalkül SC$_1'$, der diese zusätzlichen
-  Regeln enthält.  Gib nun eine Anleitung an, wie sich ein Beweisbaum
-  in SC$_1'$ in einen Beweisbaum in SC$_1$ übersetzen läßt, so daß die
-  zusätzlichen Regeln dort nicht mehr vorkommen.
+  Betrachte dazu einen fiktiven KalkÃ¼l SC$_1'$, der diese zusÃ¤tzlichen
+  Regeln enthÃ¤lt.  Gib nun eine Anleitung an, wie sich ein Beweisbaum
+  in SC$_1'$ in einen Beweisbaum in SC$_1$ Ã¼bersetzen lÃ¤ÃŸt, so daÃŸ die
+  zusÃ¤tzlichen Regeln dort nicht mehr vorkommen.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Betrachte MPC$_0$\index{MPC0@MPC$_0$}, einen Inferenzkalkül für
+  Betrachte MPC$_0$\index{MPC0@MPC$_0$}, einen InferenzkalkÃ¼l fÃ¼r
   \textit{intuitionistische Aussagenlogik\index{Aussagenlogik!intuitionistisch}\index{intuitionistische Aussagenlogik}}.
   
-  Die Sprache $\mathcal{L}_0$ des Kalküls besteht aus
-  Aussagenvariablen $\{P_1, \ldots, P_N\}$ für
+  Die Sprache $\mathcal{L}_0$ des KalkÃ¼ls besteht aus
+  Aussagenvariablen $\{P_1, \ldots, P_N\}$ fÃ¼r
   $N>0$, der aussagenlogischen Konstante $\bot$, sowie einem einzelnen
   zweistelligen Junktor $\rightarrow$.  Es gibt keine Sequenzen; der
-  Kalkül beschäftigt sich nur mit Formeln.  $A$, $B$ und $C$ seien
+  KalkÃ¼l beschÃ¤ftigt sich nur mit Formeln.  $A$, $B$ und $C$ seien
   jeweils Formeln.  Hier sind die Axiome:
   %
   \begin{displaymath}
@@ -803,22 +803,22 @@ besorgt dann den Rest.
   \end{displaymath}
   %
   \begin{enumerate}
-  \item Erweitere, wie bei der Modelltheorie für SC$_1$, eine
+  \item Erweitere, wie bei der Modelltheorie fÃ¼r SC$_1$, eine
     Variablenbelegung sinnvoll zu einem Homomorphismus von
-    $\mathcal{L}_0$ nach $\{\mathrm{W}, \mathrm{F}\}$, so daß alle
-    Axiome den Wahrheitswert W bekommen und außerdem die Modus-Ponens-Regel
-    gültig ist.  Gleichzeitig sollen nicht alle Formeln den
+    $\mathcal{L}_0$ nach $\{\mathrm{W}, \mathrm{F}\}$, so daÃŸ alle
+    Axiome den Wahrheitswert W bekommen und auÃŸerdem die Modus-Ponens-Regel
+    gÃ¼ltig ist.  Gleichzeitig sollen nicht alle Formeln den
     Wahrheitswert W bekommen.
-  \item Schreibe einen Beweisbaum für $A\rightarrow
+  \item Schreibe einen Beweisbaum fÃ¼r $A\rightarrow
     A$.
   \item Die \textit{relativierte Herleitbarkeit\index{Herleitbarkeit!relativiert}\index{relativierte Herleitbarkeit}} in MPC$_0$ ist
-    folgendermaßen definiert:
+    folgendermaÃŸen definiert:
 
-    Es sei $M =\{G_1, \ldots, G_n\}$ für $n\geq 0$ eine endliche
+    Es sei $M =\{G_1, \ldots, G_n\}$ fÃ¼r $n\geq 0$ eine endliche
     Formelmenge in $\mathcal{L}_0$.  Eine Formel $F$ aus
     $\mathcal{L}_0$ ist in MPC$_0$ \textit{relativ zu $M$} herleitbar,
-    wenn es einen Beweisbaum für $F$ gibt, in dem oben neben den
-    Axiomen auch Formeln aus $M$ stehen können.  Schreibweise:
+    wenn es einen Beweisbaum fÃ¼r $F$ gibt, in dem oben neben den
+    Axiomen auch Formeln aus $M$ stehen kÃ¶nnen.  Schreibweise:
     %
     \(M \vdash F\),
     %
@@ -833,9 +833,9 @@ besorgt dann den Rest.
       \{G\}\cup M\vdash F \textrm{~gdw.~} M\vdash G\rightarrow F
     \end{displaymath}
     %
-    Vervollständige den folgenden Beweis für den Deduktionssatz:
+    VervollstÃ¤ndige den folgenden Beweis fÃ¼r den Deduktionssatz:
 
-    "`$\Leftarrow$"' Es gilt, einen Beweis für $F$ zu konstruieren, in
+    "`$\Leftarrow$"' Es gilt, einen Beweis fÃ¼r $F$ zu konstruieren, in
     dem $G$ oben vorkommen darf.  Hier ist er:
     %
     \begin{displaymath}
@@ -844,19 +844,19 @@ besorgt dann den Rest.
       \end{prooftree}
     \end{displaymath}
 
-    "`$\Rightarrow$"' Induktion über die Höhe des Beweisbaumes:  Es
-    sei also $T$ der Beweisbaum für $G\rightarrow F$, an dem oben die
+    "`$\Rightarrow$"' Induktion Ã¼ber die HÃ¶he des Beweisbaumes:  Es
+    sei also $T$ der Beweisbaum fÃ¼r $G\rightarrow F$, an dem oben die
     Formeln $G, G_1, \ldots, G_n$ (bei $M=\{G_1, \ldots, G_n\}$) sowie
-    die Axiome auftreten können.
+    die Axiome auftreten kÃ¶nnen.
     
-    Angenommen, $T$ hat die Höhe 1.  $F$ ist also bereits der Beweis
-    selbst.  Dann muß $F$ ein Axiom oder ein Element aus $\{G\}\cup M$
-    sein.  Es gilt dann also, eine Herleitung für $G\rightarrow F$ zu
-    konstruieren.  Es gibt jetzt zwei Möglichkeiten: entweder ist
-    $F=G$ oder nicht.  Schreibe Beweisbäume für $G\rightarrow F$
-      für beide Fälle!
+    Angenommen, $T$ hat die HÃ¶he 1.  $F$ ist also bereits der Beweis
+    selbst.  Dann muÃŸ $F$ ein Axiom oder ein Element aus $\{G\}\cup M$
+    sein.  Es gilt dann also, eine Herleitung fÃ¼r $G\rightarrow F$ zu
+    konstruieren.  Es gibt jetzt zwei MÃ¶glichkeiten: entweder ist
+    $F=G$ oder nicht.  Schreibe BeweisbÃ¤ume fÃ¼r $G\rightarrow F$
+      fÃ¼r beide FÃ¤lle!
 
-    Angenommen, $T$ hat eine Höhe $>1$.  Dann muß ganz unten in $T$
+    Angenommen, $T$ hat eine HÃ¶he $>1$.  Dann muÃŸ ganz unten in $T$
     eine Anwendung der Modus-Ponens-Regel stehen, die so aussieht:
     %
     \begin{displaymath}
@@ -865,7 +865,7 @@ besorgt dann den Rest.
       \end{prooftree}
     \end{displaymath}
     %
-    Nun kann ein Beweisbaum für $G\rightarrow F$ konstruiert werden:
+    Nun kann ein Beweisbaum fÃ¼r $G\rightarrow F$ konstruiert werden:
     %
     \begin{displaymath}
       \begin{prooftree}
@@ -880,7 +880,7 @@ besorgt dann den Rest.
       \end{prooftree}
     \end{displaymath}
     %
-    Vervollständige den Beweisbaum!  Hinweis: Es sind nur noch
+    VervollstÃ¤ndige den Beweisbaum!  Hinweis: Es sind nur noch
     zwei Anwendungen der Modus-Ponens-Regel sowie zwei Anwendungen von
     Axiomen notwendig!
 

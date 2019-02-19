@@ -7,20 +7,20 @@
 \label{cha:accu}
 
 Bei den rekursiven Funktionen der vergangenen Kapitel war der Wert
-eines rekursiven Aufrufs stets unabhängig vom Kontext: Die Fakultät
-von 4 "`wußte nicht"', daß sie später noch mit 5 multipliziert wird,
-die Summe der Zahlen von 1 bis 4 "`wußte nicht"', daß später noch 5
-dazuaddiert wird, etc.  Manche Probleme sind aber so formuliert, daß
-bei der Berechnung ein Zwischenergebnis mitgeführt und aktualisiert
-wird.  Die Konstruktionsanleitungen für Prozeduren, die Listen oder
-natürliche Zahlen verarbeiten, führen aber bei direkter Anwendung zu
-Prozeduren, die kein Zwischenergebnisses mitführen können: Solche
+eines rekursiven Aufrufs stets unabhÃ¤ngig vom Kontext: Die FakultÃ¤t
+von 4 "`wuÃŸte nicht"', daÃŸ sie spÃ¤ter noch mit 5 multipliziert wird,
+die Summe der Zahlen von 1 bis 4 "`wuÃŸte nicht"', daÃŸ spÃ¤ter noch 5
+dazuaddiert wird, etc.  Manche Probleme sind aber so formuliert, daÃŸ
+bei der Berechnung ein Zwischenergebnis mitgefÃ¼hrt und aktualisiert
+wird.  Die Konstruktionsanleitungen fÃ¼r Prozeduren, die Listen oder
+natÃ¼rliche Zahlen verarbeiten, fÃ¼hren aber bei direkter Anwendung zu
+Prozeduren, die kein Zwischenergebnisses mitfÃ¼hren kÃ¶nnen: Solche
 Probleme erfordern deshalb eine neue Programmiertechnik, das
-Programmieren mit \textit{Akkumulatoren}, und entsprechend angepaßte
+Programmieren mit \textit{Akkumulatoren}, und entsprechend angepaÃŸte
 Konstruktionsanleitungen.
 
 
-\section{Zwischenergebnisse mitführen}
+\section{Zwischenergebnisse mitfÃ¼hren}
 \label{sec:intermediate-results}
 
 Gefragt ist eine Funktion, welche eine Liste invertiert, also die
@@ -34,7 +34,7 @@ Reihenfolge ihrer Elemente umdreht:\index{invert@\texttt{invert}}\label{sec:inve
 (check-expect (invert (list 1 2 3 4)) (list 4 3 2 1))
 \end{verbatim}
 %
-Gerüst und Schablone sehen wie folgt aus:
+GerÃ¼st und Schablone sehen wie folgt aus:
 %
 \begin{verbatim}
 (define invert
@@ -49,19 +49,19 @@ Gerüst und Schablone sehen wie folgt aus:
 Der Ausdruck \texttt{(invert (rest lis))} liefert den Rest der Liste
 in umgekehrter Reihenfolge.  Falls \texttt{lis}, wie im zweiten
 Testfall, also die Liste \verb|#<list 1 2 3 4>| ist, so ist der
-invertierte Rest \verb|#<list 4 3 2>|.  Das gewünschte Ergebnis
-\verb|#<list 4 3 2 1>| entsteht durch das Anhängen des ersten Elements
+invertierte Rest \verb|#<list 4 3 2>|.  Das gewÃ¼nschte Ergebnis
+\verb|#<list 4 3 2 1>| entsteht durch das AnhÃ¤ngen des ersten Elements
 \emph{hinten} an die Liste.  Durch Wunschdenken wird eine Funktion
 \texttt{append-element}\index{append-element@\texttt{append-element}}
-angenommen, die hinten an eine Liste ein Element anhängt:
+angenommen, die hinten an eine Liste ein Element anhÃ¤ngt:
 %
 \begin{verbatim}
-; Element an Liste anhängen
+; Element an Liste anhÃ¤ngen
 (: append-element ((list-of %a) %a -> (list-of %a)))
 \end{verbatim}
 %
-Mit Hilfe von \texttt{append-element} läßt sich \texttt{invert} leicht
-vervollständigen:
+Mit Hilfe von \texttt{append-element} lÃ¤ÃŸt sich \texttt{invert} leicht
+vervollstÃ¤ndigen:
 %
 \begin{verbatim}
 (define invert
@@ -73,16 +73,16 @@ vervollständigen:
                        (first lis))))))
 \end{verbatim}
 %
-Die Prozedur \texttt{append-element} ist ganz ähnlich der Prozedur
-\texttt{concatenate} aus Abschnitt~\ref{sec:more-lists}.  Zunächst
-Testfälle:
+Die Prozedur \texttt{append-element} ist ganz Ã¤hnlich der Prozedur
+\texttt{concatenate} aus Abschnitt~\ref{sec:more-lists}.  ZunÃ¤chst
+TestfÃ¤lle:
 %
 \begin{verbatim}
 (check-expect (append-element (list 1 2 3) 4) (list 1 2 3 4))
 (check-expect (append-element empty 4) (list 4))
 \end{verbatim}
 %
-Gerüst und Schablone:
+GerÃ¼st und Schablone:
 %
 \begin{verbatim}
 (define append-element
@@ -94,7 +94,7 @@ Gerüst und Schablone:
        ... (append-element (rest lis) el) ...))))
 \end{verbatim}
 %
-Die Schablone läßt sich leicht vervollständigen:
+Die Schablone lÃ¤ÃŸt sich leicht vervollstÃ¤ndigen:
 %
 \begin{verbatim}
 (define append-element
@@ -113,35 +113,35 @@ Die Schablone läßt sich leicht vervollständigen:
   \label{fig:invert-calls}
 \end{figure}
 %
-Doch zurück zu \texttt{invert}.  Obwohl die zu erledigende Aufgabe
-einfach erscheint, dauert schon das Invertieren von Listen der Länge
+Doch zurÃ¼ck zu \texttt{invert}.  Obwohl die zu erledigende Aufgabe
+einfach erscheint, dauert schon das Invertieren von Listen der LÃ¤nge
 1000 eine ganze Weile.\footnote{So war es zumindest zur Zeit der
-  Drucklegung dieses Buchs auf handelsüblichen Computern.  Ggf.\
-  müssen es auf moderneren Rechnern Listen der Länge 10000 sein, um
+  Drucklegung dieses Buchs auf handelsÃ¼blichen Computern.  Ggf.\
+  mÃ¼ssen es auf moderneren Rechnern Listen der LÃ¤nge 10000 sein, um
   das Problem deutlich zu machen.}  
-Tatsächlich ist es so, daß z.B.\
-das Invertieren einer Liste der Länge 400 \emph{mehr} als doppelt so
-lang wie das Invertieren einer Liste der Länge 200 benötigt.  Das
-liegt daran, daß \texttt{invert} bei jedem rekursiven Aufruf
+TatsÃ¤chlich ist es so, daÃŸ z.B.\
+das Invertieren einer Liste der LÃ¤nge 400 \emph{mehr} als doppelt so
+lang wie das Invertieren einer Liste der LÃ¤nge 200 benÃ¶tigt.  Das
+liegt daran, daÃŸ \texttt{invert} bei jedem rekursiven Aufruf
 \texttt{append-element} aufruft, und \texttt{append-element} selbst
 macht soviele rekursive Aufrufe wie die Liste lang ist.  Das wiederum
-heißt aber, daß die Gesamtanzahl der Prozeduraufrufe für das
-Invertieren einer Liste der Länge $n$ so steigt wie in
+heiÃŸt aber, daÃŸ die Gesamtanzahl der Prozeduraufrufe fÃ¼r das
+Invertieren einer Liste der LÃ¤nge $n$ so steigt wie in
 der Kurve in Abbildung~\ref{fig:invert-calls} gezeigt, also offenbar
-stärker als linear: Das erklärt das überproportionale Ansteigen der
-Rechenzeit.  (Dafür ist auch Aufgabe~\ref{ref:o-of-invert} relevant.)
-Dies ist für so eine einfache Aufgabe
-inakzeptabel: Listen der Länge 10000 sind nichts ungewöhnliches, und
+stÃ¤rker als linear: Das erklÃ¤rt das Ã¼berproportionale Ansteigen der
+Rechenzeit.  (DafÃ¼r ist auch Aufgabe~\ref{ref:o-of-invert} relevant.)
+Dies ist fÃ¼r so eine einfache Aufgabe
+inakzeptabel: Listen der LÃ¤nge 10000 sind nichts ungewÃ¶hnliches, und
 das Invertieren sollte dem Computer leichtfallen.
 
-Tatsächlich gibt es eine bessere Methode, eine Liste umzudrehen: Die
+TatsÃ¤chlich gibt es eine bessere Methode, eine Liste umzudrehen: Die
 obige \texttt{invert}"=Funktion konstruiert die Ergebnisliste, indem
-stets Elemente \emph{hinten} angehängt werden.  Das entspricht 
-nicht der "`natürlichen"' Konstruktion von Listen mit
-\texttt{make-pair}, das ein Element \emph{vorn} anhängt.  
-Das Ergebnis ließe sich aber durch Anhängen vorn ganz einfach
+stets Elemente \emph{hinten} angehÃ¤ngt werden.  Das entspricht 
+nicht der "`natÃ¼rlichen"' Konstruktion von Listen mit
+\texttt{make-pair}, das ein Element \emph{vorn} anhÃ¤ngt.  
+Das Ergebnis lieÃŸe sich aber durch AnhÃ¤ngen vorn ganz einfach
 konstruieren, und zwar, indem in folgender Reihenfolge
-Zwischenergebnisse\index{Zwischenergebnis} berechnet werden, wie in folgendem Beispiel für den
+Zwischenergebnisse\index{Zwischenergebnis} berechnet werden, wie in folgendem Beispiel fÃ¼r den
 Testfall \texttt{(invert (list 1 2 3 4))}:
 %
 \begin{verbatim}
@@ -153,21 +153,21 @@ Testfall \texttt{(invert (list 1 2 3 4))}:
 \end{verbatim}
 %
 Jedes Zwischenergebnis entsteht aus dem vorhergehenden, indem ein
-Element vorn an die Liste darüber angehängt wird.  Dies geschieht in
-der Reihenfolge, in der die Elemente in der ursprünglichen Liste
+Element vorn an die Liste darÃ¼ber angehÃ¤ngt wird.  Dies geschieht in
+der Reihenfolge, in der die Elemente in der ursprÃ¼nglichen Liste
 auftreten: scheinbar einfach.  Allerdings erlaubt die normale
-Konstruktionsanleitung für Listen nicht, dieses Zwischenergebnis
-mitzuführen: Das Ergebnis des rekursiven Aufrufs \texttt{(invert (rest
-  lis))} ist unabhängig vom Wert von \texttt{(first lis)}.  Damit aber
-ist es der Prozedur aus der normalen Konstruktionsanleitung unmöglich,
+Konstruktionsanleitung fÃ¼r Listen nicht, dieses Zwischenergebnis
+mitzufÃ¼hren: Das Ergebnis des rekursiven Aufrufs \texttt{(invert (rest
+  lis))} ist unabhÃ¤ngig vom Wert von \texttt{(first lis)}.  Damit aber
+ist es der Prozedur aus der normalen Konstruktionsanleitung unmÃ¶glich,
 die obige Folge von Zwischenergebnissen nachzuvollziehen, da von einem
-Zwischenergebnis zum nächsten gerade \texttt{(first lis)} vorn
-angehängt wird.  Für diesen speziellen Fall~-- wenn eine Berechnung das
-Mitführen von Zwischenergebnissen erfordert~-- muß die normale
-Konstruktionsanleitung deshalb angepaßt werden.
+Zwischenergebnis zum nÃ¤chsten gerade \texttt{(first lis)} vorn
+angehÃ¤ngt wird.  FÃ¼r diesen speziellen Fall~-- wenn eine Berechnung das
+MitfÃ¼hren von Zwischenergebnissen erfordert~-- muÃŸ die normale
+Konstruktionsanleitung deshalb angepaÃŸt werden.
 
-Dieses Problem läßt sich durch Mitführen des Zwischenergebnisses in
-einem separaten Parameter lösen, dem sogenannten
+Dieses Problem lÃ¤ÃŸt sich durch MitfÃ¼hren des Zwischenergebnisses in
+einem separaten Parameter lÃ¶sen, dem sogenannten
 \textit{Akkumulator\index{Akkumulator}}.  Dazu wird eine
 Hilfsprozedur \texttt{invert-helper} definiert, die neben der Eingabeliste
 diesen Akkumulator akzeptiert:
@@ -181,7 +181,7 @@ diesen Akkumulator akzeptiert:
 \end{verbatim}
 %
 Die Liste \texttt{lis} ist nach wie vor die bestimmende Eingabe, es
-greifen also die entsprechenden Konstruktionsanleitungen für gemischte
+greifen also die entsprechenden Konstruktionsanleitungen fÃ¼r gemischte
 und zusammengesetzte Daten:
 %
 \begin{verbatim}
@@ -195,7 +195,7 @@ und zusammengesetzte Daten:
 \end{verbatim}
 %
 Wenn \texttt{invert-helper} aufgerufen wird, sind die noch zu
-verarbeitenden Elemente der ursprünglichen Liste in \texttt{lis}, und
+verarbeitenden Elemente der ursprÃ¼nglichen Liste in \texttt{lis}, und
 das Zwischenergebnis, was aus den Elementen davor berechnet wurde, ist
 in \texttt{acc}.  Wenn \texttt{lis} leer ist, sind alle Elemente
 verarbeitet und das Zwischenergebnis ist das Endergebnis:
@@ -210,10 +210,10 @@ verarbeitet und das Zwischenergebnis ist das Endergebnis:
        ... (invert-helper (rest lis) ...) ...))))
 \end{verbatim}
 %
-Für den rekursiven Aufruf muß noch ein neuer Wert für \texttt{acc}
-übergeben werden.  Dieser entsteht, wie im Beispiel zu sehen ist,
-dadurch, daß an den Akkumulator das erste Element der Liste vorn
-angehängt wird:
+FÃ¼r den rekursiven Aufruf muÃŸ noch ein neuer Wert fÃ¼r \texttt{acc}
+Ã¼bergeben werden.  Dieser entsteht, wie im Beispiel zu sehen ist,
+dadurch, daÃŸ an den Akkumulator das erste Element der Liste vorn
+angehÃ¤ngt wird:
 %
 \begin{verbatim}
 (define invert-helper
@@ -225,8 +225,8 @@ angehängt wird:
                           (make-pair (first lis) acc)) ...))))
 \end{verbatim}
 %
-Da der rekursive Aufrufs von \texttt{invert-helper} schließlich direkt das
-Endergebnis zurückgegeben wird, ist damit die Prozedur auch schon fertig:
+Da der rekursive Aufrufs von \texttt{invert-helper} schlieÃŸlich direkt das
+Endergebnis zurÃ¼ckgegeben wird, ist damit die Prozedur auch schon fertig:
 %
 \begin{verbatim}
 (define invert-helper
@@ -238,9 +238,9 @@ Endergebnis zurückgegeben wird, ist damit die Prozedur auch schon fertig:
                       (make-pair (first lis) acc))))))
 \end{verbatim}
 %
-Die neue Hilfsprozedur \texttt{invert-helper} paßt nicht auf die Signatur
-von \texttt{invert}; \texttt{invert} muß also separat definiert werden
-und den passenden Anfangswert für \texttt{acc} übergeben:
+Die neue Hilfsprozedur \texttt{invert-helper} paÃŸt nicht auf die Signatur
+von \texttt{invert}; \texttt{invert} muÃŸ also separat definiert werden
+und den passenden Anfangswert fÃ¼r \texttt{acc} Ã¼bergeben:
 %
 \begin{verbatim}
 (define invert
@@ -248,16 +248,16 @@ und den passenden Anfangswert für \texttt{acc} übergeben:
     (invert-helper lis empty)))
 \end{verbatim}
 %
-% Da \texttt{invert-helper} ausschließlich als Hilfsprozedur zu
+% Da \texttt{invert-helper} ausschlieÃŸlich als Hilfsprozedur zu
 % \texttt{invert} benutzt wird und ohne \texttt{invert} keinen Nutzen
-% hat, ist es nicht notwendig, eine separate Signatur für
+% hat, ist es nicht notwendig, eine separate Signatur fÃ¼r
 % \texttt{invert-helper} anzugeben. HK: Wir haben aber schon eine Signatur
-% dafür angegeben! ;-)
+% dafÃ¼r angegeben! ;-)
 
 Die neue Version von \texttt{invert} kommt ohne
-\texttt{append-element} aus.  Der Beispielaufruf von oben führt zu
+\texttt{append-element} aus.  Der Beispielaufruf von oben fÃ¼hrt zu
 folgender Auswertung im Substitutionsmodell, die sich auch im Stepper
-gut nachvollziehen läßt:
+gut nachvollziehen lÃ¤ÃŸt:
 %
 \begin{alltt}\small
 (invert \underline{(list 1 2 3 4)})
@@ -282,34 +282,34 @@ gut nachvollziehen läßt:
 \(\Longrightarrow\) #<list 4 3 2 1>
 \end{alltt}
 %
-Tatsächlich arbeitet die neue Prozedur auch effizienter: Da
+TatsÃ¤chlich arbeitet die neue Prozedur auch effizienter: Da
 \texttt{invert-helper} nicht bei jedem Aufruf selbst wieder eine Funktion
 aufruft, die eine komplette Liste verarbeitet, steigt die Rechenzeit
-nur noch proportional zur Länge der Liste.
+nur noch proportional zur LÃ¤nge der Liste.
 
-Da die Prozedur \texttt{invert} generell nützlich ist, ist sie unter
+Da die Prozedur \texttt{invert} generell nÃ¼tzlich ist, ist sie unter
 dem Namen \texttt{reverse\index{reverse@\texttt{reverse}}} fest eingebaut.
 
 \begin{feature}{\texttt{letrec}}{scheme:letrec}
-Die \texttt{letrec}-Form bindet lokale Variablen, ähnlich wie \texttt{let}.
-Ihre Syntax ist mit der von \texttt{let} identisch.  Während bei \texttt{let}
-die Variablen, die an die Werte der Ausdrücke gebunden werden,
-in den Ausdrücken selbst nicht sichtbar sind, sind bei \texttt{letrec}\index{letrec@\texttt{letrec}}
+Die \texttt{letrec}-Form bindet lokale Variablen, Ã¤hnlich wie \texttt{let}.
+Ihre Syntax ist mit der von \texttt{let} identisch.  WÃ¤hrend bei \texttt{let}
+die Variablen, die an die Werte der AusdrÃ¼cke gebunden werden,
+in den AusdrÃ¼cken selbst nicht sichtbar sind, sind bei \texttt{letrec}\index{letrec@\texttt{letrec}}
 die Bindungen sichtbar.  
 \end{feature}
 
 Die Funktion \texttt{invert-helper} wird nur an einer einzigen Stelle
-aufgerufen, und zwar innerhalb von \texttt{invert}. Es würde auch kaum einen
+aufgerufen, und zwar innerhalb von \texttt{invert}. Es wÃ¼rde auch kaum einen
 Sinn ergeben, \texttt{invert-helper} von einer anderen Stelle aus
-aufzurufen. Deshalb bietet es sich an, für \texttt{invert-helper} eine lokale
+aufzurufen. Deshalb bietet es sich an, fÃ¼r \texttt{invert-helper} eine lokale
 Definition zu verwenden, die nur innerhalb von \texttt{invert} sichtbar
-ist. Dazu gibt es im Prinzip die \texttt{let}-Form, die allerdings für
+ist. Dazu gibt es im Prinzip die \texttt{let}-Form, die allerdings fÃ¼r
 diesen Zweck nicht verwendbar ist (Abb.~\ref{scheme:letrec}). Die dort
-vorgestellte \texttt{letrec}-Form löst das Problem.
+vorgestellte \texttt{letrec}-Form lÃ¶st das Problem.
 
-Akkumulatoren, die Zwischenergebnisse verwalten, sind bei der Lösung
-einer Reihe von Problemen nützlich.  Zum Beispiel könnte eine
-Prozedur, welche die Fakultät $n!$ einer Zahl $n$ berechnet,
+Akkumulatoren, die Zwischenergebnisse verwalten, sind bei der LÃ¶sung
+einer Reihe von Problemen nÃ¼tzlich.  Zum Beispiel kÃ¶nnte eine
+Prozedur, welche die FakultÃ¤t $n!$ einer Zahl $n$ berechnet,
 vorgehen, indem sie das Produkt $n \cdot \ldots \cdot 1$ schrittweise von
 links her ausrechnet:
 %
@@ -324,15 +324,15 @@ links her ausrechnet:
     }
 \end{displaymath}
 %
-Der Anfangswert für das Zwischenergebnis ist 1, also gerade die
-Fakultät von 0.
+Der Anfangswert fÃ¼r das Zwischenergebnis ist 1, also gerade die
+FakultÃ¤t von 0.
 
-Für die Konstruktion wird die Schablone für Prozeduren, die natürliche
+FÃ¼r die Konstruktion wird die Schablone fÃ¼r Prozeduren, die natÃ¼rliche
 Zahlen verarbeiten, um einen Akkumulator erweitert:
 \label{page:factorial-tail}
 %
 \begin{verbatim}
-; Fakultät berechnen
+; FakultÃ¤t berechnen
 
 (: ! (natural -> natural))
 
@@ -365,7 +365,7 @@ mit \texttt{n} multipliziert wird:
         ... (!-helper (- n 1) (* n acc)) ...))))
 \end{verbatim}
 %
-Wie schon bei \texttt{invert} ist es nicht notwendig, daß für die
+Wie schon bei \texttt{invert} ist es nicht notwendig, daÃŸ fÃ¼r die
 noch verbleibenden Ellipsen etwas eingesetzt wird; das Programm ist
 bereits fertig:
 %
@@ -382,21 +382,21 @@ bereits fertig:
       (!-helper n 1))))
 \end{verbatim}
 %
-Tatsächlich ist es bei Prozeduren mit Akkumulator grundsätzlich nicht
-notwendig, für die Ellipsen am Schluß etwas einzusetzen. Bei der
-normalen Schablone für Prozeduren, die Listen bzw.\ natürliche Zahlen
-verarbeiten, wird für diese Ellipsen Code eingesetzt, was das erste
+TatsÃ¤chlich ist es bei Prozeduren mit Akkumulator grundsÃ¤tzlich nicht
+notwendig, fÃ¼r die Ellipsen am SchluÃŸ etwas einzusetzen. Bei der
+normalen Schablone fÃ¼r Prozeduren, die Listen bzw.\ natÃ¼rliche Zahlen
+verarbeiten, wird fÃ¼r diese Ellipsen Code eingesetzt, was das erste
 Element der Liste mit dem Ergebnis des rekursiven Ausdrucks 
-zum Rückgabewert kombiniert.  Dies ist beim Einsatz eines Akkumulators
+zum RÃ¼ckgabewert kombiniert.  Dies ist beim Einsatz eines Akkumulators
 aber nicht notwendig, da das erste Element der Liste bereits in die
-Berechnung des nächsten Zwischenergebnisses eingeht und dieses
+Berechnung des nÃ¤chsten Zwischenergebnisses eingeht und dieses
 Zwischenergebnis beim letzten Aufruf bereits das Endergebnis ist.
 
-\section{Schablonen für Prozeduren mit Akkumulator}
+\section{Schablonen fÃ¼r Prozeduren mit Akkumulator}
 
 Aus den beiden Beispielen des vorgehenden Abschnitts ergeben sich
-direkt Schablonen für Prozeduren mit Akkumulator.  Zunächst die
-Schablone für Prozeduren mit Akkumulator, die Listen akzeptieren:
+direkt Schablonen fÃ¼r Prozeduren mit Akkumulator.  ZunÃ¤chst die
+Schablone fÃ¼r Prozeduren mit Akkumulator, die Listen akzeptieren:
 %
 \begin{alltt}
 (: proc ((list-of elem) -> ...))
@@ -416,13 +416,13 @@ Schablone für Prozeduren mit Akkumulator, die Listen akzeptieren:
 %
 Hier ist \texttt{proc} der Name der zu definierenden Funktion
 und \texttt{proc-helper} der Name der Hilfsprozedur mit
-Akkumulator.  Der Anfangswert für den Akkumulator~-- also das initiale
+Akkumulator.  Der Anfangswert fÃ¼r den Akkumulator~-- also das initiale
 Zwischenergebnis~-- ist der Wert von \texttt{z}.  Der
-Ausdruck, der für \texttt{(... (first lis) ... acc ...)} einzusetzen
+Ausdruck, der fÃ¼r \texttt{(... (first lis) ... acc ...)} einzusetzen
 ist, macht aus dem alten Zwischenergebnis \texttt{acc} das neue
 Zwischenergebnis.
 
-Die Schablone für Prozeduren mit Akkumulator, die natürliche Zahlen
+Die Schablone fÃ¼r Prozeduren mit Akkumulator, die natÃ¼rliche Zahlen
 akzeptieren, ist analog:
 %
 \begin{alltt}
@@ -439,17 +439,17 @@ akzeptieren, ist analog:
     (proc-helper n z))))
 \end{alltt}
 %
-Wieder ist \texttt{z} der Ausdruck für das initiale Zwischenergebnis
-und für \texttt{(... acc ...)} ist ein Ausdruck einzusetzen, der aus
+Wieder ist \texttt{z} der Ausdruck fÃ¼r das initiale Zwischenergebnis
+und fÃ¼r \texttt{(... acc ...)} ist ein Ausdruck einzusetzen, der aus
 dem alten Zwischenergebnis \texttt{acc} ein neues macht.
 
 \section{Kontext und Endrekursion}
 \label{sec:iteration}
 
-Ein Vergleich der beiden Versionen der Fakultätsfunktion von
-S.~\pageref{page:factorial} und S.~\pageref{page:factorial-tail} zeigt, daß
+Ein Vergleich der beiden Versionen der FakultÃ¤tsfunktion von
+S.~\pageref{page:factorial} und S.~\pageref{page:factorial-tail} zeigt, daÃŸ
 Formulierungen mit und ohne Akkumulator
-unterschiedliche Berechnungsprozesse erzeugen.  Hier ein Prozeß mit
+unterschiedliche Berechnungsprozesse erzeugen.  Hier ein ProzeÃŸ mit
 Akkumulator:
 %
 \begin{alltt}
@@ -476,7 +476,7 @@ Akkumulator:
 \(\Longrightarrow\) 24
 \end{alltt}
 %
-Demgegenüber hier der Prozeß ohne Akkumulator:
+DemgegenÃ¼ber hier der ProzeÃŸ ohne Akkumulator:
 %
 \begin{alltt}
 (! 4)
@@ -503,57 +503,57 @@ Demgegenüber hier der Prozeß ohne Akkumulator:
 \(\Longrightarrow\) 24
 \end{alltt}
 %
-Es ist deutlich sichtbar, daß die Version ohne Akkumulator alle
-Multiplikationen bis zum Schluß "`aufstaut"'.  Das heißt aber auch,
-daß im Laufe des Berechnungsprozesses Ausdrücke auftauchen, die desto
-größer werden je größer das Argument von \texttt{!} ist: Bei
+Es ist deutlich sichtbar, daÃŸ die Version ohne Akkumulator alle
+Multiplikationen bis zum SchluÃŸ "`aufstaut"'.  Das heiÃŸt aber auch,
+daÃŸ im Laufe des Berechnungsprozesses AusdrÃ¼cke auftauchen, die desto
+grÃ¶ÃŸer werden je grÃ¶ÃŸer das Argument von \texttt{!} ist: Bei
 \texttt{(!  100)} werden zum Beispiel 100 Multiplikationen aufgestaut.
 
-Die Version mit Akkumulator hingegen scheint in der Größe der
-zwischenzeitlich auftretenden Ausdrücke begrenzt zu sein.  Tatsächlich
+Die Version mit Akkumulator hingegen scheint in der GrÃ¶ÃŸe der
+zwischenzeitlich auftretenden AusdrÃ¼cke begrenzt zu sein.  TatsÃ¤chlich
 stellt sich das Wachstum der Version ohne Akkumulator bei der Version
 mit Akkumulator nicht ein.
 
-Der Grund dafür sind die Schablonen: In der Schablone für Prozeduren
+Der Grund dafÃ¼r sind die Schablonen: In der Schablone fÃ¼r Prozeduren
 ohne Akkumulator steht \texttt{(... (proc (- n 1)) ...)}, das
-heißt, um den rekursiven Aufruf von \texttt{proc} wird noch
+heiÃŸt, um den rekursiven Aufruf von \texttt{proc} wird noch
 etwas "`herumgewickelt"', oder, anders gesagt, mit dem Ergebnis des
 rekursiven Aufrufs passiert noch etwas.  Das, was mit dem Ergebnis
-noch passiert, heißt der \textit{Kontext\index{Kontext}} des Aufrufs.
-Bei \texttt{!} ist der vollständige Ausdruck \texttt{(* n (! (- n
+noch passiert, heiÃŸt der \textit{Kontext\index{Kontext}} des Aufrufs.
+Bei \texttt{!} ist der vollstÃ¤ndige Ausdruck \texttt{(* n (! (- n
   1)))}.  Wenn aus diesem Ausdruck der rekursive Aufruf \texttt{(! (-
   n 1))} herausgenommen wird, bleibt der Kontext \texttt{(* n
   \(\circ\))}, wobei $\circ$ markiert, wo der Aufruf entfernt
-wurde.  Tatsächlich wird in der Literatur diese Markierung
+wurde.  TatsÃ¤chlich wird in der Literatur diese Markierung
 \textit{Loch\index{Loch}} genannt und \texttt{[]} geschrieben.  Der
-Kontext \texttt{(* n [])} macht deutlich, daß mit Ergebnis eines
-Aufrufs, der später für \texttt{[]} eingesetzt wird, noch \texttt{n}
+Kontext \texttt{(* n [])} macht deutlich, daÃŸ mit Ergebnis eines
+Aufrufs, der spÃ¤ter fÃ¼r \texttt{[]} eingesetzt wird, noch \texttt{n}
 multipliziert wird.  Dementsprechend stauen sich in der
 Reduktionsfolge die Multiplikationen mit den verschiedenen Werten von
 \texttt{n}.
 
-Bei der Fakultäts-Prozedur mit Akkumulator ist der Ausdruck, zu dem
+Bei der FakultÃ¤ts-Prozedur mit Akkumulator ist der Ausdruck, zu dem
 der Rumpf bei $\texttt{n} \neq 0$ reduziert wird, \texttt{(!-helper (- n 1)
   (* n acc))}.  Der Kontext des Aufrufs von \texttt{!-helper} innerhalb
 dieses Ausdrucks ist \texttt{[]}, also \emph{leer}~-- \emph{nichts}
-passiert mehr mit dem Rückgabewert von \texttt{!-helper}, und damit stauen
+passiert mehr mit dem RÃ¼ckgabewert von \texttt{!-helper}, und damit stauen
 sich auch bei der Reduktion keine Kontexte an.  Solche Funktionaufrufe
-ohne Kontext heißen \textit{endrekursiv\index{endrekursiv}}~-- eben,
+ohne Kontext heiÃŸen \textit{endrekursiv\index{endrekursiv}}~-- eben,
 weil nach dem rekursiven Aufruf "`Ende"' ist.\footnote{Das Konzept des
-  Aufrufs ohne Kontext ist nicht auf rekursive Aufrufe beschränkt.  Im
-  Englischen heißen solche Aufrufe allgemeiner \textit{tail
+  Aufrufs ohne Kontext ist nicht auf rekursive Aufrufe beschrÃ¤nkt.  Im
+  Englischen heiÃŸen solche Aufrufe allgemeiner \textit{tail
     calls\index{tail call}} (also ohne "`recursive"').}
 Die Berechnungsprozesse, die von endrekursiven Aufrufen generiert
-werden, heißen auch \textit{iterative\index{Iteration}} Prozesse.
+werden, heiÃŸen auch \textit{iterative\index{Iteration}} Prozesse.
 
-\section{Das Phänomen der umgedrehten Liste}
+\section{Das PhÃ¤nomen der umgedrehten Liste}
 
-Die beiden Varianten der Fakultäts-Prozedur berechnen zwar beide 
-stets das gleiche Ergebnis.  Die beiden Reduktionsfolgen für
-\texttt{(! 4)} aus dem vorigen Abschnitt zeigen allerdings, daß die
+Die beiden Varianten der FakultÃ¤ts-Prozedur berechnen zwar beide 
+stets das gleiche Ergebnis.  Die beiden Reduktionsfolgen fÃ¼r
+\texttt{(! 4)} aus dem vorigen Abschnitt zeigen allerdings, daÃŸ die
 beiden Funktionen bei der Berechnung unterschiedlich vorgehen:
-Während die Variante ohne Akkumulator "`von rechts"' multipliziert,
-also folgendermaßen auswertet:
+WÃ¤hrend die Variante ohne Akkumulator "`von rechts"' multipliziert,
+also folgendermaÃŸen auswertet:
 %
 \begin{displaymath}
   4\cdot (3 \cdot (2 \cdot (1 \cdot 1)))
@@ -566,11 +566,11 @@ multipliziert die Variante mit Akkumulator "`von links"':
 \end{displaymath}
 %
 Die Multiplikationen passieren also in umgekehrter Reihenfolge.
-Dies macht bei der Fakultät keinen Unterschied, da die Multiplikation
-assoziativ ist.  Diese Assoziativität ist jedoch nicht immer
-gegeben~-- insbesondere nicht bei Prozeduren, die Listen zurückgeben.
+Dies macht bei der FakultÃ¤t keinen Unterschied, da die Multiplikation
+assoziativ ist.  Diese AssoziativitÃ¤t ist jedoch nicht immer
+gegeben~-- insbesondere nicht bei Prozeduren, die Listen zurÃ¼ckgeben.
 Hier zum Beispiel eine Funktion, die eine Zahl $n$ akzeptiert und eine
-absteigende Liste der Zahlen von $n$ bis $1$ zurückliefert:
+absteigende Liste der Zahlen von $n$ bis $1$ zurÃ¼ckliefert:
 %
 \begin{verbatim}
 ; Liste der Zahlen von n bis 1 generieren
@@ -586,7 +586,7 @@ absteigende Liste der Zahlen von $n$ bis $1$ zurückliefert:
         (make-pair n (build-list (- n 1))))))
 \end{verbatim}
 %
-Die direkte Übersetzung in eine Variante mit Akkumulator liefert:
+Die direkte Ãœbersetzung in eine Variante mit Akkumulator liefert:
 %
 \begin{verbatim}
 (define build-list
@@ -600,14 +600,14 @@ Die direkte Übersetzung in eine Variante mit Akkumulator liefert:
     (build-list-helper n empty))))
 \end{verbatim}
 %
-Diese Variante ist inkorrekt: Sie liefert z.B.\ für
+Diese Variante ist inkorrekt: Sie liefert z.B.\ fÃ¼r
 \texttt{(build-list 3)} das Ergebnis \verb|#<list 1 2 3>|, die
 Elemente der Liste sind also in umgekehrter Reihenfolge.  Da schon die
-Fakultätsprozedur mit Akkumulator die Multiplikationen gegenüber der
-Variante ohne Akkumulator in umgekehrter Reihenfolge durchgeführt hat, war dies allerdings zu
-erwarten, und ist ein generelles Phänomen bei der Berechnung von
+FakultÃ¤tsprozedur mit Akkumulator die Multiplikationen gegenÃ¼ber der
+Variante ohne Akkumulator in umgekehrter Reihenfolge durchgefÃ¼hrt hat, war dies allerdings zu
+erwarten, und ist ein generelles PhÃ¤nomen bei der Berechnung von
 Listen-Ausgaben mit Akkumulator.  Das Problem kann durch das Umdrehen
-der Ergebnisliste gelöst werden:
+der Ergebnisliste gelÃ¶st werden:
 %
 \begin{verbatim}
     (letrec
@@ -622,12 +622,12 @@ der Ergebnisliste gelöst werden:
 
 \section*{Anmerkungen}
 
-Bei der Auswertung von Programmen durch den Computer wird für die
-Verwaltung von Kontexten Speicherplatz benötigt: Bei rekursiven
-Prozeduren ohne Akkumulator wächst dieser Speicherplatz mit der Größe
+Bei der Auswertung von Programmen durch den Computer wird fÃ¼r die
+Verwaltung von Kontexten Speicherplatz benÃ¶tigt: Bei rekursiven
+Prozeduren ohne Akkumulator wÃ¤chst dieser Speicherplatz mit der GrÃ¶ÃŸe
 der Argumente.  Entsprechend wird prinzipiell kein Speicherplatz
-benötigt, wenn kein Kontext anfällt.  In Scheme wird auch tatsächlich
-kein Speicherplatz für endrekursive Aufrufe verbraucht; dies ist
+benÃ¶tigt, wenn kein Kontext anfÃ¤llt.  In Scheme wird auch tatsÃ¤chlich
+kein Speicherplatz fÃ¼r endrekursive Aufrufe verbraucht; dies ist
 allerdings bei vielen anderen Programmiersprachen nicht der Fall.
 Mehr dazu in Kapitel~\ref{cha:secd}.
 
@@ -635,15 +635,15 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 
 \begin{aufgabe}
   \label{ref:o-of-invert}
-  Entwicklen Sie eine Formel für die Anzahl der rekursiven Aufrufe in
+  Entwicklen Sie eine Formel fÃ¼r die Anzahl der rekursiven Aufrufe in
   der ersten Version von \texttt{invert}!  (Hinweis: Greifen Sie auf
-  die Gauß'sche Summenformel zurück.)
+  die GauÃŸ'sche Summenformel zurÃ¼ck.)
 \end{aufgabe}
 
 \begin{aufgabe}
   Schreiben Sie eine Funktion \texttt{list-sum+product}, die eine
   Liste von Zahlen akzeptiert und eine zweielementige Liste
-  zurückgibt, deren erstes Element die Summe der Listenelemente und
+  zurÃ¼ckgibt, deren erstes Element die Summe der Listenelemente und
   deren zweites Element ihr Produkt ist.  Schreiben Sie zwei Varianten
   der Funktion: eine ohne Akkumulator und eine mit zwei Akkumulatoren.
 \end{aufgabe}
@@ -651,11 +651,11 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 \begin{aufgabe}
   Schreiben Sie eine Funktion, die als Eingabe eine Liste von Kursen
   einer Aktie (als Zahlen) eines Tages akzeptiert (nach Tageszeit
-  aufsteigend sortiert), und als Rückgabewert den höchstmöglichen
+  aufsteigend sortiert), und als RÃ¼ckgabewert den hÃ¶chstmÃ¶glichen
   Gewinn liefert, die durch den Kauf und folgenden Verkauf der Aktie
   an diesem Tag erreicht werden kann.
 
-  Hinweis: Diese Prozedur benötigt zwei Akkumulatoren.
+  Hinweis: Diese Prozedur benÃ¶tigt zwei Akkumulatoren.
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -665,7 +665,7 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 
 \begin{aufgabe}
   Identifizieren Sie die Kontexte der Aufrufe der Funktionen namens
-  \texttt{p} in folgenden Ausdrücken:
+  \texttt{p} in folgenden AusdrÃ¼cken:
   
 \begin{verbatim}
 (+ (p (- n 1)) 1)
@@ -689,13 +689,13 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 \begin{aufgabe}
   Schreibe eine endrekursive Variante von
   \texttt{concatenate}.  Falls du Hilfsprozeduren auf
-  Listen dafür benutzt, gib auch dafür endrekursive Definitionen an.
+  Listen dafÃ¼r benutzt, gib auch dafÃ¼r endrekursive Definitionen an.
 \end{aufgabe}
 
 \begin{aufgabe}
   Schreibe endrekursive Varianten von \texttt{evens} und \texttt{odds}
   aus Aufgabe~\ref{ex:evensodds} auf Seite~\pageref{ex:evensodds}.
-  Falls du Hilfsprozeduren auf Listen dafür benutzt, gib auch dafür
+  Falls du Hilfsprozeduren auf Listen dafÃ¼r benutzt, gib auch dafÃ¼r
   endrekursive Definitionen an.
 \end{aufgabe}
 

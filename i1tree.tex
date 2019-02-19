@@ -3,34 +3,34 @@
 % "Namensnennung 4.0 International (CC BY 4.0)"
 % http://creativecommons.org/licenses/by/4.0/deed.de
 
-\chapter{Bäume}
+\chapter{BÃ¤ume}
 \label{cha:trees}
 
-\index{Baum}Bäume sind induktive Datenstrukturen,
+\index{Baum}BÃ¤ume sind induktive Datenstrukturen,
 die viele Anwendungen in der praktischen
 Programmierung haben.  Sie sind beispielsweise die Grundlage
-für schnelle Suchverfahren in Datenbanken und einige
+fÃ¼r schnelle Suchverfahren in Datenbanken und einige
 Datenkompressionsverfahren.  Dieses
-Kapitel demonstriert die Programmierung mit Binärbäumen anhand von
-Suchbäumen.
+Kapitel demonstriert die Programmierung mit BinÃ¤rbÃ¤umen anhand von
+SuchbÃ¤umen.
 
-\section{Binärbäume}
+\section{BinÃ¤rbÃ¤ume}
 \label{sec:trees}
 
-Viele Anwendungen von Bäumen bauen auf einem
-Spezialfall  auf, den \textit{binären Bäumen\index{binärer
-    Baum}\index{Binärbaum}\index{Baum!binär}} oder \textit{Binärbäumen}.  
+Viele Anwendungen von BÃ¤umen bauen auf einem
+Spezialfall  auf, den \textit{binÃ¤ren BÃ¤umen\index{binÃ¤rer
+    Baum}\index{BinÃ¤rbaum}\index{Baum!binÃ¤r}} oder \textit{BinÃ¤rbÃ¤umen}.  
 
-Die Binärbaume bilden eine induktiv definierte Menge.  Ein Baum ist
+Die BinÃ¤rbaume bilden eine induktiv definierte Menge.  Ein Baum ist
 eins der folgenden:
 %
 \begin{itemize}
-\item Der \textit{leere Binärbaum\index{leerer Binärbaum}} ist ein Binärbaum.
-\item Ein \textit{Knoten\index{Knoten}}, bestehend seinerseits aus zwei Binärbäumen,
+\item Der \textit{leere BinÃ¤rbaum\index{leerer BinÃ¤rbaum}} ist ein BinÃ¤rbaum.
+\item Ein \textit{Knoten\index{Knoten}}, bestehend seinerseits aus zwei BinÃ¤rbÃ¤umen,
   genannt \textit{linker} und \textit{rechter
     Teilbaum}\index{Teilbaum} des Knotens
   und einer beliebigen \textit{Markierung\index{Markierung}} ist ebenfalls ein
-  Binärbaum.
+  BinÃ¤rbaum.
 \end{itemize}
 %
 \begin{figure}[h!]
@@ -42,15 +42,15 @@ eins der folgenden:
       } }
 \end{center}
 \end{pspdf}
-  \caption{Binärbaum}
+  \caption{BinÃ¤rbaum}
   \label{fig:bintree1}
 \end{figure}
 Die Markierung an den Knoten kann beliebige Daten aufnehmen, je nach
 Verwendungszweck des Baums.
 
-Binärbäume haben eine einleuchtende grafische Darstellung, die in
+BinÃ¤rbÃ¤ume haben eine einleuchtende grafische Darstellung, die in
 Abbildung~\ref{fig:bintree1} vorgestellt wird.  Die Punkte unten
-am Baum stehen für leere Binärbäume.  Ein Bild der Form:
+am Baum stehen fÃ¼r leere BinÃ¤rbÃ¤ume.  Ein Bild der Form:
 
 \begin{pspdf}
 \begin{center}
@@ -62,14 +62,14 @@ am Baum stehen für leere Binärbäume.  Ein Bild der Form:
 \end{center}
 \end{pspdf}
 
-steht für einen Knoten mit Markierung $L$, unter dem sich ein linker und
-ein rechter Teilbaum befinden.  Die Teilbäume werden auch
+steht fÃ¼r einen Knoten mit Markierung $L$, unter dem sich ein linker und
+ein rechter Teilbaum befinden.  Die TeilbÃ¤ume werden auch
 \textit{Zweige}\index{Zweig}  genannt.  Knoten, die als linken und rechten
-Teilbaum jeweils den leeren Baum haben, heißen auch
-\textit{Blätter\index{Blatt}}.
+Teilbaum jeweils den leeren Baum haben, heiÃŸen auch
+\textit{BlÃ¤tter\index{Blatt}}.
 
-Die Datendefinition für Bäume zeigt klar, daß es sich um gemischte
-Daten handelt.  Für die leeren Bäume kommt ein eigener Record-Typ zum
+Die Datendefinition fÃ¼r BÃ¤ume zeigt klar, daÃŸ es sich um gemischte
+Daten handelt.  FÃ¼r die leeren BÃ¤ume kommt ein eigener Record-Typ zum
 Einsatz:\index{empty-tree@\texttt{empty-tree}}
 %
 \begin{alltt}
@@ -79,12 +79,12 @@ Einsatz:\index{empty-tree@\texttt{empty-tree}}
   ())
 \end{alltt}
 %
-Auf den ersten Blick scheint hier ein Mißbrauch vorzuliegen~--
-immerhin handelt es sich bei leeren Bäumen eindeutig nicht um
+Auf den ersten Blick scheint hier ein MiÃŸbrauch vorzuliegen~--
+immerhin handelt es sich bei leeren BÃ¤umen eindeutig nicht um
 zusammengesetzte Daten: Der Record-Typ
 hat kein einziges Feld.  Record-Typen haben aber noch die 
-Funktion, neue Datensorten einzuführen, und sind darum auch dann das
-Mittel der Wahl für die Realisierung gemischter Daten,
+Funktion, neue Datensorten einzufÃ¼hren, und sind darum auch dann das
+Mittel der Wahl fÃ¼r die Realisierung gemischter Daten,
 wenn es sich nicht wirklich um zusammengesetzte Daten
 handelt.  In diesem Fall reicht es, nur einen leeren
 Baum zu haben, genauso wie es nur eine leere Liste gibt:\index{the-empty-tree@\texttt{the-empty-tree}}
@@ -93,10 +93,10 @@ Baum zu haben, genauso wie es nur eine leere Liste gibt:\index{the-empty-tree@\t
 (define the-empty-tree (make-empty-tree))
 \end{alltt}
 %
-Knoten hingegen sind tatsächlich zusammengesetzte Daten: Ein Knoten
+Knoten hingegen sind tatsÃ¤chlich zusammengesetzte Daten: Ein Knoten
 besteht aus seiner Markierung sowie linkem und rechtem
-Teilbaum.  Da es Bäume über verschiedenen Sorten von Markierungen
-gibt, ist die Signatur für Knoten parametrisch:\index{node@\texttt{node}}\index{node@\texttt{node}}
+Teilbaum.  Da es BÃ¤ume Ã¼ber verschiedenen Sorten von Markierungen
+gibt, ist die Signatur fÃ¼r Knoten parametrisch:\index{node@\texttt{node}}\index{node@\texttt{node}}
 %
 \begin{alltt}
 ; Ein Knoten besteht aus:
@@ -114,10 +114,10 @@ gibt, ist die Signatur für Knoten parametrisch:\index{node@\texttt{node}}\index{
     (node-of* x (tree-of x) (tree-of x)))))
 \end{alltt}
 %
-Hier ist die Datendefinition für Bäume im allgemeinen:
+Hier ist die Datendefinition fÃ¼r BÃ¤ume im allgemeinen:
 %
 \begin{alltt}
-; Ein Binärbaum ist eins der folgenden:
+; Ein BinÃ¤rbaum ist eins der folgenden:
 ; - ein leerer Baum
 ; - ein Knoten
 (define tree-of
@@ -146,7 +146,7 @@ folgenden Scheme-Ausdruck konstruiert werden:
     the-empty-tree)))
 \end{alltt}
 %
-Hier sind zwei weitere Beispielbäume über ganzen Zahlen:
+Hier sind zwei weitere BeispielbÃ¤ume Ã¼ber ganzen Zahlen:
 % HK: t1 modifiziert, damit node-count ein anderes Ergebnis liefert als depth
 \begin{alltt}
 (: t1 (tree-of integer))
@@ -160,11 +160,11 @@ Hier sind zwei weitere Beispielbäume über ganzen Zahlen:
 (: t2 (tree-of integer))
 (define t2 (make-node 17 (make-node 3 the-empty-tree t1) the-empty-tree))
 \end{alltt}
-Als Beispiel für das Programmieren mit Bäumen dient die
+Als Beispiel fÃ¼r das Programmieren mit BÃ¤umen dient die
 \textit{Tiefe}\index{Tiefe!eines Baumes}
-eines Binärbaums, also die maximale Anzahl von "`Ebenen"' im Bild des
-Binärbaums.  Hier sind Kurzbeschreibung, Signatur, Testfälle und
-Gerüst:\index{depth@\texttt{depth}}
+eines BinÃ¤rbaums, also die maximale Anzahl von "`Ebenen"' im Bild des
+BinÃ¤rbaums.  Hier sind Kurzbeschreibung, Signatur, TestfÃ¤lle und
+GerÃ¼st:\index{depth@\texttt{depth}}
 %
 \begin{alltt}
 ; Tiefe eines Baums berechnen
@@ -180,7 +180,7 @@ Gerüst:\index{depth@\texttt{depth}}
 %
 Es geht weiter strikt nach Anleitung: Es handelt sich um gemischte
 Daten, also kommt eine Verzweigung zum Einsatz.  Da es zwei
-verschiedene Sorten Bäume gibt, hat die Verzweigung zwei Zweige:
+verschiedene Sorten BÃ¤ume gibt, hat die Verzweigung zwei Zweige:
 %
 \begin{alltt}
 (define depth
@@ -193,7 +193,7 @@ verschiedene Sorten Bäume gibt, hat die Verzweigung zwei Zweige:
 \end{alltt}
 %
 Der erste Fall ist einfach: Der leere Baum hat die Tiefe 0.  Im
-zweiten Fall geht es um Knoten, die wiederum Bäume enthalten.  Genau
+zweiten Fall geht es um Knoten, die wiederum BÃ¤ume enthalten.  Genau
 wie bei Listen gibt es also Selbstreferenzen und damit Rekursion:
 %
 \begin{alltt}
@@ -208,10 +208,10 @@ wie bei Listen gibt es also Selbstreferenzen und damit Rekursion:
        ... (depth (node-right-branch t)) ...))))
 \end{alltt}
 %
-Die Markierung spielt keine Rolle für die Tiefe, kann also wegfallen.
-Bei den Teilbäumen spielt für die Tiefe des Knotens nur der tiefere
+Die Markierung spielt keine Rolle fÃ¼r die Tiefe, kann also wegfallen.
+Bei den TeilbÃ¤umen spielt fÃ¼r die Tiefe des Knotens nur der tiefere
 der beiden eine Rolle.  Der Knoten ist um eins tiefer als das Maximum
-der Tiefen der Teilbäume:
+der Tiefen der TeilbÃ¤ume:
 %
 \begin{alltt}
 (define depth
@@ -229,13 +229,13 @@ der Tiefen der Teilbäume:
 Scheme, die das Maximum ihrer Argumente ermittelt.)
 
 Auch \texttt{depth} folgt einer 
-Schablone, die für viele Prozeduren auf Bäumen
-gilt; Aufgabe~\ref{ex:recipe-trees} beschäftigt sich damit.
+Schablone, die fÃ¼r viele Prozeduren auf BÃ¤umen
+gilt; Aufgabe~\ref{ex:recipe-trees} beschÃ¤ftigt sich damit.
 Ihr folgt auch die Funktion \texttt{node-count}, welche die Anzahl der
-Knoten in einem Binärbaum liefert:\index{node-count@\texttt{node-count}}
+Knoten in einem BinÃ¤rbaum liefert:\index{node-count@\texttt{node-count}}
 %
 \begin{alltt}
-; Knoten in Baum zählen
+; Knoten in Baum zÃ¤hlen
 (: node-count ((tree-of %a) -> natural))
 
 (check-expect (node-count t1) 4)
@@ -253,19 +253,19 @@ Knoten in einem Binärbaum liefert:\index{node-count@\texttt{node-count}}
 \end{alltt}
 %
 
-\section{Suchbäume}
+\section{SuchbÃ¤ume}
 \label{sec:search-trees}
 
-Viele Programme benötigen irgendeine Form von Suchfunktionalität in
-einer Menge von Daten: Es könnte sich um die Suche nach einer
+Viele Programme benÃ¶tigen irgendeine Form von SuchfunktionalitÃ¤t in
+einer Menge von Daten: Es kÃ¶nnte sich um die Suche nach einer
 Telefonnummer, einer Primzahl oder einer schon geleisteten Aufgabe
-handeln.  Eine effiziente Realisierung für eine Suchfunktionalität
-sind \textit{Suchbäume\index{Suchbaum}}.  Ein Suchbaum besteht aus
-"`Elementen"': Neue Elemente können eingefügt werden, und für ein
+handeln.  Eine effiziente Realisierung fÃ¼r eine SuchfunktionalitÃ¤t
+sind \textit{SuchbÃ¤ume\index{Suchbaum}}.  Ein Suchbaum besteht aus
+"`Elementen"': Neue Elemente kÃ¶nnen eingefÃ¼gt werden, und fÃ¼r ein
 gegebenes Element kann festgestellt werden, ob es im Suchbaum
 vorhanden ist.
 
-Suchbäume setzen eine Gleichheitsoperation und eine totale Ordnung auf
+SuchbÃ¤ume setzen eine Gleichheitsoperation und eine totale Ordnung auf
 den Elementen (siehe Definition~\ref{def:total-order}) voraus.
 
 \begin{figure}[tb]
@@ -276,40 +276,40 @@ den Elementen (siehe Definition~\ref{def:total-order}) voraus.
     \pstree{\Tr{\texttt{Q}}} { \pstree{\Tr{\texttt{P}}}{\Tdot \Tdot} \pstree{\Tr{\texttt{R}}}{\Tdot \Tdot} } }
 \end{center}
 \end{pspdf}
-  \caption{Ein Suchbaum über Buchstaben}
+  \caption{Ein Suchbaum Ã¼ber Buchstaben}
   \label{fig:searchtree}
 \end{figure}
 
 \index{Suchbaum}\index{Baum!Such-} Sei also $S$ eine total geordnete
-Menge.  Dann ist ein \textit{Suchbaum} über $S$ ein Binärbaum, so daß bei
+Menge.  Dann ist ein \textit{Suchbaum} Ã¼ber $S$ ein BinÃ¤rbaum, so daÃŸ bei
 jedem Knoten alle Markierungen in seinem linken Teilbaum kleiner und
-alle in seinem rechten Teilbaum größer sind als die Markierung des Knotens
-selbst.  Diese Eigenschaft des Baums heißt auch
-\textit{Suchbaumeigenschaft} (bezüglich der gewählten totalen
+alle in seinem rechten Teilbaum grÃ¶ÃŸer sind als die Markierung des Knotens
+selbst.  Diese Eigenschaft des Baums heiÃŸt auch
+\textit{Suchbaumeigenschaft} (bezÃ¼glich der gewÃ¤hlten totalen
 Ordnung).
-Abbildung~\ref{fig:searchtree} zeigt einen Suchbaum über Buchstaben,
+Abbildung~\ref{fig:searchtree} zeigt einen Suchbaum Ã¼ber Buchstaben,
 die alphabetisch geordnet sind.
 
 Die Markierung eines Knotens bestimmt,
 in welchem Teilbaum
-des Knotens eine gesuchte Markierung stecken muß, wenn diese nicht sowieso schon die gesuchte ist: Ist die gesuchte
-Markierung kleiner als die des Knotens, so muß sie (wenn überhaupt) im
-linken Teilbaum stecken; wenn sie größer ist, im rechten.
-Insbesondere ist es nicht nötig, im jeweils anderen Teilbaum nach der
+des Knotens eine gesuchte Markierung stecken muÃŸ, wenn diese nicht sowieso schon die gesuchte ist: Ist die gesuchte
+Markierung kleiner als die des Knotens, so muÃŸ sie (wenn Ã¼berhaupt) im
+linken Teilbaum stecken; wenn sie grÃ¶ÃŸer ist, im rechten.
+Insbesondere ist es nicht nÃ¶tig, im jeweils anderen Teilbaum nach der
 Markierung zu suchen.
 
-Für Suchbäume wird ein neuer Record-Typ
+FÃ¼r SuchbÃ¤ume wird ein neuer Record-Typ
 definiert.\index{search-tree@\texttt{search-tree}} Zu einem Suchbaum
-gehören neben dem Baum selbst auch noch Operationen für
-Gleichheit und die "`Kleiner-als"'-Relation auf den Markierungen, beide repräsentiert durch
-Prädikate (die zum Binärbaum und zueinander passen müssen).  Genau wie
-Bäume sind auch Suchbäume parametrisch:
+gehÃ¶ren neben dem Baum selbst auch noch Operationen fÃ¼r
+Gleichheit und die "`Kleiner-als"'-Relation auf den Markierungen, beide reprÃ¤sentiert durch
+PrÃ¤dikate (die zum BinÃ¤rbaum und zueinander passen mÃ¼ssen).  Genau wie
+BÃ¤ume sind auch SuchbÃ¤ume parametrisch:
 %
 \begin{alltt}
 ; Ein Suchbaum besteht aus
 ; - einer Funktion, die zwei Markierungen auf Gleichheit testet,
 ; - einer Funktion, die vergleicht, ob eine Markierung kleiner als die andere ist
-; - einem Binärbaum
+; - einem BinÃ¤rbaum
 (: make-search-tree ((%a %a -> boolean) 
                      (%a %a -> boolean) 
                      (tree-of %a) 
@@ -331,7 +331,7 @@ Bäume sind auch Suchbäume parametrisch:
      (search-tree-of* (x x -> boolean) (x x -> boolean) (tree-of x)))))
 \end{alltt}
 %
-Alle Suchbäume fangen
+Alle SuchbÃ¤ume fangen
 beim leeren Suchbaum an:\index{make-empty-search-tree@\texttt{make-empty-search-tree}}
 %
 \begin{alltt}
@@ -344,7 +344,7 @@ beim leeren Suchbaum an:\index{make-empty-search-tree@\texttt{make-empty-search-
                       the-empty-tree)))
 \end{alltt}
 %
-Ohne weiterführende Prozeduren gibt es hier noch nichts zu testen. Hier kommt
+Ohne weiterfÃ¼hrende Prozeduren gibt es hier noch nichts zu testen. Hier kommt
 aber schon ein Beispiel zu Testzwecken:
 
 \begin{alltt}
@@ -364,7 +364,7 @@ Die nachfolgende Funktion \texttt{search"=tree"=member?}
 stellt fest, ob ein Knoten mit Markierung \texttt{l} in einem
 Suchbaum \texttt{s} vorhanden ist. Die eigentliche Arbeit
 macht die lokale Hilfsprozedur \texttt{member?},\index{search-tree-member?@\texttt{search-tree-member?}}
-die auf dem zugrundeliegenden Binärbaum operiert.  Da \texttt{member?} rekursiv
+die auf dem zugrundeliegenden BinÃ¤rbaum operiert.  Da \texttt{member?} rekursiv
 ist, wird sie mit \texttt{letrec} (siehe
 Abbildung~\ref{scheme:letrec}) gebunden.
 %
@@ -399,26 +399,26 @@ Abbildung~\ref{scheme:letrec}) gebunden.
         (member? (search-tree-tree s))))))
 \end{alltt}
 %
-\texttt{Search-tree-member?} packt zunächst die beiden
+\texttt{Search-tree-member?} packt zunÃ¤chst die beiden
 Vergleichsoperationen \texttt{label-equal?} und
 \texttt{label-less-than?} aus dem Suchbaum aus.
 Dann wird die Hilfsprozedur \texttt{member?} aufgerufen.
 
-Da es zwei Arten Binärbäume gibt, folgt 
-\texttt{member?} zunächst der Konstruktionsanleitung für
-gemischte Daten.  Im Zweig für den leeren Baum ist die Antwort
-klar.  Im Zweig für einen Knoten vergleicht \texttt{member?} die
+Da es zwei Arten BinÃ¤rbÃ¤ume gibt, folgt 
+\texttt{member?} zunÃ¤chst der Konstruktionsanleitung fÃ¼r
+gemischte Daten.  Im Zweig fÃ¼r den leeren Baum ist die Antwort
+klar.  Im Zweig fÃ¼r einen Knoten vergleicht \texttt{member?} die
 gesuchte Markierung mit der des Knotens.  Dabei gibt es drei
-Möglichkeiten, also auch drei Zweige: Bei Gleichheit ist die Markierung
+MÃ¶glichkeiten, also auch drei Zweige: Bei Gleichheit ist die Markierung
 gefunden.  Ansonsten wird \texttt{member?} entweder auf den linken
 oder den rechten Teilbaum angewendet, je nachdem, in welchem Teilbaum
-die Markierung stehen muß.
+die Markierung stehen muÃŸ.
 
 \texttt{Search-tree-member?} kann nur richtig funktionieren, wenn das
-Argument \texttt{s} tatsächlich die Suchbaumeigenschaft
-erfüllt.  Rein prinzipiell ist es möglich, durch Mißbrauch von
+Argument \texttt{s} tatsÃ¤chlich die Suchbaumeigenschaft
+erfÃ¼llt.  Rein prinzipiell ist es mÃ¶glich, durch MiÃŸbrauch von
 \texttt{make-search-tree} einen Wert vom Typ \texttt{search-tree} zu
-erzeugen, der nicht die Suchbaumeigenschaft erfüllt, wie etwa
+erzeugen, der nicht die Suchbaumeigenschaft erfÃ¼llt, wie etwa
 \texttt{s2} hier:
 %
 \begin{alltt}
@@ -430,7 +430,7 @@ erzeugen, der nicht die Suchbaumeigenschaft erfüllt, wie etwa
               (make-node 3 the-empty-tree the-empty-tree))))
 \end{alltt}
 %
-Zu \texttt{s2} paßt das folgende Bild:
+Zu \texttt{s2} paÃŸt das folgende Bild:
 %
 \begin{pspdf}
 \begin{center}
@@ -458,16 +458,16 @@ Aus diesem Grund sollte \texttt{make-search-tree} nur "`intern"'
 verwendet werden.   Ansonsten sollten nur die Funktionen \texttt{make"=empty"=search"=tree} und eine
 neue Funktion \texttt{search"=tree"=insert} verwendet werden, die
 ein neues Element in den
-Suchbaum einfügt und dabei die Suchbaumeigenschaft
-erhält.\index{search-tree-insert@\texttt{search-tree-insert}}
+Suchbaum einfÃ¼gt und dabei die Suchbaumeigenschaft
+erhÃ¤lt.\index{search-tree-insert@\texttt{search-tree-insert}}
 Hier Kurzbeschreibung und Signatur:
 %
 \begin{alltt}
-; neues Element in Suchbaum einfügen
+; neues Element in Suchbaum einfÃ¼gen
 (: search-tree-insert (%a (search-tree-of %a) -> (search-tree-of %a)))
 \end{alltt}
 %
-Für die Testfälle wird ein Suchbaum \texttt{s3} wie folgt definiert:
+FÃ¼r die TestfÃ¤lle wird ein Suchbaum \texttt{s3} wie folgt definiert:
 %
 \begin{alltt}
 (define s3
@@ -480,7 +480,7 @@ Für die Testfälle wird ein Suchbaum \texttt{s3} wie folgt definiert:
      (make-empty-search-tree = <)))))
 \end{alltt}
 %
-Die Testfälle werden dann wie zuvor mit Hilfe von
+Die TestfÃ¤lle werden dann wie zuvor mit Hilfe von
 \texttt{search"=tree"=member?} formuliert:
 %
 \begin{alltt}
@@ -491,9 +491,9 @@ Die Testfälle werden dann wie zuvor mit Hilfe von
 (check-expect (search-tree-member? -1 s3) #f)
 \end{alltt}
 %
-Zu beachten ist, daß die Definition von \texttt{s3} im Programm
+Zu beachten ist, daÃŸ die Definition von \texttt{s3} im Programm
 \emph{hinter} die Definition von \texttt{search-tree-insert} gestellt
-wird, da diese Prozedur für die Auswertung der rechten Seite benötigt wird.
+wird, da diese Prozedur fÃ¼r die Auswertung der rechten Seite benÃ¶tigt wird.
 %
 \begin{alltt}
 (define search-tree-insert
@@ -526,7 +526,7 @@ wird, da diese Prozedur für die Auswertung der rechten Seite benötigt wird.
 %
 Im Herzen von \texttt{search-tree-insert} erledigt die rekursive
 Hilfsprozedur \texttt{insert} die eigentliche Arbeit: Soll
-\texttt{l} in den leeren Baum eingefügt werden, so gibt
+\texttt{l} in den leeren Baum eingefÃ¼gt werden, so gibt
 \texttt{insert} einen trivialen Baum der Form
 %
 \begin{pspdf}
@@ -536,28 +536,28 @@ Hilfsprozedur \texttt{insert} die eigentliche Arbeit: Soll
 \end{center}
 \end{pspdf}
 % 
-zurück.  Wenn \texttt{t} ein Knoten ist, gibt es wieder drei Fälle:
+zurÃ¼ck.  Wenn \texttt{t} ein Knoten ist, gibt es wieder drei FÃ¤lle:
 Wenn \texttt{l} mit der
-Knotenmarkierung übereinstimmt, so ist es bereits im alten Baum
-vorhanden~-- \texttt{insert} kann \texttt{t} unverändert
-zurückgeben.  Ansonsten muß
-\texttt{l} im linken oder rechten Teilbaum eingefügt werden,
+Knotenmarkierung Ã¼bereinstimmt, so ist es bereits im alten Baum
+vorhanden~-- \texttt{insert} kann \texttt{t} unverÃ¤ndert
+zurÃ¼ckgeben.  Ansonsten muÃŸ
+\texttt{l} im linken oder rechten Teilbaum eingefÃ¼gt werden,
 und \texttt{insert} bastelt aus dem neuen Teilbaum und dem anderen, alten Teilbaum
 einen neuen Baum zusammen.
 
 Das Resultat des Aufrufs von \texttt{insert} am Ende der Funktion wird
-schließlich wieder in einen \texttt{search-tree}-Wert eingepackt,
+schlieÃŸlich wieder in einen \texttt{search-tree}-Wert eingepackt,
 mit denselben \texttt{label-equal}- und \texttt{label"=less"=than}"=Operationen wie vorher.
 
-Die Prozedur \texttt{search-tree-member?} muß für den Suchbaum in
+Die Prozedur \texttt{search-tree-member?} muÃŸ fÃ¼r den Suchbaum in
 Abbildung~\ref{fig:searchtree} nicht alle Elemente nach dem gesuchten
 durchforsten; \texttt{search-tree-member?} sucht auf direktem Weg
 von der Wurzel des Suchbaums nach unten zum gesuchten Element.  Da pro
-weiterer "`Ebene"' eines Binärbaums jeweils doppelt soviele Elemente
-Platz finden als in der vorhergehenden, wächst die Anzahl der Ebenen
+weiterer "`Ebene"' eines BinÃ¤rbaums jeweils doppelt soviele Elemente
+Platz finden als in der vorhergehenden, wÃ¤chst die Anzahl der Ebenen
 des Baums~-- die Tiefe also~-- nur mit dem Zweierlogarithmus der
-Anzahl der Elemente, also viel langsamer als zum Beispiel die Länge
-einer Liste, die alle Elemente aufnehmen müßte.
+Anzahl der Elemente, also viel langsamer als zum Beispiel die LÃ¤nge
+einer Liste, die alle Elemente aufnehmen mÃ¼ÃŸte.
 
 \begin{figure}[tb]
   \begin{pspdf}
@@ -577,14 +577,14 @@ einer Liste, die alle Elemente aufnehmen müßte.
 
 Leider ist nicht jeder Suchbaum so angenehm organisiert wie der in
 Abbildung~\ref{fig:searchtree}.  Abbildung~\ref{fig:stupid-searchtree}
-zeigt einen Binärbaum, der zwar die Suchbaumeigenschaft erfüllt, aber
+zeigt einen BinÃ¤rbaum, der zwar die Suchbaumeigenschaft erfÃ¼llt, aber
 \textit{entartet\index{entarteter Suchbaum}\index{Suchbaum!entartet}}
 ist:\label{label:entartet}
 In diesem Suchbaum dauert die Suche genauso
 lang wie in einer Liste.  Welche Form der Suchbaum hat und ob er
-entartet wird, hängt von der
+entartet wird, hÃ¤ngt von der
 Reihenfolge der Aufrufe von \texttt{search"=tree"=insert}
-ab, mit denen er konstruiert wird.  Es gibt allerdings Varianten von Suchbäumen, die bei
+ab, mit denen er konstruiert wird.  Es gibt allerdings Varianten von SuchbÃ¤umen, die bei
   \texttt{search-tree-insert} die Entartung vermeiden und den
   Suchbaum \textit{balancieren}.
 
@@ -592,33 +592,33 @@ ab, mit denen er konstruiert wird.  Es gibt allerdings Varianten von Suchbäumen,
 \section{Eigenschaften der Suchbaum-Operationen}
 
 \texttt{Search-tree-insert} ist eine der komplizierteren Funktionen in
-diesem Buch; es ist alles andere als offensichtlich, daß sie korrekt
-ist.  Die Testfälle mögen zwar punktuell auf die Korrektheit von
+diesem Buch; es ist alles andere als offensichtlich, daÃŸ sie korrekt
+ist.  Die TestfÃ¤lle mÃ¶gen zwar punktuell auf die Korrektheit von
 \texttt{search-tree-insert} und \texttt{search-tree-member?}
 hindeuten, Sicherheit liefern sie jedoch nicht.  Der erste Schritt, um
 mehr Vertrauen in die Korrektheit zu gewinnen, ist die Formulierung
-von Eigenschaften und deren Überprüfung mit \texttt{check-expect}.
+von Eigenschaften und deren ÃœberprÃ¼fung mit \texttt{check-expect}.
 Der zweite Schritt ist ein Beweis der Suchbaumeigenschaft.
 
-Um interessante Eigenschaften zu formulieren, müssen
+Um interessante Eigenschaften zu formulieren, mÃ¼ssen
 \texttt{search-tree-insert} und \texttt{search"=tree"=member} gemeinsam
 betrachtet werden: \texttt{search-tree-insert} allein kann nichts
-sinnvolles anstellen, wenn nach den eingefügten Elementen nicht auch
+sinnvolles anstellen, wenn nach den eingefÃ¼gten Elementen nicht auch
 gesucht werden kann.  Die wichtigsten Eigenschaften sind folgende:
 %
 \begin{enumerate}
-\item Ein mit \texttt{search-tree-insert} eingefügtes Element wird
+\item Ein mit \texttt{search-tree-insert} eingefÃ¼gtes Element wird
   stets von \texttt{search"=tree"=member?} wieder gefunden.
-\item Wenn ein Element \emph{nicht} mit in den Suchbaum eingefügt
+\item Wenn ein Element \emph{nicht} mit in den Suchbaum eingefÃ¼gt
   wurde, wird es von \texttt{search"=tree"=member?} \emph{nicht}
   gefunden.
 \end{enumerate}
 %
-Die erste Eigenschaft ergibt ohne die zweite wenig Sinn: Sie wäre auch
-erfüllt, wenn \texttt{search-tree-member?} immer \verb|#t| liefern
-würde.
+Die erste Eigenschaft ergibt ohne die zweite wenig Sinn: Sie wÃ¤re auch
+erfÃ¼llt, wenn \texttt{search-tree-member?} immer \verb|#t| liefern
+wÃ¼rde.
 
-Für einen Test mit \texttt{for-all} müssen beliebige Suchbäume
+FÃ¼r einen Test mit \texttt{for-all} mÃ¼ssen beliebige SuchbÃ¤ume
 betrachtet werden.  Allerdings funktioniert der Ansatz
 %
 \begin{alltt}
@@ -627,26 +627,26 @@ betrachtet werden.  Allerdings funktioniert der Ansatz
 \end{alltt}
 %
 nicht, schon weil \texttt{search-tree-of} eine  parametrisierte Signatur ist und
-damit nicht direkt in \texttt{for-all} verwendet kann.  Außerdem
-sollen die Suchbäume, die betrachtet werden, ja gerade mit
+damit nicht direkt in \texttt{for-all} verwendet kann.  AuÃŸerdem
+sollen die SuchbÃ¤ume, die betrachtet werden, ja gerade mit
 \texttt{search-tree-insert} konstruiert werden.  
 
-Im folgenden legen wir uns auf eine bestimmte Parametrisierung der Suchbäume
-fest, wohl wissend, dass es für die Suchbaumeigenschaft auf die
-Parametrisierung im Grunde nicht ankommt. Der nächste Versuch
-könnte deshalb so aussehen:
+Im folgenden legen wir uns auf eine bestimmte Parametrisierung der SuchbÃ¤ume
+fest, wohl wissend, dass es fÃ¼r die Suchbaumeigenschaft auf die
+Parametrisierung im Grunde nicht ankommt. Der nÃ¤chste Versuch
+kÃ¶nnte deshalb so aussehen:
 %
 \begin{alltt}
 (for-all ((el natural))
   ... (search-tree-insert el (make-empty-search-tree = <) ...)
 \end{alltt}
 %
-Eine solche Eigenschaft würde allerdings nur Suchbäume mit einem
+Eine solche Eigenschaft wÃ¼rde allerdings nur SuchbÃ¤ume mit einem
 einzigen Element einbeziehen, also eher uninteressante Vertreter ihrer
-Spezies.  Für substantielle Tests ist es notwendig, Suchbäume zu
+Spezies.  FÃ¼r substantielle Tests ist es notwendig, SuchbÃ¤ume zu
 betrachten, die aus unterschiedlichen (insbesondere unterschiedlich
 langen) Folgen von \texttt{search-tree-insert}-Operationen entstanden
-sind.  Da für die Repräsentation von Folgen in Scheme Listen zuständig
+sind.  Da fÃ¼r die ReprÃ¤sentation von Folgen in Scheme Listen zustÃ¤ndig
 sind, bietet sich eine Eigenschaft folgender Form an:
 %
 \begin{alltt}
@@ -654,8 +654,8 @@ sind, bietet sich eine Eigenschaft folgender Form an:
   ...)
 \end{alltt}
 %
-Damit es funktioniert, muß nur die Liste \texttt{els} noch in einen
-Suchbaum umgewandelt werden, der gerade ihre Elemente enthält.  Das
+Damit es funktioniert, muÃŸ nur die Liste \texttt{els} noch in einen
+Suchbaum umgewandelt werden, der gerade ihre Elemente enthÃ¤lt.  Das
 kann eine Hilfsprozedur namens \texttt{list->search"=tree} leisten.
 Hier sind Kurzbeschreibung und Signatur:
 %
@@ -665,7 +665,7 @@ Hier sind Kurzbeschreibung und Signatur:
                       (%a %a -> boolean) (list-of %a) -> (search-tree-of %a)))
 \end{alltt}
 %
-Da \texttt{list->search-tree} nur sukzessive für alle Elemente der
+Da \texttt{list->search-tree} nur sukzessive fÃ¼r alle Elemente der
 Liste \texttt{search-tree-insert} aufruft, wird sie am einfachsten mit
 \texttt{fold} programmiert:
 %
@@ -678,12 +678,12 @@ Liste \texttt{search-tree-insert} aufruft, wird sie am einfachsten mit
 \end{alltt}
 %
 Die erste Eigenschaft~-- ob also jedes mit \texttt{search-tree-insert}
-in einen Suchbaum eingefügte Element auch von
-\texttt{search-tree-member?} gefunden wird, läßt sich jetzt mit Hilfe
+in einen Suchbaum eingefÃ¼gte Element auch von
+\texttt{search-tree-member?} gefunden wird, lÃ¤ÃŸt sich jetzt mit Hilfe
 der Funktion \texttt{every?} aus Abschnitt~\ref{page:every}
-formulieren.  (Zur Erinnerung: \texttt{every?} wendet ein Prädikat auf
-alle Elemente einer Liste an und gibt \verb|#t| zurück, wenn das
-Prädikat für jedes Element \verb|#t| liefert, sonst \verb|#f|.)
+formulieren.  (Zur Erinnerung: \texttt{every?} wendet ein PrÃ¤dikat auf
+alle Elemente einer Liste an und gibt \verb|#t| zurÃ¼ck, wenn das
+PrÃ¤dikat fÃ¼r jedes Element \verb|#t| liefert, sonst \verb|#f|.)
 %
 \begin{alltt}
 (check-property
@@ -694,9 +694,9 @@ Prädikat für jedes Element \verb|#t| liefert, sonst \verb|#f|.)
              els))))
 \end{alltt}
 %
-Es fehlt noch die zweite Eigenschaft: Für ein Element, das nicht im
+Es fehlt noch die zweite Eigenschaft: FÃ¼r ein Element, das nicht im
 Suchbaum vorhanden ist, darf \texttt{search-tree-member?} auch nicht
-\verb|#t| liefern.  Zum Test der Eigenschaft gehört also wie schon bei
+\verb|#t| liefern.  Zum Test der Eigenschaft gehÃ¶rt also wie schon bei
 der ersten Eigenschaft ein beliebiger Suchbaum sowie ein einzelnes Element:
 %
 \begin{alltt}
@@ -706,7 +706,7 @@ der ersten Eigenschaft ein beliebiger Suchbaum sowie ein einzelnes Element:
 \end{alltt}
 %
 Der Test ist nur sinnvoll, wenn \texttt{el} \emph{nicht} Element der Liste
-\texttt{els} ist: Das muß erst einmal überprüft werden, und zwar durch
+\texttt{els} ist: Das muÃŸ erst einmal Ã¼berprÃ¼ft werden, und zwar durch
 eine Funktion, die testet, ob ein Wert Element einer Liste ist.  Hier
 sind Kurzbeschreibung und Signatur:
 %
@@ -715,9 +715,9 @@ sind Kurzbeschreibung und Signatur:
 (: member? ((%a %a -> boolean) %a (list-of %a) -> boolean))
 \end{alltt}
 %
-Das erste Argument ist ein Gleichheitsprädikat, welches den gesuchten
+Das erste Argument ist ein GleichheitsprÃ¤dikat, welches den gesuchten
 Wert mit den Listenelementen vergleicht.  Hier sind einige Tests,
-Gerüst und Schablone für die Prozedur, die eine Liste akzeptiert:
+GerÃ¼st und Schablone fÃ¼r die Prozedur, die eine Liste akzeptiert:
 %
 \begin{alltt}
 (check-expect (member? = 5 empty) #f)
@@ -736,9 +736,9 @@ Gerüst und Schablone für die Prozedur, die eine Liste akzeptiert:
 \end{alltt}
 %
 Im \texttt{empty?}-Zweig ist die Liste leer, das Ergebnis also
-\verb|#f|.  Im anderen Fall muß die Prozedur feststellen, ob
+\verb|#f|.  Im anderen Fall muÃŸ die Prozedur feststellen, ob
 \texttt{(first lis)} gerade das gesuchte Element \texttt{el} ist.
-Vollständig sieht die Prozedur so aus:
+VollstÃ¤ndig sieht die Prozedur so aus:
 %
 \begin{alltt}
 (define member?
@@ -751,7 +751,7 @@ Vollständig sieht die Prozedur so aus:
            (member? = el (rest lis)))))))
 \end{alltt}
 %
-Zurück zur Eigenschaft von \texttt{search-tree-member?}: Immer dann,
+ZurÃ¼ck zur Eigenschaft von \texttt{search-tree-member?}: Immer dann,
 wenn \texttt{el} \emph{nicht} Element von \texttt{els} ist, darf auch
 \texttt{search-tree-member?} \texttt{el} nicht finden.  Diese
 Implikation wird mit \texttt{==>} formuliert:
@@ -764,33 +764,33 @@ Implikation wird mit \texttt{==>} formuliert:
         (not (search-tree-member? el (list->search-tree = < els)))))) 
 \end{alltt}
 %
-Die beiden \texttt{check-property}-Tests stärken also das Vertrauen in
+Die beiden \texttt{check-property}-Tests stÃ¤rken also das Vertrauen in
 die korrekte Funktionsweise von \texttt{search-tree-insert} und
-\texttt{search-tree-member?}.  Aber auch hier ist Kontrolle über einen
+\texttt{search-tree-member?}.  Aber auch hier ist Kontrolle Ã¼ber einen
 Beweis der Korrektheit noch besser:
-Es lohnt sich, etwas formaler über die
-Korrektheit von \texttt{search-tree-insert} nachzudenken.  Zunächst
+Es lohnt sich, etwas formaler Ã¼ber die
+Korrektheit von \texttt{search-tree-insert} nachzudenken.  ZunÃ¤chst
 einmal ist es wichtig, zu formulieren, was der Begriff "`Korrektheit"'
-im Zusammenhang mit \texttt{search-tree-insert} überhaupt bedeutet:
+im Zusammenhang mit \texttt{search-tree-insert} Ã¼berhaupt bedeutet:
 %
 \begin{satz}\label{satz:suchbaum}
-  \texttt{Search-tree-insert} \emph{erhält die Suchbaumeigenschaft}.
+  \texttt{Search-tree-insert} \emph{erhÃ¤lt die Suchbaumeigenschaft}.
   Oder mit anderen Worten: Wenn das \texttt{search-tree}-Argument von
-  \texttt{search"=tree"=insert} die Suchbaumeigenschaft erfüllt, so
-  erfüllt auch der zurückgegebene Baum die Suchbaumeigenschaft\index{Suchbaumeigenschaft}.
+  \texttt{search"=tree"=insert} die Suchbaumeigenschaft erfÃ¼llt, so
+  erfÃ¼llt auch der zurÃ¼ckgegebene Baum die Suchbaumeigenschaft\index{Suchbaumeigenschaft}.
 \end{satz}
 %
 \begin{beweis}
   Die Korrektheit ist an der Hilfsprozedur \texttt{insert}
   festgemacht: Wenn das Argument von \texttt{insert} die
-  Suchbaumeigenschaft erfüllt, so muß auch der Rückgabewert sie
-  erfüllen.  Der Beweis funktioniert über strukturelle Induktion über
+  Suchbaumeigenschaft erfÃ¼llt, so muÃŸ auch der RÃ¼ckgabewert sie
+  erfÃ¼llen.  Der Beweis funktioniert Ã¼ber strukturelle Induktion Ã¼ber
   den Wert \texttt{t}, der an den Baum $\tau$ gebunden sei.  Im
-  Beweis gibt es vier Fälle, die den Zweigen der \texttt{cond}-Formen
+  Beweis gibt es vier FÃ¤lle, die den Zweigen der \texttt{cond}-Formen
   entsprechen:
 %
 \begin{itemize}
-\item $\tau$ ist der leere Baum.  Der dann zurückgegebene Baum
+\item $\tau$ ist der leere Baum.  Der dann zurÃ¼ckgegebene Baum
   der Form
 \begin{pspdf}
   \begin{center}
@@ -798,13 +798,13 @@ im Zusammenhang mit \texttt{search-tree-insert} überhaupt bedeutet:
     {\Tdot\Tdot}
   \end{center}
 \end{pspdf}
-erfüllt offensichtlich die Suchbaumeigenschaft.
+erfÃ¼llt offensichtlich die Suchbaumeigenschaft.
 \item $\tau$ ist ein Knoten, dessen Markierung mit
-  $l$ übereinstimmt.  Dann gibt \texttt{insert} 
-  $\tau$ zurück.  Da $\tau$ nach Voraussetzung die
-  Suchbaumeigenschaft erfüllt, ist auch hier die
+  $l$ Ã¼bereinstimmt.  Dann gibt \texttt{insert} 
+  $\tau$ zurÃ¼ck.  Da $\tau$ nach Voraussetzung die
+  Suchbaumeigenschaft erfÃ¼llt, ist auch hier die
   Suchbaumeigenschaft erhalten.
-\item $\tau$ ist ein Knoten, dessen Markierung \emph{größer}
+\item $\tau$ ist ein Knoten, dessen Markierung \emph{grÃ¶ÃŸer}
   ist als $l$, sieht also so aus:
 \begin{pspdf}
   \begin{center}
@@ -816,8 +816,8 @@ erfüllt offensichtlich die Suchbaumeigenschaft.
   \end{center}
 \end{pspdf}
   wobei sowohl $a$ als auch $b$ selbst die Suchbaumeigenschaft
-  erfüllen. In diesem
-  Fall sieht der entstehende Baum folgendermaßen aus:
+  erfÃ¼llen. In diesem
+  Fall sieht der entstehende Baum folgendermaÃŸen aus:
   %
   \begin{pspdf}
   \begin{center}
@@ -829,15 +829,15 @@ erfüllt offensichtlich die Suchbaumeigenschaft.
   \end{center}
   \end{pspdf}
 % 
-  Per Induktionsannahme erfüllt \texttt{(insert \valof{a})} die
+  Per Induktionsannahme erfÃ¼llt \texttt{(insert \valof{a})} die
   Suchbaumeigenschaft.  Da $b$ auch die Suchbaumeigenschaft
-  erfüllt, muß nur noch gezeigt werden, daß alle Markierungen in
+  erfÃ¼llt, muÃŸ nur noch gezeigt werden, daÃŸ alle Markierungen in
   \texttt{(insert \valof{a})} kleiner sind als $m$.
   Es gibt in \texttt{insert} drei Aufrufe von \texttt{make-node},
-  die neue Knoten erzeugen können.  Alle fügen höchstens
+  die neue Knoten erzeugen kÃ¶nnen.  Alle fÃ¼gen hÃ¶chstens
   \texttt{l} zu der Menge der Markierungen des Baumes hinzu.
   Alle anderen Markierungen sind nach Voraussetzung kleiner als $m$,
-  ebenso wie \texttt{l}.  Das Resultat erfüllt also ebenfalls
+  ebenso wie \texttt{l}.  Das Resultat erfÃ¼llt also ebenfalls
   die Suchbaumeigenschaft.
 \item Im vierten Fall ist $\tau$ ein Knoten, dessen Markierung
   \emph{kleiner} ist als $l$.  Dieser Fall geht analog zum
@@ -849,49 +849,49 @@ erfüllt offensichtlich die Suchbaumeigenschaft.
 
 \begin{aufgabe}
   \label{ex:recipe-trees}
-  Formulieren Sie eine spezielle Schablone für Prozeduren, die
-  Binärbäume akzeptieren!
+  Formulieren Sie eine spezielle Schablone fÃ¼r Prozeduren, die
+  BinÃ¤rbÃ¤ume akzeptieren!
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie eine Prozedur, die einen Binärbaum akzeptiert
-  und eine Liste aller Markierungen in dem Baum zurückgibt.
+  Schreiben Sie eine Prozedur, die einen BinÃ¤rbaum akzeptiert
+  und eine Liste aller Markierungen in dem Baum zurÃ¼ckgibt.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Wie muß \texttt{search-tree-insert} aufgerufen werden, um den
-  Suchbaum in Abbildung~\ref{fig:searchtree} zu erzeugen?  Wie muß
+  Wie muÃŸ \texttt{search-tree-insert} aufgerufen werden, um den
+  Suchbaum in Abbildung~\ref{fig:searchtree} zu erzeugen?  Wie muÃŸ
   \texttt{search"=tree"=insert} aufgerufen werden, um den Suchbaum in
   Abbildung~\ref{fig:stupid-searchtree} zu erzeugen?
 \end{aufgabe}
 
 \begin{aufgabe}
   Schreiben Sie eine Funktion \texttt{search-tree-delete}, die ein
-  Element aus einem Suchbaum entfernt.  Beweisen Sie, daß die Prozedur die
-  Suchbaumeigenschaft erhält.
+  Element aus einem Suchbaum entfernt.  Beweisen Sie, daÃŸ die Prozedur die
+  Suchbaumeigenschaft erhÃ¤lt.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Die Implementierung von Suchbäumen ist für viele Suchprobleme nicht
-  mächtig genug, da \texttt{search-tree-member?} nur überprüft,
+  Die Implementierung von SuchbÃ¤umen ist fÃ¼r viele Suchprobleme nicht
+  mÃ¤chtig genug, da \texttt{search-tree-member?} nur Ã¼berprÃ¼ft,
   \emph{ob} ein Element in einem Suchbaum vorhanden ist.  Das hilft
   nicht viel z.B.\ beim Suchen von Telefonnummern zu gegebenen Namen.
-  Erweitern Sie die Implementierung so, daß sie auch z.B.\ zum Suchen
+  Erweitern Sie die Implementierung so, daÃŸ sie auch z.B.\ zum Suchen
   von Telefonnummern verwendet werden kann.  Realisieren Sie
   exemplarisch das Suchen nach Telefonnummern!
 
   Hinweis: Benutzen Sie als Markierungen im Suchbaum sogenannte
-  \textit{Einträge}, die aus eine \textit{Schlüssel} (z.B.\ dem Namen)
+  \textit{EintrÃ¤ge}, die aus eine \textit{SchlÃ¼ssel} (z.B.\ dem Namen)
   und dem \textit{Wert} bestehen.  Schreiben Sie dazu parametrische Daten-,
-  Record- und Signaturdefinitionen. Ändern Sie \texttt{search-tree-insert}
-  dahingehend, daß es Schlüssel und Element akzeptiert.  Schreiben Sie eine
-  Prozedur \texttt{search-tree-find}, die zu einem Schlüssel den
-  zugehörigen Wert findet.
+  Record- und Signaturdefinitionen. Ã„ndern Sie \texttt{search-tree-insert}
+  dahingehend, daÃŸ es SchlÃ¼ssel und Element akzeptiert.  Schreiben Sie eine
+  Prozedur \texttt{search-tree-find}, die zu einem SchlÃ¼ssel den
+  zugehÃ¶rigen Wert findet.
 \end{aufgabe}
 
 \begin{aufgabe}
   Beweisen Sie die Korrektheit von \texttt{search-tree-member?}.
-  Formulieren Sie zunächst eine geeignete Korrektheitseigenschaft und
+  Formulieren Sie zunÃ¤chst eine geeignete Korrektheitseigenschaft und
   beweisen Sie diese mit Hilfe von Induktion!
 \end{aufgabe}
 

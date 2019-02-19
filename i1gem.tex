@@ -10,33 +10,33 @@ Manchmal kommen an einer Stelle in unserem Problem verschiedene
 Klassen der gleichen Sorte Daten vor:
 %
 \begin{itemize}
-\item Ein Tier kann ein Gürteltier oder ein Papagei sein.
+\item Ein Tier kann ein GÃ¼rteltier oder ein Papagei sein.
 \item Eine Koordinate kann eine kartesische Koordinate oder eine
   Polarkoordinate sein.
-\item Ein Essen kann ein Frühstück, Mittagessen oder Abendessen sein.
+\item Ein Essen kann ein FrÃ¼hstÃ¼ck, Mittagessen oder Abendessen sein.
 \end{itemize}
 %
-Solche Daten heißen \textit{gemischte Daten\index{gemischte Daten}}.
+Solche Daten heiÃŸen \textit{gemischte Daten\index{gemischte Daten}}.
 
-Obwohl die Daten verschiedenartig sind, unterstützen sie doch
-gemeinsame Operationen: Das Gewicht eines Tiers kann sowohl für
-Gürteltiere als auch Papageien berechnet werden, der Abstand vom
-Ursprung kann für beide Koordinatendarstellungen berechnet werden, die
-Anzahl der Gänge kann für jede Art Essen bestimmt werden.
+Obwohl die Daten verschiedenartig sind, unterstÃ¼tzen sie doch
+gemeinsame Operationen: Das Gewicht eines Tiers kann sowohl fÃ¼r
+GÃ¼rteltiere als auch Papageien berechnet werden, der Abstand vom
+Ursprung kann fÃ¼r beide Koordinatendarstellungen berechnet werden, die
+Anzahl der GÃ¤nge kann fÃ¼r jede Art Essen bestimmt werden.
 
 \section{Gemischte Daten}
 \label{sec:mixed-data}
 
 In der Einleitung war die Rede von Papageien:\index{Papagei} die benutzen wir, um
-gemischte Daten einzuführen.  Vorher müssen wir jedoch Papageien mit den bekannten
-Mitteln definieren.  Wir erweitern dafür die Datei mit dem Gürteltier
+gemischte Daten einzufÃ¼hren.  Vorher mÃ¼ssen wir jedoch Papageien mit den bekannten
+Mitteln definieren.  Wir erweitern dafÃ¼r die Datei mit dem GÃ¼rteltier
 aus dem vorigen Kapitel.
 
-Genau wie bei Gürteltieren interessiert uns bei Papageien das Gewicht,
+Genau wie bei GÃ¼rteltieren interessiert uns bei Papageien das Gewicht,
 aber wir nehmen an, da Papageien in der Regel nicht auf texanischen
-Highways überfahren werden, daß sie immer lebendig sind.  Außerdem
-betrachten wir ausschließlich sprechende Papageien, die jeweils einen
-einzelnen Satz sagen können.  Hier die Datendefinition:
+Highways Ã¼berfahren werden, daÃŸ sie immer lebendig sind.  AuÃŸerdem
+betrachten wir ausschlieÃŸlich sprechende Papageien, die jeweils einen
+einzelnen Satz sagen kÃ¶nnen.  Hier die Datendefinition:
 %
 \begin{verbatim}
 ; Ein Papagei hat folgende Eigenschaften:
@@ -61,29 +61,29 @@ Hier die dazu passende Record-Definition:
 (: parrot-sentence (parrot -> string))
 \end{verbatim}
 %
-Hier zwei Beispiele für Papageien:
+Hier zwei Beispiele fÃ¼r Papageien:
 %
 \begin{verbatim}
-(define p1 (make-parrot 10000 "Der Gärtner war's.")) ; 10kg, Miss Marple
+(define p1 (make-parrot 10000 "Der GÃ¤rtner war's.")) ; 10kg, Miss Marple
 (define p2 (make-parrot 5000 "Ich liebe Dich.")) ; 5kg, Romantiker 
 \end{verbatim}
 %
-Wir können einen Papagei ähnlich wie ein Gürteltier füttern~-- nur die
+Wir kÃ¶nnen einen Papagei Ã¤hnlich wie ein GÃ¼rteltier fÃ¼ttern~-- nur die
 Portion ist kleiner, wir nehmen 50~g an.  Kurzbeschreibung und Signatur:\index{feed-parrot@\texttt{feed-parrot}}
 %
 \begin{verbatim}
-; Papagei mit 50 g Futter füttern
+; Papagei mit 50 g Futter fÃ¼ttern
 (: feed-parrot (parrot -> parrot))
 \end{verbatim}
 %
-Testfälle:
+TestfÃ¤lle:
 %
 \begin{verbatim}
-(check-expect (feed-parrot p1) (make-parrot 10050 "Der Gärtner war's."))
+(check-expect (feed-parrot p1) (make-parrot 10050 "Der GÃ¤rtner war's."))
 (check-expect (feed-parrot p2) (make-parrot 5050 "Ich liebe Dich."))
 \end{verbatim}
 %
-Gerüst:
+GerÃ¼st:
 %
 \begin{verbatim}
 (define feed-parrot
@@ -91,7 +91,7 @@ Gerüst:
     ...))
 \end{verbatim}
 %
-Die Schablone entsteht aus der Kombination der Schablonen für
+Die Schablone entsteht aus der Kombination der Schablonen fÃ¼r
 zusammengesetzte Daten als Ein- und als Ausgabe:
 %
 \begin{verbatim}
@@ -102,7 +102,7 @@ zusammengesetzte Daten als Ein- und als Ausgabe:
     ... (parrot-sentence p) ...))
 \end{verbatim}
 %
-\ldots{} und schließlich der vollständige Rumpf:
+\ldots{} und schlieÃŸlich der vollstÃ¤ndige Rumpf:
 %
 \begin{verbatim}
 (define feed-parrot
@@ -114,10 +114,10 @@ zusammengesetzte Daten als Ein- und als Ausgabe:
 %
 Fertig!
 
-Sie können sich vielleicht vorstellen, dass  Papageien und
-Gürteltiere sich in einem Programm begegnen, also \emph{gemischt}
-vorkommen.  Papageien und Gürteltiere gehören zum gemeinsamen
-Oberbegriff \textit{Tier}\index{Tier}.  Dafür könnte eine
+Sie kÃ¶nnen sich vielleicht vorstellen, dass  Papageien und
+GÃ¼rteltiere sich in einem Programm begegnen, also \emph{gemischt}
+vorkommen.  Papageien und GÃ¼rteltiere gehÃ¶ren zum gemeinsamen
+Oberbegriff \textit{Tier}\index{Tier}.  DafÃ¼r kÃ¶nnte eine
 Beschreibung so aussehen:
 
 \medskip
@@ -125,42 +125,42 @@ Beschreibung so aussehen:
 \noindent Ein \textit{Tier} ist eins der folgenden:
 % 
 \begin{itemize}
-\item ein Gürteltier
+\item ein GÃ¼rteltier
 \item ein Papagei
 \end{itemize}
 %
 Die Formulierung "<eins der folgenden"> passt nicht zu
 zusammengesetzen Daten, bei denen "<besteht aus"> oder "<hat folgende
-Eigenschaften"> oder so ähnlich vorkommen müssten.
+Eigenschaften"> oder so Ã¤hnlich vorkommen mÃ¼ssten.
 Das ist ein Hinweis auf
 eine neue Form der Organisation von Daten: \textit{gemischte
   Daten}.\index{gemischte Daten} Entsprechend ist es durchaus
 sinnvoll, nach dem "<Gewicht eines Tiers"> zu fragen oder "<ein Tier
-zu füttern">, was wir im folgenden auch vorhaben.
+zu fÃ¼ttern">, was wir im folgenden auch vorhaben.
 
 Die Beschreibung des Begriffs "<Tier"> ist bereits als Datendefinition
-geeignet, und muß für Inklusion im Programm nur als Kommentar
+geeignet, und muÃŸ fÃ¼r Inklusion im Programm nur als Kommentar
 umformatiert werden:
 %
 \begin{verbatim}
 ; Ein Tier ist eins der folgenden:
-; - Gürteltier
+; - GÃ¼rteltier
 ; - Papagei
 \end{verbatim}
 %
 Bei zusammengesetzen Daten kann die Datendefinition in eine
-Record-Definition überführt werden.  In diesem Fall sind die
-Record-Definitionen für alle Tiere schon da.  Wenn wir Tier in
+Record-Definition Ã¼berfÃ¼hrt werden.  In diesem Fall sind die
+Record-Definitionen fÃ¼r alle Tiere schon da.  Wenn wir Tier in
 Funktionen verarbeiten wollen, brauchen wir allerdings eine Signatur
-für Tiere.  Zum Beispiel wollen eine Funktion schreiben, die für jedes
-Tier das Gewicht ermittelt.  Diese Funktion könnte folgende Signatur haben:
+fÃ¼r Tiere.  Zum Beispiel wollen eine Funktion schreiben, die fÃ¼r jedes
+Tier das Gewicht ermittelt.  Diese Funktion kÃ¶nnte folgende Signatur haben:
 %
 \begin{alltt}
 (: animal-weight (\textbf{animal} -> natural))
 \end{alltt}
 %
-Wir brauchen also eine Definition für die Signatur \texttt{animal}.
-Diese sieht folgendermaßen aus:
+Wir brauchen also eine Definition fÃ¼r die Signatur \texttt{animal}.
+Diese sieht folgendermaÃŸen aus:
 %
 \begin{verbatim}
 (define animal
@@ -170,12 +170,12 @@ Diese sieht folgendermaßen aus:
 %
 Das \texttt{signature} kennen wir von den Fallunterscheidungen aus
 Abschnitt~\ref{page:signature}.  Das \texttt{mixed} ist neu und steht
-für "<gemischte Daten">.  Sie können die obige Definition lesen als
-"<Tiere sind gemischt aus Gürteltieren und Papageien">; das klingt
-aber auf Deutsch hölzern, weshalb wir für die Datendefinition bei der
+fÃ¼r "<gemischte Daten">.  Sie kÃ¶nnen die obige Definition lesen als
+"<Tiere sind gemischt aus GÃ¼rteltieren und Papageien">; das klingt
+aber auf Deutsch hÃ¶lzern, weshalb wir fÃ¼r die Datendefinition bei der
 Formulierung "<eins der folgenden"> bleiben.  Mit der Definition steht
-die Signatur \texttt{animal} zur Verfügung.  Wir haben schon mit der
-Signatur für \texttt{animal-weight} vorgegriffen.  Hier ist sie noch
+die Signatur \texttt{animal} zur VerfÃ¼gung.  Wir haben schon mit der
+Signatur fÃ¼r \texttt{animal-weight} vorgegriffen.  Hier ist sie noch
 einmal zusammen mit einer Kurzbeschreibung:
 %
 \begin{verbatim}
@@ -183,8 +183,8 @@ einmal zusammen mit einer Kurzbeschreibung:
 (: animal-weight (animal -> natural))
 \end{verbatim}
 %
-Diese Prozedur sollte entsprechend für Gürteltiere \emph{und}
-Papageien funktionieren, wir brauchen also Testfälle für beide:
+Diese Prozedur sollte entsprechend fÃ¼r GÃ¼rteltiere \emph{und}
+Papageien funktionieren, wir brauchen also TestfÃ¤lle fÃ¼r beide:
 %
 \begin{verbatim}
 (check-expect (animal-weight d1) 55000)
@@ -193,7 +193,7 @@ Papageien funktionieren, wir brauchen also Testfälle für beide:
 (check-expect (animal-weight p2) 5000)
 \end{verbatim}
 %
-Das Gerüst sieht so aus:
+Das GerÃ¼st sieht so aus:
 %
 \begin{verbatim}
 (define animal-weight
@@ -201,12 +201,12 @@ Das Gerüst sieht so aus:
     ...))
 \end{verbatim}
 %
-Im Rumpf müssen wir zwischen Gürteltieren und Papageien unterscheiden:
-Schließlich muß \texttt{animal-weight} die Prozedur
-\texttt{dillo-weight} für Gürteltiere, für Papageien aber die Prozedur
+Im Rumpf mÃ¼ssen wir zwischen GÃ¼rteltieren und Papageien unterscheiden:
+SchlieÃŸlich muÃŸ \texttt{animal-weight} die Prozedur
+\texttt{dillo-weight} fÃ¼r GÃ¼rteltiere, fÃ¼r Papageien aber die Prozedur
 \texttt{parrot-weight} aufrufen.  Wir brauchen also~-- wie bei
-Fallunterscheidungen~-- eine Verzweigung, und zwar mit einem Zweig für
-Gürteltiere und einem Zweig für Papageien:
+Fallunterscheidungen~-- eine Verzweigung, und zwar mit einem Zweig fÃ¼r
+GÃ¼rteltiere und einem Zweig fÃ¼r Papageien:
 %
 \begin{verbatim}
 (define animal-weight
@@ -216,10 +216,10 @@ Gürteltiere und einem Zweig für Papageien:
       (... ...))))
 \end{verbatim}
 %
-Wir brauchen als nächstes zwei Tests~-- einen, der Gürteltiere
-und einen, der Papageien identifiziert.  Bisher fehlen dafür noch die
-Mittel.  Wir können aber die Record-Definitionen um sogenannte
-Prädikate erweitern, und die werden uns erlauben, die Tests zu
+Wir brauchen als nÃ¤chstes zwei Tests~-- einen, der GÃ¼rteltiere
+und einen, der Papageien identifiziert.  Bisher fehlen dafÃ¼r noch die
+Mittel.  Wir kÃ¶nnen aber die Record-Definitionen um sogenannte
+PrÃ¤dikate erweitern, und die werden uns erlauben, die Tests zu
 schreiben.  Die Record-Definitionen sehen dann so aus:
 %
 \begin{alltt}
@@ -238,16 +238,16 @@ schreiben.  Die Record-Definitionen sehen dann so aus:
 %
 Es sind zwei neue Namen hinzugekommen, \texttt{dillo?} und
 \texttt{parrot?}. Dies sind spezielle Funktionen, sogenannte
-\texttt{Prädikate}\index{Prädikat} mit folgenden Signaturen:
+\texttt{PrÃ¤dikate}\index{PrÃ¤dikat} mit folgenden Signaturen:
 %
 \begin{verbatim}
 (: dillo? (any -> boolean))
 (: parrot? (any -> boolean))
 \end{verbatim}
 %
-Das \texttt{any} ist auch neu und ist die Signatur für einen
-beliebigen Wert: Ein Prädikat kann also auf absolut alles angewendet
-werden.  Die beiden Prädikate unterscheiden Gürteltiere
+Das \texttt{any} ist auch neu und ist die Signatur fÃ¼r einen
+beliebigen Wert: Ein PrÃ¤dikat kann also auf absolut alles angewendet
+werden.  Die beiden PrÃ¤dikate unterscheiden GÃ¼rteltiere
 beziehungsweise Papageien von anderen Werten:
 %
 \begin{alltt}
@@ -265,8 +265,8 @@ beziehungsweise Papageien von anderen Werten:
 \evalsto #f
 \end{alltt}
 %
-Die Prädikate können wir benutzen, um die Bedingungen aus der
-Schablone zu bestücken:
+Die PrÃ¤dikate kÃ¶nnen wir benutzen, um die Bedingungen aus der
+Schablone zu bestÃ¼cken:
 %
 \begin{verbatim}
 (define animal-weight
@@ -276,9 +276,9 @@ Schablone zu bestücken:
       ((parrot? a) ...))))
 \end{verbatim}
 %
-Im ersten Zweig~-- dem Zweig für Gürteltiere~-- kommt nun
-\texttt{dillo-weight} zum Einsatz, im zweiten Zweig~-- für
-Papageien~-- ist \texttt{parrot-weight} zuständig:
+Im ersten Zweig~-- dem Zweig fÃ¼r GÃ¼rteltiere~-- kommt nun
+\texttt{dillo-weight} zum Einsatz, im zweiten Zweig~-- fÃ¼r
+Papageien~-- ist \texttt{parrot-weight} zustÃ¤ndig:
 %
 \begin{verbatim}
 (define animal-weight
@@ -290,7 +290,7 @@ Papageien~-- ist \texttt{parrot-weight} zuständig:
 % 
 Fertig!
 
-\begin{feature}{\texttt{define-record-procedures} (mit Prädikaten)}{scheme:define-record-procedures-predicates}
+\begin{feature}{\texttt{define-record-procedures} (mit PrÃ¤dikaten)}{scheme:define-record-procedures-predicates}
 Eine \texttt{define"=record"=procedures}"=Form\index{define-record-procedures@\texttt{define-record-procedures}}
 hat folgende allgemeine Gestalt:\label{def:define-record-procedures}
 %
@@ -304,7 +304,7 @@ hat folgende allgemeine Gestalt:\label{def:define-record-procedures}
 \end{alltt}
 %
 Diese Form definiert einen Record-Typ mit $n$ Feldern.
-Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, für die
+Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, fÃ¼r die
 \texttt{define-record-procedures} Definitionen anlegt:
 %
 \begin{itemize}
@@ -316,15 +316,15 @@ Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, für die
 \begin{alltt}
 (: \(c\) (\(\mathit{sig}\sb{1}\) \(\ldots\) \(\mathit{sig}\sb{n}\) -> \(t\)))
 \end{alltt}
-\item $p$ ist der Name des Prädikats, der Records diesen Typs von
-  anderen Werten unterscheidet.  Das Prädikat kann auchn weggelassen
+\item $p$ ist der Name des PrÃ¤dikats, der Records diesen Typs von
+  anderen Werten unterscheidet.  Das PrÃ¤dikat kann auchn weggelassen
   werden.
 
-    Das Prädikat hat folgende Signatur:
+    Das PrÃ¤dikat hat folgende Signatur:
 \begin{alltt}
 (: \(p\) (any -> boolean))
 \end{alltt}
-\item $s_1, \ldots, s_n$ sind die Namen der Selektoren für die Felder
+\item $s_1, \ldots, s_n$ sind die Namen der Selektoren fÃ¼r die Felder
   des Record-Typen.  Der Selektor $s_i$ hat folgende Signatur:
 % 
 \begin{alltt}
@@ -336,17 +336,17 @@ Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, für die
 %
 Abbildung~\ref{scheme:define-record-procedures-predicates} ist eine
 aktualisierte Beschreibung der Form von
-\texttt{define-record-procedures} mit Prädikaten.
+\texttt{define-record-procedures} mit PrÃ¤dikaten.
 
-Aus diesem Beispiel ergibt sich eine Konstruktionsanleitung für
-gemischte Daten.  Zunächst zur Daten- und Signaturdefinition:
+Aus diesem Beispiel ergibt sich eine Konstruktionsanleitung fÃ¼r
+gemischte Daten.  ZunÃ¤chst zur Daten- und Signaturdefinition:
 %
 \begin{itemize}
 \item Gemischte Daten liegen vor, wenn Sie eine Datensorte durch eine
   Formulierung der Form "<ein $X$ ist eins der folgenden"> beschreiben
-  können: Diese Formulierung ist die Datendefinition.
-\item Stellen Sie fest, wieviele unterschiedliche Fälle die Sorte
-  für die gemischten Daten hat.
+  kÃ¶nnen: Diese Formulierung ist die Datendefinition.
+\item Stellen Sie fest, wieviele unterschiedliche FÃ¤lle die Sorte
+  fÃ¼r die gemischten Daten hat.
 \item Schreiben Sie eine Signaturdefinition der folgenden Form unter
   die Datendefinition:
 \begin{alltt}
@@ -354,48 +354,48 @@ gemischte Daten.  Zunächst zur Daten- und Signaturdefinition:
   (signature
     (mixed \(S\sb{1}\) \(S\sb{2}\) \(\ldots\) \(S\sb{n}\))))
 \end{alltt}
-  Dabei ist $S$ die Signatur für die neue Datensorte; $S_1$ bis $S_n$
-  sind die Signaturen für die Signaturen, aus denen die neue
+  Dabei ist $S$ die Signatur fÃ¼r die neue Datensorte; $S_1$ bis $S_n$
+  sind die Signaturen fÃ¼r die Signaturen, aus denen die neue
   Datensorte zusammengemischt ist.
 \end{itemize}
 %
-Eine Schablone für eine Prozedur und deren Testfälle, die gemischte
-Daten akzeptiert, können Sie folgendermaßen konstruieren:
+Eine Schablone fÃ¼r eine Prozedur und deren TestfÃ¤lle, die gemischte
+Daten akzeptiert, kÃ¶nnen Sie folgendermaÃŸen konstruieren:
 %
 \begin{itemize}
-\item Schreiben Sie Tests für jeden der Fälle.
+\item Schreiben Sie Tests fÃ¼r jeden der FÃ¤lle.
 \item  Schreiben Sie eine \texttt{cond}-Verzweigung als Rumpf in die
   Schablone, die genau $n$ Zweige hat~-- also genau soviele Zweige,
-  wie es Fälle gibt.
-\item Schreiben Sie für jeden Zweig einen Test, der den entsprechenden
+  wie es FÃ¤lle gibt.
+\item Schreiben Sie fÃ¼r jeden Zweig einen Test, der den entsprechenden
   Fall identifiziert.
-\item Vervollständigen Sie die Zweige, indem Sie eine Datenanalyse für
+\item VervollstÃ¤ndigen Sie die Zweige, indem Sie eine Datenanalyse fÃ¼r
   jeden einzelnen Fall vornehmen und entsprechende Hilfsprozeduren
   oder Konstruktionsanleitungen benutzen.
-  Die übersichtlichsten Programme entstehen meist, wenn für jeden Fall
+  Die Ã¼bersichtlichsten Programme entstehen meist, wenn fÃ¼r jeden Fall
   separate Hilfsprozeduren definiert sind.\label{page:separate-mixed-procs}
 \end{itemize}
 %
-Konstruktionsanleitung~\ref{ka:gemischt} für gemischte Daten in
-Anhang~\ref{app:konstruktionsanleitungen} faßt dies noch einmal
+Konstruktionsanleitung~\ref{ka:gemischt} fÃ¼r gemischte Daten in
+Anhang~\ref{app:konstruktionsanleitungen} faÃŸt dies noch einmal
 zusammen.
 
-Eine Konstruktionsanleitung oder Schablone für gemischte Daten
-\emph{als Ausgabe} ist unnötig~-- Sie benutzen einfach die Schablone
+Eine Konstruktionsanleitung oder Schablone fÃ¼r gemischte Daten
+\emph{als Ausgabe} ist unnÃ¶tig~-- Sie benutzen einfach die Schablone
 des entsprechenden Falls.
 
 Beachten Sie den Unterschied zwischen \texttt{one-of} und
 \texttt{mixed}, die leicht zu verwechseln sind: \texttt{One-of} steht
-für "<einer der folgenden \emph{Werte}">, während \texttt{mixed} für
-"<gehörend zu einer der folgenden \emph{Signaturen}"> steht.
+fÃ¼r "<einer der folgenden \emph{Werte}">, wÃ¤hrend \texttt{mixed} fÃ¼r
+"<gehÃ¶rend zu einer der folgenden \emph{Signaturen}"> steht.
 
 \section{Die Zucker-Ampel}
 
-In diesem Abschnitt nehmen wir uns noch ein weiteres Beispiel für
+In diesem Abschnitt nehmen wir uns noch ein weiteres Beispiel fÃ¼r
 gemischte Daten vor, diesmal von vorneherein unter Benutzung der
 Konstruktionsanleitung aus dem vorigen Abschnitt.
 
-Einige Länder der Europäischen Union planen zum Zeitpunkt der
+Einige LÃ¤nder der EuropÃ¤ischen Union planen zum Zeitpunkt der
 Drucklegung dieses Buches, den Gehalt bestimmter Inhaltsstoffe von
 Lebensmitteln vereinfacht durch eine sogenannte \textit{Ampel}
 darzustellen.  Bei Zucker zum Beispiel sieht die Ampel so aus, bezogen
@@ -403,7 +403,7 @@ auf 100~g eines Lebensmittels:
 %
 \begin{center}
   \begin{tabular}{l|l|l}
-    grün & niedriger Gehalt &  weniger als 5 g\\
+    grÃ¼n & niedriger Gehalt &  weniger als 5 g\\
     gelb & mittlerer Gehalt & zwischen 5 g und 12,5 g\\
     rot & hoher Gehalt & mehr als 12,5 g
   \end{tabular}
@@ -411,27 +411,27 @@ auf 100~g eines Lebensmittels:
 %
 Uns geht es nicht darum, ob solch eine Kennzeichnung sinnvoll ist oder
 nicht, oder ob Zucker "<gesund"> oder "<ungesund"> ist.  Auf jeden
-Fall sind trotz der Bemühungen der Europäischen Union die
+Fall sind trotz der BemÃ¼hungen der EuropÃ¤ischen Union die
 Bezeichnungen uneinheitlich.  Technisch gesehen ist die Ampel
-natürlich redundant, wenn der Zuckergehalt in Gramm angegeben ist.
-Manchmal ist allerdings der Zuckergehalt auch separat für Fruktose und
+natÃ¼rlich redundant, wenn der Zuckergehalt in Gramm angegeben ist.
+Manchmal ist allerdings der Zuckergehalt auch separat fÃ¼r Fruktose und
 Glukose angegeben.
 
-Ein Computerprogramm könnte aber den Umgang erleichtern, indem es jede
+Ein Computerprogramm kÃ¶nnte aber den Umgang erleichtern, indem es jede
 Angabe auf einer Lebensmittelpackung~-- Zucker in Gramm insgesamt,
 Fruktose und Glukose separat sowie die Ampel~-- in die einheitliche
-Ampel-Form bringt.  Schreiben wir also ein solches Programm.  Zunächst
+Ampel-Form bringt.  Schreiben wir also ein solches Programm.  ZunÃ¤chst
 die Datenanalyse:
 %
 \begin{itemize}
 \item Die Zuckermenge in Gramm ist eine (rationale) Zahl.
 \item Zuckeranteile bestehen aus der Menge von Fruktose und Glukose.
-\item Eine Zuckerampel ist rot, gelb oder grün.
+\item Eine Zuckerampel ist rot, gelb oder grÃ¼n.
 \item Der Zuckergehalt kann entweder als Zuckermenge, Zuckeranteile
   oder Zuckerampel angegeben werden.
 \end{itemize}
 %
-Hier ist dei Datendefinition für die zusammengesetzen Zuckeranteile:
+Hier ist dei Datendefinition fÃ¼r die zusammengesetzen Zuckeranteile:
 %
 \begin{verbatim}
 ; Zuckeranteile bestehen aus:
@@ -467,7 +467,7 @@ Fallunterscheidung:
 ; Eine Ampel ist einer der folgenden Werte:
 ; - rot
 ; - gelb
-; - grün
+; - grÃ¼n
 \end{verbatim}
 %
 Wir geben der dazu passenden Signatur einen Namen:
@@ -475,10 +475,10 @@ Wir geben der dazu passenden Signatur einen Namen:
 \begin{verbatim}
 (define traffic-light
   (signature
-   (one-of "rot" "gelb" "grün")))
+   (one-of "rot" "gelb" "grÃ¼n")))
 \end{verbatim}
 %
-Die Angabe über den Zuckergehalt kann jede der drei oben genannten Formen
+Die Angabe Ã¼ber den Zuckergehalt kann jede der drei oben genannten Formen
 annehmen.  Es handelt 
 %
 \begin{verbatim}
@@ -489,8 +489,8 @@ annehmen.  Es handelt
 \end{verbatim}
 %
 Wieder ist an der Formulierung erkennbar, dass es sich um gemsichte
-Daten handelt, und zwar mit drei Fällen.  Das übersetzen wir in ein
-Signaturdefinition mit \texttt{mixed} und ebenfalls drei Fällen:
+Daten handelt, und zwar mit drei FÃ¤llen.  Das Ã¼bersetzen wir in ein
+Signaturdefinition mit \texttt{mixed} und ebenfalls drei FÃ¤llen:
 %
 \begin{verbatim}
 (define sugar-content
@@ -500,43 +500,43 @@ Signaturdefinition mit \texttt{mixed} und ebenfalls drei Fällen:
           traffic-light)))
 \end{verbatim}
 %
-Das Beispiel zeigt, dass die Fälle einer Definition für gemischte Daten
-nicht allesamt Records sein müssen.  Es ist allerdings wichtig, dass
-die Fälle \emph{disjunkt} sind, also jeder Wert eindeutig einem der
-Fälle zugeordnet werden kann: Sonst wäre es nicht möglich, eine sinnvolle
-Verzweigung zu schreiben, welche die Fälle unterscheidet.
+Das Beispiel zeigt, dass die FÃ¤lle einer Definition fÃ¼r gemischte Daten
+nicht allesamt Records sein mÃ¼ssen.  Es ist allerdings wichtig, dass
+die FÃ¤lle \emph{disjunkt} sind, also jeder Wert eindeutig einem der
+FÃ¤lle zugeordnet werden kann: Sonst wÃ¤re es nicht mÃ¶glich, eine sinnvolle
+Verzweigung zu schreiben, welche die FÃ¤lle unterscheidet.
 
-Nun zu unserer Prozedur zur Ermittlung der Ampelbezeichnung für den
+Nun zu unserer Prozedur zur Ermittlung der Ampelbezeichnung fÃ¼r den
 Zuckergehalt.  Hier Kurzbeschreibung und Signatur:
 %
 \begin{verbatim}
-; Ampelbezeichnung für Zuckergehalt ermitteln
+; Ampelbezeichnung fÃ¼r Zuckergehalt ermitteln
 (: sugar-traffic-light (sugar-content -> traffic-light))
 \end{verbatim}
 %
-Wir brauchen ziemlich viele Testfälle, um alle Fälle von
-Zuckergehalt abzudecken sowie die Eckfälle der Tabelle von oben.
+Wir brauchen ziemlich viele TestfÃ¤lle, um alle FÃ¤lle von
+Zuckergehalt abzudecken sowie die EckfÃ¤lle der Tabelle von oben.
 %
 \begin{verbatim}
-(check-expect (sugar-traffic-light 2) "grün")
+(check-expect (sugar-traffic-light 2) "grÃ¼n")
 (check-expect (sugar-traffic-light 5) "gelb")
 (check-expect (sugar-traffic-light 10) "gelb")
 (check-expect (sugar-traffic-light 12.5) "gelb")
 (check-expect (sugar-traffic-light 20) "rot")
 
-(check-expect (sugar-traffic-light s1) "grün")
+(check-expect (sugar-traffic-light s1) "grÃ¼n")
 (check-expect (sugar-traffic-light s2) "gelb")
 (check-expect (sugar-traffic-light s3) "gelb")
 (check-expect (sugar-traffic-light s4) "gelb")
 (check-expect (sugar-traffic-light s5) "rot")
 (check-expect (sugar-traffic-light s6) "rot")
 
-(check-expect (sugar-traffic-light "grün") "grün")
+(check-expect (sugar-traffic-light "grÃ¼n") "grÃ¼n")
 (check-expect (sugar-traffic-light "gelb") "gelb")
 (check-expect (sugar-traffic-light "rot") "rot")
 \end{verbatim}
 %
-Als nächstes ist, wie immer, das Gerüst dran:
+Als nÃ¤chstes ist, wie immer, das GerÃ¼st dran:
 %
 \begin{verbatim}
 (define sugar-traffic-light
@@ -544,9 +544,9 @@ Als nächstes ist, wie immer, das Gerüst dran:
     ...))
 \end{verbatim}         
 %
-Als nächstes wenden wir die Schablone für Prozeduren an, die gemischte
+Als nÃ¤chstes wenden wir die Schablone fÃ¼r Prozeduren an, die gemischte
 Daten akzeptieren.  Wir brauchen eine Verzweigung mit sovielen Zweigen
-wie \texttt{sugar-content} Fälle hat, also drei:
+wie \texttt{sugar-content} FÃ¤lle hat, also drei:
 %
 \begin{verbatim}
 (define sugar-traffic-light
@@ -557,29 +557,29 @@ wie \texttt{sugar-content} Fälle hat, also drei:
       (... ...))))
 \end{verbatim}         
 %
-Als nächstes brauchen wir Tests für die drei Fälle.  Für den zweiten
+Als nÃ¤chstes brauchen wir Tests fÃ¼r die drei FÃ¤lle.  FÃ¼r den zweiten
 Fall ist das einfach, da es sich um \texttt{sugars}-Records handelt:
-da gibt es das Prädikat \texttt{sugars?}.  Beim ersten Fall handelt es
+da gibt es das PrÃ¤dikat \texttt{sugars?}.  Beim ersten Fall handelt es
 sich aber um eine rationale Zahl, beim dritten um eine Zeichenkette~--
-beides eingebaute Datensorten.  Für diese gibt es die eingebauten
-Prädikate \texttt{rational?} und \texttt{string?}~--
-Abbildung~\ref{scheme:predicates} zählt noch mehr eingebaute
-Prädikate auf.
+beides eingebaute Datensorten.  FÃ¼r diese gibt es die eingebauten
+PrÃ¤dikate \texttt{rational?} und \texttt{string?}~--
+Abbildung~\ref{scheme:predicates} zÃ¤hlt noch mehr eingebaute
+PrÃ¤dikate auf.
 %
-\begin{feature}{Eingebaute Prädikate}{scheme:predicates}
-  \index{Prädikate|eingebaut}\index{eingebaute Prädikate}
-  Folgende Prädikate sind eingebaut:
+\begin{feature}{Eingebaute PrÃ¤dikate}{scheme:predicates}
+  \index{PrÃ¤dikate|eingebaut}\index{eingebaute PrÃ¤dikate}
+  Folgende PrÃ¤dikate sind eingebaut:
   \begin{itemize}
   \item \texttt{number?}\index{number?@\texttt{number?}} testet, ob ein Wert eine Zahl ist.
   \item \texttt{real?}\index{real?@\texttt{real?}} testet, ob ein Wert eine reelle Zahl ist.
   \item \texttt{rational?}\index{rational?@\texttt{rational?}} testet, ob ein Wert eine rationale Zahl ist.
-  \item \texttt{natural?}\index{natural?@\texttt{natural?}} testet, ob ein Wert eine natürliche Zahl ist.
+  \item \texttt{natural?}\index{natural?@\texttt{natural?}} testet, ob ein Wert eine natÃ¼rliche Zahl ist.
   \item \texttt{string?}\index{string?@\texttt{string?}} testet, ob ein Wert eine Zeichenkette ist.
   \item \texttt{boolean?}\index{boolean?@\texttt{boolean?}} testet, ob ein Wert ein boolescher Wert ist.
   \end{itemize}
 \end{feature}
 %
-Mit dieser Information gewappnet können wir die Tests ergänzen:
+Mit dieser Information gewappnet kÃ¶nnen wir die Tests ergÃ¤nzen:
 %
 \begin{verbatim}
 (define sugar-traffic-light
@@ -591,7 +591,7 @@ Mit dieser Information gewappnet können wir die Tests ergänzen:
 \end{verbatim}         
 %
 Im ersten Zweig handelt es sich nicht nur um eine rationale Zahl,
-sondern auch um eine Fallunterscheidung mit drei Fällen entsprechend
+sondern auch um eine Fallunterscheidung mit drei FÃ¤llen entsprechend
 der Tabelle vom Anfang:
 %
 \begin{verbatim}
@@ -607,7 +607,7 @@ der Tabelle vom Anfang:
       ((string? f) ...))))
 \end{verbatim}         
 %
-Als nächstes ergänzen wir Tests entsprechend der Tabelle:
+Als nÃ¤chstes ergÃ¤nzen wir Tests entsprechend der Tabelle:
 %
 \begin{verbatim}
 (define sugar-traffic-light
@@ -622,7 +622,7 @@ Als nächstes ergänzen wir Tests entsprechend der Tabelle:
       ((string? f) ...))))
 \end{verbatim}         
 %
-Schließlich müssen wir noch die Antworten eintragen:
+SchlieÃŸlich mÃ¼ssen wir noch die Antworten eintragen:
 %
 \begin{verbatim}
 (define sugar-traffic-light
@@ -630,7 +630,7 @@ Schließlich müssen wir noch die Antworten eintragen:
     (cond
       ((rational? f) 
        (cond
-         ((< f 5) "grün")
+         ((< f 5) "grÃ¼n")
          ((and (>= f 5) (<= f 12.5)) "gelb")
          ((> f 12.5) "rot")))
       ((sugars? f) ...)
@@ -638,7 +638,7 @@ Schließlich müssen wir noch die Antworten eintragen:
 \end{verbatim}         
 %
 Hier ist jetzt ein \texttt{cond} in einem anderen \texttt{cond}
-eingeschachtelt.  Da so etwas schnell unübersichtlich wird, lohnt es
+eingeschachtelt.  Da so etwas schnell unÃ¼bersichtlich wird, lohnt es
 sich, wie auf Seite~\pageref{page:separate-mixed-procs} empfohlen,
 diesen Zweig in eine separate Hilfsprozedur auszulagern.  Hier sind
 Kurzbeschreibung und Signatur:
@@ -648,19 +648,19 @@ Kurzbeschreibung und Signatur:
 (: sugar-weight->traffic-light (rational -> traffic-light))
 \end{verbatim}
 %
-Die Testfälle lassen sich aus den Testfällen für
+Die TestfÃ¤lle lassen sich aus den TestfÃ¤llen fÃ¼r
 \texttt{sugar-traffic-light} durch einfaches Kopieren und Umbenennen
 gewinnen:
 %
 \begin{verbatim}
-(check-expect (sugar-weight->traffic-light 2) "grün")
+(check-expect (sugar-weight->traffic-light 2) "grÃ¼n")
 (check-expect (sugar-weight->traffic-light 5) "gelb")
 (check-expect (sugar-weight->traffic-light 10) "gelb")
 (check-expect (sugar-weight->traffic-light 12.5) "gelb")
 (check-expect (sugar-weight->traffic-light 20) "rot")
 \end{verbatim}
 %
-Gerüst:
+GerÃ¼st:
 %
 \begin{verbatim}
 (define sugar-weight->traffic-light
@@ -668,24 +668,24 @@ Gerüst:
     ...))
 \end{verbatim}
 %
-Den Rumpf haben wir ja schon geschrieben, wir müssen ihn nur noch
+Den Rumpf haben wir ja schon geschrieben, wir mÃ¼ssen ihn nur noch
 hierher bewegen und \texttt{f} in \texttt{w} umbenennen. Das \drscheme{}-System
-bietet dazu nach einem Klick auf "<Syntaxprüfung"> die Möglichkeit, mit einem
-Rechtsklick auf den Parameter \texttt{f} ein Menü aufzuklappen, das unter
+bietet dazu nach einem Klick auf "<SyntaxprÃ¼fung"> die MÃ¶glichkeit, mit einem
+Rechtsklick auf den Parameter \texttt{f} ein MenÃ¼ aufzuklappen, das unter
 anderem die Auswahl "<\texttt{f} umbenennen"> anbietet. \drscheme{} sorgt dann
-dafür, dass alle zugehörigen Vorkommen von \texttt{f} in gleicher Weise
+dafÃ¼r, dass alle zugehÃ¶rigen Vorkommen von \texttt{f} in gleicher Weise
 umbenannt werden.
 %
 \begin{verbatim}
 (define sugar-weight->traffic-light
   (lambda (w)
     (cond
-      ((< w 5) "grün")
+      ((< w 5) "grÃ¼n")
       ((and (>= w 5) (<= w 12.5)) "gelb")
       ((> w 12.5) "rot"))))
 \end{verbatim}
 %
-Zurück zu \texttt{sugar-traffic-light}: Dort benutzen wir zunächst die
+ZurÃ¼ck zu \texttt{sugar-traffic-light}: Dort benutzen wir zunÃ¤chst die
 neu definierte Hilfsprozedur:
 %
 \begin{verbatim}
@@ -698,8 +698,8 @@ neu definierte Hilfsprozedur:
       ((string? f) ...))))
 \end{verbatim}         
 %
-Beim nächsten Zweig geht es um den Fall \texttt{sugars}~--
-zusammengesetzte Daten.  Wir können also die entsprechende Schablone
+Beim nÃ¤chsten Zweig geht es um den Fall \texttt{sugars}~--
+zusammengesetzte Daten.  Wir kÃ¶nnen also die entsprechende Schablone
 anwenden:
 %
 \begin{verbatim}
@@ -713,11 +713,11 @@ anwenden:
       ((string? f) ...))))
 \end{verbatim}         
 %
-Wir müssen Fruktose- und den Glukose-Anteil addieren und die Summe
+Wir mÃ¼ssen Fruktose- und den Glukose-Anteil addieren und die Summe
 dann ebenfalls entsprechend der Tabelle vom Anfang in eine Ampelfarbe
-umwandeln.  Aber halt!~-- Genau für das Umwandeln der Zahl aus der
+umwandeln.  Aber halt!~-- Genau fÃ¼r das Umwandeln der Zahl aus der
 Tabelle in eine Ampelfarbe haben wir ja gerade die Hilfsprozedur
-\texttt{sugar-weight->traffic-light} geschrieben, und diese können wir
+\texttt{sugar-weight->traffic-light} geschrieben, und diese kÃ¶nnen wir
 erneut zum Einsatz bringen:
 %
 \begin{verbatim}
@@ -732,9 +732,9 @@ erneut zum Einsatz bringen:
       ((string? f) ...))))
 \end{verbatim}         
 %
-Bleibt der letzte Fall~-- der ist zum Glück trivial, da es sich schon
-um eine Farbe handelt, Die muß \texttt{sugar-traffic-light} nur
-zurückgeben:
+Bleibt der letzte Fall~-- der ist zum GlÃ¼ck trivial, da es sich schon
+um eine Farbe handelt, Die muÃŸ \texttt{sugar-traffic-light} nur
+zurÃ¼ckgeben:
 %
 \begin{verbatim}
 (define sugar-traffic-light
@@ -753,69 +753,69 @@ Fertig!
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  Ein Supermarkt möchte seine Waren in einem Programm verwalten. Es gibt
+  Ein Supermarkt mÃ¶chte seine Waren in einem Programm verwalten. Es gibt
   drei Warenklassen:
   \begin{itemize}
-  \item Essen - Beschrieben durch einen Namen, den Stückpreis, das Mindesthaltbarkeitsdatum
+  \item Essen - Beschrieben durch einen Namen, den StÃ¼ckpreis, das Mindesthaltbarkeitsdatum
     und den aktuellen Bestand im Supermarkt.
-  \item Getränke - Beschrieben durch einen Namen, den Stückpreis, das Mindesthaltbarkeitsdatum
-    und den Bestand. Zusätzlich muss hier noch festgehalten werden, ob Pfand verlangt wird.
-  \item Sonstige - Beschrieben durch einen Namen, den Stückpreis und den Bestand.
+  \item GetrÃ¤nke - Beschrieben durch einen Namen, den StÃ¼ckpreis, das Mindesthaltbarkeitsdatum
+    und den Bestand. ZusÃ¤tzlich muss hier noch festgehalten werden, ob Pfand verlangt wird.
+  \item Sonstige - Beschrieben durch einen Namen, den StÃ¼ckpreis und den Bestand.
   \end{itemize}
 
   
   \begin{enumerate}
-  \item Führen Sie eine Datenanalyse durch und erstellen Sie Daten- und 
+  \item FÃ¼hren Sie eine Datenanalyse durch und erstellen Sie Daten- und 
     Record-Definitionen.
-  \item Schreiben Sie eine Prozedur \texttt{stückpreis}, die eine Warenklasse
-    konsumiert und den Stückpreis zurückgibt.
+  \item Schreiben Sie eine Prozedur \texttt{stÃ¼ckpreis}, die eine Warenklasse
+    konsumiert und den StÃ¼ckpreis zurÃ¼ckgibt.
   \item Schreiben Sie eine Funktion \texttt{buchen}, die eine Warenklasse und die Anzahl der
     abzubuchenden Exemplare konsumiert, den Bestand der Warenklasse reduziert und die
-    Warenklasse zurückgibt. Falls mehr Exemplare gefordert werden, als in der Warenklasse
+    Warenklasse zurÃ¼ckgibt. Falls mehr Exemplare gefordert werden, als in der Warenklasse
     vorhanden sind, soll der Bestand auf 0 gesetzt werden.
   \item Schreiben Sie eine Funktion \texttt{haltbar?}, die eine
-    Warenklasse und ein Datum konsumiert und \texttt{\#t} zurückgibt, falls das
-    Mindesthaltbarkeitsdatum (MHD) nicht überschritten wurde. Falls kein MHD bekannt ist,
-    soll \texttt{\#t} zurückgeben werden.
+    Warenklasse und ein Datum konsumiert und \texttt{\#t} zurÃ¼ckgibt, falls das
+    Mindesthaltbarkeitsdatum (MHD) nicht Ã¼berschritten wurde. Falls kein MHD bekannt ist,
+    soll \texttt{\#t} zurÃ¼ckgeben werden.
   \end{enumerate}
 \end{aufgabe}
 
 \begin{aufgabe}
   \label{aufgabe:knaubichler2}
-  Erweitern Sie die Lösung von Aufgabe~\ref{aufgabe:knaubichler} aus
+  Erweitern Sie die LÃ¶sung von Aufgabe~\ref{aufgabe:knaubichler} aus
   dem vorigen Kapitel (Seite~\pageref{aufgabe:knaubichler}):
   
   \begin{enumerate}
   \item Schreiben Sie nun eine Funktion, die zwei
     Grundkreaturen in beliebiger Reihenfolge akzeptiert, die Kreuzung
-    vornimmt und eine neue Kreatur zurückgibt.
+    vornimmt und eine neue Kreatur zurÃ¼ckgibt.
     
   \item Schreiben Sie nun eine
     Funktion, die drei Grundkreaturen in beliebiger Reihenfolge
     akzeptiert, die Kreuzung vornimmt und eine neue Kreatur
-    zurückgibt.
+    zurÃ¼ckgibt.
   \end{enumerate}
 \end{aufgabe}     
 
 \begin{aufgabe}
 
   Das Spiele-Entwicklungsteam von
-  \textit{Exciting Games, Inc.} ist in Personalnot: Für die
+  \textit{Exciting Games, Inc.} ist in Personalnot: FÃ¼r die
   Implementierung des bahnbrechenden 2D-Spiels \textit{The Adventures
-    of DrRacket} wird dringend eine Repräsentation der grafischen
-  Formen Kreis, Rechteck und Dreieck benötigt.  Alle fiesen Hacker
-  sind leider wahnsinnig damit beschäftigt, bunte Pixel in der Gegend
-  herumzuschieben und können sich daher nicht dieser grundlegenden
-  Aufgabe widmen.  Deswegen fällt Ihnen diese Aufgabe zu!  Ihnen geht
+    of DrRacket} wird dringend eine ReprÃ¤sentation der grafischen
+  Formen Kreis, Rechteck und Dreieck benÃ¶tigt.  Alle fiesen Hacker
+  sind leider wahnsinnig damit beschÃ¤ftigt, bunte Pixel in der Gegend
+  herumzuschieben und kÃ¶nnen sich daher nicht dieser grundlegenden
+  Aufgabe widmen.  Deswegen fÃ¤llt Ihnen diese Aufgabe zu!  Ihnen geht
   nur ein mit Pizzabelag verschmierter Zettel zu, der offenbar als
   Arbeitsanweisung gedacht ist.  Darauf steht:
   \begin{itemize}
 
   \item Es gibt drei Klassen von Formen: Kreise, Rechtecke und
     gleichschenklige Dreiecke.  Alle Formen haben eine
-    Ursprungskoordinate und enthalten eine Information über die Größe
-    (Radius, Höhe, Breite, etc), wie Sie es auf der Abbildung sehen.
-    Benutzen Sie für die Ursprungskoordinate die vorgegebenen kartesischen
+    Ursprungskoordinate und enthalten eine Information Ã¼ber die GrÃ¶ÃŸe
+    (Radius, HÃ¶he, Breite, etc), wie Sie es auf der Abbildung sehen.
+    Benutzen Sie fÃ¼r die Ursprungskoordinate die vorgegebenen kartesischen
     Koordinaten!
 
     % \begin{figure}[h]
@@ -831,139 +831,139 @@ Fertig!
 
     \begin{itemize}
 
-    \item kartesische Koordinate einer Form zurückgeben
+    \item kartesische Koordinate einer Form zurÃ¼ckgeben
 
-    \item $x$-Koordinate einer Form zurückgeben
+    \item $x$-Koordinate einer Form zurÃ¼ckgeben
 
-    \item $y$-Koordinate einer Form zurückgeben
+    \item $y$-Koordinate einer Form zurÃ¼ckgeben
 
     \item Abstand des Ursprungs einer Form zum Ursprung des
-      Koordinatensystems zurückgeben
+      Koordinatensystems zurÃ¼ckgeben
 
-    \item Flächeninhalt einer Form zurückgeben
+    \item FlÃ¤cheninhalt einer Form zurÃ¼ckgeben
 
     \item Form um $\Delta_x$ in $x$-Richtung und um $\Delta_y$ in
-      $y$-Richtung verschieben, also eine Form zurückgeben, deren
+      $y$-Richtung verschieben, also eine Form zurÃ¼ckgeben, deren
       Ursprungskoordinate entsprechend verschoben ist
 
-%     \item Größe einer Form um einen Faktor ändern, also eine Form
-%       zurückgeben, deren Größe entsprechend angepasst ist
-  \item  Flächeninhalt zweier
-    Formen vergleichen: Für gleich große Formen liefert die Prozedur
-    \verb|"equal"| zurück, sonst \verb|"smaller"|, wenn die erste
+%     \item GrÃ¶ÃŸe einer Form um einen Faktor Ã¤ndern, also eine Form
+%       zurÃ¼ckgeben, deren GrÃ¶ÃŸe entsprechend angepasst ist
+  \item  FlÃ¤cheninhalt zweier
+    Formen vergleichen: FÃ¼r gleich groÃŸe Formen liefert die Prozedur
+    \verb|"equal"| zurÃ¼ck, sonst \verb|"smaller"|, wenn die erste
     Form kleiner ist, beziehungsweise \verb|"bigger"|, wenn die erste
-    Form größer ist.
+    Form grÃ¶ÃŸer ist.
     \end{itemize}
 
   \end{itemize}
 
   Zeigen Sie den Hackern, was richtiges Software-Engineering ist und
-  benutzen Sie die passenden Konstruktionsanleitungen, um Repräsentationen für die Formen und die zugehörigen
+  benutzen Sie die passenden Konstruktionsanleitungen, um ReprÃ¤sentationen fÃ¼r die Formen und die zugehÃ¶rigen
   Funktionen zu schreiben!
 \end{aufgabe}
 
 \begin{aufgabe}
 
-  Es gibt verschiedene Verstöße gegen die
-  Straßenverkehrsordnung: 
+  Es gibt verschiedene VerstÃ¶ÃŸe gegen die
+  StraÃŸenverkehrsordnung: 
   \begin{itemize}
-  \item Falschparken mit Ort und Zeitpunkt des Verstoßes
+  \item Falschparken mit Ort und Zeitpunkt des VerstoÃŸes
 
-  \item Überfahren einer roten Ampel mit Ort und Zeitpunkt des Verstoßes
+  \item Ãœberfahren einer roten Ampel mit Ort und Zeitpunkt des VerstoÃŸes
     sowie der Dauer in Sekunden, wie lange die Ampel bereits rot war
 
-  \item Überhöhte Geschwindigkeit mit Ort und Zeitpunkt des Verstoßes
-    sowie der Höhe der Geschwindigkeits"-über"-tre"-tung
+  \item ÃœberhÃ¶hte Geschwindigkeit mit Ort und Zeitpunkt des VerstoÃŸes
+    sowie der HÃ¶he der Geschwindigkeits"-Ã¼ber"-tre"-tung
   \end{itemize}
-  Neben den angegebenen Bestandteilen muss später für jeden Verstoß vermerkt 
-  werden, ob zusätzlich eine "<Gefährdung des Straßenverkehrs"> vorliegt.
+  Neben den angegebenen Bestandteilen muss spÃ¤ter fÃ¼r jeden VerstoÃŸ vermerkt 
+  werden, ob zusÃ¤tzlich eine "<GefÃ¤hrdung des StraÃŸenverkehrs"> vorliegt.
   
   \begin{enumerate}
-  \item Schreiben Sie eine Datendefinition für
-    Verstöße gegen die Straßenverkehrsordnung.  Schreiben Sie Daten-
-    und Recorddefinitionen für die verschiedenen Verstöße.  Hinweis:
-    Die Zeitpunkte können Sie durch Zeichenketten repräsentieren.  
+  \item Schreiben Sie eine Datendefinition fÃ¼r
+    VerstÃ¶ÃŸe gegen die StraÃŸenverkehrsordnung.  Schreiben Sie Daten-
+    und Recorddefinitionen fÃ¼r die verschiedenen VerstÃ¶ÃŸe.  Hinweis:
+    Die Zeitpunkte kÃ¶nnen Sie durch Zeichenketten reprÃ¤sentieren.  
     Geben Sie alle Signaturen an!
 
   \item Schreiben Sie eine Funktion, die einen
-    beliebigen Verstoß entgegennimmt und den Ort des Verstoßes
-    zurückgibt.
+    beliebigen VerstoÃŸ entgegennimmt und den Ort des VerstoÃŸes
+    zurÃ¼ckgibt.
 
     Schreiben Sie analog eine Funktion, die einen
-    beliebigen Verstoß entgegennimmt und den Zeitpunkt des Verstoßes
-    zurückgibt.
+    beliebigen VerstoÃŸ entgegennimmt und den Zeitpunkt des VerstoÃŸes
+    zurÃ¼ckgibt.
 
   \item Schreiben Sie eine Funktion, die einen
-    beliebigen Verstoß entgegennimmt, diesen als Gefährdung des
-    Straßenverkehrs betrachtet und wieder zurückgibt (d.~h. jeder 
-    Verstoß ist ein Verstoß mit Gefährdung).
+    beliebigen VerstoÃŸ entgegennimmt, diesen als GefÃ¤hrdung des
+    StraÃŸenverkehrs betrachtet und wieder zurÃ¼ckgibt (d.~h. jeder 
+    VerstoÃŸ ist ein VerstoÃŸ mit GefÃ¤hrdung).
   \end{enumerate}
 
-  Die Verstöße haben unterschiedliche Tatbestände zur Folge:
+  Die VerstÃ¶ÃŸe haben unterschiedliche TatbestÃ¤nde zur Folge:
 
   \begin{itemize}
-  \item Einfaches Vergehen mit Bußgeld
+  \item Einfaches Vergehen mit BuÃŸgeld
 
-  \item Ordnungswidrigkeit mit Bußgeld, Punkte für die
-    Verkehrssünderdatei und Fahrverbot in Monaten
+  \item Ordnungswidrigkeit mit BuÃŸgeld, Punkte fÃ¼r die
+    VerkehrssÃ¼nderdatei und Fahrverbot in Monaten
 
-  \item Straftat mit Punkten für die Verkehrssünderdatei und
+  \item Straftat mit Punkten fÃ¼r die VerkehrssÃ¼nderdatei und
     Freiheitsstrafe in Monaten
   \end{itemize}
   
   \begin{enumerate} \setcounter{enumii}{3}
-  \item Schreiben Sie eine Datendefinition für
-    Tatbestände auf Verstöße gegen die Straßenverkehrsordnung.
-    Schreiben Sie Daten- und Recorddefinitionen für die verschiedenen
-    Tatbestände.  Geben Sie alle Signaturen an!
+  \item Schreiben Sie eine Datendefinition fÃ¼r
+    TatbestÃ¤nde auf VerstÃ¶ÃŸe gegen die StraÃŸenverkehrsordnung.
+    Schreiben Sie Daten- und Recorddefinitionen fÃ¼r die verschiedenen
+    TatbestÃ¤nde.  Geben Sie alle Signaturen an!
 
   \item Schreiben Sie eine Funktion, die einen
     beliebigen Tatbestand konsumiert und die Anzahl der anfallenden
-    Punkte zurückliefert.
+    Punkte zurÃ¼ckliefert.
   \end{enumerate}
 
-  Schreiben Sie nun Prozeduren, die Verstöße konsumieren und die
-  Tatbestände berechnen:
+  Schreiben Sie nun Prozeduren, die VerstÃ¶ÃŸe konsumieren und die
+  TatbestÃ¤nde berechnen:
 
   \begin{enumerate} \setcounter{enumii}{5}
   \item Schreiben Sie eine Funktion, die Falschparken
-    konsumiert und ein einfaches Vergehen mit 20~Euro Bußgeld zurückgibt.
-    Wenn das Falschparken eine Gefährdung des Straßenverkehrs
+    konsumiert und ein einfaches Vergehen mit 20~Euro BuÃŸgeld zurÃ¼ckgibt.
+    Wenn das Falschparken eine GefÃ¤hrdung des StraÃŸenverkehrs
     darstellt (z.B.  bei Behinderung von Rettungsfahrzeugen),
-    soll die Prozedur eine Ordnungswidrigkeit mit 40~Euro Bußgeld,
-    einem Punkt und keinem Fahrverbot zurückgeben.
+    soll die Prozedur eine Ordnungswidrigkeit mit 40~Euro BuÃŸgeld,
+    einem Punkt und keinem Fahrverbot zurÃ¼ckgeben.
 
-  \item Schreiben Sie eine Prozedur, die Überfahren
+  \item Schreiben Sie eine Prozedur, die Ãœberfahren
     einer roten Ampel konsumiert und eine Ordnungswidrigkeit
-    zurückgibt.  Dabei gilt:
+    zurÃ¼ckgibt.  Dabei gilt:
     \begin{itemize}
-    \item wenn die Ampel kürzer als eine Sekunde rot war und keine
-      Gefährdung vorlag: 50~Euro, 3~Punkte, kein Fahrverbot
+    \item wenn die Ampel kÃ¼rzer als eine Sekunde rot war und keine
+      GefÃ¤hrdung vorlag: 50~Euro, 3~Punkte, kein Fahrverbot
     \item wenn die Ampel mindestens eine Sekunde rot war oder eine
-      Gefährdung vorlag: 125~Euro, 4~Punkte, 1~Monat Fahrverbot
+      GefÃ¤hrdung vorlag: 125~Euro, 4~Punkte, 1~Monat Fahrverbot
     \end{itemize}
 
-  \item Schreiben Sie eine Prozedur, die überhöhte
-    Geschwindigkeit konsumiert und den Tatbestand zurückgibt.  Dabei
+  \item Schreiben Sie eine Prozedur, die Ã¼berhÃ¶hte
+    Geschwindigkeit konsumiert und den Tatbestand zurÃ¼ckgibt.  Dabei
     gilt:
     \begin{itemize}
-    \item Geschwindigkeitsübertretung weniger als 20 km/h ohne Gefährdung:
+    \item GeschwindigkeitsÃ¼bertretung weniger als 20 km/h ohne GefÃ¤hrdung:
       einfaches Vergehen mit 35~Euro
-    \item Geschwindigkeitsübertretung zwischen 20 und 40 km/h
-      (inklusive) ohne Gefährdung: Ordnungswidrigkeit mit 75~Euro,
+    \item GeschwindigkeitsÃ¼bertretung zwischen 20 und 40 km/h
+      (inklusive) ohne GefÃ¤hrdung: Ordnungswidrigkeit mit 75~Euro,
       3~Punkten und 1~Monat Fahrverbot
-    \item Geschwindigkeitsübertretung von mehr als 40 km/h ohne
-      Gefährdung: Ordnungswidrigkeit mit 200~Euro, 4~Punkte und
+    \item GeschwindigkeitsÃ¼bertretung von mehr als 40 km/h ohne
+      GefÃ¤hrdung: Ordnungswidrigkeit mit 200~Euro, 4~Punkte und
       3~Monate Fahrverbot
-    \item bei gleichzeitiger Gefährdung des Straßenverkehrs: Straftat
-      mit 3~Punkte mehr als ohne Gefährdung angegeben und
+    \item bei gleichzeitiger GefÃ¤hrdung des StraÃŸenverkehrs: Straftat
+      mit 3~Punkte mehr als ohne GefÃ¤hrdung angegeben und
       Freiheitsstrafe, die doppelt so lang ist wie das Fahrverbot, das
-      ohne Gefährdung gilt (wenn es kein Fahrverbot gibt, dann gibt es
+      ohne GefÃ¤hrdung gilt (wenn es kein Fahrverbot gibt, dann gibt es
       auch keine Freiheitsstrafe)
     \end{itemize}
 
   \item Schreiben Sie eine Funktion, die einen
-    Verstoß konsumiert und dessen Folge zurückgibt.  Benutzen Sie die
+    VerstoÃŸ konsumiert und dessen Folge zurÃ¼ckgibt.  Benutzen Sie die
     Funktionen aus den vorherigen Teilaufgaben.
   \end{enumerate}
 \end{aufgabe}

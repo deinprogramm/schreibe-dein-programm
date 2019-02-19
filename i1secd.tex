@@ -5,53 +5,53 @@
 
 \chapter{Die SECD-Maschine}\label{cha:secd}
 
-Der $\lambda$-Kalkül ist als theoretisches Modell für berechenbare
+Der $\lambda$-KalkÃ¼l ist als theoretisches Modell fÃ¼r berechenbare
 Funktionen lange vor der Erfindung des Computers entwickelt worden.
-Die Reduktionsregeln dienen dabei der Entwicklung von Beweisen über
-die Äquivalenz von $\lambda$-Termen.  Damit der $\lambda$-Kalkül auch
-als Modell für die tatsächliche Ausführung von Programmen, auf dem
+Die Reduktionsregeln dienen dabei der Entwicklung von Beweisen Ã¼ber
+die Ã„quivalenz von $\lambda$-Termen.  Damit der $\lambda$-KalkÃ¼l auch
+als Modell fÃ¼r die tatsÃ¤chliche AusfÃ¼hrung von Programmen, auf dem
 Computer geeignet ist, fehlen noch zwei Zutaten: die direkte
 Definition von "`eingebauten"' Werten und Operationen wie Zahlen und
 booleschen Werten sowie ein formales Auswertungsmodell.  Dieses
-Kapitel stellt zunächst den \textit{angewandten $\lambda$-Kalkül} vor,
-der den normalen $\lambda$-Kalkül um primitive Werte und Operationen
+Kapitel stellt zunÃ¤chst den \textit{angewandten $\lambda$-KalkÃ¼l} vor,
+der den normalen $\lambda$-KalkÃ¼l um primitive Werte und Operationen
 erweitert, und dann die \textit{SECD-Maschine}, ein klassisches
-Auswertungsmodell für die Call-by-Value-Reduktion.  Angenehmerweise
-läßt sich die SECD-Maschine auch als Scheme-Programm implementieren,
+Auswertungsmodell fÃ¼r die Call-by-Value-Reduktion.  Angenehmerweise
+lÃ¤ÃŸt sich die SECD-Maschine auch als Scheme-Programm implementieren,
 was ebenfalls in diesem Kapitel geschieht.  Die SECD-Maschine
 kennt keine Zuweisungen; es folgt darum noch die Darstellung der
 \textit{SECDH-Maschine}, die auch einen \textit{Speicher} kennt und
 damit Zuweisungen korrekt modelliert.
 
 Ab diesem Kapitel wird die Sprachebene \texttt{Schreibe
-  Dein Programm! - fortgeschritten} benötigt. 
+  Dein Programm! - fortgeschritten} benÃ¶tigt. 
 
-\section{Der angewandte $\lambda$-Kalkül}
+\section{Der angewandte $\lambda$-KalkÃ¼l}
 
-Abschnitt~\ref{sec:lambdaprog} zeigte bereits, daß sich auch boolesche
-Werte und Zahlen im $\lambda$-Kalkül durch $\lambda$-Terme darstellen
+Abschnitt~\ref{sec:lambdaprog} zeigte bereits, daÃŸ sich auch boolesche
+Werte und Zahlen im $\lambda$-KalkÃ¼l durch $\lambda$-Terme darstellen
 lassen.  Das ist zwar aus theoretischer Sicht gut zu wissen, auf Dauer
-aber etwas mühsam: Darum ist es sinnvoll, mit einer erweiterten
-Version des $\lambda$-Kalküls zu arbeiten, die solche "`primitiven"'
+aber etwas mÃ¼hsam: Darum ist es sinnvoll, mit einer erweiterten
+Version des $\lambda$-KalkÃ¼ls zu arbeiten, die solche "`primitiven"'
 Werte direkt kennt.  Abschnitt~\ref{sec:lambdaprog} hat gezeigt,
-daß eine solche Erweiterung nur syntaktischer Zucker ist,
-also die Ausdruckskraft des Kalküls nicht wirklich erhöht.  Alle
-Erkenntnisse aus dem normalen $\lambda$-Kalkül bleiben also erhalten.
+daÃŸ eine solche Erweiterung nur syntaktischer Zucker ist,
+also die Ausdruckskraft des KalkÃ¼ls nicht wirklich erhÃ¶ht.  Alle
+Erkenntnisse aus dem normalen $\lambda$-KalkÃ¼l bleiben also erhalten.
 
-Ein solcher erweiterter $\lambda$-Kalkül heißt auch
-\textit{angewandter $\lambda$-Kalkül}:
+Ein solcher erweiterter $\lambda$-KalkÃ¼l heiÃŸt auch
+\textit{angewandter $\lambda$-KalkÃ¼l}:
 
-\begin{definition}[Sprache des angewandten $\lambda$-Kalküls
-  $\mathcal{L}_{\lambda{}A}$]\index{angewandter $\lambda$-Kalkül}\label{def:lambda-angewandt}
+\begin{definition}[Sprache des angewandten $\lambda$-KalkÃ¼ls
+  $\mathcal{L}_{\lambda{}A}$]\index{angewandter $\lambda$-KalkÃ¼l}\label{def:lambda-angewandt}
   
-  Sei $V$ eine abzählbare Menge von Variablen.  Sei $B$ eine Menge von
-  \textit{Basiswerten\index{Basiswert}}.  Sei für eine natürliche
+  Sei $V$ eine abzÃ¤hlbare Menge von Variablen.  Sei $B$ eine Menge von
+  \textit{Basiswerten\index{Basiswert}}.  Sei fÃ¼r eine natÃ¼rliche
   Zahl $n$ und $i \in \{1, \ldots, n\}$ jeweils $\Sigma^i$ eine Menge
   von \textit{$i$-stelligen Primitiva\index{Primitivum}}~-- die Namen
   von "`eingebauten Operationen"'.  Jedem $F^i\in\Sigma^i$ ist eine
   $i$-stellige Funktion $F_B^i: B\times\ldots\times B \rightarrow
   B$~-- ihre \textit{Operation}~--
-  zugordnet.  Die Sprache des angewandten $\lambda$"=Kalküls, die
+  zugordnet.  Die Sprache des angewandten $\lambda$"=KalkÃ¼ls, die
   Menge der \textit{angewandten $\lambda$-Terme},
   $\mathcal{L}_{\lambda{}A}$\index{L@$\mathcal{L}_{\lambda{}A}$}, ist
   durch folgende Grammatik definiert:
@@ -65,31 +65,31 @@ Ein solcher erweiterter $\lambda$-Kalkül heißt auch
     \> \ldots
     \> \| (\meta{$\Sigma^n$}~\meta{$\mathcal{L}_{\lambda{}A}$}~\ldots~\meta{$\mathcal{L}_{\lambda{}A}$}) \quad \textrm{($n$-mal)}
   \end{grammar}
-  Die Grammatik ist abgekürzt notiert: Die letzen Klauseln besagen,
-  daß es für jede Stelligkeit $i$ eine Klausel mit \meta{$\Sigma^i$} gibt,
+  Die Grammatik ist abgekÃ¼rzt notiert: Die letzen Klauseln besagen,
+  daÃŸ es fÃ¼r jede Stelligkeit $i$ eine Klausel mit \meta{$\Sigma^i$} gibt,
   bei der jeweils $i$ Wiederholungen von
   \meta{$\mathcal{L}_{\lambda{}A}$}~-- entsprechend der Stelligkeit
   der Primitiva in $\Sigma^i$.
   %
-Dabei heißen Terme der Form $(F^k~e_1~\ldots~e_k)$ auch
+Dabei heiÃŸen Terme der Form $(F^k~e_1~\ldots~e_k)$ auch
 \textit{primitive Applikationen\index{primitive Applikation}}.
 \end{definition}
 %
 In diesem Kapitel dienen normalerweise die Zahlen als Basiswerte mit
-den üblichen Operationen wie $+$, $-$, $\ast$, $/$ etc.  Damit sind
-Terme wie zum Beispiel $(+~(-~5~3)~17)$ möglich.
+den Ã¼blichen Operationen wie $+$, $-$, $\ast$, $/$ etc.  Damit sind
+Terme wie zum Beispiel $(+~(-~5~3)~17)$ mÃ¶glich.
 
-Im angewandten $\lambda$-Kalkül kommen zu den Werten aus
+Im angewandten $\lambda$-KalkÃ¼l kommen zu den Werten aus
 Definition~\ref{def:wert} die Basiswerte dazu:
 %
-\begin{definition}[Werte im angewandten $\lambda$-Kalkül]\label{def:wert-angewandt}
-  Im angewandten $\lambda$-Kalkül heißen die Abstraktionen und
+\begin{definition}[Werte im angewandten $\lambda$-KalkÃ¼l]\label{def:wert-angewandt}
+  Im angewandten $\lambda$-KalkÃ¼l heiÃŸen die Abstraktionen und
   Basiswerte kollektiv \textit{Werte}.  Ein $\lambda$-Term, der kein
-  Wert\index{Wert} ist, heißt \textit{Nichtwert\index{Nichtwert}}.
+  Wert\index{Wert} ist, heiÃŸt \textit{Nichtwert\index{Nichtwert}}.
 \end{definition}
 
-Damit die primitiven Operationen auch tatsächlich eine Bedeutung
-bekommen, muß eine spezielle Reduktionsregel für sie eingeführt
+Damit die primitiven Operationen auch tatsÃ¤chlich eine Bedeutung
+bekommen, muÃŸ eine spezielle Reduktionsregel fÃ¼r sie eingefÃ¼hrt
 werden:
 %
 \begin{definition}[$\delta$-Reduktion]\index{delta-Reduktion@$\delta$-Reduktion}
@@ -99,10 +99,10 @@ werden:
 \end{displaymath}
 \end{definition}
 %
-Diese Regel besagt, daß eine primitive Applikation, wenn alle
+Diese Regel besagt, daÃŸ eine primitive Applikation, wenn alle
 Operanden Werte sind, durch Anwendung der entsprechenden Operation 
 reduziert werden kann.  Damit wird z.B.\ der
-obige Beispielterm folgendermaßen reduziert:
+obige Beispielterm folgendermaÃŸen reduziert:
 %
 \begin{displaymath}
   (+~(-~5~3)~17) \rightarrow_{\delta} (+~2~17) \rightarrow_{\delta} 19
@@ -110,28 +110,28 @@ obige Beispielterm folgendermaßen reduziert:
 
 \section{Die einfache SECD-Maschine}
 
-Wie schon in Abschnitt~\ref{sec:scheme-auswertung} erwähnt, ist 
-der Call-by-Value-$\lambda$-Kalkül\index{Call-by-Value-Reduktion}
-ein Modell für die Auswertung von Scheme und viele andere
+Wie schon in Abschnitt~\ref{sec:scheme-auswertung} erwÃ¤hnt, ist 
+der Call-by-Value-$\lambda$-KalkÃ¼l\index{Call-by-Value-Reduktion}
+ein Modell fÃ¼r die Auswertung von Scheme und viele andere
 Programmiersprachen .
 Allerdings ist Definition~\ref{def:call-by-value} strenggenommen etwas
 vage: Es wird immer nur der Subterm reduziert, der
-"`möglichst weit links innen steht"', aber was das heißt, ist nicht
-genau definiert.  Außerdem ist Reduktion zwar ein
-mächtiges formales Modell, entspricht aber nicht der
-Ausführungsmethode tatsächlicher Scheme-Implementierungen auf echten
-Prozessoren.  Ein präzises und echten Maschinen deutlich näheres
+"`mÃ¶glichst weit links innen steht"', aber was das heiÃŸt, ist nicht
+genau definiert.  AuÃŸerdem ist Reduktion zwar ein
+mÃ¤chtiges formales Modell, entspricht aber nicht der
+AusfÃ¼hrungsmethode tatsÃ¤chlicher Scheme-Implementierungen auf echten
+Prozessoren.  Ein prÃ¤zises und echten Maschinen deutlich nÃ¤heres
 Modell ist die \textit{SECD-Maschine\index{SECD-Maschine}}, erfunden
 schon in den 60er Jahren von Peter Landin~\cite{Landin1964}, und
-seitdem die Grundlage für zahllose Implementierungen von
-Call-by-Value-Sprachen.  (Die Darstellung hier ist gegenüber Landins
-ursprünglicher Formulierung etwas modernisiert.)
+seitdem die Grundlage fÃ¼r zahllose Implementierungen von
+Call-by-Value-Sprachen.  (Die Darstellung hier ist gegenÃ¼ber Landins
+ursprÃ¼nglicher Formulierung etwas modernisiert.)
 
-Damit ein Programm aus dem angewandten $\lambda$-Kalkül mit der
-SECD-Maschine ausgewertet werden kann, muß es erst einmal in einen
-speziellen \textit{Maschinencode\index{Maschinencode}} übersetzt oder
+Damit ein Programm aus dem angewandten $\lambda$-KalkÃ¼l mit der
+SECD-Maschine ausgewertet werden kann, muÃŸ es erst einmal in einen
+speziellen \textit{Maschinencode\index{Maschinencode}} Ã¼bersetzt oder
 "`compiliert"' werden.  Der Maschinencode besteht, anders als der
-$\lambda$-Kalkül, nicht aus geschachtelten Termen, sondern aus einer
+$\lambda$-KalkÃ¼l, nicht aus geschachtelten Termen, sondern aus einer
 Folge von \textit{Instruktionen\index{Instruktion}}.  
 
 \begin{definition}[Maschinencode]\label{def:secd-code}
@@ -140,7 +140,7 @@ Folge von \textit{Instruktionen\index{Instruktion}}.
     \meta{I} \: \meta{B}
     \> \| \meta{V}
     \> \| ap
-    \> \| prim$_{F^i}$ \textrm{für alle $F^i \in \Sigma^i$}
+    \> \| prim$_{F^i}$ \textrm{fÃ¼r alle $F^i \in \Sigma^i$}
     \> \| (\meta{V}, \meta{C})
   \end{grammar}
   %
@@ -151,8 +151,8 @@ Folge von \textit{Instruktionen\index{Instruktion}}.
   \end{displaymath}
 \end{definition}
 
-Ein Term aus dem angewandten $\lambda$-Kalkül wird mit Hilfe folgender
-Funktion in Maschinencode übersetzt:
+Ein Term aus dem angewandten $\lambda$-KalkÃ¼l wird mit Hilfe folgender
+Funktion in Maschinencode Ã¼bersetzt:
 %
 \begin{eqnarray*}
   \llbracket \underline{~} \rrbracket &:& \mathcal{L}_{\lambda{}A}
@@ -169,18 +169,18 @@ Funktion in Maschinencode übersetzt:
   \end{cases}
 \end{eqnarray*}
 %
-Die Übersetzungsfunktion "`linearisiert"' einen $\lambda$-Term.  Zum
-Beispiel bedeutet die Übersetzung $\llbracket e_0\rrbracket~\llbracket
-e_1\rrbracket~\mathtt{ap}$ für einen Term $(e_0~e_1)$, daß zuerst
-$e_0$ ausgewertet wird, danach wird $e_1$ ausgewertet, und schließlich wird die
-eigentliche Applikation ausgeführt:  Entsprechend steht $\mathtt{ap}$
-für "`Applikation ausführen"' und $\mathtt{prim}_{F^k}$ für "`Primitiv
-$F$ ausführen"'.  Basiswerte und Variablen werden im Maschinencode
-belassen.  Ein $\lambda$-Term wird übersetzt in ein Tupel aus seiner
-Variable und dem Maschinencode für seinen Rumpf.
+Die Ãœbersetzungsfunktion "`linearisiert"' einen $\lambda$-Term.  Zum
+Beispiel bedeutet die Ãœbersetzung $\llbracket e_0\rrbracket~\llbracket
+e_1\rrbracket~\mathtt{ap}$ fÃ¼r einen Term $(e_0~e_1)$, daÃŸ zuerst
+$e_0$ ausgewertet wird, danach wird $e_1$ ausgewertet, und schlieÃŸlich wird die
+eigentliche Applikation ausgefÃ¼hrt:  Entsprechend steht $\mathtt{ap}$
+fÃ¼r "`Applikation ausfÃ¼hren"' und $\mathtt{prim}_{F^k}$ fÃ¼r "`Primitiv
+$F$ ausfÃ¼hren"'.  Basiswerte und Variablen werden im Maschinencode
+belassen.  Ein $\lambda$-Term wird Ã¼bersetzt in ein Tupel aus seiner
+Variable und dem Maschinencode fÃ¼r seinen Rumpf.
 
 Durch die Linearisierung sind die Instruktionen schon in einer Liste in der
-Reihenfolge ihrer Ausführung aufgereiht.  Insbesondere hat die
+Reihenfolge ihrer AusfÃ¼hrung aufgereiht.  Insbesondere hat die
 Linearisierung den Begriff "`links innen"' formalisiert: der jeweils
 am weitesten links innen stehende Redex steht in der Liste der
 Instruktionen vorn.
@@ -213,18 +213,18 @@ Beispiel:
 \end{eqnarray*}
 %
 Das Beispiel zeigt deutlich, wie der Rumpf der innersten Abstraktion
-in eine lineare Folge von Instruktionen übersetzt wird, die genau der
+in eine lineare Folge von Instruktionen Ã¼bersetzt wird, die genau der
 Call-by-Value-Reduktionsstrategie entspricht: erst $f$ auswerten, dann
 $x$, dann $y$, dann das Primitiv $*$ anwenden, dann $+$, und
-schließlich die Applikation durchführen.
+schlieÃŸlich die Applikation durchfÃ¼hren.
 
-Nun zur eigentlichen SECD-Maschine~-- sie funktioniert ähnlich wie ein
-Reduktionskalkül, operiert aber auf sogenannten
-\textit{Maschinenzuständen}: die Maschine überführt also einen
+Nun zur eigentlichen SECD-Maschine~-- sie funktioniert Ã¤hnlich wie ein
+ReduktionskalkÃ¼l, operiert aber auf sogenannten
+\textit{MaschinenzustÃ¤nden}: die Maschine Ã¼berfÃ¼hrt also einen
 Maschinenzustand durch einen Auswertungsschritt in einen neuen
 Maschinenzustand.  Ein Maschinenzustand ist dabei ein 4-Tupel aus der
 Menge $S\times E\times C\times D$ (daher der Name der Maschine).  Die
-Buchstaben sind deshalb so gewählt, weil $S$ der sogenannte
+Buchstaben sind deshalb so gewÃ¤hlt, weil $S$ der sogenannte
 \textit{Stack\index{Stack}}, $E$ die sogenannte
 \textit{Umgebung\index{Umgebung}} bzw.\ auf englisch das
 \textit{Environment\index{Environment}}, $C$ der schon bekannte
@@ -243,30 +243,30 @@ Der Stack ist dabei eine Folge von Werten.  In der Maschine sind dies
 die Werte der zuletzt ausgewerteten Terme, wobei der zuletzt
 ausgewertete Term vorn bzw.\ "`oben"' steht.  Die Umgebung ist eine
 partielle Abbildung von Variablen auf Werte: sie ersetzt die
-Substitution in der Reduktionsrelation des $\lambda$-Kalküls.  Anstatt
-daß Werte für Variablen eingesetzt werden, merkt sich die Umgebung
+Substitution in der Reduktionsrelation des $\lambda$-KalkÃ¼ls.  Anstatt
+daÃŸ Werte fÃ¼r Variablen eingesetzt werden, merkt sich die Umgebung
 einfach, an welche Werte die Variablen gebunden sind.  Erst wenn der
-Wert einer Variablen benötigt wird, holt ihn die Maschine aus der
-Umgebung.  Der Dump schließlich ist eine Liste früherer Zustände der
+Wert einer Variablen benÃ¶tigt wird, holt ihn die Maschine aus der
+Umgebung.  Der Dump schlieÃŸlich ist eine Liste frÃ¼herer ZustÃ¤nde der
 Maschine: er entspricht dem Kontext\index{Kontext} im
 Substitutionsmodell.
 
-Die Menge $W$ schließlich entspricht dem Wertebegriff aus
-Definition~\ref{def:wert-angewandt}: Die Basiswerte gehören dazu,
-außerdem Tripel aus $(V\times C\times E)$.  Ein solches Tripel,
-genannt \textit{Closure\index{Closure}}~-- repräsentiert den Wert
+Die Menge $W$ schlieÃŸlich entspricht dem Wertebegriff aus
+Definition~\ref{def:wert-angewandt}: Die Basiswerte gehÃ¶ren dazu,
+auÃŸerdem Tripel aus $(V\times C\times E)$.  Ein solches Tripel,
+genannt \textit{Closure\index{Closure}}~-- reprÃ¤sentiert den Wert
 einer Abstraktion~-- es besteht aus der Variable einer Abstraktion,
 dem Maschinencode ihres Rumpfs und der Umgebung, die notwendig ist, um
-die Abstraktion anzuwenden: Die Umgebung wird benötigt, damit die
+die Abstraktion anzuwenden: Die Umgebung wird benÃ¶tigt, damit die
 freien Variablen der Abstraktion entsprechend der lexikalischen
-Bindung\index{lexikalische Bindung} ausgewertet werden können.  Dies
+Bindung\index{lexikalische Bindung} ausgewertet werden kÃ¶nnen.  Dies
 ist anders als im Substitutionsmodell, wo Variablen bei der
 Applikation direkt ersetzt werden und damit verschwinden.  Eine
-Closure ist also einfach die Repräsentation einer Funktion.
+Closure ist also einfach die ReprÃ¤sentation einer Funktion.
 
-Im Verlauf der Auswertung werden Umgebungen häufig um neue Bindungen
+Im Verlauf der Auswertung werden Umgebungen hÃ¤ufig um neue Bindungen
 von einer Variable an einen Wert erweitert.  Dazu ist die Notation
-$e[v\mapsto w]$ nützlich.  $e[v\mapsto w]$ konstruiert aus einer
+$e[v\mapsto w]$ nÃ¼tzlich.  $e[v\mapsto w]$ konstruiert aus einer
 Umgebung $e$ eine neue Umgebung, in der die Variable $v$ an den Wert
 $w$ gebunden ist.  Hier ist die Definition:
 %
@@ -275,16 +275,16 @@ $w$ gebunden ist.  Hier ist die Definition:
     (v, w) \}
 \end{displaymath}
 %
-Es wird also zunächst eine eventuell vorhandene alte Bindung entfernt
-und dann eine neue hinzugefügt.
+Es wird also zunÃ¤chst eine eventuell vorhandene alte Bindung entfernt
+und dann eine neue hinzugefÃ¼gt.
 
 Um einen $\lambda$-Term $e$ in die SECD-Maschine zu "`injizieren"',
 wird er in einen Anfangszustand $(\epsilon, \varnothing, \llbracket
-e\rrbracket, \epsilon)$ übersetzt.  Dann wird dieser Zustand
-wiederholt in die Zustandsübergangsrelation $\hookrightarrow$
-gefüttert.  In der folgenden Definition von $\hookrightarrow$ sind
+e\rrbracket, \epsilon)$ Ã¼bersetzt.  Dann wird dieser Zustand
+wiederholt in die ZustandsÃ¼bergangsrelation $\hookrightarrow$
+gefÃ¼ttert.  In der folgenden Definition von $\hookrightarrow$ sind
 Bezeichner mit einem Unterstrich versehen, wenn es sich um Folgen
-handelt, also z.B.\ \underline{s} für einen Stack:
+handelt, also z.B.\ \underline{s} fÃ¼r einen Stack:
 %
 \begin{eqnarray}
   \hookrightarrow &\in& \mathcal{P}((S\times E\times C\times D) \times (S\times E\times C\times D))\notag\\
@@ -334,31 +334,31 @@ folgt:
   einer Variable aus der Umgebung und schiebt diesen auf den Stack.
 \item Regel~\ref{secd:prim} ist die
   \textit{Primitivregel\index{Primitivregel}}.  Bei einer primitiven
-  Applikation müssen soviele Basiswerte oben auf dem Stack liegen wie
+  Applikation mÃ¼ssen soviele Basiswerte oben auf dem Stack liegen wie
   die Stelligkeit des Primitivs.  Dann ermittelt die Primitivregel das Ergebnis der
   primitiven Applikation und schiebt es oben auf den Stack.
 \item Regel~\ref{secd:abstraction} ist die
   \textit{Abstraktionsregel\index{Abstraktionsregel}}: Das Tupel
-  $(v,\underline{c'})$ ist bei der Übersetzung aus einer Abstraktion
-  entstanden.  Die Regel ergänzt $v$ und $\underline{c'}$ mit
+  $(v,\underline{c'})$ ist bei der Ãœbersetzung aus einer Abstraktion
+  entstanden.  Die Regel ergÃ¤nzt $v$ und $\underline{c'}$ mit
   $e$ zu einer Closure, die auf den Stack geschoben wird.
 \item Regel~\ref{secd:app} ist die
   \textit{Applikationsregel\index{Applikationsregel}}: Bei einer
-  Applikation müssen oben auf dem Stack ein Wert sowie eine Closure
+  Applikation mÃ¼ssen oben auf dem Stack ein Wert sowie eine Closure
   liegen.  (Zur Erinnerung: Eine Applikation kann nur ausgewertet
   werden, wenn eine Abstraktion vorliegt.  Abstraktionen werden zu
   Closures ausgewertet.)  In einem solchen Fall "`sichert"' die
-  Applikation den aktuellen Zustand auf den Dump, und die Auswertung fährt mit
+  Applikation den aktuellen Zustand auf den Dump, und die Auswertung fÃ¤hrt mit
   einem leeren Stack, der Umgebung aus der Closure~-- erweitert um
-  eine Bindung für die Variable~-- und dem Code aus der Closure fort.
+  eine Bindung fÃ¼r die Variable~-- und dem Code aus der Closure fort.
 \item Regel~\ref{secd:return} ist die
-  \textit{Rückkehrregel\index{Rückkehrregel}}: Sie ist anwendbar,
-  wenn das Ende des Codes erreicht ist.  Das heißt, daß gerade
+  \textit{RÃ¼ckkehrregel\index{RÃ¼ckkehrregel}}: Sie ist anwendbar,
+  wenn das Ende des Codes erreicht ist.  Das heiÃŸt, daÃŸ gerade
   die Auswertung einer Applikation fertig ist.  Auf dem Dump liegt
-  aber noch ein gesicherter Zustand, der jetzt "`zurückgeholt"' wird.
+  aber noch ein gesicherter Zustand, der jetzt "`zurÃ¼ckgeholt"' wird.
 \end{itemize}
 %
-Hier ein Beispiel für den Ablauf der SECD-Maschine für den Term
+Hier ein Beispiel fÃ¼r den Ablauf der SECD-Maschine fÃ¼r den Term
 $(((\lambda x.\lambda y.(+~x~y))~1)~2)$:
 % (secd-step*/tex (inject-secd '(((lambda (x) (lambda (y) (+ x y))) 1) 2)))
 %
@@ -379,9 +379,9 @@ $(((\lambda x.\lambda y.(+~x~y))~1)~2)$:
   \end{array}
 \end{displaymath}
 %
-Die Zustandsübergangsrelation $\hookrightarrow$ ist nun die Grundlage
-für die \textit{Auswertungsfunktion\index{Auswertungsfunktion}} der
-SECD-Maschine, die für einen $\lambda$-Term dessen Bedeutung
+Die ZustandsÃ¼bergangsrelation $\hookrightarrow$ ist nun die Grundlage
+fÃ¼r die \textit{Auswertungsfunktion\index{Auswertungsfunktion}} der
+SECD-Maschine, die fÃ¼r einen $\lambda$-Term dessen Bedeutung
 ausrechnet.  Dies ist scheinbar ganz einfach:
 %
 \begin{eqnarray*}
@@ -394,30 +394,30 @@ Diese Definition hat jedoch zwei Haken:
 %
 \begin{itemize}
 \item Die Auswertung von $\lambda$-Termen terminiert nicht immer (wie
-  zum Beispiel für den "`Endlos"=Term"' $(\lambda x.(x~x))~(\lambda x.(x~x))$), es kommt
-  also nicht immer dazu, daß die Zustandsübergangsrelation bei einem
+  zum Beispiel fÃ¼r den "`Endlos"=Term"' $(\lambda x.(x~x))~(\lambda x.(x~x))$), es kommt
+  also nicht immer dazu, daÃŸ die ZustandsÃ¼bergangsrelation bei einem
   Zustand der Form $(\epsilon, \varnothing, \llbracket e\rrbracket,
   \epsilon)$ terminiert.
 \item Das $x$ aus dieser Definition ist nicht immer ein Basiswert~--
   es kann auch eine Closure sein.
 \end{itemize}
 %
-Der erste Haken sorgt dafür, daß die Auswertungsfunktion nur eine
+Der erste Haken sorgt dafÃ¼r, daÃŸ die Auswertungsfunktion nur eine
 Relation im Sinne einer "`partiellen Funktion"' ist.  Meist wird
 trotzdem von einer Auswertungsfunktion gesprochen.  Beim zweiten
-Haken, wenn $x$ eine Closure ist, läßt sich mit dem Resultat nicht
+Haken, wenn $x$ eine Closure ist, lÃ¤ÃŸt sich mit dem Resultat nicht
 viel anfangen: Um die genaue Bedeutung der Closure herauszubekommen,
-müßte sie angewendet werden~-- das Programm ist aber schon fertig
+mÃ¼ÃŸte sie angewendet werden~-- das Programm ist aber schon fertig
 gelaufen.  Es ist also gar nicht sinnvoll, zwischen verschiedenen
-Closures zu unterscheiden.  Darum wird für die Zwecke der
+Closures zu unterscheiden.  Darum wird fÃ¼r die Zwecke der
 Auswertungsfunktion eine Menge $Z$ der \textit{Antworten\index{Antwort}}
-definiert, die einen designierten Spezialwert für Closures enthält:
+definiert, die einen designierten Spezialwert fÃ¼r Closures enthÃ¤lt:
 %
 \begin{displaymath}
   Z = B \cup \{ \texttt{function} \}
 \end{displaymath}
 %
-Damit läßt sich die Evaluationsfunktion wie folgt definieren:
+Damit lÃ¤ÃŸt sich die Evaluationsfunktion wie folgt definieren:
 %
 \begin{eqnarray*}
   \mathit{eval}_\mathit{SECD} & \in & \mathcal{L}_{\lambda{}A} \times Z\\
@@ -435,15 +435,15 @@ Damit läßt sich die Evaluationsfunktion wie folgt definieren:
 
 Dieses Kapitel wird ab hier Gebrauch von einer weiteren
 Sprachebene\index{Sprachebene!fortgeschritten} in
-\drscheme{} machen, nämlich \texttt{Die Macht der Abstraktion -
-  fortgeschritten}.  Diese Ebene muß mit dem \drscheme{}-Menü \texttt{Sprache}
-unter \texttt{Sprache auswählen} aktiviert sein, damit die
+\drscheme{} machen, nÃ¤mlich \texttt{Die Macht der Abstraktion -
+  fortgeschritten}.  Diese Ebene muÃŸ mit dem \drscheme{}-MenÃ¼ \texttt{Sprache}
+unter \texttt{Sprache auswÃ¤hlen} aktiviert sein, damit die
 Programme dieses Kapitels funktionieren.
 
-Die entscheidende Änderung gegenüber den früheren Sprachebenen ist
+Die entscheidende Ã„nderung gegenÃ¼ber den frÃ¼heren Sprachebenen ist
 die Art, mit der die REPL Werte ausdruckt.  (Diese neue Schreibweise,
-ermöglicht, die Programme des Interpreters, die als Werte
-repräsentiert sind, korrekt auszudrucken.)  Bei Zahlen, Zeichenketten
+ermÃ¶glicht, die Programme des Interpreters, die als Werte
+reprÃ¤sentiert sind, korrekt auszudrucken.)  Bei Zahlen, Zeichenketten
 und booleschen Werten bleibt alles beim alten:
 %
 \begin{alltt}
@@ -462,20 +462,20 @@ Bei Listen sieht es allerdings anders aus:
 \evalsto{} (1 2 3 4 5 6)
 \end{alltt}
 %
-Die REPL druckt also eine Liste aus, indem sie zuerst eine öffnende
+Die REPL druckt also eine Liste aus, indem sie zuerst eine Ã¶ffnende
 Klammer ausdruckt, dann die Listenelemente (durch Leerzeichen
-getrennt) und dann eine schließende Klammer.
+getrennt) und dann eine schlieÃŸende Klammer.
 
-Das funktioniert auch für die leere Liste:
+Das funktioniert auch fÃ¼r die leere Liste:
 %
 \begin{alltt}
 empty
 \evalsto{} ()
 \end{alltt}
 %
-Mit der neuen Sprachebene bekommt außerdem der Apostroph, der dem
-Literal\index{Literal} für die leere Liste voransteht, eine erweiterte Bedeutung.
-Unter anderem kann der Apostroph benutzt werden, um Literale für
+Mit der neuen Sprachebene bekommt auÃŸerdem der Apostroph, der dem
+Literal\index{Literal} fÃ¼r die leere Liste voransteht, eine erweiterte Bedeutung.
+Unter anderem kann der Apostroph benutzt werden, um Literale fÃ¼r
 Listen zu formulieren:
 %
 \begin{alltt}
@@ -488,9 +488,9 @@ Listen zu formulieren:
 \end{alltt}
 %
 In der neuen Sprachebene benutzen die Literale und die ausgedruckten
-externen Repräsentationen für Listen also die gleiche
-Notation\index{Repräsentation}.  Sie unterscheiden sich nur dadurch,
-daß beim Literal der Apostroph voransteht.  Der Apostroph funktioniert
+externen ReprÃ¤sentationen fÃ¼r Listen also die gleiche
+Notation\index{ReprÃ¤sentation}.  Sie unterscheiden sich nur dadurch,
+daÃŸ beim Literal der Apostroph voransteht.  Der Apostroph funktioniert
 auch bei Zahlen, Zeichenketten und booleschen Werten:
 %
 \begin{alltt}
@@ -505,18 +505,18 @@ auch bei Zahlen, Zeichenketten und booleschen Werten:
 Der Apostroph am Anfang eines Ausdrucks
 kennzeichnet diesen also als Literal.  Der Wert des Literals wird 
 genauso ausgedruckt, wie es im Programm steht.  (Abgesehen von
-Leerzeichen und Zeilenumbrüchen.)  Der Apostroph heißt auf englisch
+Leerzeichen und ZeilenumbrÃ¼chen.)  Der Apostroph heiÃŸt auf englisch
 "`quote"'\index{quote@\texttt{quote}}, und deshalb ist diese
 Literalschreibweise auch unter diesem Namen bekannt.  Bei Zahlen,
-Zeichenketten und booleschen Literalen ist auch ohne Quote klar, daß
+Zeichenketten und booleschen Literalen ist auch ohne Quote klar, daÃŸ
 es sich um Literale handelt.  Das Quote ist darum bei ihnen rein
-optional; sie heißen 
+optional; sie heiÃŸen 
 \textit{selbstquotierend}\index{selbstquotierend}.
-Bei Listen hingegen sind Mißverständnisse mit anderen
-zusammengesetzten Formen möglich, die ja auch mit einer öffnenden Klammer
-beginnen: \footnote{Tatsächlich ist die neue Schreibweise für externe
-  Repräsentationen die Standard-Repräsentation in Scheme.  Die
-  früheren Sprachebenen benutzten die alternative Schreibweise, um die
+Bei Listen hingegen sind MiÃŸverstÃ¤ndnisse mit anderen
+zusammengesetzten Formen mÃ¶glich, die ja auch mit einer Ã¶ffnenden Klammer
+beginnen: \footnote{TatsÃ¤chlich ist die neue Schreibweise fÃ¼r externe
+  ReprÃ¤sentationen die Standard-ReprÃ¤sentation in Scheme.  Die
+  frÃ¼heren Sprachebenen benutzten die alternative Schreibweise, um die
   Verwirrung zwischen Listenliteralen und zusammengesetzten Formen zu
   vermeiden.}
 \begin{alltt}
@@ -525,11 +525,11 @@ beginnen: \footnote{Tatsächlich ist die neue Schreibweise für externe
      arguments were: 2 3 4 5 6
 \end{alltt}
 %
-Mit der Einführung von Quote kommt noch eine völlig neue Sorte Werte
-hinzu: die \textit{Symbole\index{Symbol}}.  Symbole sind Werte ähnlich wie Zeichenketten und
-bestehen aus Text.  Sie unterscheiden sich allerdings dadurch, daß sie
+Mit der EinfÃ¼hrung von Quote kommt noch eine vÃ¶llig neue Sorte Werte
+hinzu: die \textit{Symbole\index{Symbol}}.  Symbole sind Werte Ã¤hnlich wie Zeichenketten und
+bestehen aus Text.  Sie unterscheiden sich allerdings dadurch, daÃŸ sie
 als Literal mit Quote geschrieben und in der REPL ohne
-Anführungszeichen ausgedruckt werden:
+AnfÃ¼hrungszeichen ausgedruckt werden:
 %
 \begin{alltt}
 'mike
@@ -538,7 +538,7 @@ Anführungszeichen ausgedruckt werden:
 \evalsto{} doof
 \end{alltt}
 %
-Symbole lassen sich mit dem Prädikat
+Symbole lassen sich mit dem PrÃ¤dikat
 \texttt{symbol?\index{symbol@\texttt{symbol?}}} von anderen Werten
 unterscheiden:
 %
@@ -561,9 +561,9 @@ Abbildung~\ref{scheme:equalp}):
 \evalsto{} #t
 \end{alltt}
 
-Symbole können nicht aus beliebigem Text bestehen.  
-Leerzeichen sind zum Beispiel verboten.  Tatsächlich entsprechen die
-Namen der zulässigen Symbole genau den Namen von Variablen:
+Symbole kÃ¶nnen nicht aus beliebigem Text bestehen.  
+Leerzeichen sind zum Beispiel verboten.  TatsÃ¤chlich entsprechen die
+Namen der zulÃ¤ssigen Symbole genau den Namen von Variablen:
 %
 \begin{alltt}
 'karl-otto
@@ -581,7 +581,7 @@ Namen der zulässigen Symbole genau den Namen von Variablen:
 \end{alltt}
 %
 Diese Entsprechung wird in diesem Kapitel noch eine entscheidene Rolle
-spielen.  Symbole können natürlich auch in Listen und damit auch in
+spielen.  Symbole kÃ¶nnen natÃ¼rlich auch in Listen und damit auch in
 Listenliteralen vorkommen:
 %
 \begin{alltt}
@@ -589,8 +589,8 @@ Listenliteralen vorkommen:
 \evalsto{} (karl-otto mehrwertsteuer duftmarke)
 \end{alltt}
 %
-Mit Hilfe von Symbolen können Werte konstruiert werden, die in der REPL
-ausgedruckt wie Scheme-Ausdrücke aussehen:
+Mit Hilfe von Symbolen kÃ¶nnen Werte konstruiert werden, die in der REPL
+ausgedruckt wie Scheme-AusdrÃ¼cke aussehen:
 %
 \begin{alltt}
 '(+ 1 2)
@@ -599,12 +599,12 @@ ausgedruckt wie Scheme-Ausdrücke aussehen:
 \evalsto{} (lambda (n) (+ n 1))
 \end{alltt}
 %
-Auch wenn diese Werte wie Ausdrücke so aussehen, sind sie doch ganz
+Auch wenn diese Werte wie AusdrÃ¼cke so aussehen, sind sie doch ganz
 normale Listen: der Wert von \verb|'(+ 1 2)| ist eine Liste mit drei
 Elementen: das Symbol \verb|+|, die Zahl \texttt{1} und die Zahl
 \texttt{2}.  Der Wert von \verb|'(lambda (n) (+ n 1))| ist ebenfalls
 eine Liste mit drei Elementen: das Symbol \verb|lambda|, eine Liste
-mit einem einzelnen Element, nämlich dem Symbol \texttt{n}, und einer
+mit einem einzelnen Element, nÃ¤mlich dem Symbol \texttt{n}, und einer
 weiteren Liste mit drei Elementen: dem Symbol \verb|+|, dem Symbol
 \texttt{n} und der Zahl \texttt{1}.
 
@@ -615,7 +615,7 @@ Quote hat noch eine weitere verwirrende Eigenheit:
 \evalsto{} '()
 \end{alltt}
 %
-Dieses Literal bezeichnet nicht die leere Liste (dann würde nur
+Dieses Literal bezeichnet nicht die leere Liste (dann wÃ¼rde nur
 \texttt{()} ausgedruckt, ohne Quote), sondern etwas anderes:
 %
 \begin{alltt}
@@ -630,7 +630,7 @@ Dieses Literal bezeichnet nicht die leere Liste (dann würde nur
 Der Wert des Ausdrucks \verb|''()| ist also eine Liste mit zwei
 Elementen: das erste Element ist das Symbol \texttt{quote} und das
 zweite Element ist die leere Liste.  \texttt{'$t$}
-ist selbst also nur syntaktischer Zucker, und zwar für \texttt{(quote
+ist selbst also nur syntaktischer Zucker, und zwar fÃ¼r \texttt{(quote
   $t$)}:
 %
 \begin{alltt}
@@ -640,59 +640,59 @@ ist selbst also nur syntaktischer Zucker, und zwar für \texttt{(quote
 \evalsto{} #t
 \end{alltt}
 %
-Quote erlaubt die Konstruktion von Literalen für viele Werte, aber
-nicht für alle.  Ein Wert, für den Quote ein Literal konstruieren kann,
-heißt \textit{repräsentierbarer
-  Wert\index{repräsentierbarer Wert}}.  Die folgende induktive
-Definition spezifiziert, was ein repräsentierbarer Wert ist:
+Quote erlaubt die Konstruktion von Literalen fÃ¼r viele Werte, aber
+nicht fÃ¼r alle.  Ein Wert, fÃ¼r den Quote ein Literal konstruieren kann,
+heiÃŸt \textit{reprÃ¤sentierbarer
+  Wert\index{reprÃ¤sentierbarer Wert}}.  Die folgende induktive
+Definition spezifiziert, was ein reprÃ¤sentierbarer Wert ist:
 %
 \begin{itemize}
 \item Zahlen, boolesche Werte, Zeichenketten und Symbole sind
-  repräsentierbare Werte.
-\item Eine Liste aus repräsentierbaren Werten ist ihrerseits ein
-  repräsentierbarer Wert. 
-\item Nichts sonst ist ein repräsentierbarer Wert.
+  reprÃ¤sentierbare Werte.
+\item Eine Liste aus reprÃ¤sentierbaren Werten ist ihrerseits ein
+  reprÃ¤sentierbarer Wert. 
+\item Nichts sonst ist ein reprÃ¤sentierbarer Wert.
 \end{itemize}
 
 \section{Implementierung der SECD-Maschine}
 
-Die SECD-Maschine ist ein Modell für die Implementierung des
-$\lambda$-Kalküls.  Eine solche Implementierung läßt sich in
+Die SECD-Maschine ist ein Modell fÃ¼r die Implementierung des
+$\lambda$-KalkÃ¼ls.  Eine solche Implementierung lÃ¤ÃŸt sich in
 Scheme einfach bauen~-- dieser Abschnitt zeigt, wie.  Der grobe
 Fahrplan ergibt sich dabei aus der Struktur der SECD-Maschine selbst:
-Nach den obligatorischen Datendefinitionen müssen zunächst Terme in
-Maschinencode übersetzt werden.  Dann kommt die
-Zustandsübergangsfunktion und schließlich die Auswertungsfunktion an
+Nach den obligatorischen Datendefinitionen mÃ¼ssen zunÃ¤chst Terme in
+Maschinencode Ã¼bersetzt werden.  Dann kommt die
+ZustandsÃ¼bergangsfunktion und schlieÃŸlich die Auswertungsfunktion an
 die Reihe.
 
 \subsection{Datenanalyse}
 \label{sec:secd-datenanalyse}
 
-Die erste Aufgabe ist dabei zunächst, wie immer, die Datenanalyse: Am
-Anfang stehen die Terme des angewandten $\lambda$-Kalküls.  Eine
-geeignete Repräsentation mit Listen und Symbolen läßt dabei die Terme
+Die erste Aufgabe ist dabei zunÃ¤chst, wie immer, die Datenanalyse: Am
+Anfang stehen die Terme des angewandten $\lambda$-KalkÃ¼ls.  Eine
+geeignete ReprÃ¤sentation mit Listen und Symbolen lÃ¤ÃŸt dabei die Terme
 in der "`fortgeschrittenen"' Sprachebene genau wie entsprechenden
 Scheme-Terme aussehen:
 
 \noindent\begin{tabular}{lll}
-  \texttt{(+ 1 2)} & steht für & $(+~1~2)$\\
-  \texttt{(lambda (x) x)} & steht für & $\lambda x.x$\\
-  \texttt{((lambda (x) (x x)) (lambda (x) (x x)))} & steht für &
+  \texttt{(+ 1 2)} & steht fÃ¼r & $(+~1~2)$\\
+  \texttt{(lambda (x) x)} & steht fÃ¼r & $\lambda x.x$\\
+  \texttt{((lambda (x) (x x)) (lambda (x) (x x)))} & steht fÃ¼r &
   $(\lambda x.(x~x))~(\lambda x.(x~x))$\\
   etc.
 \end{tabular}
 
-Die Datendefinition dafür orientiert sich direkt an
+Die Datendefinition dafÃ¼r orientiert sich direkt an
 Definition~\ref{def:lambda-angewandt}:
 %
 \begin{verbatim}
  Ein Lambda-Term ist eins der folgenden:
-; - ein Symbol (für eine Variable)
-; - eine zweielementige Liste (für eine reguläre Applikation)
-; - eine Liste der Form (lambda (x) e) (für eine Abstraktion)
+; - ein Symbol (fÃ¼r eine Variable)
+; - eine zweielementige Liste (fÃ¼r eine regulÃ¤re Applikation)
+; - eine Liste der Form (lambda (x) e) (fÃ¼r eine Abstraktion)
 ; - ein Basiswert
 ; - eine Liste mit einem Primitiv als erstem Element
-;      (für eine primitive Applikation)
+;      (fÃ¼r eine primitive Applikation)
 \end{verbatim}
 %
 Hier die dazu passende Signaturdefinition:
@@ -707,12 +707,12 @@ Hier die dazu passende Signaturdefinition:
            primitive-application)))
 \end{verbatim}
 %
-Die Signaturen für \texttt{application} etc.\ müssen noch definiert
+Die Signaturen fÃ¼r \texttt{application} etc.\ mÃ¼ssen noch definiert
 werden.
 
-Um Verzweigungen über die Sorte \texttt{term} zu ermöglichen, müssen
-Prädikate für die einzelnen Teilsorten geschrieben werden.  Diese
-können dann für die Definition der entsprechenden Signaturen benutzt
+Um Verzweigungen Ã¼ber die Sorte \texttt{term} zu ermÃ¶glichen, mÃ¼ssen
+PrÃ¤dikate fÃ¼r die einzelnen Teilsorten geschrieben werden.  Diese
+kÃ¶nnen dann fÃ¼r die Definition der entsprechenden Signaturen benutzt
 werden.
 %
 \begin{verbatim}
@@ -725,7 +725,7 @@ werden.
 
 (define application (signature (predicate application?)))
 
-; Prädikat für Abstraktionen
+; PrÃ¤dikat fÃ¼r Abstraktionen
 (: abstraction? (%a -> boolean))
 (define abstraction?
   (lambda (t)
@@ -734,7 +734,7 @@ werden.
 
 (define abstraction (signature (predicate abstraction?)))
 
-; Prädikat für primitive Applikationen
+; PrÃ¤dikat fÃ¼r primitive Applikationen
 (: primitive-application? (%a -> boolean))
 (define primitive-application?
   (lambda (t)
@@ -744,9 +744,9 @@ werden.
 (define primitive-application (signature (predicate primitive-application?)))
 \end{verbatim}
 %
-Die Definition läßt noch offen, was genau ein "`Basiswert"' und was ein
-"`Primitiv"' ist.  Auch hierfür werden noch Datendefinitionen
-benötigt, zuerst für Basiswerte.  Der Einfachheit halber beschränkt
+Die Definition lÃ¤ÃŸt noch offen, was genau ein "`Basiswert"' und was ein
+"`Primitiv"' ist.  Auch hierfÃ¼r werden noch Datendefinitionen
+benÃ¶tigt, zuerst fÃ¼r Basiswerte.  Der Einfachheit halber beschrÃ¤nkt
 sich die Implementierung erst einmal auf boolesche Werte und Zahlen:
 %
 \begin{verbatim}
@@ -754,10 +754,10 @@ sich die Implementierung erst einmal auf boolesche Werte und Zahlen:
 \end{verbatim}
 %
 Damit Basiswerte in Fallunterscheidungen von den anderen Arten von
-Termen unterschieden werden können, wird ein Prädikat benötigt:
+Termen unterschieden werden kÃ¶nnen, wird ein PrÃ¤dikat benÃ¶tigt:
 %
 \begin{verbatim}
-; Prädikat für Basiswerte
+; PrÃ¤dikat fÃ¼r Basiswerte
 (: base? (%a -> boolean))
 (define base?
   (lambda (v)
@@ -766,9 +766,9 @@ Termen unterschieden werden können, wird ein Prädikat benötigt:
 (define base (signature (predicate base?)))
 \end{verbatim}
 %
-Als nächstes sind Primitive gefragt: Am obigen Beispiel ist zu
-erkennen, daß z.B.\ \texttt{+} ein Primitiv sein sollte.  Die
-Datendefinition für eine kleine beispielhafte Menge von Primitiven ist
+Als nÃ¤chstes sind Primitive gefragt: Am obigen Beispiel ist zu
+erkennen, daÃŸ z.B.\ \texttt{+} ein Primitiv sein sollte.  Die
+Datendefinition fÃ¼r eine kleine beispielhafte Menge von Primitiven ist
 wie folgt:
 %
 \begin{verbatim}
@@ -776,12 +776,12 @@ wie folgt:
 \end{verbatim}
 %
 Da die Primitive genau wie die Variablen Symbole sind, stehen die
-Primitive als Variablen nicht mehr zur Verfügung:  Alle Symbole, die
-keine Primitive sind, sind also Variablen.  Das dazugehörige Prädikat
+Primitive als Variablen nicht mehr zur VerfÃ¼gung:  Alle Symbole, die
+keine Primitive sind, sind also Variablen.  Das dazugehÃ¶rige PrÃ¤dikat
 ist das folgende:
 %
 \begin{verbatim}
-; Prädikat für Primitive
+; PrÃ¤dikat fÃ¼r Primitive
 (: primitive? (%a -> boolean))
 (define primitive?
   (lambda (s)
@@ -794,17 +794,17 @@ ist das folgende:
 (define primitive (signature (predicate primitive?)))
 \end{verbatim}
 %
-Bevor nun ein die SECD-Maschine einen Term verarbeiten kann, muß
-dieser erst in Maschinencode übersetzt werden.  Dabei entsteht aus
+Bevor nun ein die SECD-Maschine einen Term verarbeiten kann, muÃŸ
+dieser erst in Maschinencode Ã¼bersetzt werden.  Dabei entsteht aus
 Definition~\ref{def:secd-code} direkt Daten- und Signaturdefinitionen
-für Instruktionen und Maschinencode:
+fÃ¼r Instruktionen und Maschinencode:
 %
 \begin{verbatim}
 ; Eine Instruktion ist eins der folgenden:
 ; - ein Basiswert
 ; - eine Variable
 ; - eine Applikations-Instruktion
-; - eine Instruktion für eine primitive Applikation
+; - eine Instruktion fÃ¼r eine primitive Applikation
 ; - eine Abstraktion
 (define instruction
   (signature
@@ -821,9 +821,9 @@ für Instruktionen und Maschinencode:
 %
 Bei der Definition von Instruktionen ist wieder einiges Wunschdenken
 im Spiel.  Basiswerte und Variablen sind wie bei den Termen.  Die
-restlichen Fälle werden durch eigene Datendefinitionen abgebildet.
-Wie schon bei den leeren Bäumen sind Record-Definitionen ohne Felder
-im Spiel, die Fallunterscheidungen möglich machen:
+restlichen FÃ¤lle werden durch eigene Datendefinitionen abgebildet.
+Wie schon bei den leeren BÃ¤umen sind Record-Definitionen ohne Felder
+im Spiel, die Fallunterscheidungen mÃ¶glich machen:
 %
 \begin{verbatim}
 ; Eine Applikations-Instruktion ist ein Wert
@@ -833,7 +833,7 @@ im Spiel, die Fallunterscheidungen möglich machen:
   ())
 (: make-ap (-> ap))
 
-; Die Instruktion für eine primitive Applikation
+; Die Instruktion fÃ¼r eine primitive Applikation
 ; ist ein Wert
 ;   (real-make-prim op arity)
 ; wobei op ein Symbol und arity die Stelligkeit
@@ -845,7 +845,7 @@ im Spiel, die Fallunterscheidungen möglich machen:
 
 ; Eine Abstraktions-Instruktion ist ein Wert
 ;  (make-abs v c)
-; wobei v ein Symbol (für eine Variable) und c
+; wobei v ein Symbol (fÃ¼r eine Variable) und c
 ; Maschinencode ist
 (define-record-procedures abs
   make-abs abs?
@@ -854,9 +854,9 @@ im Spiel, die Fallunterscheidungen möglich machen:
 \end{verbatim}
 %
 Da die Stelligkeit eines Primitivs dem Primitiv fest zugeordnet
-ist, ist eine Hilfsprozedur nützlich, die bei der Erzeugung eines
-Werts der Sorte \texttt{prim} die Stelligkeit ergänzt.
-Glücklicherweise haben alle oben eingeführten Primitive die gleiche
+ist, ist eine Hilfsprozedur nÃ¼tzlich, die bei der Erzeugung eines
+Werts der Sorte \texttt{prim} die Stelligkeit ergÃ¤nzt.
+GlÃ¼cklicherweise haben alle oben eingefÃ¼hrten Primitive die gleiche
 Stelligkeit:
 %
 \begin{verbatim}
@@ -867,24 +867,24 @@ Stelligkeit:
     (real-make-prim s 2)))
 \end{verbatim}
 %
-Die Einführung von Primitive mit anderen Stelligkeiten ist Gegenstand
+Die EinfÃ¼hrung von Primitive mit anderen Stelligkeiten ist Gegenstand
 von Aufgabe~\ref{aufgabe:prim-arity}.
 
-\subsection{Übersetzung in Maschinencode}
+\subsection{Ãœbersetzung in Maschinencode}
 
 Nun, da sowohl Terme als auch der Maschinencode Datendefinitionen
-haben, ist es möglich, die Übersetzung zu programmieren.  Hier sind
-Kurzbeschreibung, Signatur und Gerüst:
+haben, ist es mÃ¶glich, die Ãœbersetzung zu programmieren.  Hier sind
+Kurzbeschreibung, Signatur und GerÃ¼st:
 %
 \begin{verbatim}
-; Term in Maschinencode übersetzen
+; Term in Maschinencode Ã¼bersetzen
 (: term->machine-code (term -> machine-code))
 (define term->machine-code
   (lambda (e)
     ...))
 \end{verbatim}
 %
-Da es sich bei \texttt{term} um gemischte Daten handelt, muß~-- wie
+Da es sich bei \texttt{term} um gemischte Daten handelt, muÃŸ~-- wie
 immer~-- eine Verzweigung den Rumpf der Funktion bilden:
 %
 \begin{verbatim}
@@ -898,9 +898,9 @@ immer~-- eine Verzweigung den Rumpf der Funktion bilden:
       ((primitive-application? e) ...))))
 \end{verbatim}
 %
-Die Implementierung entspricht in den einzelnen Fällen genau der
-Übersetzungsfunktion $\llbracket\underline{~}\rrbracket$. Die Fälle
-für Variablen und Basiswerte sind, genau wie dort, trivial:
+Die Implementierung entspricht in den einzelnen FÃ¤llen genau der
+Ãœbersetzungsfunktion $\llbracket\underline{~}\rrbracket$. Die FÃ¤lle
+fÃ¼r Variablen und Basiswerte sind, genau wie dort, trivial:
 %
 \begin{verbatim}
 (define term->machine-code
@@ -911,8 +911,8 @@ für Variablen und Basiswerte sind, genau wie dort, trivial:
       ...)))
 \end{verbatim}
 %
-Bei regulären Applikationen werden
-Operator und Operand übersetzt, und das ganze zusammen mit einer
+Bei regulÃ¤ren Applikationen werden
+Operator und Operand Ã¼bersetzt, und das ganze zusammen mit einer
 \texttt{ap}-Instruktion zu einer Liste zusammengesetzt:
 %
 \begin{verbatim}
@@ -928,8 +928,8 @@ Operator und Operand übersetzt, und das ganze zusammen mit einer
 \end{verbatim}
 %
 Bei den primitiven Applikationen werden erst einmal die Operanden in
-Maschinencode übersetzt, die Resultate aneinandergehängt, und
-schließlich kommt noch eine \texttt{prim}-Instruktion ans Ende:
+Maschinencode Ã¼bersetzt, die Resultate aneinandergehÃ¤ngt, und
+schlieÃŸlich kommt noch eine \texttt{prim}-Instruktion ans Ende:
 %
 \begin{verbatim}
 (define term->machine-code
@@ -944,21 +944,21 @@ schließlich kommt noch eine \texttt{prim}-Instruktion ans Ende:
       ...)))
 \end{verbatim}
 %
-Dieses Stück Code benutzt die Hilfsprozedur \texttt{append-lists}, die
+Dieses StÃ¼ck Code benutzt die Hilfsprozedur \texttt{append-lists}, die
 aus einer Liste von Listen eine einzelne Liste macht, indem die
-Elemente aneinandergehängt werden:
+Elemente aneinandergehÃ¤ngt werden:
 %
 \begin{verbatim}
-; die Elemente einer Liste von Listen aneinanderhängen
+; die Elemente einer Liste von Listen aneinanderhÃ¤ngen
 (: append-lists ((list-of (list-of %a)) -> (list-of %a)))
 (define append-lists
   (lambda (l)
     (fold '() append l)))
 \end{verbatim}
 %
-Zurück zur Übersetzung: Eine Abstraktionen wird direkt in eine
-\texttt{abs}-Instruktion übersetzt, wobei der Rumpf selbst
-noch in Maschinencode übersetzt wird:
+ZurÃ¼ck zur Ãœbersetzung: Eine Abstraktionen wird direkt in eine
+\texttt{abs}-Instruktion Ã¼bersetzt, wobei der Rumpf selbst
+noch in Maschinencode Ã¼bersetzt wird:
 %
 \begin{verbatim}
 (define term->machine-code
@@ -973,12 +973,12 @@ noch in Maschinencode übersetzt wird:
 \end{verbatim}
 %
 
-\subsection{Zustandsübergang und Auswertung}
+\subsection{ZustandsÃ¼bergang und Auswertung}
 \label{sec:secd-transition}
 
-Da nun alle $\lambda$-Terme in Maschinencode-Programme übersetzt
-werden können, ist jetzt die eigentliche SECD-Maschine an der Reihe.
-Hier sind erst einmal einige neue Datendefinitionen fällig.  Zunächst
+Da nun alle $\lambda$-Terme in Maschinencode-Programme Ã¼bersetzt
+werden kÃ¶nnen, ist jetzt die eigentliche SECD-Maschine an der Reihe.
+Hier sind erst einmal einige neue Datendefinitionen fÃ¤llig.  ZunÃ¤chst
 einmal die Menge $S$ der Stacks:
 %
 \begin{verbatim}
@@ -986,7 +986,7 @@ einmal die Menge $S$ der Stacks:
 (define stack (signature (list-of value)))
 \end{verbatim}
 %
-Die Definition von Werten $W$ kommt etwas später an die Reihe.
+Die Definition von Werten $W$ kommt etwas spÃ¤ter an die Reihe.
 
 Umgebungen aus der Menge $E$ sind mathematisch gesehen Mengen aus
 Tupeln.  In der Implementierung werden sie dargestellt aus Listen von
@@ -995,12 +995,12 @@ der mathematischen Definition entspricht:
 
 \begin{verbatim}
 ; Eine Umgebung ist eine Liste von Bindungen.
-; Dabei gibt es für jede Variable nur eine Bindung.
+; Dabei gibt es fÃ¼r jede Variable nur eine Bindung.
 (define environment (signature (list-of binding)))
 
 ; Eine Bindung (Name: binding) ist ein Wert
 ;  (make-binding v x)
-; wobei v der Name einer Variablen und x der dazugehörige Wert ist.
+; wobei v der Name einer Variablen und x der dazugehÃ¶rige Wert ist.
 
 (define-record-procedures binding
   make-binding binding?
@@ -1008,7 +1008,7 @@ der mathematischen Definition entspricht:
 (: make-binding (symbol value -> binding))
 \end{verbatim}
 % 
-Die leere Umgebung wird öfter benötigt und wird darum schon
+Die leere Umgebung wird Ã¶fter benÃ¶tigt und wird darum schon
 vordefiniert:
 %
 \begin{verbatim}
@@ -1016,12 +1016,12 @@ vordefiniert:
 (define the-empty-environment empty)
 \end{verbatim}
 %
-Zwei Operationen gibt es für eine Umgebung $e$: die Erweiterung um
+Zwei Operationen gibt es fÃ¼r eine Umgebung $e$: die Erweiterung um
 eine Bindung $e[v\mapsto w]$ und das Nachschauen einer Bindung
-$e(v)$.  Zunächst die Erweiterung: die Implementierung entspricht
-genau der mathematischen Definition: zunächst wird eine eventuell
-vorhandene Bindung für $v$ entfernt, dann eine neue Bindung
-hinzugefügt:
+$e(v)$.  ZunÃ¤chst die Erweiterung: die Implementierung entspricht
+genau der mathematischen Definition: zunÃ¤chst wird eine eventuell
+vorhandene Bindung fÃ¼r $v$ entfernt, dann eine neue Bindung
+hinzugefÃ¼gt:
 % 
 \begin{verbatim}
 ; eine Umgebung um eine Bindung erweitern
@@ -1032,12 +1032,12 @@ hinzugefügt:
                (remove-environment-binding e v))))
 \end{verbatim}
 %
-Für das Entfernen der alten Bindung ist die Hilfsprozedur
-\texttt{remove-environment-binding} zuständig.  Sie folgt einmal mehr
-strikt der Konstruktionsanleitung für Prozeduren, die Listen akzeptieren:
+FÃ¼r das Entfernen der alten Bindung ist die Hilfsprozedur
+\texttt{remove-environment-binding} zustÃ¤ndig.  Sie folgt einmal mehr
+strikt der Konstruktionsanleitung fÃ¼r Prozeduren, die Listen akzeptieren:
 % FIXME: Konstruktionsanleitung
 \begin{verbatim}
-; die Bindung für eine Variable aus einer Umgebung entfernen
+; die Bindung fÃ¼r eine Variable aus einer Umgebung entfernen
 (: remove-environment-binding (environment symbol -> environment))
 (define remove-environment-binding
   (lambda (e v)
@@ -1056,7 +1056,7 @@ Umgebung, folgt der Konstruktionsanleitung:
 % FIXME: Konstruktionsanleitung
 %
 \begin{verbatim}
-; die Bindung für eine Variable in einer Umgebung finden
+; die Bindung fÃ¼r eine Variable in einer Umgebung finden
 (: lookup-environment (environment symbol -> value))
 (define lookup-environment
   (lambda (e v)
@@ -1068,7 +1068,7 @@ Umgebung, folgt der Konstruktionsanleitung:
            (lookup-environment (rest e) v))))))
 \end{verbatim}
 %
-Damit sind die Operationen auf Umgebungen abgeschlossen.  Als nächstes
+Damit sind die Operationen auf Umgebungen abgeschlossen.  Als nÃ¤chstes
 sind Dumps an der Reihe: $D$ ist als Folge von Tupeln $S\times E\times
 C$ definiert, auch genannt \textit{Frames\index{Frame}}.  Hier sind
 Daten- und Record-Definition:
@@ -1085,7 +1085,7 @@ Daten- und Record-Definition:
 (: make-frame (stack environment machine-code -> frame))
 \end{verbatim}
 %
-Schließlich fehlt noch eine Repräsentation für die Menge $W$ der
+SchlieÃŸlich fehlt noch eine ReprÃ¤sentation fÃ¼r die Menge $W$ der
 Werte:  Ein Wert ist entweder ein Basiswert oder eine Closure.
 Basiswerte wurden bereits in Abschnitt~\ref{sec:secd-datenanalyse}
 definiert; es fehlen noch Closures, die Tupel aus $V\times C\times E$
@@ -1106,8 +1106,8 @@ sind.  Hier sind die entsprechenden Definitionen:
 (: make-closure (symbol machine-code environment -> closure))
 \end{verbatim}
 %
-Mit Hilfe dieser Definitionen ist es möglich, eine Daten- und eine
-Record-Definition für die Zustände der SECD-Maschine anzugeben, also
+Mit Hilfe dieser Definitionen ist es mÃ¶glich, eine Daten- und eine
+Record-Definition fÃ¼r die ZustÃ¤nde der SECD-Maschine anzugeben, also
 die Tupel aus $S\times E\times C\times D$:
 %
 \begin{verbatim}
@@ -1121,24 +1121,24 @@ die Tupel aus $S\times E\times C\times D$:
 (: make-secd (stack environment machine-code dump -> secd))
 \end{verbatim}
 %
-Damit kann es an die Zustandsübergangsfunktion gehen.   Sie wird als
+Damit kann es an die ZustandsÃ¼bergangsfunktion gehen.   Sie wird als
 Funktion realisiert, die einen SECD-Zustand akzeptiert und einen neuen
-liefert.  Hier sind Kurzbeschreibung, Signatur und Gerüst:
+liefert.  Hier sind Kurzbeschreibung, Signatur und GerÃ¼st:
 %
 \begin{verbatim}
-; Zustandsübergang berechnen
+; ZustandsÃ¼bergang berechnen
 (: secd-step (secd -> secd))
 (define secd-step
   (lambda (state)
     ...))
 \end{verbatim}
 %
-Entsprechend den Regeln der SECD-Maschine muß der Rumpf der Prozedur
-eine Verzeigung zwischen den verschiedenen Fällen bei der
+Entsprechend den Regeln der SECD-Maschine muÃŸ der Rumpf der Prozedur
+eine Verzeigung zwischen den verschiedenen FÃ¤llen bei der
 Code-Komponente von \texttt{state} sein.  Diese folgen den
-Konstruktionsanleitungen für Listen und für gemischte Daten.  Es ist
-bereits an den Regeln abzulesen, daß alle Regeln Zugriff auf die
-Komponenten von \texttt{state} benötigen.  Für diese werden gleich am
+Konstruktionsanleitungen fÃ¼r Listen und fÃ¼r gemischte Daten.  Es ist
+bereits an den Regeln abzulesen, daÃŸ alle Regeln Zugriff auf die
+Komponenten von \texttt{state} benÃ¶tigen.  FÃ¼r diese werden gleich am
 Anfang lokale Variablen angelegt:
 %
 \begin{verbatim}
@@ -1159,8 +1159,8 @@ Anfang lokale Variablen angelegt:
         ((empty? code) ...)))))
 \end{verbatim}
 %
-In diesem Gerüst werden nun die Regeln direkt abgebildet.  Hier zur
-Erinnerung noch einmal die erste Regel für Basiswerte:
+In diesem GerÃ¼st werden nun die Regeln direkt abgebildet.  Hier zur
+Erinnerung noch einmal die erste Regel fÃ¼r Basiswerte:
 %
 \begin{displaymath}
   (\underline{s}, e, b\underline{c}, \underline{d})
@@ -1168,7 +1168,7 @@ Erinnerung noch einmal die erste Regel für Basiswerte:
   (b\underline{s}, e, \underline{c}, \underline{d})
 \end{displaymath}
 %
-Hier der passende Code dafür:
+Hier der passende Code dafÃ¼r:
 %
 \begin{verbatim}
 (define secd-step
@@ -1184,7 +1184,7 @@ Hier der passende Code dafür:
       ...))
 \end{verbatim}
 %
-Hier die Regel für Variablen:
+Hier die Regel fÃ¼r Variablen:
 \begin{displaymath}
   (\underline{s}, e, v\underline{c}, \underline{d})
   \hookrightarrow
@@ -1209,7 +1209,7 @@ Hier der entsprechende Code:
       ...))
 \end{verbatim}
 %
-Die Regel für primitive Applikationen ist etwas aufwendiger:
+Die Regel fÃ¼r primitive Applikationen ist etwas aufwendiger:
 %
 \begin{eqnarray*}
   (b_k\ldots b_1 \underline{s}, e, \mathtt{prim}_{F^k}\underline{c}, \underline{d})
@@ -1218,9 +1218,9 @@ Die Regel für primitive Applikationen ist etwas aufwendiger:
   \\ && \textrm{wobei $F^k\in\Sigma^k$ und $F_B(b_1,\ldots,b_k) = b$}
 \end{eqnarray*}
 %
-Für die Implementierung werden Hilfsprozeduren gebraucht, welche die
+FÃ¼r die Implementierung werden Hilfsprozeduren gebraucht, welche die
 Argumente vom Stack holen und in der Reihenfolge umdrehen, die
-Argumente vom Stack entfernen und schließlich die eigentliche
+Argumente vom Stack entfernen und schlieÃŸlich die eigentliche
 $\delta$-Transition berechnen:
 %
 \begin{verbatim}
@@ -1252,8 +1252,8 @@ Aufgabe~\ref{ex:kartenspiel} geforderte Funktion:
 %
 Die \texttt{take-reverse}-Funktion ist das Pendant zu \texttt{drop},
 das die ersten $n$ Elemente einer Liste in umgekehrter Reihenfolge
-liefert.  Dies ist am einfachsten über eine endrekursive Hilfsprozedur
-zu erledigen~-- aus Kapitel~\ref{cha:accu} ist ja bekannt, daß bei
+liefert.  Dies ist am einfachsten Ã¼ber eine endrekursive Hilfsprozedur
+zu erledigen~-- aus Kapitel~\ref{cha:accu} ist ja bekannt, daÃŸ bei
 endrekursiver Konstruktion von Listen gerade immer die Reihenfolge
 umgedreht wird:
 %
@@ -1294,7 +1294,7 @@ Verzweigung:
        (/ (first args) (first (rest args)))))))
 \end{verbatim}
 %
-Die Regel für Abstraktionen macht aus einer Abstraktion eine Closure:
+Die Regel fÃ¼r Abstraktionen macht aus einer Abstraktion eine Closure:
 \begin{displaymath}
   (\underline{s}, e, (v, \underline{c'}) \underline{c}, \underline{d})
   \hookrightarrow
@@ -1321,7 +1321,7 @@ Der Code macht dies genauso:
        ...)))
 \end{verbatim}
 %
-Hier die Regel für die Applikation:
+Hier die Regel fÃ¼r die Applikation:
 %
 \begin{displaymath}
   (w (v,\underline{c'}, e') \underline{s}, e, \mathtt{ap}~\underline{c}, \underline{d})
@@ -1353,7 +1353,7 @@ Hier der Code dazu:
       ...))
 \end{verbatim}
 %
-Schließlich bleibt noch der Code für die Rückgabe eines Wertes von
+SchlieÃŸlich bleibt noch der Code fÃ¼r die RÃ¼ckgabe eines Wertes von
 einer Funktion.  Hier ist die Regel:
 %
 \begin{displaymath}
@@ -1381,9 +1381,9 @@ Hier ist der Code dazu:
        ...))
 \end{verbatim}
 %
-Damit die SECD-Maschine in Betrieb genommen werden kann, muß ein Term
+Damit die SECD-Maschine in Betrieb genommen werden kann, muÃŸ ein Term
 $e$ noch in einen Anfangszustand $(\epsilon, \varnothing, \llbracket
-e\rrbracket, \epsilon)$ übersetzt werden.  Das erledigt folgende
+e\rrbracket, \epsilon)$ Ã¼bersetzt werden.  Das erledigt folgende
 Hilfsprozedur:
 %
 \begin{verbatim}
@@ -1397,7 +1397,7 @@ Hilfsprozedur:
                empty)))
 \end{verbatim}
 %
-Damit läßt sich die Maschine schon ausprobieren:
+Damit lÃ¤ÃŸt sich die Maschine schon ausprobieren:
 %
 \begin{alltt}
 (secd-step (inject-secd '(+ 1 2)))
@@ -1409,11 +1409,11 @@ Damit läßt sich die Maschine schon ausprobieren:
 \end{alltt}
 %
 Es fehlt noch die Auswertungsfunktion $\mathrm{eval}_\mathrm{SECD}$,
-die eine Hilfsprozedur benötigt, um die reflexiv-transitive Hülle des
-Zustandsübergangs $\hookrightarrow^*$ benötigt:
+die eine Hilfsprozedur benÃ¶tigt, um die reflexiv-transitive HÃ¼lle des
+ZustandsÃ¼bergangs $\hookrightarrow^*$ benÃ¶tigt:
 %
 \begin{verbatim}
-; bis zum Ende Zustandsübergänge berechnen
+; bis zum Ende ZustandsÃ¼bergÃ¤nge berechnen
 (: secd-step* (secd -> secd))
 (define secd-step*
   (lambda (state)
@@ -1440,7 +1440,7 @@ Definition:
           'proc))))
 \end{verbatim}
 %
-Damit läuft die SECD-Maschine:
+Damit lÃ¤uft die SECD-Maschine:
 %
 \begin{alltt}
 (eval-secd '(((lambda (x) (lambda (y) (+ x y))) 1) 2))
@@ -1449,12 +1449,12 @@ Damit läuft die SECD-Maschine:
 
 \section{Die endrekursive SECD-Maschine}
 
-Die SECD-Maschine hat einen Schönheitsfehler: Bei endkursiven
+Die SECD-Maschine hat einen SchÃ¶nheitsfehler: Bei endkursiven
 Applikationen sollte sie eigentlich, wie in Scheme, keinerlei
-zusätzlichen Platz verbrauchen, da kein Kontext anfällt.  Folgende
-Beispielauswertung für den Term $(\lambda x.x~x)~(\lambda x.x~x)$
-zeigt aber, daß der Zustand mit fortschreitender Auswertung immer
-größer wird:
+zusÃ¤tzlichen Platz verbrauchen, da kein Kontext anfÃ¤llt.  Folgende
+Beispielauswertung fÃ¼r den Term $(\lambda x.x~x)~(\lambda x.x~x)$
+zeigt aber, daÃŸ der Zustand mit fortschreitender Auswertung immer
+grÃ¶ÃŸer wird:
 %
 % (secd-step*/tex (inject-secd '((lambda (x) (x x)) (lambda (x) (x x)))))
 \begin{displaymath}\tiny
@@ -1475,37 +1475,37 @@ größer wird:
   \end{array}
 \end{displaymath}
 %
-Damit ist die SECD-Maschine, so wie ist, als Ausführungsmodell für
-Scheme ungeeignet.  Dieses Manko läßt sich zum Glück reparieren: Die
-SECD-Maschine muß endrekursive und "`normale"' Applikationen
+Damit ist die SECD-Maschine, so wie ist, als AusfÃ¼hrungsmodell fÃ¼r
+Scheme ungeeignet.  Dieses Manko lÃ¤ÃŸt sich zum GlÃ¼ck reparieren: Die
+SECD-Maschine muÃŸ endrekursive und "`normale"' Applikationen
 unterschiedlich behandeln.  Dazu wird eine neue Instruktion namens
-$\mathtt{tailap}$ eingeführt, die wie $\mathtt{ap}$ eine Applikation
-durchführt, aber eine endrekursive Applikation signalisiert:
+$\mathtt{tailap}$ eingefÃ¼hrt, die wie $\mathtt{ap}$ eine Applikation
+durchfÃ¼hrt, aber eine endrekursive Applikation signalisiert:
 %
 \begin{eqnarray*}
   I &=& \ldots\\
   &&\cup \{ \mathtt{tailap} \}
 \end{eqnarray*}
 %
-Als nächstes muß die Übersetzungsfunktion von Termen in Maschinencode
-geändert werden:  Applikationen, die Kontext um sich herum haben,
-sollen mit $\mathtt{ap}$ übersetzt werden, solche ohne Kontext mit
+Als nÃ¤chstes muÃŸ die Ãœbersetzungsfunktion von Termen in Maschinencode
+geÃ¤ndert werden:  Applikationen, die Kontext um sich herum haben,
+sollen mit $\mathtt{ap}$ Ã¼bersetzt werden, solche ohne Kontext mit
 $\mathtt{tailap}$.  Da der Applikation allein der Kontext nicht
 anzusehen ist, sondern nur dem Term "`drumherum"', wird die
-Übersetzungsfunktion $\llbracket \underline{~} \rrbracket$ in zwei
-Teile aufgespalten: für einen Term $e$ wird die Auswertungsfunktion $\llbracket\underline{~}\rrbracket$ immer dann benutzt, wenn um $e$ Kontext steht.  Eine
+Ãœbersetzungsfunktion $\llbracket \underline{~} \rrbracket$ in zwei
+Teile aufgespalten: fÃ¼r einen Term $e$ wird die Auswertungsfunktion $\llbracket\underline{~}\rrbracket$ immer dann benutzt, wenn um $e$ Kontext steht.  Eine
 weitere Funktion $\llbracket \underline{~} \rrbracket'$ wird immer
 dann aufgerufen, wenn \emph{kein} Kontext drumherum steht.
 
 Kontext entsteht seinerseits immer durch Funktionsapplikationen.  Bei
-der Auswertung eines Terms $(e_0~e_1)$ muß \emph{nach} $e_0$ noch
-$e_1$ ausgewertet werden, und nach Auswertung von $e_1$ muß noch die
-Applikation durchgeführt werden.  Sowohl $e_0$ als auch $e_1$ stehen
-in Kontext.  Ähnlich ist es bei den Argumenten von primitiven
+der Auswertung eines Terms $(e_0~e_1)$ muÃŸ \emph{nach} $e_0$ noch
+$e_1$ ausgewertet werden, und nach Auswertung von $e_1$ muÃŸ noch die
+Applikation durchgefÃ¼hrt werden.  Sowohl $e_0$ als auch $e_1$ stehen
+in Kontext.  Ã„hnlich ist es bei den Argumenten von primitiven
 Applikationen.
 
-Auf der anderen Seite schneiden Abstraktionen für ihren Rumpf den
-Kontext erst einmal ab: Der Rumpf einer Abstraktion kommt schließlich bei der
+Auf der anderen Seite schneiden Abstraktionen fÃ¼r ihren Rumpf den
+Kontext erst einmal ab: Der Rumpf einer Abstraktion kommt schlieÃŸlich bei der
 Auswertung der Abstraktion noch gar nicht zum Zug.  Ob er Kontext hat
 oder nicht, entscheidet sich erst bei der Applikation.
 Dementsprechend schalten Applikationen und Abstraktionen zwischen den
@@ -1537,12 +1537,12 @@ $\llbracket \underline{~} \rrbracket'$ hin und her:
   \end{cases}
 \end{eqnarray*}
 %
-Die Übersetzungsfunktion hat die eigentliche Arbeit geleistet: Jetzt
-muß nur noch eine Zustandsübergangsregel her, die $\mathtt{tailap}$
-verarbeitet.  Diese ergibt sich direkt aus den Regeln für
-$\mathtt{ap}$ und die Rückgabe eines Wertes:  $\mathtt{tailap}$
+Die Ãœbersetzungsfunktion hat die eigentliche Arbeit geleistet: Jetzt
+muÃŸ nur noch eine ZustandsÃ¼bergangsregel her, die $\mathtt{tailap}$
+verarbeitet.  Diese ergibt sich direkt aus den Regeln fÃ¼r
+$\mathtt{ap}$ und die RÃ¼ckgabe eines Wertes:  $\mathtt{tailap}$
 funktioniert so, wie $\mathtt{ap}$ direkt gefolgt von der
-Rückgaberegel.  Hier sind die beiden Regeln noch einmal zur Erinnerung:
+RÃ¼ckgaberegel.  Hier sind die beiden Regeln noch einmal zur Erinnerung:
 %
 \begin{eqnarray*}
    (w (v,\underline{c'}, e') \underline{s}, e, \mathtt{ap}~\underline{c}, \underline{d})
@@ -1555,7 +1555,7 @@ Rückgaberegel.  Hier sind die beiden Regeln noch einmal zur Erinnerung:
 \end{eqnarray*}
 %
 Da die erste Regel ein neues Dump-Frame erzeugt und die zweite ein
-Dump-Frame "`vernichtet"', entfällt diese Arbeit in der Regel für
+Dump-Frame "`vernichtet"', entfÃ¤llt diese Arbeit in der Regel fÃ¼r
 $\mathtt{tailap}$:
 %
 \begin{eqnarray*}
@@ -1564,7 +1564,7 @@ $\mathtt{tailap}$:
   (\underline{s}, e'[v \mapsto w], \underline{c'}, \underline{d})
 \end{eqnarray*}
 %
-Damit läuft das Beispiel zwar immer noch endlos, aber immerhin, ohne
+Damit lÃ¤uft das Beispiel zwar immer noch endlos, aber immerhin, ohne
 immer mehr Platz zu verbrauchen:
 %
 \begin{displaymath}\scriptsize
@@ -1586,33 +1586,33 @@ immer mehr Platz zu verbrauchen:
  \end{array}
 \end{displaymath}
 Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
-Übungsaufgabe~\ref{aufgabe:secd-endekursiv-implementieren}.
+Ãœbungsaufgabe~\ref{aufgabe:secd-endekursiv-implementieren}.
 
 
-\section{Der $\lambda$-Kalkül mit Zustand}
+\section{Der $\lambda$-KalkÃ¼l mit Zustand}
 
-Der bisher vorgestellte $\lambda$-Kalkül liefert keinerlei Erklärung
-für das Verhalten von Zuweisungen.  Tatsächlich hat sich schon in
-Abschnitt~\ref{sec:assignment-problems} angedeutet, daß Zuweisungen
-die Formalisierung deutlich erschweren.  Möglich ist es trotzdem, und
+Der bisher vorgestellte $\lambda$-KalkÃ¼l liefert keinerlei ErklÃ¤rung
+fÃ¼r das Verhalten von Zuweisungen.  TatsÃ¤chlich hat sich schon in
+Abschnitt~\ref{sec:assignment-problems} angedeutet, daÃŸ Zuweisungen
+die Formalisierung deutlich erschweren.  MÃ¶glich ist es trotzdem, und
 dieser Abschnitt zeigt, wie es geht.
 
-Als erstes muß wieder einmal die Sprache des $\lambda$-Kalküls
-erweitert werden, diesmal um \texttt{set!}-Ausdrücke:
+Als erstes muÃŸ wieder einmal die Sprache des $\lambda$-KalkÃ¼ls
+erweitert werden, diesmal um \texttt{set!}-AusdrÃ¼cke:
 %
-\begin{definition}[Sprache des angewandten $\lambda$-Kalküls mit Zustand
-  $\mathcal{L}_{\lambda{}S}$]\index{angewandter $\lambda$-Kalkül}\index{Zustand}
-  Sei $V$ eine abzählbare Menge von Variablen.  Sei $B$ eine Menge von
+\begin{definition}[Sprache des angewandten $\lambda$-KalkÃ¼ls mit Zustand
+  $\mathcal{L}_{\lambda{}S}$]\index{angewandter $\lambda$-KalkÃ¼l}\index{Zustand}
+  Sei $V$ eine abzÃ¤hlbare Menge von Variablen.  Sei $B$ eine Menge von
   \textit{Basiswerten\index{Basiswert}} mit $\mathtt{void} \in B$.
-  Sei für eine natürliche Zahl $n$ und $i \in \{1, \ldots, n\}$
+  Sei fÃ¼r eine natÃ¼rliche Zahl $n$ und $i \in \{1, \ldots, n\}$
   jeweils $\Sigma^i$ eine Menge von \textit{$i$-stelligen
     Primitiva\index{Primitivum}}.  Jedem $F^i\in\Sigma^i$ ist eine
   $i$-stellige Funktion $F_B^i: B\times\ldots\times B \rightarrow
   B$~-- ihre \textit{Operation}~-- zugordnet.
-  Seit $A$ eine abzählbare Menge von Adressen mit $V\cap A =
+  Seit $A$ eine abzÃ¤hlbare Menge von Adressen mit $V\cap A =
   \varnothing$.\index{Adresse}. 
 
-  Die Sprache des angewandten $\lambda$"=Kalküls mit Zustand, die
+  Die Sprache des angewandten $\lambda$"=KalkÃ¼ls mit Zustand, die
   Menge der \textit{angewandten $\lambda$-Terme mit Zustand},
   $\mathcal{L}_{\lambda{}S}$\index{L@$\mathcal{L}_{\lambda{}S}$}, ist
   durch folgende Grammatik definiert:
@@ -1630,25 +1630,25 @@ erweitert werden, diesmal um \texttt{set!}-Ausdrücke:
   %
 \end{definition}
 %
-Der \texttt{void}-Wert wird als Rückgabewert von
-\texttt{set!}-Ausdrücken dienen.
+Der \texttt{void}-Wert wird als RÃ¼ckgabewert von
+\texttt{set!}-AusdrÃ¼cken dienen.
 
-Um Reduktionsregeln für Zuweisungen zu bilden, ist es notwendig, den
-Begriff des \textit{Speichers\index{Speicher}} in den $\lambda$-Kalkül
-einzuführen: Im $\lambda$-Kalkül mit Zustand stehen Variablen nicht
-mehr für Werte, die für sie eingesetzt werden können, sondern für
+Um Reduktionsregeln fÃ¼r Zuweisungen zu bilden, ist es notwendig, den
+Begriff des \textit{Speichers\index{Speicher}} in den $\lambda$-KalkÃ¼l
+einzufÃ¼hren: Im $\lambda$-KalkÃ¼l mit Zustand stehen Variablen nicht
+mehr fÃ¼r Werte, die fÃ¼r sie eingesetzt werden kÃ¶nnen, sondern fÃ¼r
 \textit{Speicherzellen\index{Speicherzelle}}.  Eine Speicherzelle ist
 ein Ort im Speicher, der einen Wert aufnimmt, der auch wieder
-verändert werden kann.  Dabei wird jede Speicherzelle durch eine
+verÃ¤ndert werden kann.  Dabei wird jede Speicherzelle durch eine
 \textit{Adresse\index{Adresse}} identifiziert.  Eine Adresse ist eine
-abstrakte Größe, es kommt also gar nicht darauf an, um was für
+abstrakte GrÃ¶ÃŸe, es kommt also gar nicht darauf an, um was fÃ¼r
 eine Art Wert es sich handelt~-- im realen Computer ist eine Adresse
-in der Regel einfach eine Zahl.  In diesem Abschnitt steht $A$ für die
-Menge der Adressen, die abzählbar sein sollte.
+in der Regel einfach eine Zahl.  In diesem Abschnitt steht $A$ fÃ¼r die
+Menge der Adressen, die abzÃ¤hlbar sein sollte.
 
 Ein Speicher aus der Menge $M$ ist eine Zuordnung zwischen Adressen aus $A$
 und Werten\index{Wert}.  Die Werte sind wie schon im normalen
-$\lambda$-Kalkül die Basiswerte und die Abstraktionen~-- hier bekommen
+$\lambda$-KalkÃ¼l die Basiswerte und die Abstraktionen~-- hier bekommen
 sie, weil sie eine Rolle in den Reduktionsregeln spielen, den Namen
 $X$:
 %
@@ -1657,10 +1657,10 @@ $X$:
   X &=& B \cup \{ \lambda v.e | \lambda v.e \in \mathcal{L}_{\lambda{}S} \}
 \end{eqnarray*}
 
-Um Reduktionsregeln für den $\lambda$-Kalkül mit Zustand zu
-formulieren, muß $\mathcal{L}_{\lambda{}S}$ noch erweitert werden,
+Um Reduktionsregeln fÃ¼r den $\lambda$-KalkÃ¼l mit Zustand zu
+formulieren, muÃŸ $\mathcal{L}_{\lambda{}S}$ noch erweitert werden,
 damit die Adressen ins Spiel kommen: Adressen werden Terme und sind
-auf der linken Seite von Zuweisungen zulässig:
+auf der linken Seite von Zuweisungen zulÃ¤ssig:
 %
 \begin{grammar}
   \meta{$\mathcal{L}_{\lambda{}S}$} \: \ldots
@@ -1669,14 +1669,14 @@ auf der linken Seite von Zuweisungen zulässig:
 \end{grammar}
 %
 Adressen tauchen dabei nur als Zwischenschritte bei der Reduktion auf;
-sie sind nicht dafür gedacht, daß sie der Programmierer in ein
+sie sind nicht dafÃ¼r gedacht, daÃŸ sie der Programmierer in ein
 Programm schreibt.
 
 Da das bisherige Substitutionsprinzip bei Zuweisungen nicht mehr funktioniert, reicht es
-nicht, die Reduktionsregeln für den $\lambda$-Kalkül mit Zustand
-einfach nur auf Termen auszudrücken: Ein Term, der ja Adressen
+nicht, die Reduktionsregeln fÃ¼r den $\lambda$-KalkÃ¼l mit Zustand
+einfach nur auf Termen auszudrÃ¼cken: Ein Term, der ja Adressen
 enthalten kann, ergibt nur Sinn, wenn er mit einem Speicher kombiniert
-wird.  Die Reduktionsregeln überführen somit immer ein Paar, bestehend aus
+wird.  Die Reduktionsregeln Ã¼berfÃ¼hren somit immer ein Paar, bestehend aus
 einem Term und einem Speicher in ein ebensolches Paar.  Hierbei wird der
 Einfachheit halber kein Unterschied mehr zwischen den verschiedenen
 Arten der Reduktion gemacht:
@@ -1696,24 +1696,24 @@ Arten der Reduktion gemacht:
     wobei $b_i = m(a_i) \in B$, $a$ frisch}
 \end{eqnarray*}
 %
-Die Formulierung "`$a$ frisch"' bedeutet dabei, daß $a$ eine Adresse
+Die Formulierung "`$a$ frisch"' bedeutet dabei, daÃŸ $a$ eine Adresse
 sein sollte, die in $m$ bisher noch nicht benutzt wurde.  Die Operation
-$m[a\mapsto x]$ ist ähnlich wie bei Umgebungen definiert: der alte
-Speicherinhalt bei $a$ wird zunächst entfernt, und dann eine neue
-Zuordnung für $a$ nach $x$ hinzugefügt:
+$m[a\mapsto x]$ ist Ã¤hnlich wie bei Umgebungen definiert: der alte
+Speicherinhalt bei $a$ wird zunÃ¤chst entfernt, und dann eine neue
+Zuordnung fÃ¼r $a$ nach $x$ hinzugefÃ¼gt:
 %
 \begin{displaymath}
   m[a\mapsto x] \deq (e \setminus \{ (a, x') | (a, x') \in m) \cup \{
     (a, x) \}
 \end{displaymath}
 %
-Die Regeln sind immer noch über Substitution definiert, allerdings
-werden für Variablen jetzt nicht mehr Werte sondern Adressen
-eingesetzt.  Sie werden, wie beim normalen Call-by-Value-Kalkül auch,
-auf Subterme fortgesetzt, die möglichst weit links innen stehen.
+Die Regeln sind immer noch Ã¼ber Substitution definiert, allerdings
+werden fÃ¼r Variablen jetzt nicht mehr Werte sondern Adressen
+eingesetzt.  Sie werden, wie beim normalen Call-by-Value-KalkÃ¼l auch,
+auf Subterme fortgesetzt, die mÃ¶glichst weit links innen stehen.
 
 Im folgenden Beispiel stehen fettgedruckte Zahlen ${\bf
-0}$, ${\bf 1}$ für Adressen. Die Redexe sind jeweils
+0}$, ${\bf 1}$ fÃ¼r Adressen. Die Redexe sind jeweils
 unterstrichen:
 %
 {\small
@@ -1790,30 +1790,30 @@ unterstrichen:
 \end{displaymath}
 }
 %
-Der Endausdruck steht für die Speicherzelle an Adresse ${\bf
-2}$, wo der Wert $13$ steht.  Es ist sichtbar, daß die
-Auswertungsmaschinerie durch die Einführung von Zustand deutlich
+Der Endausdruck steht fÃ¼r die Speicherzelle an Adresse ${\bf
+2}$, wo der Wert $13$ steht.  Es ist sichtbar, daÃŸ die
+Auswertungsmaschinerie durch die EinfÃ¼hrung von Zustand deutlich
 komplizierter wird.
 
 \section{Die SECDH-Maschine}
 \index{sec:SECDH-Maschine}
 
-Die SECD-Maschine ist nicht mächtig genug, um den $\lambda$-Kalkül mit
-Zustand zu modellieren: Es fehlt ein Speicher.  Darum muß das
-Maschinen-Pendant zum $\lambda$-Kalkül mit Zustand um eine
+Die SECD-Maschine ist nicht mÃ¤chtig genug, um den $\lambda$-KalkÃ¼l mit
+Zustand zu modellieren: Es fehlt ein Speicher.  Darum muÃŸ das
+Maschinen-Pendant zum $\lambda$-KalkÃ¼l mit Zustand um eine
 Speicher-Komponente erweitert werden: Heraus kommt die
 \textit{SECDH-Maschine}, um die es in diesem Abschnitt geht.
 
-Der Maschinencode für die SECDH-Maschine ist dabei genau wie bei der
-SECD-Maschine, nur daß eine spezielle Zuweisungsoperation hinzukommt:
+Der Maschinencode fÃ¼r die SECDH-Maschine ist dabei genau wie bei der
+SECD-Maschine, nur daÃŸ eine spezielle Zuweisungsoperation hinzukommt:
 %
 \begin{grammar}
   \meta{I} \: \ldots
   \> \| :=
 \end{grammar}
 %
-Die Übersetzungsfunktion produziert diese neue Instruktion bei
-\texttt{set!}-Ausdrücken:
+Die Ãœbersetzungsfunktion produziert diese neue Instruktion bei
+\texttt{set!}-AusdrÃ¼cken:
 %
 \begin{eqnarray*}
   \llbracket e \rrbracket &\deq&
@@ -1824,8 +1824,8 @@ Die Übersetzungsfunktion produziert diese neue Instruktion bei
   \end{cases}
 \end{eqnarray*}  
 %
-Der Begriff der Adresse aus der Menge $A$ wird direkt aus dem Kalkül
-übernommen.  Ähnlich wie im Kalkül landen Zwischenergebnisse nicht
+Der Begriff der Adresse aus der Menge $A$ wird direkt aus dem KalkÃ¼l
+Ã¼bernommen.  Ã„hnlich wie im KalkÃ¼l landen Zwischenergebnisse nicht
 mehr direkt auf dem Stack, sondern stattdessen landen ihre Adressen im
 Speicher.  Dementsprechend bilden nun Umgebungen Variablen auf
 Adressen ab.  Die neue Komponente $H$ ist gerade der Speicher, auch
@@ -1840,15 +1840,15 @@ abbildet:
   W &=& B \cup (V\times C\times E)
 \end{eqnarray*}
 %
-Die Regeln für die SECDH-Maschine sind analog zu den Regeln für die
+Die Regeln fÃ¼r die SECDH-Maschine sind analog zu den Regeln fÃ¼r die
 SECD-Maschine.  Zwei Hauptunterschiede gibt es dabei:
 %
 \begin{itemize}
-\item Der Heap aus $H$ gehört nun zum Zustand dazu.  Anders als die
+\item Der Heap aus $H$ gehÃ¶rt nun zum Zustand dazu.  Anders als die
   Umgebung wird er nicht bei der Bildung von Closures "`eingepackt"':
   Stattdessen wird der Heap stets linear von links nach rechts durch
-  Regeln durchgefädelt.
-\item Zwischenergebnisse nehmen stets den Umweg über den Heap: Immer,
+  Regeln durchgefÃ¤delt.
+\item Zwischenergebnisse nehmen stets den Umweg Ã¼ber den Heap: Immer,
   wenn ein neues Zwischenergebnis entsteht, wird es bei einer neuen
   Adresse im Heap abgelegt. Auf dem Stack landen die
   Adressen der Zwischenergebnisse.
@@ -1895,7 +1895,7 @@ SECD-Maschine.  Zwei Hauptunterschiede gibt es dabei:
   (a\underline{s'}, e', \underline{c'}, \underline{d}, h)
 \end{eqnarray*}
 
-Entsprechend muß die Auswertungsfunktion das Endergebnis im Heap nachschauen:
+Entsprechend muÃŸ die Auswertungsfunktion das Endergebnis im Heap nachschauen:
 
 \begin{eqnarray*}
   \mathit{eval}_\mathit{SECD} & \in & \mathcal{L}_{\lambda{}S} \times Z\\
@@ -1913,20 +1913,20 @@ Entsprechend muß die Auswertungsfunktion das Endergebnis im Heap nachschauen:
 \section{Implementierung der SECDH-Maschine}
 
 
-Für die Implementierung der SECDH-Maschine werden einige der
-Prozeduren wiederverwendet, die für die SECD-Maschine programmiert
-wurden.  Zunächst einmal muß~-- genau wie bei der SECD-Maschine~--
-erst einmal die Übersetzung von Termen in Maschinencode realisiert
+FÃ¼r die Implementierung der SECDH-Maschine werden einige der
+Prozeduren wiederverwendet, die fÃ¼r die SECD-Maschine programmiert
+wurden.  ZunÃ¤chst einmal muÃŸ~-- genau wie bei der SECD-Maschine~--
+erst einmal die Ãœbersetzung von Termen in Maschinencode realisiert
 werden.  Zuweisungsterme haben wie in Scheme die folgende Form:
 %
 \begin{alltt}
 (set! \(v\) \(e\))
 \end{alltt}
 %
-Das dazu passende Prädikat ist das folgende:
+Das dazu passende PrÃ¤dikat ist das folgende:
 %
 \begin{verbatim}
-; Prädikat für Zuweisungen
+; PrÃ¤dikat fÃ¼r Zuweisungen
 (: assignment? (%a -> boolean))
 (define assignment?
   (lambda (t)
@@ -1950,8 +1950,8 @@ Mit Hilfe dieser Definition kann die Signaturdefinition von
            assignment)))
 \end{verbatim}
 %
-Um zu vermeiden, daß Zuweisungen mit regulären Applikationen
-verwechselt werden, muß das Prädikat \texttt{application?} erweitert
+Um zu vermeiden, daÃŸ Zuweisungen mit regulÃ¤ren Applikationen
+verwechselt werden, muÃŸ das PrÃ¤dikat \texttt{application?} erweitert
 werden:
 %
 \begin{verbatim}
@@ -1963,8 +1963,8 @@ werden:
          (not (primitive? (first t))))))
 \end{verbatim}
 %
-Als nächstes wird die zusätzliche $\mathtt{:=}$-Instruktion
-repräsentiert.  Hier sind Daten- und Record-Definition:
+Als nÃ¤chstes wird die zusÃ¤tzliche $\mathtt{:=}$-Instruktion
+reprÃ¤sentiert.  Hier sind Daten- und Record-Definition:
 %
 \begin{verbatim}
 ; Eine Zuweisungs-Instruktion ist ein Wert
@@ -1975,7 +1975,7 @@ repräsentiert.  Hier sind Daten- und Record-Definition:
 (: make-:= (-> :=))
 \end{verbatim}
 %
-Die Signaturdefinition für Maschinen-Instruktionen kann um \texttt{:=}
+Die Signaturdefinition fÃ¼r Maschinen-Instruktionen kann um \texttt{:=}
 erweitert werden:
 %
 \begin{verbatim}
@@ -1990,11 +1990,11 @@ erweitert werden:
            :=)))
 \end{verbatim}
 
-Bei der Übersetzung in Maschinencode kommt in
+Bei der Ãœbersetzung in Maschinencode kommt in
 \texttt{term->machine-code} ein weiterer Zweig hinzu:
 %
 \begin{verbatim}
-; Term in Maschinencode übersetzen
+; Term in Maschinencode Ã¼bersetzen
 (: term->machine-code (term -> machine-code))
 (define term->machine-code
   (lambda (e)
@@ -2007,7 +2007,7 @@ Bei der Übersetzung in Maschinencode kommt in
 \end{verbatim}
 %
 Wie bei der SECD-Maschine werden die verschiedenen Mengendefinitionen
-erst einmal in Daten- und Record-Definitionen übersetzt.  Das ist für
+erst einmal in Daten- und Record-Definitionen Ã¼bersetzt.  Das ist fÃ¼r
 Stacks, Umgebungen und Speicheradressen ganz einfach:
 %
 \begin{verbatim}
@@ -2020,7 +2020,7 @@ Stacks, Umgebungen und Speicheradressen ganz einfach:
 (define address (signature natural))
 \end{verbatim}
 %
-Die Änderung in der Definition von Umgebungen bedingt eine Änderung
+Die Ã„nderung in der Definition von Umgebungen bedingt eine Ã„nderung
 der Signatur von \texttt{make-binding}:
 %
 \begin{verbatim}
@@ -2028,15 +2028,15 @@ der Signatur von \texttt{make-binding}:
 \end{verbatim}
 
 %
-Bei der Repräsentation des Heaps ist wichtig, daß eine Operation zur
+Bei der ReprÃ¤sentation des Heaps ist wichtig, daÃŸ eine Operation zur
 Beschaffung frischer Adressen eingebaut wird.  Aus diesem Grund
-enthält der Heap zusätzlich zu den Zellen auch noch einen Zähler mit
-der nächsten frischen Adresse:
+enthÃ¤lt der Heap zusÃ¤tzlich zu den Zellen auch noch einen ZÃ¤hler mit
+der nÃ¤chsten frischen Adresse:
 %
 \begin{verbatim}
 ; Ein Heap ist ein Wert
 ;   (make-heap s n)
-; wobei n die nächste freie Adresse ist und s eine Liste
+; wobei n die nÃ¤chste freie Adresse ist und s eine Liste
 ; von Zellen.
 (define-record-procedures heap
   make-heap heap?
@@ -2075,9 +2075,9 @@ entsprechend der mathematischen Definition:
                ...)))
 \end{verbatim}
 %
-Die Ellipse steht für die nächste frische Adresse: Wenn die bisherige
-frische Adresse in \texttt{heap-store} belegt wird, so muß eine neue
-frische Adresse gewählt werden:
+Die Ellipse steht fÃ¼r die nÃ¤chste frische Adresse: Wenn die bisherige
+frische Adresse in \texttt{heap-store} belegt wird, so muÃŸ eine neue
+frische Adresse gewÃ¤hlt werden:
 %
 \begin{verbatim}
 (define heap-store
@@ -2106,7 +2106,7 @@ Es fehlt noch die Hilfsprozedur \texttt{remove-cell}:
                       (remove-cell a (rest c))))))))
 \end{verbatim}
 %
-Als nächstes ist die Operation an der Reihe, die den Wert, der an einer
+Als nÃ¤chstes ist die Operation an der Reihe, die den Wert, der an einer
 Adresse im Heap gespeichert ist.  Die Funktion \texttt{heap-lookup} benutzt
 eine Hilfsprozedur \texttt{cells-lookup}, um in der Liste von Zellen
 nach der richtigen zu suchen:
@@ -2130,7 +2130,7 @@ nach der richtigen zu suchen:
            (cells-lookup (rest c) a))))))
 \end{verbatim}
 %
-Schließlich fehlt noch eine Repräsentation für den $\mathtt{void}$-Wert:
+SchlieÃŸlich fehlt noch eine ReprÃ¤sentation fÃ¼r den $\mathtt{void}$-Wert:
 %
 \begin{verbatim}
 ; Ein void-Wert ist ein Wert
@@ -2141,15 +2141,15 @@ Schließlich fehlt noch eine Repräsentation für den $\mathtt{void}$-Wert:
 (: make-void (-> void))
 \end{verbatim}
 %
-Auch hier wird nur ein $\mathtt{void}$-Wert benötigt, der 
+Auch hier wird nur ein $\mathtt{void}$-Wert benÃ¶tigt, der 
 vorfabriziert wird:
 %
 \begin{verbatim}
 (define the-void (make-void))
 \end{verbatim}
 %
-Der Zustand für die SECDH-Maschine wird genau wie bei der
-SECD-Maschine repräsentiert, ergänzt um die Komponente für den Heap:
+Der Zustand fÃ¼r die SECDH-Maschine wird genau wie bei der
+SECD-Maschine reprÃ¤sentiert, ergÃ¤nzt um die Komponente fÃ¼r den Heap:
 %
 \begin{verbatim}
 ; Ein SECDH-Zustand ist ein Wert
@@ -2162,8 +2162,8 @@ SECD-Maschine repräsentiert, ergänzt um die Komponente für den Heap:
 (: make-secdh (stackh environment machine-code dump heap -> secdh))
 \end{verbatim}
 %
-Die Implementierung der Zustandsübergangsfunktion hat exakt die
-gleiche Struktur wie die Implementierung der SECD-Maschine und hält
+Die Implementierung der ZustandsÃ¼bergangsfunktion hat exakt die
+gleiche Struktur wie die Implementierung der SECD-Maschine und hÃ¤lt
 sich eng an die mathematische Definition der Regeln:
 %
 \begin{verbatim}
@@ -2282,7 +2282,7 @@ SECD-Maschine realisiert wird:
                 empty
                the-empty-heap)))
 
-; bis zum Ende Zustandsübergänge berechnen
+; bis zum Ende ZustandsÃ¼bergÃ¤nge berechnen
 (: secdh-step* (secdh -> secdh))
 (define secdh-step*
   (lambda (state)
@@ -2305,10 +2305,10 @@ SECD-Maschine realisiert wird:
 \end{verbatim}
 
 
-\section*{Übungsaufgaben}
+\section*{Ãœbungsaufgaben}
 
 \begin{aufgabe}
-  Übersetzen Sie folgende Lambda-Terme in die Zwischenrepräsentation
+  Ãœbersetzen Sie folgende Lambda-Terme in die ZwischenreprÃ¤sentation
   der SECD-Maschine:
   
   \begin{enumerate}
@@ -2321,7 +2321,7 @@ SECD-Maschine realisiert wird:
 
   \end{enumerate}
 
-  Dabei steht $!$ für das boolesche \texttt{not} und $\&\&$ für das
+  Dabei steht $!$ fÃ¼r das boolesche \texttt{not} und $\&\&$ fÃ¼r das
   boolesche \texttt{and}.
 \end{aufgabe}
 
@@ -2335,7 +2335,7 @@ SECD-Maschine realisiert wird:
  \end{center}
  
  \begin{enumerate}
-   \item Übersetzen Sie das SECD-Programm in den entsprechenden
+   \item Ãœbersetzen Sie das SECD-Programm in den entsprechenden
    $\mathcal{L}_{\lambda{}A}$-Term.
    \item Werten Sie das SECD-Programm aus und geben Sie die einzelnen
      Auswertungsschritte an!
@@ -2345,27 +2345,27 @@ SECD-Maschine realisiert wird:
 
 \begin{aufgabe}\label{aufgabe:secd-endekursiv-implementieren}
   Erweitern Sie die Implementierung der SECD-Maschine um korrekte
-  Behandlung der Endrekursion!  Erweitern Sie dazu zunächst die
-  Datendefinition für Maschinencode. Implementieren Sie dann die
-  Übersetzung von $\lambda$-Termen für die endrekursive SECD-Maschine.
-  Erweitern Sie schließlich die Zustandsübergangsfunktion um einen
-  Fall für die $\mathtt{tailap}$-Instruktion.
+  Behandlung der Endrekursion!  Erweitern Sie dazu zunÃ¤chst die
+  Datendefinition fÃ¼r Maschinencode. Implementieren Sie dann die
+  Ãœbersetzung von $\lambda$-Termen fÃ¼r die endrekursive SECD-Maschine.
+  Erweitern Sie schlieÃŸlich die ZustandsÃ¼bergangsfunktion um einen
+  Fall fÃ¼r die $\mathtt{tailap}$-Instruktion.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Die um Endrekursion erweiterte SECD-Maschine führt eine neue
+  Die um Endrekursion erweiterte SECD-Maschine fÃ¼hrt eine neue
   Maschinencode"=Instruktion \texttt{tailap} ein.  Dies ist aber nicht
-  unbedingt nötig.  Formulieren Sie die Zustandsübergangsregeln der
-  SECD-Maschine mit Endrekursion so um, daß die Funktionalität, also
+  unbedingt nÃ¶tig.  Formulieren Sie die ZustandsÃ¼bergangsregeln der
+  SECD-Maschine mit Endrekursion so um, daÃŸ die FunktionalitÃ¤t, also
   insbesondere die richtige Behandlung endrekursiver Applikationen,
-  auch ohne das das zusätzliche Schlüsselwort \texttt{tailap}
+  auch ohne das das zusÃ¤tzliche SchlÃ¼sselwort \texttt{tailap}
   erhalten bleibt.
 \end{aufgabe}
 
 \begin{aufgabe}
   Zeigen Sie in der um Endrekursion erweiterten
-  SECD-Maschine, daß \texttt{tailap} immer am Ende steht, also
-  tatsächlich keinen Kontext besitzt.
+  SECD-Maschine, daÃŸ \texttt{tailap} immer am Ende steht, also
+  tatsÃ¤chlich keinen Kontext besitzt.
 \end{aufgabe}
 
 \begin{aufgabe}\label{aufgabe:prim-arity}
@@ -2374,55 +2374,55 @@ SECD-Maschine realisiert wird:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Ändern Sie die Implementierung der SECDH-Maschine dahingehend, daß
+  Ã„ndern Sie die Implementierung der SECDH-Maschine dahingehend, daÃŸ
   sie Endrekursion korrekt behandelt.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Abstrahieren Sie über \texttt{remove-environment-binding} und
+  Abstrahieren Sie Ã¼ber \texttt{remove-environment-binding} und
   \texttt{remove-cell}.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Erweitern Sie den angewandten $\lambda$-Kalkül um Abstraktionen und
+  Erweitern Sie den angewandten $\lambda$-KalkÃ¼l um Abstraktionen und
   Applikationen mit mehr als einem Parameter.  Erweitern Sie die
   SECD-Maschine und ihre Implementierung entsprechend.
 \end{aufgabe}
 
 
 \begin{aufgabe}
-  Erweitern Sie den angewandten $\lambda$-Kalkül um binäre
+  Erweitern Sie den angewandten $\lambda$-KalkÃ¼l um binÃ¤re
   Verzweigungen analog zu \texttt{if}.  Erweitern Sie entsprechend die
   SECD-Maschine und ihre Implementierung.
 \end{aufgabe}
 
 \begin{aufgabe}
-  \texttt{Begin} läßt sich im angewandten $\lambda$-Kalkül als
-  syntaktischer Zucker auffassen: Wie müßten \texttt{begin}-Ausdrücke
-  in die Sprache des Kalküls übersetzt werden?
+  \texttt{Begin} lÃ¤ÃŸt sich im angewandten $\lambda$-KalkÃ¼l als
+  syntaktischer Zucker auffassen: Wie mÃ¼ÃŸten \texttt{begin}-AusdrÃ¼cke
+  in die Sprache des KalkÃ¼ls Ã¼bersetzt werden?
 \end{aufgabe}
 
 \begin{aufgabe}
-  Anstatt Umgebungen durch Listen von Bindungen zu repräsentieren, ist
-  es auch möglich, Prozeduren zu verwenden, so daß
-  \texttt{lookup-environment} folgendermaßen aussieht:
+  Anstatt Umgebungen durch Listen von Bindungen zu reprÃ¤sentieren, ist
+  es auch mÃ¶glich, Prozeduren zu verwenden, so daÃŸ
+  \texttt{lookup-environment} folgendermaÃŸen aussieht:
 \begin{verbatim}
 (define lookup-environment
   (lambda (e v)
     (e v)))
 \end{verbatim}
-  Ergänzen Sie eine passende Definition für
+  ErgÃ¤nzen Sie eine passende Definition fÃ¼r
   \texttt{extend-environment}.
 \end{aufgabe}
 
 \begin{aufgabe}
   Auf den ersten Blick erscheint es etwas aufwendig, jedesmal bei der
   Auswertung einer Abstraktion die gesamte Umgebung in die Closure
-  einzupacken.  Was würde sich ändern, wenn dieser Schritt weggelassen
-  würde, Closures also nur Variable und Maschinencode für den Rumpf
-  enthalten würden?  Formulieren Sie die entsprechenden Regeln für die
-  SECD-Maschine und ändern Sie die Implementierung entsprechend.
-  Funktioniert die SECD-Maschine nach der Änderung noch korrekt?
+  einzupacken.  Was wÃ¼rde sich Ã¤ndern, wenn dieser Schritt weggelassen
+  wÃ¼rde, Closures also nur Variable und Maschinencode fÃ¼r den Rumpf
+  enthalten wÃ¼rden?  Formulieren Sie die entsprechenden Regeln fÃ¼r die
+  SECD-Maschine und Ã¤ndern Sie die Implementierung entsprechend.
+  Funktioniert die SECD-Maschine nach der Ã„nderung noch korrekt?
 \end{aufgabe}
 
 %%% Local Variables: 

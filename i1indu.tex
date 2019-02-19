@@ -6,39 +6,39 @@
 \chapter{Induktive Beweise und Definitionen}
 \label{cha:indu}
 
-Die Mathematik beschäftigt sich zentral mit \textit{Beweisen} von
+Die Mathematik beschÃ¤ftigt sich zentral mit \textit{Beweisen} von
 formalen Aussagen.  Diese sind auch in der Informatik wichtig, um die
-Korrektheit von Programmen sicherzustellen.  Dabei geht es häufig um
-Aussagen der Form "`für alle $x\in X$"', wobei $X$ eine unendliche
-Menge ist~-- zum Beispiel die Menge der natürlichen Zahlen oder die
+Korrektheit von Programmen sicherzustellen.  Dabei geht es hÃ¤ufig um
+Aussagen der Form "`fÃ¼r alle $x\in X$"', wobei $X$ eine unendliche
+Menge ist~-- zum Beispiel die Menge der natÃ¼rlichen Zahlen oder die
 Menge der Listen.  In der Informatik haben viele der in der Praxis
 vorkommenden Mengen~-- insbesondere alle gemischten Daten mit
 Selbstbezug wie die Listen~-- eine besondere Eigenschaft: Sie sind
 \textit{induktiv definiert}.  Die induktive Definition erlaubt, eine
 besondere Beweistechnik anzuwenden, die \textit{Induktion}.  Um
-induktiv definierte Mengen, Funktionen darauf und Beweise darüber geht
+induktiv definierte Mengen, Funktionen darauf und Beweise darÃ¼ber geht
 es in diesem Kapitel.
 
-\section{Aussagen über natürliche Zahlen}
+\section{Aussagen Ã¼ber natÃ¼rliche Zahlen}
 \label{sec:mathematical-induction}
 
-In der Mathematik gibt es viele kuriose Aussagen über natürliche
-Zahlen.  Legendenstatus hat z.B.\ die Gaußsche
-Summenformel\index{Gaußsche Summenformel}:
+In der Mathematik gibt es viele kuriose Aussagen Ã¼ber natÃ¼rliche
+Zahlen.  Legendenstatus hat z.B.\ die GauÃŸsche
+Summenformel\index{GauÃŸsche Summenformel}:
 %
 \[\forall n\in\mathbb{N}: \sum_{i=0}^n i =
   \frac{n}{2}\cdot(n+1)\]
 %
-Wie lassen sich solche Aussagen beweisen?  Gauß' Argument war, daß,
+Wie lassen sich solche Aussagen beweisen?  GauÃŸ' Argument war, daÃŸ,
 wenn er die Summe ausschreibt:
 %
 \[ 1+2+\ldots+(n-1) + n \]
 %
-\ldots~die beiden "`äußeren"' Summanden $1$ und $n$ zusammen $n+1$
-ergeben, die beiden "`nächstinneren"' Summanden $2$ und $n-1$
+\ldots~die beiden "`Ã¤uÃŸeren"' Summanden $1$ und $n$ zusammen $n+1$
+ergeben, die beiden "`nÃ¤chstinneren"' Summanden $2$ und $n-1$
 ebenfalls $n+1$ undsoweiter bis zur "`Mitte"'~-- effektiv also halb so
 oft $n+1$ auf sich selbst addiert wird wie die Reihe selbst lang ist.
-Es ist also einfach nachzuvollziehen, wie Gauß auf die Formel kam und
+Es ist also einfach nachzuvollziehen, wie GauÃŸ auf die Formel kam und
 warum sie korrekt ist.
 
 Was ist aber mit folgender Reihe?
@@ -50,7 +50,7 @@ Der Blick auf die ausgeschriebene Form hilft nicht direkt weiter:
 \[ 1+4+9+16+\ldots+(n-1)^2+n^2 \]
 %
 Allerdings lohnt es sich, einen Blick auf die ersten paar Glieder der
-Reihe zu werfen, und diese tabellarisch über die Gaußsche Summen zu
+Reihe zu werfen, und diese tabellarisch Ã¼ber die GauÃŸsche Summen zu
 setzen:
 %
 \begin{displaymath}
@@ -62,7 +62,7 @@ setzen:
 \end{displaymath}
 %
 Wer die Paare der Summen der beiden Reihen lang genug anstarrt, sieht
-vielleicht, daß sich alle als Brüche auf den Nenner 3 kürzen lassen:
+vielleicht, daÃŸ sich alle als BrÃ¼che auf den Nenner 3 kÃ¼rzen lassen:
 %
 \begin{displaymath}
   \begin{array}{crrrrrrrr}
@@ -72,7 +72,7 @@ vielleicht, daß sich alle als Brüche auf den Nenner 3 kürzen lassen:
   \end{array}
 \end{displaymath}
 %
-Einzige Ausnahme ist der Bruch für $0$: dort wird durch $0$ geteilt, es
+Einzige Ausnahme ist der Bruch fÃ¼r $0$: dort wird durch $0$ geteilt, es
 ist also unklar, welcher Bruch an dieser Stelle in der Tabelle stehen
 sollte.  Ansonsten suggeriert die Tabelle folgende Formel:
 %
@@ -81,38 +81,38 @@ sollte.  Ansonsten suggeriert die Tabelle folgende Formel:
 \end{displaymath}
 %
 Die Gleichung kann mit $\sum_{i=0}^n i = n(n+1)/2$ multipliziert werden, um eine
-Antwort für die ursprüngliche Frage zu ergeben:
+Antwort fÃ¼r die ursprÃ¼ngliche Frage zu ergeben:
 %
 \begin{equation}
   \sum_{i=0}^n i^2 = \dfrac{n(n+1)(2n+1)}{6}
   \label{eq:squares-induction-prequel}
 \end{equation}
 %
-Schöne Formel~-- aber stimmt sie auch für alle $n\in\mathbb{N}$?  (Für
+SchÃ¶ne Formel~-- aber stimmt sie auch fÃ¼r alle $n\in\mathbb{N}$?  (FÃ¼r
 den unklaren Fall $0$ stimmt sie.)  Wer
-mag, kann sie noch für weitere $n$~-- $7, 8, \ldots$~-- ausprobieren,
-und tatsächlich zeigen sich zunächst keine Gegenbeispiele.  Aber das
-ist langweilig und würde immer noch nicht reichen, um die Behauptung
-für \emph{alle} $n\in\mathbb{N}$ zu beweisen.
+mag, kann sie noch fÃ¼r weitere $n$~-- $7, 8, \ldots$~-- ausprobieren,
+und tatsÃ¤chlich zeigen sich zunÃ¤chst keine Gegenbeispiele.  Aber das
+ist langweilig und wÃ¼rde immer noch nicht reichen, um die Behauptung
+fÃ¼r \emph{alle} $n\in\mathbb{N}$ zu beweisen.
 
-Wenn die Behauptung für alle $n\in\mathbb{N}$ stimmt, also
-insbesondere auch für ein bestimmtes $n\in\mathbb{N}$, dann sollte sie
-auch für $n+1$ gelten, das wäre dann die folgende Gleichung, bei der
-gegenüber der Gleichung oben für $n$ jeweils $n+1$ eingesetzt wurde:
+Wenn die Behauptung fÃ¼r alle $n\in\mathbb{N}$ stimmt, also
+insbesondere auch fÃ¼r ein bestimmtes $n\in\mathbb{N}$, dann sollte sie
+auch fÃ¼r $n+1$ gelten, das wÃ¤re dann die folgende Gleichung, bei der
+gegenÃ¼ber der Gleichung oben fÃ¼r $n$ jeweils $n+1$ eingesetzt wurde:
 %
 \begin{displaymath}
   \sum_{i=0}^{n+1} i^2 = \dfrac{(n+1)((n+1)+1)(2(n+1)+1)}{6}
 \end{displaymath}
 %
-Das läßt sich etwas vereinfachen:
+Das lÃ¤ÃŸt sich etwas vereinfachen:
 %
 \begin{equation}
   \sum_{i=0}^{n+1} i^2 = \dfrac{(n+1)(n+2)(2n+3)}{6}
   \label{eq:squares-induction-consequence}
 \end{equation}
 %
-Bei der Reihe $\sum_{i=0}^{n+1} i^2$ läßt sich der letze Summand
-ausgliedern und die Gleichung damit folgendermaßen schreiben:
+Bei der Reihe $\sum_{i=0}^{n+1} i^2$ lÃ¤ÃŸt sich der letze Summand
+ausgliedern und die Gleichung damit folgendermaÃŸen schreiben:
 %
 \[(\sum_{i=0}^{n}
 i^2) + (n+1)^2 = \dfrac{(n+1)(n+2)(2n+3)}{6}\]
@@ -128,7 +128,7 @@ Es bleibt:
 \[ (n+1)^2 = \dfrac{(n+1)(n+2)(2n+3)}{6} - \dfrac{n(n+1)(2n+1)}{6}\]
 %
 Wenn diese Gleichung stimmt, dann stimmt auch
-Gleichung~\ref{eq:squares-induction-consequence}.  Das läßt sich
+Gleichung~\ref{eq:squares-induction-consequence}.  Das lÃ¤ÃŸt sich
 ausrechnen:
 %
 \begin{displaymath}
@@ -147,13 +147,13 @@ Tatsache!  Aber was wurde jetzt eigentlich gezeigt?  Es ist leicht,
 bei den vielen Schritten von oben den Faden zu verlieren.  Hier noch
 einmal die Zusammenfassung:
 
-Es \emph{schien} so, als ob folgende Gleichung stimmen würde:
+Es \emph{schien} so, als ob folgende Gleichung stimmen wÃ¼rde:
 %
 \begin{displaymath}
   \sum_{i=0}^n i^2 = \dfrac{n(n+1)(2n+1)}{6}
 \end{displaymath}
 %
-Es \emph{ist} so, daß folgende Gleichung stimmt:
+Es \emph{ist} so, daÃŸ folgende Gleichung stimmt:
 %
 \[ (n+1)^2 = \dfrac{(n+1)(n+2)(2n+3)}{6} - \dfrac{n(n+1)(2n+1)}{6}\]
 %
@@ -164,71 +164,71 @@ diese Gleichung:
   \sum_{i=0}^{n+1} i^2 = \dfrac{(n+1)(n+2)(2n+3)}{6}
 \end{displaymath}
 %
-Das ist aber die gleiche Behauptung, nur für $n+1$ statt $n$~-- mit
-anderen Worten folgt aus der Behauptung für $n$ die Behauptung für
-$n+1$.  Da oben durch Ausrechnen bereits gezeigt wurde, daß die
-Behauptung für $1,\ldots,6$ gilt, gilt sie auch für $7$.  Da sie für
-$7$ gilt, gilt sie auch für $8$.  Undsoweiter für alle natürlichen
-Zahlen.  Es ist nicht nötig, sie einzeln auszuprobieren.  Die Vermutung
+Das ist aber die gleiche Behauptung, nur fÃ¼r $n+1$ statt $n$~-- mit
+anderen Worten folgt aus der Behauptung fÃ¼r $n$ die Behauptung fÃ¼r
+$n+1$.  Da oben durch Ausrechnen bereits gezeigt wurde, daÃŸ die
+Behauptung fÃ¼r $1,\ldots,6$ gilt, gilt sie auch fÃ¼r $7$.  Da sie fÃ¼r
+$7$ gilt, gilt sie auch fÃ¼r $8$.  Undsoweiter fÃ¼r alle natÃ¼rlichen
+Zahlen.  Es ist nicht nÃ¶tig, sie einzeln auszuprobieren.  Die Vermutung
 von oben ist also bewiesen.
 
-\section{Induktive Beweise führen}
+\section{Induktive Beweise fÃ¼hren}
 \label{sec:nat-induction-ka}
 \label{page:mathematical-induction}
-Das im vorigen Abschnitt verwendete Beweisprinzip für Beweise 
-von Sätzen der Form "`für alle $n\in\enn$ \ldots"'
-heißt
-\textit{vollständige Induktion}\index{Induktion}\index{Induktion!vollständig}.\footnote{Nicht zu
+Das im vorigen Abschnitt verwendete Beweisprinzip fÃ¼r Beweise 
+von SÃ¤tzen der Form "`fÃ¼r alle $n\in\enn$ \ldots"'
+heiÃŸt
+\textit{vollstÃ¤ndige Induktion}\index{Induktion}\index{Induktion!vollstÃ¤ndig}.\footnote{Nicht zu
 verwechseln mit der \textit{philosophischen Induktion}.  Die
-vollständige Induktion ist zwar verwandt, philosophisch gesehen aber
+vollstÃ¤ndige Induktion ist zwar verwandt, philosophisch gesehen aber
 eher eine deduktive Technik.}  Diese
-funktioniert bei Aufgaben, bei denen eine Behauptung für alle
-$n\in\mathbb{N}$ zu beweisen ist.  Für den Beweis werden folgende
-Zutaten benötigt:
+funktioniert bei Aufgaben, bei denen eine Behauptung fÃ¼r alle
+$n\in\mathbb{N}$ zu beweisen ist.  FÃ¼r den Beweis werden folgende
+Zutaten benÃ¶tigt:
 %
 \begin{enumerate}
-\item ein Beweis dafür, daß die Behauptung für $n=0$ stimmt und
-\item ein Beweis dafür, daß, wenn die Behauptung für ein beliebiges
-  $n$ gilt, sie auch für $n+1$ gilt.
+\item ein Beweis dafÃ¼r, daÃŸ die Behauptung fÃ¼r $n=0$ stimmt und
+\item ein Beweis dafÃ¼r, daÃŸ, wenn die Behauptung fÃ¼r ein beliebiges
+  $n$ gilt, sie auch fÃ¼r $n+1$ gilt.
 \end{enumerate}
 %
 Die erste Zutat (der
-\textit{Induktionsanfang}\index{Induktionsanfang}) läßt sich meist
-durch Einsetzen beweisen, für die zweite Zutat (den
-\textit{Induktionsschluß}\index{Induktionsschluß}) ist in der Regel Algebra
-nötig.  Da die Behauptung nach Zutat Nr.~1 für $0$ gilt, muß sie nach
-Zutat Nr.~2 auch für $1$ gelten, und deshalb auch für $2,\ldots$ und
-damit für alle natürlichen Zahlen.  (Es muß nicht unbedingt bei $0$
+\textit{Induktionsanfang}\index{Induktionsanfang}) lÃ¤ÃŸt sich meist
+durch Einsetzen beweisen, fÃ¼r die zweite Zutat (den
+\textit{InduktionsschluÃŸ}\index{InduktionsschluÃŸ}) ist in der Regel Algebra
+nÃ¶tig.  Da die Behauptung nach Zutat Nr.~1 fÃ¼r $0$ gilt, muÃŸ sie nach
+Zutat Nr.~2 auch fÃ¼r $1$ gelten, und deshalb auch fÃ¼r $2,\ldots$ und
+damit fÃ¼r alle natÃ¼rlichen Zahlen.  (Es muÃŸ nicht unbedingt bei $0$
 losgehen, sondern kann auch bei einer beliebigen Zahl $a$ losgehen~--
-dann gilt aber die Behauptung nur für alle natürlichen Zahlen ab $a$.)
+dann gilt aber die Behauptung nur fÃ¼r alle natÃ¼rlichen Zahlen ab $a$.)
 
 Wenn die Behauptung erst einmal formuliert ist, sind induktive Beweise
-oft einfach zu führen, da sie meist dem o.g.\ Schema folgen.  Das
-wichtigste dabei ist, das Schema auch tatsächlich einzuhalten.  Darum
+oft einfach zu fÃ¼hren, da sie meist dem o.g.\ Schema folgen.  Das
+wichtigste dabei ist, das Schema auch tatsÃ¤chlich einzuhalten.  Darum
 empfiehlt es sich, folgende Anleitung zu befolgen~-- eine Art
-Konstruktionsanleitung für Beweise mit vollständiger Induktion:
+Konstruktionsanleitung fÃ¼r Beweise mit vollstÃ¤ndiger Induktion:
 %
 \begin{enumerate}
 \item Formulieren Sie die zu beweisende Behauptung als Behauptung der
-  Form "`Für alle $n\in\mathbb{N}$ gilt~\ldots"', falls das noch nicht
+  Form "`FÃ¼r alle $n\in\mathbb{N}$ gilt~\ldots"', falls das noch nicht
   geschehen ist.
-\item Schreiben Sie die Überschrift "`$n = 0$:"'. Schreiben Sie die
-  Behauptung noch einmal ab, wobei Sie das "`für alle $n\in\mathbb{N}$"' weglassen und für $n$ die $0$ einsetzen.
+\item Schreiben Sie die Ãœberschrift "`$n = 0$:"'. Schreiben Sie die
+  Behauptung noch einmal ab, wobei Sie das "`fÃ¼r alle $n\in\mathbb{N}$"' weglassen und fÃ¼r $n$ die $0$ einsetzen.
 \item Beweisen Sie die abgeschriebene Behauptung.  (Das ist in der Regel
   sehr einfach.)
 \item Schreiben Sie das Wort "`Induktionsvoraussetzung:"' Schreiben
-  Sie darunter die Behauptung noch einmal ab, wobei Sie das "`für
+  Sie darunter die Behauptung noch einmal ab, wobei Sie das "`fÃ¼r
   alle $n\in\mathbb{N}$"' weglassen~-- lassen Sie das $n$ da, wo es ist.
-\item Schreiben Sie "`Induktionsschluß (zu zeigen):"'.
-  Schreiben Sie darunter die Behauptung noch einmal ab, wobei Sie für
-  $n$ stattdessen $(n+1)$ einsetzen.  (Wieder lassen Sie das "`für alle
+\item Schreiben Sie "`InduktionsschluÃŸ (zu zeigen):"'.
+  Schreiben Sie darunter die Behauptung noch einmal ab, wobei Sie fÃ¼r
+  $n$ stattdessen $(n+1)$ einsetzen.  (Wieder lassen Sie das "`fÃ¼r alle
   $n\in\mathbb{N}$"' weg.)
-\item Beweisen Sie den Induktionsschluß unter Verwendung der
+\item Beweisen Sie den InduktionsschluÃŸ unter Verwendung der
   Induktionsvoraussetzung.  
 
-  Wenn die Behauptung eine Gleichung der Form $A = B$ ist, dann läßt
-  sich häufig die Induktionsvoraussetzung entweder direkt oder nach
-  einigen Umformungen in den Induktionsschluß einsetzen.
+  Wenn die Behauptung eine Gleichung der Form $A = B$ ist, dann lÃ¤ÃŸt
+  sich hÃ¤ufig die Induktionsvoraussetzung entweder direkt oder nach
+  einigen Umformungen in den InduktionsschluÃŸ einsetzen.
 \end{enumerate}
 %
 Wir gehen die Anleitung anhand des obigen Beispiels durch.  Die
@@ -258,19 +258,19 @@ einmal fest, ist sie allerdings recht einfach zu beweisen:
 \begin{displaymath}
   \sum_{i=0}^n i^2 = \dfrac{n(n+1)(2n+1)}{6}
 \end{displaymath}
-\item Induktionsschluß (zu zeigen):
+\item InduktionsschluÃŸ (zu zeigen):
 \begin{displaymath}
   \sum_{i=0}^{n+1} i^2 = \dfrac{(n+1)((n+1)+1)(2(n+1)+1)}{6}
 \end{displaymath}
-\item Die Summe auf der linken Seite läßt sich aufteilen:
+\item Die Summe auf der linken Seite lÃ¤ÃŸt sich aufteilen:
 %
 \begin{displaymath}
   (\sum_{i=0}^{n} i^2) + (n+1)^2  = \dfrac{(n+1)((n+1)+1)(2(n+1)+1)}{6}
 \end{displaymath}
 %
-Damit können wir die Induktionsvoraussetzung einsetzen, in der
+Damit kÃ¶nnen wir die Induktionsvoraussetzung einsetzen, in der
 $\sum_{i=0}^{n} i^2$ auf der linken Seite steht~-- dieser Kniff
-funktioniert fast immer bei Induktionsbeweisen für Gleichungen über
+funktioniert fast immer bei Induktionsbeweisen fÃ¼r Gleichungen Ã¼ber
 Summen oder Produkte.  Es entsteht folgende Gleichung:
 %
 \begin{displaymath}
@@ -278,7 +278,7 @@ Summen oder Produkte.  Es entsteht folgende Gleichung:
   \dfrac{(n+1)((n+1)+1)(2(n+1)+1)}{6}
 \end{displaymath}
 %
-Die linke Seite können wir folgendermaßen vereinfachen:
+Die linke Seite kÃ¶nnen wir folgendermaÃŸen vereinfachen:
 %
 \begin{displaymath}
 \begin{split}
@@ -290,7 +290,7 @@ Die linke Seite können wir folgendermaßen vereinfachen:
 \end{split}
 \end{displaymath}
 %
-Die rechte Seite können wir folgendermaßen vereinfachen:
+Die rechte Seite kÃ¶nnen wir folgendermaÃŸen vereinfachen:
 %
 \begin{displaymath}
   \begin{split}
@@ -307,104 +307,104 @@ Damit ist bei der linken und der rechten Seite jeweils das gleiche
 herausgekommen und die Behauptung ist bewiesen.
 \end{enumerate}
 
-\section{Struktur der natürlichen Zahlen}
+\section{Struktur der natÃ¼rlichen Zahlen}
 
-Die vollständige Induktion aus dem vorigen Abschnitt ist nur für die
-Menge der natürlichen Zahlen geeignet.  Sie funktioniert aber nicht für alle
-Mengen: Für die reellen Zahlen $\mathbb{R}$ z.B.\ erreicht die
-Konstruktion "`bei $0$ anfangen und dann immer um $1$ hochzählen"' einfach
+Die vollstÃ¤ndige Induktion aus dem vorigen Abschnitt ist nur fÃ¼r die
+Menge der natÃ¼rlichen Zahlen geeignet.  Sie funktioniert aber nicht fÃ¼r alle
+Mengen: FÃ¼r die reellen Zahlen $\mathbb{R}$ z.B.\ erreicht die
+Konstruktion "`bei $0$ anfangen und dann immer um $1$ hochzÃ¤hlen"' einfach
 nicht alle Elemente der Menge.%\footnote{Bei den ganzen Zahlen
 %  $\mathbb{Z}$ und den rationalen Zahlen $\mathbb{Q}$ ist das anders,
-%  da es sich um \textit{abzählbare Mengen} handelt.  Das ist
-%  allerdings für unsere Zwecke nicht direkt relevant.}  HK: hier verwirrend...
+%  da es sich um \textit{abzÃ¤hlbare Mengen} handelt.  Das ist
+%  allerdings fÃ¼r unsere Zwecke nicht direkt relevant.}  HK: hier verwirrend...
 Die
-natürlichen Zahlen sind also etwas besonderes.  Das liegt daran, daß
-sich eine Art Bastelanleitung für alle Elemente von $\mathbb{N}$ angeben
-läßt:
+natÃ¼rlichen Zahlen sind also etwas besonderes.  Das liegt daran, daÃŸ
+sich eine Art Bastelanleitung fÃ¼r alle Elemente von $\mathbb{N}$ angeben
+lÃ¤ÃŸt:
 %
 \begin{itemize}
-\item $0$ ist eine natürliche Zahl.
-\item Für eine bekannte natürliche Zahl $n$ ist auch
-  $n+1$ eine natürliche Zahl.
+\item $0$ ist eine natÃ¼rliche Zahl.
+\item FÃ¼r eine bekannte natÃ¼rliche Zahl $n$ ist auch
+  $n+1$ eine natÃ¼rliche Zahl.
 \end{itemize}
 %
-Diese Anleitung erreicht \emph{jede} natürliche Zahl~-- jede Zahl kann
-in der Form $0+1+\ldots+1$ geschrieben werden.  Für diese Art
-Bastelanleitung für Mengen ist charakteristisch, daß es ein oder
+Diese Anleitung erreicht \emph{jede} natÃ¼rliche Zahl~-- jede Zahl kann
+in der Form $0+1+\ldots+1$ geschrieben werden.  FÃ¼r diese Art
+Bastelanleitung fÃ¼r Mengen ist charakteristisch, daÃŸ es ein oder
 mehrere \textit{Basiselemente}\index{Basiselement} gibt (in diesem
 Fall die $0$) und dann ein oder mehrere Regeln, die aus beliebigeren
-"`kleineren"' Elementen "`größere"' Elemente konstruieren, in diesem
-Fall die Regel, die besagt, daß für jede natürliche Zahl auch ihr
-\textit{Nachfolger}\index{Nachfolger} eine natürliche Zahl ist.
-Umgekehrt läßt sich die Menge der natürlichen Zahlen $\mathbb{N}$
-folgendermaßen definieren:
+"`kleineren"' Elementen "`grÃ¶ÃŸere"' Elemente konstruieren, in diesem
+Fall die Regel, die besagt, daÃŸ fÃ¼r jede natÃ¼rliche Zahl auch ihr
+\textit{Nachfolger}\index{Nachfolger} eine natÃ¼rliche Zahl ist.
+Umgekehrt lÃ¤ÃŸt sich die Menge der natÃ¼rlichen Zahlen $\mathbb{N}$
+folgendermaÃŸen definieren:
 %
-\begin{definition}[natürliche Zahlen]
+\begin{definition}[natÃ¼rliche Zahlen]
   \label{def:N}
-  Die Menge der natürlichen Zahlen $\mathbb{N}$ ist folgendermaßen definiert:
+  Die Menge der natÃ¼rlichen Zahlen $\mathbb{N}$ ist folgendermaÃŸen definiert:
   \begin{enumerate}
   \item $0\in\mathbb{N}$
-  \item Für $n\in\mathbb{N}$ ist auch $n+1\in\mathbb{N}$.
+  \item FÃ¼r $n\in\mathbb{N}$ ist auch $n+1\in\mathbb{N}$.
   \item Die obigen Regeln definieren \emph{alle} $n\in\mathbb{N}$.
   \end{enumerate}
 \end{definition}
 % 
-Eine solche Definition heißt auch \textit{induktive
+Eine solche Definition heiÃŸt auch \textit{induktive
   Definition}\index{induktive Definition}, die eine \textit{induktive
   Menge}\index{induktive Menge} definiert.  Die letzte Klausel ist bei
 induktiven Definition immer dabei~--
-ohne sie könnte z.B.\ die Menge der reellen
+ohne sie kÃ¶nnte z.B.\ die Menge der reellen
 Zahlen als $\mathbb{N}$ durchgehen, weil die Klauseln davor 
-keinen Anspruch auf Vollständigkeit erheben könnten.  Diese Klausel
-heißt \textit{induktiver Abschluß}.\index{induktiver Abschluß}
+keinen Anspruch auf VollstÃ¤ndigkeit erheben kÃ¶nnten.  Diese Klausel
+heiÃŸt \textit{induktiver AbschluÃŸ}.\index{induktiver AbschluÃŸ}
 
-Wer genau hinschaut, sieht, daß die induktive Definition genau die
+Wer genau hinschaut, sieht, daÃŸ die induktive Definition genau die
 gleiche Struktur hat wie die Definition der Induktion von
-Seite~\pageref{page:mathematical-induction}: Es gibt eine Klausel für
-die $0$ und eine Klausel für den Schritt von $n$ nach $n+1$.  Die induktive
-Definition sagt, daß es zwei verschiedene Sorten von natürlichen
-Zahlen gibt, nämlich das Basiselement $0$ aus der ersten Regel der
+Seite~\pageref{page:mathematical-induction}: Es gibt eine Klausel fÃ¼r
+die $0$ und eine Klausel fÃ¼r den Schritt von $n$ nach $n+1$.  Die induktive
+Definition sagt, daÃŸ es zwei verschiedene Sorten von natÃ¼rlichen
+Zahlen gibt, nÃ¤mlich das Basiselement $0$ aus der ersten Regel der
 Definition und die (positiven) Zahlen $n+1$ aus der zweiten Klausel.
-Anders gesagt sind die natürlichen Zahlen so etwas wie gemischte
+Anders gesagt sind die natÃ¼rlichen Zahlen so etwas wie gemischte
 Daten.
 
-Entsprechend muß eine Behauptung über die natürlichen Zahlen für beide
-Sorten bewiesen werden: Einerseits für das Basiselement $0$ und
-andererseits für die positiven Zahlen, die keine Basiselemente sind.
-Die Klauseln für die Basiselemente heißen
+Entsprechend muÃŸ eine Behauptung Ã¼ber die natÃ¼rlichen Zahlen fÃ¼r beide
+Sorten bewiesen werden: Einerseits fÃ¼r das Basiselement $0$ und
+andererseits fÃ¼r die positiven Zahlen, die keine Basiselemente sind.
+Die Klauseln fÃ¼r die Basiselemente heiÃŸen
 \textit{Induktionsverankerungen}\index{Induktionsverankerung}.  Da die
 zweite Klausel einen \textit{Selbstbezug}\index{Selbstbezug}
-enthält~-- es muß schon eine natürliche Zahl da sein, um eine weitere
-zu finden~-- muß dort ein Induktionsschluß bewiesen werden.
+enthÃ¤lt~-- es muÃŸ schon eine natÃ¼rliche Zahl da sein, um eine weitere
+zu finden~-- muÃŸ dort ein InduktionsschluÃŸ bewiesen werden.
 Der Begriff des Selbstbezugs entspricht dem, der bei Listen in
-Kapitel~\ref{cha:rek} eingeführt wurde.
+Kapitel~\ref{cha:rek} eingefÃ¼hrt wurde.
 
-Die natürlichen Zahlen haben nur ein Basiselement und es gibt nur eine
+Die natÃ¼rlichen Zahlen haben nur ein Basiselement und es gibt nur eine
 Klausel mit Selbstbezug: Das ist nicht bei allen induktiven
 Definitionen so~-- allgemein kann eine induktive Definition beliebig
 viele Basiselemente (mindestens eins) und beliebig viele Klauseln mit
-Selbstbezug haben.  Dafür wird es in diesem Buch noch mehrere
+Selbstbezug haben.  DafÃ¼r wird es in diesem Buch noch mehrere
 Beispiele geben.
 
 \section{Endliche Folgen}
 \label{sec:finite-sequences}
 
-Die natürlichen Zahlen sind nicht die einzige induktiv definierte
+Die natÃ¼rlichen Zahlen sind nicht die einzige induktiv definierte
 Menge.  Ein weiteres Beispiel sind die \index{Folge}\index{endliche
   Folge}\textit{endlichen Folgen}, die den Listen entsprechen:
 
 \begin{definition}
   \label{def:finite-sequences}
   Sei $M$ eine beliebige Menge.  Die Menge $M^\ast$ der \textit{endlichen
-    Folgen} über $M$ ist folgendermaßen definiert:\index{*@$M^\ast$}
+    Folgen} Ã¼ber $M$ ist folgendermaÃŸen definiert:\index{*@$M^\ast$}
     \begin{enumerate}
     \item Es gibt eine \textit{leere Folge}\footnote{Auf den ersten
         Blick scheint das Konzept einer leeren Folge, die keine
-        Elemente enthält, merkwürdig. Die Informatik hat aber die
-        Erfahrung gemacht, dass allzu oft Programme abstürzen, weil
+        Elemente enthÃ¤lt, merkwÃ¼rdig. Die Informatik hat aber die
+        Erfahrung gemacht, dass allzu oft Programme abstÃ¼rzen, weil
         sie irgendwo "`nichts"' vorfinden, wo sie doch mindestens
         "`etwas"' erwarteten. Auf den zweiten Blick ist die leere
-        Folge aber das Analog zu der $0$ bei den natürlichen Zahlen.} $\epsilon \in
+        Folge aber das Analog zu der $0$ bei den natÃ¼rlichen Zahlen.} $\epsilon \in
       M^\ast$.\index{*@$\epsilon$}\index{leere Folge}
     \item Wenn $f \in M^\ast$ eine Folge ist und $m \in M$, so ist $mf
       \in M^\ast$, also auch eine Folge.
@@ -413,25 +413,25 @@ Menge.  Ein weiteres Beispiel sind die \index{Folge}\index{endliche
 \end{definition}
 %
 Eine Folge entsteht also aus einer 
-bestehenden Folge dadurch, daß vorn noch ein Element angehängt wird.  
-Folgen über $M = \{a,b,c\}$ sind deshalb etwa
+bestehenden Folge dadurch, daÃŸ vorn noch ein Element angehÃ¤ngt wird.  
+Folgen Ã¼ber $M = \{a,b,c\}$ sind deshalb etwa
 \[ \epsilon, a\epsilon, b\epsilon, c\epsilon, aa\epsilon ,
 ab\epsilon , ac\epsilon ,\ldots, abc\epsilon,\ldots\ cbba\epsilon,
 \ldots \quad\textrm{(nicht alphabetisch sortiert)}\]
-Da das $\epsilon$ bei nichtleeren Folgen immer dazugehört, wird es oft
+Da das $\epsilon$ bei nichtleeren Folgen immer dazugehÃ¶rt, wird es oft
 nicht mitnotiert.
 
 Die Definition der endlichen Folgen ist analog zur
 Definition~\ref{def:N}: Die erste Klausel ist der \textit{Basisfall},
-die zweite Klausel enthält einen \textit{Selbstbezug} und die dritte
-Klausel bildet den induktiven Abschluß.
+die zweite Klausel enthÃ¤lt einen \textit{Selbstbezug} und die dritte
+Klausel bildet den induktiven AbschluÃŸ.
 
 \subsection{Funktionen auf endlichen Folgen}
 \label{sec:functions-on-finite-sequences}
 
 Dieser Abschnitt demonstriert, wie mathematische Funktionen auf endlichen Folgen
 formuliert werden.  Als Beispiel ist eine Funktion $s :
-\err^\ast \rightarrow \err$ gefragt, die für eine Folge deren Summe
+\err^\ast \rightarrow \err$ gefragt, die fÃ¼r eine Folge deren Summe
 ausrechnet, also z.B.:
 %
 \begin{displaymath}
@@ -459,9 +459,9 @@ die zwischen den beiden Sorten unterscheidet:
 Es fehlen nur noch die Teile der Definition, wo Fragezeichen stehen:
 
 Die Summe der leeren Folge ist $0$:  Wenn es sich um eine andere
-Zahl $m \neq 0$ handeln würde, ließe sich schließlich die Summe einer
-beliebigen Folge durch das Anhängen der leeren Folge um $m$ verändern.
-Die erste Lücke ist also schon geschlossen:
+Zahl $m \neq 0$ handeln wÃ¼rde, lieÃŸe sich schlieÃŸlich die Summe einer
+beliebigen Folge durch das AnhÃ¤ngen der leeren Folge um $m$ verÃ¤ndern.
+Die erste LÃ¼cke ist also schon geschlossen:
 %
 \begin{displaymath}
   s(f) \deq
@@ -473,7 +473,7 @@ Die erste Lücke ist also schon geschlossen:
 %
 Im zweiten Fall handelt es sich bei $f$ um ein
 zusammengesetztes Objekt mit den Bestandteilen $m$ und $f'$.
-Deshalb können $m$ und $f'$ für die Konstruktion des Funktionswerts
+Deshalb kÃ¶nnen $m$ und $f'$ fÃ¼r die Konstruktion des Funktionswerts
 herangezogen werden:
 %
 \begin{displaymath}
@@ -484,14 +484,14 @@ herangezogen werden:
   \end{cases}
 \end{displaymath}
 %
-Soweit sind die bekannten Techniken für die Konstruktion von
+Soweit sind die bekannten Techniken fÃ¼r die Konstruktion von
 Funktionen auf gemischten und zusammengesetzten Daten zur Anwendung
-gekommen, lediglich übertragen von Scheme-Prozeduren auf
+gekommen, lediglich Ã¼bertragen von Scheme-Prozeduren auf
 mathematische Funktionen.
 
-Für den nächsten Schritt paßt~-- genau wie beim Programmieren~-- ein
+FÃ¼r den nÃ¤chsten Schritt paÃŸt~-- genau wie beim Programmieren~-- ein
 rekursiver Aufruf zum Selbstbezug. Die Funktionsdefinition verdichtet sich
-folgendermaßen:
+folgendermaÃŸen:
 %
 \begin{displaymath}
   s(f) \deq
@@ -513,7 +513,7 @@ von $f = mf'$.  Es fehlt also zur Summe nur noch $m$ selbst:
   \end{cases}
 \end{displaymath}
 %
-Mit Papier und Bleistift läßt sich schnell nachvollziehen, daß die
+Mit Papier und Bleistift lÃ¤ÃŸt sich schnell nachvollziehen, daÃŸ die
 Definition korrekt arbeitet:
 %
 \begin{displaymath}
@@ -534,78 +534,78 @@ Definition korrekt arbeitet:
 % 
 Die Definition von $s$ ruft sich also an der Stelle selbst auf,
 an der die induktive Definition der endlichen Folgen den Selbstbezug
-"`$f' \in M^\ast$ eine Folge"' enthält.  
+"`$f' \in M^\ast$ eine Folge"' enthÃ¤lt.  
 
 Mathematisch geneigte Leser werden die Definition von $s$ mit Skepsis
 betrachten, taucht doch $s$ sowohl auf der linken als auch auf der rechten
 Seite auf~-- es sieht so aus, als sei $s$ "`durch sich selbst
-definiert"'.  Tatsächlich ist dies jedoch kein Problem, da:
+definiert"'.  TatsÃ¤chlich ist dies jedoch kein Problem, da:
 %
 \begin{itemize}
-\item sich $s(f)$ stets selbst auf einer \emph{kürzeren} Folge
+\item sich $s(f)$ stets selbst auf einer \emph{kÃ¼rzeren} Folge
   $f'$ aufruft, und
-\item schließlich bei der leeren Folge landet, bei der die Verzweigung
+\item schlieÃŸlich bei der leeren Folge landet, bei der die Verzweigung
   greift und keinen weiteren rekursiven Aufruf mehr vornimmt.
 \end{itemize}
 %
 Solange eine rekursive Funktion dem Schema von $s$ folgt und damit der
 Struktur der Folgen selbst, sind diese beiden Bedingungen automatisch
-erfüllt.
+erfÃ¼llt.
 
 \subsection{Folgeninduktion}
 \label{sec:sequence-induction}
-Das Gegenstück zur vollständigen Induktion heißt bei den Folgen
-\textit{Folgeninduktion}.  Der "`Schluß von $n$ auf $n+1$"' wird bei
-der Folgeninduktion zu je einem Schluß von $f$ auf $mf$ für alle
+Das GegenstÃ¼ck zur vollstÃ¤ndigen Induktion heiÃŸt bei den Folgen
+\textit{Folgeninduktion}.  Der "`SchluÃŸ von $n$ auf $n+1$"' wird bei
+der Folgeninduktion zu je einem SchluÃŸ von $f$ auf $mf$ fÃ¼r alle
 Folgen $f$ und alle $m\in M$ . Oft kommt es dabei auf das Folgenelement $m$ gar
 nicht an.
 
 Zum
-Beweis der Behauptung, daß eine bestimmte Behauptung für alle
-$f\in M^\ast$ gilt, genügt es, die folgenden Beweise zu führen:
+Beweis der Behauptung, daÃŸ eine bestimmte Behauptung fÃ¼r alle
+$f\in M^\ast$ gilt, genÃ¼gt es, die folgenden Beweise zu fÃ¼hren:
 \begin{enumerate} 
-\item Die Behauptung gilt für $f=\epsilon$ (\textit{Induktionsanfang})\index{Induktionsanfang}
-\item Wenn die Behauptung für eine Folge $f$ gilt, so gilt sie auch
-  für alle Folgen $mf$ wobei $m\in{M}$.
-  (\textit{Induktionsschluß}).\index{Induktionsschluß}
+\item Die Behauptung gilt fÃ¼r $f=\epsilon$ (\textit{Induktionsanfang})\index{Induktionsanfang}
+\item Wenn die Behauptung fÃ¼r eine Folge $f$ gilt, so gilt sie auch
+  fÃ¼r alle Folgen $mf$ wobei $m\in{M}$.
+  (\textit{InduktionsschluÃŸ}).\index{InduktionsschluÃŸ}
 \end{enumerate}
 % 
 Die Folgeninduktion funktioniert, weil sie der Struktur der Definition
 der endlichen Folgen~\ref{def:finite-sequences} genauso folgt wie die
-vollständige Induktion der Struktur der natürlichen Zahlen.  Das Lemma
-läßt sich auch mit Hilfe der vollständigen Induktion beweisen~-- siehe
+vollstÃ¤ndige Induktion der Struktur der natÃ¼rlichen Zahlen.  Das Lemma
+lÃ¤ÃŸt sich auch mit Hilfe der vollstÃ¤ndigen Induktion beweisen~-- siehe
 Aufgabe \ref{aufgabe:folgeninduktion}.
 
-Entsprechend der vollständigen Induktion gibt es auch für die
+Entsprechend der vollstÃ¤ndigen Induktion gibt es auch fÃ¼r die
 Folgeninduktion eine Anleitung:
 %
 \begin{enumerate}
 \item Formulieren Sie die zu beweisende Behauptung als Behauptung der
-  Form "`Für alle $f\in M^\ast$ gilt~\ldots"', falls das noch nicht
+  Form "`FÃ¼r alle $f\in M^\ast$ gilt~\ldots"', falls das noch nicht
   geschehen ist.
-\item Schreiben Sie die Überschrift "`$f = \epsilon$:"'. Schreiben Sie die
-  Behauptung noch einmal ab, wobei Sie das "`für alle $f\in M^\ast$"' weglassen und für $f$ das $\epsilon$ einsetzen.
+\item Schreiben Sie die Ãœberschrift "`$f = \epsilon$:"'. Schreiben Sie die
+  Behauptung noch einmal ab, wobei Sie das "`fÃ¼r alle $f\in M^\ast$"' weglassen und fÃ¼r $f$ das $\epsilon$ einsetzen.
 \item Beweisen Sie die abgeschriebene Behauptung.  (Das ist in der Regel
   sehr einfach.)
 \item Schreiben Sie das Wort "`Induktionsvoraussetzung:"' Schreiben
-  Sie darunter die Behauptung noch einmal ab, wobei Sie das "`für
+  Sie darunter die Behauptung noch einmal ab, wobei Sie das "`fÃ¼r
   alle $f\in M^\ast$"' weglassen~-- lassen Sie das $f$ da, wo es ist.
-\item Schreiben Sie "`Induktionsschluß (zu zeigen):"'.
-  Schreiben Sie darunter die Behauptung noch einmal ab, wobei Sie für
-  $f$ stattdessen $mf$ einsetzen.  (Wieder lassen Sie das "`für alle
+\item Schreiben Sie "`InduktionsschluÃŸ (zu zeigen):"'.
+  Schreiben Sie darunter die Behauptung noch einmal ab, wobei Sie fÃ¼r
+  $f$ stattdessen $mf$ einsetzen.  (Wieder lassen Sie das "`fÃ¼r alle
   $f\in M^\ast$"' weg.)
-\item Beweisen Sie den Induktionsschluß unter Verwendung der
-  Induktionsvoraussetzung.  Denken Sie daran, die Behauptung für
+\item Beweisen Sie den InduktionsschluÃŸ unter Verwendung der
+  Induktionsvoraussetzung.  Denken Sie daran, die Behauptung fÃ¼r
   \emph{alle} $m\in M$ zu beweisen~-- das ist meist aber nicht immer
   trivial.
 
-  Wenn die Behauptung eine Gleichung der Form $A = B$ ist, dann läßt
-  sich häufig die Induktionsvoraussetzung entweder direkt oder nach
-  einigen Umformungen in den Induktionsschluß einsetzen.
+  Wenn die Behauptung eine Gleichung der Form $A = B$ ist, dann lÃ¤ÃŸt
+  sich hÃ¤ufig die Induktionsvoraussetzung entweder direkt oder nach
+  einigen Umformungen in den InduktionsschluÃŸ einsetzen.
 \end{enumerate}
 %
-Für ein sinnvolles Beispiel dient die Funktion cat, die Folgen
-aneinanderhängt:\index{cat}
+FÃ¼r ein sinnvolles Beispiel dient die Funktion cat, die Folgen
+aneinanderhÃ¤ngt:\index{cat}
 %
 \begin{displaymath}
   \textrm{cat}(f_1, f_2)
@@ -615,7 +615,7 @@ aneinanderhängt:\index{cat}
     m\;\textrm{cat}(f_1', f_2)& \textrm{ falls $f_1 = mf_1'$, $m\in M, f_1'\in M^\ast$}
   \end{cases}
 \end{displaymath}
-Es soll bewiesen werden, daß cat assoziativ ist, d.h.\ für alle 
+Es soll bewiesen werden, daÃŸ cat assoziativ ist, d.h.\ fÃ¼r alle 
 $u,v,w \in M^{\ast}$ gilt
 \begin{displaymath}
   {\rm cat}(u,{\rm cat}(v,w))  = {\rm cat}({\rm cat}(u,v),w).
@@ -623,11 +623,11 @@ $u,v,w \in M^{\ast}$ gilt
 % 
 \begin{enumerate}
 \item Die Form der Behauptung ist noch problematisch, da in ihr drei Folgen
-  auftauchen~-- und keine davon heißt $f$.  Im schlimmsten Fall müssen
-  Sie raten, über welche Folge die Induktion geht und gegebenenfalls
-  alle Möglichkeiten durchprobieren.  Wir entscheiden uns für die
+  auftauchen~-- und keine davon heiÃŸt $f$.  Im schlimmsten Fall mÃ¼ssen
+  Sie raten, Ã¼ber welche Folge die Induktion geht und gegebenenfalls
+  alle MÃ¶glichkeiten durchprobieren.  Wir entscheiden uns fÃ¼r die
   erste Folge $u$ und benennen Sie in $f$ um, damit der Beweis auf die
-  Anleitung paßt:
+  Anleitung paÃŸt:
   %
   \begin{displaymath}
     \forall f\in M^\ast:\forall v,w\in M^\ast: {\rm cat}(f,{\rm cat}(v,w))  =  {\rm cat}({\rm cat}(f,v),w)
@@ -647,7 +647,7 @@ $u,v,w \in M^{\ast}$ gilt
   {\rm cat}(f,{\rm cat}(v,w))  = {\rm cat}({\rm cat}(f,v),w)
 \end{displaymath}
 %
-\item Induktionsschluß (zu zeigen): 
+\item InduktionsschluÃŸ (zu zeigen): 
 %
 \begin{displaymath}
   {\rm cat}(mf,{\rm cat}(v,w))  = {\rm cat}({\rm cat}(mf,v),w)
@@ -662,11 +662,11 @@ $u,v,w \in M^{\ast}$ gilt
   %
   Hier steht aber $\mathrm{cat}(f,\mathrm{cat}(v, w))$~-- und das
   steht auch auf der linken Seite der Induktionsvoraussetzung.  Wir
-  können also einsetzen:
+  kÃ¶nnen also einsetzen:
   \begin{displaymath}
     = m {\rm cat}({\rm cat}(f,v),w)
   \end{displaymath}
-  Ebenso können wir die rechte Seite ausrechnen:
+  Ebenso kÃ¶nnen wir die rechte Seite ausrechnen:
   \begin{displaymath}
     \begin{split}
     \mathrm{cat}(\mathrm{cat}(mf,v),w) &=
@@ -680,27 +680,27 @@ $u,v,w \in M^{\ast}$ gilt
 \end{enumerate}
 
 
-\section{Notation für induktive Definitionen}
+\section{Notation fÃ¼r induktive Definitionen}
 
-Induktive Mengen kommen in der Informatik enorm häufig vor~-- so
-häufig, daß sich eine Kurzschreibweise für ihre induktiven
-Definitionen eingebürgert hat, die sogenannte \textit{kontextfreie
+Induktive Mengen kommen in der Informatik enorm hÃ¤ufig vor~-- so
+hÃ¤ufig, daÃŸ sich eine Kurzschreibweise fÃ¼r ihre induktiven
+Definitionen eingebÃ¼rgert hat, die sogenannte \textit{kontextfreie
   Grammatik}\index{Grammatik}\index{kontextfreie Grammatik}.  In den
-meisten Informatik-Büchern geht mit dem Begriff eine langwierige
-mathematische Definition einher, die für dieses Buch nicht in aller
-Ausführlichkeit benötigt wird.  Hier dient die kontextfreie Grammatik
-(ab hier einfach nur "`Grammatik"') informell als Abkürzung für
-eine länger ausgeschriebene induktive Definition.  Hier die Grammatik
-für die natürlichen Zahlen:
+meisten Informatik-BÃ¼chern geht mit dem Begriff eine langwierige
+mathematische Definition einher, die fÃ¼r dieses Buch nicht in aller
+AusfÃ¼hrlichkeit benÃ¶tigt wird.  Hier dient die kontextfreie Grammatik
+(ab hier einfach nur "`Grammatik"') informell als AbkÃ¼rzung fÃ¼r
+eine lÃ¤nger ausgeschriebene induktive Definition.  Hier die Grammatik
+fÃ¼r die natÃ¼rlichen Zahlen:
 %
 \begin{grammar}
   \meta{$\mathbb{N}$} \: 0 \| \meta{$\mathbb{N}$} + 1
 \end{grammar}
 %
-In der Grammatik steht \meta{$\mathbb{N}$} für "`eine natürliche
-Zahl"'.  Zu lesen ist die Grammatik so: Eine natürliche Zahl ist
+In der Grammatik steht \meta{$\mathbb{N}$} fÃ¼r "`eine natÃ¼rliche
+Zahl"'.  Zu lesen ist die Grammatik so: Eine natÃ¼rliche Zahl ist
 entweder die $0$ oder hat die Form $n + 1$ wobei $n$ wiederum eine
-natürliche Zahl ist.  Der obligatorische induktive Abschluß ("`Die
+natÃ¼rliche Zahl ist.  Der obligatorische induktive AbschluÃŸ ("`Die
 obigen Regeln definieren \emph{alle} $n\in\mathbb{N}$."') wird
 stillschweigend vorausgesetzt
 und darum weggelassen.  
@@ -708,24 +708,24 @@ und darum weggelassen.
 Das Zeichen \goesto{} kann also als "`ist"' oder "`hat die Form"'
 gelesen werden, das Zeichen $\vert$ als "`oder"'. Die Notation
 \meta{$X$} definiert eine entsprechende Menge $X$.  Die Grammatik ist
-also eine Art mathematische Schreibweise für zusammengesetzte Daten,
-gemischte Daten ($\vert$) und Selbstbezüge, nur eben für mathematische
+also eine Art mathematische Schreibweise fÃ¼r zusammengesetzte Daten,
+gemischte Daten ($\vert$) und SelbstbezÃ¼ge, nur eben fÃ¼r mathematische
 Objekte.
 
-Für die Menge der Folgen über einer Menge $M$ genügt also folgende Notation:
+FÃ¼r die Menge der Folgen Ã¼ber einer Menge $M$ genÃ¼gt also folgende Notation:
 %
 \begin{grammar}
   \meta{$M^\ast$} \: $\epsilon$ \| \meta{$M$} \meta{$M^\ast$}
 \end{grammar}
 %
 In beiden Definitionen ist jeweils der Selbstbezug klar zu sehen: 
-Bei den natürlichen Zahlen taucht  \meta{$\mathbb{N}$} in einer
+Bei den natÃ¼rlichen Zahlen taucht  \meta{$\mathbb{N}$} in einer
 Klausel auf, bei den Folgen \meta{$M^\ast$}.  Alle anderen Klauseln~--
-also die ohne Selbstbezug~-- beschreiben Basisfälle.
+also die ohne Selbstbezug~-- beschreiben BasisfÃ¤lle.
 
 \section{Strukturelle Rekursion}
 
-In Abschnitt~\ref{sec:finite-sequences} ist zu sehen, daß die
+In Abschnitt~\ref{sec:finite-sequences} ist zu sehen, daÃŸ die
 Definition der beiden Beispielfunktionen auf Folgen ($s$ und
 $\mathrm{cat}$) jeweils der induktiven Definition der Folgen
 "`folgt"'~-- die Definition beider Funktionen hat die Form:
@@ -739,18 +739,18 @@ $\mathrm{cat}$) jeweils der induktiven Definition der Folgen
   \end{cases}
 \end{displaymath}
 %
-Das ist kein Zufall: Die rekursive Funktionsdefinition gehört zur
+Das ist kein Zufall: Die rekursive Funktionsdefinition gehÃ¶rt zur
 induktiven Mengendefinition wie Pech zu Schwefel.  Zwei Grundregeln
 legen diese Form fest:
 %
 \begin{enumerate}
-\item Für jede Klausel gibt es eine Verzweigung mit einem Zweig  der
+\item FÃ¼r jede Klausel gibt es eine Verzweigung mit einem Zweig  der
   induktiven Definition.
-\item Bei Selbstbezügen steht im entsprechenden Zweig ein
+\item Bei SelbstbezÃ¼gen steht im entsprechenden Zweig ein
   Selbstaufruf.
 \end{enumerate}
 %
-Auch bei den natürlichen Zahlen lassen sich viele Operationen rekursiv
+Auch bei den natÃ¼rlichen Zahlen lassen sich viele Operationen rekursiv
 aufschreiben.  Zum Beispiel die Potenz:
 %
 \begin{displaymath}
@@ -763,7 +763,7 @@ aufschreiben.  Zum Beispiel die Potenz:
 %
 Die Notation $n = n' + 1$ folgt zwar der induktiven Definition, ist
 hier aber gleichbedeutend mit $n>0$ und $n' = n - 1$.  Deshalb werden
-induktive Definitionen auf natürlichen Zahlen meist so geschrieben:
+induktive Definitionen auf natÃ¼rlichen Zahlen meist so geschrieben:
 %
 \begin{displaymath}
   b^n \deq
@@ -774,7 +774,7 @@ induktive Definitionen auf natürlichen Zahlen meist so geschrieben:
 \end{displaymath}
 %
 Die Korrespondenz zwischen induktiven Definitionen und den rekursiven
-Funktionen läßt sich auch allgemein formulieren.  Angenommen, die
+Funktionen lÃ¤ÃŸt sich auch allgemein formulieren.  Angenommen, die
 Menge $X$ ist durch einer Grammatik definiert, die $n$ Klauseln hat:
 %
 \begin{grammar}
@@ -783,7 +783,7 @@ Menge $X$ ist durch einer Grammatik definiert, die $n$ Klauseln hat:
 %
 Eine Funktion auf dieser Menge braucht dann~-- genau wie bei
 gemischten Daten~-- eine Verzweigung mit $n$
-Zweigen, eine für jede Klausel:
+Zweigen, eine fÃ¼r jede Klausel:
 %
 \begin{displaymath}
    F(x) \deq
@@ -797,42 +797,42 @@ Zweigen, eine für jede Klausel:
 \end{displaymath}
 %
 Die Bedingung $x = F_i$ ergibt sich jeweils aus der entsprechenden
-Klausel.  Wenn dort Bezüge zu anderen Mengen oder Selbstbezüge stehen,
+Klausel.  Wenn dort BezÃ¼ge zu anderen Mengen oder SelbstbezÃ¼ge stehen,
 so werden diese durch Variablen ersetzt und entsprechende
-Mengenzugehörigkeiten.  Angenommen, die Klausel $C_i$ hat beispielsweise diese
+MengenzugehÃ¶rigkeiten.  Angenommen, die Klausel $C_i$ hat beispielsweise diese
 Form:
 \begin{grammar}
   \> [ \meta{A} \& \meta{B} ]
 \end{grammar}
 %
-Dann müßte $F_i$ entsprechend so aussehen:
+Dann mÃ¼ÃŸte $F_i$ entsprechend so aussehen:
 %
 \begin{displaymath}
   x = \mathtt{[}~a~\mathtt{\&}~b~\mathtt{]}, a\in A, b\in B
 \end{displaymath}
 %
-Eine Klausel $C_i$ mit Selbstbezug sähe beispielsweise so aus:
+Eine Klausel $C_i$ mit Selbstbezug sÃ¤he beispielsweise so aus:
 %
 \begin{grammar}
   \> \verb|{| \meta{X} \verb|}|
 \end{grammar}
 %
-Das dazugehörige $F_i$ sähe so aus:
+Das dazugehÃ¶rige $F_i$ sÃ¤he so aus:
 %
 \begin{displaymath}
   x = \verb|{|~x'~\verb|}|, x'\in X
 \end{displaymath}
 %
-Dementsprechend steht höchstwahrscheinlich in der rechten Seite $R_i$
+Dementsprechend steht hÃ¶chstwahrscheinlich in der rechten Seite $R_i$
 ein rekursiver Aufruf $F(x')$.
 
 Funktionen dieser Form, die der Struktur einer induktiven Menge direkt
-folgen, heißen \textit{strukturell rekursiv}.\index{strukturelle
+folgen, heiÃŸen \textit{strukturell rekursiv}.\index{strukturelle
   Rekursion}\index{Rekursion!strukturell}  
 
-Hier ein Beispiel für eine induktiv definierte Menge, deren Struktur
-etwas reichhaltiger ist, als die der natürlichen Zahlen oder der
-Folgen.  Die Grammatik beschreibt einfache aussagenlogische Ausdrücke:
+Hier ein Beispiel fÃ¼r eine induktiv definierte Menge, deren Struktur
+etwas reichhaltiger ist, als die der natÃ¼rlichen Zahlen oder der
+Folgen.  Die Grammatik beschreibt einfache aussagenlogische AusdrÃ¼cke:
 %
 \begin{grammar}
   \meta{E} \: $\top$ \| $\bot$
@@ -841,9 +841,9 @@ Folgen.  Die Grammatik beschreibt einfache aussagenlogische Ausdrücke:
   \> \| $\neg$ \meta{E}
 \end{grammar}
 %
-Gedacht ist das folgendermaßen: $\top$ steht für "`wahr"', $\bot$ für
-"`falsch"', $\wedge$ für "`und"', $\vee$ für "`oder"' und $\neg$ für
-"`nicht"'.  Beispiele für Ausdrücke sind:
+Gedacht ist das folgendermaÃŸen: $\top$ steht fÃ¼r "`wahr"', $\bot$ fÃ¼r
+"`falsch"', $\wedge$ fÃ¼r "`und"', $\vee$ fÃ¼r "`oder"' und $\neg$ fÃ¼r
+"`nicht"'.  Beispiele fÃ¼r AusdrÃ¼cke sind:
 %
 \begin{displaymath}
   \begin{array}{l}
@@ -855,7 +855,7 @@ Gedacht ist das folgendermaßen: $\top$ steht für "`wahr"', $\bot$ für
 \end{displaymath}
 %
 Beim Ausdruck $\top \vee \bot \wedge \top$ ist nicht klar, wie er
-gemeint ist, da die Klammerung fehlt.  In solchen Fällen schreiben wir
+gemeint ist, da die Klammerung fehlt.  In solchen FÃ¤llen schreiben wir
 einen Ausdruck genau wie in der Arithmetik mit Klammern:
 %
 \begin{displaymath}
@@ -867,16 +867,16 @@ einen Ausdruck genau wie in der Arithmetik mit Klammern:
 %
 Jeder solche Ausdruck hat einen Wahrheitswert, also
 "`wahr"' oder "`falsch"', und eine strukturell rekursive Funktion kann
-diesen Wahrheitswert errechnen.  Diese Funktion "`heißt"' $\llbracket
+diesen Wahrheitswert errechnen.  Diese Funktion "`heiÃŸt"' $\llbracket
 \underline{~}\rrbracket$\index{*@$\llbracket\underline{~}\rrbracket$}~--
-für einen Ausdruck $e$ liefert $\llbracket e\rrbracket$ den Wert $1$,
+fÃ¼r einen Ausdruck $e$ liefert $\llbracket e\rrbracket$ den Wert $1$,
 falls der Ausdruck "`wahr"' ist und $1$, falls "`falsch"'.  Die
-doppelten eckigen Klammern heißen in der Fachsprache "`Semantikklammern"'
+doppelten eckigen Klammern heiÃŸen in der Fachsprache "`Semantikklammern"'
 und werden oft benutzt, um Funktionen auf Mengen zu schreiben, die
 durch eine Grammatik definiert sind.
 
 Die Funktionsdefinition besteht, wie oben beschrieben, auf jeden Fall
-aus einer Verzweigung, die für jede Klausel der Grammatik einen Zweig
+aus einer Verzweigung, die fÃ¼r jede Klausel der Grammatik einen Zweig
 aufweist:
 %
 \begin{displaymath}
@@ -894,7 +894,7 @@ aufweist:
   \end{cases}
 \end{displaymath}
 %
-In den Zweigen für $\wedge$, $\vee$ und $\neg$ sind rekursive Aufrufe erlaubt:
+In den Zweigen fÃ¼r $\wedge$, $\vee$ und $\neg$ sind rekursive Aufrufe erlaubt:
 %
 \begin{displaymath}
   \llbracket e \rrbracket \deq
@@ -911,8 +911,8 @@ In den Zweigen für $\wedge$, $\vee$ und $\neg$ sind rekursive Aufrufe erlaubt:
   \end{cases}
 \end{displaymath}
 %
-Die ersten beiden Fälle liefern $1$ und $0$ respektive, für die
-weiteren Fälle werden folgende Hilfsfunktionen definiert:
+Die ersten beiden FÃ¤lle liefern $1$ und $0$ respektive, fÃ¼r die
+weiteren FÃ¤lle werden folgende Hilfsfunktionen definiert:
 
 \begin{displaymath}
   \begin{array}{cc}
@@ -942,7 +942,7 @@ Die Funktion $a$ liefert nur dann 1, wenn $t_1$ \emph{und} $t_2$ 1
 sind (sonst $0$).  Die Funktion $o$ liefert dann 1, wenn $t_1$
 \emph{oder} $t_2$ 1 sind (sonst $0$).  Die Funktion $n$ liefert dann
 1, wenn $t$ \emph{nicht} 1 ist (sonst $0$).  Diese Funktionen
-vervollständigen nun die Definition von $\llbracket \underline{~}
+vervollstÃ¤ndigen nun die Definition von $\llbracket \underline{~}
 \rrbracket$:
 
 \begin{displaymath}
@@ -964,33 +964,33 @@ vervollständigen nun die Definition von $\llbracket \underline{~}
 \label{sec:structural-induction}
 
 Beweise von Eigenschaften strukturell rekursiver Funktionen
-funktionieren~-- wieder entsprechend den natürlichen Zahlen und den
+funktionieren~-- wieder entsprechend den natÃ¼rlichen Zahlen und den
 Folgen~-- mit \textit{struktureller Induktion}\index{strukturelle
   Induktion}\index{Induktion!strukturell}. Strukturelle Induktion folgt
-ebenfalls der Struktur der Grammatik~-- vollständige Induktion und
-Folgeninduktion sind also Spezialfälle.  Folgendes Beispiel~-- aufbauend
-auf den aussagenlogischen Ausdrücken aus dem vorigen Abschnitt~--
+ebenfalls der Struktur der Grammatik~-- vollstÃ¤ndige Induktion und
+Folgeninduktion sind also SpezialfÃ¤lle.  Folgendes Beispiel~-- aufbauend
+auf den aussagenlogischen AusdrÃ¼cken aus dem vorigen Abschnitt~--
 illustriert die Technik:
 
 \begin{satz}
   Aus einem aussagenlogischen Ausdruck $e$ entsteht der Ausdruck
   $\overline{e}$\label{page:overline}, indem jedes $\top$ durch $\bot$, jedes $\bot$ durch
   $\top$, jedes $\wedge$ durch $\vee$ und jedes $\vee$ durch $\wedge$
-  ersetzt wird.  Es gilt für jeden Ausdruck $e$:
+  ersetzt wird.  Es gilt fÃ¼r jeden Ausdruck $e$:
   \begin{displaymath}
     \llbracket \overline{e}\rrbracket = n(\llbracket e\rrbracket)
   \end{displaymath}
 \end{satz}
 
-Die Behauptung hat bereits die für einen Induktionsbeweis geeignete
-Form "`für alle $e$"', wobei $e$ aus einer induktiv definierten Menge
-kommt.  Die Behauptung muß jetzt für alle möglichen Fälle von $e$
-bewiesen werden~-- da die Grammatik für Ausdrücke fünf Fälle hat, sind
-auch fünf Fälle zu beweisen: $e=\top$, $e=\bot$, $e=e_1\wedge e_2$,
+Die Behauptung hat bereits die fÃ¼r einen Induktionsbeweis geeignete
+Form "`fÃ¼r alle $e$"', wobei $e$ aus einer induktiv definierten Menge
+kommt.  Die Behauptung muÃŸ jetzt fÃ¼r alle mÃ¶glichen FÃ¤lle von $e$
+bewiesen werden~-- da die Grammatik fÃ¼r AusdrÃ¼cke fÃ¼nf FÃ¤lle hat, sind
+auch fÃ¼nf FÃ¤lle zu beweisen: $e=\top$, $e=\bot$, $e=e_1\wedge e_2$,
 $e_1\vee e_2$ und $e=\neg e'$, wobei $e_1$, $e_2$ und $e'$
-ihrerseits Ausdrücke sind.
+ihrerseits AusdrÃ¼cke sind.
 
-Hier sind die Beweise für die Fälle $e=\top$, $e=\bot$:
+Hier sind die Beweise fÃ¼r die FÃ¤lle $e=\top$, $e=\bot$:
 
 \begin{displaymath}
   \begin{array}{c@{\qquad\qquad}c}
@@ -1010,17 +1010,17 @@ Hier sind die Beweise für die Fälle $e=\top$, $e=\bot$:
 \end{array}
 \end{displaymath}
 
-Als nächstes ist der Fall $e=e_1\wedge e_2$ an der Reihe.  Da die
+Als nÃ¤chstes ist der Fall $e=e_1\wedge e_2$ an der Reihe.  Da die
 Klausel 
 \begin{grammar}
   \meta{E} \: $\ldots$ \| \meta{E} $\wedge$ \meta{E}
 \end{grammar}
 %
-zwei Selbstbezüge hat, gibt es auch eine zweiteilige
-Induktionsvoraussetzung~-- die Behauptung kann für $e_1$ und $e_2$
+zwei SelbstbezÃ¼ge hat, gibt es auch eine zweiteilige
+Induktionsvoraussetzung~-- die Behauptung kann fÃ¼r $e_1$ und $e_2$
 angenommen werden: $\llbracket \overline{e_1} \rrbracket =
 n(\llbracket e_1\rrbracket)$, $\llbracket \overline{e_2} \rrbracket =
-n(\llbracket e_2\rrbracket)$.  Der Induktionsschluß dazu sieht so aus:
+n(\llbracket e_2\rrbracket)$.  Der InduktionsschluÃŸ dazu sieht so aus:
 %
 \begin{alignat*}{3}
   \llbracket e_1 \wedge e_2 \rrbracket &= a(\llbracket
@@ -1041,14 +1041,14 @@ n(\llbracket e_2\rrbracket)$.  Der Induktionsschluß dazu sieht so aus:
 \end{alignat*}
 %
 Der letzte Schritt ergibt sich aus genauer Betrachtung der
-Definitionen von $o$ und $a$ bzw.\ durch Einsetzen aller möglichen
-Werte für $t_1$ und $t_2$.
+Definitionen von $o$ und $a$ bzw.\ durch Einsetzen aller mÃ¶glichen
+Werte fÃ¼r $t_1$ und $t_2$.
 
 Der Fall $e=e_1\vee e_2$ folgt analog.  Wieder gibt es zwei
-Selbstbezüge, also gilt wieder die zweiteilige Induktionsvoraussetzung
+SelbstbezÃ¼ge, also gilt wieder die zweiteilige Induktionsvoraussetzung
 $\llbracket \overline{e_1} \rrbracket = n(\llbracket e_1\rrbracket)$,
 $\llbracket \overline{e_2} \rrbracket = n(\llbracket e_2\rrbracket)$.
-Induktionsschluß (zu zeigen):
+InduktionsschluÃŸ (zu zeigen):
 %
 \begin{alignat*}{3}
   \llbracket e_1 \vee e_2 \rrbracket &= o(\llbracket
@@ -1068,10 +1068,10 @@ Induktionsschluß (zu zeigen):
   &= n(o(\llbracket e_1\rrbracket, \llbracket e_2\rrbracket))
 \end{alignat*}
 %
-Schließlich fehlt noch der Fall $e = \neg e'$.  Hier gibt es nur
+SchlieÃŸlich fehlt noch der Fall $e = \neg e'$.  Hier gibt es nur
 einen Selbstbezug, entsprechend lautet die Induktionsvoraussetzung:
 $\llbracket \overline{e'} \rrbracket = n(\llbracket e'\rrbracket)$.
-Induktionsschluß (zu zeigen):
+InduktionsschluÃŸ (zu zeigen):
 %
 \begin{alignat*}{3}
   \llbracket \neg e' \rrbracket &= n(\llbracket e'\rrbracket)
@@ -1088,86 +1088,86 @@ Induktionsschluß (zu zeigen):
   && \qquad \text{Induktionsvoraussetzung}
 \end{alignat*}
 %
-Das Beispiel zeigt, daß strukturell induktive Beweise durchaus mehr
-als einen "`Induktionsanfang"' haben können~-- hier die Fälle $\top$
-und $\bot$.  Ebenso gibt es mehr als einen Induktionsschluß~-- einen
-für jede Klausel mit Selbstbezug, hier sind das drei Fälle.
+Das Beispiel zeigt, daÃŸ strukturell induktive Beweise durchaus mehr
+als einen "`Induktionsanfang"' haben kÃ¶nnen~-- hier die FÃ¤lle $\top$
+und $\bot$.  Ebenso gibt es mehr als einen InduktionsschluÃŸ~-- einen
+fÃ¼r jede Klausel mit Selbstbezug, hier sind das drei FÃ¤lle.
 
-Für Beweise mit struktureller Induktion gilt also folgende Anleitung:
+FÃ¼r Beweise mit struktureller Induktion gilt also folgende Anleitung:
 %
 \begin{enumerate}
 \item Formulieren Sie die zu beweisende Behauptung als
-  Behauptung der Form "`Für alle $x\in X$ gilt~\ldots"' (wobei $X$
+  Behauptung der Form "`FÃ¼r alle $x\in X$ gilt~\ldots"' (wobei $X$
   eine induktiv definierte Menge ist), falls das noch nicht geschehen
   ist.
-\item Führen Sie jetzt einen Beweis für jede einzelne Klausel $C_i$
+\item FÃ¼hren Sie jetzt einen Beweis fÃ¼r jede einzelne Klausel $C_i$
   der induktiven Definition:
-\item Schreiben Sie die Überschrift "`$x = F_i$"', wobei $F_i$ eine
+\item Schreiben Sie die Ãœberschrift "`$x = F_i$"', wobei $F_i$ eine
   Bedingung ist, die der Klausel entspricht.  Schreiben Sie die
-  Behauptung noch einmal ab, wobei Sie das "`für alle $x\in X$"'
-  weglassen und für $x$ stattdessen $F_i$ einsetzen.
-\item Wenn die Klausel keinen Selbstbezug enthält, so beweisen Sie die
+  Behauptung noch einmal ab, wobei Sie das "`fÃ¼r alle $x\in X$"'
+  weglassen und fÃ¼r $x$ stattdessen $F_i$ einsetzen.
+\item Wenn die Klausel keinen Selbstbezug enthÃ¤lt, so beweisen Sie die
   Behauptung direkt.
-\item Wenn die Klausel einen oder mehrere Selbstbezüge enthält, so
-  stehen in der Überschrift Variablen $x_j$ oder $x'$ o.ä., die
-  ihrerseits Element von $X$ sind.  Schreiben Sie dann die Überschrift
-  "`Induktionsvoraussetzung:"'. Schreiben Sie darunter für jeden
-  Selbstbezug die Behauptung noch einmal ab, wobei Sie das "`für alle
-  $x\in X$"' weglassen und für $x$ stattdessen $x_j$ bzw.\ $x'$
+\item Wenn die Klausel einen oder mehrere SelbstbezÃ¼ge enthÃ¤lt, so
+  stehen in der Ãœberschrift Variablen $x_j$ oder $x'$ o.Ã¤., die
+  ihrerseits Element von $X$ sind.  Schreiben Sie dann die Ãœberschrift
+  "`Induktionsvoraussetzung:"'. Schreiben Sie darunter fÃ¼r jeden
+  Selbstbezug die Behauptung noch einmal ab, wobei Sie das "`fÃ¼r alle
+  $x\in X$"' weglassen und fÃ¼r $x$ stattdessen $x_j$ bzw.\ $x'$
   einsetzen.
 
-  Schreiben Sie darunter das Wort "`Induktionsschluß"' und beweisen
+  Schreiben Sie darunter das Wort "`InduktionsschluÃŸ"' und beweisen
   die Behauptung.  Denken Sie daran, die Induktionsvoraussetzung zu
   benutzen.
 \end{enumerate}
 
 \section*{Anmerkungen}
 
-Die erste konstruktive Definitionen der natürlichen Zahlen wurde
+Die erste konstruktive Definitionen der natÃ¼rlichen Zahlen wurde
 bereits im Jahr 1889 von {\sc Peano} vorgeschlagen:
 
 \begin{definition}[Peano-Axiome]\index{Peano-Axiome} \label{def:peano}
-Die Menge $\mathbb{N}$ der natürlichen Zahlen ist durch folgende
+Die Menge $\mathbb{N}$ der natÃ¼rlichen Zahlen ist durch folgende
 Eigenschaften, die \textit{Peano-Axiome}, gegeben:
 \begin{enumerate}
-\item Es gibt eine natürliche Zahl $0 \in \mathbb{N}$.
+\item Es gibt eine natÃ¼rliche Zahl $0 \in \mathbb{N}$.
 \item Zu jeder Zahl $n \in \mathbb{N}$ gibt es eine Zahl $n' \in \mathbb{N}$, die
-      \emph{Nachfolger\index{Nachfolger} von n} heißt.
-\item Für alle $n \in \mathbb{N}$ ist $n' \not = 0$.
+      \emph{Nachfolger\index{Nachfolger} von n} heiÃŸt.
+\item FÃ¼r alle $n \in \mathbb{N}$ ist $n' \not = 0$.
 \item Aus $n' = m'$ folgt $n=m$.
-\item Eine Menge $M$ von natürlichen Zahlen, welche die $0$ enthält und mit jeder
+\item Eine Menge $M$ von natÃ¼rlichen Zahlen, welche die $0$ enthÃ¤lt und mit jeder
       Zahl $m \in M$ auch deren Nachfolger $m'$, ist mit $\mathbb{N}$ identisch.
 \end{enumerate}
 \end{definition}
 %
-Diese Definition ist äquivalent zu Definition~\ref{def:N} von
-Seite~\pageref{def:N}.  Wie in Definition~\ref{def:N}, läßt sich
+Diese Definition ist Ã¤quivalent zu Definition~\ref{def:N} von
+Seite~\pageref{def:N}.  Wie in Definition~\ref{def:N}, lÃ¤ÃŸt sich
 $\mathbb{N}$ sich aus den Peano-Axiomen schrittweise konstruieren.
-Aus 1.\ und 2.\ folgt, daß es natürliche Zahlen
+Aus 1.\ und 2.\ folgt, daÃŸ es natÃ¼rliche Zahlen
 \begin{quote}
   $0, 0', 0'', 0''', 0'''',\ldots$
 \end{quote}
-gibt.  Ohne die $0$ am Anfang entsteht die Darstellung der natürlichen Zahlen
-durch Striche.  Die Axiome 3 und 4 besagen, daß jede Zahl nur eine Strichdarstellung 
-besitzt: jedes Anfügen eines Striches "`$\,'\,$"' erzeugt eine
-völlig neue Zahl.
+gibt.  Ohne die $0$ am Anfang entsteht die Darstellung der natÃ¼rlichen Zahlen
+durch Striche.  Die Axiome 3 und 4 besagen, daÃŸ jede Zahl nur eine Strichdarstellung 
+besitzt: jedes AnfÃ¼gen eines Striches "`$\,'\,$"' erzeugt eine
+vÃ¶llig neue Zahl.
 
-Die Peano-Formulierung ist zwar ähnlich zu Definition~\ref{def:N},
+Die Peano-Formulierung ist zwar Ã¤hnlich zu Definition~\ref{def:N},
 weist aber auch interessante Unterschiede auf:
 %
 \begin{itemize}
-\item Für "`$n'$"' ist im täglichen Umgang natürlich die Bezeichnung
-  "`$n+1$"' gebräuchlich.
-\item Die dritte und vierte Bedingung zusammen besagen, daß die
+\item FÃ¼r "`$n'$"' ist im tÃ¤glichen Umgang natÃ¼rlich die Bezeichnung
+  "`$n+1$"' gebrÃ¤uchlich.
+\item Die dritte und vierte Bedingung zusammen besagen, daÃŸ die
   Nachfolgerfunktion injektiv ist, d.h.\ durch fortgesetzte Anwendung
   der Nachfolgerfunktion entstehen immer neue Elemente.
-\item Schließlich beschreibt die fünfte Bedingung den
-  \textit{induktiven Abschluß\index{induktiver Abschluß}}, der
-  festlegt, daß außer den solchermaßen erzeugten Elementen keine
+\item SchlieÃŸlich beschreibt die fÃ¼nfte Bedingung den
+  \textit{induktiven AbschluÃŸ\index{induktiver AbschluÃŸ}}, der
+  festlegt, daÃŸ auÃŸer den solchermaÃŸen erzeugten Elementen keine
   weiteren existieren.  Axiom 5 wird auch \emph{Induktionsaxiom}
   \index{Induktionsaxiom} genannt.  In Definition~\ref{def:N} hat das
-  Induktionsaxiom die üblichere Form "`Die obigen Regeln definieren
-  \emph{alle} $n\in\mathbb{N}$."'  Ebenfalls üblich ist eine
+  Induktionsaxiom die Ã¼blichere Form "`Die obigen Regeln definieren
+  \emph{alle} $n\in\mathbb{N}$."'  Ebenfalls Ã¼blich ist eine
   Formulierung wie wie "`\ldots die \emph{kleinste} Menge
   mit den Eigenschaften \ldots"'.
 \end{itemize}
@@ -1176,8 +1176,8 @@ weist aber auch interessante Unterschiede auf:
 \section*{Aufgaben}
 
 \begin{aufgabe}
-Beweisen Sie die Gaußsche
-Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
+Beweisen Sie die GauÃŸsche
+Summenformel\index{GauÃŸsche Summenformel} mit vollstÃ¤ndiger Induktion:
 \[\forall n\in\mathbb{N}: \sum_{i=0}^n i =
   \frac{n\cdot(n+1)}{2}\]
 \end{aufgabe}
@@ -1199,7 +1199,7 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweisen Sie, daß folgende Gleichung für alle $n\in\enn$ gilt:
+  Beweisen Sie, daÃŸ folgende Gleichung fÃ¼r alle $n\in\enn$ gilt:
   \begin{displaymath}
     \sum_{i=0}^n i^3 = \left(\sum_{i=0}^n i\right)^2
   \end{displaymath}
@@ -1211,28 +1211,28 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
   \textbf{Behauptung} Alle Pferde haben die gleiche Farbe.
 
   \begin{beweis}\par
-    \textbf{Induktionsanfang} Für eine leere Menge von Pferden gilt die
+    \textbf{Induktionsanfang} FÃ¼r eine leere Menge von Pferden gilt die
     Behauptung trivialerweise.
     
-    \textbf{Induktionsschluß} Gegeben sei eine Menge von $n+1$ Pferden.
+    \textbf{InduktionsschluÃŸ} Gegeben sei eine Menge von $n+1$ Pferden.
     Nimm ein Pferd aus der Menge heraus~-- die restlichen Pferde haben per
     Induktionsannahme die gleiche Farbe.  Nimm ein anderes Pferd aus
     der Menge heraus~-- wieder haben die restlichen Pferde per
-    Induktionsannahme die gleiche Farbe.  Da die übrigen Pferde die
-    Farbe in der Zwischenzeit nicht plötzlich gewechselt haben können, war es in beiden Fällen
+    Induktionsannahme die gleiche Farbe.  Da die Ã¼brigen Pferde die
+    Farbe in der Zwischenzeit nicht plÃ¶tzlich gewechselt haben kÃ¶nnen, war es in beiden FÃ¤llen
     die gleiche Farbe, und alle $n+1$ Pferde haben diese Farbe.
 \end{beweis}
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweise mittels Induktion, daß über Folgen für 
+  Beweise mittels Induktion, daÃŸ Ã¼ber Folgen fÃ¼r 
   $u,v\in M^{\ast}$ gilt:
   %
   \begin{displaymath}
     \mathrm{len}(\mathrm{cat}(u, v)) = \mathrm{len}(u) + \mathrm{len}(v)
   \end{displaymath}
   %
-  Dabei sei $\mathrm{len}$ die Länge von Folgen, definiert als:
+  Dabei sei $\mathrm{len}$ die LÃ¤nge von Folgen, definiert als:
   %
   \begin{displaymath}
     \mathrm{len}(f) \deq{}
@@ -1256,10 +1256,10 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
   \label{aufgabe:folgeninduktion}
   Beweisen Sie die Korrektheit der Folgeninduktion aus
   Abschnitt~\ref{sec:sequence-induction} (Seite~\pageref{sec:sequence-induction}) mit
-  Hilfe der vollständigen Induktion.  Beschreiben Sie dazu, wie sich
-  eine Aussage über alle Folgen in eine Aussage über die Längen der
-  Folgen umwandeln läßt.  Setzen Sie dann die Klauseln der
-  vollständigen Induktion mit den entsprechenden Klauseln der
+  Hilfe der vollstÃ¤ndigen Induktion.  Beschreiben Sie dazu, wie sich
+  eine Aussage Ã¼ber alle Folgen in eine Aussage Ã¼ber die LÃ¤ngen der
+  Folgen umwandeln lÃ¤ÃŸt.  Setzen Sie dann die Klauseln der
+  vollstÃ¤ndigen Induktion mit den entsprechenden Klauseln der
   Folgeninduktion in Beziehung.
 \end{aufgabe}
 
@@ -1271,15 +1271,15 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Geben Sie eine Datendefinition für die aussagenlogischen Ausdrücke
+  Geben Sie eine Datendefinition fÃ¼r die aussagenlogischen AusdrÃ¼cke
   aus Abschnitt~\ref{sec:structural-induction} an.  Programmieren Sie
   die Funktion~$\llbracket\underline{~}\rrbracket$ sowie die Funktion 
   $\overline{\raisebox{1ex}{\hspace{1ex}}}$.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Die \textit{Fibonacci\index{Fibonacci-Function}}-Funktion auf den natürlichen Zahlen ist
-  folgendermaßen definiert:
+  Die \textit{Fibonacci\index{Fibonacci-Function}}-Funktion auf den natÃ¼rlichen Zahlen ist
+  folgendermaÃŸen definiert:
 %
   \begin{displaymath}
     \mathit{fib}(n) \deq{} \left\{
@@ -1290,17 +1290,17 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
       \end{array}\right.
     \end{displaymath}
 %
-    Beweise, daß $\mathit{fib}(n)$ die ganze Zahl ist, die am nächsten
+    Beweise, daÃŸ $\mathit{fib}(n)$ die ganze Zahl ist, die am nÃ¤chsten
     zu $\Phi^n/\sqrt{5}$ liegt, wobei $\Phi = (1+\sqrt{5})/2$.
     
-    Anleitung: Zeige, daß $\mathit{fib}(n) = (\Phi^n -
+    Anleitung: Zeige, daÃŸ $\mathit{fib}(n) = (\Phi^n -
     \Psi^n)/\sqrt{5}$, wobei $\Psi = (1-\sqrt{5})/2$.
 \end{aufgabe}
 
 \begin{aufgabe}
-Eine partielle Ordnung $\preccurlyeq$ auf einer Menge $M$ heißt
+Eine partielle Ordnung $\preccurlyeq$ auf einer Menge $M$ heiÃŸt
 \textit{wohlfundiert}\index{Ordnung!wohlfundiert} oder \textit{noethersch\index{Ordnung!noethersch}\index{noethersche Ordnung}}, wenn es keine
-unendlichen Folgen $(x_i)_{i\in \enn}$ gibt, so daß für alle $i\in\enn$ gilt
+unendlichen Folgen $(x_i)_{i\in \enn}$ gibt, so daÃŸ fÃ¼r alle $i\in\enn$ gilt
 %
 \begin{displaymath}
   x_{i+1} \preccurlyeq x_{i} \text{ und } x_{i+1} \neq x_{i}
@@ -1314,11 +1314,11 @@ auch geschrieben als:
 %
 
 Das Beweisprinzip der \textit{wohlfundierten}\index{wohlfundierte Induktion}\index{Induktion!wohlfundiert} oder \textit{noetherschen Induktion}\index{noethersche
-  Induktion}\index{Induktion!noethersch} ist dafür zuständig, die
-Gültigkeit eines Prädikats $P$ auf $M$ zu beweisen, wenn es eine
-wohlfundierte Ordnung $\preccurlyeq$ auf auf $M$ gibt.  Es besagt, daß
-es ausreicht, $P(z)$ unter der Voraussetzung nachzuweisen, daß $P(y)$
-für alle Vorgänger $y$ von $z$ gilt.  Anders gesagt:
+  Induktion}\index{Induktion!noethersch} ist dafÃ¼r zustÃ¤ndig, die
+GÃ¼ltigkeit eines PrÃ¤dikats $P$ auf $M$ zu beweisen, wenn es eine
+wohlfundierte Ordnung $\preccurlyeq$ auf auf $M$ gibt.  Es besagt, daÃŸ
+es ausreicht, $P(z)$ unter der Voraussetzung nachzuweisen, daÃŸ $P(y)$
+fÃ¼r alle VorgÃ¤nger $y$ von $z$ gilt.  Anders gesagt:
 %
 \begin{displaymath}
   \forall z\in M:(\forall y\in M:~ y\prec z \Rightarrow P(y)) \Rightarrow P(z))
@@ -1326,9 +1326,9 @@ für alle Vorgänger $y$ von $z$ gilt.  Anders gesagt:
 \end{displaymath}
 %
 \begin{enumerate}
-\item Beweise die Gültigkeit des Prinzips.
-\item Leite die vollständige und die strukturelle Induktion als
-  Spezialfälle der wohlfundierten Induktion her.
+\item Beweise die GÃ¼ltigkeit des Prinzips.
+\item Leite die vollstÃ¤ndige und die strukturelle Induktion als
+  SpezialfÃ¤lle der wohlfundierten Induktion her.
 \end{enumerate}
 \end{aufgabe}
 
