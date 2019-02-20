@@ -512,15 +512,18 @@ Mit Bildern kann DrRacket auch rechnen:
 \evalsto{} \includegraphics[width=24pt]{i1prog/above.png}
 (above (beside s1 p1) (beside p1 c1))
 \evalsto{} \includegraphics[width=48pt]{i1prog/abovebeside.png}
-\end{alltt}              
+\end{alltt}
 %
+FIXME: Haus aus Dreieck und Quadrat
+
 Das heißt, \texttt{beside} akzeptiert als Eingabe zwei (oder mehr)
 Bilder und macht daraus wieder ein Bild, in dem die Teilbilder
 nebeneinander stehen.  Das gleiche gilt für \texttt{above}, nur dass
 die Bilder übereinander angeordnet werden.  Selbstverständlich können
 \texttt{above} und \texttt{beside} auch kombiniert werden.
 
-\section{Die Macht der Abstraktion}
+\section{Abstraktion und Applikation}
+\label{sec:abstraktion-und-applikation}
 
 Hier sind zwei Ausdrücke, welche die Bilder aus dem vorigen Abschnitt
 zu einem Muster kombinieren:
@@ -674,7 +677,7 @@ auch mit den Definitionen von \texttt{s1} und \texttt{p1}:
   \label{fig:stepper-2}
 \end{figure}
 %
-\noindent Interessant wird es danach: Die Variablen aus den Definitionen sind
+\noindent Interessant wird es danach. Die Variablen aus den Definitionen sind
 alle ersetzt.  Hinter dem \texttt{lambda}-Ausdruck stehen jetzt das
 Quadrat und der Stern, und die werden jetzt für die Variablen aus dem
 \texttt{lambda}-Ausdruck eingesetzt, also das Quadrat für \texttt{a}
@@ -683,7 +686,7 @@ und der Stern für \texttt{b}:
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{i1prog/stepper-3}
-  \caption{Der Stepper in Aktion}
+  \caption{Stepper: Applikation}
   \label{fig:stepper-3}
 \end{figure}
 %
@@ -695,8 +698,29 @@ und der Stern für \texttt{b}:
   Seite zusammenhängt.
 \end{aufgabe}
 %
+\texttt{(tile s1 p1)} ist eine sogenannte
+\textit{Applikation\index{Applikation}}: Das ist ein Ausdruck mit
+(natürlich) Klammern drum.  Der Operator und die Operanden der
+Applikation sind ebenfalls Ausdrücke.  Der Operator ergibt eine
+Funktion~-- entweder eingebaut oder aus einem
+\texttt{lambda}-Ausdruck.
 
-\begin{feature}{Abstraktion und Anwendung}{scheme:abstraction}
+Wenn die Funktion ein \texttt{lambda}-Ausdruck ist wie in
+Abbildung~\ref{fig:stepper-3}, dann muss es genauso viele Operanden
+geben wie der \texttt{lambda}-Ausdruck Variablen hat.
+Dann wertet DrRacket den Ausdruck wie folgt aus:
+%
+\begin{enumerate}
+\item Die Operanden werden ausgewertet und ergeben die sogenannten
+  \textit{Argumente\index{Argument}}.
+\item Die Argumente werden ausgewertet und die Ergebnisse für die
+  Variablen des \texttt{lambda}-Ausdrucks~-- die sogenannten
+  \textit{Parameter\index{Parameter}}~-- im Innenteil des
+  \texttt{lambda}-Ausdrucks, dem \textit{Rumpf\index{Rumpf}}
+  eingesetzt.
+\end{enumerate}
+%
+\begin{feature}{Abstraktion und Applikation}{scheme:abstraction}
   Eine Abstraktion\index{Abstraktion} hat folgende Form:
 \begin{alltt}
 (lambda (\(p\sb{1} \ldots p\sb{n}\)) \(e\))
@@ -707,7 +731,7 @@ und der Stern für \texttt{b}:
   vorkommen.  Der Wert einer Abstraktion ist eine \textit{Funktion}\index{Funktion},
   welche für jeden Parameter eine Eingabe erwartet.
 
-  Eine \textit{Anwendung} einer Funktion hat folgende Form:
+  Eine \textit{Applikation} einer Funktion hat folgende Form:
   %
 \begin{alltt}
 (\(p\) \(a\sb{1}\) \ldots \(a\sb{n}\))
@@ -715,14 +739,32 @@ und der Stern für \texttt{b}:
   %
   $p$ ist ein Ausdruck, der eine Funktion ergeben muß, die $a_i$ sind
   ebenfalls Ausdrücke, die \textit{Argumente}\index{Argument}.  Bei
-  der Auswertung einer Anwendung werden zunächst $p$ und die $a_i$
+  der Auswertung einer Applikation werden zunächst $p$ und die $a_i$
   ausgewertet; danach geht es mit der Auswertung des Rumpfes der
   Funktion weiter, wobei für die Parameter $p_i$ jeweils die Werte der
   Argumente $a_i$ eingesetzt werden.
 \end{feature}
+%
+\texttt{Lambda}-Ausdrücke heißen auch
+\textit{Abstraktionen\index{Abstraktion}}.
+Abbildung~\ref{scheme:abstraction} fasst zusammen, wie Abstraktionen
+und Applikationen aufgebaut sind und ausgewertet werden.
 
+Verwirrend ist vielleicht der Unterschied zwischen Abstraktion und
+Funktion: Die Abstraktion ist der \texttt{lambda}-Ausdruck im
+Programm, die Funktion ist der Wert, der bei der Programmauswertung
+dabei herauskommt.  Wir verwenden im Buch aber häufig den Begriff
+"`Funktion"' für eine Abstraktion, weil uns interessiert, was bei der
+Abstraktion herauskommt.
 
-\section{Information und Daten}
+\begin{aufgabe}
+  Denke Dir ein einzelnes Muster aus, mit dem mehrere Bilder
+  kombiniert werden können (es muss nichts kompliziertes sein) und
+  schreibe eine Funktion, die dies erledigt: Benutze diese Funktion,
+  um mehrere Sätze von Bildern zu kombinieren.
+\end{aufgabe}
+
+\section{Exkurs: Information und Daten}
 
 Eine Definition wie
 %
@@ -741,13 +783,14 @@ Information in eine vereinfachte Form gebracht, mit der das Programm
 rechnen kann~-- in diesem Fall die Zahl 19.  Diese vereinfachte Form
 heißt \textit{Daten}\index{Daten}: Daten sind
 \textit{Repräsentationen}\index{Repräsentation} für Information.
-Beim Programmieren ist eine
-unserer Hauptaufgaben entsprechend, die richtigen Form für die Daten
-zu wählen, um die für das Programm relevanten Informationen
-darzustellen die Informationen dann in Daten zu übersetzen.
+
+Eine der wichtigsten Aufgaben beim Programmieren ist, die richtigen
+Form für die Daten zu wählen, um die für das Programm relevanten
+Informationen darzustellen die Informationen dann in Daten zu
+übersetzen.
 
 Nicht immer ist offensichtlich, welche Information durch bestimmte
-Daten repräsentiert werden.  Das Datum 23 zum Beispiel könnte eine Reihe
+Daten repräsentiert werden.  Die Zahl 23 zum Beispiel könnte eine Reihe
 von Informationen darstellen:
 %
 \begin{itemize}
@@ -755,586 +798,27 @@ von Informationen darstellen:
 \item die aktuelle Außentemperatur in °C in Tübingen
 \item die Außentemperatur vom 1.7.2000 in °C in Tübingen
 \item die Größe in m$^2$ des Schlafzimmers
-\item die Rückennummer von Michael Jordan
+\item die Rückennummer von Alexandra Popp
 \end{itemize}
 %
 Damit andere unsere Programme lesen können, werden wir also immer
 wieder klarstellen müssen, wie Information in Daten zu übersetzen ist
 und umgekehrt.
 
-Manche Programme können auch Informationen direkt verarbeiten, meist
-dadurch, dass sie diese erst in Daten übersetzen und dann die Daten
-weiterverarbeiten.  Der Teil, der diese Übersetzung leistet, heißt
-\textit{Benutzerschnittstelle}\index{Benutzerschnittstelle}.  Zunächst
-werden wir uns allerdings primär mit rein datenverarbeitenden
-Programmen beschäftigen; Benutzerschnittstellen kommen später.
+\section{Die Konstruktionsanleitung}
 
-\section{Domänenwissen}
-\label{sec:domaenenwissen}
+In Abschnitt~\ref{sec:abstraktion-und-applikation} haben wir gezeigt,
+wie Abstraktion und Applikation bei der Programmauswertung
+funktionieren.  Das Verständnis dafür ist wichtig, aber Du musst beim
+Schreiben Deines Programms nicht die ganze Zeit daran denken, wie
+DrRacket Dein Programm auswertest.  Entsprechend kümmern wir uns in
+diesem Buch hauptsächlich darum, wie Du Programme systematisch
+konstruierst.
 
-Hier ist eine einfache Denksportaufgabe:
+Schauen wir uns das anhand einer realistischen Aufgabe an:
 %
-\begin{quote}
-  Auf einem Parkplatz stehen PKWs und Motorräder ohne Beiwagen.
-  Zusammen seien es $n$ Fahrzeuge mit insgesamt $m$ Rädern.  Bestimmen
-  Sie die Anzahl $P$ der PKWs.
-\end{quote}
-%
-Die Anzahl $P$ der PKWs plus die Anzahl $M$ der Motorräder muß
-offensichtlich die Gesamtzahl $n$ der Fahrzeuge ergeben.  Außerdem hat
-jeder PKW vier Räder und jedes Motorrad zwei Räder. Die Radzahlen der
-PKWs und Motorräder zusammen müssen $m$ ergeben.  Es ergibt sich
-folgendes Gleichungsystem:
-%
-\begin{eqnarray*}
-  P+M&=&n\\
-  4P+2M&=&m
-\end{eqnarray*}
-%
-Auflösen der ersten Gleichung nach $M$ ergibt
-\begin{eqnarray*}
-  M &=& n-P
-\end{eqnarray*}
-% 
-und Einsetzen in die zweite Gleichung führt zu
-\begin{eqnarray*}
-  4P+2(n-P) &=& m\\
-  4P+2n-2P &=& m\\
-  2P &=& m-2n\\
-  P &=& \frac{m-2n}{2}
-\end{eqnarray*}
-%
-Am Ende steht also eine Formel, die wir für konkrete $m$ und $n$ auch
-in einen Ausdruck verwandeln können:
-%
-\begin{alltt}
-(/ (- 10 (* 2 4)) 2)
-\evalsto{} 1
-(/ (- 12 (* 2 3)) 2)
-\evalsto{} 3
-\end{alltt}
-%
-Um zu den Ausdrücken zu kommen, welche die Anzahl der PKWs ausrechnen,
-haben wir sogenanntes \textit{Domänenwissen}\index{Domänenwissen}
-benutzt: Die "`Domäne"' der Aufgabe sind PKWs und Motorräder, und wir
-wissen, dass PKWs jeweils vier Räder und Motorräder zwei haben.
-Schließlich haben wir noch Algebra benutzt, um aus dem Domänenwissen
-eine Formel zu machen.
-
-\section{Kommentare und Formatierung}
-
-Der Ausdruck \texttt{(/ (- 10 (* 2 4)) 2)} ist für unbedarfte Leser
-schwer zu verstehen.  Manchmal hilft ein erläuternder Text beim
-Verständnis:
-%
-\begin{alltt}
-(/ (- 10 (* 2 4)) 2) ; 10 Räder, 4 Fahrzeuge
-\evalsto{} 1
-(/ (- 12 (* 2 3)) 2) ; 12 Räder, 3 Fahrzeuge
-\evalsto{} 3
-\end{alltt}
-
-\begin{feature}{Kommentare}{scheme:comment}
-  Ein Semikolon \texttt{;} kennzeichnet einen 
-  \textit{Kommentar\index{Kommentar}}.  Der Kommentar erstreckt sich
-  vom Semikolon bis zum Ende der Zeile und wird vom Scheme-System
-  ignoriert.
-\end{feature}
-%
-Der Text nach dem Semikolon ist ein \textit{Kommentar}\index{Kommentar} (siehe
-Abbildung~\ref{scheme:comment}), der von DrRacket ignoriert wird, aber
-für menschliche Leser hilfreich ist.
-
-Beim Verständnis kann außerdem die
-\textit{Formatierung}\index{Formatierung} des Programms helfen.  Die
-obigen Ausdrücke können auch folgendermaßen geschrieben werden:
-%
-\begin{alltt}
-(/ (- 10 (* 2 4))
-   2)
-(/ (- 12 (* 2 3))
-   2)
-\end{alltt}
-%
-Daß die \texttt{2} jetzt jeweils in einer weiteren Zeile steht, läßt
-die Ausdrücke so ähnlich aussehen wie der Bruch in der Formel.  Die
-Einrückung vor der \texttt{2} macht klar, dass die \texttt{2} noch in
-die Klammern vom \texttt{/} gehört.
-
-Wir als Programmierer müssen uns selbst darum kümmern, an sinnvollen
-Stellen eine neue Zeile anzufangen.  Um die Einrückung kann sich
-allerdings DrRacket automatisch kümmern: Die Tab-Taste (links auf der
-Tastatur, meist $\rightarrow$\verb/|/ o.ä.\ bedruckt) rückt die Zeile,
-in der sich der Cursor befindet, ein.  Außerdem gibt es noch den
-Menüpunkt \texttt{Racket} $\rightarrow$ \texttt{Alles einrücken}, der
-das gesamte Programm einrückt.
-
-\section{Abstraktion}
-
-Beim Parkplatzproblem aus Abschnitt~\ref{sec:domaenenwissen} ist es
-umständlich, für jede Kombination aus konkreten $m$ und $n$ die 
-Formel neu hinzuschreiben und andere Werte für $m$ und $n$
-einzusetzen.  Außerdem ist es fehleranfällig.  Es muß also besser
-gehen.  Ein erster Schritt in die richtige Richtung ist, für $m$ und
-$n$ auch im Programm Namen zu verwenden:
-%
-\begin{alltt}
-(define n 4)
-(define m 10)
-(/ (- m (* 2 n)) 2)
-\end{alltt}
-%
-Immerhin ist die ursprüngliche Formel jetzt wieder erkennbar.  Leider
-kann sie nur einmal verwendet werden.  Schreiben wir in dasselbe
-Programm die hier darunter:
-%
-\begin{alltt}
-(define n 3)
-(define m 12)
-(/ (- m (* 2 n)) 2)
-\end{alltt}
-%
-\ldots{} dann meckert DrRacket:
-%
-\begin{alltt}
-m: Für diesen Namen gibt es schon eine Definition
-\end{alltt}
-%
-Für jeden Namen kann es nur eine Definition geben.  Wir bräuchten
-Formeln, die wir mehrfach verwenden können, bei denen wir sagen können
-"`ich werde die Formeln mehrmals benutzen und möchte jedesmal andere
-Werte für $n$ und $m$ einsetzen"'. Das geht beim Programmieren mit
-\textit{Abstraktion}\index{Abstraktion} und sieht konkret so aus:
-%
-\begin{alltt}
-(lambda (n m) (/ (- m (* 2 n)) 2))
-\end{alltt}
-%
-Diese Abstraktion besteht aus folgenden Bestandteilen:
-\begin{itemize}
-\item das Schlüsselwort \texttt{lambda},
-\item die Namen \texttt{n} und \texttt{m}, die \textit{Parameter},\index{Parameter}
-\item der Ausdruck \texttt{(/ (- m (* 2 n)) 2)}, der \textit{Rumpf\index{Rumpf}}.
-\end{itemize}
-%
-Die Abstraktion hat als Wert eine \textit{Funktion\index{Funktion}}.  Wenn der
-$lambda$-Ausdruck so in einem Programm steht, druckt beim Auswerten
-DrRacket auch aus:
-%
-\begin{alltt}
-#<procedure>
-\end{alltt}
-%
-Für sich genommen macht eine Funktion noch nichts Interessantes.  Sie kann jedoch
-\emph{angewendet} werden, was heißt, dass konkrete Werte für $m$ und
-$n$ eingesetzt werden:
-%
-\begin{alltt}
-((lambda (n m) (/ (- m (* 2 n)) 2)) 4 10)
-\evalsto{} 1
-((lambda (n m) (/ (- m (* 2 n)) 2)) 3 12)
-\evalsto{} 3
-\end{alltt}
-
-% 
-Abbildung~\ref{scheme:abstraction} erklärt die beiden Konzepte
-"`Abstraktion"' und "`Anwendung"' im allgemeinen.
-
-Bisher ist jedoch noch nicht viel gewonnen, weil wir den
-$lambda$-Ausdruck jedesmal wiederholen mußten.  Da er jedoch beide
-Male genau gleich ist, können wir ihm mit \texttt{define} einen Namen
-geben:
-%
-\begin{alltt}
-(define parking-lot-cars
-  (lambda (n m) (/ (- m (* 2 n)) 2)))
-\end{alltt}
-%
-Am besten verteilen wir das Programm gleich noch auf etwas mehr Zeilen
-und rücken es ein, um es lesbarer zu machen:
-%
-\begin{alltt}
-(define parking-lot-cars
-  (lambda (n m)
-    (/ (- m (* 2 n))
-       2)))
-\end{alltt}
-%
-\texttt{Parking-lot-cars} können wir jetzt mehrfach verwenden:
-%
-\begin{alltt}
-(parking-lot-cars 4 10)
-\evalsto{} 1
-(parking-lot-cars 3 12)
-\evalsto{} 3
-\end{alltt}
-%
-Das sieht doch schon besser aus: Der Name \texttt{parking-lot-cars}
-ist außerdem sprechend und erlaubt uns, die eigentliche Formel auch
-wieder zu vergessen.
-
-% FIXME: Warum heißt es eigentlich $lambda$?
-
-\section{Kurzbeschreibung und Signatur}
-\label{sec:sorts-and-contracts}
-
-Angenommen, die Funktiondefinition von \texttt{parking-lot-cars} wird
-an jemanden weitergegeben, der dieses Buch nicht gelesen hat, aber die
-Funktion trotzdem einsetzen soll.  Der potentielle Leser kann zwar
-das Scheme-Programm prinzipiell verstehen, hat aber keinen weiteren
-Hinweis darauf, wofür \texttt{parking-lot-cars} verwendet werden kann.
-
-Das Problem ist, daß die Definition von \texttt{parking-lot-cars} 
-das Endprodukt des Denkprozesses ist, der in Kapitel~\ref{cha:intro}
-beschrieben wurde.  Der Denkprozeß selbst, der mit der Aufgabenstellung
-anfängt, ist nicht Teil der Definition.  Darum ist es hilfreich, wenn
-wichtige Aspekte des Denkprozesses als Kommentare  bei den Definitionen
-stehen.  Ein stets sinnvoller Kommentar ist eine \textit{Kurzbeschreibung}\index{Kurzbeschreibung} der
-Aufgabenstellung:
-%
-\begin{alltt}
-; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
-\end{alltt}
-%
-Für die Kurzbeschreibung reicht in der Regel \emph{eine Zeile}: Nehmen
-Sie diese Einschränkung als Gelegenheit, sich knapp, prägnant und
-präzise auszudrücken.
-
-Als nächstes ist eine besondere Formulierung hilfreich, die
-sogenannte \textit{Signatur\index{Signatur}}. Wer nur gelesen hat, dass die
-Funktion \texttt{parking-lot-cars} zwei Argumente \texttt{n} und
-\texttt{m} hat, könnte ja auf den Gedanken kommen, einen Aufruf der
-Form
-
-\begin{alltt}
-(parking-lot-cars "zweiundzwanzig" "achtunddreissig")
-\end{alltt}
-zu notieren.  Das wird bei der Ausführung eine Fehlermeldung erzeugen, weil die
-eingebauten Funktionen \texttt{/}, \texttt{-} und \texttt{*} nur mit Zahlen in
-Form von Ziffernfolgen umgehen können, aber nicht mit Zeichenketten, die
-vielleicht auch Zahlen bezeichnen könnten.  In der Tat akzeptieren fast alle
-Funktionen nur Argumente einer ganz bestimmten \emph{Sorte}\index{Sorte}, in
-diesem Fall Argumente der Sorte "`natürliche Zahl"'.
-
-Hier eine Liste der wichtigsten "`eingebauten"' Sorten:
-%
-\begin{center}
-  \begin{tabular}{l|l}
-    natürliche Zahlen & \texttt{natural}\\\hline
-    ganze Zahlen & \texttt{integer}\\\hline
-    rationale Zahlen & \texttt{rational}\\\hline
-    reelle Zahlen & \texttt{real}\\\hline
-    Zahlen allgemein (inkl.\ komplexe) & \texttt{number}\\\hline
-    Zeichenketten & \texttt{string}\\\hline
-    Bilder & \texttt{image}
-  \end{tabular}
-\end{center}
-%
-Eine Signatur\index{Signatur}
-ist eine Vorstufe für die zu entwickelnde Funktion und faßt einige
-wichtige Informationen zusammen:
-%
-\begin{enumerate}
-\item den Namen der Funktion,
-\item Anzahl und Sorten der Argumente und
-\item die Sorte des Rückgabewerts der Funktion.
-\end{enumerate}
-%
-%Die \textit{Signaturen}\index{Signaturen} beschreiben die Sorten, aus
-%denen die Argumente bzw.\ der Rückgabewert stammen.  
-Die Funktion
-\texttt{parking-lot-cars} akzeptiert zwei natürliche Zahlen und
-liefert wieder eine natürliche Zahl.  Deshalb sieht die Signatur von
-\texttt{parking-lot-cars} so aus:
-%
-\begin{alltt}
-(: parking-lot-cars (natural natural -> natural))
-\end{alltt}
-%
-%Damit wird die Signatur \verb|(natural natural -> natural)| der
-%Funktion \texttt{parking-lot-cars} zugeordnet.  
-Diese Signatur besagt:
-%
-\begin{itemize}
-\item \texttt{Parking-lot-cars} ist eine Funktion (das sagt der Pfeil
-  \verb|->| zusammen mit den Klammern);
-\item \texttt{parking-lot-cars}
-  \textit{akzeptiert}\index{akzeptieren} zwei Argumente (vor dem Pfeil
-stehen zwei Wörter);
-\item die beiden Argumente sind natürliche Zahlen (\texttt{natural});
-\item die Funktion liefert wieder eine natürliche Zahl (das ist
-das \texttt{natural} hinter dem Pfeil).
-\end{itemize}
-%
-Die Signatur ähnelt also der mathematischen Notation für Funktionen,
-die einen bestimmten Typ haben.
-
-Aus der Signatur ergeben sich, wenn für die beiden Argumente
-sprechende Namen gefunden worden sind, die ersten beiden Zeilen der folgenden
-Definition, das sogenannte \textit{Gerüst\index{Gerüst}}:
-%
-\begin{alltt}
-(define parking-lot-cars
-  (lambda (n m)
-    ...))
-\end{alltt}
-%
-Es bleibt, die passende Formel einzusetzen.  Die Definition
-von \texttt{parking-lot-cars} sieht dann vollständig so aus:\index{parking-lot-cars@\texttt{parking-lot-cars}}
-%
-\begin{alltt}
-; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
-(: parking-lot-cars (natural natural -> natural))
-(define parking-lot-cars
-  (lambda (n m)
-    (/ (- m (* 2 n))
-       2)))
-\end{alltt}
-%
-Signaturen können für alle Arten von Werten deklariert werden, nicht
-nur für Funktionen.  Zum Beispiel so:
-%
-\begin{verbatim}
-(: pi real)
-\end{verbatim}
-%
-Bei \texttt{parking-lot-cars} ist die Signatur noch nicht besonders
-umfangreich oder kompliziert.
-Spätere Kapitel werden zeigen, dass sich aus vielen Signaturen ganz
-automatisch \textit{Schablonen\index{Schablone}} ergeben, die dem
-Programmierer einen Großteil der Denkarbeit bei der Entwicklung von
-Funktionen abnehmen.
-
-Aus diesem Grund schreiben wir in diesem Buch die
-Kurzbeschreibung und die Signatur in das Programm, \emph{bevor} wir
-die Definition entwickeln: 
-Die
-nachträgliche Entwicklung dieser Kommentare ist mühselig und
-langweilig.  Außerdem sind die Kurzbeschreibung und die
-Signatur ein hilfreicher Teil des Problemlösungsprozesses.
-Schon mancher Programmierer~-- Anfänger und Profi~--
-ist an Aufgaben gescheitert, die sich mit Hilfe systematischen Vorgehens
-anhand der Signatur leicht hätten lösen lassen.
-
-Aus dem fernen Osten stammt der Begriff des "`Mantras"' als einem
-Sinnspruch, den es sich lohnt, auswendig zu lernen.  Hier das erste Mantra:
-%
-\begin{mantra}[Signatur vor Ausführung]\label{mantra:contract}
-\input{mantra:contract}
-\end{mantra}
-%
-Ab jetzt werden sich die Programmbeispiele in diesem Buch natürlich
-an dieses Mantra halten.  Kurzbeschreibung, Signatur, Testfälle
-(beschrieben im nächsten Abschnitt) Gerüst und
-Schablone sind feste Bestandteile einer
-\textit{Konstruktionsanleitung\index{Konstruktionsanleitung}}, die
-systematisch beschreibt, wie eine Aufgabe schrittweise gelöst werden
-kann.  Dieses Buch wird eine Reihe von Konstruktionsanleitungen
-vorstellen, die sich stets an der Signatur einer Funktion orientieren.
-Alle Mantras sind in Anhang~\ref{cha:mantras} und die
-Konstruktionsanleitungen in Anhang~\ref{app:konstruktionsanleitungen}
-zusammengefaßt.
-
-\section{Testfälle}
-\label{sec:test-cases}
-
-\index{Testfall}Vertrauen ist gut~-- aber Fehler passieren, auch bei 
-sorgfältiger Programmierung.  Angenommen, bei der Programmierung von
-\texttt{parking-lot-cars} wäre folgendes herausgekommen:
-%
-\begin{alltt}
-; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
-(: parking-lot-cars (natural natural -> natural))
-(define parking-lot-cars
-  (lambda (n m)
-    (/ (- m (* 4 n))
-       2)))
-\end{alltt}
-%
-Sehen Sie den Fehler auf den ersten Blick?  
-Einfaches Ausprobieren ist da vielleicht schneller:
-%
-\begin{alltt}
-(parking-lot-cars 1 4)
-\evalsto{} 0
-\end{alltt}
-%
-Bei der Entwicklung der Funktion sollten also
-\textit{Testfälle\index{Testfall}} konstruiert werden, die an
-ausgewählten Beispielen überprüfen, ob die gerade programmierte
-Funktion auch korrekt funktioniert.  Testen ist eine unverzichtbare
-Tätigkeit des Programmierers.
-
-Die Testfälle werden am besten \emph{vor} der Definition der Funktion
-aufgestellt, denn  wenn sie erst hinterher geschrieben werden, ist die
-Gefahr groß, dass unbewußt das tatsächliche Ergebnis
-eines Funktionaufrufs als das gewünschte eingegeben oder besonders
-kritische Beispiele weggelassen werden.  (In der industriellen Praxis ist sogar
-oft üblich, dass jemand anderes als der Autor der Definitionen
-die Testfälle schreibt.)
-
-Es ist mühselig, bei der Programmentwicklung ständig Testfälle in die
-REPL einzutippen und durch einen Vergleich mit den erwarteten
-Ergebnissen herauszubekommen, ob alles in Ordnung ist.  In \drscheme{}
-geht es deshalb auch einfacher.  Testfälle können zusammen mit den
-erwarteten Ergebnissen wie folgt spezifiziert werden:
-
-\begin{alltt}
-(check-expect (parking-lot-cars 1 4) 1)  
-(check-expect (parking-lot-cars 2 6) 1)  
-(check-expect (parking-lot-cars 10 28) 4)  
-\end{alltt}
-
-Beim Druck auf den \texttt{Start}-Knopf überprüft \drscheme{}, ob die
-tatsächlichen Ergebnisse der Ausdrücke mit den Soll-Werten
-übereinstimmen.  Für fehlgeschlagene Testfälle öffnet sich ein neues Fenster
-mit Informationen über die Unterschiede zwischen erwarteten und
-tatsächlichen Ergebnissen; ansonsten gibt es eine kurze Meldung, dass die
-Testfälle erfolgreich waren.  Für die obere inkorrekte Version kommt
-zum Beispiel Folgendes heraus:
-%
-\begin{alltt}
-3 Tests gelaufen.
-0 Tests bestanden.
-2 Signaturverletzungen.
-
-Check-Fehler:
-	Der tatsächliche Wert 0 ist nicht der erwartete Wert 1.
-in Zeile 4, Spalte 0 
-	Der tatsächliche Wert -1 ist nicht der erwartete Wert 1.
-in Zeile 5, Spalte 0 
-	Der tatsächliche Wert -6 ist nicht der erwartete Wert 4.
-in Zeile 6, Spalte 0 
-
-Signaturverletzungen:
-	bekam -1 in Zeile 5, Spalte 14 , Signatur in Zeile 2, Spalte 40 
-	verantwortlich: Funktion in Zeile 9, Spalte 2 
-	bekam -6 in Zeile 6, Spalte 14 , Signatur in Zeile 2, Spalte 40 
-	verantwortlich: Funktion in Zeile 9, Spalte 2 
-\end{alltt}
-%
-Eine großzügige Verwendung
-von Testfällen kann viele Programmierfehler
-aufdecken und damit die Programmierung erleichtern und beschleunigen.
-
-\begin{mantra}[Testfälle]\label{mantra:test}
-\input{mantra:test}
-\end{mantra}
-
-% FIXME: Coverage
-
-\section{Unsinnige Daten}
-\label{sec:nonsensical-data-prequel}
-
-Die Testfälle aus dem vorangegangenen Abschnitt sind alle
-"`sinnvoll"'~-- die Eingabedaten passen alle zu tatsächlichen
-Parkplatzsituationen.  Was ist aber hiermit?
-%
-\begin{alltt}
-(parking-lot-cars 3 9)
-\end{alltt}
-%
-Wie schon in Kapitel~\ref{page:parking-lot-problem}
-(Seite~\pageref{page:parking-lot-problem}) bereits angedeutet, 
-lassen sich die \emph{Daten} 3 und 9 nicht als \emph{Information}
-interpretieren: Es gibt keinen Parkplatz mit 3 Fahrzeugen und 9
-Rädern~-- zumindest nicht mit den Einschränkungen der Aufgabenstellung
-auf vollberäderte PKWs und Motorräder.
-
-Die Funktion \texttt{parking-lot-cars} stört dies allerdings wenig:
-Sie liefert munter die Ausgabe \texttt{1.5}.  Allerdings meldet
-DrRacket eine \textit{Signaturverletzung}\index{Signaturverletzung},
-wenn es \texttt{(parking-lot-cars 3 9)} auswertet, da das Ergebnis
-keine natürliche Zahl ist wie in der Signatur angegeben.  
-
-Das Programm sollte natürlich abseits der Signaturverletzung unsinnige
-Daten soweit möglich und praktikabel zurückweisen.  Für die Eingabe
-\texttt{(parking-lot-cars 3 16)} hätte es nämlich keine Signaturverletzung
-gegeben, sondern es wäre eine zunächst unschuldig aussehende $5$
-herausgekommen. Da hätte es zuerst noch der Beobachtung bedurft, dass unmöglich
-$5$ von $3$ Fahrzeugen PKWs sein können. Noch fehlen uns
-die Mittel, solche unsinnigen Eingaben zurückzuweisen; in Abschnitt~\ref{sec:nonsensical-data} werden wir
-dies nachholen.
-
-\section{Probleme und Teilprobleme}
-\label{sec:subproblems}
-
-TBD
-
-\section{Auswertung}
-\label{sec:substitution-model}
-\label{sec:scheme-anatomy}
-
-Bei der Auswertung eines Programms geht DrRacket nach festen Regeln
-vor.  Schauen wir uns noch einmal das Programm zum Parkplatzproblem
-an:
-%
-\begin{alltt}
-(define parking-lot-cars
-  (lambda (n m)
-    (/ (- m (* 2 n))
-       2)))
-(parking-lot-cars 4 10)
-\end{alltt}
-%
-Bei der Auswertung \textit{substituiert}\index{Substitution} DrRacket
-jeweils Namen durch ihre Werte.  Der erste Schritt ist also,
-\texttt{parking-lot-cars} durch den dazugehörigen
-\texttt{lambda}-Ausdruck zu ersetzen:
-%
-\begin{alltt}
-(parking-lot-cars 4 10)
-\evalsto
-((lambda (n m) (/ (- m (* 2 n)) 2)) 4 10)
-\end{alltt}
-%
-Jetzt steht dort die Anwendung eines \texttt{lambda}-Ausdrucks auf die
-zwei Zahlen \texttt{4} und \texttt{10}: Diese Argumente werden für die
-ensprechenden Parameter \texttt{n} und \texttt{m} eingesetzt:
-%
-\begin{alltt}
-((lambda (n m) (/ (- m (* 2 n)) 2)) 4 10)
-\evalsto
-(/ (- 10 (* 2 4)) 2)
-\end{alltt}
-%
-Nun werden sukzessive die Teilausdrücke ausgewertet.  Das passiert
-immer von links nach rechts.  Bei einer Anwendung werden erst einmal
-alle Argumente fertig ausgewertet, bevor es mit der Substitution der
-Parameter und dem Rumpf der Prozezedur weitergeht:
-%
-\begin{alltt}
-(/ (- 10 (* 2 4)) 2)
-\evalsto
-(/ (- 10 8) 2)
-\evalsto
-(/ 2 2)
-\evalsto
-1
-\end{alltt}
-%
-Diese Vorgehensweise entspricht der Algebra aus der Mathematik, wo wir
-auch Ausdrücke umformen, indem wir gleiches durch gleiches ersetzen.
-
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=\textwidth]{i1prog/stepper.png}
-  \caption{Stepper in DrRacket}
-  \label{fig:stepper}
-\end{figure}
-%
-Normalerweise zeigt uns DrRacket nur das Endergebnis dieses Prozesses
-an.  Es ist aber auch in der Lage, die Schritte einzeln zu
-visualisieren: Dazu müssen Sie auf den \texttt{Step}-Knopf drücken.
-Es erscheint ein neues Fenster, der sogenannte \textit{Stepper}\index{Stepper}.
-Sie können dann vorwärts und rückwärts durch den Substitutionsprozeß
-navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
-
-\section*{Aufgaben}
-
-
 \begin{aufgabe}
-  Betrachten Sie folgende Stromtarife.  Beide Tarife
+  Betrachte folgende Stromtarife.  Beide Tarife
   bestehen aus einer monatlichen Grundgebühr und einem Teil, der sich
   nach den verbrauchten Kilowattstunden (kWh) richtet.
   %
@@ -1342,33 +826,708 @@ navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
     \begin{tabular}{l|c|c|}
       & Grundgebühr pro Monat & Verbrauchspreis pro kWh \\
       \hline
-      Tarif "`Billig-Strom"' & 4,90 Euro & 19 Cent \\
+      Tarif "`Billig-Strom"' & \EUR{4,90} & \EUR{0.19} \\
       \hline
-      Tarif "`Watt für wenig"' & 8,20 Euro & 16 Cent \\
+      Tarif "`Watt für wenig"' & \EUR{8,20} & \EUR{0.16} \\
       \hline
     \end{tabular}
   \end{center}
 
   \begin{enumerate}
-  \item Schreiben Sie eine Funktion
+  \item Schreibe eine Funktion
     \texttt{billig-strom}, die den Monatsverbrauch in Kilowattstunden
     akzeptiert und den im Tarif "`Billig-Strom"' zu zahlenden
     monatlichen Rechnungsbetrag 
     berechnet.
 
-  \item Schreiben Sie eine Funktion
+  \item Schreibe eine Funktion
     \texttt{watt-für-wenig}, die den Monatsverbrauch in
     Kilowattstunden akzeptiert und den im Tarif "`Watt für wenig"' zu
     zahlenden monatlichen Rechnungsbetrag
     Verbrauch berechnet.
   \end{enumerate}
   %
-  Halten Sie sich bei jeder Funktion, die Sie schreiben, an die
-  Konstruktionsanleitungen: Schreiben Sie zuerst die Kurzbeschreibung
-  und die Signatur.  Schreiben Sie als nächstes einige Testfälle.
-  Leiten Sie danach das Gerüst von der Signatur her und vervollständigen
-  Sie den Rumpf der Funktion.
 \end{aufgabe}
+%
+Fangen wir mit dem ersten Aufgabenteil an.  Für das Berechnen des
+Rechnungsbetrags können wir eine Formel aufschreiben, indem wir auf
+die Grundgebühr das Produkt aus dem Verbrauchspreis berechnet.  Für
+jeweils 10, 20 und 30 kWh könnte die Formel so aussehen:
+%
+\begin{verbatim}
+(* 4.90 (* 0.19 10))
+(* 4.90 (* 0.19 20))
+(* 4.90 (* 0.19 30))
+\end{verbatim}
+%
+Jetzt wollen wir nicht jedesmal, wenn wir einen Rechnungsbetrag
+ausrechnen, die Formel wieder eintippen oder kopieren.  Deshalb setzen
+wir für den Teil, der sich zwischen den Formeln unterscheidet, eine
+Variable ein:
+%
+\begin{verbatim}
+(* 4.90 (* 0.19 kWh))
+\end{verbatim}
+%
+Um nun verschiedene Werte für \texttt{kWh} einsetzen zu können, müssen
+wir \emph{über kWh abstrahieren} \index{abstrahieren} (so sagt man
+das), also eine Abstraktion drumherumwickeln:
+%
+\begin{verbatim}
+(lambda (kWh)
+  (* 4.90 (* 0.19 kWh)))
+\end{verbatim}
+%
+Schließlich müssen wir der Funktion noch einen Namen geben, der in
+der Aufgabenstellung vorgegeben ist:
+%
+\begin{verbatim}
+(define billig-strom
+  (lambda (kWh)
+    (+ 4.90 (* 0.19 kWh))))
+\end{verbatim}
+%
+Die Funktion \texttt{billig-strom} kannst Du jetzt aufrufen:
+%
+\begin{alltt}
+(billig-strom 10)
+\evalsto{} 6.8
+(billig-strom 20)
+\evalsto{} 8.7
+(billig-strom 30)
+\evalsto{} 10.6
+\end{alltt}
+%
+Die Funktion \texttt{billig-strom} ist ein einigermaßen winziges
+Programm.  Wenn Programme größer werden, ist häufig nicht mehr
+unmittelbar ersichtlich, was die Programmteile tun oder ob sie
+tatsächlich korrekt sind.  Es ist darum sinnvoll, die Funktion mit
+einigen Programmelementen zu ergänzen, welche die Verständlichkeit
+erhöhen und auch die Wahrscheinlichkeit, dass die Funktion korrekt
+ist.
+
+Wir fangen dazu an mit einer kurzen Beschreibung auf Deutsch (der
+sogenannten \textit{Kurzbeschreibung\index{Kurzbeschreibung}}, die
+beschreibt, was die Funktion macht.  Eine prägnante Zeile ist dabei
+genug.  Das könnte so aussehen:
+%
+\begin{verbatim}
+; monatlichen Rechnungsbetrag für Tarif Billig-Strom berechnen
+
+(define billig-strom ...)
+\end{verbatim}
+%
+\begin{feature}{Kommentare}{scheme:comment}
+  Ein Semikolon \texttt{;} kennzeichnet einen 
+  \textit{Kommentar\index{Kommentar}}.  Der Kommentar erstreckt sich
+  vom Semikolon bis zum Ende der Zeile und wird vom Scheme-System
+  ignoriert.
+\end{feature}
+%
+Das Semikolon am Anfang kennzeichnet die Zeile als
+\textit{Kommentar\index{Kommentar}}. DrRacket ignoriert diese Zeile
+beim Auswerten, aber für menschliche Leserinnen ist sie nützlich.
+Abbildung~\ref{scheme:comment} fasst zusammen, wie das Semikolon
+funktioniert.
+
+Als nächstes ergänzen wir eine \textit{Signatur\index{Signatur}}, die
+beschreibt, was für Daten die Funktion als Argumente erwartet und was
+für Daten sie liefert.
+
+Die Anzahl der Kilowattstunden auf dem Zählerableseblatt ist in der
+Regel eine ganze Zahl, die nicht negativ sein kann.  Die Ausgabe kann
+hingegen zwei Nachkommestellen enthalten, ist also ein Bruch.  Um die
+Signatur zu schreiben, benutzen wir für diese Beschreibungen dieser
+\textit{Sorten\index{Sorte}} mathematische Namen.  Eine ganze,
+nicht-negative Zahl heißt auch \textit{natürliche
+  Zahl\index{natürliche Zahl}}.  Ein Bruch heißt auch
+\textit{rationale Zahl\index{rationale Zahl}}.  Die
+Signatur-Deklaration für \texttt{billig-strom} sollte gleich nach der
+Kurzbeschreibung kommen und sieht so aus:
+%
+\begin{verbatim}
+(: billig-strom (natural -> rational))
+\end{verbatim}
+%
+Die Elemente \texttt{natural} und \texttt{rational} sind die
+Lehrsprachen-Namen für natürliche Zahlen respektive Brüche.
+
+Diese Signatur-Deklaration besteht aus der Form \texttt{(: \ldots)},
+dem Namen der Funktion und ihrer Signatur, \texttt{(natural ->
+  rational)}.  Wir werden noch einer Vielzahl von Signaturen begegnen,
+aber diese hier hat einen Pfeil \texttt{->} in der Mitte und ist
+deshalb eine Signatur für eine Funktion: links vom Pfeil steht, was
+die Funktion als Eingabe akzeptiert, rechts vom Pfeil die Ausgabe. Die
+Signatur-Deklaration ist also so zu lesen: "`\texttt{Billig-strom} ist
+eine Funktion, die eine natürliche Zahl als Eingabe akzeptiert und
+eine rationale Zahl als Ausgabe produziert."'
+
+TBD
+
+
+\section{Die Macht der Abstraktion}
+
+TBD
+
+
+% \section{Domänenwissen}
+% \label{sec:domaenenwissen}
+
+% Hier ist eine einfache Denksportaufgabe:
+% %
+% \begin{quote}
+%   Auf einem Parkplatz stehen PKWs und Motorräder ohne Beiwagen.
+%   Zusammen seien es $n$ Fahrzeuge mit insgesamt $m$ Rädern.  Bestimmen
+%   Sie die Anzahl $P$ der PKWs.
+% \end{quote}
+% %
+% Die Anzahl $P$ der PKWs plus die Anzahl $M$ der Motorräder muß
+% offensichtlich die Gesamtzahl $n$ der Fahrzeuge ergeben.  Außerdem hat
+% jeder PKW vier Räder und jedes Motorrad zwei Räder. Die Radzahlen der
+% PKWs und Motorräder zusammen müssen $m$ ergeben.  Es ergibt sich
+% folgendes Gleichungsystem:
+% %
+% \begin{eqnarray*}
+%   P+M&=&n\\
+%   4P+2M&=&m
+% \end{eqnarray*}
+% %
+% Auflösen der ersten Gleichung nach $M$ ergibt
+% \begin{eqnarray*}
+%   M &=& n-P
+% \end{eqnarray*}
+% % 
+% und Einsetzen in die zweite Gleichung führt zu
+% \begin{eqnarray*}
+%   4P+2(n-P) &=& m\\
+%   4P+2n-2P &=& m\\
+%   2P &=& m-2n\\
+%   P &=& \frac{m-2n}{2}
+% \end{eqnarray*}
+% %
+% Am Ende steht also eine Formel, die wir für konkrete $m$ und $n$ auch
+% in einen Ausdruck verwandeln können:
+% %
+% \begin{alltt}
+% (/ (- 10 (* 2 4)) 2)
+% \evalsto{} 1
+% (/ (- 12 (* 2 3)) 2)
+% \evalsto{} 3
+% \end{alltt}
+% %
+% Um zu den Ausdrücken zu kommen, welche die Anzahl der PKWs ausrechnen,
+% haben wir sogenanntes \textit{Domänenwissen}\index{Domänenwissen}
+% benutzt: Die "`Domäne"' der Aufgabe sind PKWs und Motorräder, und wir
+% wissen, dass PKWs jeweils vier Räder und Motorräder zwei haben.
+% Schließlich haben wir noch Algebra benutzt, um aus dem Domänenwissen
+% eine Formel zu machen.
+
+% \section{Kommentare und Formatierung}
+
+% Der Ausdruck \texttt{(/ (- 10 (* 2 4)) 2)} ist für unbedarfte Leser
+% schwer zu verstehen.  Manchmal hilft ein erläuternder Text beim
+% Verständnis:
+% %
+% \begin{alltt}
+% (/ (- 10 (* 2 4)) 2) ; 10 Räder, 4 Fahrzeuge
+% \evalsto{} 1
+% (/ (- 12 (* 2 3)) 2) ; 12 Räder, 3 Fahrzeuge
+% \evalsto{} 3
+% \end{alltt}
+
+% %
+% Der Text nach dem Semikolon ist ein \textit{Kommentar}\index{Kommentar} (siehe
+% Abbildung~\ref{scheme:comment}), der von DrRacket ignoriert wird, aber
+% für menschliche Leser hilfreich ist.
+
+% Beim Verständnis kann außerdem die
+% \textit{Formatierung}\index{Formatierung} des Programms helfen.  Die
+% obigen Ausdrücke können auch folgendermaßen geschrieben werden:
+% %
+% \begin{alltt}
+% (/ (- 10 (* 2 4))
+%    2)
+% (/ (- 12 (* 2 3))
+%    2)
+% \end{alltt}
+% %
+% Daß die \texttt{2} jetzt jeweils in einer weiteren Zeile steht, läßt
+% die Ausdrücke so ähnlich aussehen wie der Bruch in der Formel.  Die
+% Einrückung vor der \texttt{2} macht klar, dass die \texttt{2} noch in
+% die Klammern vom \texttt{/} gehört.
+
+% Wir als Programmierer müssen uns selbst darum kümmern, an sinnvollen
+% Stellen eine neue Zeile anzufangen.  Um die Einrückung kann sich
+% allerdings DrRacket automatisch kümmern: Die Tab-Taste (links auf der
+% Tastatur, meist $\rightarrow$\verb/|/ o.ä.\ bedruckt) rückt die Zeile,
+% in der sich der Cursor befindet, ein.  Außerdem gibt es noch den
+% Menüpunkt \texttt{Racket} $\rightarrow$ \texttt{Alles einrücken}, der
+% das gesamte Programm einrückt.
+
+% \section{Abstraktion}
+
+% Beim Parkplatzproblem aus Abschnitt~\ref{sec:domaenenwissen} ist es
+% umständlich, für jede Kombination aus konkreten $m$ und $n$ die 
+% Formel neu hinzuschreiben und andere Werte für $m$ und $n$
+% einzusetzen.  Außerdem ist es fehleranfällig.  Es muß also besser
+% gehen.  Ein erster Schritt in die richtige Richtung ist, für $m$ und
+% $n$ auch im Programm Namen zu verwenden:
+% %
+% \begin{alltt}
+% (define n 4)
+% (define m 10)
+% (/ (- m (* 2 n)) 2)
+% \end{alltt}
+% %
+% Immerhin ist die ursprüngliche Formel jetzt wieder erkennbar.  Leider
+% kann sie nur einmal verwendet werden.  Schreiben wir in dasselbe
+% Programm die hier darunter:
+% %
+% \begin{alltt}
+% (define n 3)
+% (define m 12)
+% (/ (- m (* 2 n)) 2)
+% \end{alltt}
+% %
+% \ldots{} dann meckert DrRacket:
+% %
+% \begin{alltt}
+% m: Für diesen Namen gibt es schon eine Definition
+% \end{alltt}
+% %
+% Für jeden Namen kann es nur eine Definition geben.  Wir bräuchten
+% Formeln, die wir mehrfach verwenden können, bei denen wir sagen können
+% "`ich werde die Formeln mehrmals benutzen und möchte jedesmal andere
+% Werte für $n$ und $m$ einsetzen"'. Das geht beim Programmieren mit
+% \textit{Abstraktion}\index{Abstraktion} und sieht konkret so aus:
+% %
+% \begin{alltt}
+% (lambda (n m) (/ (- m (* 2 n)) 2))
+% \end{alltt}
+% %
+% Diese Abstraktion besteht aus folgenden Bestandteilen:
+% \begin{itemize}
+% \item das Schlüsselwort \texttt{lambda},
+% \item die Namen \texttt{n} und \texttt{m}, die \textit{Parameter},\index{Parameter}
+% \item der Ausdruck \texttt{(/ (- m (* 2 n)) 2)}, der \textit{Rumpf\index{Rumpf}}.
+% \end{itemize}
+% %
+% Die Abstraktion hat als Wert eine \textit{Funktion\index{Funktion}}.  Wenn der
+% $lambda$-Ausdruck so in einem Programm steht, druckt beim Auswerten
+% DrRacket auch aus:
+% %
+% \begin{alltt}
+% #<procedure>
+% \end{alltt}
+% %
+% Für sich genommen macht eine Funktion noch nichts Interessantes.  Sie kann jedoch
+% \emph{angewendet} werden, was heißt, dass konkrete Werte für $m$ und
+% $n$ eingesetzt werden:
+% %
+% \begin{alltt}
+% ((lambda (n m) (/ (- m (* 2 n)) 2)) 4 10)
+% \evalsto{} 1
+% ((lambda (n m) (/ (- m (* 2 n)) 2)) 3 12)
+% \evalsto{} 3
+% \end{alltt}
+
+% % 
+% Abbildung~\ref{scheme:abstraction} erklärt die beiden Konzepte
+% "`Abstraktion"' und "`Applikation"' im allgemeinen.
+
+% Bisher ist jedoch noch nicht viel gewonnen, weil wir den
+% $lambda$-Ausdruck jedesmal wiederholen mußten.  Da er jedoch beide
+% Male genau gleich ist, können wir ihm mit \texttt{define} einen Namen
+% geben:
+% %
+% \begin{alltt}
+% (define parking-lot-cars
+%   (lambda (n m) (/ (- m (* 2 n)) 2)))
+% \end{alltt}
+% %
+% Am besten verteilen wir das Programm gleich noch auf etwas mehr Zeilen
+% und rücken es ein, um es lesbarer zu machen:
+% %
+% \begin{alltt}
+% (define parking-lot-cars
+%   (lambda (n m)
+%     (/ (- m (* 2 n))
+%        2)))
+% \end{alltt}
+% %
+% \texttt{Parking-lot-cars} können wir jetzt mehrfach verwenden:
+% %
+% \begin{alltt}
+% (parking-lot-cars 4 10)
+% \evalsto{} 1
+% (parking-lot-cars 3 12)
+% \evalsto{} 3
+% \end{alltt}
+% %
+% Das sieht doch schon besser aus: Der Name \texttt{parking-lot-cars}
+% ist außerdem sprechend und erlaubt uns, die eigentliche Formel auch
+% wieder zu vergessen.
+
+% % FIXME: Warum heißt es eigentlich $lambda$?
+
+% \section{Kurzbeschreibung und Signatur}
+% \label{sec:sorts-and-contracts}
+
+% Angenommen, die Funktiondefinition von \texttt{parking-lot-cars} wird
+% an jemanden weitergegeben, der dieses Buch nicht gelesen hat, aber die
+% Funktion trotzdem einsetzen soll.  Der potentielle Leser kann zwar
+% das Scheme-Programm prinzipiell verstehen, hat aber keinen weiteren
+% Hinweis darauf, wofür \texttt{parking-lot-cars} verwendet werden kann.
+
+% Das Problem ist, daß die Definition von \texttt{parking-lot-cars} 
+% das Endprodukt des Denkprozesses ist, der in Kapitel~\ref{cha:intro}
+% beschrieben wurde.  Der Denkprozeß selbst, der mit der Aufgabenstellung
+% anfängt, ist nicht Teil der Definition.  Darum ist es hilfreich, wenn
+% wichtige Aspekte des Denkprozesses als Kommentare  bei den Definitionen
+% stehen.  Ein stets sinnvoller Kommentar ist eine \textit{Kurzbeschreibung}\index{Kurzbeschreibung} der
+% Aufgabenstellung:
+% %
+% \begin{alltt}
+% ; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
+% \end{alltt}
+% %
+% Für die Kurzbeschreibung reicht in der Regel \emph{eine Zeile}: Nehmen
+% Sie diese Einschränkung als Gelegenheit, sich knapp, prägnant und
+% präzise auszudrücken.
+
+% Als nächstes ist eine besondere Formulierung hilfreich, die
+% sogenannte \textit{Signatur\index{Signatur}}. Wer nur gelesen hat, dass die
+% Funktion \texttt{parking-lot-cars} zwei Argumente \texttt{n} und
+% \texttt{m} hat, könnte ja auf den Gedanken kommen, einen Aufruf der
+% Form
+
+% \begin{alltt}
+% (parking-lot-cars "zweiundzwanzig" "achtunddreissig")
+% \end{alltt}
+% zu notieren.  Das wird bei der Ausführung eine Fehlermeldung erzeugen, weil die
+% eingebauten Funktionen \texttt{/}, \texttt{-} und \texttt{*} nur mit Zahlen in
+% Form von Ziffernfolgen umgehen können, aber nicht mit Zeichenketten, die
+% vielleicht auch Zahlen bezeichnen könnten.  In der Tat akzeptieren fast alle
+% Funktionen nur Argumente einer ganz bestimmten \emph{Sorte}\index{Sorte}, in
+% diesem Fall Argumente der Sorte "`natürliche Zahl"'.
+
+% Hier eine Liste der wichtigsten "`eingebauten"' Sorten:
+% %
+% \begin{center}
+%   \begin{tabular}{l|l}
+%     natürliche Zahlen & \texttt{natural}\\\hline
+%     ganze Zahlen & \texttt{integer}\\\hline
+%     rationale Zahlen & \texttt{rational}\\\hline
+%     reelle Zahlen & \texttt{real}\\\hline
+%     Zahlen allgemein (inkl.\ komplexe) & \texttt{number}\\\hline
+%     Zeichenketten & \texttt{string}\\\hline
+%     Bilder & \texttt{image}
+%   \end{tabular}
+% \end{center}
+% %
+% Eine Signatur\index{Signatur}
+% ist eine Vorstufe für die zu entwickelnde Funktion und faßt einige
+% wichtige Informationen zusammen:
+% %
+% \begin{enumerate}
+% \item den Namen der Funktion,
+% \item Anzahl und Sorten der Argumente und
+% \item die Sorte des Rückgabewerts der Funktion.
+% \end{enumerate}
+% %
+% %Die \textit{Signaturen}\index{Signaturen} beschreiben die Sorten, aus
+% %denen die Argumente bzw.\ der Rückgabewert stammen.  
+% Die Funktion
+% \texttt{parking-lot-cars} akzeptiert zwei natürliche Zahlen und
+% liefert wieder eine natürliche Zahl.  Deshalb sieht die Signatur von
+% \texttt{parking-lot-cars} so aus:
+% %
+% \begin{alltt}
+% (: parking-lot-cars (natural natural -> natural))
+% \end{alltt}
+% %
+% %Damit wird die Signatur \verb|(natural natural -> natural)| der
+% %Funktion \texttt{parking-lot-cars} zugeordnet.  
+% Diese Signatur besagt:
+% %
+% \begin{itemize}
+% \item \texttt{Parking-lot-cars} ist eine Funktion (das sagt der Pfeil
+%   \verb|->| zusammen mit den Klammern);
+% \item \texttt{parking-lot-cars}
+%   \textit{akzeptiert}\index{akzeptieren} zwei Argumente (vor dem Pfeil
+% stehen zwei Wörter);
+% \item die beiden Argumente sind natürliche Zahlen (\texttt{natural});
+% \item die Funktion liefert wieder eine natürliche Zahl (das ist
+% das \texttt{natural} hinter dem Pfeil).
+% \end{itemize}
+% %
+% Die Signatur ähnelt also der mathematischen Notation für Funktionen,
+% die einen bestimmten Typ haben.
+
+% Aus der Signatur ergeben sich, wenn für die beiden Argumente
+% sprechende Namen gefunden worden sind, die ersten beiden Zeilen der folgenden
+% Definition, das sogenannte \textit{Gerüst\index{Gerüst}}:
+% %
+% \begin{alltt}
+% (define parking-lot-cars
+%   (lambda (n m)
+%     ...))
+% \end{alltt}
+% %
+% Es bleibt, die passende Formel einzusetzen.  Die Definition
+% von \texttt{parking-lot-cars} sieht dann vollständig so aus:\index{parking-lot-cars@\texttt{parking-lot-cars}}
+% %
+% \begin{alltt}
+% ; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
+% (: parking-lot-cars (natural natural -> natural))
+% (define parking-lot-cars
+%   (lambda (n m)
+%     (/ (- m (* 2 n))
+%        2)))
+% \end{alltt}
+% %
+% Signaturen können für alle Arten von Werten deklariert werden, nicht
+% nur für Funktionen.  Zum Beispiel so:
+% %
+% \begin{verbatim}
+% (: pi real)
+% \end{verbatim}
+% %
+% Bei \texttt{parking-lot-cars} ist die Signatur noch nicht besonders
+% umfangreich oder kompliziert.
+% Spätere Kapitel werden zeigen, dass sich aus vielen Signaturen ganz
+% automatisch \textit{Schablonen\index{Schablone}} ergeben, die dem
+% Programmierer einen Großteil der Denkarbeit bei der Entwicklung von
+% Funktionen abnehmen.
+
+% Aus diesem Grund schreiben wir in diesem Buch die
+% Kurzbeschreibung und die Signatur in das Programm, \emph{bevor} wir
+% die Definition entwickeln: 
+% Die
+% nachträgliche Entwicklung dieser Kommentare ist mühselig und
+% langweilig.  Außerdem sind die Kurzbeschreibung und die
+% Signatur ein hilfreicher Teil des Problemlösungsprozesses.
+% Schon mancher Programmierer~-- Anfänger und Profi~--
+% ist an Aufgaben gescheitert, die sich mit Hilfe systematischen Vorgehens
+% anhand der Signatur leicht hätten lösen lassen.
+
+% Aus dem fernen Osten stammt der Begriff des "`Mantras"' als einem
+% Sinnspruch, den es sich lohnt, auswendig zu lernen.  Hier das erste Mantra:
+% %
+% \begin{mantra}[Signatur vor Ausführung]\label{mantra:contract}
+% \input{mantra:contract}
+% \end{mantra}
+% %
+% Ab jetzt werden sich die Programmbeispiele in diesem Buch natürlich
+% an dieses Mantra halten.  Kurzbeschreibung, Signatur, Testfälle
+% (beschrieben im nächsten Abschnitt) Gerüst und
+% Schablone sind feste Bestandteile einer
+% \textit{Konstruktionsanleitung\index{Konstruktionsanleitung}}, die
+% systematisch beschreibt, wie eine Aufgabe schrittweise gelöst werden
+% kann.  Dieses Buch wird eine Reihe von Konstruktionsanleitungen
+% vorstellen, die sich stets an der Signatur einer Funktion orientieren.
+% Alle Mantras sind in Anhang~\ref{cha:mantras} und die
+% Konstruktionsanleitungen in Anhang~\ref{app:konstruktionsanleitungen}
+% zusammengefaßt.
+
+% \section{Testfälle}
+% \label{sec:test-cases}
+
+% \index{Testfall}Vertrauen ist gut~-- aber Fehler passieren, auch bei 
+% sorgfältiger Programmierung.  Angenommen, bei der Programmierung von
+% \texttt{parking-lot-cars} wäre folgendes herausgekommen:
+% %
+% \begin{alltt}
+% ; aus der Anzahl der Fahrzeuge und Räder die Anzahl der PKWs bestimmen
+% (: parking-lot-cars (natural natural -> natural))
+% (define parking-lot-cars
+%   (lambda (n m)
+%     (/ (- m (* 4 n))
+%        2)))
+% \end{alltt}
+% %
+% Sehen Sie den Fehler auf den ersten Blick?  
+% Einfaches Ausprobieren ist da vielleicht schneller:
+% %
+% \begin{alltt}
+% (parking-lot-cars 1 4)
+% \evalsto{} 0
+% \end{alltt}
+% %
+% Bei der Entwicklung der Funktion sollten also
+% \textit{Testfälle\index{Testfall}} konstruiert werden, die an
+% ausgewählten Beispielen überprüfen, ob die gerade programmierte
+% Funktion auch korrekt funktioniert.  Testen ist eine unverzichtbare
+% Tätigkeit des Programmierers.
+
+% Die Testfälle werden am besten \emph{vor} der Definition der Funktion
+% aufgestellt, denn  wenn sie erst hinterher geschrieben werden, ist die
+% Gefahr groß, dass unbewußt das tatsächliche Ergebnis
+% eines Funktionaufrufs als das gewünschte eingegeben oder besonders
+% kritische Beispiele weggelassen werden.  (In der industriellen Praxis ist sogar
+% oft üblich, dass jemand anderes als der Autor der Definitionen
+% die Testfälle schreibt.)
+
+% Es ist mühselig, bei der Programmentwicklung ständig Testfälle in die
+% REPL einzutippen und durch einen Vergleich mit den erwarteten
+% Ergebnissen herauszubekommen, ob alles in Ordnung ist.  In \drscheme{}
+% geht es deshalb auch einfacher.  Testfälle können zusammen mit den
+% erwarteten Ergebnissen wie folgt spezifiziert werden:
+
+% \begin{alltt}
+% (check-expect (parking-lot-cars 1 4) 1)  
+% (check-expect (parking-lot-cars 2 6) 1)  
+% (check-expect (parking-lot-cars 10 28) 4)  
+% \end{alltt}
+
+% Beim Druck auf den \texttt{Start}-Knopf überprüft \drscheme{}, ob die
+% tatsächlichen Ergebnisse der Ausdrücke mit den Soll-Werten
+% übereinstimmen.  Für fehlgeschlagene Testfälle öffnet sich ein neues Fenster
+% mit Informationen über die Unterschiede zwischen erwarteten und
+% tatsächlichen Ergebnissen; ansonsten gibt es eine kurze Meldung, dass die
+% Testfälle erfolgreich waren.  Für die obere inkorrekte Version kommt
+% zum Beispiel Folgendes heraus:
+% %
+% \begin{alltt}
+% 3 Tests gelaufen.
+% 0 Tests bestanden.
+% 2 Signaturverletzungen.
+
+% Check-Fehler:
+% 	Der tatsächliche Wert 0 ist nicht der erwartete Wert 1.
+% in Zeile 4, Spalte 0 
+% 	Der tatsächliche Wert -1 ist nicht der erwartete Wert 1.
+% in Zeile 5, Spalte 0 
+% 	Der tatsächliche Wert -6 ist nicht der erwartete Wert 4.
+% in Zeile 6, Spalte 0 
+
+% Signaturverletzungen:
+% 	bekam -1 in Zeile 5, Spalte 14 , Signatur in Zeile 2, Spalte 40 
+% 	verantwortlich: Funktion in Zeile 9, Spalte 2 
+% 	bekam -6 in Zeile 6, Spalte 14 , Signatur in Zeile 2, Spalte 40 
+% 	verantwortlich: Funktion in Zeile 9, Spalte 2 
+% \end{alltt}
+% %
+% Eine großzügige Verwendung
+% von Testfällen kann viele Programmierfehler
+% aufdecken und damit die Programmierung erleichtern und beschleunigen.
+
+% \begin{mantra}[Testfälle]\label{mantra:test}
+% \input{mantra:test}
+% \end{mantra}
+
+% % FIXME: Coverage
+
+% \section{Unsinnige Daten}
+% \label{sec:nonsensical-data-prequel}
+
+% Die Testfälle aus dem vorangegangenen Abschnitt sind alle
+% "`sinnvoll"'~-- die Eingabedaten passen alle zu tatsächlichen
+% Parkplatzsituationen.  Was ist aber hiermit?
+% %
+% \begin{alltt}
+% (parking-lot-cars 3 9)
+% \end{alltt}
+% %
+% Wie schon in Kapitel~\ref{page:parking-lot-problem}
+% (Seite~\pageref{page:parking-lot-problem}) bereits angedeutet, 
+% lassen sich die \emph{Daten} 3 und 9 nicht als \emph{Information}
+% interpretieren: Es gibt keinen Parkplatz mit 3 Fahrzeugen und 9
+% Rädern~-- zumindest nicht mit den Einschränkungen der Aufgabenstellung
+% auf vollberäderte PKWs und Motorräder.
+
+% Die Funktion \texttt{parking-lot-cars} stört dies allerdings wenig:
+% Sie liefert munter die Ausgabe \texttt{1.5}.  Allerdings meldet
+% DrRacket eine \textit{Signaturverletzung}\index{Signaturverletzung},
+% wenn es \texttt{(parking-lot-cars 3 9)} auswertet, da das Ergebnis
+% keine natürliche Zahl ist wie in der Signatur angegeben.  
+
+% Das Programm sollte natürlich abseits der Signaturverletzung unsinnige
+% Daten soweit möglich und praktikabel zurückweisen.  Für die Eingabe
+% \texttt{(parking-lot-cars 3 16)} hätte es nämlich keine Signaturverletzung
+% gegeben, sondern es wäre eine zunächst unschuldig aussehende $5$
+% herausgekommen. Da hätte es zuerst noch der Beobachtung bedurft, dass unmöglich
+% $5$ von $3$ Fahrzeugen PKWs sein können. Noch fehlen uns
+% die Mittel, solche unsinnigen Eingaben zurückzuweisen; in Abschnitt~\ref{sec:nonsensical-data} werden wir
+% dies nachholen.
+
+% \section{Probleme und Teilprobleme}
+% \label{sec:subproblems}
+
+% TBD
+
+% \section{Auswertung}
+% \label{sec:substitution-model}
+% \label{sec:scheme-anatomy}
+
+% Bei der Auswertung eines Programms geht DrRacket nach festen Regeln
+% vor.  Schauen wir uns noch einmal das Programm zum Parkplatzproblem
+% an:
+% %
+% \begin{alltt}
+% (define parking-lot-cars
+%   (lambda (n m)
+%     (/ (- m (* 2 n))
+%        2)))
+% (parking-lot-cars 4 10)
+% \end{alltt}
+% %
+% Bei der Auswertung \textit{substituiert}\index{Substitution} DrRacket
+% jeweils Namen durch ihre Werte.  Der erste Schritt ist also,
+% \texttt{parking-lot-cars} durch den dazugehörigen
+% \texttt{lambda}-Ausdruck zu ersetzen:
+% %
+% \begin{alltt}
+% (parking-lot-cars 4 10)
+% \evalsto
+% ((lambda (n m) (/ (- m (* 2 n)) 2)) 4 10)
+% \end{alltt}
+% %
+% Jetzt steht dort die Applikation eines \texttt{lambda}-Ausdrucks auf die
+% zwei Zahlen \texttt{4} und \texttt{10}: Diese Argumente werden für die
+% ensprechenden Parameter \texttt{n} und \texttt{m} eingesetzt:
+% %
+% \begin{alltt}
+% ((lambda (n m) (/ (- m (* 2 n)) 2)) 4 10)
+% \evalsto
+% (/ (- 10 (* 2 4)) 2)
+% \end{alltt}
+% %
+% Nun werden sukzessive die Teilausdrücke ausgewertet.  Das passiert
+% immer von links nach rechts.  Bei einer Applikation werden erst einmal
+% alle Argumente fertig ausgewertet, bevor es mit der Substitution der
+% Parameter und dem Rumpf der Prozezedur weitergeht:
+% %
+% \begin{alltt}
+% (/ (- 10 (* 2 4)) 2)
+% \evalsto
+% (/ (- 10 8) 2)
+% \evalsto
+% (/ 2 2)
+% \evalsto
+% 1
+% \end{alltt}
+% %
+% Diese Vorgehensweise entspricht der Algebra aus der Mathematik, wo wir
+% auch Ausdrücke umformen, indem wir gleiches durch gleiches ersetzen.
+
+% \begin{figure}[tb]
+%   \centering
+%   \includegraphics[width=\textwidth]{i1prog/stepper.png}
+%   \caption{Stepper in DrRacket}
+%   \label{fig:stepper}
+% \end{figure}
+% %
+% Normalerweise zeigt uns DrRacket nur das Endergebnis dieses Prozesses
+% an.  Es ist aber auch in der Lage, die Schritte einzeln zu
+% visualisieren: Dazu müssen Sie auf den \texttt{Step}-Knopf drücken.
+% Es erscheint ein neues Fenster, der sogenannte \textit{Stepper}\index{Stepper}.
+% Sie können dann vorwärts und rückwärts durch den Substitutionsprozeß
+% navigieren.  Abbildung~\ref{fig:stepper} zeigt das Stepper-Fenster.
+
+\section*{Aufgaben}
+
+
 
 \begin{aufgabe}
  Vervielfachung von Strings:
