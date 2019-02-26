@@ -173,13 +173,13 @@ Produkte und Quotienten:
 (* 123 42)
 \evalsto{} 5166
 (/ 123 42)
-2.9\(\overline{\mathtt{285714}}\)
+\evalsto{} 2.9\(\overline{\mathtt{285714}}\)
 \end{alltt}
 %
 Beim letzen Ausdruck ist zu sehen, dass Dezimalzahlen mit Punkt und
 nicht mit Komma geschrieben werden.  Der Überstrich bei
 \texttt{2.9\(\overline{\mathtt{285714}}\)} ist eine
-\textit{Periode\index{Periode}}: die Zahl ist also eigentlich
+\textit{Periode\index{Periode}}. Die Zahl ist also eigentlich
 %
 \begin{alltt}
 2.9285714285714285714285714285714\ldots
@@ -212,8 +212,8 @@ auch mal englischsprachige Fehlermeldungen wie diese hier:
 %
 Das liegt daran, dass das \texttt{*} hier an der Stelle eines
 Operanden für die Summe dient.  Ein anderes Wort für Operand in diesem
-Zusammenhang ist \textit{Operand}, darum steht da sinngemäß, dass
-\texttt{+} eine Zahl als ersten Operanden erwartet, aber
+Zusammenhang ist \textit{Argument}, darum steht da sinngemäß, dass
+\texttt{+} eine Zahl als erstes Argument etwartet, aber
 stattdessen die Funktion \texttt{+} bekommen hat.
 
 Ein hilfreicher Trick übrigens: Um einen Ausdruck zu korrigieren,
@@ -303,7 +303,7 @@ durch Änderungen im Programm gerät sie auch manchmal aus dem Lot.  In
 dem Fall kannst Du die Tab-Taste drücken (auf den meisten Tastaturen
 steht $\longrightarrow\mid$ auf der Tab-Taste) und in der Zeile, in
 welcher der Cursor steht, wird die Einrückung korrigiert.  Es gibt
-einen Menüunkt \texttt{Racket $\rightarrow$ Alles einrücken} (bzw.\
+einen Menüpunkt \texttt{Racket $\rightarrow$ Alles einrücken} (bzw.\
 \texttt{Racket $\rightarrow$ Reindent All}), der das für das gesamte
 Programm macht: Probier es aus!
 
@@ -383,7 +383,7 @@ durch \verb|\"| dargestellt:
 Abbildung~\ref{scheme:strings} beschreibt die genaue Schreibweise für
 solche "`festen"' Zeichenketten.  Feste Schreibweisen für Werte heißen
 allgemein \textit{Literale\index{Literal}}.  Das kennen wir schon von
-den Zahlen: die Zeichenfolge \texttt{123} steht für die Zahl
+den Zahlen: Die Zeichenfolge \texttt{123} steht für die Zahl
 "`hundertdreiundzwanzig"'.  Kästen wie Abbildung~\ref{scheme:strings}
 werden in diesem Buch noch oft dazu dienen, neue Sprachelemente
 einzuführen.
@@ -414,7 +414,7 @@ liefert die Anzahl der Buchstaben in einer Zeichenkette:
 Die Namen \texttt{string-append} und \texttt{string-length} sehen auf
 den ersten Blick "`anders"' aus als \texttt{+} und \texttt{*} zum
 Beispiel, dieser Eindruck täuscht jedoch: Sie sind allesamt Namen von
-vordefinierten Operationen, die Programme benutzen können, oder sie
+vordefinierten Operationen, die Programme benutzen können, ohne sie
 selbst definieren zu müssen.
 
 Die vordefinierten Funktionen
@@ -431,7 +431,7 @@ Zeichenketten, die diese darstellen:
 %
 \begin{aufgabe}
   Mache Dir den Unterschied zwischen der Zahl \texttt{23} und der
-  Zeichenkette \verb|"23"|.  Probiere zum Beispiel aus:
+  Zeichenkette \verb|"23"| klar.  Probiere zum Beispiel aus:
 \begin{alltt}
 (+ "23" 42)
 (string-append 23 "42")
@@ -447,7 +447,7 @@ zu DrRacket benötigt, ein sogenanntes
 \texttt{Sprache $\rightarrow$ Teachpack hinzufügen}.  (Beziehungsweise
 \texttt{Language $\rightarrow$ Add Teachpack}.  In dem Dialog, der
 dann erscheint, wähle \texttt{image.rkt} aus und drücke dann
-\texttt{OK}.
+\texttt{OK}.  Dann musst Du noch einmal auf \texttt{Start} drücken.
 
 Das Teachpack \texttt{image.rkt} enthält zusätzliche vordefinierte
 Funktionen, mit denen wir Bilder herstellen können.  Zum Beispiel
@@ -465,7 +465,7 @@ Funktionen, mit denen wir Bilder herstellen können.  Zum Beispiel
 Schauen wir uns das eingebaute \texttt{star-polygon} etwas näher an:
 Es akzeptiert fünf Eingaben, die ersten drei davon sind Zahlen~-- die
 Seitenlänge, die Seitenanzahl und die Anzahl der Ecken, die für jede
-Seite übersprungen werden.  Danach kommen zwei Zeichenketten~--
+Seite übersprungen wird.  Danach kommen zwei Zeichenketten~--
 \verb|"solid"| heißt, dass das Innere des Sterns ausgefüllt ist und
 \verb|"blue"| ist die Farbe.  Statt \verb|"solid"| kannst Du auch
 \verb|"outline"| schreiben, dann wird auch etwas klarer, was
@@ -488,7 +488,7 @@ Seite übersprungen werden.  Danach kommen zwei Zeichenketten~--
 \end{aufgabe}
 %
 Bilder sind Werte wie Zahlen und Zeichenketten auch.  Du kannst
-Definitionen auch Namen dafür vergeben:
+mit Definitionen auch Namen dafür vergeben:
 %
 \begin{verbatim}
 (define s1 (square 40 "solid" "red"))
@@ -811,7 +811,7 @@ In Abschnitt~\ref{sec:abstraktion-und-applikation} haben wir gezeigt,
 wie Abstraktion und Applikation bei der Programmauswertung
 funktionieren.  Das Verständnis dafür ist wichtig, aber Du musst beim
 Schreiben Deines Programms nicht die ganze Zeit daran denken, wie
-DrRacket Dein Programm auswertest.  Entsprechend kümmern wir uns in
+DrRacket Dein Programm auswertet.  Entsprechend kümmern wir uns in
 diesem Buch hauptsächlich darum, wie Du Programme systematisch
 konstruierst.
 
@@ -844,20 +844,20 @@ Schauen wir uns das anhand einer realistischen Aufgabe an:
     \texttt{watt-für-wenig}, die den Monatsverbrauch in
     Kilowattstunden akzeptiert und den im Tarif "`Watt für wenig"' zu
     zahlenden monatlichen Rechnungsbetrag
-    Verbrauch berechnet.
+    berechnet.
   \end{enumerate}
   %
 \end{aufgabe}
 %
 Fangen wir mit dem ersten Aufgabenteil an.  Für das Berechnen des
 Rechnungsbetrags können wir eine Formel aufschreiben, indem wir auf
-die Grundgebühr das Produkt aus dem Verbrauchspreis berechnet.  Für
+die Grundgebühr das Produkt aus dem Verbrauchspreis addieren.  Für
 jeweils 10, 20 und 30 kWh könnte die Formel so aussehen:
 %
 \begin{verbatim}
-(* 4.90 (* 0.19 10))
-(* 4.90 (* 0.19 20))
-(* 4.90 (* 0.19 30))
+(+ 4.90 (* 0.19 10))
+(+ 4.90 (* 0.19 20))
+(+ 4.90 (* 0.19 30))
 \end{verbatim}
 %
 Jetzt wollen wir nicht jedesmal, wenn wir einen Rechnungsbetrag
