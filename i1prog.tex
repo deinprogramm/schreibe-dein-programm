@@ -805,7 +805,7 @@ Damit andere unsere Programme lesen können, werden wir also immer
 wieder klarstellen müssen, wie Information in Daten zu übersetzen ist
 und umgekehrt.
 
-\section{Die Konstruktionsanleitung}
+\section{Programme systematisch konstruieren}
 
 In Abschnitt~\ref{sec:abstraktion-und-applikation} haben wir gezeigt,
 wie Abstraktion und Applikation bei der Programmauswertung
@@ -814,10 +814,10 @@ Schreiben Deines Programms nicht die ganze Zeit daran denken, wie
 DrRacket Dein Programm auswertet.  Entsprechend kümmern wir uns in
 diesem Buch hauptsächlich darum, wie Du Programme systematisch
 konstruierst.
-
 Schauen wir uns das anhand einer realistischen Aufgabe an:
 %
 \begin{aufgabe}
+  \label{aufgabe:stromtarif}
   Betrachte folgende Stromtarife.  Beide Tarife
   bestehen aus einer monatlichen Grundgebühr und einem Teil, der sich
   nach den verbrauchten Kilowattstunden (kWh) richtet.
@@ -834,14 +834,11 @@ Schauen wir uns das anhand einer realistischen Aufgabe an:
   \end{center}
 
   \begin{enumerate}
-  \item Schreibe eine Funktion
-    \texttt{billig-strom}, die den Monatsverbrauch in Kilowattstunden
-    akzeptiert und den im Tarif "`Billig-Strom"' zu zahlenden
-    monatlichen Rechnungsbetrag 
-    berechnet.
+  \item Schreibe ein Programm das den Monatsverbrauch in
+    Kilowattstunden akzeptiert und den im Tarif "`Billig-Strom"' zu
+    zahlenden monatlichen Rechnungsbetrag berechnet.
 
-  \item Schreibe eine Funktion
-    \texttt{watt-für-wenig}, die den Monatsverbrauch in
+  \item Schreibe ein Programm, die den Monatsverbrauch in
     Kilowattstunden akzeptiert und den im Tarif "`Watt für wenig"' zu
     zahlenden monatlichen Rechnungsbetrag
     berechnet.
@@ -849,37 +846,49 @@ Schauen wir uns das anhand einer realistischen Aufgabe an:
   %
 \end{aufgabe}
 %
-Fangen wir mit dem ersten Aufgabenteil an.  Für das Berechnen des
-Rechnungsbetrags können wir eine Formel aufschreiben, indem wir auf
-die Grundgebühr das Produkt aus dem Verbrauchspreis addieren.  Für
-jeweils 10, 20 und 30 kWh könnte die Formel so aussehen:
+Fangen wir mit dem ersten Aufgabenteil an!
+
+\paragraph{Funktion}
+
+Zunächst einmal: Da steht "`Schreibe ein Programm~\ldots"'.  In den
+Lehrsprachen dieses Buchs heißt das immer "`Schreibe eine
+\emph{Funktion}~\ldots"'.  Später werden wir Programme schreiben, die
+neben der "`Hauptfunktion"' noch "`Hilfsfunktionen"' haben, aber das
+Prinzip bleibt immer das gleiche.
+
+Wenn dort steht, "`das den Monatsverbrauch in Kilowattstunden
+akzeptiert"', dann bedeutet dies, dass die Funktion den
+Monatsverbraucht als Eingabe akzeptieren soll~-- also als Argument.
+
+Ebenso bedeutet "`und den \ldots{} zu zahlenden monatlichen
+Rechnungsbetrag berechnet"', dass die Funktion diesen Rechungsbetrag
+als Ergebnis liefern soll.
+
+\paragraph{Gerüst}
+
+Funktionen, die ein Problem aus einer Aufgabenstellung lösen, sollten
+immer einen Namen haben~-- den sollten wir uns gleich am Anfang
+ausdenken.  Der Name \texttt{billig-strom} bietet sich an.  Wir wissen
+schon, dass sie den Verbrauch in Kilowattstunden akzeptiert.  Wenn wir
+uns noch dafür einen Namen ausdenken, können wir direkt ein unfertiges
+Programm hinschreiben, ohne groß nachzudenken:
 %
 \begin{verbatim}
-(+ 4.90 (* 0.19 10))
-(+ 4.90 (* 0.19 20))
-(+ 4.90 (* 0.19 30))
+(define billig-strom
+  (lambda (kWh)
+    ...))
 \end{verbatim}
 %
-Jetzt wollen wir nicht jedesmal, wenn wir einen Rechnungsbetrag
-ausrechnen, die Formel wieder eintippen oder kopieren.  Deshalb setzen
-wir für den Teil, der sich zwischen den Formeln unterscheidet, eine
-Variable ein:
-%
-\begin{verbatim}
-(* 4.90 (* 0.19 kWh))
-\end{verbatim}
-%
-Um nun verschiedene Werte für \texttt{kWh} einsetzen zu können, müssen
-wir \emph{über kWh abstrahieren} \index{abstrahieren} (so sagt man
-das), also eine Abstraktion drumherumwickeln:
-%
-\begin{verbatim}
-(lambda (kWh)
-  (* 4.90 (* 0.19 kWh)))
-\end{verbatim}
-%
-Schließlich müssen wir der Funktion noch einen Namen geben, der in
-der Aufgabenstellung vorgegeben ist:
+\emph{Wichtig:} Schreibe dieses \textit{Gerüst\index{Gerüst}}
+unbedingt hin, auch wenn Du noch keine Vorstellung hast, wie es danach
+weitergeht.  Immer.  Jedes Mal.
+
+\paragraph{Rumpf}
+
+Für das Berechnen des Rechnungsbetrags können wir eine Formel
+aufschreiben, indem wir auf die Grundgebühr das Produkt aus dem
+Verbrauchspreis addieren.  Entsprechend müssen wir den Rumpf\index{Rumpf} der
+Funktion ergänzen:
 %
 \begin{verbatim}
 (define billig-strom
@@ -906,6 +915,7 @@ einigen Programmelementen zu ergänzen, welche die Verständlichkeit
 erhöhen und auch die Wahrscheinlichkeit, dass die Funktion korrekt
 ist.
 
+\paragraph{Kurzbeschreibung}
 Wir fangen dazu an mit einer kurzen Beschreibung auf Deutsch (der
 sogenannten \textit{Kurzbeschreibung\index{Kurzbeschreibung}}, die
 beschreibt, was die Funktion macht.  Eine prägnante Zeile ist dabei
@@ -930,7 +940,7 @@ beim Auswerten, aber für menschliche Leserinnen ist sie nützlich.
 Abbildung~\ref{scheme:comment} fasst zusammen, wie das Semikolon
 funktioniert.
 
-Als nächstes ergänzen wir eine \textit{Signatur\index{Signatur}}, die
+\paragraph{Signatur} Als nächstes ergänzen wir eine \textit{Signatur\index{Signatur}}, die
 beschreibt, was für Daten die Funktion als Argumente erwartet und was
 für Daten sie liefert.
 
@@ -962,13 +972,389 @@ Signatur-Deklaration ist also so zu lesen: "`\texttt{Billig-strom} ist
 eine Funktion, die eine natürliche Zahl als Eingabe akzeptiert und
 eine rationale Zahl als Ausgabe produziert."'
 
-TBD
+\begin{feature}{Signaturen}{scheme:signature}
+  Eine \textit{Signatur\index{Signatur}} beschreibt eine Menge oder
+  Sorte von Werten.  Folgende Signaturen für Zahlenmengen sind
+  eingebaut:
+  %
+  \begin{flushleft}
+    \begin{tabular}{ll}
+      \texttt{natural\index{natural@\texttt{natural}}} & natürliche
+                                                         Zahlen\index{natürliche
+                                                         Zahlen} ($0, 1, 2\ldots$)\\
+      \texttt{integer\index{integer@\texttt{integer}}} & ganze
+                                                         Zahlen\index{ganze
+                                                         Zahlen}($0, 1, -1, 2, -2, \ldots$)\\
+      \texttt{rational\index{rational@\texttt{rational}}} &
+                                                            Brüche\index{Bruch} / rationale Zahlen\index{rationale Zahlen} \\
+      \texttt{real\index{real@\texttt{real}}} & reelle
+                                                Zahlen\index{reelle Zahlen}\\
+      \texttt{number\index{number@\texttt{number}}} & beliebige Zahlen
+    \end{tabular}
+  \end{flushleft}
+  %
+  Diese Liste bildet einen "`Turm"': Jede natürliche Zahl ist auch eine
+  ganze Zahl (da kommen noch die negativen Zahlen hinzu), jede ganze
+  Zahl ist auch eine rationale Zahl (Brüche mit Nenner ungleich 1
+  kommen hinzu), jede rationale Zahl ist eine reelle Zahl
+  (nicht-rationale Zahlen wie $\sqrt{2}$ kommen hinzu, und jede reelle
+  Zahl ist auch eine Zahl (komplexe Zahlen\index{komplexe Zahlen} kommen hinzu).
+  
+  Diese Liste wird in zukünftigen Kapiteln noch erweitert werden.
 
+  Signaturen für Funktionen haben die Form
+%
+\begin{alltt}
+(\(s\sb{1}\) \ldots \(s\sb{n}\) -> \(s\))
+\end{alltt}
+%
+Die Signaturen $s_1 \ldots s_n$ sind die Signaturen für die Argumente
+der Funktion und $s$ die Signatur für das Ergebnis.
+
+Eine \textit{Signatur-Deklaration\index{Signatur-Ddeklaration}} hat
+folgende Form:
+%
+\begin{alltt}
+(: \(v\) : \(s\))
+\end{alltt}
+%
+Sie sagt aus, dass der Wert der Variablen \(v\) zu der Menge gehört,
+die durch die Signatur \(s\) beschrieben ist.
+\end{feature}
+%
+Abbildung~\ref{scheme:signature} beschreibt das Format von Signaturen
+und Signatur-Deklarationen genauer.
+
+\paragraph{Tests} Wir haben oben in der REPL die Funktion
+\texttt{billig-strom} ausprobiert, indem wir DrRacket mehrere Aufrufe
+mit unterschiedlichen Eingaben habne auswerten lassen.  Anhand dieser
+Beispiele können wir auch (vielleicht mit einem Taschenrechner)
+überprüfen, ob die Funktion dabei korrekte Ergebnisse produziert hat.
+
+Diese Beispielaufrufe sind noch hilfreicher für Leserinnen und Leser,
+wenn sie im Programm stehen.  Gepaart mit den erwünschten Ergebnissen
+erleichtern sie das Verständnis.  Im Programm schreiben schreiben wir
+das folgendermaßen, gleich nach der Signatur:
+%
+\begin{alltt}
+(check-expect (billig-strom 10) 6.8)
+(check-expect (billig-strom 20) 8.7)
+(check-expect (billig-strom 30) 10.6)
+\end{alltt}
+%
+Wenn wir jetzt das Programm laufen lassen, steht in der REPL:
+%
+\begin{verbatim}
+Alle 3 Tests bestanden!
+\end{verbatim}
+%
+Das neue Programmelement
+\texttt{check-expect\index{check-expect@\texttt{check-expect}}} (siehe
+Abbildung~\ref{scheme:test}) macht
+nämlich einen sogenannten \textit{Testfall\index{Testfall}} oder \textit{Test\index{Test}}.  In diesem Falle
+meldet DrRacket, dass mit den Tests alles geklappt hat.  Aber das
+Programm könnte einen Fehler enthalten.  Wenn wir in der Definition
+von \texttt{billig-strom} statt \texttt{4.90} "`versehentlich"'
+\texttt{5.90} schreiben, sieht die Ausgabe anders aus:
+%
+\begin{feature}{Tests}{scheme:test}
+  Ein \textit{Test\index{Test}} hat die folgende Form:
+  %
+\begin{alltt}
+(check-expect \(t\) \(e\))
+\end{alltt}
+%
+Wenn das Programm läuft, wertet DrRacket den Test-Ausdruck $t$ aus und
+überprüft, ob er mit dem Wert des Ausdrucks $e$ übereinstimmt.  Wenn
+nicht, schlägt der Test fehl und wird von DrRacket protokolliert.
+\end{feature}
+%
+\begin{verbatim}
+Check-Fehler:
+	Der tatsächliche Wert 7.8 ist nicht der erwartete Wert 6.8.
+in stromtarif.rkt, Zeile 5, Spalte 0 
+	Der tatsächliche Wert 9.7 ist nicht der erwartete Wert 8.7.
+in stromtarif.rkt, Zeile 6, Spalte 0 
+	Der tatsächliche Wert 11.6 ist nicht der erwartete Wert 10.6.
+in stromtarif.rkt, Zeile 7, Spalte 0 
+\end{verbatim}
+%
+Die Tests weisen uns also auf mögliche Fehler hin.  Das ist so
+wertvoll, dass wir in Zukunft \emph{immer} Tests schreiben werden, und
+zwar nach der Signatur.  Insbesondere werden wir die Tests schreiben,
+\emph{bevor} wir die Definition angehen.  Das nervt manchmal, ist aber
+psychologisch sinnvoll, damit wir uns vorher überlegen wie das
+richtige Verhalten der Funktion aussehen soll.  Wenn wir die Tests
+hinterher schreiben, ist die Versuchtung groß, die Funktion einfach in
+der REPL aufzurufen und das tatsächliche Ergebnis in den Test zu
+übernehmen, ohne es auf Korrektheit zu überprüfen.
+
+Bei den drei Tests oben müssten wir vielleicht, wenn wir sie vorher
+schrieben, einen Taschenrechner bemühen.  Es gibt aber fast immer
+mindestens einen möglichen Test, der ganz einfach ist.  In diesem Fall
+ist das:
+%
+\begin{verbatim}
+(check-expect (billig-strom 0) 4.9)
+\end{verbatim}
+%
+Hier können wir das Ergebnis direkt der Tabelle entnehmen.  Dieser
+überprüft zwar nicht, ob der richtige pro-kWh-Preis berechnet wird,
+ist aber so einfach zu schreiben, dass wir die Gelegenheit nicht
+auslassen sollten, ihn zu schreiben.
+
+Wieviele Tests sollte man schreiben?  Das hängt von der Komplexität
+der Funktion ab.  Aber drei sollten es bei einfachen Funktionen
+mindestens sein, bei komplizierteren mehr.  Ein einfaches weiteres
+Kriterium ist, dass jeder Teil des Programms, das wir geschrieben
+haben, im Laufe der Tests einmal ausgewertet werden sollte.  DrRacket
+kann Dir dabei helfen.
+
+Wenn Du das Programm nur auf die Funktionsdefinition reduzierst (also
+alle Tests und Beispielaufrufe entfernst) und dann laufen lässt,
+sollte Dir auffallen, dass der Rumpf von \texttt{billig-strom} blau
+hinterlegt ist.  (Außerdem Teile der Signatur von
+\texttt{billig-strom}.)  Diese Hinterlegung zeigt die sogenannte
+\textit{Coverage\index{Coverage}} an: Die blau hinterlegten
+Programmteile sind noch nie gelaufen und wurden ergo auch noch nicht
+getestet.  Es fehlen also noch Tests.  In Zukunft achten wir also
+darauf, dass, nachdem das Programm gelaufen ist, nichts blaues
+übrigbleibt~-- andernfalls müssen wir mehr Tests schreiben kann.
+
+Bei Programmen, die Bilder erzeugen, ist es in der Regel nicht
+möglich, die Testfälle vorher zu schreiben.  Du kannst aber Beispiele
+ausprobieren, die Du Dir vorher überlegt hast, und diese visuell überprüfen.
+Wenn Dir ein Ergebnis richtig erscheint, kannst Du das Bild aus der
+REPL kopieren in das Programm kopieren.  In der REPL könnte das so aussehen:
+%
+\begin{alltt}
+(square 40 "solid" "red")
+\evalsto{} \includegraphics[height=24pt]{i1prog/square}
+\end{alltt}
+%
+Du kannst dann das Quadrat aus der REPL kopieren, also zum Beispiel
+mit der Maus markieren und dann mit \texttt{Ctrl-C} beziehungsweise
+\texttt{Command-C} kopieren und dann ins Programm mit \texttt{Ctrl-V}
+beziehungsweise \texttt{Command-V} einfügen und dann daraus folgenden
+Test machen:
+%
+\begin{alltt}
+(check-expect (square 40 "solid" "red") \includegraphics[height=24pt]{i1prog/square})
+\end{alltt}
+
+\begin{aufgabe}
+  Schreibe für \texttt{tile} zwei Tests!
+\end{aufgabe}
+
+\section{Konstruktionsanleitungen}
+%
+Wir haben im vorigen Abschnitt folgende Arbeitsschritte kennengelernt,
+die zu einer Funktion führen:
+%
+\begin{itemize}
+\item Gerüst
+\item Kurzbeschreibung
+\item Signatur-Deklaration
+\item Tests
+\item Rumpf
+\end{itemize}
+%
+Diese Reihenfolge ist der Reihenfolge ihrer Einführung in diesem
+Kapitel geschuldet.  Zukünftig ist es sinnvoll, dass wir diese Schritte
+immer in der gleichen und zwar in folgender Reihenfolge durchführen:
+%
+\begin{itemize}
+\item Kurzbeschreibung
+\item Signatur
+\item Tests
+\item Gerüst
+\item Rumpf
+\end{itemize}
+%
+Dies entspricht auch der Reihenfolge, in der die entsprechenden
+Elemente im Programm stehen: Wenn Du diese Reihenfolge befolgst,
+kannst Du Dein Programm einfach "`herunterschreiben"'.
+
+Eine solche Anleitung zur Konstruktion von Programmen nennen wir in
+diesem Buch
+\textit{Konstruktionsanleitung\index{Konstruktionsanleitung}}.  Da
+noch viele weitere Konstruktionsanleitungen hinzukommen werden,
+bekommen sie Nummern.  Wir fügen gleich noch zwei weitere Elemente
+hinzu~-- Datenanalyse und Schablonen~-- die wir in späteren Kapiteln
+erläutern werden.
+
+\begin{konstruktionsanleitung}[Ablauf]
+  Gehe bei der Konstruktion einer Funktion in folgender Reihenfolge
+  vor:
+  \begin{itemize}
+    \item Kurzbeschreibung
+    \item Datenanalyse
+    \item Signatur
+    \item Tests
+    \item Gerüst
+    \item Schablonen
+    \item Rumpf
+    \end{itemize}
+\end{konstruktionsanleitung}
+%
+Es mag Dir übermäßig bürokratisch vorkommen, immer die gleiche
+Reihenfolge einzuhalten.  Bürokratisch ist das in jedem Fall, ist aber
+eine wertvolle Hilfestellung, die verhindert, dass Du in unnötige
+Sackgassen gerätst.
+
+Diesen Ablauf demonstruieren wir anhand des zweiten Teils von Aufgabe~
+\ref{aufgabe:stromtarif}.  Zur Erinnerung:  Es ging um den Tarif
+"`Watt für Wenig"' mit einem Grundbetrag von \EUR{8,20} und einem
+Verbrauchspreis pro kWh von \EUR{0,16}.
+
+\paragraph{Kurzbeschreibung}
+
+Fangen wir mit der Kurzbeschreibung an.  Die können wir entsprechend
+zu "`Billig-Strom"' formulieren:
+\begin{verbatim}
+; monatlichen Rechnungsbetrag für Tarif Watt für wenig berechnen
+\end{verbatim}
+
+\paragraph{Signatur}
+
+Auch die Signatur-Deklaration können wir analog zu "`Billig-Strom"'
+formulieren~-- wir müssen uns nur einen neuen Namen aussuchen:
+%
+\begin{verbatim}
+(: watt-für-wenig (natural -> rational))
+\end{verbatim}
+
+\paragraph{Tests}
+
+Die Tests müssen wir neu formulieren.  Es ist immer sinnvoll, mit dem
+einfachsten Beispiel anzufangen:
+\begin{verbatim}
+(check-expect (watt-für-wenig 0) 8.2)
+\end{verbatim}
+
+Ansonsten nehmen wir wieder progressiv größere Verbrauchswerte und
+rechnen den Rechnungsbetrag im Kopf aus:
+%
+\begin{verbatim}
+(check-expect (watt-für-wenig 10) 9.8)
+(check-expect (watt-für-wenig 20) 11.4)
+(check-expect (watt-für-wenig 30) 13.0)
+\end{verbatim}
+
+\paragraph{Gerüst}
+
+Das Gerüst ergibt sich direkt aus der Signatur:
+%
+\begin{verbatim}
+(define watt-für-wenig
+  (lambda (kWh)
+    ...))
+\end{verbatim}
+
+\paragraph{Rumpf}
+
+Schließlich müssen wir noch den Rumpf vervollständigen, indem wir die
+entsprechende Formel hineinschreiben:
+%
+\begin{verbatim}
+(define watt-für-wenig
+  (lambda (kWh)
+    (+ 8.20 (* 0.16 kWh))))
+\end{verbatim}
+%
+Fertig!
 
 \section{Die Macht der Abstraktion}
 
-TBD
+Wir haben bei Aufgabe~\ref{aufgabe:stromtarif} für die beiden
+Aufgabenteile völlig voneinander unabhängige Lösungen geschrieben.
+Diese unterscheiden sich allerdings nur in Details~-- in beiden Fällen
+wird der Stromtarif aus einer Grundgebühr und einem Verbrauchspreis
+pro kWh mit der gleichen Formel berechnet.  Die Definitionen ähneln
+sich dementsprechend:
+%
+\begin{verbatim}
+(define billig-strom
+  (lambda (kWh)
+    (+ 4.90 (* 0.19 kWh))))
 
+(define watt-für-wenig
+  (lambda (kWh)
+    (+ 8.20 (* 0.16 kWh))))
+\end{verbatim}
+%
+Diese "`Verdoppelung"' ist unbefriedigend und kann auch später
+Probleme machen: Wenn ein Fehler bekannt wird, müssen möglicherweise
+zwei Funktionen korrigiert werden beispielsweise.
+
+Es wäre also gut, wenn wir die Gemeinsamkeiten der beiden Funktionen
+irgendwie zusammenfassen könnten, mithin über \texttt{billig-strom}
+und \texttt{watt-für-wenig} \textit{abstrahieren\index{Abstraktion}}
+könnten.  Dazu kopieren wir die Funktion ein letztes Mal und benennen
+sie um.  Außerdem ersetzen wir alle Stellen, bei denen sich die beiden
+Funktionen unterscheiden, jeweils durch eine Variable, zum Beispiel
+\texttt{grundgebuehr} und \texttt{pro-kWh}:
+%
+\begin{verbatim}
+(define stromtarif-rechnungsbetrag
+  (lambda (kWh)
+    (+ grundgebuehr (* pro-kWh kWh))))
+\end{verbatim}
+%
+Die beiden neuen Variablen sind noch nicht gebunden, wir müssen sie zu
+den Parametern des \texttt{lambda} hinzufügen:
+%
+\begin{verbatim}
+(define stromtarif-rechnungsbetrag
+  (lambda (grundgebuehr pro-kWh kWh)
+    (+ grundgebuehr (* pro-kWh kWh))))
+\end{verbatim}
+%
+Wir ergänzen noch Kurzbeschreibung und Signatur.  Die neuen Parameter
+sind auch beides rationale Zahlen, das sieht also so aus:
+%
+\begin{verbatim}
+; monatlichen Rechnungsbetrag für Stromtarif berechnen
+(: stromtarif-rechnungsbetrag (rational rational rational -> rational))
+\end{verbatim}
+%
+Außerdem sollten wir Tests formulieren.  Diese können wir aus den
+Tests für \texttt{billig-strom} und \texttt{watt-für-wenig} gewinnen.
+Wir müssen nur jeweils zu den Argumenten noch die Grundgebühr
+beziehungsweise den pro-kWh-Preis hinzufügen:
+%
+\begin{verbatim}
+(check-expect (stromtarif-rechnungsbetrag 4.90 0.19 10) 6.8)  ; Billig-Strom
+(check-expect (stromtarif-rechnungsbetrag 4.90 0.19 20) 8.7)  ; Billig-Strom
+(check-expect (stromtarif-rechnungsbetrag 4.90 0.19 30) 10.6) ; Billig-Strom
+(check-expect (stromtarif-rechnungsbetrag 4.90 0.19 0) 4.9)   ; Billig-Strom
+
+(check-expect (stromtarif-rechnungsbetrag 8.20 0.16 0) 8.2)   ; Watt für wenig
+
+(check-expect (stromtarif-rechnungsbetrag 8.20 0.16 10) 9.8)  ; Watt für wenig
+(check-expect (stromtarif-rechnungsbetrag 8.20 0.16 20) 11.4) ; Watt für wenig
+(check-expect (stromtarif-rechnungsbetrag 8.20 0.16 30) 13.0) ; Watt für wenig
+\end{verbatim}
+%
+Schließlich können wir auch die Definitionen von \texttt{billig-strom}
+und \texttt{watt-für-wenig} so ändern, dass sie nicht mehr "`selbst"'
+den Rechnungsbetrag ausrechnen, sondern dafür
+\texttt{stromtarif-rechnungsbetrag} benutzen:
+%
+\begin{verbatim}
+(define billig-strom
+  (lambda (kWh)
+    (stromtarif-rechnungsbetrag 4.90 0.19 kWh)))
+
+(define watt-für-wenig
+  (lambda (kWh)
+    (stromtarif-rechnungsbetrag 8.20 0.16 kwH)))
+\end{verbatim}
+%
+Zu dieser Technik werden wir in diesem Buch noch oft greifen.  Sie
+erspart nicht nur oft Arbeit und macht unsere Programme leichter zu
+handhaben, sondern führt manchmal zu ganz neuen Erkenntnissen~--
+speziell in Kapitel~\ref{cha:higher-order}.
 
 % \section{Domänenwissen}
 % \label{sec:domaenenwissen}
