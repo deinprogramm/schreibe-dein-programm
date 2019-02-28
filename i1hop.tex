@@ -1001,7 +1001,100 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   \end{enumerate}
 \end{aufgabe}
 
-\begin{aufgabe}{keine Angabe}
+\begin{aufgabe}
+
+  Betrachte das folgende Programm:
+
+\begin{verbatim}
+(define x 2)          ;  --> zwei
+(define y -1)         ;  --> minuseins
+(define z -3)         ;  --> minusdrei
+
+(define f 
+  (lambda (x z)
+    (+ (* x x) z y)))
+
+(f 4 -2)
+\end{verbatim}
+  %
+  Benenne die Variablen \verb"x", \verb"y" und \verb"z", die in
+  den ersten drei Zeilen des Programms definiert werden, im kompletten
+  Programm um, und zwar \verb|x| in \verb|zwei|, \verb|y| in
+  \verb|minuseins| und \verb|z| in \verb|minusdrei|. Achte bei
+  der Umbenennung auf die lexikalische Bindung.  Benenne keine
+  Parameter der Funktion \verb"f" um.
+
+  Nachdem Du die Umbenennung durchgeführt hast, welches Ergebnis liefert
+  der Ausdruck \verb"(f 4 -2)"? Berechne das Ergebnis von Hand mit Hilfe
+  des Substitutionsmodells und halte die Zwischenschritte fest.
+\end{aufgabe}
+
+\begin{aufgabe}
+
+  Betrachte das folgende Programm:
+
+\begin{verbatim}
+(define x 2)                    ; --> zwei
+(define y 4)                    ; --> vier
+
+(define z                       ; --> f
+  (lambda (x y z)
+    (+ x (z y))))
+
+(z y x (lambda (z) (+ x z)))
+\end{verbatim}
+%
+  Benenne die Variablen \verb"x", \verb"y" und \verb"z", die in
+  den ersten drei Zeilen des Programms definiert werden, im kompletten
+  Programm um. Der neue Name der Variable steht als Kommentar im
+  Programm hinter dem Pfeil (\verb"-->").  Achte bei der
+  Umbenennung auf die lexikalische Bindung.  Benenne keine
+  Parameter der Funktion \verb"z" um.
+
+  Berechne, nachdem Du die Umbenennung durchgeführt haben, von
+  Hand mit dem Substitutionsmodell \verb"(z y x"
+  \verb"(lambda (z) (+ x z))))" und halte Sie die Zwischenschritte
+  fest.
+
+\end{aufgabe}
+
+\begin{aufgabe}
+  Betrachte folgendes Programm:
+
+\begin{verbatim}
+(define x 1)
+(define y 3)
+(define z 5)
+
+(define f
+  (lambda (x)   
+     ((lambda (y)
+        ((lambda (z)
+           (+ z (* x y)))
+         (+ x z)))
+      (+ x y))))
+
+(f y)
+\end{verbatim}
+
+  Benenne hier alle lokalen Variablen, die innerhalb der Funktion
+  \verb"f" gebunden werden, um. Verändere nicht den Namen der
+  Variablen \verb"x", \verb"y" und \verb"z" aus den ersten drei Zeilen
+  des Programms.
+
+  Nachdem Du die Umbenennung durchgeführt haben, welches Ergebnis liefert
+  der Ausdruck \verb"(f y)"? Berechne das Ergebnis von Hand mit Hilfe
+  des Substitutionsmodells und halte die Zwischenschritte fest.
+
+  \noindent \emph{Hinweis:} In diesen Aufgaben findest keine
+  Kommentare und Signaturen zu den Funktionen. Hier kannst Du an einem
+  Beispiel sehen, dass es sehr wichtig ist, diese Informationen
+  anderen Programmierern immer zur Verfügung zu stellen. Denn es kann
+  auch bei kleinen Programmen schwer sein, die Funktionsweise der
+  einzelnen Funktionen ohne Kommentare zu verstehen.
+\end{aufgabe}
+
+\begin{aufgabe}
   Funktionen können nicht nur als Argumente an
   andere Funktionen übergeben, sondern auch als Ergebnisse
   zurückgeliefert werden. Dies soll in dieser Aufgabe genutzt werden,
