@@ -60,10 +60,10 @@ Record-Definition für Paare:\index{pair@\texttt{pair}}\index{make-pair@\texttt{
 ; Ein Paar besteht aus:
 ; - einem beliebigen Element
 ; - einer Liste
-(define-record-procedures pair
+(define-record-functions pair
   make-pair pair?
-  (first rest))
-\end{alltt}
+  (first any)
+  (rest a-list))\end{alltt}
 %
 Für eine Signatur für den Konstruktor ist es noch zu früh, da es noch
 keine Signatur für den Begriff "`Liste"' aus der Datendefinition
@@ -101,12 +101,14 @@ Signatur für \texttt{make-pair} sowie die anderen Funktionen der
 Record-Definition von \texttt{pair} zu vergeben:
 %
 \begin{alltt}
-(: make-pair (%a a-list -> pair))
+(: make-pair (any a-list -> pair))
 (: pair? (any -> boolean))
-(: first (pair -> %a))
+(: first (pair -> any))
 (: rest (pair -> a-list))
 \end{alltt}
 %
+FIXME:
+
 Hinter der Bezeichnung \verb$%a$ verbirgt sich eine 
 \emph{Signaturvariable}\index{Signaturvariable}: Sie
 steht für eine beliebige Sorte, die aber in den zwei Zeilen, wo sie vorkommt,
@@ -558,9 +560,10 @@ Mit
 Record-Definition von \texttt{pair} erweitern:
 %
 \begin{verbatim}
-(define-record-procedures-parametric pair pair-of
+(define-record-functions (pair-of a)
   make-pair pair?
-  (first rest))
+  (first a)
+  (rest (list-of a)))
 \end{verbatim}
 %
 \texttt{Pair-of} ist der Signaturkonstruktor.  (Das angehängte
@@ -573,10 +576,10 @@ und Selektoren für das neue \texttt{pair} haben die folgenden
 Signaturen:
 %
 \begin{verbatim}
-(: make-pair (%a %b -> (pair-of %a %b)))
+(: make-pair (%a (list-of %a) -> (pair-of %a)))
 (: pair? (any -> boolean))
-(: first ((pair-of %a %b) -> %a))
-(: rest ((pair-of %a %b) -> %b))
+(: first ((pair-of %a) -> %a))
+(: rest ((pair-of %a) -> (list-of %a)))
 \end{verbatim}
 %
 Hier sind  \verb|%a| und \verb|%b| wiederum
@@ -607,6 +610,8 @@ eine \emph{Liste} sein muß beziehungsweise daß \texttt{rest} immer
 eine Liste liefert.  Diese Problematik stellen wir noch einen Moment
 hintenan, werden aber später zu ihr zurückkehren~-- zunächst einmal zu
 den Signaturen für Listen.
+
+FIXME
 
 Mit Hilfe von \texttt{pair-of} können wir versuchen, einen Ersatz für
 \texttt{a-list} zu definieren, der spezifiziert, auf welche Signatur
@@ -639,7 +644,7 @@ einzigen Stelle, und über die können wir abstrahieren:
   (lambda (x)
     (signature
       (mixed empty-list
-             (pair-of x (list-of x))))))
+             (pair-of x)))))
 \end{verbatim}
 %
 Fertig!  Nun können wir Signaturen für Listen von Zahlen als
@@ -650,9 +655,10 @@ Definition jetzt verwenden, um bessere Signaturen für
 \texttt{make-pair}, \texttt{first} und \texttt{rest} anzugeben:
 %
 \begin{verbatim}
-(: make-pair (%a (list-of %a) -> (pair-of %a (list-of %a))))
-(: first ((pair-of %a (list-of %a)) -> %a))
-(: rest ((pair-of %a (list-of %a)) -> (list-of %a)))
+(: make-pair (%a (list-of %a) -> (pair-of %a)))
+(: pair? (any -> boolean))
+(: first ((pair-of %a) -> %a))
+(: rest ((pair-of %a) -> (list-of %a)))
 \end{verbatim}
 %
 
