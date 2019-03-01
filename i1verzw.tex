@@ -350,7 +350,7 @@ Test passende Maßnahme ein:
       ((>= p 18) "Führerscheinentzug"))))
 \end{alltt}
 %
-Fertig~-- könnte man meinen.  Wenn Sie das Programm in der REPL laufen lassen,
+Fertig~-- könnte man meinen.  Wenn Du das Programm in der REPL laufen lässt,
 meldet DrRacket zwei bestandene Tests.  Allerdings fällt Ihnen
 vielleicht auf, daß das Programm im Definitionsfenster nach dem Lauf
 so aussieht:
@@ -419,9 +419,9 @@ Zweigen:
 Solch ein "`Rumpf mit Lücken"' (die Ellipsen\index{Ellipse}
 \texttt{\ldots} stehen für noch zu ergänzende Programmteile) ist eine
 \textit{Schablone\index{Schablone}}.  Wir, die Autoren, empfehlen
-Ihnen, die Schablone bereits hinzuschreiben, wenn Sie die Anzahl der
-Kategorien bereits kennen, noch bevor Sie weiter über die
-Problemstellung nachdenken.  Das hilft oft, etwaige Denkblockaden zu
+Ihnen, die Schablone bereits hinzuschreiben, wenn Du die Anzahl der
+Kategorien bereits kennst, noch bevor Du weiter über die
+Problemstellung nachdenkst.  Das hilft oft, etwaige Denkblockaden zu
 lösen.
 
 Die Schablone folgt in diesem Fall aus der Struktur der Daten, also
@@ -823,7 +823,7 @@ Ausdruck bringen:
 Die eingebaute Funktion \texttt{even?} akzeptiert eine ganze Zahl und
 liefert \verb|#t|, falls die Zahl gerade ist und \verb|#f|, falls sie
 ungerade ist~-- solche und viele andere nützliche Funktionen finden
-Sie in der Dokumentation im Hilfezentrum unter "`Sprachebenen und
+Du in der Dokumentation im Hilfezentrum unter "`Sprachebenen und
 Material zu \textit{Schreibe Dein Programm!}"' im Abschnitt
 "`Primitive Operationen"'.
 
@@ -859,13 +859,13 @@ wenn die Auswertung einen Fehler liefert:
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  Schreiben Sie eine Funktion \texttt{card-type}, die den Umsatz einer
+  Schreibe eine Funktion \texttt{card-type}, die den Umsatz einer
   Kreditkarte konsumiert und die eine entsprechende Kategorie als
-  Zeichenkette zurückgibt.  Verwenden Sie die Konstruktionsanleitung:
-  Schreiben Sie die Kurzbeschreibung auf, führen Sie eine
-  Datenanalyse durch und schreiben Sie die Signatur auf. Erstellen Sie
-  dann das Gerüst und die Testfälle.  Vervollständigen Sie danach den
-  Rumpf der Funktion und vergewissern Sie sich, dass die Tests
+  Zeichenkette zurückgibt.  Verwende die Konstruktionsanleitungen:
+  Schreibe die Kurzbeschreibung auf, führe eine
+  Datenanalyse durch und schreibe die Signatur auf. Erstelle
+  dann die Testfälle und das Gerüst.  Vervollständige danach den
+  Rumpf der Funktion und vergewissere Dich, dass die Tests
   erfolgreich laufen. \\
 
   \begin{tabular}{crlcrll}
@@ -881,22 +881,22 @@ wenn die Auswertung einen Fehler liefert:
 
   \begin{enumerate}
 
-  \item Schreiben Sie eine Funktion \texttt{min-2}, die als Argumente zwei
-    Zahlen nimmt und die kleinere der beiden Zahlen zurückgibt.  Schreiben
-    Sie außerdem eine Funktion \texttt{min-3}, die als Argumente drei
-    Zahlen nimmt und die kleinste der drei Zahlen zurückgibt.  Verwenden
-    Sie die Konstruktionsanleitung: Schreiben Sie
-    explizit Kurzbeschreibung und Signatur auf, erstellen Sie dann das
-    Gerüst und die Testfälle.  Vervollständigen Sie danach den Rumpf der
-    Funktion und vergewissern Sie sich, dass die Tests erfolgreich laufen.
+  \item Schreibe eine Funktion \texttt{min-2}, die als Argumente zwei
+    Zahlen nimmt und die kleinere der beiden Zahlen zurückgibt.  Schreibe
+    außerdem eine Funktion \texttt{min-3}, die als Argumente drei
+    Zahlen nimmt und die kleinste der drei Zahlen zurückgibt.  Verwende
+    die Konstruktionsanleitung: Schreibe
+    explizit Kurzbeschreibung und Signatur auf, erstelle dann das
+    Gerüst und die Testfälle.  Vervollständige danach den Rumpf der
+    Funktion und vergewissere Dich, dass die Tests erfolgreich laufen.
     
-  \item Schreiben Sie analog eine Funktion \texttt{max-2} und \texttt{max-3}.
+  \item Schreibe analog eine Funktion \texttt{max-2} und \texttt{max-3}.
     
   \end{enumerate}
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie die folgenden Funktionen:
+  Schreibe die folgenden Funktionen:
   \begin{enumerate}
   \item \texttt{min-of-two}, welche die kleinste von zwei
     gegebenen Zahlen ausgibt
@@ -905,7 +905,7 @@ wenn die Auswertung einen Fehler liefert:
   \item \texttt{is-min-of-three?}, die überprüft ob die erste
     von drei gegebenen Zahlen das Minimum ist
   \item \texttt{valid-value?}, die überprüft ob die erste von
-    drei gegebenen Zahlen zwischen den beiden anderen liegt; gehen Sie
+    drei gegebenen Zahlen zwischen den beiden anderen liegt; gehe
     davon aus, dass der Aufruf immer \texttt{(valid-value? value min max)}
     lautet 
   \item \texttt{clamp}, die wie folgt definiert ist:
@@ -934,7 +934,7 @@ wenn die Auswertung einen Fehler liefert:
   \item Alle anderen Rückennummern sind ungültig.
   \end{itemize}
  
-  Schreiben Sie nun eine Funktion mit folgender Signatur:
+  Schreibe nun eine Funktion mit folgender Signatur:
   
   {\small
 \begin{verbatim}
@@ -947,20 +947,20 @@ wenn die Auswertung einen Fehler liefert:
   Die Funktion soll dabei zu einer gegebenen Rückennummer die
   zugehörige Position berechnen.
 
-  Verwenden Sie beim Schreiben der Funktion die
+  Verwende beim Schreiben der Funktion die
   Konstruktionsanleitungen für Funktionen und für
-  Fallunterscheidungen.  Testen Sie die Funktion
+  Fallunterscheidungen.  Teste die Funktion
   \texttt{nummer->position} mit mindestens sechs Testfällen, so dass
   alle Fälle abgedeckt sind.
 \end{aufgabe}
 
 
 \begin{aufgabe}
-  Schreiben Sie ein Programm, mit dem Bußgelder
+  Schreibe ein Programm, mit dem Bußgelder
   automatisch bestimmt werden.
   
   \begin{enumerate}
-  \item Programmieren Sie eine Funktion \texttt{zu-langes-parken}
+  \item Programmiere eine Funktion \texttt{zu-langes-parken}
     für die Bewertung von zu langem Parken auf einem kostenpflichtigen
     Parkplatz. Diese bekommt eine Zeitspanne übergeben und gibt das 
     entsprechende Verwarngeld zurück.
@@ -975,12 +975,12 @@ wenn die Auswertung einen Fehler liefert:
     \end{itemize}
     
   \item Das Überfahren einer roten Ampel kostet je nach
-    Gefährdungslage mehr, gibt Punkte und Fahrverbote. Schreiben Sie
+    Gefährdungslage mehr, gibt Punkte und Fahrverbote. Schreibe
     zwei Funktionen, eine für das Bußgeld \texttt{rote-ampel-bußgeld}, 
     eine für die Punkte in Flensburg \texttt{rote-ampel-punkte} 
     und eine für das Fahrverbot \texttt{rote-ampel-fahrverbot}, 
-    welche ausgibt, ob ein Fahrverbot erteilt wird. Übergeben
-    Sie den Funktionen, wie lange die Ampel schon rot war und ob eine
+    welche ausgibt, ob ein Fahrverbot erteilt wird. Übergib
+    den Funktionen, wie lange die Ampel schon rot war und ob eine
     Gefährdung oder Sachbeschädigung vorlag.
     
     Die Bußgelder sind wie folgend definiert:
