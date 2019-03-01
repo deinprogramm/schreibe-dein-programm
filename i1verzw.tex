@@ -12,7 +12,7 @@ verarbeiten, zwischen verschiedenen Möglichkeiten differenzieren: Ist
 die Wassertemperatur warm genug zum Baden?  Welche von fünf
 Tupperschüsseln ist für eine bestimmte Menge Kartoffelsalat groß
 genug?  Welches ist die richtige Abzweigung nach Dortmund?  Solche
-Entscheidungen sind daran festgemacht, daß ein Wert zu einer von mehreren
+Entscheidungen sind daran festgemacht, dass ein Wert zu einer von mehreren
 verschiedenen 
 Kategorien gehören kann~-- es handelt sich dann um eine sogenannte
 \textit{Fallunterscheidung\index{Fallunterscheidung}}; 
@@ -101,7 +101,7 @@ Hier ein Beispiel:
 \end{alltt}
 %
 \texttt{(<= -5 0)} ist die Scheme-Schreibweise für $-5 \leq 0$.  Als Frage
-gestellt oder Aussage aufgefaßt, ist $-5 \leq 0$ "`wahr"'.
+gestellt oder Aussage aufgefasst, ist $-5 \leq 0$ "`wahr"'.
 \verb|#t|\index{#t@\verb/#t/} steht für "`true\index{true}"' oder
 "`wahr\index{wahr}"'.  \texttt{<=}\index{<=@\texttt{<=}} ist eine
 eingebaute Funktion, welche auf "`kleiner gleich"' testet.  (Ebenso
@@ -241,7 +241,7 @@ hier:\index{points-must-do@\texttt{points-must-do}}\label{page:points-must-do}
 %
 Die Konstruktion \texttt{one-of}\index{one-of@\texttt{one-of}}
 bei Signaturen ist neu: In der obigen
-Signatur bedeutet es, daß der Aggregatzustand einer der in der
+Signatur bedeutet es, dass der Aggregatzustand einer der in der
 \texttt{one-of}-Signatur angegegebenen Werte ist, also eine der
 Zeichenketten \verb|"nichts"|, \verb|"Aufbauseminar"| und \verb|"Führerscheinentzug"|.
 
@@ -300,8 +300,8 @@ und gibt eine Fehlermeldung aus.
 Jetzt brauchen wir, wie bei der mathematischen Funktion $m$ aus
 Abschnitt~\ref{sec:fallunterscheidungen}, eine Verzweigung, nur eben
 in Scheme.  Abbildung~\ref{scheme:cond} beschreibt das dafür
-zuständige \texttt{cond}.   Es ist also von vorneherein klar, daß eine
-\texttt{cond}-Form im Rumpf von \texttt{points-must-do} auftauchen muß:
+zuständige \texttt{cond}.   Es ist also von vorneherein klar, dass eine
+\texttt{cond}-Form im Rumpf von \texttt{points-must-do} auftauchen muss:
 %
 \begin{alltt}
 (define points-must-do
@@ -352,7 +352,7 @@ Test passende Maßnahme ein:
 %
 Fertig~-- könnte man meinen.  Wenn Du das Programm in der REPL laufen lässt,
 meldet DrRacket zwei bestandene Tests.  Allerdings fällt Ihnen
-vielleicht auf, daß das Programm im Definitionsfenster nach dem Lauf
+vielleicht auf, dass das Programm im Definitionsfenster nach dem Lauf
 so aussieht:
 %
 \begin{alltt}
@@ -366,7 +366,7 @@ so aussieht:
 %
 Das \verb|"nichts"| ist farbig unterlegt, weil DrRacket diesen
 Ausdruck noch nie ausgewertet hat.  Das ist nicht gut, weil es heißt,
-daß der entsprechende Zweig durch die Tests noch nicht strapaziert
+dass der entsprechende Zweig durch die Tests noch nicht strapaziert
 wurde~-- er ist also möglicherweise fehlerhaft.  Anders gesagt: Die
 \textit{Abdeckung}\index{Abdeckung} des Programms durch die Tests ist
 unvollständig.  Wenn wir einen Testfall für den ersten Zweig ergänzen,
@@ -377,10 +377,10 @@ verschwindet die farbige Unterlegung:
 \end{alltt}
 %
 Trotzdem sind die bestehenden Tests noch suboptimal~-- wer sagt
-schließlich, daß das Programm zum Beispiel bei 13 Punkten, also genau
+schließlich, dass das Programm zum Beispiel bei 13 Punkten, also genau
 an der Grenze zwischen dem ersten und zweiten Zweig, das richtige tut.
 Wir sollten für diese Eckfälle\index{Eckfall} auch Testfälle
-bereitstellen sowie einen Testfall, der sicherstellt, daß auch bei
+bereitstellen sowie einen Testfall, der sicherstellt, dass auch bei
 Punktzahlen oberhalb von 18 immer noch der Führerschein entzogen wird:
 %
 \begin{alltt}
@@ -440,7 +440,7 @@ Fallunterscheidung ergänzen.
 
 Die Schablone für Fallunterscheidungen ist noch einmal
 als Konstruktionsanleitung~\ref{ka:fallunterscheidung} in
-Anhang~\ref{app:konstruktionsanleitungen} zusammengefaßt.
+Anhang~\ref{app:konstruktionsanleitungen} zusammengefasst.
 (Konstruktionsanleitung~\ref{ka:allgemein} beschreibt die Konstruktion
 von Funktionen im allgemeinen.)
 
@@ -458,9 +458,9 @@ Natürlich könnten wir die Funktion auch leicht abkürzen:
 \end{alltt}
 %
 Wenn die Auswertung den Test im zweiten Zweig erreicht, steht schon
-fest, daß die Punktezahl $\geq 14$ ist, da der Test \verb|(<= p 13)|
+fest, dass die Punktezahl $\geq 14$ ist, da der Test \verb|(<= p 13)|
 fehlgeschlagen ist.  Diese Bedingung könnten wir also weglassen.
-Ebenso der letzte Test, der dadurch, daß \verb|(<= p 17)| \verb|#f|
+Ebenso der letzte Test, der dadurch, dass \verb|(<= p 17)| \verb|#f|
 ergeben hat, immer \verb|#t| ergibt.  Allerdings sind die Zweige damit
 von ihrer Reihenfolge abhängig: Wenn wir zum Beispiel die ersten
 beiden Zweige vertauschten, funktioniert die Funktion nicht mehr
@@ -475,7 +475,7 @@ formulieren sind, empfiehlt es sich, dies auch zu tun.
 \label{sec:binaere-verzweigungen}
 
 Bei manchen Fallunterscheidungen definiert sich die letzte Kategorie
-dadurch, daß ein Wert in keine der anderen Kategorien gehört.  Dann
+dadurch, dass ein Wert in keine der anderen Kategorien gehört.  Dann
 ist die Benutzung eines \texttt{else}-Zweigs im \texttt{cond}
 sinnvoll.
 FIXME: Beispiel wäre schön, dann vielleicht früher.  
@@ -549,7 +549,7 @@ Erst wenn alle Tests fehlschlagen ist die Alternative des letzten
 \texttt{if}-Ausdrucks dran, nämlich $a_n$ aus dem \texttt{else}-Zweig.
 
 Da sich mit Hilfe dieser Übersetzung jede \texttt{cond}-Form durch
-geschachtelte \texttt{if}-Formen ersetzen läßt, ist \texttt{cond}
+geschachtelte \texttt{if}-Formen ersetzen lässt, ist \texttt{cond}
 streng genommen gar nicht notwendig.  \texttt{Cond} ist deswegen eine
 sogenannte \textit{abgeleitete Form\index{abgeleitete
     Form}}\index{Form!abgeleitet}.  Da \texttt{cond} und andere
@@ -655,7 +655,7 @@ Namen geben.  Das geht mit einer fast ganz normalen Definition:\index{Signaturde
 \end{verbatim}
 %
 Das Wörtchen \texttt{signature}\index{signature@texttt{signature}}\label{page:signature} ist aus technischen Gründen
-nötig.\footnote{Es sorgt unter anderem dafür, daß Signaturdefinitionen
+nötig.\footnote{Es sorgt unter anderem dafür, dass Signaturdefinitionen
   in beliebiger Reihenfolge geschrieben werden und die Links in den
   Fehlermeldungen von DrRacket auf die richtige Stelle zeigen.}
 Faustregel: Signaturen außerhalb von Formen \texttt{(: \ldots)} müssen immer in ein \texttt{(signature
@@ -798,14 +798,14 @@ Noch einmal zurück zum Parkplatzproblem, das wir auf
 Seite~\ref{page:parking-lot-cars} programmiert hatten.  In
 Abschnitt~\ref{sec:nonsensical-data-prequel} auf
 Seite~\pageref{sec:nonsensical-data-prequel} hatten wir bereits
-bemerkt, daß die Funktion
+bemerkt, dass die Funktion
 \texttt{parking-lot-cars}\index{parking-lot-cars@\texttt{parking-lot-cars}}
 auch für unsinnige Daten fröhlich ebenso unsinnige Ergebnisse
 ermittelt.
 
 Auf Seite~\ref{page:parking-lot-problem} wurde bereits eine Bedingung
 für sinnvolle Daten formuliert: Wenn $n$ die Anzahl der Fahrzeuge und
-$m$ die Anzahl der Räder ist, dann muß $m$ gerade sein sowie $2n\leq
+$m$ die Anzahl der Räder ist, dann muss $m$ gerade sein sowie $2n\leq
 m\leq 4n$ gelten.  Wir können das in einer binären Verzweigung zum
 Ausdruck bringen:
 %
@@ -845,7 +845,7 @@ vollständig so aus:
 \end{verbatim}
 %
 Natürlich sollten wir auch den Fehlerfall testen~-- das geht nicht mit
-\texttt{check-expect}, das ja erwartet, daß ein Testausdruck einen
+\texttt{check-expect}, das ja erwartet, dass ein Testausdruck einen
 ordnungsgemäßen Wert liefert.  Für Fehlerfälle gibt es
 \texttt{check-error}, das Testfälle erzeugt, die dann bestanden sind,
 wenn die Auswertung einen Fehler liefert:
