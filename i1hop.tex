@@ -649,8 +649,8 @@ Funktionen.  Dann ist $f\circ g$ folgendermaßen definiert:
   (f \circ g)(x) \deq{} f(g(x))
 \end{displaymath}
 %
-$\circ$ läßt sich direkt in Scheme
-übertragen:\index{compose@\texttt{compose}}
+$\circ$ läßt sich direkt als Funktion
+programmieren:\index{compose@\texttt{compose}}
 \label{page:compose}
 %
 \begin{alltt}
@@ -993,7 +993,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     Rechenoperationen $+$, $-$, $*$, und $/$.  Geben Sie den Funktionen
     die Namen \texttt{plus*}, \texttt{minus*}, \texttt{mult*} und
     \texttt{div*}.
-  \item Definieren Sie $\leq$, d.h. in Scheme eine Funktion mit dem
+  \item Definieren Sie $\leq$, also eine Funktion mit dem
     Namen \texttt{<=*}, die die Ordnung auf \texttt{number*} darstellt.
   \item Definieren Sie die Funktionen \texttt{list-max*} und
     \texttt{list-min*}, die das Maximum bzw. das Minimum einer Liste 
@@ -1228,7 +1228,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{aufgabe}
 
 \begin{aufgabe}
-  Folgen mit potentiell unendlicher Länge lassen sich in Scheme als
+  Folgen mit potentiell unendlicher Länge lassen sich als
   zusammengesetzte Daten mit zwei Komponenten repräsentieren: Dabei
   ist die erste Komponente das erste Element der Folge und die zweite
   eine Funktion ohne Parameter, die, wenn sie angewendet wird, eine Folge mit

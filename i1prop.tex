@@ -62,7 +62,7 @@ Eigenschaft, die besagt, daß \(b\) gilt für \emph{alle} Werte der
 $v_i$, welche die Signaturen $c_i$ erfüllen.
 \end{feature}
 
-In Scheme läßt sich diese Eigenschaft für die eingebaute Funktion
+In den Lehsrpachen läßt sich diese Eigenschaft für die eingebaute Funktion
 \texttt{+} aufschreiben~-- das $\forall$ ist auf
 Tastaturen nicht vertreten und wird darum ausgeschrieben (siehe
 Abbildung~\ref{scheme:for-all}):
@@ -230,7 +230,7 @@ gilt:
 a\cdot(b+c) = a\cdot b + b\cdot c
 \end{displaymath}
 %
-Auch dies läßt sich direkt nach Scheme übersetzen, diesmal gleich mit
+Auch dies läßt sich direkt in Code übersetzen, diesmal gleich mit
 \texttt{rational} statt \texttt{number}:
 %
 \begin{alltt}
@@ -457,7 +457,7 @@ also wie folgt:
 sich Aufgabe~\ref{aufgabe:boolean-distrib}.
 
 Auch das \textrm{DeMorgan'sche Gesetz\index{DeMorgan'sches Gesetz}}
-(siehe Abschnitt~\ref{sec:aussagenlogik}) läßt sich in Scheme
+(siehe Abschnitt~\ref{sec:aussagenlogik}) können wir als Code
 formulieren:
 %
 \begin{alltt}
@@ -524,7 +524,7 @@ und wiederum ein Element von $M$ zurückgeben.
 
 \subsection{Eigenschaften von binären Prädikaten}
 
-Die Funktion \texttt{=} paßt nicht in das Scheme der Eigenschaften
+Die Funktion \texttt{=} paßt nicht in das Schema der Eigenschaften
 des folgenden Abschnitts.  Sie hat folgende Signatur:
 %
 \begin{alltt}
@@ -576,7 +576,7 @@ Eigenschaft, die gilt, wenn \(e\sb{p}\) immer dann gilt, wenn die
 Voraussetzung erfüllt ist, also \verb|#t| liefert.
 \end{feature}
 
-Der Implikationspfeil $\Rightarrow$ wird in Scheme
+Der Implikationspfeil $\Rightarrow$ wird in den Lehrsprachen
 \texttt{==>}\index{==>@\texttt{==>}} geschrieben.  (Siehe
 Abbildung~\ref{scheme:implies}.)  Der Test der
 Symmetrie sieht also folgendermaßen aus:
@@ -1202,7 +1202,7 @@ Es gilt also:
 \end{alltt}
 %
 Dort ist der erste Teilausdruck unterstrichen, der beim ersten
-Substitutionsschritt ersetzt wird.  Wenn die Scheme-Funktion
+Substitutionsschritt ersetzt wird.  Wenn die Programm-Funktion
 \texttt{+} tatsächlich die mathematische Operation $+$
 realisiert,\footnote{Die Komplikationen durch inexakte Zahlen und
   Rundungen bleiben hier unberücksichtigt.}
@@ -1224,7 +1224,7 @@ Vergleichsoperation \texttt{=}, die dem mathematischen $=$ entspricht:
 \(=\) \#t
 \end{alltt}
 %
-Die Kommutativität der Scheme-Funktion \texttt{+} folgt also aus der
+Die Kommutativität der Programm-Funktion \texttt{+} folgt also aus der
 Kommutativität des mathematischen $+$, durch das sie definiert ist.
 
 \section{Rekursive Programme beweisen}
@@ -1414,7 +1414,7 @@ Die Technik funktioniert auch mit Beispielen, bei denen die zu
 beweisende Eigenschaft nicht so einfach zu sehen ist wie bei
 \texttt{factorial}.
 
-Die folgende Scheme-Funktion verrät nicht auf den ersten Blick, was
+Die folgende Funktion verrät nicht auf den ersten Blick, was
 sie berechnet:
 %
 \begin{alltt}
@@ -1695,7 +1695,7 @@ Dies ist eine lohnende Fingerübung.
 
 \begin{aufgabe}
 Welche interessanten Eigenschaften hat die Division?  Schreiben Sie
-diese als Eigenschaften von \texttt{/} in Scheme auf.
+diese als Eigenschaften von \texttt{/} auf.
 \end{aufgabe}
 
 \begin{aufgabe}

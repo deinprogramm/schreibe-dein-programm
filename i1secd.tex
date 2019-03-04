@@ -17,7 +17,7 @@ Kapitel stellt zunächst den \textit{angewandten $\lambda$-Kalkül} vor,
 der den normalen $\lambda$-Kalkül um primitive Werte und Operationen
 erweitert, und dann die \textit{SECD-Maschine}, ein klassisches
 Auswertungsmodell für die Call-by-Value-Reduktion.  Angenehmerweise
-läßt sich die SECD-Maschine auch als Scheme-Programm implementieren,
+läßt sich die SECD-Maschine auch als Programm implementieren,
 was ebenfalls in diesem Kapitel geschieht.  Die SECD-Maschine
 kennt keine Zuweisungen; es folgt darum noch die Darstellung der
 \textit{SECDH-Maschine}, die auch einen \textit{Speicher} kennt und
@@ -112,14 +112,14 @@ obige Beispielterm folgendermaßen reduziert:
 
 Wie schon in Abschnitt~\ref{sec:scheme-auswertung} erwähnt, ist 
 der Call-by-Value-$\lambda$-Kalkül\index{Call-by-Value-Reduktion}
-ein Modell für die Auswertung von Scheme und viele andere
+ein Modell für die Auswertung der Lehrsprachen und viele andere
 Programmiersprachen .
 Allerdings ist Definition~\ref{def:call-by-value} strenggenommen etwas
 vage: Es wird immer nur der Subterm reduziert, der
 "`möglichst weit links innen steht"', aber was das heißt, ist nicht
 genau definiert.  Außerdem ist Reduktion zwar ein
 mächtiges formales Modell, entspricht aber nicht der
-Ausführungsmethode tatsächlicher Scheme-Implementierungen auf echten
+Ausführungsmethode tatsächlicher Programmiersprachen auf echten
 Prozessoren.  Ein präzises und echten Maschinen deutlich näheres
 Modell ist die \textit{SECD-Maschine\index{SECD-Maschine}}, erfunden
 schon in den 60er Jahren von Peter Landin~\cite{Landin1964}, und
@@ -590,7 +590,7 @@ Listenliteralen vorkommen:
 \end{alltt}
 %
 Mit Hilfe von Symbolen können Werte konstruiert werden, die in der REPL
-ausgedruckt wie Scheme-Ausdrücke aussehen:
+ausgedruckt wie Ausdrücke aussehen:
 %
 \begin{alltt}
 '(+ 1 2)
@@ -658,7 +658,7 @@ Definition spezifiziert, was ein repräsentierbarer Wert ist:
 
 Die SECD-Maschine ist ein Modell für die Implementierung des
 $\lambda$-Kalküls.  Eine solche Implementierung läßt sich in
-Scheme einfach bauen~-- dieser Abschnitt zeigt, wie.  Der grobe
+einfach bauen~-- dieser Abschnitt zeigt, wie.  Der grobe
 Fahrplan ergibt sich dabei aus der Struktur der SECD-Maschine selbst:
 Nach den obligatorischen Datendefinitionen müssen zunächst Terme in
 Maschinencode übersetzt werden.  Dann kommt die
@@ -672,7 +672,7 @@ Die erste Aufgabe ist dabei zunächst, wie immer, die Datenanalyse: Am
 Anfang stehen die Terme des angewandten $\lambda$-Kalküls.  Eine
 geeignete Repräsentation mit Listen und Symbolen läßt dabei die Terme
 in der "`fortgeschrittenen"' Sprachebene genau wie entsprechenden
-Scheme-Terme aussehen:
+Programm-Terme aussehen:
 
 \noindent\begin{tabular}{lll}
   \texttt{(+ 1 2)} & steht für & $(+~1~2)$\\
@@ -1450,7 +1450,7 @@ Damit läuft die SECD-Maschine:
 \section{Die endrekursive SECD-Maschine}
 
 Die SECD-Maschine hat einen Schönheitsfehler: Bei endkursiven
-Applikationen sollte sie eigentlich, wie in Scheme, keinerlei
+Applikationen sollte sie eigentlich, wie in Lehrsprachen-Programmen, keinerlei
 zusätzlichen Platz verbrauchen, da kein Kontext anfällt.  Folgende
 Beispielauswertung für den Term $(\lambda x.x~x)~(\lambda x.x~x)$
 zeigt aber, daß der Zustand mit fortschreitender Auswertung immer
@@ -1476,7 +1476,7 @@ größer wird:
 \end{displaymath}
 %
 Damit ist die SECD-Maschine, so wie ist, als Ausführungsmodell für
-Scheme ungeeignet.  Dieses Manko läßt sich zum Glück reparieren: Die
+die Lehrsprachen ungeeignet.  Dieses Manko läßt sich zum Glück reparieren: Die
 SECD-Maschine muß endrekursive und "`normale"' Applikationen
 unterschiedlich behandeln.  Dazu wird eine neue Instruktion namens
 $\mathtt{tailap}$ eingeführt, die wie $\mathtt{ap}$ eine Applikation
@@ -1917,7 +1917,7 @@ Für die Implementierung der SECDH-Maschine werden einige der
 Funktionen wiederverwendet, die für die SECD-Maschine programmiert
 wurden.  Zunächst einmal muß~-- genau wie bei der SECD-Maschine~--
 erst einmal die Übersetzung von Termen in Maschinencode realisiert
-werden.  Zuweisungsterme haben wie in Scheme die folgende Form:
+werden.  Zuweisungsterme haben wie in den Lehrsprachen die folgende Form:
 %
 \begin{alltt}
 (set! \(v\) \(e\))

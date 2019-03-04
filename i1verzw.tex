@@ -16,7 +16,7 @@ Entscheidungen sind daran festgemacht, dass ein Wert zu einer von mehreren
 verschiedenen 
 Kategorien gehören kann~-- es handelt sich dann um eine sogenannte
 \textit{Fallunterscheidung\index{Fallunterscheidung}}; 
-mathematische Funktionen und Scheme-Funktionen operieren auf Daten mit
+mathematische Funktionen und Programm-Funktionen operieren auf Daten mit
 Fallunterscheidung durch \textit{Verzweigungen\index{Verzweigung}}.
 Um diese geht es in diesem Kapitel.
 
@@ -90,9 +90,9 @@ der wahr oder falsch sein kann,
 heißt \textit{Bedingung\index{Bedingung}} oder
 \textit{Test\index{Test}}.
 
-\section{Boolesche Ausdrücke in Scheme}
+\section{Boolesche Ausdrücke}
 
-Tests gibt es auch in Scheme; sie sind dort Ausdrücke.
+Tests gibt es auch in den Lehrsprachen; sie sind dort Ausdrücke.
 Hier ein Beispiel:
 %
 \begin{alltt}
@@ -100,7 +100,7 @@ Hier ein Beispiel:
 \evalsto{} #t
 \end{alltt}
 %
-\texttt{(<= -5 0)} ist die Scheme-Schreibweise für $-5 \leq 0$.  Als Frage
+\texttt{(<= -5 0)} ist die Schreibweise für $-5 \leq 0$.  Als Frage
 gestellt oder Aussage aufgefasst, ist $-5 \leq 0$ "`wahr"'.
 \verb|#t|\index{#t@\verb/#t/} steht für "`true\index{true}"' oder
 "`wahr\index{wahr}"'.  \texttt{<=}\index{<=@\texttt{<=}} ist eine
@@ -269,7 +269,7 @@ Auf jeden Fall muß das \texttt{p} irgendwo im Rumpf vorkommen:
 \end{alltt}
 %
 \begin{feature}{Verzweigung}{scheme:cond}
-In Scheme werden Verzweigungen\index{Verzweigung}\index{Verzweigung}
+In den Lehrsprachen werden Verzweigungen\index{Verzweigung}\index{Verzweigung}
 mit der Spezialform \texttt{cond}\index{cond@\texttt{cond}} dargestellt.
 Ein \texttt{cond}"=Ausdruck hat die folgende Form:
 %
@@ -299,7 +299,7 @@ und gibt eine Fehlermeldung aus.
 %
 Jetzt brauchen wir, wie bei der mathematischen Funktion $m$ aus
 Abschnitt~\ref{sec:fallunterscheidungen}, eine Verzweigung, nur eben
-in Scheme.  Abbildung~\ref{scheme:cond} beschreibt das dafür
+in den Lehrsprachen.  Abbildung~\ref{scheme:cond} beschreibt das dafür
 zuständige \texttt{cond}.   Es ist also von vorneherein klar, dass eine
 \texttt{cond}-Form im Rumpf von \texttt{points-must-do} auftauchen muss:
 %
@@ -327,7 +327,7 @@ die Eingabe von \texttt{points-must-do}~-- die Punktzahl~-- in
 Wir benötigen jetzt für jeden \texttt{cond}-Zweig einen Test, der die
 entsprechende Kategorie bei den Punkten identifiziert.  Dazu müssen
 wir nur die entsprechenden Bedingungen aus der mathematischen Fassung
-nach Scheme übersetzen.  Heraus kommt folgendes:
+in einen Funktionsrumpf übersetzen.  Heraus kommt folgendes:
 %
 \begin{alltt}
 (define points-must-do
@@ -491,7 +491,7 @@ Schreibweise:
     \right.
 \end{displaymath}
 %
-Die dazu passende Scheme-Funktion unter Verwendung von \texttt{cond}
+Die dazu passende Programm-Funktion unter Verwendung von \texttt{cond}
 sieht so aus:\index{abs@\texttt{abs}}
 %
 \begin{alltt}
@@ -508,7 +508,7 @@ FIXME: besseres Beispiel
 %
 Dieser Spezialfall mit nur zwei Kategorien, genannt \textit{binäre
   Verzweigung\index{binäre Verzweigung}\index{Verzweigung!binär}} kommt in der Praxis
-häufig vor.  In Scheme gibt es dafür eine eigene Spezialform,
+häufig vor.  In den Lehrsprachen gibt es dafür eine eigene Spezialform,
 genannt \texttt{if\index{if@\texttt{if}}}, die hier kürzer ausfällt
 als \texttt{cond}:
 %

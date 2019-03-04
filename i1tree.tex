@@ -126,7 +126,7 @@ Hier ist die Datendefinition für Bäume im allgemeinen:
 \end{alltt}
 %
 Damit kann ein Baum wie der in Abbildung~\ref{fig:bintree1} durch
-folgenden Scheme-Ausdruck konstruiert werden:
+folgenden Ausdruck konstruiert werden:
 %
 \begin{alltt}
 (: t (tree-of string))
@@ -225,8 +225,8 @@ der Tiefen der Teilbäume:
                (depth (node-right-branch t))))))))
 \end{alltt}
 %
-(\texttt{Max}\index{max@\texttt{max}} ist eine eingebaute Funktion in
-Scheme, die das Maximum ihrer Argumente ermittelt.)
+(\texttt{Max}\index{max@\texttt{max}} ist eine eingebaute Funktion,
+die das Maximum ihrer Argumente ermittelt.)
 
 Auch \texttt{depth} folgt einer 
 Schablone, die für viele Funktionen auf Bäumen
@@ -646,7 +646,7 @@ einzigen Element einbeziehen, also eher uninteressante Vertreter ihrer
 Spezies.  Für substantielle Tests ist es notwendig, Suchbäume zu
 betrachten, die aus unterschiedlichen (insbesondere unterschiedlich
 langen) Folgen von \texttt{search-tree-insert}-Operationen entstanden
-sind.  Da für die Repräsentation von Folgen in Scheme Listen zuständig
+sind.  Da für die Repräsentation von Folgen in den Lehrsprachen Listen zuständig
 sind, bietet sich eine Eigenschaft folgender Form an:
 %
 \begin{alltt}

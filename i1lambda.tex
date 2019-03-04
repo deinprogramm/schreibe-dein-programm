@@ -19,7 +19,7 @@ Ein Kalkül dient dazu, auf formale Art und Weise wahre Aussagen abzuleiten, ohn
 es dabei nötig wird, über den Sinn der Aussagen nachzudenken.   
 Der $\lambda$-Kalkül ist ein logischer Kalkül, der als die Basis für
 eine formale Beschreibung des Verhaltens von Computerprogrammen dient.
-Scheme baut direkt auf dem $\lambda$-Kalkül auf: es ist kein
+Die Lehrsprachen baut direkt auf dem $\lambda$-Kalkül auf: es ist kein
 Zufall, daß das Schlüsselwort für die Abstraktion \texttt{lambda}
 heißt.  Es gibt noch viele weitere Einsatzgebiete für den $\lambda$-Kalkül,
 insbesondere bei der Konstruktion von besonders effizienten
@@ -52,11 +52,11 @@ wobei $x$ \textit{Parameter\index{Parameter}} der Abstraktion heißt und $e$
 einen $\lambda$-Term, $v$ und $x$ stehen für Variablen.
 \end{definition}
 %
-Es ist kein Zufall, daß Scheme genau die gleichen Begriffe verwendet
+Es ist kein Zufall, daß die Lehrsprachen genau die gleichen Begriffe verwendet
 wie der $\lambda$-Kalkül.  Ein Lambda-Ausdruck mit einem
 Parameter entspricht einer Abstraktion im $\lambda$-Kalkül,
-und die Applikationen in Scheme entsprechen den Applikationen im
-$\lambda$-Kalkül.  Scheme wurde bewußt auf dem
+und die Applikationen in den Lehrsprachen entsprechen den Applikationen im
+$\lambda$-Kalkül.  Die Lehrsprachen wurde bewußt auf dem
 $\lambda$-Kalkül aufgebaut.
 
 Die Intuition für die Bedeutung der $\lambda$-Terme ist ähnlich wie in
@@ -92,7 +92,7 @@ $x$ an:
 \end{displaymath}
 %
 An diesem Beispiel wird deutlich, daß sich im $\lambda$-Kalkül, wie
-in Scheme auch, die Klammern schnell häufen, wenn die Terme größer
+in den Lehrsprachen  auch, die Klammern schnell häufen, wenn die Terme größer
 werden.  Darum werden redundante Klammern beim Aufschreiben von
 $\lambda$-Termen oft weggelassen.  Damit wird aus dem obigen Term der
 folgende:
@@ -197,7 +197,7 @@ außerhalb einer bindenden Abstraktion auftaucht. Das Frei- und
 Gebundensein bezieht sich also immer auf bestimmte \emph{Vorkommen\index{Vorkommen}}
 einer Variablen in einem $\lambda$-Term.
 
-Im $\lambda$-Kalkül gilt, genau wie Scheme, das Prinzip der
+Im $\lambda$-Kalkül gilt, genau wie in den Lehrsprachen, das Prinzip der
 lexikalischen Bindung\index{lexikalische Bindung} (siehe Abschnitt~\ref{sec:lexical-binding}): das
 Vorkommen einer Variable $v$ als $\lambda$-Term gehört immer zur
 innersten umschließenden Abstraktion $\lambda v.e$, deren Parameter
@@ -556,7 +556,7 @@ Programmiersprache im Kalkül nachbilden lassen:
 %
 Verzweigungen haben ihre primäre Daseinsberechtigung in Verbindung mit
 booleschen Werten\index{boolescher Wert} und umgekehrt.
-Die binäre Verzweigung\index{Verzweigung} in Scheme
+Die binäre Verzweigung\index{Verzweigung} in den Lehrsprachen
 \texttt{(if \(t\) \(k\) \(a\))}
 wählt, abhängig vom Wert von $t$,
 entweder die Konsequente $k$ oder die Alternative $a$ aus.  Die Nachbildung im
@@ -1057,11 +1057,11 @@ Programmiersprachen Anwendung findet, ist die
   und dann nur auf einen Subterm, der möglichst weit links innen steht.
 \end{definition}
 
-\section{Die Auswertungsstrategie von Scheme}
+\section{Die Auswertungsstrategie der Lehrsprachen}
 \label{sec:scheme-auswertung}
 
 Mit der Call-by-Value-Reduktion ist die Grundlage für die
-Auswertungsstrategie von Scheme gelegt.  Tatsächlich definiert das
+Auswertungsstrategie der Lehrsprachen gelegt.  Tatsächlich definiert das
 Substitutionsmodell eine Variante der
 Call-by-Value-Auswertung.  Zur Erinnerung ist hier noch einmal die
 Definition der wichtigsten Regel des Substitutionsmodells, nämlich der für
@@ -1076,24 +1076,14 @@ Der entscheidende Satz ist dabei der letzte:
 Er bedeutet, daß innen zuerst ausgewertet wird;
 treten bei der Auswertung von Operator und Operanden weitere
 Funktionanwendungen auf, wird das gleiche Prinzip rekursiv angewendet.
-Damit ist das Substitutionsmodell für Scheme eng verwandt mit der
+Damit ist das Substitutionsmodell eng verwandt mit der
 Call-by-Value-Auswertung im Lambda-Kalkül.
 
-Der einzige Unterschied zwischen der offiziellen Definition der
-Call"=by"=Value"=Auswertung im $\lambda$-Kalkül und Scheme ist, daß in
-Scheme nicht
-notwendigerweise von links nach rechts reduziert wird: Der
-Scheme-Standard~\cite{KelseyClingerRees1998,R6RS} schreibt nicht vor, in welcher Reihenfolge Operator
-und Operanden ausgewertet werden.  Es kann im Prinzip sogar passieren,
-daß bei jedem Pro\-ze\-dur\-auf\-ruf eine andere Auswertungsreihenfolge
-benutzt wird.
-
-Trotzdem ist es üblich, bei Programmiersprachen, die von innen nach
-außen auswerten, von
-\textit{Call-by-Value-Sprachen\index{Call-by-Value-Sprache}}
-oder \textit{strikten\index{strikte Sprache} Sprachen} zu sprechen.  Neben
-Scheme gehören auch C, Java, Pascal und ML und viele andere zu den
-strikten Sprachen.
+Programmiersprachen, die von innen nach außen auswerten, heißen
+\textit{Call-by-Value-Sprachen\index{Call-by-Value-Sprache}} oder
+\textit{strikten\index{strikte Sprache} Sprachen} zu sprechen.  Neben
+den Lehrsprachen gehören auch OCaml, Clojure, Scala, Erlang, Elixir,
+C, Java, Pascal und ML und viele andere zu den strikten Sprachen.
 
 Es gibt auch \textit{nicht-strikte\index{nicht-strikte Sprache}}
 Sprachen wie z.B.\ Haskell,
@@ -1149,8 +1139,8 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
   \end{displaymath}
 \end{aufgabe}
 \begin{aufgabe}
-  Der Y-Kombinator ließe sich auch in Scheme
-  schreiben als:
+  Der Y-Kombinator ließe sich auch programmieren
+  als:
  %
 \begin{verbatim}
 (define y 
@@ -1159,11 +1149,11 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
      (lambda (x) (f (x x))))))
 \end{verbatim}
   %
-  Zeige durch Ausprobieren, daß \texttt{y} mit dieser Definition in
-  Scheme nicht funktioniert.  Warum ist das so?  Benutze für die
+  Zeige durch Ausprobieren, daß \texttt{y} mit dieser Definition 
+  nicht funktioniert.  Warum ist das so?  Benutze für die
   Erklärung das Substitutionsmodell!
   Zeige, daß die folgende Variante von \texttt{y} ein
-  Fixpunktkombinator ist, der in Scheme funktioniert:
+  Fixpunktkombinator ist, der funktioniert:
   %
 \begin{verbatim}
 (define y
