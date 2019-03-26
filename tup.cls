@@ -192,8 +192,8 @@
     \vskip 3mm\hrule\@height\headrulewidth\@width\headwidth
     \vskip-\headrulewidth}}
 
-\lhead[\textsf{\thepage}]{\fontsize{7.5\p@}{7.5\p@}\textsf{\MakeUppercase{\fontsize{7.5\p@}{7.5\p@}\textsf{\rightmark}}}}
-\rhead[\fontsize{7.5\p@}{7.5\p@}\textsf{\MakeUppercase{\leftmark}}]{\textsf{\fontsize{7.5\p@}{7.5\p@}\textsf{\thepage}}}
+\lhead[\fontsize{7.5\p@}{7.5\p@}\textsf{\thepage}]{\fontsize{7.5\p@}{7.5\p@}\textsf{\MakeUppercase{\rightmark}}}
+\rhead[\fontsize{7.5\p@}{7.5\p@}\textsf{\MakeUppercase{\leftmark}}]{\fontsize{7.5\p@}{7.5\p@}\textsf{\thepage}}
 \renewcommand{\headrulewidth}{0.5pt}
 \chead{}
 \lfoot{}
