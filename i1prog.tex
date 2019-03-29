@@ -216,9 +216,12 @@ Zusammenhang ist \textit{Argument}, darum steht da sinngemäß, dass
 \texttt{+} eine Zahl als erstes Argument etwartet, aber
 stattdessen die Funktion \texttt{+} bekommen hat.
 
-Ein hilfreicher Trick übrigens: Um einen Ausdruck zu korrigieren,
-kannst Du ihn in der REPL "`zurückholen"', indem Du \texttt{Esc}, und
-dann \texttt{P} drückst~-- probier es aus!
+Abspeichern geht mit der REPL nicht, und der REPL-Inhalt verschwindet
+auch jedesmal, wenn Du \texttt{Start} bzw.\ \texttt{Run} drückst.  Du
+kannst aber frühere Eingaben zurückholen, indem Du
+\texttt{Strg-$\uparrow$} beziehungsweise \texttt{Control-$\uparrow$}
+(je nach Computertyp) drückst.  Das kannst Du auch benutzen, um einen
+fehlerhaften Ausdruck zu korrigieren, bei dem Du schon Return gedrückt hast.
 
 \begin{aufgabe}
   Schreibe folgende "`mathematischen"' Ausdrücke in der Notation der
@@ -234,10 +237,6 @@ dann \texttt{P} drückst~-- probier es aus!
   \end{displaymath}
 \end{aufgabe}
 %
-Ein weiterer praktischer Trick ist, dass Du einen geklammerten
-Ausdruck markieren (und dann ausschneiden) kannst, indem Du auf die
-öffnende oder schließende Klammer doppelt klickst.
-
 \section{Das Definitionsfenster}
 
 Kommen wir zum Definitionsfenster oben.  Dort schreibst Du Dein
@@ -304,13 +303,17 @@ dem Fall kannst Du die Tab-Taste drücken (auf den meisten Tastaturen
 steht $\longrightarrow\mid$ auf der Tab-Taste) und in der Zeile, in
 welcher der Cursor steht, wird die Einrückung korrigiert.
 Wenn Du einen Abschnitt im Programm markierst und dann Tab drückst,
-wird der ganze Abschnitt neu eingerückt.  Das ist besonders praktisch
-im Zusammenspiel damit, einen geklammerten Ausdruck mit einem
-doppelten Mausklick auf die öffnende Klammer zu markieren.
+wird der ganze Abschnitt neu eingerückt.  
 Es gibt
 außerdem einen Menüpunkt \texttt{Racket $\rightarrow$ Alles einrücken} (bzw.\
 \texttt{Racket $\rightarrow$ Reindent All}), der das für das gesamte
-Programm macht: Probier es aus!
+Programm macht.
+
+Ein weiterer praktischer Trick ist, dass Du einen geklammerten
+Ausdruck markieren (und dann ausschneiden) kannst, indem Du auf die
+öffnende oder schließende Klammer doppelt klickst.  Insbesondere
+kannst Du den markierten Ausdruck dann mit einem Druck auf die
+Tab-Taste korrekt einrücken.
 
 \begin{aufgabe}
   Bring bei einem mehrzahligen Programm die Einrückung richtig
@@ -329,13 +332,6 @@ Programm macht: Probier es aus!
 Den Inhalt des Definitionsfenster kannst Du abspeichern, indem Du auf
 den Knopf mit der Diskette
 \raisebox{-1ex}{\includegraphics[height=12pt]{i1prog/save}} drückst.
-
-Abspeichern geht mit der REPL nicht, und der REPL-Inhalt verschwindet
-auch jedesmal, wenn Du \texttt{Start} bzw.\ \texttt{Run} drückst.  Du
-kannst aber frühere Eingaben zurückholen, indem Du
-\texttt{Strg-$\uparrow$} beziehungsweise \texttt{Control-$\uparrow$}
-(je nach Computertyp)
-drückst.
 
 \section{Rechnen ohne Zahlen}
 
