@@ -90,6 +90,14 @@ zu einem bestimmten
 Sorte Information repräsentiert wird und welche Felder des Records
 des Typs haben.
 
+\begin{verbatim}
+(define-record-functions computer
+  make-computer
+  (computer-processor  string)
+  (computer-ram        rational)
+  (computer-hard-drive rational))
+\end{verbatim}
+
 Der Record-Typ für Computer sieht feste Felder\index{Feld}
 vor ("`Prozessor"', "`RAM"' und "`Festplatte"').  Ein einzelner Record
 dieses Typs besteht aus Komponenten\index{Komponente}, eine pro
@@ -367,11 +375,11 @@ Record-Definition, die den neuen Operator
 \texttt{define-record-procedures} verwendet:
 %
 \begin{verbatim}
-(define-record-procedures computer
+(define-record-functions computer
   make-computer
-  ((computer-processor  string)
-   (computer-ram        rational)
-   (computer-hard-drive rational)))
+  (computer-processor  string)
+  (computer-ram        rational)
+  (computer-hard-drive rational))
 \end{verbatim}
 %
 Diese Record-Definition hat mehrere Bestandteile:
@@ -404,9 +412,9 @@ uns einen Namen für den Record-Typ ausdenken.  Dann können wir bereits
 ein karges Gerüst hinschreiben:\index{wallclock-time@\texttt{wallclock-time}}
 %
 \begin{verbatim}
-(define-record-procedures wallclock-time
+(define-record-functions wallclock-time
   make-wallclock-time
-  (...))
+  ...)
 \end{verbatim}
 %
 Als nächstes müssen wir festlegen, \emph{wie viele} Bestandteile die
@@ -414,10 +422,10 @@ Records haben sollen.  In diesem Fall ("`Stunde und Minute"`) sind es
 zwei.  Wir können das Gerüst entsprechend erweitern:
 %
 \begin{verbatim}
-(define-record-procedures wallclock-time
+(define-record-functions wallclock-time
   make-wallclock-time
-  ((... ...)
-   (... ...)))
+  (... ...)
+  (... ...))
 \end{verbatim}
 %
 Als nächstes kommen die Namen der Selektoren.  Dabei befolgen wir eine
@@ -427,10 +435,10 @@ eine Konvention angewendet, dessen Name sich aus \texttt{make-} und
 dem Namen des Record-Typs ergibt.  Also:
 %
 \begin{verbatim}
-(define-record-procedures wallclock-time
+(define-record-functions wallclock-time
   make-wallclock-time
-  ((wallclock-time-hour   ...)
-   (wallclock-time-minute ...)))
+  (wallclock-time-hour   ...)
+  (wallclock-time-minute ...))
 \end{verbatim}
 %
 Es fehlen noch die Signaturen.  Dass wir die untereinander schreiben,
@@ -439,10 +447,10 @@ Konvention.  Bei sowohl Stunde als auch Minute handelt es sich um
 natürliche Zahlen:
 %
 \begin{verbatim}
-(define-record-procedures wallclock-time
+(define-record-functions wallclock-time
   make-wallclock-time
-  ((wallclock-time-hour   natural)
-   (wallclock-time-minute natural)))
+  (wallclock-time-hour   natural)
+  (wallclock-time-minute natural))
 \end{verbatim}
 %
 Es hilft dem Verständnis zumindest am Anfang, dass wird ie Signaturen
@@ -459,26 +467,26 @@ Der Konstruktor akzeptiert für jedes Feld ein Argument~-- entsprechend
 stehen die Signaturen der Felder vor dem Pfeil.  Heraus kommt beim
 Konstruktor immer ein Record, da steht also der Name des Record-Types.
 
-\begin{feature}{\texttt{define-record-procedures} (einfach)}{scheme:define-record-procedures-simple}
-Eine \texttt{define"=record"=procedures}"=Form\index{define-record-procedures@\texttt{define-record-procedures}}
-hat folgende allgemeine Gestalt:\label{def:define-record-procedures}
+\begin{feature}{\texttt{define-record-functions} (einfach)}{scheme:define-record-functions-simple}
+Eine \texttt{define"=record"=procedures}"=Form\index{define-record-functions@\texttt{define-record-functions}}
+hat folgende allgemeine Gestalt:\label{def:define-record-functions}
 %
 \begin{alltt}
-(define-record-procedures \(t\)
+(define-record-functions \(t\)
   \(c\)
-  ((\(\mathit{sel}\sb{1}\) \(\mathit{sig}\sb{1}\))
-   \(\ldots\)
-   (\(\mathit{sel}\sb{n}\) \(\mathit{sig}\sb{n}\))))
+  (\(\mathit{sel}\sb{1}\) \(\mathit{sig}\sb{1}\))
+  \(\ldots\)
+  (\(\mathit{sel}\sb{n}\) \(\mathit{sig}\sb{n}\)))
 \end{alltt}
 %
 Diese Form definiert einen Record-Typ mit $n$ Feldern.
 Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, für die
-\texttt{define-record-procedures} Definitionen anlegt:
+\texttt{define-record-functions} Definitionen anlegt:
 %
 \begin{itemize}
 \item $t$ ist der Name des Record-Typs.
 \item $c$ ist der Name des Konstruktors, den
-  \texttt{define-record-procedures} anlegt.  Der Konstruktor hat 
+  \texttt{define-record-functions} anlegt.  Der Konstruktor hat 
   folgende Signatur:
 %  
 \begin{alltt}
@@ -498,8 +506,8 @@ Bei den Selektoren ist es umgekehrt: Da steht immer der Record-Typ
 vorn (sie akzeptieren ja jeweils einen Record) und nach dem Pfeil
 steht die Signatur des jeweiligen Feldes.
 
-Abbildung~\ref{scheme:define-record-procedures-simple} fasst die Form
-von \texttt{define-record-procedures} zusammen.
+Abbildung~\ref{scheme:define-record-functions-simple} fasst die Form
+von \texttt{define-record-functions} zusammen.
 
 Hier sind drei Beispiele für Uhrzeiten:
 %
@@ -662,11 +670,11 @@ Die Record-Definition hat dann folgende
 Form:
 %
 \begin{alltt}
-(define-record-procedures \(T\)
+(define-record-functions \(T\)
   make-\(T\)
-  ((\(T\)-\(f\sb{1}\) \(\mathit{sig}\sb{1}\))
-   \(\ldots\)
-   (\(T\)-\(f\sb{n}\) \(\mathit{sig}\sb{n}\))))
+  (\(T\)-\(f\sb{1}\) \(\mathit{sig}\sb{1}\))
+  \(\ldots\)
+  (\(T\)-\(f\sb{n}\) \(\mathit{sig}\sb{n}\)))
 \end{alltt}
 %
 Der Name des Record-Typs \(T\) kann dann als Signatur verwendet
@@ -759,9 +767,10 @@ Aus der Datendefinition können wir direkt eine passende
 Record-Definition machen:
 % 
 \begin{verbatim}
-(define-record-procedures dillo
+(define-record-functions dillo
   make-dillo
-  (dillo-weight dillo-alive?))
+  (dillo-weight natural)
+  (dillo-alive? boolean))
 \end{verbatim}
 %
 ("`Dillo"' steht kurz für "`Armadillo"', englisch für Gürteltier.)
