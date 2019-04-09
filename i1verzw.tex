@@ -19,8 +19,1027 @@ mathematische Funktionen und Programm-Funktionen operieren auf Daten mit
 Fallunterscheidung durch \textit{Verzweigungen\index{Verzweigung}}.
 Um diese geht es in diesem Kapitel.
 
-\section{Fallunterscheidungen}
-\label{sec:fallunterscheidungen}
+\section{Rechnen mit booleschen Werten}
+
+Für die Programme dieses Kapitels benötigen wir eine neue Art von
+Daten.  Die ergeben sich, wenn wir zum Beispiel zwei Zahlen
+vergleichen:
+%
+\begin{alltt}
+(< 0 5)
+\evalsto{} #t
+\end{alltt}
+%
+\texttt{(< 0 5)} ist die Schreibweise für $0 < 5$.  Das
+\verb|#t| steht für "`true\index{true}"' oder "`wahr\index{wahr}"',
+denn die Aussage "`ist 0 kleiner als 5"' stimmt ja.
+Umgekehrt kommt natürlich nicht \verb|#t| heraus:
+%
+\begin{alltt}
+(< 5 0)
+\evalsto{} #f
+\end{alltt}
+%
+Das \verb|#f| steht für "`false\index{false}"' oder
+"`falsch\index{falsch}"', denn diese Aussage stimmt nicht.
+
+"`Wahr"' und "`falsch"' heißen zusammen \textit{boolesche
+  Werte\index{boolescher Wert}} oder auch
+\textit{Wahrheitswerte\index{Wahrheitswert}}.\footnote{Die booleschen
+  Werte sind benannt nach \textit{George Boole} (1815--1864), der als
+  erster einen algebraischen Ansatz für die Behandlung von Logik mit
+  den Werten "`wahr"' und "`falsch"' formulierte.}  Ein Ausdruck, bei
+dem ein boolescher Wert herauskommt, heißt dementsprechend auch
+\textit{boolescher Ausdruck\index{boolescher Ausdruck}}.
+
+Wir werden boolesche Ausdrücke oft
+\textit{Bedingungen\index{Bedingung}} nennen.  Wenn eine Bedingung
+\verb|#t| liefert, werden wir auch die Sprachregelung benutzen, dass
+die Bedingung \textit{gilt}~-- beziehungsweise, dass, wenn sie
+\verb|#f| liefert, sie \textit{nicht gilt}.
+
+\texttt{<}\index{<@\texttt{<}} ist eine eingebaute Funktion, die
+auf "`kleiner gleich"' testet, also dem mathematischen Operator $<$
+entspricht.  Ebenso gibt es auch \texttt{>}\index{>@\texttt{>}} für
+"`größer als"' (Mathematik: $>$), \texttt{=}\index{=@\texttt{=}} für
+"`gleich"' (Mathematik: $=$), \texttt{<=}\index{<@\texttt{<=}} für "`kleiner oder
+gleich"' (Mathematik: $\leq$) und \texttt{>=}\index{>=@\texttt{>=}}
+für "`größer oder gleich"' (Mathematik: $\geq$).
+
+Analog zu \texttt{=} für Zahlen können Zeichenketten mit
+\texttt{string=?}\index{string=?@\texttt{string=?}} verglichen werden:
+\begin{alltt}
+(string=? "Mike" "Mike")
+\evalsto{} #t
+(string=? "Herbert" "Mike")
+\evalsto{} #f
+\end{alltt}
+%
+\verb|#t| und \verb|#f| sind wie Zahlen Literale, können also
+auch in Programmen stehen:
+%
+\begin{alltt}
+#t
+\evalsto{} #t
+#f
+\evalsto{} #f
+\end{alltt}
+%
+Programme können mit booleschen Werten auch rechnen.  Ein Ausdruck der
+Form\index{and@\texttt{and}}
+%
+\begin{alltt}
+(and \(e\sb{1}\) \(e\sb{2}\) \(\ldots\) \(e\sb{n}\))
+\end{alltt}
+%
+ergibt immer dann \verb|#t|, wenn alle $e_i$ \verb|#t| ergeben, sonst
+\verb|#f|.  Bei zwei Operanden $e_1$ und $e_2$ ergibt \texttt{(and
+  $e_1$ $e_2$)} immer dann \verb|#t|, wenn $e_1$ \emph{und} $e_2$
+\verb|#t| ergeben:\ref{page:and}
+%
+\begin{alltt}
+(and #t #t)
+\evalsto{} #t
+(and #f #t)
+\evalsto{} #f
+(and #t #f)
+\evalsto{} #f
+(and #f #f)
+\evalsto{} #f
+\end{alltt}
+%
+Entsprechend gibt es Ausdrücke der Form\index{or@\texttt{or}}
+%
+\begin{alltt}
+(or \(e\sb{1}\) \(e\sb{2}\) \(\ldots\) \(e\sb{n}\))
+\end{alltt}
+%
+die immer dann \verb|#t| ergeben, wenn \emph{einer} der $e_i$ \verb|#t| ergibt, sonst
+\verb|#f|.  Bei zwei Operanden $e_1$ und $e_2$ ergibt \texttt{(or
+  $e_1$ $e_2$)} immer dann \verb|#t|, wenn $e_1$ \emph{oder} $e_2$
+\verb|#t| ergeben:
+%
+\begin{alltt}
+(or #t #t)
+\evalsto{} #t
+(or #f #t)
+\evalsto{} #t
+(or #t #f)
+\evalsto{} #t
+(or #f #f)
+\evalsto{} #f
+\end{alltt}
+%
+Des weiteren gibt es noch eine eingebaute Funktion
+\texttt{not}\index{not@\texttt{not}}, die einen booleschen Wert
+umdreht, sich also folgendermaßen verhält:
+%
+\begin{alltt}
+(not #f)
+\evalsto{} #t
+(not #t)
+\evalsto{} #f
+\end{alltt}
+%
+
+\section{Verzweigungen}
+
+Um Fallunterscheidungen zu demonstrieren, nehmen wir uns folgende
+Beispielaufgabe vor: Wir schreiben eine Funktion, die eine Zahl (auf
+Englisch) "`aufsagen"' soll.  Sie soll sich so verhalten:
+%
+\begin{alltt}
+(say-number 0)
+\evalsto{} "zero"
+(say-number 0)
+\evalsto{} "one"
+\end{alltt}
+%
+Der Einfachheit halber beschränken wir uns vorläufig auf die Zahlen
+von Null bis Drei.  Die Funktion hat folgende Kurzbeschreibung:
+%
+\begin{alltt}
+; Zahl zu Text machen
+\end{alltt}
+%
+Die Funktion macht aus einer natürlichen Zahl eine Zeichenkette und
+hat folgende Signatur:\index{say-number@\texttt{say-number}}
+%
+\begin{alltt}
+(: say-number (natural -> string))
+\end{alltt}
+%
+Die Signatur sagt leider nichts darüber aus, dass die Funktion nur bis
+Drei funktioniert~-- später werden wir noch beschreiben, wie die
+Signatur präziser werden kann.  Hier wollten wir uns jedoch erst
+einmal auf die Funktionsdefinition konzentrieren.  Vorher machen wir
+aber die obigen Beispiele zu Testfällen und fügen noch zwei hinzu:
+%
+\begin{alltt}
+(check-expect (say-number 0) "zero")
+(check-expect (say-number 1) "one")
+(check-expect (say-number 2) "two")
+(check-expect (say-number 3) "three")
+\end{alltt}
+%
+Das Gerüst ergibt sich direkt aus der Signatur:
+%
+\begin{alltt}
+(define say-number
+  (lambda (n)
+    \ldots))
+\end{alltt}
+%
+Aber wie kommen wir jetzt weiter?  Die Eingabe zerfällt ja in vier
+Fälle~-- 0, 1, 2 und 3~-- sie bildet somit eine
+\textit{Fallunterscheidung\index{Fallunterscheidung}}.  Um eine
+Fallunterscheidung in der Eingabe einer Funktion verarbeiten zu können,
+benötigen wir ein neues Programmelement, die
+\textit{Verzeweigung\index{Verzweigung}}.  Verzweigungen beginnen mit
+dem Wort \texttt{cond} und gehören zu den kompliziertesten
+Programmelementen, die wir in diesem Buch benutzen.  Aber keine Sorge,
+so schlimm wird es nicht.  Um eine Verzweigung zu schreiben, müssen
+wir wissen, \emph{wie viele} Fälle es gibt.  In diesem Fall sind das
+vier.  Die Verzewigung dafür hat folgende Form:
+%
+
+\begin{alltt}
+(define say-number
+  (lambda (n)
+    (cond
+      (\ldots{} \ldots)
+      (\ldots{} \ldots)
+      (\ldots{} \ldots)
+      (\ldots{} \ldots))))
+\end{alltt}
+%
+Jeder von den beiden \texttt{(\ldots \ldots)} ist ein sogenannter
+\textit{Zweig\index{Zweig}}.  Der erste Teil eines Zweigs ist immer
+eine Bedingung, der für den entsprechenden Fall \verb|#t| liefern
+sollte und für die anderen Fälle \verb|#f|.  In diesem Fall muss die
+Bedingung jedes Zweiges jeweils eine der Zahlen von Null bis Drei
+identifizieren:
+%
+\begin{alltt}
+(define say-number
+  (lambda (n)
+    (cond
+      ((= n 0) \ldots")
+      ((= n 1) \ldots)
+      ((= n 2) \ldots)
+      ((= n 3) \ldots))))
+\end{alltt}
+%
+Der jeweils zweite Teil des Zweiges ist das gewünschte Ergebnis für
+den entsprechenden Fall.  Wenn wir das ausfüllen, sieht das Resultat
+so aus:
+%
+\begin{alltt}
+(define say-number
+  (lambda (n)
+    (cond
+      ((= n 0) "zero")
+      ((= n 1) "one")
+      ((= n 2) "two")
+      ((= n 3) "three"))))
+\end{alltt}
+%
+Fertig!
+\begin{aufgabe}
+  Finde heraus was passiert, wenn Du die Funktion mit einer Zahl
+  aufrufst, für die sie nicht gemacht ist.
+\end{aufgabe}
+
+\section{Aufzählungen}
+
+Nächste Beispielaufgabe: Wir wollen Haustiere einteilen in niedliche
+und nicht so niedliche.  Es gibt in der Welt dieser Aufgabe nur drei
+verschiedene Haustiere: Katzen, Hunde und Pythons.  Die Haustiere
+bilden eine sogenannte \textit{Aufzählung\index{Aufzählung}}, die wir
+in einem Kommentar im Programm so beschreiben könnten:
+%
+\begin{verbatim}
+; Ein Haustier ist eins der folgenden:
+; - Katze
+; - Hund
+; - Schlange
+\end{verbatim}
+%
+Solch ein kurzen Kommentar, der die Daten beschreibt, die in unserer
+Aufgabe vorkommen, heißt
+\textit{Datendefinition\index{Datendefinition}} und ist das Resultat
+eines Nachdenkprozesses, der \textit{Datenanalyse\index{Datenanalyse}}
+heißt.  (Auch wenn er hier reichlich kurz ausgefallen ist.)
+
+Dass es sich um eine Aufzählung handelt, erkennen wir an der
+Datendefinition: Wir benötigen für unsere Aufgabe nur die Information,
+um welche Alternative aus der Datendefinition es geht~-- hier: welches
+Haustier.  Für die Elemente einer Aufzählung benutzen wir 
+Zeichenketten mit dem entsprechenden Text, also \verb|"Katze"|,
+\verb|"Hund"| und \verb|"Schlange"|.
+
+Für die Aufzählung der Haustiere gibt es noch keine fertige Signatur,
+die müssen wir deshalb erst noch definieren.  Die
+\textit{Signatur-Definition\index{Signatur-Definition}} sieht so aus:
+%
+\begin{alltt}
+(define pet
+  (signature (one-of "Katze" "Hund" "Schlange")))
+\end{alltt}
+%
+Da sind gleich zwei neue Programmelemente drin:
+%
+\begin{itemize}
+\item \texttt{Signature\index{signature@\texttt{signature}}} müssen wir immer schreiben, wenn wir eine
+  neue Signatur erzeugen.
+\item \texttt{One-of\index{one-of@\texttt{one-of}}} (das funktioniert
+  nur innerhalb eines \texttt{signature}-Ausdrucks) ist für
+  Aufzählungen zuständig.  In einem \texttt{one-of}-Ausdruck stehen
+  die Werte, die zur Aufzählung gehören.
+\end{itemize}
+%
+\begin{aufgabe}
+  Die Funktion \texttt{say-number} aus dem vorigen Abschnitt hat ja als
+  Signatur-Deklaration die folgende:
+\begin{alltt}
+(: say-number (natural -> string))
+\end{alltt}
+  % 
+  Mach die Signatur präziser mit Hilfe von Datendefinitionen und
+  Signatur-Definitionen!
+\end{aufgabe}
+%
+Zurück zu unserer Funktion zur Niedlichkeitsanalyse.  Die definierte
+Signatur \texttt{pet} können wir nun in der Signatur-Deklaration
+unserer Funktion benutzen.  Zusammen mit der Kurzbeschreibung sieht
+das so aus:
+%
+\begin{alltt}
+; Ist Haustier niedlich?
+(: cute? (pet -> boolean))
+\end{alltt}
+%
+Das Fragezeichen gehört zum Namen der Funktion und ist eine
+Konvention, die wir für die Namen von Funktionen verwenden, die einen
+booleschen Wert zurückgeben~-- also solche Funktionen, die eine
+Ja-/Nein-Frage beantworten.
+
+Da es nur drei Möglichkeiten für die Eingabe gibt, können wir für alle
+drei jeweils einen Test schreiben:
+%
+\begin{alltt}
+(check-expect (cute? "Katze") #t)
+(check-expect (cute? "Hund") #t)
+(check-expect (cute? "Schlange") #f)
+\end{alltt}
+%
+Kommen wir zur Funktion selbst.  Zunächst einmal das Gerüst:
+%
+\begin{alltt}
+(define cute?
+  (lambda (p)
+    \ldots))
+\end{alltt}
+%
+Da es sich bei der Eingabe um eine Aufzählung, also eine
+Fallunterscheidung handel, brauchen wir eine Verzweigung im Rumpf.  Da
+es drei Fälle in der Aufzählung gibt, braucht die Verzweigung
+ebenfalls drei Zweige:
+%
+\begin{alltt}
+(define cute?
+  (lambda (p)
+    (cond
+      (\ldots{} \ldots)
+      (\ldots{} \ldots)
+      (\ldots{} \ldots))))
+\end{alltt}
+%
+Als nächstes müssen wir die Bedingungen schreiben, und die sollten
+\texttt{p} jeweils mit \verb|"Katze"|, \verb|"Hund"| und
+\verb|"Schlange"| vergleichen.  Dabei könnte man leicht auf die Idee
+kommen, \verb|(= p "Katze")| etc.\ zu schreiben.  Dann kommt
+allerdings eine Fehlermeldung etwa so:
+%
+\begin{verbatim}
+=: Zahl als erstes Argument erwartet, "Katze" bekommen
+\end{verbatim}
+%
+Die Funktion \texttt{=} fühlt sich also nur für Zahlen zuständig, für
+Zeichenketten müssen wir die Funktion
+\texttt{string=?\index{string=?@\texttt{string=?}}} verwenden:
+%
+\begin{alltt}
+(define cute?
+  (lambda (p)
+    (cond
+      ((string=? p "Katze") \ldots)
+      ((string=? p "Hund") \ldots)
+      ((string=? p "Schlange") \ldots))))
+\end{alltt}
+%
+Bisher ergibt sich alles rein aus der Definition von \texttt{pet}.
+Schließlich müssen wir noch die Antworten ergänzen.  Katze und Hunde
+sind niedlich, Schlangen nicht:
+%
+\begin{alltt}
+(define cute?
+  (lambda (p)
+    (cond
+      ((string=? p "Katze") #t)
+      ((string=? p "Hund") #t)
+      ((string=? p "Schlange") #f))))
+\end{alltt}
+%
+Fertig!
+
+\section{Zahlenbereiche}
+\label{sec:zahlenbereiche}
+
+Eine weitere häufig vorkommende Art der Fallunterscheidung gibt es bei
+Zahlenbereichen.
+
+Um das zu demonstrieren, nehmen wir uns folgende Aufgabe vor: Wir
+schreiben eine Funktion, die "`Wasser erhitzt"', das heißt aus einer
+Wasser-Anfangstemperatur und der Temperatur, die wir an Hitze hinzufügen, die
+resultierende Temperatur bestimmt.  Wir schreiben dazu drei Versionen der
+Funktion:
+%
+\begin{itemize}
+\item Die erste, naive Version addiert einfach auf die
+  Anfangstemperatur die hinzugefügte Hitze.
+\item Die zweite Version berücksichtigt, dass Wasser bei 100°C siedet
+  und nicht heißer werden kann.
+\item Die dritte Version berücksichtigt zusätzlich, dass gefrorenem
+  Wasser von 0°C eine Hitze von 80°C hinzugefügt werden muss, damit es
+  schmilzt und dann immer noch erst bei 0°C ist.
+\end{itemize}
+%
+(Physikalisch ist das natürlich Umfug, aber es geht
+um ein möglichst einfaches Programmier-Beispiel.)
+
+\paragraph{Naive Version} Wir fangen mit der naiven Version an und gehen nach dem Ablauf der
+Konstruktionsanleitungen vor.  Zuerst kommt also eine
+Kurzbeschreibung:
+%
+\begin{alltt}
+; Wassertemperatur nach Erhitzen berechnen, naiv
+\end{alltt}
+%
+Als nächstes kommt die Signatur-Deklaration.  Die Anfangstemperatur
+und die hinzugefügte Hitze sind die Eingaben; sie stellen wir als
+reelle Zahlen dar.  Heraus kommt die Endtemperatur, auch eine reele
+Zahl.  Da wir schon wissen, dass diese Version etwas einfach ist,
+hängen wir eine \texttt{-0} an den Namen:
+%
+\begin{alltt}
+(: heat-water-0 (real real -> real))
+\end{alltt}                
+%
+Nun schreiben wir einige einfache Beispiele als Testfälle hin:
+%
+\begin{alltt}
+(check-expect (heat-water-0 -10 20) 10)
+(check-expect (heat-water-0 10 20) 30)
+(check-expect (heat-water-0 90 20) 110)
+\end{alltt}
+%
+Als nächstes kommt das Gerüst an die Reihe:
+%
+\begin{alltt}
+(define heat-water-0
+  (lambda (temp heat)
+    \ldots))
+\end{alltt}
+%
+Der Rumpf ist jetzt kein Hexenwerk, die beiden Eingaben werden
+einfach addiert:
+%
+\begin{alltt}
+(define heat-water-0
+  (lambda (temp heat)
+    (+ temp heat)))
+\end{alltt}
+%
+Noch die Tests laufen lassen und fertig!
+
+\paragraph{Siedendes Wasser} Als nächstes wollten wir berücksichtigen,
+dass Wasser nicht über 100°C heiß werden kann.  Die Kurzbeschreibung
+passen wir nur leicht an; die Signatur bleibt ebenfalls fast
+unverändert~-- wir ändern nur den Namen und machen aus der 0 eine 1:
+%
+\begin{alltt}
+; Wassertemperatur nach Erhitzen berechnen, Sieden berücksichtigen
+(: heat-water-1 (real real -> real))
+\end{alltt}
+%
+Bei den Tests können wir natürlich die Tests von \texttt{heat-water-0}
+kopieren, aber den letzten müssen wir anpassen:
+%
+\begin{alltt}
+(check-expect (heat-water-1 -10 20) 10)
+(check-expect (heat-water-1 10 20) 30)
+(check-expect (heat-water-1 90 20) 100)
+\end{alltt}
+%
+Beim Testen ist es immer sinnvoll, auch Grenzfälle zu testen~--
+schaltet die Funktion wirklich "`rum"', wenn die 100 erreicht sind.
+Dazu dienen folgende zwei Testfälle:
+%
+\begin{alltt}
+(check-expect (heat-water-1 99 1) 100)
+(check-expect (heat-water-1 99 2) 100)
+\end{alltt}
+%
+Da die Signatur die gleiche ist, ist auch das Gerüst identisch:
+%
+\begin{alltt}
+(define heat-water-1
+  (lambda (temp heat)
+    \ldots))
+\end{alltt}
+%
+Ab 100°C muss die Funktion ihr Ergebnis also anders berechnen.  Oder,
+anders gesagt, die Eingaben fallen in zwei verschiedene Klassen: die,
+bei denen die Summe unter 100 liegt und die, bei denen sie darüber
+liegt.
+Wir benötigen also ein \texttt{cond} mit zwei
+Zweigen:
+%
+\begin{alltt}
+(define heat-water-1
+  (lambda (temp heat)
+    (cond
+      (\ldots \ldots)
+      (\ldots \ldots))))
+\end{alltt}
+%
+Wir brauchen nun eine Bedingung, die feststellt, ob die Summe aus
+\texttt{temp} und \texttt{heat} unterhalb von 100 liegt (genauer:
+kleiner \emph{oder gleich}, weil 100 gerade so erreichbar ist) und
+eine dafür, dass die Summe darüber liegt.  Die könnten so aussehen:
+%
+\begin{alltt}
+(<= (+ temp heat) 100)
+(> (+ temp heat) 100)
+\end{alltt}
+%
+Wenn wir diese beiden Bedingungen an die entsprechenden Stellen im
+Rumpf setzen, sieht das so aus:
+%
+\begin{alltt}
+(define heat-water-1
+  (lambda (temp heat)
+    (cond
+      ((<= (+ temp heat) 100) \ldots)
+      ((> (+ temp heat) 100) \ldots))))
+\end{alltt}
+%
+An die Stellen nach den Bedingungen müssen wir Ausdrücke setzen, die
+das Ergebnis liefern, das im jeweiligen Fall richtig ist.  Das wäre dann:
+%
+\begin{alltt}
+(define heat-water-1
+  (lambda (temp heat)
+    (cond
+      ((<= (+ temp heat) 100) (+ temp heat))
+      ((> (+ temp heat) 100) 100))))
+\end{alltt}
+%
+Fertig!
+%
+%
+
+%
+\begin{aufgabe}
+  Müssen es bei den beiden Bedingungen unbedingt \verb|<=| und
+  \verb|>| sein?  Was passiert, wenn Du \verb|<=| durch \verb|<|
+  ersetzt und das Programm dann laufen lässt?  Was passiert, wenn Du
+  dann auch das \verb|>| ersetzt~-- durch \verb|>=|?  Warum
+  funktioniert das Programm dann immer noch?
+\end{aufgabe}
+%
+\paragraph{Siendendes Wasser und Eis} Kommen wir zur "`Vollversion"'.
+Zur Erinnerung: Da müssen wir noch berücksichtigen, dass gefrorenem
+Wasser von 0°C eine Hitze von 80°C hinzugefügt werden muss, damit es
+schmilzt und dann immer noch hat 0°C.  
+
+Wir fangen wieder mit der Kurzbeschreibung an:
+%
+\begin{verbatim}
+; Wassertemperatur nach Erhitzen berechnen, mit Eis & Sieden
+\end{verbatim}
+%
+Da diese Version die letzte ist, hat sie keine Nummer mehr.  Ansonsten
+ist die Signatur unverändert:
+%
+\begin{verbatim}
+(: heat-water (real real -> real))
+\end{verbatim}
+%
+Die Tests können wir nicht unverändert übernehmen.  Gleich der erste
+funktioniert nicht mehr:
+%
+\begin{verbatim}
+(check-expect (heat-water -10 20) 10)
+\end{verbatim}
+%
+Das Aufwärmen des Wassers von -10°C auf 0°C erfordert nur 10°C
+Wärmezufuhr, dann aber müssen erst einmal 80° weitere Wärme zugeführt
+werden, damit es weiter geht.  Den Testfall müssen wir also ändern:
+%
+\begin{verbatim}
+(check-expect (heat-water -10 20) 0)
+\end{verbatim}
+%
+Die anderen Testfälle \texttt{heat-water-1} können so bleiben:
+%
+\begin{verbatim}
+(check-expect (heat-water 10 20) 30)
+(check-expect (heat-water 90 20) 100)
+(check-expect (heat-water 99 1) 100)
+(check-expect (heat-water 99 2) 100)
+\end{verbatim}
+%
+Ein paar weitere Tests sollten aber noch genau klären, was um den
+Nullpunkt herum so passiert und wo genau er überschritten wird:
+%
+\begin{verbatim}
+(check-expect (heat-water -10 5) -5)
+(check-expect (heat-water -5 60) 0)
+(check-expect (heat-water -5 90) 5)
+(check-expect (heat-water -1 81) 0)
+(check-expect (heat-water -1 82) 1)
+\end{verbatim}
+%
+Wieder sollten wir darüber nachdenken, in was für Fälle unsere
+Eingaben zerfallen.  Da gibt es drei naheliegende Fälle:
+%
+\begin{enumerate}
+\item Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+\item Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+\item Alles andere~-- das Wasser fängt flüssig an und bleibt durch die
+  Erwärmung flüssig.
+\end{enumerate}
+%
+Der erste Fall hat außerdem noch drei "`Unterfälle"':
+%
+\begin{itemize}
+\item Die Erwärmumg bleibt unter 0°C.
+\item Die Erwärmung bleibt bei  0°C "`stecken"'
+\item Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
+\end{itemize}
+%
+So komplizierte Fallunterscheidungen sind relativ selten. Wenn sie
+doch einmal auftauchen, ist besondere Sorgfalt gefragt: Darum
+exerzieren wir das hier als Beispiel durch.
+
+Fangen wir wieder mit dem Gerüst für die Funktion an:
+%
+\begin{alltt}
+(define heat-water
+  (lambda (temp heat)
+    \ldots))
+\end{alltt}
+%
+Wir wissen schon aus der Analyse der Fälle, dass es drei Fälle gibt.
+Deshalb brauchen wir auch wieder ein \texttt{cond} mit drei Zweigen.
+%
+\begin{alltt}
+(define heat-water
+  (lambda (temp heat)
+    (cond
+      (\ldots{} \ldots)
+      (\ldots{} \ldots)
+      (\ldots{} \ldots))))
+\end{alltt}
+%
+Jetzt ergänzen wir Bedingungen, die den drei Fällen entsprechen.  Um
+in diesem komplizierten Fall Leserinnen zu erleichtern, die
+Bedingungen den Fällen zuzuordnen, stehen diese jeweils als Kommentar darüber:
+%
+\begin{alltt}
+(define heat-water
+  (lambda (temp heat)
+    (cond
+      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+      ((< temp 0) \ldots)
+      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+      ((>= (+ temp heat) 100) \ldots)
+      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      ((and (>= temp 0) (< (+ temp heat) 100)) \ldots))))
+\end{alltt}
+%
+Jetzt können wir uns daran machen, die Zweige auszufüllen.  Da der
+erste Zweig (das Eis) komplizierter ist, schieben wir den erstmal vor
+uns her, denn beim zweiten Zweig kommt einfach 100°C raus.  Ebenso
+einfach ist der dritte Zweig, bei dem das Wasser flüssig bleibt~-- die
+Antwort ist dort \texttt{(+ temp heat)}.  Der Zwischenstand sieht so
+aus:
+%
+\begin{alltt}
+(define heat-water
+  (lambda (temp heat)
+    (cond
+      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+      ((< temp 0) \ldots)
+      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+      ((>= (+ temp heat) 100) 100)
+      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      ((and (>= temp 0) (< (+ temp heat) 100))
+       (+ temp heat)))))
+\end{alltt}
+%
+Dass wir die leichten Fälle zuerst bearbeitet haben, mag wie Faulheit
+aussehen.  Ist es auch~-- aber es ist auch sinnvolle Strategie.  Sie
+könnte so beschrieben werden:
+%
+\begin{center}
+  \emph{Schreibe auf, was Du weißt.}
+\end{center}
+%
+Auch über den ersten Zweig wissen wir etwas, nämlich dass er selbst
+eine Fallunterscheidung ist mit drei Fällen.  Wir können also das
+\texttt{cond} (wieder einmal) schon hinschreiben:
+%
+\begin{alltt}
+(define heat-water
+  (lambda (temp heat)
+    (cond
+      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+      ((< temp 0)
+       (cond
+         (\ldots{} \ldots)
+         (\ldots{} \ldots)
+         (\ldots{} \ldots)))
+      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+      ((>= (+ temp heat) 100) 100)
+      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      ((and (>= temp 0) (< (+ temp heat) 100))
+       (+ temp heat)))))
+\end{alltt}
+%
+Auch hier ist es sinnvoll, die Beschreibungen der Fälle über die
+Zweige zu schreiben.  Danach ergänzen wir die Bedingungen mit
+folgendem Ergebnis:
+%
+\begin{alltt}
+(define heat-water
+  (lambda (temp heat)
+    (cond
+      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+      ((< temp 0)
+       (cond
+         ; Die Erwärmumg bleibt unter 0°C.
+         ((< (+ temp heat) 0) \ldots)
+         ; Die Erwärmung bleibt bei  0°C "stecken"
+         ((and (>= (+ temp heat) 0)
+               (< (+ temp heat) 80))
+          \ldots)
+         ; Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
+         ((and (>= (+ temp heat) 0)
+               (>= (+ temp heat) 80))
+          \ldots)))
+      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+      ((>= (+ temp heat) 100) 100)
+      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      ((and (>= temp 0) (< (+ temp heat) 100))
+       (+ temp heat)))))
+\end{alltt}
+%
+Die Bedingungen sind jetzt noch komplizierter, aber erschließen sich
+hoffentlich durch genauere Betrachtungen:
+%
+\begin{itemize}
+\item "`Die Erwärmumg bleibt unter 0°C."'\\
+  Das heißt, die Summe von
+  Anfangstemperatur und Erwärmung ist kleiner als 0°C.
+\item "`Die Erwärmung bleibt bei  0°C stecken."'\\
+  Das heißt, die Summe von Temperatur und Erwärmung muss zwischen 0°C
+  und 80°C liegen.
+\item "`Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus."'\\
+  Das Summe von Temperatur und Erwärmung geht nicht nur über 0°C
+  sondern auch über 80°C hinaus.
+\end{itemize}
+%
+Die Antworten unter diesen Bedingungen sind vergleichweise einfach zu
+ergänzen:
+%
+\begin{alltt}
+(define heat-water
+  (lambda (temp heat)
+    (cond
+      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+      ((< temp 0)
+       (cond
+         ; Die Erwärmumg bleibt unter 0°C.
+         ((< (+ temp heat) 0) (+ temp heat))
+         ; Die Erwärmung bleibt bei  0°C "stecken"
+         ((and (>= (+ temp heat) 0)
+               (< (+ temp heat) 80))
+          0)
+         ; Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
+         ((and (>= (+ temp heat) 0)
+               (>= (+ temp heat) 80))
+          (- (+ temp heat) 80))))
+      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+      ((>= (+ temp heat) 100) 100)
+      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      ((and (>= temp 0) (< (+ temp heat) 100))
+       (+ temp heat)))))
+\end{alltt}
+%
+Fertig!\footnote{Allerdings noch nicht ganz richtig: Vielleicht siehst Du,
+  dass da noch etwas nicht ganz stimmt.  Wir kommen später darauf zurück.}
+
+\medskip
+
+Also \emph{fast} fertig.  Wenn wir das Programm näher betrachten,
+fällt etwas Verbesserungspotenzial auf.  Fangen wir an mit der
+Bedingung:
+%
+\begin{verbatim}
+          (and (>= (+ temp heat) 0)
+               (>= (+ temp heat) 80))
+\end{verbatim}
+%
+Das ist übertrieben: Eine Temperatur über 80°C liegt auch über 0°C.
+Wir können das also vereinfachen auf:
+%
+\begin{verbatim}
+          (>= (+ temp heat) 80)
+\end{verbatim}
+%
+Das ist mathematisch einleuchtend, zur Sicherheit sollten wir aber die
+Tests nochmals laufen lassen: Aber sie laufen alle noch erfolgreich
+durch.
+
+Bevor wir die Funktion noch weiter vereinfachen, ist es sinnvoll, die
+Funktionsweis eder Auswertung von \texttt{cond}-Ausdrücken zu ergründen:
+%
+\begin{aufgabe}
+  Lasse die \texttt{heat-water}-Funktion im Stepper laufen und
+  beobachte, wie~-- vor allem in welche Reihenfolge~-- die Bedindungen
+  in einem \texttt{cond}-Ausdruck ausgewertet werden.
+\end{aufgabe}
+%
+Wenn Du diese Aufgabe erledigt hast, wirst Du beobachtet haben, dass Racket
+die Bedingungen in einem \texttt{cond}-Ausdruck nacheinander
+auswertet.  Sobald eine davon \verb|#t| ergibt, macht Racket mit dem
+Ausdruck des Zweiges weiter.  Die restlichen Zweige werden gar nicht
+mehr berücksichtigt, unabhängig davon, ob sie \verb|#t| ergeben
+könnten oder nicht.
+Das können wir ausnutzen, um die Funktion weiter zu vereinfachen.
+Dazu betrachten wir die beiden ersten Bedingungen im "`inneren"'
+\texttt{cond}:
+%
+\begin{alltt}
+       (cond
+         ((< (+ temp heat) 0) (+ temp heat))
+         ((and (>= (+ temp heat) 0)
+               (< (+ temp heat) 80))
+          0)
+         \ldots)
+\end{alltt}
+%
+Wenn die erste Bedingung \verb|#f| ergeben hat, also nicht stimmt,
+dann ist \texttt{(+ temp heat)} größer oder gleich 0.  Das heißt, der
+Teilausdruck \texttt{(>= (+ temp heat) 0)} in der \emph{nächsten}
+Bedingung liefert \emph{immer} \verb|#t|.  Wir können also
+vereinfachen:
+%
+\begin{alltt}
+       (cond
+         ((< (+ temp heat) 0) (+ temp heat))
+         ((and #t
+               (< (+ temp heat) 80))
+          0)
+         \ldots)
+\end{alltt}
+%
+Ein Ausdruck \texttt{(and \#t \(e\))} liefert immer das gleiche Ergebnis
+wie \(e\)~-- schau nochmal auf Seite~\pageref{page:and}, um Dich davon
+zu überzeugen!  Wir können also das innere \texttt{cond} weiter
+vereinfachen zu:
+%
+\begin{alltt}
+       (cond
+         ((< (+ temp heat) 0) (+ temp heat))
+         ((< (+ temp heat) 80) 0)
+         \ldots)
+\end{alltt}
+%
+Wir benutzen also Mathematik (genauer gesagt
+\textit{Algebra\index{Algebra}}, also die Lehre der Gleichungen), um
+unser Programm zu vereinfachen.  Algebra ist ein sehr mächtiges
+Werkzeug in der Programmierung, und wir werden es noch oft nutzen.
+Das fällt oft einfacher, wenn wir gar nicht über die konkrete
+Bedeutung der Ausdrücke nachdenken sondern nur Gleichungen benutzen,
+wie oft in der Mathematik.
+
+Wir sind aber mit dem Vereinfachen noch nicht fertig. Betrachten wir
+nun die drei "`äußeren"' Bedingungen:
+%
+\begin{alltt}
+    (cond
+      ((< temp 0) \ldots)
+      ((>= (+ temp heat) 100) \ldots)
+      ((and (>= temp 0) (< (+ temp heat) 100)) \ldots))
+\end{alltt}
+%
+Wenn die erste Bedingungen \verb|#f| ergibt, gilt automatisch
+\texttt{(>= temp 0)}.  Wir können die letzte Bedingung also
+vereinfachen zu:
+%
+\begin{alltt}
+(and #t (< (+ temp heat) 100))
+\end{alltt}
+%
+Wenn auch die zweite Bedingung \verb|#f| ergibt, gilt auch \texttt{(<
+  (+ temp heat) 100)}.  Wir können also vereinfachen zu \texttt{(and
+  \#t \#t)} und von da zu \verb|#t|.
+
+Wir können die Funktion mit dieser Einsicht vereinfachen und \verb|#t|
+als Bedingung hinschreiben.  (Probier es aus!)  Allerdings finden
+manche das hässlich: Darum ist es auch möglich, statt \verb|#t| das
+besondere Wort \texttt{else\index{else@\texttt{else}}}
+("`andernfalls"' auf Englisch) hinzuschreiben.
+Der \texttt{else}-Zweig kommt also zum Zug, wenn alle anderen
+"`durchgefallen"' sind.  Das Ergebnis sieht
+dann so aus:
+%
+\begin{verbatim}
+(define heat-water
+  (lambda (temp heat)
+    (cond
+      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+      ((< temp 0)
+       (cond
+         ; Die Erwärmumg bleibt unter 0°C.
+         ((< (+ temp heat) 0) (+ temp heat))
+         ; Die Erwärmung bleibt bei  0°C "stecken"
+         ((< (+ temp heat) 80) 0)
+         ; Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
+         (else (- (+ temp heat) 80))))
+      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+      ((>= (+ temp heat) 100) 100)
+      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      (else
+       (+ temp heat)))))
+\end{verbatim}
+%
+\begin{feature}{Verzweigung}{scheme:cond}
+In den Lehrsprachen werden Verzweigungen\index{Verzweigung}\index{Verzweigung}
+mit der Spezialform \texttt{cond}\index{cond@\texttt{cond}} dargestellt.
+Ein \texttt{cond}"=Ausdruck hat die folgende Form:
+%
+\begin{alltt}
+(cond
+  (\(b\sb{1}\) \(a\sb{1}\))
+  (\(b\sb{2}\) \(a\sb{2}\))
+  \(\ldots\)
+  (\(b\sb{n-1}\) \(a\sb{n-1}\))
+  (else \(a\sb{n}\))))
+\end{alltt}
+%
+Dabei sind die $b_i$ und die $a_i$ ihrerseits Ausdrücke.  Der
+\texttt{cond}-Ausdruck wertet nacheinander alle Bedingungen $b_i$ aus;
+sobald eine Bedingung $b_k$ \texttt{\#t} ergibt, wird der
+\texttt{cond}-Ausdruck durch das entsprechende $a_k$ ersetzt.  Wenn
+alle Bedingungen fehlschlagen, wird durch $a_n$ ersetzt.  Die Paarungen
+\texttt{($b_i$ $a_i$)} heißen \textit{Zweige\index{Zweig}} des
+\texttt{cond}-Ausdruckes, und der Zweig mit \texttt{else}  heißt
+\textit{\texttt{else}-Zweig\index{else-Zweig@\texttt{else}-Zweig}}.
+Der \texttt{else}-Zweig kann auch fehlen~-- dann sollte aber immer
+eine der Bedingungen  \texttt{\#t} ergeben.  Wenn doch einmal bei allen
+$b_i$ \verb|#f| herauskommen sollte, bricht \drscheme{} das Programm ab
+und gibt eine Fehlermeldung aus.
+\end{feature}
+%
+Damit haben wir die komplette Funktionsweise von \texttt{cond}
+angewendet. Abbildung~\ref{scheme:cond} fasst sie noch einmal zusammen.
+
+Dann kannst Du auch von vornherein \texttt{else} benutzen, wenn Du Dir
+sicher bist, dass alle anderen Fälle schon in den vorigen Zweigen
+abgedeckt sind.  Im Zweifelsfall empfehlen wir aber immer den Weg über
+die Mathematik, damit die Funktion auch korrekt wird.
+
+A propos korrekt: Ist \texttt{heat-water} korrekt?  Hier ist ein
+weiterer Testfall:
+%
+\begin{verbatim}
+(check-expect (heat-water -1 191) 100)
+\end{verbatim}
+%
+Von den 191°C wird 1°C benötigt, um auf 0°C zu kommen, dann weitere
+80°C, um über 0°C hinauszukommen, bleiben 110°C.  Aber über 100°C geht
+es natürlich trotzdem nicht.  Leider sieht die Funktion das anders:
+%
+\begin{verbatim}
+Check-Fehler:
+	Der tatsächliche Wert 110 ist nicht der erwartete Wert 100.
+\end{verbatim}
+%
+Woran liegt das?  Wenn wir die Verzweigungen im Kopf nachvollziehen,
+sehen wir, dass zunächst der erste Zweig des äußeren \texttt{cond}
+greift, weil die Bedingung \verb|(< temp 0)| als Wert \verb|#t| hat.
+Im inneren \texttt{cond} schließlich ergeben die ersten beiden
+Bedingungen jeweils \verb|#f|, es bleibt also der \texttt{else}-Zweig,
+und addiert die Wärme "`blind"' auf die Anfangstemperatur.
+
+Wir müssen also unser Programm korrigieren, weil dieser Fall noch
+nicht berücksichtigt ist: Die Anfangstemperatur ist unter 0°C, die
+Erwärmung würde die Temperatur aber über 100°C heben.  Es greift also
+der \texttt{else}-Zweig des inneren \texttt{cond} des äußeren Zweigs
+mit \texttt{(< temp 0)}, und das ist in diesem Fall falsch.  Die
+ersten beiden Zweige sind für Endtemperaturen bis 0°C zuständig, wir
+müssen also den neuen Zweig unmittelbar vor dem \texttt{else}-Zweig
+einfügen.  Der sieht so aus:
+%
+\begin{verbatim}
+         ; Die Erwärmung würde die Temperatur auf über 100°C bringen
+         ((>= (- (+ temp heat) 80) 100) 100)
+\end{verbatim}
+%
+Jetzt ist das Programm endlich fertig und korekt!
+
+Eine Lektion bleibt:
+%
+\begin{center}
+  \emph{Bei komplizierten Fallunterscheidungen, teste gründlich und
+    gehe davon aus, dass Du Zweige vergessen hast.}
+\end{center}
+
+\section{Datenanalyse}
+\label{sec:datenanalyse}
+
+FIXME
+
+\section{Schablonen}
+\label{sec:schablonen}
+
+FIXME
+
+Vielleicht ist Dir aufgefallen, dass der erste Schritt nach dem
+Gerüst noch gar nicht soviel mit der konkreten Aufgabe zu tun hatte,
+sondern nur aus der Einsicht entstand, dass es die Eingaben
+eine Fallunterscheidung mit \textit{zwei} Fällen bilden:
+%
+\begin{alltt}
+(define heat-water-1
+  (lambda (temp heat)
+    (cond
+      (\ldots \ldots)
+      (\ldots \ldots))))
+\end{alltt}
+%
+So ein unfertiges Programm, in dem einige Elemente aus der Analyse der Daten
+
+FIXME: \textit{Schablone}
+
+\section{Aufzählungen}
+\label{sec:flensburg}
+\label{sec:aufzaehlungen}
 
 Zu den "`Flensburg"'-Punkten, die es bei Verstößen gegen die
 Straßenverkehrsordnung gibt, hat eine Seite im Internet folgendes zu
@@ -90,117 +1109,6 @@ Die Notation mit der großen geschweiften Klammer heißt
 der wahr oder falsch sein kann,
 heißt \textit{Bedingung\index{Bedingung}}.
 
-\section{Boolesche Ausdrücke}
-
-Bedingungen gibt es auch in den Lehrsprachen; sie sind dort Ausdrücke.
-Hier ein Beispiel:
-%
-\begin{alltt}
-(<= -5 0)
-\evalsto{} #t
-\end{alltt}
-%
-\texttt{(<= -5 0)} ist die Schreibweise für $-5 \leq 0$.  Als Frage
-gestellt oder Aussage aufgefasst, ist $-5 \leq 0$ "`wahr"'.
-\verb|#t|\index{#t@\verb/#t/} steht für "`true\index{true}"' oder
-"`wahr\index{wahr}"'.  \texttt{<=}\index{<=@\texttt{<=}} ist eine
-eingebaute Funktion, welche auf "`kleiner gleich"' testet.  (Ebenso
-gibt es auch \texttt{=}\index{=@\texttt{=}} für $=$, 
-\texttt{<}\index{<@\texttt{<}} für $<$,
-\texttt{>}\index{>@\texttt{>}} für $>$ und
-\texttt{>=}\index{>=@\texttt{>=}} für $\geq$.)
-
-Eine Bedingung kann auch negativ ausfallen:
-%
-\begin{alltt}
-(<= 5 0)
-\evalsto{} #f
-\end{alltt}
-%
-\verb|#f|\index{#f@\verb/#f/} steht für "`false"' oder "`falsch"'.
-"`Wahr"' und "`falsch"' heißen zusammen \textit{boolesche
-  Werte\index{boolescher Wert}} oder auch
-\textit{Wahrheitswerte\index{Wahrheitswert}}.\footnote{Die booleschen
-  Werte sind benannt nach \textit{George Boole}
-  (1815--1864), der als erster einen algebraischen Ansatz für die
-  Behandlung von Logik mit den Werten "`wahr"' und "`falsch"'
-  formulierte.}
-
-Analog zu \texttt{=} für Zahlen können Zeichenketten mit
-\texttt{string=?}\index{string=?@\texttt{string=?}} verglichen werden:
-\begin{alltt}
-(string=? "Mike" "Mike")
-\evalsto{} #t
-(string=? "Herbert" "Mike")
-\evalsto{} #f
-\end{alltt}
-
-\verb|#t| und \verb|#f| sind wie Zahlen Literale, können also
-auch in Programmen stehen:
-%
-\begin{alltt}
-#t
-\evalsto{} #t
-#f
-\evalsto{} #f
-\end{alltt}
-%
-Auch mit booleschen Werten kann DrRacket rechnen.  Ein Ausdruck der
-Form\index{and@\texttt{and}}
-%
-\begin{alltt}
-(and \(e\sb{1}\) \(e\sb{2}\) \(\ldots\) \(e\sb{n}\))
-\end{alltt}
-%
-ergibt immer dann \verb|#t|, wenn alle $e_i$ \verb|#t| ergeben, sonst
-\verb|#f|.  Bei zwei Operanden $e_1$ und $e_2$ ergibt \texttt{(and
-  $e_1$ $e_2$)} immer dann \verb|#t|, wenn $e_1$ \emph{und} $e_2$
-\verb|#t| ergeben:
-%
-\begin{alltt}
-(and #t #t)
-\evalsto{} #t
-(and #f #t)
-\evalsto{} #f
-(and #t #f)
-\evalsto{} #f
-(and #f #f)
-\evalsto{} #f
-\end{alltt}
-%
-Entsprechend gibt es Ausdrücke der Form\index{or@\texttt{or}}
-%
-\begin{alltt}
-(or \(e\sb{1}\) \(e\sb{2}\) \(\ldots\) \(e\sb{n}\))
-\end{alltt}
-%
-die immer dann \verb|#t| ergeben, wenn \emph{einer} der $e_i$ \verb|#t| ergibt, sonst
-\verb|#f|.  Bei zwei Operanden $e_1$ und $e_2$ ergibt \texttt{(or
-  $e_1$ $e_2$)} immer dann \verb|#t|, wenn $e_1$ \emph{oder} $e_2$
-\verb|#t| ergeben:
-%
-\begin{alltt}
-(or #t #t)
-\evalsto{} #t
-(or #f #t)
-\evalsto{} #t
-(or #t #f)
-\evalsto{} #t
-(or #f #f)
-\evalsto{} #f
-\end{alltt}
-%
-Des weiteren gibt es noch eine eingebaute Funktion
-\texttt{not}\index{not@\texttt{not}}, die einen booleschen Wert
-umdreht, sich also folgendermaßen verhält:
-%
-\begin{alltt}
-(not #f)
-\evalsto{} #t
-(not #t)
-\evalsto{} #f
-\end{alltt}
-%
 
 \section{Programmieren mit Fallunterscheidungen}
 
@@ -268,34 +1176,6 @@ Auf jeden Fall muß das \texttt{p} irgendwo im Rumpf vorkommen:
     ... p ...))
 \end{alltt}
 %
-\begin{feature}{Verzweigung}{scheme:cond}
-In den Lehrsprachen werden Verzweigungen\index{Verzweigung}\index{Verzweigung}
-mit der Spezialform \texttt{cond}\index{cond@\texttt{cond}} dargestellt.
-Ein \texttt{cond}"=Ausdruck hat die folgende Form:
-%
-\begin{alltt}
-(cond
-  (\(t\sb{1}\) \(a\sb{1}\))
-  (\(t\sb{2}\) \(a\sb{2}\))
-  \(\ldots\)
-  (\(t\sb{n-1}\) \(a\sb{n-1}\))
-  (else \(a\sb{n}\))))
-\end{alltt}
-%
-Dabei sind die $t_i$ und die $a_i$ ihrerseits Ausdrücke.  Der
-\texttt{cond}-Ausdruck wertet nacheinander alle Bedingungen $t_i$ aus;
-sobald eine Bedingung $t_k$ \texttt{\#t} ergibt, wird der
-\texttt{cond}-Ausdruck durch das entsprechende $a_k$ ersetzt.  Wenn
-alle Bedingungen fehlschlagen, wird durch $a_n$ ersetzt.  Die Paarungen
-\texttt{($t_i$ $a_i$)} heißen \textit{Zweige\index{Zweig}} des
-\texttt{cond}-Ausdruckes, und der Zweig mit \texttt{else} (auf deutsch
-"`sonst"') heißt
-\textit{\texttt{else}-Zweig\index{else-Zweig@\texttt{else}-Zweig}}.
-Der \texttt{else}-Zweig kann auch fehlen~-- dann sollte aber immer
-eine der Bedingungen  \texttt{\#t} ergeben.  Wenn doch einmal bei allen
-$t_i$ \verb|#f| herauskommen sollte, bricht \drscheme{} das Programm ab
-und gibt eine Fehlermeldung aus.
-\end{feature}
 %
 Jetzt brauchen wir, wie bei der mathematischen Funktion $m$ aus
 Abschnitt~\ref{sec:fallunterscheidungen}, eine Verzweigung, nur eben
@@ -617,7 +1497,7 @@ Maßnahme?  Die bekannten Größen sind:
 %
 \begin{itemize}
 \item Punktestand vor der Maßnahme (natürliche Zahl)
-\item freiwillige Maßnahme (siehe Abschnitt~\ref{sec:fallunterscheidungen})
+\item freiwillige Maßnahme (siehe Abschnitt~\ref{sec:flensburg})
 \end{itemize}
 %
 Die unbekannte Größe ist der Punktestand nach der Maßnahme.
@@ -922,6 +1802,8 @@ wenn die Auswertung einen Fehler liefert:
 \end{aufgabe}
 
 \begin{aufgabe}
+  FIXME Spielerin
+  
   Beim Fußball lässt die Rückennummer eines Spielers
   häufig Rückschlüsse auf seine Position zu. Wir machen dabei folgende
   Annahmen:
