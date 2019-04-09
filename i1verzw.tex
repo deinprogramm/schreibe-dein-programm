@@ -1135,57 +1135,9 @@ einer vermeintlich schweren Aufgabe stehst, wende erst einmal die
 Konstruktionsanleitungen an, bevor Du Dir Sorgen machst, ob am Ende
 alles aufgeht.  Was am Ende übrigbleibt, ist oft erstaunlich einfach.
 
-\section{Aufzählungen}
-\label{sec:flensburg}
-\label{sec:aufzaehlungen}
+\section{Exkurs: Verzweigungen in der Mathematik}
 
-Zu den "`Flensburg"'-Punkten, die es bei Verstößen gegen die
-Straßenverkehrsordnung gibt, hat eine Seite im Internet folgendes zu
-sagen:
-%%%% Das ist leider nicht mehr die gültige Version der Punkte! HK
-%
-\begin{center}
-  \begin{tabular}{rl}
-    0 bis 3 Punkte& Keine Sanktionen\\
-    4 bis 8 Punkte& Bei freiwilliger Teilnahme an Aufbauseminaren: 4 Punkte Abzug\\
-    8 bis 13 Punkte& Verwarnung und Hinweis auf freiwilliges Aufbauseminar\\
-    9 bis 13 Punkte& Bei freiwilliger Teilnahme an Aufbauseminaren: 2 Punkte Abzug\\
-    14 bis 17 Punkte& Teilnahme an Aufbauseminar wird angeordnet\\
-    14 bis 17 Punkte&
-                      Bei freiwilliger Teilnahme an verkehrspsychologischer Beratung: 2 Punkte Abzug\\
-    Ab 18 Punkte&
-                  Führerschein wird entzogen
-  \end{tabular}
-\end{center}
-%
-Wir können zu dieser Aufstellung eine Reihe von Fragestellungen
-bearbeiten, zum Beispiel welche Sanktionen durch eine bestimmte
-Punktezahl verpflichtend werden oder wieviele Punkte ein Autofahrer
-nach einer bestimmten Maßnahme noch auf dem Konto hat.  In jedem Fall
-teilt die Aufstellung mögliche Punktezahlen in bestimmte Kategorien
-ein, je nach Maßnahme.  Folgende Maßnahmen gibt es:
-%
-\begin{itemize}
-\item nichts
-\item Aufbauseminar
-\item verkehrspsychologische Beratung
-\item Führerscheinentzug
-\end{itemize}
-%
-Dies ist eine \textit{Aufzählung}\index{Aufzählung}.
-
-Wir fangen mit der Fragestellung an, welche Zwangsmaßnahme für eine
-bestimmte Punktezahl angeordnet wird.  Zwangsmaßnahmen gibt es nur
-drei: keine, Aufbauseminar und Führerscheinentzug, da die
-verkehrspsychologische Beratung rein freiwillig ist.  Entsprechend
-zerfällt die Punkteskala in drei Teile: $0-13$, $14-17$ und ab $18$.
-Die Punktezahl gehört also zu einer von drei
-\textit{Kategorien}\index{Kategorie}.
-
-Wenn die Menge, aus der ein Wert kommt, in eine feste
-Anzahl von Kategorien aufgeteilt wird und bei einem Wert nur die
-Kategorie zählt, ist diese Menge durch eine \textit{Fallunterscheidung} definiert.
-Aufzählungen sind damit auch Fallunterscheidungen.
+FIXME
 
 Eine Funktion, die  aus einem Punktestand die Zwangsmaßnahme ermittelt,
 sieht folgendermaßen aus:
@@ -1206,7 +1158,6 @@ Die Notation mit der großen geschweiften Klammer heißt
 \textit{conditional\index{conditional}}); ein Ausdruck wie $p\leq 13$,
 der wahr oder falsch sein kann,
 heißt \textit{Bedingung\index{Bedingung}}.
-
 
 \section{Binäre Verzweigungen und syntaktischer Zucker}
 \label{sec:binaere-verzweigungen}
@@ -1345,189 +1296,6 @@ Beispiel:
 \(\mapsto{}\) (if a #t (if b #t (if c #t #f)))
 \end{alltt}
 
-\section{Signaturdefinitionen}
-
-Nehmen wir uns zu Übungszwecken noch eine weitere Aufgabe vor: Nehmen
-wir an, jemand nimmt bei einem bestimmten Punktestand in Flensburg an
-einer freiwilligen Maßnahme teil~-- was ist der Punktestand nach der
-Maßnahme?  Die bekannten Größen sind:
-%
-\begin{itemize}
-\item Punktestand vor der Maßnahme (natürliche Zahl)
-\item freiwillige Maßnahme (siehe Abschnitt~\ref{sec:flensburg})
-\end{itemize}
-%
-Die unbekannte Größe ist der Punktestand nach der Maßnahme.
-
-Die Kurzbeschreibung könnte so lauten:
-%
-\begin{verbatim}
-; Punktestand in Flensburg senken
-\end{verbatim}
-%
-Die Signatur folgt aus der Datenanalyse:\index{improve-points@\texttt{improve-points}}
-%
-\begin{verbatim}
-(: improve-points (natural (one-of "nichts"
-                                   "Aufbauseminar"
-                                   "verkehrspsychologische Beratung"
-                                   "Führerscheinentzug")
-                    -> natural))
-\end{verbatim}
-%
-Der \texttt{one-of}-Teil der Signatur macht sich da ganz schön breit,
-zumal er sich weitgehend deckt mit dem entsprechenden Teil der
-Signatur von \texttt{points-must-do} auf
-Seite~\pageref{page:points-must-do}.  Entsprechend sollten wir genauso
-wie bei anderen Werten der Signatur für "`Flensburg"=Maßnahmen"' einen
-Namen geben.  Das geht mit einer fast ganz normalen Definition:\index{Signaturdefinition}
-%
-\begin{verbatim}
-(define action
-  (signature
-   (one-of "nichts"
-           "Aufbauseminar"
-           "verkehrspsychologische Beratung"
-           "Führerscheinentzug")))
-\end{verbatim}
-%
-Das Wörtchen \texttt{signature}\index{signature@texttt{signature}}\label{page:signature} ist aus technischen Gründen
-nötig.\footnote{Es sorgt unter anderem dafür, dass Signaturdefinitionen
-  in beliebiger Reihenfolge geschrieben werden und die Links in den
-  Fehlermeldungen von DrRacket auf die richtige Stelle zeigen.}
-Faustregel: Signaturen außerhalb von Formen \texttt{(: \ldots)} müssen immer in ein \texttt{(signature
-  \ldots)} eingeschachtelt werden..
-
-Mit dieser Definition gewappnet können wir die Signatur abkürzen:
-%
-\begin{verbatim}
-(: improve-points (natural action -> natural)) 
-\end{verbatim}
-%
-Entsprechend Mantra~\ref{mantra:coverage} versuchen wir, durch mehr
-Tests als noch bei \texttt{points-must-do} bessere Abdeckung zu
-erzielen:\label{page:improve-points-tests}
-%
-\begin{verbatim}
-(check-expect (improve-points 3 "Aufbauseminar") 3)
-(check-expect (improve-points 4 "nichts") 4)
-(check-expect (improve-points 4 "Aufbauseminar") 0)
-(check-expect (improve-points 8 "Aufbauseminar") 4)
-(check-expect (improve-points 9 "Aufbauseminar") 7)
-(check-expect (improve-points 13 "Aufbauseminar") 11)
-(check-expect (improve-points 14 "verkehrspsychologische Beratung") 12)
-(check-expect (improve-points 17 "verkehrspsychologische Beratung") 15)
-(check-expect (improve-points 18 "Aufbauseminar") 18)
-(check-expect (improve-points 18 "verkehrspsychologische Beratung") 18)
-\end{verbatim}
-%
-Hier das Gerüst:
-%
-\begin{verbatim}
-(define improve-points
-  (lambda (p a)
-    ...))
-\end{verbatim}
-%
-Bei der Konstruktion der Schablone müssen wir uns entscheiden, an
-welchem Parameter wir uns orientieren, \texttt{p} oder \texttt{a}.
-Die Entscheidung ist willkürlich~-- wir entscheiden uns erst einmal
-für \texttt{p}.  (Ausgehend von \texttt{a} kommt eine andere aber
-genauso gute Lösung heraus~-- das sei Ihnen in
-Aufgabe~\ref{aufgabe:improve-points-a} als Fingerübung empfohlen.)
-Bei \texttt{p} gibt es in Bezug auf diese Aufgabe fünf Kategorien:
-%
-\begin{description}
-\item[0--3 Punkte] Da bringt keine Maßnahme etwas.
-\item[4--8 Punkte] Da bringt ein Aufbauseminar 4 Punkte Abzug.
-\item[9--13 Punkte] Da bringt ein Aufbauseminar 2 Punkte Abzug.
-\item[14--17 Punkte] Da bringt eine verkehrspsychologische Beratung 2
-  Punkte Abzug.
-\item[über 18 Punkte] Auch hier hilft keine Maßnahme.
-\end{description}
-%
-Wir brauchen also ein \texttt{cond} mit fünf Zweigen:
-%
-\begin{verbatim}
-(define improve-points
-  (lambda (p a)
-    (cond
-      (... ...)
-      (... ...)
-      (... ...)
-      (... ...)
-      (... ...))))
-\end{verbatim}
-%
-Jetzt müssen wir Bedingungen erfinden, die den Kategorien entsprechen:
-%
-\begin{verbatim}
-(define improve-points
-  (lambda (p a)
-    (cond
-      ((<= p 3) ...)
-      ((and (>= p 4) (<= p 8)) ...)
-      ((and (>= p 9) (<= p 13)) ...)
-      ((and (>= p 14) (<= p 17)) ...)
-      ((>= p 18) ...))))
-\end{verbatim}
-%
-Wir fangen mal mit den einfachsten Fällen an~-- unten und oben in der
-Punkteskala, wo sich nichts bewegt:
-%
-\begin{verbatim}
-(define improve-points
-  (lambda (p a)
-    (cond
-      ((<= p 3) p)
-      ((and (>= p 4) (<= p 8)) ...)
-      ((and (>= p 9) (<= p 13)) ...)
-      ((and (>= p 14) (<= p 17)) ...)
-      ((>= p 18) p))))
-\end{verbatim}
-%
-Im zweiten Zweig~-- zwischen vier und acht Punkten~-- zählt nur ein
-Aufbauseminar, alle anderen Maßnahmen bringen nichts.  Darum ist hier
-eine binäre Verzweigung angemessen:
-%
-\begin{verbatim}
-(define improve-points
-  (lambda (p a)
-    (cond
-      ...
-      ((and (>= p 4) (<= p 8))
-       (if (string=? a "Aufbauseminar")
-           (- p 4)
-           p))
-      ...)))
-\end{verbatim}
-%
-Entsprechend funktionieren auch der dritte und der vierte Zweig:
-%
-\begin{verbatim}
-(define improve-points
-  (lambda (p a)
-    (cond
-      ((<= p 3) p)
-      ((and (>= p 4) (<= p 8))
-       (if (string=? a "Aufbauseminar")
-           (- p 4)
-           p))
-      ((and (>= p 9) (<= p 13))
-       (if (string=? a "Aufbauseminar")
-           (- p 2)
-           p))
-      ((and (>= p 14) (<= p 17))
-       (if (string=? a "verkehrspsychologische Beratung")
-           (- p 2)
-           p))
-      ((>= p 18) p))))
-\end{verbatim}
-%
-Fertig!  Es gibt trotzdem noch einen Wermutstropfen: Die Abdeckung ist
-trotz der vielen Tests immer noch nicht vollständig~-- siehe
-Aufgabe~\ref{aufgabe:improve-points-coverage}
-
 \section{Unsinnige Daten abfangen}
 \label{sec:nonsensical-data}
 
@@ -1594,6 +1362,10 @@ wenn die Auswertung einen Fehler liefert:
 \end{verbatim}
 
 \section*{Aufgaben}
+
+\begin{aufgabe}
+  FIXME: Flensburg-Punkte
+\end{aufgabe}
 
 \begin{aufgabe}
   Schreibe eine Funktion \texttt{card-type}, die den Umsatz einer
