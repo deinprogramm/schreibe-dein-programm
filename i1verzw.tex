@@ -258,6 +258,7 @@ verschiedene Haustiere: Katzen, Hunde und Pythons.  Die Haustiere
 bilden eine sogenannte \textit{Aufzählung\index{Aufzählung}}, die wir
 in einem Kommentar im Programm so beschreiben könnten:
 %
+\label{sec:datendefinition}
 \begin{verbatim}
 ; Ein Haustier ist eins der folgenden:
 ; - Katze
@@ -267,9 +268,7 @@ in einem Kommentar im Programm so beschreiben könnten:
 %
 Solch ein kurzen Kommentar, der die Daten beschreibt, die in unserer
 Aufgabe vorkommen, heißt
-\textit{Datendefinition\index{Datendefinition}} und ist das Resultat
-eines Nachdenkprozesses, der \textit{Datenanalyse\index{Datenanalyse}}
-heißt.  (Auch wenn er hier reichlich kurz ausgefallen ist.)
+\textit{Datendefinition\index{Datendefinition}}.  Mehr dazu in Abschnitt~\ref{sec:datenanalyse}
 
 Dass es sich um eine Aufzählung handelt, erkennen wir an der
 Datendefinition: Wir benötigen für unsere Aufgabe nur die Information,
@@ -1004,36 +1003,137 @@ einfügen.  Der sieht so aus:
 Jetzt ist das Programm endlich fertig und korrekt! Eine Lektion bleibt:
 %
 \begin{center}
-  \emph{Bei komplizierten Fallunterscheidungen, teste gründlich und
+  \emph{Bei komplizierten Fallunterscheidungen,\\ teste gründlich und
     gehe davon aus, dass Du Zweige vergessen hast.}
 \end{center}
 
-\section{Datenanalyse}
+\section{Datenanalyse und Schablonen}
 \label{sec:datenanalyse}
 
-FIXME
+In Abschnitt~\ref{sec:datendefinition} auf
+Seite~\pageref{sec:datendefinition} ist zum ersten Mal eine
+\textit{Datendefinition\index{Datendefinition}} aufgetaucht:
+%
+\begin{verbatim}
+; Ein Haustier ist eins der folgenden:
+; - Katze
+; - Hund
+; - Schlange
+\end{verbatim}
+%
+Diese Datendefinition ist das Ergebnis eines Nachdenkprozesses, der
+sogenannten \textit{Datenanalyse\index{Datenanalyse}}.  Dieser Begriff
+ist schon in Abschnitt~\ref{sec:konstruktionsanleitungen} auf
+Seite~\pageref{sec:konstruktionsanleitungen} aufgetaucht, als zweiter
+Schritt der Konstruktionsanleitung: Ab sofort werden wir diesen
+Schritt immer durchführen, weil er zentral ist für die systematische
+Konstruktion von Programmen.
 
-\section{Schablonen}
-\label{sec:schablonen}
+Die Vorgehensweise bei einer Datenanalyse sieht im allgemeinen so aus:
+%
+\begin{konstruktionsanleitung}[Datenanalyse]
+  Suche in der Aufgabenstellung nach problemrelevanten Größen suchen;
+  Kandidaten sind immer die Substantive. Schreibe für jede dieser
+  Größen eine Datendefinition, es sei denn, diese ist aus dem Kontext
+  offensichtlich.
+\end{konstruktionsanleitung}
+%
+In diesem Fall ist "`Haustier"' eine problemrelevante Größe, zu der
+wir eine Datendefinition geschrieben haben.  Zum Bei der Erwärmung von
+Wasser haben wir allerdings nicht extra hingeschrieben, dass die
+Wassertemperatur eine reelle Zahl ist, weil dies allgemein bekannt
+ist,
 
-FIXME
+Für die Formulierung der Datendefinition gibt es eine Reihe von
+typischen Mustern, die sich immer wiederfinden.  Eins ist bei der
+Definition von "`Haustier"' ersichtlich, nämlich "`eins der
+folgenden"', das darauf hinweist, dass es sich bei "`Haustier"' um
+eine Aufzählung handelt.  Später werden wir noch andere Arten
+von Daten beschreiben zusammen mit den dazu passenden Formulierungen
+in den Datendefinitionen.
 
-Vielleicht ist Dir aufgefallen, dass der erste Schritt nach dem
-Gerüst noch gar nicht soviel mit der konkreten Aufgabe zu tun hatte,
-sondern nur aus der Einsicht entstand, dass es die Eingaben
-eine Fallunterscheidung mit \textit{zwei} Fällen bilden:
+Die Datenanalyse spielt die zentrale Rolle bei der Umsetzung der
+Konstruktionsanleitung und führt immer auch zu Elementen in unserem
+Programm.  Bei der Funktion \texttt{cute?} haben wir zum Beispiel
+aus der Datendefinition zunächst eine Signaturdefinition abgeleitet:
+%
+\begin{verbatim}
+(define pet
+  (signature (one-of "Katze" "Hund" "Schlange")))
+\end{verbatim}
+%
+Da die Datendefinition für "`Haustier"' drei Fälle hat, muss auch die
+Signaturdefinition drei Fälle haben.  Aus der Signaturdefinition
+ergibt sich direkt eine Verzweigung im Rumpf, die sich nur aus der
+Signatur \texttt{(pet -> boolean)} beziehungsweise der
+Signaturdefinition von \texttt{pet} als Aufzählung mit drei Fällen
+ergibt:
 %
 \begin{alltt}
-(define heat-water-1
-  (lambda (temp heat)
+(define cute?
+  (lambda (p)
     (cond
-      (\ldots \ldots)
-      (\ldots \ldots))))
+      (\ldots{} \ldots)
+      (\ldots{} \ldots)
+      (\ldots{} \ldots))))
 \end{alltt}
 %
-So ein unfertiges Programm, in dem einige Elemente aus der Analyse der Daten
+Da \texttt{cute?} eine Eingabe zur Signatur \texttt{pet} erwartet und
+\texttt{pet} eine Aufzählungssignatur mit \emph{drei} Fällen ist, \emph{muss}
+im Rumpf eine Verzweigung mit ihrerseits \emph{drei} Zweigen
+auftauchen, ganz egal, was die konkrete Aufgabenstellung ist.  Wir
+betonen das Wort \emph{drei} deshalb so, weil viele Fehler dadurch
+passieren, dass die Anzahl der Zweige im \texttt{cond} einer solchen
+Funktion nicht der Anzahl der Fälle entspricht.
 
-FIXME: \textit{Schablone}
+So ein unfertiges Programm, in dem sich einige Elemente aus der
+Analyse der Daten ergeben haben ohne besondere Berücksichtigung der
+konkreten Aufgabenstellung heißt \textit{Schablone}.  Zu bestimmten
+Arten von Datendefinitionen gehören bestimmte Schablonen.  Für jede
+Sorte von Datendefinition schreiben wir eine Konstruktionsanleitung
+mit Schablone:
+%
+\begin{konstruktionsanleitung}[Aufzählung]
+  Versuche, für die Datendefinition eine Formulierung \emph{\ldots{}
+    ist eins der folgenden} zu finden und schreibe dann eine
+  Auflistung aller Fälle.  Falls jedes der Fälle nur aus einem
+  einzelnen Wert besteht, handelt es sich um eine
+  \textit{Aufzählung\index{Aufzählung}}.
+
+  Schreibe für jede Aufzählung eine Signaturdefinition der Form:
+  % 
+\begin{alltt}
+(define \(s\) (signature (one-of \ldots)))
+\end{alltt}
+  %
+  Achte darauf, dass die Anzahl der Fälle der Signaturdefinition der
+  Anzahl der Fälle der Datendefinition entspricht.
+  
+  Wenn Du eine Funktion schreibst, die eine Aufzählung als Eingabe
+  verarbeitet, schreibe in den Rump eine Verzweigung mit sovielen
+  Zweigen, wie es in der Aufzählung Fälle gibt, nach folgendem Muster:
+  %
+\begin{alltt}
+(define \(f\)
+  (lambda (\(a\))
+    (cond
+      (\ldots{} \ldots)
+      \ldots
+      (\ldots{} \ldots))))
+\end{alltt}
+  Schreibe danach Bedingungen in die Zweige, welche die einzelnen
+  Fälle voneinander unterscheiden.
+\end{konstruktionsanleitung}
+%
+Diese Konstruktionsanleitung mag Dir ziemlich bürokratisch vorkommen,
+und das ist sie auch.  Es mag Dir langweilig vorkommen, sie stur zu
+befolgen, und das ist bestimmt ab und zu der Fall.  Dafür nehmen die
+Konstruktionsanleitungen Dir viel Denkarbeit ab, und Du kannst Dein
+Gehirn dann für die Lösung der eigentlichen Problemstellung verwenden,
+wenn erst einmal die Schablone steht.  Spätestens also wenn Du vor
+einer vermeintlich schweren Aufgabe stehst, wende erst einmal die
+Konstruktionsanleitungen an, bevor Du Dir Sorgen machst, ob am Ende
+alles aufgeht.  Was am Ende übrigbleibt, ist oft erstaunlich einfach.
 
 \section{Aufzählungen}
 \label{sec:flensburg}
@@ -1107,247 +1207,6 @@ Die Notation mit der großen geschweiften Klammer heißt
 der wahr oder falsch sein kann,
 heißt \textit{Bedingung\index{Bedingung}}.
 
-
-\section{Programmieren mit Fallunterscheidungen}
-
-Zurück zu den Punkten in Flensburg: Zunächst schreiben wir eine
-Funktion, die zu einem gegebenen Punktestand die entsprechende
-Zwangsmaßnahme ausrechnet.  Fast alles, was zur Datenanalyse gehört,
-haben wir schon am Anfang des Kapitels gemacht: der Punktestand ist
-eine natürliche Zahl, eine Zwangsmaßnahme ist nichts, ein
-Aufbauseminar oder der Führerscheinentzug.  Diese Informationen müssen
-wir noch in Daten umwandeln~-- dazu benutzen wir einfach die
-entsprechenden Zeichenketten \verb|"nichts"|, \verb|"Aufbauseminar"|
-und \verb|"Führerscheinentzug"| und halten das Ergebnis in einem
-Kommentar fest:
-%
-\begin{alltt}
-; Eine Zwangsmaßnahme ist einer der folgenden Werte:
-; - "nichts"
-; - "Aufbauseminar"
-; - "Führerscheinentzug"
-\end{alltt}
-%
-FIXME: Signatur benamsen, nach Motivation
-%
-Die Kurzbeschreibung der Funktion könnte so aussehen:
-%
-\begin{alltt}
-; Zwangsmaßnahme bei Flensburg-Punktestand errechnen
-\end{alltt}
-%
-Eine passende Signatur ist diese
-hier:\index{points-must-do@\texttt{points-must-do}}\label{page:points-must-do}
-%
-\begin{alltt}
-(: points-must-do (natural -> (one-of "nichts"
-                                      "Aufbauseminar"
-                                      "Führerscheinentzug")))
-\end{alltt}
-%
-Die Konstruktion \texttt{one-of}\index{one-of@\texttt{one-of}}
-bei Signaturen ist neu: In der obigen
-Signatur bedeutet es, dass der Aggregatzustand einer der in der
-\texttt{one-of}-Signatur angegegebenen Werte ist, also eine der
-Zeichenketten \verb|"nichts"|, \verb|"Aufbauseminar"| und \verb|"Führerscheinentzug"|.
-
-Hier sind zwei mögliche Testfälle:
-%
-\begin{alltt}
-(check-expect (points-must-do 14) "Aufbauseminar")
-(check-expect (points-must-do 18) "Führerscheinentzug")
-\end{alltt}   
-%
-Es folgt das Gerüst der Funktion:
-%
-\begin{alltt}
-(define points-must-do
-  (lambda (p)
-    ...))
-\end{alltt}
-%
-Auf jeden Fall muß das \texttt{p} irgendwo im Rumpf vorkommen:
-%
-\begin{alltt}
-(define points-must-do
-  (lambda (p)
-    ... p ...))
-\end{alltt}
-%
-%
-Jetzt brauchen wir, wie bei der mathematischen Funktion $m$ aus
-Abschnitt~\ref{sec:fallunterscheidungen}, eine Verzweigung, nur eben
-in den Lehrsprachen.  Abbildung~\ref{scheme:cond} beschreibt das dafür
-zuständige \texttt{cond}.   Es ist also von vorneherein klar, dass eine
-\texttt{cond}-Form im Rumpf von \texttt{points-must-do} auftauchen muss:
-%
-\begin{alltt}
-(define points-must-do
-  (lambda (p)
-    (cond ... p ...)))
-\end{alltt}
-%
-Bei der Konstruktion der \texttt{cond}-Formen ist entscheidend,
-wieviele Zweige sie hat.  Dabei gibt es eine einfache Faustregel~-- da
-die Eingabe von \texttt{points-must-do}~-- die Punktzahl~-- in
-\emph{drei} Kategorien zerfällt, braucht die \texttt{cond}-Form auch
-\emph{drei} Zweige:
-%
-\begin{alltt}
-(define points-must-do
-  (lambda (p)
-    (cond
-      (... ...)
-      (... ...)
-      (... ...))))
-\end{alltt}
-%
-Wir benötigen jetzt für jeden \texttt{cond}-Zweig eine Bedingung, der die
-entsprechende Kategorie bei den Punkten identifiziert.  Dazu müssen
-wir nur die entsprechenden Bedingungen aus der mathematischen Fassung
-in einen Funktionsrumpf übersetzen.  Heraus kommt folgendes:
-%
-\begin{alltt}
-(define points-must-do
-  (lambda (p)
-    (cond
-      ((<= p 13) ...)
-      ((and (>= p 14) (<= p 17)) ...)
-      ((>= p 18) ...))))
-\end{alltt}
-%
-Der letzte Schritt ist einfach~-- wir fügen für jeden Zweig die zur
-Bedingung passende Maßnahme ein:
-%
-\begin{alltt}
-(define points-must-do
-  (lambda (p)
-    (cond
-      ((<= p 13) "nichts")
-      ((and (>= p 14) (<= p 17)) "Aufbauseminar")
-      ((>= p 18) "Führerscheinentzug"))))
-\end{alltt}
-%
-Fertig~-- könnte man meinen.  Wenn Du das Programm in der REPL laufen lässt,
-meldet DrRacket zwei bestandene Tests.  Allerdings fällt Ihnen
-vielleicht auf, dass das Programm im Definitionsfenster nach dem Lauf
-so aussieht:
-%
-\begin{alltt}
-(define points-must-do
-  (lambda (p)
-    (cond
-      ((<= p 13) \colorbox{featuregray}{"nichts"})
-      ((and (>= p 14) (<= p 17)) "Aufbauseminar")
-      ((>= p 18) "Führerscheinentzug"))))
-\end{alltt}
-%
-Das \verb|"nichts"| ist farbig unterlegt, weil DrRacket diesen
-Ausdruck noch nie ausgewertet hat.  Das ist nicht gut, weil es heißt,
-dass der entsprechende Zweig durch die Bedingungen noch nicht strapaziert
-wurde~-- er ist also möglicherweise fehlerhaft.  Anders gesagt: Die
-\textit{Abdeckung}\index{Abdeckung} des Programms durch die Bedingungen ist
-unvollständig.  Wenn wir einen Testfall für den ersten Zweig ergänzen,
-verschwindet die farbige Unterlegung:
-%
-\begin{alltt}
-(check-expect (points-must-do 0) "nichts")
-\end{alltt}
-%
-Trotzdem sind die bestehenden Tests noch suboptimal~-- wer sagt
-schließlich, dass das Programm zum Beispiel bei 13 Punkten, also genau
-an der Grenze zwischen dem ersten und zweiten Zweig, das richtige tut.
-Wir sollten für diese Eckfälle\index{Eckfall} auch Testfälle
-bereitstellen sowie einen Testfall, der sicherstellt, dass auch bei
-Punktzahlen oberhalb von 18 immer noch der Führerschein entzogen wird:
-%
-\begin{alltt}
-(check-expect (points-must-do 13) "nichts")
-(check-expect (points-must-do 17) "Aufbauseminar")
-(check-expect (points-must-do 100) "Führerscheinentzug")
-\end{alltt}
-
-\begin{mantra}[Abdeckung und Eckfälle]\label{mantra:coverage}
-  \input{mantra:coverage}
-\end{mantra}
-
-\section{Konstruktionsanleitung für Fallunterscheidungen}
-
-Bei der Konstruktion der Funktion \texttt{points-must-do} haben wir
-ein bestimmtes Schema angewendet.  Dieses Schema geht zunächst von folgender
-Frage aus:
-%
-\begin{quote}
-  \emph{Wieviele} Kategorien gibt es bei der Fallunterscheidung?
-\end{quote}
-%
-Ist die Frage beantwortet~-- durch eine Zahl $n$~-- können wir bereits
-etwas Code in den Rumpf schreiben, nämlich eine Verzweigung mit $n$
-Zweigen:
-%
-\begin{alltt}
-(define \(p\)
-  (lambda (\ldots)
-    (cond
-      (... ...)
-      \ldots{}\hspace{1in}\textrm{(\(n\) Zweige)}
-      (... ...))))
-\end{alltt}
-%
-Solch ein "`Rumpf mit Lücken"' (die Ellipsen\index{Ellipse}
-\texttt{\ldots} stehen für noch zu ergänzende Programmteile) ist eine
-\textit{Schablone\index{Schablone}}.  Wir, die Autoren, empfehlen
-Ihnen, die Schablone bereits hinzuschreiben, wenn Du die Anzahl der
-Kategorien bereits kennst, noch bevor Du weiter über die
-Problemstellung nachdenkst.  Das hilft oft, etwaige Denkblockaden zu
-lösen.
-
-Die Schablone folgt in diesem Fall aus der Struktur der Daten, also
-dem Ergebnis der Datenanalyse.  Es gibt noch andere Arten von Daten,
-jede mit ihrer eigenen Schablone.  Diese werden wir im Rest des Buchs
-entwickeln.
-Für alle folgenden Konstruktionsanleitungen gilt deshalb folgendes Mantra:
-
-\begin{mantra}[Schablone]\label{mantra:data-analysis}
-  \input{mantra:data-analysis}
-\end{mantra}
-
-Was die Fallunterscheidung betrifft, können wir die Schablone aber
-noch weiterentwickeln, indem wir Tests für die einzelnen Fälle der
-Fallunterscheidung ergänzen.
-
-Die Schablone für Fallunterscheidungen ist noch einmal
-als Konstruktionsanleitung~\ref{ka:fallunterscheidung} in
-Anhang~\ref{app:konstruktionsanleitungen} zusammengefasst.
-(Konstruktionsanleitung~\ref{ka:allgemein} beschreibt die Konstruktion
-von Funktionen im allgemeinen.)
-
-\section{Verkürzte Bedingungen}
-
-Natürlich könnten wir die Funktion auch leicht abkürzen:
-%
-\begin{alltt}
-(define points-must-do
-  (lambda (p)
-    (cond
-      ((<= p 13) "nichts")
-      ((<= p 17) "Aufbauseminar")
-      (else "Führerscheinentzug"))))
-\end{alltt}
-%
-Wenn die Auswertung den Bedingungen im zweiten Zweig erreicht, steht schon
-fest, dass die Punktezahl $\geq 14$ ist, da die Bedingung \verb|(<= p 13)|
-fehlgeschlagen ist.  Diese Bedingung könnten wir also weglassen.
-Ebenso die letzte Bedingung, die dadurch, dass \verb|(<= p 17)| \verb|#f|
-ergeben hat, immer \verb|#t| ergibt.  Allerdings sind die Zweige damit
-von ihrer Reihenfolge abhängig: Wenn wir zum Beispiel die ersten
-beiden Zweige vertauschten, funktioniert die Funktion nicht mehr
-richtig.  In Fällen wie diesen, wo "`vollständige"' Bedingungen einfach zu
-formulieren sind, empfiehlt es sich, dies auch zu tun.
-
-\begin{mantra}[Vollständige Bedingungen]\label{mantra:comprehensive-tests}
-  \input{mantra:comprehensive-tests}
-\end{mantra}
 
 \section{Binäre Verzweigungen und syntaktischer Zucker}
 \label{sec:binaere-verzweigungen}
