@@ -47,10 +47,10 @@ einzelnen Satz sagen können.  Hier die Datendefinition:
 Hier die dazu passende Record-Definition:
 %
 \begin{verbatim}
-(define-record-procedures parrot
+(define-record-functions parrot
   make-parrot
-  ((parrot-weight   natural)
-   (parrot-sentence string)))
+  (parrot-weight   natural)
+  (parrot-sentence string))
 \end{verbatim}
 %
 \ldots{} und die passenden Signaturen:
@@ -223,17 +223,17 @@ Prädikate erweitern, und die werden uns erlauben, die Tests zu
 schreiben.  Die Record-Definitionen sehen dann so aus:
 %
 \begin{alltt}
-(define-record-procedures dillo
+(define-record-functions dillo
   make-dillo
   dillo? ; \(\Longleftarrow\)
-  ((dillo-weight natural)
-   (dillo-alive? boolean)))
+  (dillo-weight natural)
+  (dillo-alive? boolean))
 
-(define-record-procedures parrot
+(define-record-functions parrot
   make-parrot
   parrot? ; \(\Longleftarrow\)
-  ((parrot-weight   natural)
-   (parrot-sentence string)))
+  (parrot-weight   natural)
+  (parrot-sentence string))
 \end{alltt}
 %
 Es sind zwei neue Namen hinzugekommen, \texttt{dillo?} und
@@ -290,27 +290,27 @@ Papageien~-- ist \texttt{parrot-weight} zuständig:
 % 
 Fertig!
 
-\begin{feature}{\texttt{define-record-procedures} (mit Prädikaten)}{scheme:define-record-procedures-predicates}
-Eine \texttt{define"=record"=procedures}"=Form\index{define-record-procedures@\texttt{define-record-procedures}}
-hat folgende allgemeine Gestalt:\label{def:define-record-procedures}
+\begin{feature}{\texttt{define-record-functions} (mit Prädikaten)}{scheme:define-record-functions-predicates}
+Eine \texttt{define"=record"=procedures}"=Form\index{define-record-functions@\texttt{define-record-functions}}
+hat folgende allgemeine Gestalt:\label{def:define-record-functions}
 %
 \begin{alltt}
-(define-record-procedures \(t\)
+(define-record-functions \(t\)
   \(c\)
   \(p\)
-  ((\(\mathit{sel}\sb{1}\) \(\mathit{sig}\sb{1}\))
-   \(\ldots\)
-   (\(\mathit{sel}\sb{n}\) \(\mathit{sig}\sb{n}\))))
+  (\(\mathit{sel}\sb{1}\) \(\mathit{sig}\sb{1}\))
+  \(\ldots\)
+  (\(\mathit{sel}\sb{n}\) \(\mathit{sig}\sb{n}\)))
 \end{alltt}
 %
 Diese Form definiert einen Record-Typ mit $n$ Feldern.
 Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, für die
-\texttt{define-record-procedures} Definitionen anlegt:
+\texttt{define-record-functions} Definitionen anlegt:
 %
 \begin{itemize}
 \item $t$ ist der Name des Record-Typs.
 \item $c$ ist der Name des Konstruktors, den
-  \texttt{define-record-procedures} anlegt.  Der Konstruktor hat 
+  \texttt{define-record-functions} anlegt.  Der Konstruktor hat 
   folgende Signatur:
 %  
 \begin{alltt}
@@ -334,9 +334,9 @@ Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, für die
 %
 \end{feature}
 %
-Abbildung~\ref{scheme:define-record-procedures-predicates} ist eine
+Abbildung~\ref{scheme:define-record-functions-predicates} ist eine
 aktualisierte Beschreibung der Form von
-\texttt{define-record-procedures} mit Prädikaten.
+\texttt{define-record-functions} mit Prädikaten.
 
 Aus diesem Beispiel ergibt sich eine Konstruktionsanleitung für
 gemischte Daten.  Zunächst zur Daten- und Signaturdefinition:
@@ -443,10 +443,10 @@ Daraus ergibt sich direkt die Record-Definition mit zwei Komponenten,
 jeweils rationale Zahlen:
 %
 \begin{verbatim}
-(define-record-procedures sugars
+(define-record-functions sugars
   make-sugars sugars?
-  ((sugars-fructose-g rational)
-   (sugars-glucose-g  rational)))
+  (sugars-fructose-g rational)
+  (sugars-glucose-g  rational))
 \end{verbatim}
 %
 Hier einige Beispiele:
