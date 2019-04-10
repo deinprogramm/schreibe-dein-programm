@@ -1137,27 +1137,32 @@ alles aufgeht.  Was am Ende übrigbleibt, ist oft erstaunlich einfach.
 
 \section{Exkurs: Verzweigungen in der Mathematik}
 
-FIXME
-
-Eine Funktion, die  aus einem Punktestand die Zwangsmaßnahme ermittelt,
-sieht folgendermaßen aus:
+In der Mathematik gibt es auch Verzweigungen.  Diese werden in der
+Regel mit einer großen geschweiften Klammer geschrieben.  In der
+Mathematik ist es allerdings üblich, alle Bedingungen
+"`auszuschreiben"', also ihre Bedeutung nicht von der Reihenfolge der
+Auswertung abhängig zu machen, wie wir es bei \texttt{heat-water}
+getan haben.  Die Funktion schreiben wir den mathematischen
+Gepflogenheiten entsprechend als einbuchstabige Funktion $h$ mit
+Parametern $t$ für \texttt{temp} und $h$ für \texttt{heat}:
 %
 \begin{displaymath}
-  m(p) \deq
+  h(t, h) \deq
   \begin{cases}
-    \textit{nichts} & \textrm{falls $p \leq 13$}
+    \begin{cases}
+      t + h & \text{falls } t + h < 0\\
+      0 & \text{falls } t + h \geq 0 \text{ und } t + h < 80 \\
+      100 & t + h - 80 \geq 100\\
+      t + h - 80 & \text{falls }  t +h \geq
+      80
+    \end{cases}
+    & \text{falls } t < 0
     \\
-    \textit{Aufbauseminar} & \textrm{falls $p \geq 14, p \leq 17$}
+    100 & \text{falls } t + h \geq 100
     \\
-    \textit{Führerscheinentzug } & \textrm{falls $p \geq 18$}
+    t + h & \text{falls } t \geq 0 \text{ und } t + h < 100
   \end{cases}
 \end{displaymath}
-%
-Die Notation mit der großen geschweiften Klammer heißt
-\textit{Verzweigung\index{Verzweigung}} (engl.\
-\textit{conditional\index{conditional}}); ein Ausdruck wie $p\leq 13$,
-der wahr oder falsch sein kann,
-heißt \textit{Bedingung\index{Bedingung}}.
 
 \section{Binäre Verzweigungen und syntaktischer Zucker}
 \label{sec:binaere-verzweigungen}
