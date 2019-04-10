@@ -43,68 +43,75 @@ zusammengesetzten Daten und Records zu repräsentieren, da bei ihnen
 die Liste der Komponenten schon in der Datendefinition festgelegt
 ist.  Hier kommen Listen im Sinne der Programmierung ins Spiel, die es
 erlauben, "`zusammengesetzte Daten variabler Länge"' zu
-repräsentieren.  Die einfachste Sorte Liste ist bereits eingebaut:
+repräsentieren.  Die einfachste Sorte Liste ist die leere Liste
+
+FIXME
 %
 \begin{alltt}
-empty
-\evalsto{} #<empty-list>
+(define-record-functions empty-list
+  make-empty
+  empty?)
+
+(define empty (make-empty))
 \end{alltt}
 %
 Dies ist die \textit{leere Liste}\index{leere
   Liste}\index{Liste!leer}.  Um Listen herzustellen, die nicht leer
-sind, dienen \textit{Paare}\index{Paar}, eine besonders allgemein
+sind, dienen \textit{Conse}\index{Cons}, eine besonders allgemein
 verwendbare Sorte zusammengesetzter Daten.  Hier sind Daten- und
-Record-Definition für Paare:\index{pair@\texttt{pair}}\index{make-pair@\texttt{make-pair}}\index{pair?@\texttt{pair?}}\index{first@\texttt{first}}\index{rest@\texttt{rest}}\label{def:pair}
+Record-Definition für Conse:\index{cons@\texttt{cons}}\index{cons@\texttt{cons}}\index{cons?@\texttt{cons?}}\index{first@\texttt{first}}\index{rest@\texttt{rest}}\label{def:cons}
 %
 \begin{alltt}
-; Ein Paar besteht aus:
+; Ein Cons besteht aus:
 ; - einem beliebigen Element
 ; - einer Liste
-(define-record-functions pair
-  make-pair pair?
+(define-record-functions cons-list
+  cons
+  cons?
   (first any)
-  (rest a-list))\end{alltt}
+  (rest  a-list))
+\end{alltt}
 %
 Für eine Signatur für den Konstruktor ist es noch zu früh, da es noch
 keine Signatur für den Begriff "`Liste"' aus der Datendefinition
 gibt.  Diese folgt in wenigen Augenblicken.
 
-Ein Paar kann nun benutzt werden, um die letzte Liste aus der obigen
+Ein Cons kann nun benutzt werden, um die letzte Liste aus der obigen
 Tabelle zu repräsentieren.  "`Pumps"' wird als Zeichenkette zum ersten
-Element des Paars.  Die \texttt{rest}-Komponente des Paars muß eine
+Element des Cons.  Die \texttt{rest}-Komponente des Cons muß eine
 Liste sein~-- dabei ist zu beachten, dass insbesondere die leere Liste
 eine Liste ist, dort also verwendet werden kann:
 %
 \begin{alltt}
-(make-pair "Pumps" empty)
-\evalsto{} #<record:pair "Pumps" #<empty-list>>
+(cons "Pumps" empty)
+\evalsto{} #<record:cons "Pumps" #<empty-list>>
 \end{alltt}
 %
-Jetzt kommt der entscheidende Punkt: Paare sind \emph{auch} Listen,
+Jetzt kommt der entscheidende Punkt: Conse sind \emph{auch} Listen,
 Listen sind also gemischte Daten:\index{a-list@\texttt{a-list}}\label{def:a-list}
 %
 \begin{alltt}
 ; Eine Liste ist eins der folgenden:
 ; - die leere Liste
-; - ein Paar
+; - ein Cons
 (define a-list
   (signature
    (mixed empty-list
-          pair)))
+          cons-list)))
 \end{alltt}
 %
 Die Signatur \texttt{empty-list} ist bereits eingebaut und paßt auf
 die leere Liste \texttt{empty} (und nichts sonst).  (Der Name
-\texttt{list} ist in den DMdA-Lehrsprachen bereits vergeben, darum
+\texttt{list} ist in den Lehrsprachen bereits vergeben, darum
 heißt die Signatur \texttt{a-list}.)  Jetzt ist es möglich, eine
-Signatur für \texttt{make-pair} sowie die anderen Funktionen der
-Record-Definition von \texttt{pair} zu vergeben:
+Signatur für \texttt{cons} sowie die anderen Funktionen der
+Record-Definition von \texttt{cons} zu vergeben:
 %
 \begin{alltt}
-(: make-pair (any a-list -> pair))
-(: pair? (any -> boolean))
-(: first (pair -> any))
-(: rest (pair -> a-list))
+(: cons (any a-list -> cons-list))
+(: cons? (any -> boolean))
+(: first (cons-list -> any))
+(: rest (cons-list -> a-list))
 \end{alltt}
 %
 FIXME:
@@ -114,52 +121,52 @@ Hinter der Bezeichnung \verb$%a$ verbirgt sich eine
 steht für eine beliebige Sorte, die aber in den zwei Zeilen, wo sie vorkommt,
 die gleiche Sorte darstellen soll.  Damit ist \verb$%a$ etwas anderes als
 \texttt{any}, welches erlauben würde, dass die Rückgabesorte von \texttt{first}
-verschieden wäre von der Sorte, welche der Konstruktor \texttt{make-pair} zuvor
+verschieden wäre von der Sorte, welche der Konstruktor \texttt{cons} zuvor
 verwendet hat.
 
 So weit, so gut: Bisher gab es die leere Liste und eine Liste mit einem
 Element.  Wie kommen mehr Elemente in eine Liste?  Indem
-\texttt{make-pair} noch einmal aufgerufen wird:
+\texttt{cons} noch einmal aufgerufen wird:
 %
 \begin{alltt}
-(make-pair "Mike" (make-pair "Herbert" empty))
-\evalsto{}#<record:pair "Mike" #<record:pair "Herbert" #<empty-list>>>
+(cons "Mike" (cons "Herbert" empty))
+\evalsto{}#<record:cons "Mike" #<record:cons "Herbert" #<empty-list>>>
 \end{alltt}
 %
-Zu einer Liste mit zwei Elementen gehören also zwei Paare.
+Zu einer Liste mit zwei Elementen gehören also zwei Conse.
 Entsprechend für drei Elemente:
 %
 \begin{alltt}
-(make-pair "Brot" (make-pair "Butter" (make-pair "Käse" empty)))
-\evalsto{}#<record:pair "Brot" #<record:pair "Butter" #<record:pair "Käse" #<empty-list>>>>
+(cons "Brot" (cons "Butter" (cons "Käse" empty)))
+\evalsto{}#<record:cons "Brot" #<record:cons "Butter" #<record:cons "Käse" #<empty-list>>>>
 \end{alltt}
 %
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.8\textwidth]{pair-lists1}
-  \caption{Liste mit Paaren repräsentiert}
-  \label{fig:pair-lists-1}
+  \caption{Liste mit Consen repräsentiert}
+  \label{fig:cons-lists-1}
 \end{figure}
-Diesmal sind drei Paare im Spiel.  Die Liste wird jeweils
-"`terminiert"' durch die leere Liste.  Abbildung~\ref{fig:pair-lists-1}
+Diesmal sind drei Conse im Spiel.  Die Liste wird jeweils
+"`terminiert"' durch die leere Liste.  Abbildung~\ref{fig:cons-lists-1}
 zeigt, wie die Listen aussehen, wenn sie wie andere zusammengesetzte
 Daten als Tabellen dargestellt sind~-- das $\bot$ steht für die leere
 Liste. Das sieht aus wie ineinandergeschachtelte russische Puppen und
 entspricht damit nicht der gängigen Intuition, wie Listen aufgebaut
 sind, aber es funktioniert.  Für viel mehr als drei Elemente
 funktioniert die Darstellungsweise allerdings nicht: Darum bevorzugen
-wir ab hier sogenannte "`Zeigerdiagramme"', bei denen alle Paare gleich groß
-dargestellt sind und ein Pfeil zeigt, dass ein Paar die
-\texttt{rest}-Komponente eines anderen Paares bildet.
-Abbildung~\ref{fig:pair-lists-2} zeigt das Pfeildiagramm, das
-Abbildung~\ref{fig:pair-lists-1} entspricht; es paßt besser zur
+wir ab hier sogenannte "`Zeigerdiagramme"', bei denen alle Conse gleich groß
+dargestellt sind und ein Pfeil zeigt, dass ein Cons die
+\texttt{rest}-Komponente eines anderen Conses bildet.
+Abbildung~\ref{fig:cons-lists-2} zeigt das Pfeildiagramm, das
+Abbildung~\ref{fig:cons-lists-1} entspricht; es paßt besser zur
 gängigen Intuition von Listen.
 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.8\textwidth]{pair-lists2}
-  \caption{Liste mit Paaren repräsentiert, als Pfeildiagramm}
-  \label{fig:pair-lists-2}
+  \caption{Liste mit Consen repräsentiert, als Pfeildiagramm}
+  \label{fig:cons-lists-2}
 \end{figure}
 
 
@@ -172,11 +179,11 @@ benötigt:
 %
 \begin{verbatim}
 ; Liste mit den Zahlen 1 2 3
-(define n1 (make-pair 1 (make-pair 2 (make-pair 3 empty))))
+(define n1 (cons 1 (cons 2 (cons 3 empty))))
 ; Liste mit den Zahlen e und pi
-(define n2 (make-pair 2.7183 (make-pair 3.14159 empty)))
+(define n2 (cons 2.7183 (cons 3.14159 empty)))
 ; Liste mit den Zahlen 2 3 5 7
-(define n3 (make-pair 2 (make-pair 3 (make-pair 5 (make-pair 7 empty)))))
+(define n3 (cons 2 (cons 3 (cons 5 (cons 7 empty)))))
 \end{verbatim}
 
 Hier Kurzbeschreibung und Vertrag:\label{sec:list-sum}\index{list-sum@\texttt{list-sum}}
@@ -225,11 +232,11 @@ Konstruktionsanleitung für gemischte Daten zur Anwendung:
 \end{verbatim}
 %
 Als nächstes sollten wir die Tests ergänzen, die auf die leere
-Liste bzw.\ Paare testen.  Für \texttt{empty} hat dieses Buch Ihnen
+Liste bzw.\ Conse testen.  Für \texttt{empty} hat dieses Buch Ihnen
 den Test bisher vorenthalten: Das eingebaute Prädikat
 \texttt{empty?}\index{empty?@\texttt{empty?}} liefert \verb|#t| für
-die leere Liste und \verb|#f| für jeden anderen Wert.  Für Paare ist
-das Prädikat \texttt{pair?} bereits von der Record-Definition
+die leere Liste und \verb|#f| für jeden anderen Wert.  Für Conse ist
+das Prädikat \texttt{cons?} bereits von der Record-Definition
 definiert:
 %
 \begin{verbatim}
@@ -237,7 +244,7 @@ definiert:
   (lambda (lis)
     (cond
       ((empty? lis) ...)
-      ((pair? lis) ...))))
+      ((cons? lis) ...))))
 \end{verbatim}
 %
 Beim zweiten Zweig des \texttt{cond} handelt es sich um
@@ -250,7 +257,7 @@ die Schablone:
   (lambda (lis)
     (cond
       ((empty? lis) ...)
-      ((pair? lis)
+      ((cons? lis)
        ... (first lis) ... (rest lis) ...))))
 \end{verbatim}
 %
@@ -277,11 +284,11 @@ ihre Summe $0$:
   (lambda (lis)
     (cond
       ((empty? lis) 0)
-      ((pair? lis)
+      ((cons? lis)
        ... (first lis) ... (rest lis) ...))))
 \end{alltt}
 %
-Bleibt der zweite Zweig mit den Paaren.  Hier hilft es, die beiden
+Bleibt der zweite Zweig mit den Consen.  Hier hilft es, die beiden
 Selektor-Aufrufe \texttt{(first lis)} und \texttt{(rest lis)} auf die
 Daten zurückzubeziehen.  \texttt{(first lis)} liefert für die drei
 Beispiellisten folgende Werte:
@@ -300,11 +307,11 @@ Selektor \texttt{first}\index{first@\texttt{first}} heißt.  Nun für \texttt{re
 %
 \begin{alltt}
 (rest n1)
-\evalsto{} #<record:pair 2 #<record:pair 3 #<empty-list>>>
+\evalsto{} #<record:cons 2 #<record:cons 3 #<empty-list>>>
 (rest n2)
-\evalsto{}  #<record:pair 3.14159 #<empty-list>>
+\evalsto{}  #<record:cons 3.14159 #<empty-list>>
 (rest n3)
-\evalsto{} #<record:pair 3 #<record:pair 5 #<record:pair 7 #<empty-list>>>>
+\evalsto{} #<record:cons 3 #<record:cons 5 #<record:cons 7 #<empty-list>>>>
 \end{alltt}
 %
 Dies sind jeweils Listen mit allen Elementen \emph{außer dem
@@ -337,7 +344,7 @@ Das können wir in die Schablone von oben einsetzen:
   (lambda (lis)
     (cond
       ((empty? lis) 0)
-      ((pair? lis)
+      ((cons? lis)
        (+ (first lis) (list-sum (rest lis)))))))
 \end{verbatim}
 %
@@ -349,14 +356,14 @@ eine Liste, also kann \texttt{list-sum} auch deren Summe berechnen.
 
 Um den "`Selbstaufruf"' von \texttt{list-sum} noch besser zu
 verstehen, betrachten wir noch einmal die Datendefinition für
-Listen zusammen mit der Datendefinition für Paare:
+Listen zusammen mit der Datendefinition für Conse:
 
 \begin{pspdf}
 \begin{ttfamily}\obeylines
 ; Eine \rnode[r]{ListeDef}{\textbf{Liste}} ist eins der folgenden:
 ; - die leere Liste
-; - ein Paar
-; Ein Paar besteht aus:
+; - ein Cons
+; Ein Cons besteht aus:
 ; - einem beliebigen Element
 ; - einer \rnode[r]{ListeRef}{\textbf{Liste}}\nccurve[nodesep=3pt]{->}{ListeRef}{ListeDef}
 \end{ttfamily}
@@ -377,7 +384,7 @@ akzeptieren:
   (lambda (lis)
     (cond
       ((empty? lis) ...)
-      ((pair? lis)
+      ((cons? lis)
        ... (first lis)
        ... (\textit{proc} (rest lis)) ...))))
 \end{alltt}
@@ -425,9 +432,9 @@ sollen: Diese würden auch von folgender Funktion erfüllt:
 Also werden noch Beispiele mit nicht-positiven Elementen benötigt~--
 insbesondere eins mit dem Grenzfall $0$:
 \begin{verbatim}
-(check-expect (all-positive? (make-pair -5 empty)) #f)
-(check-expect (all-positive? (make-pair 0 empty)) #f)
-(check-expect (all-positive? (make-pair 1 (make-pair -2 empty))) #f)
+(check-expect (all-positive? (cons -5 empty)) #f)
+(check-expect (all-positive? (cons 0 empty)) #f)
+(check-expect (all-positive? (cons 1 (cons -2 empty))) #f)
 \end{verbatim}
 %
 Das Gerüst ist wie folgt:
@@ -445,14 +452,14 @@ Wir können nun die Schablone für Listen direkt benutzen:
   (lambda (lis)
     (cond
       ((empty? lis) ...)
-      ((pair? lis)
+      ((cons? lis)
        ... (first lis)
        ... (all-positive? (rest lis)) ...))))
 \end{verbatim}
 %
 Das Ergebnis im ersten Zweig wird durch den ersten Testfall diktiert:
 \verb|#t|.  Wie schon zuvor machen wir uns die Bedeutung der
-Ausdrücke im \texttt{pair}-Zweig klar:
+Ausdrücke im \texttt{cons}-Zweig klar:
 \texttt{(first lis)} ist das erste Element der Liste.
 \texttt{(all-positive? (rest lis))} besagt, ob alle Elemente
 des Rests von \texttt{lis} positiv sind.  Es sind nur dann alle
@@ -466,7 +473,7 @@ kombiniert werden müssen:
   (lambda (lis)
     (cond
       ((empty? lis) #t)
-      ((pair? lis)
+      ((cons? lis)
        (and (> (first lis) 0)
             (all-positive? (rest lis)))))))
 \end{verbatim}
@@ -483,31 +490,33 @@ von derselben Sorte.  Es gibt eine Liste von Essenszutaten, eine von
 Eigennamen, eine von Zahlen, eine von dramatischen Figuren, eine von
 Frisuren und eine von Schuhen.  Die Datendefinition für
 \texttt{a-list} von Seite~\ref{def:a-list} ist da allerdings nicht
-festgelegt: es heißt ausdrücklich, dass jedes Paar ein
+festgelegt: es heißt ausdrücklich, dass jedes Cons ein
 \emph{beliebiges} Element enthält.  So ist beispielsweise auch
 folgende Liste zulässig:
 %
 \begin{verbatim}
 (: ml1 a-list)
-(define ml1 (make-pair 5 (make-pair "Herbert" empty)))
+(define ml1 (cons 5 (cons "Herbert" empty)))
 \end{verbatim}
 %
 In den meisten Fällen gehören jedoch alle Elemente einer Liste zu
 derselben Sorte beziehungsweise haben dieselbe Signatur: Schön wäre
 es, wenn die Signatur für die Liste dokumentieren könnte, welche
 Signatur die Elemente haben.  Wir könnten bei
-der Definition von \texttt{pair} die Signatur der Elemente angeben,
-also \texttt{pair} zum Beispiel auf Elemente der Signatur
+der Definition von \texttt{cons} die Signatur der Elemente angeben,
+also \texttt{cons} zum Beispiel auf Elemente der Signatur
 \texttt{number} fest abonnieren: 
 %
 \begin{alltt}
-(define-record-procedures pair
-  make-pair pair?
-  (first rest))
-(: make-pair (number list-of-\textbf{numbers} -> pair))
-(: pair? (any -> boolean))
-(: first (pair -> \textbf{number}))
-(: rest (pair -> list-of-\textbf{numbers}))
+(define-record-functions cons-list
+  cons
+  cons?
+  (first number)
+  (rest  list-of-numbers))
+(: cons (number list-of-\textbf{numbers} -> cons))
+(: cons? (any -> boolean))
+(: first (cons -> \textbf{number}))
+(: rest (cons -> list-of-\textbf{numbers}))
 \end{alltt}
 %
 Entsprechend würden wir die daraus resultierende Signatur für Listen
@@ -517,69 +526,37 @@ nicht mehr \texttt{a-list} sondern \texttt{list-of-numbers} nennen:\index{list-o
 (define list-of-numbers
   (signature
    (mixed empty-list
-          pair)))
+          cons-list)))
 \end{verbatim}
 %
-Das funktioniert zwar, hat aber den Nachteil, dass wir dann für jede
-neue Elementsorte eine neue Definition von Listen schreiben müssen:
-\texttt{list-of-strings}, \texttt{list-of-shoes} etc.  Das wäre nicht
-nur mühsam, sondern würde auch viel Code ohne Sinn und Verstand
-mehrmals kopieren.  Besser wäre es natürlich, die Macht der
-Abstraktion zum Tragen zu bringen und über die Elementsignatur zu
-abstrahieren.  Dazu brauchen wir allerdings eine etwas aufgebohrte
-Form von \texttt{define-record-procedures}, genannt
-\texttt{define"=record"=procedures"=parametric}.\index{define-record-procedures-parametric@\texttt{define-record-procedures-parametric}}
-Abbildung~\ref{scheme:define-record-procedures-parametric} beschreibt
-die Funktionsweise.
 
-\begin{feature}{\texttt{define-record-procedures-parametric}}{scheme:define-record-procedures-parametric}
-%
-Die \texttt{define-record-procedures-parametric}-Form hat folgende
-allgemeine Gestalt:
-\begin{alltt}
-(define-record-procedures-parametric \(t\) \(\mathit{sc}\)
-  \(c\) \(p\)
-  (\(s\sb{1}\) \(\ldots\) \(s\sb{n}\)))
-\end{alltt}
-%
-Dabei sind $t$, $c$, $p$, $s_1,\ldots, s_n$ genau wie bei
-\texttt{define-record-procedures} (siehe
-Seite~\pageref{def:define-record-procedures}).  Zusätzlich wird unter
-dem Namen $\mathit{sc}$ ein
-\textit{Signaturkonstruktor}\index{Signaturkonstruktor} definiert.
-Dieser ist eine Funktion mit genau so vielen Argumenten wie es Felder in dem Record
-gibt. Er konstruiert aus den Signaturen der Felder die Signatur von Records des Typs
-$t$.
-
-Anmerkung: Die Signaturen der Felder werden jeweils erst bei Aufrufen
-der Selektoren überprüft.
-\end{feature}
+FIXME
 
 Mit
-\texttt{define-record-procedures-parametric} können wir die
-Record-Definition von \texttt{pair} erweitern:
+\texttt{define-record-functions} können wir die
+Record-Definition von \texttt{cons} erweitern:
 %
 \begin{verbatim}
-(define-record-functions (pair-of a)
-  make-pair pair?
+(define-record-functions (cons-of a)
+  cons cons?
   (first a)
   (rest (list-of a)))
 \end{verbatim}
 %
-\texttt{Pair-of} ist der Signaturkonstruktor.  (Das angehängte
+\texttt{Cons-of} ist der Signaturkonstruktor.  (Das angehängte
 \texttt{-of} ist, ähnlich wie das \texttt{make-} bei den
 Konstruktoren, das \texttt{?} beim Prädikat und den Feld-Namen bei den
 Selektoren reine Konvention.)
 
 Konstruktor, Prädikat
-und Selektoren für das neue \texttt{pair} haben die folgenden
+und Selektoren für das neue \texttt{cons} haben die folgenden
 Signaturen:
 %
 \begin{verbatim}
-(: make-pair (%a (list-of %a) -> (pair-of %a)))
-(: pair? (any -> boolean))
-(: first ((pair-of %a) -> %a))
-(: rest ((pair-of %a) -> (list-of %a)))
+(: cons (%a (list-of %a) -> (cons-of %a)))
+(: cons? (any -> boolean))
+(: first ((cons-of %a) -> %a))
+(: rest ((cons-of %a) -> (list-of %a)))
 \end{verbatim}
 %
 Hier sind  \verb|%a| und \verb|%b| wiederum
@@ -587,13 +564,13 @@ Hier sind  \verb|%a| und \verb|%b| wiederum
 Signaturen stehen.  Die Tatsache, dass hier zwei verschiedene Signaturvariablen
 verwendet wurden bringt die zusätzliche Information für den
 menschlichen Leser zum Ausdruck, dass die
-Argumente von \texttt{pair-of} zu potentiell
+Argumente von \texttt{cons-of} zu potentiell
 unterschiedlichen Signaturen gehören.
 
 Zu lesen sind die obigen Signaturdeklarationen so:
 %
 \begin{itemize}
-\item \texttt{Make-pair} akzeptiert zwei Argumente beliebiger Signaturen
+\item \texttt{cons} akzeptiert zwei Argumente beliebiger Signaturen
   \verb|%a| und \verb|%b| und
   liefert als Resultat einen Record, dessen erstes Feld von der Signatur
   \verb|%a| und dessen zweites Feld von der Signatur \verb|%b| ist.
@@ -605,7 +582,7 @@ Zu lesen sind die obigen Signaturdeklarationen so:
 %
 
 Diese Signaturen sind allerdings noch unbefriedigend, da sie nicht zum
-Ausdruck bringen, dass das zweite Argument von \texttt{make-pair} immer
+Ausdruck bringen, dass das zweite Argument von \texttt{cons} immer
 eine \emph{Liste} sein muß beziehungsweise daß \texttt{rest} immer
 eine Liste liefert.  Diese Problematik stellen wir noch einen Moment
 hintenan, werden aber später zu ihr zurückkehren~-- zunächst einmal zu
@@ -613,7 +590,7 @@ den Signaturen für Listen.
 
 FIXME
 
-Mit Hilfe von \texttt{pair-of} können wir versuchen, einen Ersatz für
+Mit Hilfe von \texttt{cons-of} können wir versuchen, einen Ersatz für
 \texttt{a-list} zu definieren, der spezifiziert, auf welche Signatur
 die Elemente der Liste passen.  Das könnte so aussehen:
 %
@@ -621,7 +598,7 @@ die Elemente der Liste passen.  Das könnte so aussehen:
 (define list-of-numbers
   (signature
     (mixed empty-list
-           (pair-of \textbf{number} list-of-numbers))))
+           (cons-of \textbf{number} list-of-numbers))))
 \end{alltt}
 %
 Entsprechend für Zeichenketten:
@@ -630,7 +607,7 @@ Entsprechend für Zeichenketten:
 (define list-of-strings
   (signature
     (mixed empty-list
-           (pair-of \textbf{string} list-of-strings))))
+           (cons-of \textbf{string} list-of-strings))))
 \end{alltt}
 %
 Wie schon oben angemerkt, wäre es unbefriedigend, für jede Elementsignatur eine
@@ -644,7 +621,7 @@ einzigen Stelle, und über die können wir abstrahieren:
   (lambda (x)
     (signature
       (mixed empty-list
-             (pair-of x)))))
+             (cons-of x)))))
 \end{verbatim}
 %
 Fertig!  Nun können wir Signaturen für Listen von Zahlen als
@@ -652,26 +629,26 @@ Fertig!  Nun können wir Signaturen für Listen von Zahlen als
 \texttt{(list-of string)} und Listen von beliebigen Werten als
 \texttt{(list-of any)} schreiben.  Außerdem können wir diese
 Definition jetzt verwenden, um bessere Signaturen für
-\texttt{make-pair}, \texttt{first} und \texttt{rest} anzugeben:
+\texttt{cons}, \texttt{first} und \texttt{rest} anzugeben:
 %
 \begin{verbatim}
-(: make-pair (%a (list-of %a) -> (pair-of %a)))
-(: pair? (any -> boolean))
-(: first ((pair-of %a) -> %a))
-(: rest ((pair-of %a) -> (list-of %a)))
+(: cons (%a (list-of %a) -> (cons-of %a)))
+(: cons? (any -> boolean))
+(: first ((cons-of %a) -> %a))
+(: rest ((cons-of %a) -> (list-of %a)))
 \end{verbatim}
 %
 
 \section{Eingebaute Listen}
 
 Da Listen in diesem Buch noch oft vorkommen und es umständlich
-ist, jedesmal die Definitionen für \texttt{pair} und \texttt{list-of} an den Anfang
+ist, jedesmal die Definitionen für \texttt{cons} und \texttt{list-of} an den Anfang
 von Programmen zu setzen, ist es an dieser Stelle Zeit, eine neue
 Sprachebene in \drscheme{} auszuwählen, nämlich \texttt{Schreibe Dein Programm!}
-(ohne \texttt{Anfänger}).\index{Sprachebene}  Diese enthält \texttt{make-pair},
-\texttt{pair?}, \texttt{first} und \texttt{rest} als eingebaute
+(ohne \texttt{Anfänger}).\index{Sprachebene}  Diese enthält \texttt{cons},
+\texttt{cons?}, \texttt{first} und \texttt{rest} als eingebaute
 Funktionen sowie den Signaturkonstruktor \texttt{list-of}\footnote{In Standard-Scheme heißt der Konstruktor für
-  die eingebauten Paare \texttt{cons\index{cons@\texttt{cons}}}, die
+  die eingebauten Conse \texttt{cons\index{cons@\texttt{cons}}}, die
   Selektoren \texttt{car\index{car@\texttt{car}}} und \texttt{cdr\index{cdr@\texttt{cdr}}}
   (gesprochen "`kar"' und "`kudder"'; dies waren die Namen von Anweisungen auf einer
   Maschine, auf der ein Vorläufer von Scheme lief) und das Prädikat
@@ -695,7 +672,7 @@ Beispiele:
 %
 \begin{feature}{\texttt{list}}{scheme:list}
   Die eingebaute Funktion \texttt{list}\index{list@\texttt{list}} erlaubt es, Listen aus ihren Elementen
-  ohne Verwendung von \texttt{make-pair} zu erzeugen.  Sie
+  ohne Verwendung von \texttt{cons} zu erzeugen.  Sie
   akzeptiert eine beliebige Anzahl von Argumenten, macht daraus eine
   Liste und gibt diese zurück:
 %
@@ -751,7 +728,7 @@ Die Schablone ist wie gehabt:
   (lambda (lis)
     (cond
       ((empty? lis) ...)
-      ((pair? lis) 
+      ((cons? lis) 
        ... (first lis) ...
        ... (list-length (rest lis)) ...))))
 \end{alltt}
@@ -768,7 +745,7 @@ diese dann zum vollständigen Rumpf ergänzen:
   (lambda (lis)
     (cond
       ((empty? lis) 0)
-      ((pair? lis) 
+      ((cons? lis) 
        (+ 1 
           (list-length (rest lis)))))))
 \end{alltt}
@@ -843,7 +820,7 @@ schon so oft, die entsprechende Schablone zum Einsatz bringen:
   (lambda (dls)
     (cond
      ((empty? dls) ...)
-     ((pair? dls)
+     ((cons? dls)
       ... (first dls) ...
       ... (run-over-dillos (rest dls)) ...))))
 \end{verbatim}
@@ -859,7 +836,7 @@ das erste Element der Liste anwenden:
   (lambda (dls)
     (cond
      ((empty? dls) empty)
-     ((pair? dls)
+     ((cons? dls)
       ... (run-over-dillo (first dls)) ...
       ... (run-over-dillos (rest dls)) ...))))
 \end{verbatim}
@@ -876,15 +853,15 @@ stehen:
 %
 Gefragt ist eine Liste \emph{aller} Gürteltiere, überfahren:
 Wir müssen also nur die Resultate der beiden Ausdrucke mit
-\texttt{make-pair} kombinieren:
+\texttt{cons} kombinieren:
 %
 \begin{verbatim}
 (define run-over-dillos
   (lambda (dls)
     (cond
      ((empty? dls) empty)
-     ((pair? dls)
-      (make-pair (run-over-dillo (first dls))
+     ((cons? dls)
+      (cons (run-over-dillo (first dls))
                  (run-over-dillos (rest dls)))))))
 \end{verbatim}
 %
@@ -894,7 +871,7 @@ Dieses Beispiel zeigt, dass wir für Funktionen, die Listen produzieren,
 keine neue Technik brauchen: Wenn eine Funktion eine leere Liste
 produzieren soll, benutzen wir an der entsprechenden Stelle
 \texttt{empty}, und bei nichtleeren Listen benutzen wir
-\texttt{make-pair}, bringen also die Schablone für Funktionen zum
+\texttt{cons}, bringen also die Schablone für Funktionen zum
 Einsatz, die zusammengesetzte Daten produzieren.
 
 \subsection{Zwei Listen aneinanderhängen}
@@ -928,7 +905,7 @@ fangen, um die Sache spannender zu machen, mit \texttt{lis-2} an:
   (lambda (lis-1 lis-2)
     (cond
       ((empty? lis-2) ...)
-      ((pair? lis-2) 
+      ((cons? lis-2) 
        ... (first lis-2)
        ... (concatenate lis-1 (rest lis-2)) ...))))
 \end{alltt}
@@ -954,7 +931,7 @@ Möglichkeit führt also in eine Sackgasse. Wir versuchen deshalb, die Schablone
   (lambda (lis-1 lis-2)
     (cond
       ((empty? lis-1) ...)
-      ((pair? lis-1) 
+      ((cons? lis-1) 
        ... (first lis-1)
        ... (concatenate (rest lis-1) lis-2) ...))))
 \end{alltt}
@@ -977,21 +954,21 @@ also:
 %
 Es fehlt das erste Element von \texttt{lis-1}, \texttt{(first
   lis-1)}, das vorn an das Ergebnis angehängt werden muß.  Das geht
-mit \texttt{make-pair}:
+mit \texttt{cons}:
 %
 \begin{alltt}
 (define concatenate
   (lambda (lis-1 lis-2)
     (cond
       ((empty? lis-1) lis-2)
-      ((pair? lis-1) 
-       (make-pair (first lis-1)
+      ((cons? lis-1) 
+       (cons (first lis-1)
                   (concatenate (rest lis-1) lis-2))))))
 \end{alltt}
 %
 Dieses Beispiel zeigt ein weiteres Schablonenelement, das noch öfter
 vorkommen wird:  Wie bei anderen zusammengesetzten Daten müssen Funktionen, die
-Listen konstruieren sollen, irgendwo ein \texttt{make-pair} enthalten.
+Listen konstruieren sollen, irgendwo ein \texttt{cons} enthalten.
 
 \texttt{List-length} und \texttt{concatenate} sind gute
 Programmierübungen.  Da viele Programme diese Operationen benötigen,
