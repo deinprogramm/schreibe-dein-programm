@@ -279,7 +279,9 @@ Zeichenketten mit dem entsprechenden Text, also \verb|"Katze"|,
 
 Für die Aufzählung der Haustiere gibt es noch keine fertige Signatur,
 die müssen wir deshalb erst noch definieren.  Die
-\textit{Signatur-Definition\index{Signatur-Definition}} sieht so aus:
+\textit{Signatur-Definition\index{Signatur-Definition}} sieht so
+aus:\index{pet@\texttt{pet}}
+\label{sec:pet}
 %
 \begin{alltt}
 (define pet
@@ -1110,8 +1112,9 @@ mit Schablone:
   Anzahl der Fälle der Datendefinition entspricht.
   
   Wenn Du eine Funktion schreibst, die eine Aufzählung als Eingabe
-  verarbeitet, schreibe in den Rump eine Verzweigung mit sovielen
-  Zweigen, wie es in der Aufzählung Fälle gibt, nach folgendem Muster:
+  verarbeitet, schreibe als Schablone in den Rumpf eine Verzweigung
+  mit sovielen Zweigen, wie es in der Aufzählung Fälle gibt, nach
+  folgendem Muster:
   %
 \begin{alltt}
 (define \(f\)
@@ -1164,65 +1167,139 @@ Parametern $t$ für \texttt{temp} und $h$ für \texttt{heat}:
   \end{cases}
 \end{displaymath}
 
-\section{Binäre Verzweigungen und syntaktischer Zucker}
+\section{Boolesche Fallunterscheidungen und binäre Verzweigungen}
 \label{sec:binaere-verzweigungen}
 
+\index{boolesche Fallunterscheidung}\index{binäre Verzweigung}
 Bei manchen Fallunterscheidungen definiert sich die letzte Kategorie
 dadurch, dass ein Wert in keine der anderen Kategorien gehört.  Dann
 ist die Benutzung eines \texttt{else}-Zweigs im \texttt{cond}
 sinnvoll.
-FIXME: Beispiel wäre schön, dann vielleicht früher.  
-Manchmal gibt es dabei nur zwei Kategorien, wie
-zum Beispiel beim Absolutbetrag.  Hier die Definition dazu in mathematischer
-Schreibweise:
-%
-\begin{displaymath}
-  |x| \deq{} \left\{\begin{array}{rl}
-      x & \textrm{falls } x \geq 0\\
-      -x & \textrm{andernfalls}
-    \end{array}
-    \right.
-\end{displaymath}
-%
-Die dazu passende Programm-Funktion unter Verwendung von \texttt{cond}
-sieht so aus:\index{abs@\texttt{abs}}
-%
-\begin{alltt}
-; Absolutbetrag einer Zahl berechnen
-(: absolute (number -> number))
-(define absolute
-  (lambda (x)
-    (cond
-     ((>= x 0) x)
-     (else (- x)))))
-\end{alltt}
-FIXME: besseres Beispiel
 
+Nehmen wir einmal an, dass Du ein Haustier (wie in
+Abschnitt~\ref{sec:pet} auf Seite~\pageref{sec:pet} zum Geburtstag
+geschenkt bekommen hast. Mit dem Geschenk kam das Angebot, das
+Haustier gegen ein anderes auszutauschen, falls es Dir nicht gefällt.
+Nehmen wir weiter an, dass Du nur an niedlichen Haustieren
+interessiert bist.  Wir schreiben also eine Funktion, die ein Haustier
+gegen ein niedliches austauscht, wenn es nicht niedlich ist~-- und
+sonst halt nicht austauscht.
+
+Die Funktion könnte folgende Kurzbeschreibung und Signatur
+haben:\index{exchange-for-cute@\texttt{exchange-for-cute}}
 %
-Dieser Spezialfall mit nur zwei Kategorien, genannt \textit{binäre
-  Verzweigung\index{binäre Verzweigung}\index{Verzweigung!binär}} kommt in der Praxis
-häufig vor.  In den Lehrsprachen gibt es dafür eine eigene Spezialform,
-genannt \texttt{if\index{if@\texttt{if}}}, die hier kürzer ausfällt
-als \texttt{cond}:
+\begin{verbatim}
+(: exchange-for-cute (pet -> pet))
+\end{verbatim}
+%
+Es geht also das Haustier vor dem Umtausch als Eingabe in die Funktion
+hinein, und das nach dem Umtausch kommt heraus.  Als Testfälle bieten
+sich folgende an:
+%
+\begin{verbatim}
+(check-expect (exchange-for-cute "Katze") "Katze")
+(check-expect (exchange-for-cute "Hund") "Hund")
+(check-expect (exchange-for-cute "Schlange") "Katze")
+\end{verbatim}
+%
+Das Gerüst sieht folgendermaßen aus:
 %
 \begin{alltt}
-(define absolute
-  (lambda (x)
-    (if (>= x 0)
-        x
-        (- x))))
+(define exchange-for-cute
+  (lambda (p)
+    \ldots))
 \end{alltt}
 %
-Eine \texttt{if}-Form hat folgende Form:
+Als nächstes ist die Konstruktion der Schablone dran.  Wir könnten uns
+an der Definition von \texttt{pet} orientieren und eine
+Fallunterscheidung mit drei Fällen als Grundlage nehmen.  Allerdings
+ist recht offensichtlich, dass sich das Ergebnis von
+\texttt{exchange-for-cute} danach richtet, ob \texttt{cute?} \verb|#t|
+oder \verb|#f| liefert.   \verb|#t| und \verb|#f| bilden hier eine
+Aufzählung mit nur zwei Fällen.  Wir könnten also eine Schablone mir
+nur zwei Fällen konstruieren:
 %
 \begin{alltt}
-(if \(t\) \(k\) \(a\))
+(define exchange-for-cute
+  (lambda (p)
+    (cond
+      ((cute? p) \ldots)
+      (else \ldots"))))
 \end{alltt}
-Dabei ist $t$ die Bedingung und $k$ und $a$ sind die
+%
+Die Lücken sind einfach zu füllen:
+%
+\begin{alltt}
+(define exchange-for-cute
+  (lambda (p)
+    (cond
+      ((cute? p) p)
+      (else "Katze"))))
+\end{alltt}
+%
+Diese boolesche Fallunterscheidungen bildet einen häufig auftretenden
+Spezialfall: Der zweite Fall ist gerade dadurch definiert, dass er
+nicht der erste ist, der entsprechende \texttt{cond}-Ausdruck hat also
+immer einen Zweig mit Bedingung und einen mit \texttt{else}-Zweig.
+Weil solche binären Verzweigungen so häufg vorkommen, gibt es eine
+etwas kürzere Spezialform für das "`binäre \texttt{cond} mit
+\texttt{else}"' namens \texttt{if}\index{if@\texttt{if}}.  Damit
+können wir \texttt{exchange-for-cute} etwas kürzer schreiben:
+%
+\begin{verbatim}
+(define exchange-for-cute
+  (lambda (p)
+    (if (cute? p)
+        p
+        "Katze")))
+\end{verbatim}
+%
+Das \texttt{if} spart also ein Paar Klammern und das \texttt{else},
+aber dafür kann es eben nur binäre Verzweigungen.
+Abbildung~\ref{scheme:if} zeigt die allgemeine Form von
+\texttt{if}-Ausdrücken.
+\begin{feature}{Binäre Verzweigung}{scheme:if}
+  %
+  Eine binäre Verzweigung hat die folgende Form:
+\begin{alltt}
+(if \(b\) \(k\) \(a\))
+\end{alltt}
+  %
+Dabei ist $b$ die Bedingung und $k$ und $a$ sind die
 beiden Zweige: die \textit{Konsequente\index{Konsequente}} $k$ und die
-\textit{Alternative\index{Alternative}} $a$.  Abhängig vom Ausgang der
+\textit{Alternative\index{Alternative}} $a$.
+
+Abhängig vom Ausgang der
 Bedingung ist der Wert der Verzweigung entweder der Wert der Konsequente
 oder der Wert der Alternative.
+\end{feature}
+%
+\begin{aufgabe}
+  In der Mathematik gibt den Begriff des "`Absolutbetrags"' einer
+  Zahl: Für eine negative Zahl liefert es die entsprechende positive
+  Zahl (aus $-5$ wird also $5$), alle anderen Zahlen bleiben
+  unverändert.  Schreibe eine Funktion, die den Absolutbetrag einer
+  Zahl berechnet!
+\end{aufgabe}
+%
+Für boolesche Fallunterscheidungen gibt es eine separate
+Konstruktionsanleitung:
+%
+\begin{konstruktionsanleitung}[boolesche Fallunterscheidung]
+  Wenn sich das Ergebnis einer Funktion nach einer booleschen Größe
+  richtet, welche die Funktion mit Hilfe der Eingaben berechnen kann,
+  benutze als Schablone im Rumpf eine binäre Verzweigung:
+  %
+\begin{alltt}
+(define \(f\)
+  (lambda (\(e\))
+    (if \ldots ; \textrm{hier wird die boolesche Größe berechnet}
+        \ldots
+        \ldots)))
+\end{alltt}
+\end{konstruktionsanleitung}
+
+\section{Syntaktischer Zucker}
 
 Tatsächlich ist \texttt{if} die "`primitivere"' Form als
 \texttt{cond}: jede \texttt{cond}-Form kann in eine äquivalente
@@ -1251,18 +1328,11 @@ und damit dem Programmierer die Arbeit versüßen,
 heißen abgeleitete Formen auch \textit{syntaktischer
   Zucker\index{syntaktischer Zucker}\index{Zucker, syntaktischer}}.
 
-Um die Funktionsweise von Verzweigungen genau zu beschreiben, dient
-folgende zusätzliche Regel für das Substitutionsmodell aus
-Abschnitt~\ref{sec:substitution-model}:
-%
-\begin{description}
-\item[binäre Verzweigungen] Bei der Auswertung einer Verzweigung wird
-  zunächst der Wert der Bedingung festgestellt.  Ist dieser Wert \verb|#t|,
-  so ist der Wert der Verzweigung der Wert der Konsequente.  Ist er
-  \verb|#f|, so ist der Wert der Verzweigung der Wert der
-  Alternative.  Ist der Wert der Bedingung  kein boolescher Wert ist, ist das Programm fehlerhaft.
-\end{description}
-%
+\begin{aufgabe}
+  Schreibe die Funktion \texttt{cute?} aus Abschnitt~\ref{sec:pet} so
+  um, dass sie \texttt{if} statt  \texttt{cond} verwendet.
+\end{aufgabe}
+
 Auch \texttt{and} und \texttt{or} sind eigentlich syntaktischer Zucker:
 Es ist immer möglich, einen \texttt{and}-Ausdruck in \texttt{if}s
 zu übersetzen.  Es gelten folgende Übersetzungsregeln:
@@ -1303,39 +1373,6 @@ Beispiel:
 
 \section{Unsinnige Daten abfangen}
 \label{sec:nonsensical-data}
-
-Noch einmal zurück zum Parkplatzproblem, das wir auf
-Seite~\ref{page:parking-lot-cars} programmiert hatten.  In
-Abschnitt~\ref{sec:nonsensical-data-prequel} auf
-Seite~\pageref{sec:nonsensical-data-prequel} hatten wir bereits
-bemerkt, dass die Funktion
-\texttt{parking-lot-cars}\index{parking-lot-cars@\texttt{parking-lot-cars}}
-auch für unsinnige Daten fröhlich ebenso unsinnige Ergebnisse
-ermittelt.
-
-Auf Seite~\ref{page:parking-lot-problem} wurde bereits eine Bedingung
-für sinnvolle Daten formuliert: Wenn $n$ die Anzahl der Fahrzeuge und
-$m$ die Anzahl der Räder ist, dann muss $m$ gerade sein sowie $2n\leq
-m\leq 4n$ gelten.  Wir können das in einer binären Verzweigung zum
-Ausdruck bringen:
-%
-\begin{verbatim}
-(define parking-lot-cars
-  (lambda (vehicle-count wheel-count)
-    (if (and (even? wheel-count)
-             (<= (* 2 vehicle-count) wheel-count)
-             (<= wheel-count (* 4 vehicle-count)))
-        (/ (- wheel-count (* 2 vehicle-count))
-           2)
-        ...)))
-\end{verbatim}
-%
-Die eingebaute Funktion \texttt{even?} akzeptiert eine ganze Zahl und
-liefert \verb|#t|, falls die Zahl gerade ist und \verb|#f|, falls sie
-ungerade ist~-- solche und viele andere nützliche Funktionen finden
-Du in der Dokumentation im Hilfezentrum unter "`Sprachebenen und
-Material zu \textit{Schreibe Dein Programm!}"' im Abschnitt
-"`Primitive Operationen"'.
 
 Nur~-- was tun im Fehlerfall?  Dazu gibt eine eingebaute Funktion
 \texttt{violation}, die eine Fehlermeldung als Zeichenkette akzeptiert
