@@ -41,6 +41,7 @@
 (check-expect (heat-water -1 81) 0)
 (check-expect (heat-water -1 82) 1)
 (check-expect (heat-water -1 191) 100)
+(check-error (heat-water 150 0))
 
 #;(define heat-water
   (lambda (temp heat)
@@ -104,9 +105,33 @@
       (else
        (+ temp heat)))))
 
+#;(define heat-water
+  (lambda (temp heat)
+    (cond
+      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+      ((< temp 0)
+       (cond
+         ; Die Erwärmumg bleibt unter 0°C.
+         ((< (+ temp heat) 0) (+ temp heat))
+         ; Die Erwärmung bleibt bei  0°C "stecken"
+         ((< (+ temp heat) 80) 0)
+         ; Die Erwärmung würde die Temperatur auf über 100°C bringen
+         ((>= (- (+ temp heat) 80) 100) 100)
+         ; Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
+         (else
+          (- (+ temp heat) 80))))
+      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+      ((>= (+ temp heat) 100) 100)
+      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      (else
+       (+ temp heat)))))
+
 (define heat-water
   (lambda (temp heat)
     (cond
+      ; Die Anfangstemperatur ist über 100°C, also unzulässig
+      ((> temp 100)
+       (violation "Anfangstemperatür über 100°C"))
       ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond

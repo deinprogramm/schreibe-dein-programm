@@ -21,4 +21,23 @@
       ((string=? p "Katze") #t)
       ((string=? p "Hund") #t)
       ((string=? p "Schlange") #f))))
-       
+
+
+; Haustier ggf. gegen ein niedliches umtauschen
+(: exchange-for-cute (pet -> pet))
+
+(check-expect (exchange-for-cute "Katze") "Katze")
+(check-expect (exchange-for-cute "Hund") "Hund")
+(check-expect (exchange-for-cute "Schlange") "Katze")
+
+#;(define exchange-for-cute
+  (lambda (p)
+    (cond
+      ((cute? p) p)
+      (else "Katze"))))
+
+(define exchange-for-cute
+  (lambda (p)
+    (if (cute? p)
+        p
+        "Katze")))
