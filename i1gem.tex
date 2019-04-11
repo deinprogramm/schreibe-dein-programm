@@ -444,7 +444,8 @@ jeweils rationale Zahlen:
 %
 \begin{verbatim}
 (define-record-functions sugars
-  make-sugars sugars?
+  make-sugars
+  sugars?
   (sugars-fructose-g rational)
   (sugars-glucose-g  rational))
 \end{verbatim}
@@ -637,6 +638,9 @@ Schließlich müssen wir noch die Antworten eintragen:
       ((string? f) ...))))
 \end{verbatim}         
 %
+FIXME: gab's schon im Kapitel Fallunterscheidungen; ggf.\ dort
+Hilfsfunktion?
+
 Hier ist jetzt ein \texttt{cond} in einem anderen \texttt{cond}
 eingeschachtelt.  Da so etwas schnell unübersichtlich wird, lohnt es
 sich, wie auf Seite~\pageref{page:separate-mixed-procs} empfohlen,
