@@ -370,10 +370,10 @@ Daten akzeptiert, können Sie folgendermaßen konstruieren:
 \item Schreiben Sie für jeden Zweig einen Test, der den entsprechenden
   Fall identifiziert.
 \item Vervollständigen Sie die Zweige, indem Sie eine Datenanalyse für
-  jeden einzelnen Fall vornehmen und entsprechende Hilfsprozeduren
+  jeden einzelnen Fall vornehmen und entsprechende Hilfsfunktionen
   oder Konstruktionsanleitungen benutzen.
   Die übersichtlichsten Programme entstehen meist, wenn für jeden Fall
-  separate Hilfsprozeduren definiert sind.\label{page:separate-mixed-procs}
+  separate Hilfsfunktionen definiert sind.\label{page:separate-mixed-procs}
 \end{itemize}
 %
 Konstruktionsanleitung~\ref{ka:gemischt} für gemischte Daten in
@@ -644,7 +644,7 @@ Hilfsfunktion?
 Hier ist jetzt ein \texttt{cond} in einem anderen \texttt{cond}
 eingeschachtelt.  Da so etwas schnell unübersichtlich wird, lohnt es
 sich, wie auf Seite~\pageref{page:separate-mixed-procs} empfohlen,
-diesen Zweig in eine separate Hilfsprozedur auszulagern.  Hier sind
+diesen Zweig in eine separate Hilfsfunktion auszulagern.  Hier sind
 Kurzbeschreibung und Signatur:
 %
 \begin{verbatim}
@@ -690,7 +690,7 @@ umbenannt werden.
 \end{verbatim}
 %
 Zurück zu \texttt{sugar-traffic-light}: Dort benutzen wir zunächst die
-neu definierte Hilfsprozedur:
+neu definierte Hilfsfunktion:
 %
 \begin{verbatim}
 (define sugar-traffic-light
@@ -720,7 +720,7 @@ anwenden:
 Wir müssen Fruktose- und den Glukose-Anteil addieren und die Summe
 dann ebenfalls entsprechend der Tabelle vom Anfang in eine Ampelfarbe
 umwandeln.  Aber halt!~-- Genau für das Umwandeln der Zahl aus der
-Tabelle in eine Ampelfarbe haben wir ja gerade die Hilfsprozedur
+Tabelle in eine Ampelfarbe haben wir ja gerade die Hilfsfunktion
 \texttt{sugar-weight->traffic-light} geschrieben, und diese können wir
 erneut zum Einsatz bringen:
 %

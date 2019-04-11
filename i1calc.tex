@@ -681,7 +681,7 @@ besorgt dann den Rest.
     vorkommt, oder zu einer Variable die entsprechende negierte
     Variante.
 
-    Hinweis: Eine Hilfsprozedur \texttt{variable-member? }ist
+    Hinweis: Eine Hilfsfunktion \texttt{variable-member? }ist
     hilfreich, die  ein Vorzeichen und den
     Namen einer Variablen sowie eine Sequenz akzeptiert, und feststellt,
     ob die entsprechende Variable in der Liste vorkommt.
@@ -713,7 +713,7 @@ besorgt dann den Rest.
     \texttt{\#f} zurückgibt, falls das nicht möglich ist.
     
     Anleitung: Benutze dazu eine endrekursive mit \texttt{letrec}
-    gebundene interne Hilfsprozedur, welche die Sequenz absucht und
+    gebundene interne Hilfsfunktion, welche die Sequenz absucht und
     dabei die Listenelemente vor dem Nichtliteral 
     aufsammelt.
 \begin{alltt}

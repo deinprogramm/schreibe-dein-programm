@@ -382,7 +382,7 @@ rationalen Zahlen.  Wir skizzieren erstmal, was wir wissen:
 %
 Die eingebaute Signatur \texttt{signature} ist für Signaturen
 zuständig~-- das zweite Argument ist ja eine Signatur.  Von der
-Vergleichsprozedur an dritter Stelle ist klar, daß sie ein
+Vergleichsfunktion an dritter Stelle ist klar, daß sie ein
 \texttt{boolean} liefert.  Für die restlichen Fragezeichen ist die
 genaue Signatur abhängig vom konkreten Operator und dieser (ebenfalls
 variablen) Signatur, wir müssen also Signaturvariablen verwenden.
@@ -395,7 +395,7 @@ müssen auf dieselbe Signatur passen, da sie ja vertauschbar sind:
 \end{verbatim}
 %
 Außerdem wird der Rückgabewert von \texttt{op} in die
-Vergleichsprozedur gefüttert, für die restliche drei Fragezeichen
+Vergleichsfunktion gefüttert, für die restliche drei Fragezeichen
 müssen wir also dieselbe Signatur einsetzen.  Ist erforderlich, daß
 der Rückgabewert von \texttt{op} auf die gleiche Signatur paßt wie die
 Argumente?  Der Rückgabewert wird nicht wieder in \texttt{op}
@@ -441,7 +441,7 @@ Skizze könnte so aussehen:
 \end{alltt}
 %
 Wie bei \texttt{commutativity} wird der Rückgabewert von \texttt{op}
-als Argument für die Vergleichsprozedur verwendet: Die letzten drei
+als Argument für die Vergleichsfunktion verwendet: Die letzten drei
 Fragezeichen müssen also wieder gleich sein.  Anders als bei der
 Kommutativität wird der Rückgabewert von \texttt{op} auch wieder als
 Argument in \texttt{op} hereingefüttert.  Damit müssen auch die ersten
@@ -808,7 +808,7 @@ Eigenschaft falsifizierbar mit
 
 \subsection{Eigenschaften von \texttt{number-list=?}}
 
-Wie der Zufall so will, hat auch die Hilfsprozedur
+Wie der Zufall so will, hat auch die Hilfsfunktion
 \texttt{number-list=?} interessante Eigenschaften: Wie \texttt{=} muß
 auch \texttt{number-list=?} eine Äquivalenzrelation sein~--
 schließlich testet sie wie \texttt{=} auf Gleichheit.  Die
@@ -873,7 +873,7 @@ benutzt werden.  Diese Änderung allein funktioniert allerdings nicht:
 %
 Die Funktion \texttt{number-list=?} funktioniert nur auf Listen von
 Zahlen.  Es wäre möglich, \texttt{number-list=?} über der
-Vergleichsprozedur auf den Elementen zu abstrahieren, aber es wäre
+Vergleichsfunktion auf den Elementen zu abstrahieren, aber es wäre
 trotzdem umständliche Arbeit nur für den Zweck des Testens.  Deshalb 
 gibt es eine Vereinfachung analog zu \texttt{check-expect}.  Die eingebaute Form \texttt{expect}
 akzeptiert zwei beliebige Werte und ist dann erfüllt, wenn diese Werte
@@ -1579,7 +1579,7 @@ Stattdessen ist es bei Funktionen mit Akkumulator nützlich, eine
 \textit{Invariante\index{Invariante}} aufzustellen, also eine
 Eigenschaft, welche Zwischenergebnis und noch zu leistende Arbeit in
 Beziehung setzt.  Wie in Abschnitt~\ref{page:factorial-tail}
-beschrieben, geht die Fakultätsprozedur mit Akkumulator folgendermaßen
+beschrieben, geht die Fakultätsfunktion mit Akkumulator folgendermaßen
 vor, um \texttt{(! 4)} auszurechnen:
 %
 \begin{displaymath}

@@ -216,7 +216,7 @@ funktioniert:
 %
 Das Gerüst ist das gleiche, das schon für \texttt{search-tree-member?}
 und \texttt{search-tree-insert} entwickelt wurde.  Die zwei
-Hilfsprozeduren werden mit \texttt{letrec} gebunden:
+Hilfsfunktionen werden mit \texttt{letrec} gebunden:
 %
 \begin{verbatim}
 (define search-tree-delete
@@ -239,11 +239,11 @@ Hilfsprozeduren werden mit \texttt{letrec} gebunden:
          (delete (search-tree-tree s)))))))
 \end{verbatim}
 %
-Die Hilfsprozedur \texttt{delete} folgt dabei dem gleichen Muster wie
-die Hilfsprozeduren in \texttt{search-tree-member?} und
+Die Hilfsfunktion \texttt{delete} folgt dabei dem gleichen Muster wie
+die Hilfsfunktionen in \texttt{search-tree-member?} und
 \texttt{search-tree-insert}: Die rekursiven Aufrufe folgen der
 Struktur des Baums gemäß der Suchbaumeigenschaft.  Wenn des gesuchte
-Element gefunden ist, kann die Hilfsprozedur \texttt{delete-top} den
+Element gefunden ist, kann die Hilfsfunktion \texttt{delete-top} den
 Rest der Arbeit übernehmen.  Bei \texttt{delete-top} sind bereits zwei
 Fälle klar: Wenn ein Teilbaum leer ist, so kann der Baum durch den
 jeweils anderen Teilbaum ersetzt werden:
@@ -375,7 +375,7 @@ der hinterher wieder ausgewickelt werden muß:
 \end{verbatim}
 %
 Alternativ zum umständlichen Ein-
-und Auswickeln kann auch die \texttt{delete}-Hilfsprozedur um einen
+und Auswickeln kann auch die \texttt{delete}-Hilfsfunktion um einen
 Parameter für das zu löschende Element erweitert werden:
 %
 \begin{verbatim}
@@ -409,7 +409,7 @@ Dann lautet der Code im \texttt{else}-Zweig:
              (node-right-branch n)))
 \end{verbatim}
 %
-Fehlt nur noch die Hilfsprozedur \texttt{find-maximum}.  Beim
+Fehlt nur noch die Hilfsfunktion \texttt{find-maximum}.  Beim
 Ermitteln des Maximums hilft die Suchbaumeigenschaft: Es ist einfach
 das Element, das am weitesten rechts im Baum steht.  Die Funktion ist
 also ganz einfach zu schreiben.  Komplett sieht
@@ -687,7 +687,7 @@ insbesondere den Selektor \texttt{apartment-rooms}.  Der ist im Zuge
 der Erweiterung um Untermiete unter den Tisch gefallen.  Das Konzept
 der Zimmer einer Wohnungs ist aber immer noch sinnvoll; entsprechend
 ist es möglich, \texttt{apartment-rooms} wieder zur Verfügung zur
-stellen, diesmal als "`normale"' Funktion mit einer Hilfsprozedur, um
+stellen, diesmal als "`normale"' Funktion mit einer Hilfsfunktion, um
 die Zimmer eines Abschnitts aufzuzählen:
 %
 \begin{verbatim}
@@ -727,8 +727,8 @@ die Zimmer eines Abschnitts aufzuzählen:
              (map section-rooms (sublet-sections s)))))))
 \end{verbatim}
 %
-Bei der Abspaltung von Hilfsprozeduren gibt es Ermessensspielraum:
-Die Hilfsprozedur \texttt{section-rooms} ist notwendig, weil sie
+Bei der Abspaltung von Hilfsfunktionen gibt es Ermessensspielraum:
+Die Hilfsfunktion \texttt{section-rooms} ist notwendig, weil sie
 rekursiv ist.
 
 "`Von außen"' ist kein Unterschied zwischen dem alten Selektor
@@ -857,7 +857,7 @@ werden:
 %
 Da es sich bei \texttt{(first lis)} um gemischte Daten handelt, wird
 eine Verzweigung fällig.  Wieder wird per Wunschdenken eine
-Hilfsprozedur angenommen, diesmal \texttt{sublet-prefix}, die den
+Hilfsfunktion angenommen, diesmal \texttt{sublet-prefix}, die den
 Adreß-Präfix für eine Untermiete ausrechnet, möglich:
 %
 \begin{verbatim}
@@ -878,7 +878,7 @@ Adreß-Präfix für eine Untermiete ausrechnet, möglich:
                  prefix))))))))))
 \end{verbatim}
 %
-Die Hilfsprozedur \texttt{sublet-prefix} soll sich folgendermaßen verhalten:
+Die Hilfsfunktion \texttt{sublet-prefix} soll sich folgendermaßen verhalten:
 %
 \begin{verbatim}
 ; Adreß-Präfix eines Untermieters bewohnen

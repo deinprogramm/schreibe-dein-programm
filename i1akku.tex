@@ -169,7 +169,7 @@ Konstruktionsanleitung deshalb angepaßt werden.
 Dieses Problem läßt sich durch Mitführen des Zwischenergebnisses in
 einem separaten Parameter lösen, dem sogenannten
 \textit{Akkumulator\index{Akkumulator}}.  Dazu wird eine
-Hilfsprozedur \texttt{invert-helper} definiert, die neben der Eingabeliste
+Hilfsfunktion \texttt{invert-helper} definiert, die neben der Eingabeliste
 diesen Akkumulator akzeptiert:
 %
 \begin{verbatim}
@@ -238,7 +238,7 @@ Endergebnis zurückgegeben wird, ist damit die Funktion auch schon fertig:
                       (make-pair (first lis) acc))))))
 \end{verbatim}
 %
-Die neue Hilfsprozedur \texttt{invert-helper} paßt nicht auf die Signatur
+Die neue Hilfsfunktion \texttt{invert-helper} paßt nicht auf die Signatur
 von \texttt{invert}; \texttt{invert} muß also separat definiert werden
 und den passenden Anfangswert für \texttt{acc} übergeben:
 %
@@ -248,7 +248,7 @@ und den passenden Anfangswert für \texttt{acc} übergeben:
     (invert-helper lis empty)))
 \end{verbatim}
 %
-% Da \texttt{invert-helper} ausschließlich als Hilfsprozedur zu
+% Da \texttt{invert-helper} ausschließlich als Hilfsfunktion zu
 % \texttt{invert} benutzt wird und ohne \texttt{invert} keinen Nutzen
 % hat, ist es nicht notwendig, eine separate Signatur für
 % \texttt{invert-helper} anzugeben. HK: Wir haben aber schon eine Signatur
@@ -415,7 +415,7 @@ Schablone für Funktionen mit Akkumulator, die Listen akzeptieren:
 \end{alltt}
 %
 Hier ist \texttt{proc} der Name der zu definierenden Funktion
-und \texttt{proc-helper} der Name der Hilfsprozedur mit
+und \texttt{proc-helper} der Name der Hilfsfunktion mit
 Akkumulator.  Der Anfangswert für den Akkumulator~-- also das initiale
 Zwischenergebnis~-- ist der Wert von \texttt{z}.  Der
 Ausdruck, der für \texttt{(... (first lis) ... acc ...)} einzusetzen
@@ -603,7 +603,7 @@ Die direkte Übersetzung in eine Variante mit Akkumulator liefert:
 Diese Variante ist inkorrekt: Sie liefert z.B.\ für
 \texttt{(build-list 3)} das Ergebnis \verb|#<list 1 2 3>|, die
 Elemente der Liste sind also in umgekehrter Reihenfolge.  Da schon die
-Fakultätsprozedur mit Akkumulator die Multiplikationen gegenüber der
+Fakultätsfunktion mit Akkumulator die Multiplikationen gegenüber der
 Variante ohne Akkumulator in umgekehrter Reihenfolge durchgeführt hat, war dies allerdings zu
 erwarten, und ist ein generelles Phänomen bei der Berechnung von
 Listen-Ausgaben mit Akkumulator.  Das Problem kann durch das Umdrehen
@@ -688,14 +688,14 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 
 \begin{aufgabe}
   Schreibe eine endrekursive Variante von
-  \texttt{concatenate}.  Falls du Hilfsprozeduren auf
+  \texttt{concatenate}.  Falls du Hilfsfunktionen auf
   Listen dafür benutzt, gib auch dafür endrekursive Definitionen an.
 \end{aufgabe}
 
 \begin{aufgabe}
   Schreibe endrekursive Varianten von \texttt{evens} und \texttt{odds}
   aus Aufgabe~\ref{ex:evensodds} auf Seite~\pageref{ex:evensodds}.
-  Falls du Hilfsprozeduren auf Listen dafür benutzt, gib auch dafür
+  Falls du Hilfsfunktionen auf Listen dafür benutzt, gib auch dafür
   endrekursive Definitionen an.
 \end{aufgabe}
 

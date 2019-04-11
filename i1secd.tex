@@ -854,7 +854,7 @@ im Spiel, die Fallunterscheidungen möglich machen:
 \end{verbatim}
 %
 Da die Stelligkeit eines Primitivs dem Primitiv fest zugeordnet
-ist, ist eine Hilfsprozedur nützlich, die bei der Erzeugung eines
+ist, ist eine Hilfsfunktion nützlich, die bei der Erzeugung eines
 Werts der Sorte \texttt{prim} die Stelligkeit ergänzt.
 Glücklicherweise haben alle oben eingeführten Primitive die gleiche
 Stelligkeit:
@@ -944,7 +944,7 @@ schließlich kommt noch eine \texttt{prim}-Instruktion ans Ende:
       ...)))
 \end{verbatim}
 %
-Dieses Stück Code benutzt die Hilfsprozedur \texttt{append-lists}, die
+Dieses Stück Code benutzt die Hilfsfunktion \texttt{append-lists}, die
 aus einer Liste von Listen eine einzelne Liste macht, indem die
 Elemente aneinandergehängt werden:
 %
@@ -1032,7 +1032,7 @@ hinzugefügt:
                (remove-environment-binding e v))))
 \end{verbatim}
 %
-Für das Entfernen der alten Bindung ist die Hilfsprozedur
+Für das Entfernen der alten Bindung ist die Hilfsfunktion
 \texttt{remove-environment-binding} zuständig.  Sie folgt einmal mehr
 strikt der Konstruktionsanleitung für Funktionen, die Listen akzeptieren:
 % FIXME: Konstruktionsanleitung
@@ -1218,7 +1218,7 @@ Die Regel für primitive Applikationen ist etwas aufwendiger:
   \\ && \textrm{wobei $F^k\in\Sigma^k$ und $F_B(b_1,\ldots,b_k) = b$}
 \end{eqnarray*}
 %
-Für die Implementierung werden Hilfsprozeduren gebraucht, welche die
+Für die Implementierung werden Hilfsfunktionen gebraucht, welche die
 Argumente vom Stack holen und in der Reihenfolge umdrehen, die
 Argumente vom Stack entfernen und schließlich die eigentliche
 $\delta$-Transition berechnen:
@@ -1252,7 +1252,7 @@ Aufgabe~\ref{ex:kartenspiel} geforderte Funktion:
 %
 Die \texttt{take-reverse}-Funktion ist das Pendant zu \texttt{drop},
 das die ersten $n$ Elemente einer Liste in umgekehrter Reihenfolge
-liefert.  Dies ist am einfachsten über eine endrekursive Hilfsprozedur
+liefert.  Dies ist am einfachsten über eine endrekursive Hilfsfunktion
 zu erledigen~-- aus Kapitel~\ref{cha:accu} ist ja bekannt, daß bei
 endrekursiver Konstruktion von Listen gerade immer die Reihenfolge
 umgedreht wird:
@@ -1384,7 +1384,7 @@ Hier ist der Code dazu:
 Damit die SECD-Maschine in Betrieb genommen werden kann, muß ein Term
 $e$ noch in einen Anfangszustand $(\epsilon, \varnothing, \llbracket
 e\rrbracket, \epsilon)$ übersetzt werden.  Das erledigt folgende
-Hilfsprozedur:
+Hilfsfunktion:
 %
 \begin{verbatim}
 ; Aus Term SECD-Anfangszustand machen
@@ -1409,7 +1409,7 @@ Damit läßt sich die Maschine schon ausprobieren:
 \end{alltt}
 %
 Es fehlt noch die Auswertungsfunktion $\mathrm{eval}_\mathrm{SECD}$,
-die eine Hilfsprozedur benötigt, um die reflexiv-transitive Hülle des
+die eine Hilfsfunktion benötigt, um die reflexiv-transitive Hülle des
 Zustandsübergangs $\hookrightarrow^*$ benötigt:
 %
 \begin{verbatim}
@@ -2090,7 +2090,7 @@ frische Adresse gewählt werden:
                      next)))))
 \end{verbatim}
 %
-Es fehlt noch die Hilfsprozedur \texttt{remove-cell}:
+Es fehlt noch die Hilfsfunktion \texttt{remove-cell}:
 %
 \begin{verbatim}
 ; Zelle zu einer Adresse entfernen
@@ -2108,7 +2108,7 @@ Es fehlt noch die Hilfsprozedur \texttt{remove-cell}:
 %
 Als nächstes ist die Operation an der Reihe, die den Wert, der an einer
 Adresse im Heap gespeichert ist.  Die Funktion \texttt{heap-lookup} benutzt
-eine Hilfsprozedur \texttt{cells-lookup}, um in der Liste von Zellen
+eine Hilfsfunktion \texttt{cells-lookup}, um in der Liste von Zellen
 nach der richtigen zu suchen:
 %
 \begin{verbatim}

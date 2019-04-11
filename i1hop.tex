@@ -554,7 +554,7 @@ Für das \texttt{combine}-Argument von \texttt{list-fold}
 würde hier eine Funktion benötigt, die ihr erstes
 Argument \texttt{(first lis)} ignoriert (es spielt ja für die Listenlänge
 keine Rolle) und auf das zweite Argument eins addiert.  Diese
-Hilfsprozedur sieht so aus:\index{add-1-for-length@\texttt{add-1-for-length}}
+Hilfsfunktion sieht so aus:\index{add-1-for-length@\texttt{add-1-for-length}}
 %
 FIXME: warum nicht \texttt{\%a}?
 
@@ -619,7 +619,7 @@ Ein weiteres Beispiel~-- die Funktion
 \end{alltt}
 %
 Anders als \texttt{list-length} lassen sich diese Definitionen
-nicht mit separaten Hilfsprozeduren schreiben.  Für
+nicht mit separaten Hilfsfunktionen schreiben.  Für
 \texttt{list-filter} würde ein Versuch zwar so aussehen:
 %
 \begin{alltt}
@@ -637,7 +637,7 @@ liegt daran, daß \texttt{p?} weiter außen im \texttt{lambda} von
 Regeln der lexikalischen Bindung\index{lexikalische Bindung} (siehe
 Abschnitt~\ref{sec:lexical-binding}) nur im Rumpf des äußeren
 \texttt{lambda} in der Definition von \texttt{filter} sichtbar.  Darum
-muß der Lambda-Ausdruck der Hilfsprozedur ebenfalls in diesem
+muß der Lambda-Ausdruck der Hilfsfunktion ebenfalls in diesem
 Rumpf stehen.
 
 FIXME: Hier auch noch \texttt{map} einführen? Das Unterrichtsbeispiel tat
@@ -917,7 +917,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   \end{quote}
   %
 \begin{enumerate}
-\item Stellen Sie dem Fußballreporter Hilfsprozeduren zur Verfügung,
+\item Stellen Sie dem Fußballreporter Hilfsfunktionen zur Verfügung,
   die ihm erlauben, eine Antwort auf solch eine Frage zu
   finden:
   %
@@ -955,7 +955,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   \end{enumerate}
 
   \item Schreiben Sie Ausdrücke, die folgende Fragen beantworten~--
-  entwickeln Sie dazu, falls nötig, weitere Hilfsprozeduren:
+  entwickeln Sie dazu, falls nötig, weitere Hilfsfunktionen:
   \begin{itemize}
     \item An welchem Spieltag gab es die meisten Heimsiege?
     \item An welchem Spieltag fielen die meisten Tore?
@@ -1400,7 +1400,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   \texttt{list-fold-left}, nämlich die Funktion
   \texttt{list-fold-left-bonus}, die \texttt{list-fold} benutzt aber
   selbst keine Rekursion enthält und auch keine rekursiven
-  Hilfsprozeduren aufruft.
+  Hilfsfunktionen aufruft.
 \end{aufgabe}
 
 

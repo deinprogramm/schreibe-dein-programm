@@ -363,7 +363,7 @@ aber schon ein Beispiel zu Testzwecken:
 Die nachfolgende Funktion \texttt{search"=tree"=member?} 
 stellt fest, ob ein Knoten mit Markierung \texttt{l} in einem
 Suchbaum \texttt{s} vorhanden ist. Die eigentliche Arbeit
-macht die lokale Hilfsprozedur \texttt{member?},\index{search-tree-member?@\texttt{search-tree-member?}}
+macht die lokale Hilfsfunktion \texttt{member?},\index{search-tree-member?@\texttt{search-tree-member?}}
 die auf dem zugrundeliegenden Binärbaum operiert.  Da \texttt{member?} rekursiv
 ist, wird sie mit \texttt{letrec} (siehe
 Abbildung~\ref{scheme:letrec}) gebunden.
@@ -402,7 +402,7 @@ Abbildung~\ref{scheme:letrec}) gebunden.
 \texttt{Search-tree-member?} packt zunächst die beiden
 Vergleichsoperationen \texttt{label-equal?} und
 \texttt{label-less-than?} aus dem Suchbaum aus.
-Dann wird die Hilfsprozedur \texttt{member?} aufgerufen.
+Dann wird die Hilfsfunktion \texttt{member?} aufgerufen.
 
 Da es zwei Arten Binärbäume gibt, folgt 
 \texttt{member?} zunächst der Konstruktionsanleitung für
@@ -525,7 +525,7 @@ wird, da diese Funktion für die Auswertung der rechten Seite benötigt wird.
 \end{alltt}
 %
 Im Herzen von \texttt{search-tree-insert} erledigt die rekursive
-Hilfsprozedur \texttt{insert} die eigentliche Arbeit: Soll
+Hilfsfunktion \texttt{insert} die eigentliche Arbeit: Soll
 \texttt{l} in den leeren Baum eingefügt werden, so gibt
 \texttt{insert} einen trivialen Baum der Form
 %
@@ -656,7 +656,7 @@ sind, bietet sich eine Eigenschaft folgender Form an:
 %
 Damit es funktioniert, muß nur die Liste \texttt{els} noch in einen
 Suchbaum umgewandelt werden, der gerade ihre Elemente enthält.  Das
-kann eine Hilfsprozedur namens \texttt{list->search"=tree} leisten.
+kann eine Hilfsfunktion namens \texttt{list->search"=tree} leisten.
 Hier sind Kurzbeschreibung und Signatur:
 %
 \begin{alltt}
@@ -781,7 +781,7 @@ im Zusammenhang mit \texttt{search-tree-insert} überhaupt bedeutet:
 \end{satz}
 %
 \begin{beweis}
-  Die Korrektheit ist an der Hilfsprozedur \texttt{insert}
+  Die Korrektheit ist an der Hilfsfunk tion \texttt{insert}
   festgemacht: Wenn das Argument von \texttt{insert} die
   Suchbaumeigenschaft erfüllt, so muß auch der Rückgabewert sie
   erfüllen.  Der Beweis funktioniert über strukturelle Induktion über
