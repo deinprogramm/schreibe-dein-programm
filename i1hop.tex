@@ -179,7 +179,7 @@ Hier ist die Schablone:
   (lambda (lis)
     (cond
       ((empty? lis) ...)
-      ((pair? lis)
+      ((cons? lis)
        ... (first lis) ...
        ... (games-draw (rest lis)) ...))))
 \end{alltt}
@@ -194,7 +194,7 @@ handelt oder nicht:
   (lambda (lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
+      ((cons? lis)
        ... (game-draw? (first lis)) ...
        ... (games-draw (rest lis)) ...))))
 \end{alltt}
@@ -207,11 +207,11 @@ nicht:
   (lambda (lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
+      ((cons? lis)
        (let ((f (first lis))
              (r (games-draw (rest lis))))
        (if (game-draw? f)
-           (make-pair f r)
+           (cons f r)
            r)))))))
 \end{alltt}
 %
@@ -237,11 +237,11 @@ aus, an denen eine bestimmte Mannschaft teilgenommen hat:
   (lambda (t lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
+      ((cons? lis)
        (let ((f (first lis))
              (r (games-playing t (rest lis))))
          (if (plays-game? t f)
-             (make-pair f r)
+             (cons f r)
              r))))))
 \end{alltt}
 %
@@ -265,9 +265,9 @@ Signatur, die nachgeliefert wird):\index{filter-games@\texttt{filter-games}}
   (lambda (p? lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
+      ((cons? lis)
        (if (p? (first lis))
-           (make-pair (first lis)
+           (cons (first lis)
                       (filter-games p? (rest lis)))
            (filter-games p? (rest lis)))))))
 \end{alltt}
@@ -326,9 +326,9 @@ namens \texttt{list-filter}:\index{filter@\texttt{list-filter}}
   (lambda (p? lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
+      ((cons? lis)
        (if (p? (first lis))
-           (make-pair (first lis)
+           (cons (first lis)
                       (list-filter p? (rest lis)))
            (filter p? (rest lis)))))))
 \end{alltt}
@@ -381,7 +381,7 @@ bekannt, welche die Summe einer Liste von Zahlen bildet:
   (lambda (lis)
     (cond
       ((empty? lis) 0)
-      ((pair? lis) 
+      ((cons? lis) 
        (+ (first lis)
           (list-sum (rest lis)))))))
 \end{alltt}
@@ -397,7 +397,7 @@ identisch zu \texttt{list-sum}:\index{list-product@\texttt{list-product}}
   (lambda (lis)
     (cond
       ((empty? lis) ...)
-      ((pair? lis) 
+      ((cons? lis) 
        ... (first lis) ...
        ... (list-product (rest lis)) ...))))
 \end{alltt}
@@ -415,7 +415,7 @@ Multiplikation gebildet.\index{list-product@\texttt{list-product}}
   (lambda (lis)
     (cond
       ((empty? lis) 1)
-      ((pair? lis) 
+      ((cons? lis) 
        (* (first lis)
           (list-product (rest lis)))))))
 \end{alltt}
@@ -434,7 +434,7 @@ einen Moment warten):\index{list-fold@\texttt{list-fold}}
   (lambda (unit combine lis)
     (cond
       ((empty? lis) unit)
-      ((pair? lis) 
+      ((cons? lis) 
        (combine (first lis)
                 (list-fold unit combine (rest lis)))))))
 \end{alltt}
@@ -478,10 +478,10 @@ Die Funktionsweise von \texttt{list-fold} läßt sich daran
 veranschaulichen, daß sich die ursprüngliche Liste auch als
 %
 \begin{displaymath}
-\texttt{(make-pair $a_1$ (make-pair $a_2$ ($\ldots$ (make-pair $a_n$ empty)$ \ldots$)))}
+\texttt{(cons $a_1$ (cons $a_2$ ($\ldots$ (cons $a_n$ empty)$ \ldots$)))}
 \end{displaymath}
 %
-schreiben läßt.  Das heißt, an die Stelle von \texttt{make-pair} tritt
+schreiben läßt.  Das heißt, an die Stelle von \texttt{cons} tritt
 $o$ und an die Stelle von \texttt{empty} tritt $u$.
 
 Eine andere, praktische Darstellung von 
@@ -504,7 +504,7 @@ Abschnitt~\ref{sec:more-lists} paßt ebenfalls auf das abstrahierte
 Muster von \texttt{list-fold}:
 %
 \begin{alltt}
-(list-fold (list 4 5 6) make-pair (list 1 2 3))
+(list-fold (list 4 5 6) cons (list 1 2 3))
 \evalsto{} #<list 1 2 3 4 5 6>
 \end{alltt}
 %
@@ -545,7 +545,7 @@ Abschnitt~\ref{sec:more-lists} nicht direkt dem Muster entspricht:
   (lambda (lis)
     (cond
       ((empty? lis) 0)
-      ((pair? lis) 
+      ((cons? lis) 
        (+ 1 
           (list-length (rest lis)))))))
 \end{alltt}
@@ -596,7 +596,7 @@ durch \texttt{list-fold} definieren:
     (list-fold empty
                (lambda (first result)
                  (if (p? first)
-                     (make-pair first result)
+                     (cons first result)
                      result))
                lis)))
 \end{alltt}
@@ -626,7 +626,7 @@ nicht mit separaten Hilfsfunktionen schreiben.  Für
 (define list-filter-helper
   (lambda (first result)
     (if (p? first)
-        (make-pair first result)
+        (cons first result)
         result)))
 \end{alltt}
 %
@@ -770,7 +770,7 @@ liefert, läßt sich auch auf andere Funktionen anwenden:\index{make-mult@\textt
 (define make-prepend
   (lambda (a)
     (lambda (b)
-      (make-pair a b))))
+      (cons a b))))
 \end{alltt}
 %
 Erneut folgt eine ganze Familie von Funktionen einem gemeinsamen
@@ -795,7 +795,7 @@ von \texttt{curry} definieren:
 \begin{alltt}
 (define make-add (curry +))
 (define make-mult (curry *))
-(define make-prepend (curry make-pair))
+(define make-prepend (curry cons))
 \end{alltt}
 %
 Die \texttt{curry}-Transformation wurde unabhängig voneinander von den
@@ -1266,7 +1266,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   (lambda (n stream)
     (if (= n 0)
         empty
-        (make-pair (stream-first stream)
+        (cons (stream-first stream)
                    (stream-take (- n 1)
                                 ((stream-rest-proc stream)))))))
    \end{alltt}
@@ -1366,7 +1366,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
       ((empty? lis)
        (lambda (y)
          y))
-      ((pair? lis)
+      ((cons? lis)
        (lambda (y)
          ((proc (first lis))
           ((// proc (rest lis))
@@ -1480,7 +1480,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   (lambda (l)
     (list-fold empty append
                (map (lambda (x)
-                      (make-pair x empty))
+                      (cons x empty))
                     l))))
   \end{alltt}
 

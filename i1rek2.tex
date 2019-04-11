@@ -86,7 +86,7 @@ Die Funktion arbeitet auf Listen, was folgende Schablone nahelegt:
   (lambda (articles capacity)
     (cond
      ((empty? articles) ...)
-     ((pair? articles)
+     ((cons? articles)
       ... (first articles) ...
       ... (load-list (rest articles) capacity) ...))))
 \end{alltt}
@@ -107,7 +107,7 @@ Tragfähigkeit erlaubt:
   (lambda (articles capacity)
     (cond
      ((empty? articles) empty)
-     ((pair? articles)
+     ((cons? articles)
         (if (> (article-weight (first articles)) capacity)
             (load-list (rest articles) capacity)
             ... (load-list (rest articles) capacity) ...)))))
@@ -141,7 +141,7 @@ Die vollständige Artikelliste entsteht dann durch nachträgliches
 Wieder-Anhängen des ersten Artikels:
 %
 \begin{alltt}
-  (make-pair (first articles)
+  (cons (first articles)
              (load-list (rest articles)
                             (- capacity (article-weight (first articles)))))
 \end{alltt}
@@ -155,11 +155,11 @@ Schritt werden die beiden obigen Ausdrücke in die Schablone eingefügt:
   (lambda (articles capacity)
     (cond
      ((empty? articles) empty)
-     ((pair? articles)
+     ((cons? articles)
         (if (> (article-weight (first articles)) capacity)
             (load-list (rest articles) capacity)
             ... (load-list (rest articles) capacity) ...
-            ... (make-pair (first articles)
+            ... (cons (first articles)
                            (load-list
                              (rest articles)
                              (- capacity
@@ -177,12 +177,12 @@ Es lohnt sich also, ihnen Namen zu geben:
   (lambda (articles capacity)
     (cond
      ((empty? articles) empty)
-     ((pair? articles)
+     ((cons? articles)
         (if (> (article-weight (first articles)) capacity)
             (load-list (rest articles) capacity)
             (let ((articles-1 (load-list (rest articles) capacity))
                   (articles-2
-                    (make-pair (first articles)
+                    (cons (first articles)
                                (load-list
                                  (rest articles)
                                  (- capacity 
@@ -199,13 +199,13 @@ weiteren lokalen Variable macht die Funktion noch übersichtlicher:
   (lambda (articles capacity)
     (cond
      ((empty? articles) empty)
-     ((pair? articles)
+     ((cons? articles)
       (let ((first-weight (article-weight (first articles))))
         (if (> first-weight capacity)
             (load-list (rest articles) capacity)
             (let ((articles-1 (load-list (rest articles) capacity))
                   (articles-2
-                    (make-pair (first articles)
+                    (cons (first articles)
                                (load-list
                                  (rest articles)
                                  (- capacity first-weight)))
@@ -229,13 +229,13 @@ Damit kann \texttt{load-list} vervollständigt werden:
   (lambda (articles capacity)
     (cond
      ((empty? articles) empty)
-     ((pair? articles)
+     ((cons? articles)
       (let ((first-weight (article-weight (first articles))))
         (if (> first-weight capacity)
             (load-list (rest articles) capacity)
             (let ((articles-1 (load-list (rest articles) capacity))
                   (articles-2
-                   (make-pair (first articles)
+                   (cons (first articles)
                               (load-list
                                 (rest articles) 
                                 (- capacity first-weight)))))
@@ -253,7 +253,7 @@ geht und für welche die Schablone folgendermaßen aussieht:
   (lambda (articles)
     (cond
      ((empty? articles) ...)
-     ((pair? articles)
+     ((cons? articles)
       ... (first articles) ...
       ... (articles-weight (rest articles)) ...))))
 \end{alltt}
@@ -267,7 +267,7 @@ Artikel nur das Gewicht:
   (lambda (articles)
     (cond
      ((empty? articles) 0)
-     ((pair? articles)
+     ((cons? articles)
       ... (article-weight (first articles)) ...
       ... (articles-weight (rest articles)) ...))))
 \end{alltt}
@@ -281,7 +281,7 @@ nur addiert werden:
   (lambda (articles)
     (cond
      ((empty? articles) 0)
-     ((pair? articles)
+     ((cons? articles)
       (+ (article-weight (first articles))
          (articles-weight (rest articles)))))))
 \end{alltt}

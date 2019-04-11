@@ -730,7 +730,7 @@ Gerüst und Schablone für die Funktion, die eine Liste akzeptiert:
   (lambda (= el lis)
     (cond
       ((empty? lis) ...)
-      ((pair? lis)
+      ((cons? lis)
        ... (first lis)
        ... (member? = el (rest lis)) ...))))
 \end{alltt}
@@ -745,7 +745,7 @@ Vollständig sieht die Funktion so aus:
   (lambda (= el lis)
     (cond
       ((empty? lis) #f)
-      ((pair? lis)
+      ((cons? lis)
        (if (= el (first lis))
            #t
            (member? = el (rest lis)))))))

@@ -828,7 +828,7 @@ Gerüst und Schablone:
   (lambda (r lis)
     (cond
       ((empty? lis) ...)
-      ((pair? lis)
+      ((cons? lis)
        ... (first lis) ...
        ... (sections-prefix r (rest lis)) ...))))
 \end{verbatim}
@@ -865,7 +865,7 @@ Adreß-Präfix für eine Untermiete ausrechnet, möglich:
   (lambda (r lis)
     (cond
       ((empty? lis) the-not-found)
-      ((pair? lis)
+      ((cons? lis)
        (let ((f (first lis)))
          (cond
            ((room? f) (sections-prefix r (rest lis)))

@@ -619,7 +619,7 @@ Dieses Literal bezeichnet nicht die leere Liste (dann würde nur
 \texttt{()} ausgedruckt, ohne Quote), sondern etwas anderes:
 %
 \begin{alltt}
-(pair? ''())
+(cons? ''())
 \evalsto{} #t
 (first ''())
 \evalsto{} quote
@@ -719,7 +719,7 @@ werden.
 (: application? (%a -> boolean))
 (define application?
   (lambda (t)
-    (and (pair? t)
+    (and (cons? t)
          (not (equal? 'lambda (first t)))
          (not (primitive? (first t))))))
 
@@ -729,7 +729,7 @@ werden.
 (: abstraction? (%a -> boolean))
 (define abstraction?
   (lambda (t)
-    (and (pair? t)
+    (and (cons? t)
          (equal? 'lambda (first t)))))
 
 (define abstraction (signature (predicate abstraction?)))
@@ -738,7 +738,7 @@ werden.
 (: primitive-application? (%a -> boolean))
 (define primitive-application?
   (lambda (t)
-    (and (pair? t)
+    (and (cons? t)
          (primitive? (first t)))))
 
 (define primitive-application (signature (predicate primitive-application?)))
@@ -1028,7 +1028,7 @@ hinzugefügt:
 (: extend-environment (environment symbol value -> environment))
 (define extend-environment
   (lambda (e v w)
-    (make-pair (make-binding v w)
+    (cons (make-binding v w)
                (remove-environment-binding e v))))
 \end{verbatim}
 %
@@ -1043,10 +1043,10 @@ strikt der Konstruktionsanleitung für Funktionen, die Listen akzeptieren:
   (lambda (e v)
     (cond
       ((empty? e) empty)
-      ((pair? e)
+      ((cons? e)
        (if (equal? v (binding-variable (first e)))
            (rest e)
-           (make-pair (first e)
+           (cons (first e)
                       (remove-environment-binding (rest e) v)))))))
 \end{verbatim} 
 %
@@ -1062,7 +1062,7 @@ Umgebung, folgt der Konstruktionsanleitung:
   (lambda (e v)
     (cond
       ((empty? e) (violation "unbound variable"))
-      ((pair? e)
+      ((cons? e)
        (if (equal? v (binding-variable (first e)))
            (binding-value (first e))
            (lookup-environment (rest e) v))))))
@@ -1149,7 +1149,7 @@ Anfang lokale Variablen angelegt:
           (code (secd-code state))
           (dump (secd-dump state)))
       (cond
-        ((pair? code)
+        ((cons? code)
          (cond
            ((base? (first code)) ...)
            ((symbol? (first code)) ...)
@@ -1176,7 +1176,7 @@ Hier der passende Code dafür:
       ...
         (cond
           ((base? (first code))
-           (make-secd (make-pair (first code) stack)
+           (make-secd (cons (first code) stack)
                       environment
                       (rest code)
                       dump))
@@ -1199,7 +1199,7 @@ Hier der entsprechende Code:
       ...
         (cond
           ((symbol? (first code))
-           (make-secd (make-pair
+           (make-secd (cons
                         (lookup-environment environment (first code))
                         stack)
                       environment
@@ -1230,7 +1230,7 @@ $\delta$-Transition berechnen:
         (cond
           ...
           ((prim? (first code))
-           (make-secd (make-pair
+           (make-secd (cons
                        (apply-primitive
                          (prim-operator (first code))
                          (take-reverse (prim-arity (first code)) stack))
@@ -1266,7 +1266,7 @@ umgedreht wird:
     (letrec ((loop (lambda (n l r)
                      (if (= n 0)
                          r
-                         (loop (- n 1) (rest l) (make-pair (first l) r))))))
+                         (loop (- n 1) (rest l) (cons (first l) r))))))
       (loop n l '()))))
 \end{verbatim}
 %
@@ -1310,7 +1310,7 @@ Der Code macht dies genauso:
         (cond
           ...
           ((abs? (first code))
-           (make-secd (make-pair
+           (make-secd (cons
                         (make-closure (abs-variable (first code))
                                       (abs-code (first code))
                                       environment)
@@ -1345,7 +1345,7 @@ Hier der Code dazu:
                          (closure-variable closure)
                          (first stack))
                         (closure-code closure)
-                        (make-pair
+                        (cons
                          (make-frame (rest (rest stack))
                                      environment (rest code))
                          dump))))
@@ -1373,7 +1373,7 @@ Hier ist der Code dazu:
         ((empty? code)
          (let ((f (first dump)))
            (make-secd
-            (make-pair (first stack)
+            (cons (first stack)
                        (frame-stack f))
             (frame-environment f)
             (frame-code f)
@@ -1930,7 +1930,7 @@ Das dazu passende Prädikat ist das folgende:
 (: assignment? (%a -> boolean))
 (define assignment?
   (lambda (t)
-    (and (pair? t)
+    (and (cons? t)
          (equal? 'set! (first t)))))
 
 (define assignment (signature (predicate assignment?)))
@@ -1957,7 +1957,7 @@ werden:
 \begin{verbatim}
 (define application?
   (lambda (t)
-    (and (pair? t)
+    (and (cons? t)
          (not (equal? 'set! (first t)))
          (not (equal? 'lambda (first t)))
          (not (primitive? (first t))))))
@@ -2001,7 +2001,7 @@ Bei der Übersetzung in Maschinencode kommt in
     (cond
       ...
       ((assignment? e)
-       (make-pair (first (rest e))
+       (cons (first (rest e))
                   (append (term->machine-code (first (rest (rest e))))
                           (list (make-:=))))))))
 \end{verbatim}
@@ -2070,7 +2070,7 @@ entsprechend der mathematischen Definition:
 (: heap-store (heap address value -> heap))
 (define heap-store
   (lambda (h a w)
-    (make-heap (make-pair (make-cell a w)
+    (make-heap (cons (make-cell a w)
                           (remove-cell a (heap-cells h)))
                ...)))
 \end{verbatim}
@@ -2082,7 +2082,7 @@ frische Adresse gewählt werden:
 \begin{verbatim}
 (define heap-store
   (lambda (h a w)
-    (make-heap (make-pair (make-cell a w)
+    (make-heap (cons (make-cell a w)
                           (remove-cell a (heap-cells h)))
                (let ((next (heap-next h)))
                  (if (= a next)
@@ -2099,10 +2099,10 @@ Es fehlt noch die Hilfsfunktion \texttt{remove-cell}:
   (lambda (a c)
     (cond
       ((empty? c) empty)
-      ((pair? c)
+      ((cons? c)
        (if (= a (cell-address (first c)))
            (rest c)
-           (make-pair (first c)
+           (cons (first c)
                       (remove-cell a (rest c))))))))
 \end{verbatim}
 %
@@ -2124,7 +2124,7 @@ nach der richtigen zu suchen:
   (lambda (c a)
     (cond
       ((empty? c) (violation "unassigned address"))
-      ((pair? c)
+      ((cons? c)
        (if (= a (cell-address (first c)))
            (cell-value (first c))
            (cells-lookup (rest c) a))))))
@@ -2177,19 +2177,19 @@ sich eng an die mathematische Definition der Regeln:
           (dump (secdh-dump state))
           (heap (secdh-heap state)))
       (cond
-        ((pair? code)
+        ((cons? code)
          (cond
            ((base? (first code))
             (let ((a (heap-next heap)))
               (make-secdh
-               (make-pair a stack)
+               (cons a stack)
                environment
                (rest code)
                dump
                (heap-store heap a (first code)))))
            ((symbol? (first code))
             (make-secdh
-             (make-pair (lookup-environment environment (first code))
+             (cons (lookup-environment environment (first code))
                         stack)
              environment
              (rest code)
@@ -2198,7 +2198,7 @@ sich eng an die mathematische Definition der Regeln:
            ((prim? (first code))
             (let ((a (heap-next heap)))
               (make-secdh
-               (make-pair a
+               (cons a
                           (drop (prim-arity (first code)) stack))
                environment
                (rest code)
@@ -2212,7 +2212,7 @@ sich eng an die mathematische Definition der Regeln:
            ((:=? (first code))
             (let ((a (heap-next heap)))
               (make-secdh
-               (make-pair a (rest (rest stack)))
+               (cons a (rest (rest stack)))
                environment
                (rest code)
                dump
@@ -2224,7 +2224,7 @@ sich eng an die mathematische Definition der Regeln:
            ((abs? (first code))
             (let ((a (heap-next heap)))
               (make-secdh
-               (make-pair a stack)
+               (cons a stack)
                environment
                (rest code)
                dump
@@ -2241,7 +2241,7 @@ sich eng an die mathematische Definition der Regeln:
                            (closure-variable closure)
                            a)
                           (closure-code closure)
-                          (make-pair
+                          (cons
                            (make-frame (rest (rest stack)) environment (rest code))
                            dump)
                           (heap-store heap a (heap-lookup heap (first stack))))))
@@ -2260,7 +2260,7 @@ sich eng an die mathematische Definition der Regeln:
         ((empty? code)
          (let ((f (first dump)))
            (make-secdh
-            (make-pair (first stack)
+            (cons (first stack)
                        (frame-stack f))
             (frame-environment f)
             (frame-code f)

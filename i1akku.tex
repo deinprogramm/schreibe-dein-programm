@@ -41,7 +41,7 @@ Gerüst und Schablone sehen wie folgt aus:
   (lambda (lis)
     (cond
       ((empty? lis) ...)
-      ((pair? lis)
+      ((cons? lis)
        ... (first lis) ...
        ... (invert (rest lis)) ...))))
 \end{verbatim}
@@ -68,7 +68,7 @@ vervollständigen:
   (lambda (lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
+      ((cons? lis)
        (append-element (invert (rest lis))
                        (first lis))))))
 \end{verbatim}
@@ -89,7 +89,7 @@ Gerüst und Schablone:
   (lambda (lis el)
     (cond
       ((empty? lis) ...)
-      ((pair? lis)
+      ((cons? lis)
        ... (first lis) ...
        ... (append-element (rest lis) el) ...))))
 \end{verbatim}
@@ -101,8 +101,8 @@ Die Schablone läßt sich leicht vervollständigen:
   (lambda (lis el)
     (cond
       ((empty? lis) (list el))
-      ((pair? lis)
-       (make-pair (first lis)
+      ((cons? lis)
+       (cons (first lis)
                   (append-element (rest lis) el))))))
 \end{verbatim}
 %
@@ -138,7 +138,7 @@ Tatsächlich gibt es eine bessere Methode, eine Liste umzudrehen: Die
 obige \texttt{invert}"=Funktion konstruiert die Ergebnisliste, indem
 stets Elemente \emph{hinten} angehängt werden.  Das entspricht 
 nicht der "`natürlichen"' Konstruktion von Listen mit
-\texttt{make-pair}, das ein Element \emph{vorn} anhängt.  
+\texttt{cons}, das ein Element \emph{vorn} anhängt.  
 Das Ergebnis ließe sich aber durch Anhängen vorn ganz einfach
 konstruieren, und zwar, indem in folgender Reihenfolge
 Zwischenergebnisse\index{Zwischenergebnis} berechnet werden, wie in folgendem Beispiel für den
@@ -189,7 +189,7 @@ und zusammengesetzte Daten:
   (lambda (lis acc)
     (cond
       ((empty? lis) ...)
-      ((pair? lis)
+      ((cons? lis)
        ... (first lis) ...
        ... (invert-helper (rest lis) ...) ...))))
 \end{verbatim}
@@ -205,7 +205,7 @@ verarbeitet und das Zwischenergebnis ist das Endergebnis:
   (lambda (lis acc)
     (cond
       ((empty? lis) acc)
-      ((pair? lis)
+      ((cons? lis)
        ... (first lis) ...
        ... (invert-helper (rest lis) ...) ...))))
 \end{verbatim}
@@ -220,9 +220,9 @@ angehängt wird:
   (lambda (lis acc)
     (cond
       ((empty? lis) acc)
-      ((pair? lis)
+      ((cons? lis)
        ... (invert-helper (rest lis)
-                          (make-pair (first lis) acc)) ...))))
+                          (cons (first lis) acc)) ...))))
 \end{verbatim}
 %
 Da der rekursive Aufrufs von \texttt{invert-helper} schließlich direkt das
@@ -233,9 +233,9 @@ Endergebnis zurückgegeben wird, ist damit die Funktion auch schon fertig:
   (lambda (lis acc)
     (cond
       ((empty? lis) acc)
-      ((pair? lis)
+      ((cons? lis)
        (invert-helper (rest lis)
-                      (make-pair (first lis) acc))))))
+                      (cons (first lis) acc))))))
 \end{verbatim}
 %
 Die neue Hilfsfunktion \texttt{invert-helper} paßt nicht auf die Signatur
@@ -262,23 +262,23 @@ gut nachvollziehen läßt:
 \begin{alltt}\small
 (invert \underline{(list 1 2 3 4)})
 \(\Longrightarrow\ldots\Longrightarrow\) (\underline{invert-helper} #<list 1 2 3 4> empty)
-\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 1 2 3 4>) ...) ((pair? #<list 1 2 3 4>) ...))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 1 2 3 4>) (make-pair (first #<list 1 2 3 4>) empty))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 2 3 4> (make-pair 1 empty))
+\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 1 2 3 4>) ...) ((cons? #<list 1 2 3 4>) ...))
+\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 1 2 3 4>) (cons (first #<list 1 2 3 4>) empty))
+\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 2 3 4> (cons 1 empty))
 \(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 2 3 4> #<list 1>)
-\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 2 3 4>) ...) ((pair? #<list 2 3 4>) ...))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 2 3 4>) (make-pair (first #<list 2 3 4>) #<list 1>))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 3 4> (make-pair 2 #<list 1>))
+\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 2 3 4>) ...) ((cons? #<list 2 3 4>) ...))
+\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 2 3 4>) (cons (first #<list 2 3 4>) #<list 1>))
+\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 3 4> (cons 2 #<list 1>))
 \(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 3 4> #<list 2 1>)
-\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 3 4>) ...) ((pair? #<list 3 4>) ...))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 3 4>) (make-pair (first #<list 3 4>) #<list 2 1>))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 4> (make-pair 3 #<list 2 1>))
+\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 3 4>) ...) ((cons? #<list 3 4>) ...))
+\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 3 4>) (cons (first #<list 3 4>) #<list 2 1>))
+\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 4> (cons 3 #<list 2 1>))
 \(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 4> #<list 3 2 1>)
-\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 4>) ...) ((pair? #<list 4>) ...))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 4>) (make-pair (first #<list 4>) empty))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<empty-list> (make-pair 4 #<list 3 2 1>))
+\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 4>) ...) ((cons? #<list 4>) ...))
+\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 4>) (cons (first #<list 4>) empty))
+\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<empty-list> (cons 4 #<list 3 2 1>))
 \(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<empty-list> #<list 4 3 2 1>)
-\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<empty-list>) #<list 4 3 2 1>) ((pair? #<empty-list>) ...))
+\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<empty-list>) #<list 4 3 2 1>) ((cons? #<empty-list>) ...))
 \(\Longrightarrow\) #<list 4 3 2 1>
 \end{alltt}
 %
@@ -408,7 +408,7 @@ Schablone für Funktionen mit Akkumulator, die Listen akzeptieren:
          (lambda (lis acc)
             (cond
               ((empty? lis) acc)
-              ((pair? lis)
+              ((cons? lis)
                  (proc-helper (rest lis)
                     (... (first lis) ... acc ...)))))))
     (proc-helper lis z))))
@@ -583,7 +583,7 @@ absteigende Liste der Zahlen von $n$ bis $1$ zurückliefert:
   (lambda (n)
     (if (= n 0)
         empty
-        (make-pair n (build-list (- n 1))))))
+        (cons n (build-list (- n 1))))))
 \end{verbatim}
 %
 Die direkte Übersetzung in eine Variante mit Akkumulator liefert:
@@ -596,7 +596,7 @@ Die direkte Übersetzung in eine Variante mit Akkumulator liefert:
         (lambda (n acc)
           (if (= n 0)
               acc
-              (build-list-helper (- n 1) (make-pair n acc))))))
+              (build-list-helper (- n 1) (cons n acc))))))
     (build-list-helper n empty))))
 \end{verbatim}
 %
@@ -615,7 +615,7 @@ der Ergebnisliste gelöst werden:
         (lambda (n acc)
           (if (= n 0)
               (reverse acc)
-              (build-list-helper (- n 1) (make-pair n acc))))))
+              (build-list-helper (- n 1) (cons n acc))))))
 \end{verbatim}
 %
 

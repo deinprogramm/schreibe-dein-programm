@@ -710,7 +710,7 @@ Die erste Schablone, ausgewählt nach dem ersten Listenparameter
     (cond
       ((empty? lis-1)
        ...)
-      ((pair? lis-1)
+      ((cons? lis-1)
        ... (first lis-1) ...
        ... (number-list=? (rest lis-1) ...) ...))))
 \end{alltt}
@@ -725,15 +725,15 @@ beide Zweige des \texttt{cond} eingesetzt:
       ((empty? lis-1)
        (cond
          ((empty? lis-2) ...)
-         ((pair? lis-2)
+         ((cons? lis-2)
           ... (first lis-2) ...
           ... (number-list=? ... (rest lis-2)))))
-      ((pair? lis-1)
+      ((cons? lis-1)
        ... (first lis-1) ...
        ... (number-list=? (rest lis-1) ...) ...
        (cond
          ((empty? lis-2) ...)
-         ((pair? lis-2)
+         ((cons? lis-2)
           ... (first lis-2) ...
           ... (number-list=? ... (rest lis-2))))))))
 \end{alltt}
@@ -762,11 +762,11 @@ Fall sind beide Listen leer, das Ergebnis ist also \texttt{\#t}.
       ((empty? lis-1)
        (cond
          ((empty? lis-2) #t)
-         ((pair? lis-2) #f)))
-      ((pair? lis-1)
+         ((cons? lis-2) #f)))
+      ((cons? lis-1)
        (cond
          ((empty? lis-2) #f)
-         ((pair? lis-2)
+         ((cons? lis-2)
           (and (= (first lis-1) (first lis-2))
                (number-list=? (rest lis-1) (rest lis-2)))))))))
 \end{alltt}
@@ -1270,11 +1270,11 @@ folgendermaßen:
 \begin{alltt}
 (number-list=? \valof{l} \valof{l})
 \(\Longrightarrow\) ((lambda (lis-1 lis-2) \ldots{}) \valof{l} \valof{l})
-\(\Longrightarrow\) (cond ((empty? \valof{l}) \ldots) ((pair? \valof{l}) \ldots))
-\(\Longrightarrow\) (cond ((empty? \valof{l}) \ldots) ((pair? \valof{l}) \ldots))
-\(\Longrightarrow\) (cond (#t (cond \ldots)) ((pair? \valof{l}) #f))
-\(\Longrightarrow\) (cond ((empty? \valof{l}) #t) ((pair? \valof{l}) #f))
-\(\Longrightarrow\) (cond (#t #t) ((pair? \valof{l}) #f))
+\(\Longrightarrow\) (cond ((empty? \valof{l}) \ldots) ((cons? \valof{l}) \ldots))
+\(\Longrightarrow\) (cond ((empty? \valof{l}) \ldots) ((cons? \valof{l}) \ldots))
+\(\Longrightarrow\) (cond (#t (cond \ldots)) ((cons? \valof{l}) #f))
+\(\Longrightarrow\) (cond ((empty? \valof{l}) #t) ((cons? \valof{l}) #f))
+\(\Longrightarrow\) (cond (#t #t) ((cons? \valof{l}) #f))
 \(\Longrightarrow\) #t
 \end{alltt}
 %
@@ -1296,11 +1296,11 @@ reduzieren wie möglich:
 \begin{alltt}
 (number-list=? \valof{l} \valof{l})
 \(\Longrightarrow\) ((lambda (lis-1 lis-2) \ldots{}) \valof{l} \valof{l})
-\(\Longrightarrow\) (cond ((empty? \valof{l}) \ldots) ((pair? \valof{l}) \ldots))
-\(\Longrightarrow\) (cond (#f \ldots) ((pair? \valof{l}) \ldots))
+\(\Longrightarrow\) (cond ((empty? \valof{l}) \ldots) ((cons? \valof{l}) \ldots))
+\(\Longrightarrow\) (cond (#f \ldots) ((cons? \valof{l}) \ldots))
 \(\Longrightarrow\) (cond (#t (cond \ldots)))
-\(\Longrightarrow\) (cond ((empty? \valof{l}) \ldots) ((pair? \valof{l}) \ldots))
-\(\Longrightarrow\) (cond (#f \ldots) ((pair? \valof{l}) \ldots))
+\(\Longrightarrow\) (cond ((empty? \valof{l}) \ldots) ((cons? \valof{l}) \ldots))
+\(\Longrightarrow\) (cond (#f \ldots) ((cons? \valof{l}) \ldots))
 \(\Longrightarrow\) (cond (#t (and \ldots)))
 \(\Longrightarrow\) (and (= (first \valof{l}) (first \valof{l})) (number-list=? \ldots))
 \end{alltt}
