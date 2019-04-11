@@ -858,7 +858,8 @@ Verzweigung im Rumpf, und zwar nach dem Wert von \texttt{(dillo-alive?
 
 Da sich der Fall "`Gürteltier tot"' dadurch definiert, dass der
 Fall "`Gürteltier lebendig"' nicht eintritt, ist die binäre Verzweigung
-angemessen:
+nach Konstruktionsanleitung~\ref{ka:boolesche-fallunterscheidung} auf
+Seite~\pageref{ka:boolesche-fallunterscheidung} angemessen:
 %
 \begin{verbatim}
 (define feed-dillo
@@ -871,8 +872,9 @@ angemessen:
 \end{verbatim}
 %
 Nun müssen wir noch die beiden Zweige ergänzen.  Am
-einfachsten ist die Alternative "`Gürteltier tot"', dann nämlich kommt
-das gleiche Gürteltier aus der Funktion, das hineingegangen ist:
+einfachsten ist "`Gürteltier tot"', dann nämlich kommt
+das gleiche Gürteltier aus der Funktion, das hineingegangen ist.  Wir
+setzen also \texttt{d} als Alternative der Verzweigung ein:
 %
 \begin{verbatim}
 (define feed-dillo

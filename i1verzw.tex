@@ -151,7 +151,7 @@ Englisch) "`aufsagen"' soll.  Sie soll sich so verhalten:
 \begin{alltt}
 (say-number 0)
 \evalsto{} "zero"
-(say-number 0)
+(say-number 1)
 \evalsto{} "one"
 \end{alltt}
 %
@@ -307,7 +307,8 @@ Da sind gleich zwei neue Programmelemente drin:
 \end{alltt}
   % 
   Mach die Signatur präziser mit Hilfe von Datendefinitionen und
-  Signatur-Definitionen!
+  Signatur-Definitionen!  Ersetze dafür \texttt{natural} und
+  \texttt{string} durch Aufzählungen.
 \end{aufgabe}
 %
 Zurück zu unserer Funktion zur Niedlichkeitsanalyse.  Die definierte
@@ -1263,7 +1264,9 @@ Abbildung~\ref{scheme:if} zeigt die allgemeine Form von
   %
   Eine binäre Verzweigung hat die folgende Form:
 \begin{alltt}
-(if \(b\) \(k\) \(a\))
+(if \(b\)
+    \(k\)
+    \(a\))
 \end{alltt}
   %
 Dabei ist $b$ die Bedingung und $k$ und $a$ sind die
@@ -1287,6 +1290,7 @@ Für boolesche Fallunterscheidungen gibt es eine separate
 Konstruktionsanleitung:
 %
 \begin{konstruktionsanleitung}[boolesche Fallunterscheidung]
+  \label{ka:boolesche-fallunterscheidung}
   Wenn sich das Ergebnis einer Funktion nach einer booleschen Größe
   richtet, welche die Funktion mit Hilfe der Eingaben berechnen kann,
   benutze als Schablone im Rumpf eine binäre Verzweigung:
