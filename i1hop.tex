@@ -36,6 +36,7 @@ eine Datenbank hinaus; es geht aber auch schon wesentlich einfacher:
    game-home-team game-home-goals game-guest-team game-guest-goals))
 (: make-game (natural string natural string natural -> game))
 (: game? (any -> boolean))
+(: game-matchday (game -> natural))
 (: game-home-team (game -> string))
 (: game-home-goals (game -> natural))
 (: game-guest-team (game -> string))
@@ -76,6 +77,9 @@ folgt:\index{home-points@\texttt{home-points}}
 \end{verbatim}
 Die Punktzahl des Gastgeberteams errechnet sich auf einfache Weise durch
 Vergleich der erzielten Tore:
+
+FIXME: let
+
 \begin{verbatim}
 (define home-points
     (lambda (g)
@@ -207,7 +211,7 @@ nicht:
        (let ((f (first lis))
              (r (games-draw (rest lis))))
        (if (game-draw? f)
-           (make-pair f r
+           (make-pair f r)
            r)))))))
 \end{alltt}
 %
@@ -466,7 +470,7 @@ Parameter eine Funktion mit zwei Parametern, einen Wert und eine
 Liste von Werten.  Es gilt folgende Gleichung:
 %
 \begin{displaymath}
-  \texttt{(list-fold}~u~o~\verb|#<|a_1~\ldots~a_n\verb|>|\texttt{)}
+  \texttt{(list-fold}~u~o~\verb|#<list |a_1~\ldots~a_n\verb|>|\texttt{)}
   = \texttt{($o$ $a_1$ ($o$ $a_2$ ($\ldots$ ($o$ $a_n$ $u$)$ \ldots$)))}
 \end{displaymath}
 %
@@ -486,7 +490,7 @@ Eine andere, praktische Darstellung von
 Infix-Schreibweise also:
 %
 \begin{displaymath}
-  \texttt{(list-fold}~u~\odot~(a_1~\ldots~a_n)\texttt{)}
+  \texttt{(list-fold}~u~\odot~\verb|#<list |a_1~\ldots~a_n\verb|>|\texttt{)}
   = a_1 \odot (a_2 \odot (\ldots (a_n \odot u)\ldots ))
 \end{displaymath}
 %
@@ -552,8 +556,10 @@ Argument \texttt{(first lis)} ignoriert (es spielt ja für die Listenlänge
 keine Rolle) und auf das zweite Argument eins addiert.  Diese
 Hilfsprozedur sieht so aus:\index{add-1-for-length@\texttt{add-1-for-length}}
 %
+FIXME: warum nicht \texttt{\%a}?
+
 \begin{alltt}
-(: add-1-for-length (a N -> N))
+(: add-1-for-length (any natural -> natural))
 (define add-1-for-length
   (lambda (ignore n)
     (+ n 1)))

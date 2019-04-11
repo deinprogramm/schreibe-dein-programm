@@ -559,9 +559,11 @@ Signaturen:
 (: rest ((cons-of %a) -> (list-of %a)))
 \end{verbatim}
 %
-Hier sind  \verb|%a| und \verb|%b| wiederum
-\textit{Signaturvariablen}, die für beliebige
-Signaturen stehen.  Die Tatsache, dass hier zwei verschiedene Signaturvariablen
+Hier ist  \verb|%a| eine
+\textit{Signaturvariable}, die für eine beliebige
+Signatur steht, die erst beim Aufruf von \texttt{cons} beziehungsweise
+\texttt{first} oder \texttt{rest} festgelegt wird.
+Die Tatsache, dass hier zwei verschiedene Signaturvariablen
 verwendet wurden bringt die zusätzliche Information für den
 menschlichen Leser zum Ausdruck, dass die
 Argumente von \texttt{cons-of} zu potentiell
@@ -699,6 +701,8 @@ sind Kurzbeschreibung und Signatur:
 (: list-length ((list-of %a) -> natural))
 \end{alltt}
 %
+FIXME:
+
 Dieser Funktion ist egal, welche Signatur
 die Elemente der Liste erfüllen, weil das Konzept der Länge einer
 Liste unabhängig davon ist, was die Elemente sind.
@@ -1237,6 +1241,41 @@ Schreiben Sie folgende Funktionen auf Listen:
 \end{aufgabe}
 
 \begin{aufgabe}
+   Schreiben Sie eine Funktion, die auf möglichst
+  einfache Weise eine Liste von Zahlen aufsteigend sortiert! Gehen
+  Sie dazu wie folgt vor:
+
+  FIXME: nichtleere Listen!
+  
+  \begin{enumerate}
+  \item Schreiben Sie eine Funktion
+    \texttt{list-min}, die das kleinste Element einer
+    Liste zurückgibt.
+
+    Beispiel: \verb|(list-min (list 2 3 4 1 5 6))| ergibt \verb|1|
+
+    Wenn die Funktion auf eine leere Liste angewendet
+    wird, soll die Funktion eine \texttt{violation} produzieren.
+  \item Schreiben Sie eine Funktion
+    \texttt{delete-once}, die aus einer Liste von Zahlen das erste
+    Vorkommen einer gegebenen Zahl entfernt.
+
+    Beispiel: \verb|(delete-once 5 (list 1 2 5 3 4 5))| ergibt
+    \verb|#<list 1 2 3 4 5>|
+    
+    (Wenn die Liste die Zahl nicht enthält,
+    soll sie unverändert zurückgegeben werden.)
+  \item  Schreiben Sie eine Funktion \texttt{sort}, die
+    eine Liste von Zahlen in aufsteigender Reihenfolge sortiert.
+    Benutzen Sie dazu \texttt{list-min} und \texttt{delete-once}.
+
+    Beispiel: \verb|(sort (list 1 5 3 2 4))| ergibt
+    \verb|#<list 1 2 3 4 5>|
+
+  \end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}
    In einer Firma stempeln die Mitarbeiter Stempelkarten, um ihre
   Arbeitszeit nachzuweisen: Auf jeder Stempelkarte ist die Nummer des
   Mitarbeiters vermerkt sowie eine Liste von jeweils gearbeiteten
@@ -1297,39 +1336,6 @@ Schreiben Sie folgende Funktionen auf Listen:
   Kurzbeschreibung, Signatur, einige Testfälle und das Gerüst der Funktion.
   Vervollständigen Sie anschließend das Gerüst und vergewissern Sie sich,
   dass die Testfälle korrekt durchlaufen!
-\end{aufgabe}
-
-\begin{aufgabe}
-   Schreiben Sie eine Funktion, die auf möglichst
-  einfache Weise eine Liste von Zahlen aufsteigend sortiert! Gehen
-  Sie dazu wie folgt vor:
-
-  \begin{enumerate}
-  \item Schreiben Sie eine Funktion
-    \texttt{list-min}, die das kleinste Element einer
-    Liste zurückgibt.
-
-    Beispiel: \verb|(list-min (list 2 3 4 1 5 6))| ergibt \verb|1|
-
-    Wenn die Funktion auf eine leere Liste angewendet
-    wird, soll die Funktion eine \texttt{violation} produzieren.
-  \item Schreiben Sie eine Funktion
-    \texttt{delete-once}, die aus einer Liste von Zahlen das erste
-    Vorkommen einer gegebenen Zahl entfernt.
-
-    Beispiel: \verb|(delete-once 5 (list 1 2 5 3 4 5))| ergibt
-    \verb|#<list 1 2 3 4 5>|
-    
-    (Wenn die Liste die Zahl nicht enthält,
-    soll sie unverändert zurückgegeben werden.)
-  \item  Schreiben Sie eine Funktion \texttt{sort}, die
-    eine Liste von Zahlen in aufsteigender Reihenfolge sortiert.
-    Benutzen Sie dazu \texttt{list-min} und \texttt{delete-once}.
-
-    Beispiel: \verb|(sort (list 1 5 3 2 4))| ergibt
-    \verb|#<list 1 2 3 4 5>|
-
-  \end{enumerate}
 \end{aufgabe}
 
 \begin{aufgabe}

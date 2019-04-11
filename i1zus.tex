@@ -83,11 +83,11 @@ Teilen sie zusammengesetzt ist.  In der obigen Tabelle ist das
 alle Computer haben.  Die \textit{Komponente} ist das konkrete
 Bestandteil eines einzelnen Computers.
 
-Zusammengesetzte Daten bilden die DeinProgramm-Sprachen durch
+Zusammengesetzte Daten bilden die Lehrsprachen durch
 sogenannte \textit{Records}\index{Records} ab.  Jeder Record gehört
 zu einem bestimmten
 \textit{Record-Typ\index{Record-Typ}}, der festlegt, was für eine
-Sorte Information repräsentiert wird und welche Felder des Records
+Sorte Information repräsentiert wird und welche Felder die Records
 des Typs haben.
 
 \begin{verbatim}
@@ -453,7 +453,7 @@ natürliche Zahlen:
   (wallclock-time-minute natural))
 \end{verbatim}
 %
-Es hilft dem Verständnis zumindest am Anfang, dass wird ie Signaturen
+Es hilft dem Verständnis zumindest am Anfang, dass wir die Signaturen
 der definierten Funktionen hinzuschreiben.  Diese ergeben sich direkt
 aus der Record-Definition:
 %
@@ -480,7 +480,7 @@ hat folgende allgemeine Gestalt:\label{def:define-record-functions}
 \end{alltt}
 %
 Diese Form definiert einen Record-Typ mit $n$ Feldern.
-Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, für die
+Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, für die
 \texttt{define-record-functions} Definitionen anlegt:
 %
 \begin{itemize}
@@ -492,7 +492,7 @@ Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, für die
 \begin{alltt}
 (: \(c\) (\(\mathit{sig}\sb{1}\) \(\ldots\) \(\mathit{sig}\sb{n}\) -> \(t\)))
 \end{alltt}
-\item $s_1, \ldots, s_n$ sind die Namen der Selektoren für die Felder
+\item $\mathit{sel}_1, \ldots, \mathit{sel}_n$ sind die Namen der Selektoren für die Felder
   des Record-Typen.  Der Selektor $s_i$ hat folgende Signatur:
 % 
 \begin{alltt}
@@ -563,7 +563,7 @@ Die Umrechnung können wir auch umdrehen, mit einer Funktion wie folgt:
 \end{verbatim}
 %
 Der Pfeil \verb|->| gehört zum Namen dazu und steht für die Umwandlung
-einer Größe in eine andere.  Die Testfällesind gegenüber
+einer Größe in eine andere.  Die Testfälle sind gegenüber
 \texttt{minutes-since-midnight} umgedreht.
 %
 \begin{verbatim}
@@ -640,7 +640,7 @@ Damit können wir den Rumpf vervollständigen:
 \section{Schablonen für  zusammengesetzte Daten}
 
 Dieser Abschnitt fasst die Erkenntnisse aus den Beispielen
-zusammengesetzten Daten in Form von Konstruktionsanleitungen zusammen.
+zu zusammengesetzten Daten in Form von Konstruktionsanleitungen zusammen.
 
 FIXME: Verweis auf Anhang
 
@@ -665,7 +665,7 @@ ist ein Kommentar im Programm in folgender Form:
 Auf die Datendefinition folgt eine entsprechende Record-Definition.
 Dafür überlegen Sie sich Namen für den Record-Typ $T$ und für die
 Felder, $f_1 \ldots f_n$.  Für jedes Feld sollten Sie außerdem
-die dazu passende Signatur $\mathit{sig}_{i}$.
+die dazu passende Signatur $\mathit{sig}_{i}$ angeben.
 Die Record-Definition hat dann folgende
 Form:
 %
@@ -683,7 +683,7 @@ sind die Selektoren.
 
 Dass der Konstruktorname mit \texttt{make-} anfängt und dass die
 Selektornamen sich aus dem Namen des Typs und der Felder
-zusammensetzt, ist reine Konvention.  Von Ihr sollten Sie aber nur aus
+zusammensetzt, ist reine Konvention.  Von ihr sollten Sie aber nur aus
 guten Gründen abweichen.
 
 Unter die Record-Definition gehören die Signaturen für den Konstruktor
@@ -708,9 +708,10 @@ Eingabe akzeptiert (das ergibt sich aus der Signatur), gehen Sie nach
 Schreiben des Gerüstes folgendermaßen vor:
 %
 \begin{enumerate}
-\item Für jede dieser Komponenten, schreiben Sie  \texttt{($s$ $r$)} in die
-  Schablone, wobei $s$ der Selektor der Komponente und $r$ der Name
-  des Record-Parameters ist.
+\item Für jede dieser Komponenten, schreiben Sie  \texttt{($\mathit{sel}$ $r$)} in die
+  Schablone, wobei $\mathit{sel}$ der Selektor der Komponente und $r$ der Name
+  des Record-Parameters ist, also zum Beispiel
+  \texttt{(wallclock-time-hour wt)}.
 \item Vervollständigen Sie die Schablone, indem Sie einen Ausdruck
   konstruieren, in dem die Selektor"=Anwendungen vorkommen.
 \item Es ist möglich, dass nicht alle Selektor-Anwendungen im Rumpf
