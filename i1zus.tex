@@ -352,7 +352,7 @@ Fertig!
 Natürlich sind zusammengesetzte Daten in den DeinProgramm-Sprachen
 nicht auf Computer-Konfigurationen beschränkt.  Sie können beliebige
 neue Arten zusammengesetzter Daten definieren.  Voraussetzung für die
-Definition einer neuen Art zusammengesetzter Daten ist, dass Sie eine klare
+Definition einer neuen Art zusammengesetzter Daten ist, dass Du eine klare
 Vorstellung davon haben, was die Komponenten sind.  Dabei hilft eine
 informelle Beschreibung wie diese hier:
 %
@@ -365,7 +365,7 @@ informelle Beschreibung wie diese hier:
 %
 Eine solche informelle Beschreibung heißt auch
 \index{Datendefinition}\textit{Datendefinition}.  Eine Datendefinition
-für zusammengesetzte Daten können Sie direkt Code umwandeln.  In den
+für zusammengesetzte Daten kannst Du direkt in Code umwandeln.  In den
 DeinProgramm-Sprachen ist dafür eine sogenannte
 \textit{Record-Definition\index{Record-Definition}} zuständig.
 
@@ -646,7 +646,7 @@ FIXME: Verweis auf Anhang
 
 \subsection{Datenanalyse für zusammengesetzte Daten}
 
-Zusammengesetzte Daten können Sie an Formulierungen wie "`ein $X$
+Zusammengesetzte Daten kannst Du an Formulierungen wie "`ein $X$
 besteht aus~\ldots"', "`ein $X$ ist charakterisiert durch~\ldots"'
 oder "`ein $X$ hat~\ldots"' erkennen.  Manchmal lautet die
 Formulierung etwas anders.  Die daraus resultierende Datendefinition
@@ -663,8 +663,8 @@ ist ein Kommentar im Programm in folgender Form:
 \subsection{Record-Definition für zusammengesetzte Daten}
 
 Auf die Datendefinition folgt eine entsprechende Record-Definition.
-Dafür überlegen Sie sich Namen für den Record-Typ $T$ und für die
-Felder, $f_1 \ldots f_n$.  Für jedes Feld sollten Sie außerdem
+Dafür überlege Dir Namen für den Record-Typ $T$ und für die
+Felder, $f_1 \ldots f_n$.  Für jedes Feld solltest Du außerdem
 die dazu passende Signatur $\mathit{sig}_{i}$ angeben.
 Die Record-Definition hat dann folgende
 Form:
@@ -683,7 +683,7 @@ sind die Selektoren.
 
 Dass der Konstruktorname mit \texttt{make-} anfängt und dass die
 Selektornamen sich aus dem Namen des Typs und der Felder
-zusammensetzt, ist reine Konvention.  Von ihr sollten Sie aber nur aus
+zusammensetzt, ist reine Konvention.  Von ihr solltest Du aber nur aus
 guten Gründen abweichen.
 
 Unter die Record-Definition gehören die Signaturen für den Konstruktor
@@ -696,30 +696,30 @@ und die Selektoren:
 (: \(T\)-\(f\sb{n}\) (\(T\) -> \(\mathit{sig}\sb{n}\)))
 \end{alltt}
 %
-Wenn Sie genügend Übung in der Verwendung von Konstruktoren und
-Selektoren haben, können Sie die Signaturen (die ja redundant sind)
+Wenn Du genügend Übung in der Verwendung von Konstruktoren und
+Selektoren hast, kannst Du die Signaturen (die ja redundant sind)
 auch weglassen: Die relevanten Signaturen für die Felder stehen ja
 schon in der Record-Definition.
 
 \subsection{Zusammengesetzte Daten als Eingabe}
 
-Wenn Sie eine Funktion schreiben, die zusammengesetzte Daten als
-Eingabe akzeptiert (das ergibt sich aus der Signatur), gehen Sie nach
+Wenn Du eine Funktion schreibst, die zusammengesetzte Daten als
+Eingabe akzeptiert (das ergibt sich aus der Signatur), gehe nach
 Schreiben des Gerüstes folgendermaßen vor:
 %
 \begin{enumerate}
-\item Für jede dieser Komponenten, schreiben Sie  \texttt{($\mathit{sel}$ $r$)} in die
+\item Für jede dieser Komponenten, schreibe  \texttt{($\mathit{sel}$ $r$)} in die
   Schablone, wobei $\mathit{sel}$ der Selektor der Komponente und $r$ der Name
   des Record-Parameters ist, also zum Beispiel
   \texttt{(wallclock-time-hour wt)}.
-\item Vervollständigen Sie die Schablone, indem Sie einen Ausdruck
+\item Vervollständige die Schablone, indem Du einen Ausdruck
   konstruieren, in dem die Selektor"=Anwendungen vorkommen.
 \item Es ist möglich, dass nicht alle Selektor-Anwendungen im Rumpf
-  verwendet werden: In diesem Fall löschen Sie die Selektor-Anwendung
+  verwendet werden: In diesem Fall lösche die Selektor-Anwendung
   wieder.
 \end{enumerate}
 %
-Mit etwas Übung können Sie nicht benötigte Selektor-Anwendung auch
+Mit etwas Übung kannst Du nicht benötigte Selektor-Anwendung auch
 von vornherein weglassen.  Gelegentlich deutet es aber auf einen
 Fehler hin, wenn eine fehlt: Darum ist es oft sinnvoll, sie zunächst
 hinzuschreiben.
@@ -731,8 +731,8 @@ entsprechenden Record konstruieren und deshalb den Konstruktor aufrufen.
 Die Schablone ergibt sich folgendermaßen:
 %
 \begin{quote}
-  Wenn die Funktion zusammengesetzte Daten als Ausgabe hat, schreiben
-  Sie einen Aufruf des passenden Record-Konstruktors in den Rumpf,
+  Wenn die Funktion zusammengesetzte Daten als Ausgabe hat, schreibe
+  einen Aufruf des passenden Record-Konstruktors in den Rumpf,
   zunächst mit einer Ellipse für jedes Feld des Records.
 \end{quote}
 
@@ -997,7 +997,7 @@ Fertig!
 
 \begin{aufgabe}
 
-  Schreiben Sie eine Daten- und eine
+  Schreibe eine Daten- und eine
   Record-Definition für \textit{Brüche} und verschiedene Funktionen
   für das Bruchrechnen:
   \begin{itemize}
@@ -1008,7 +1008,7 @@ Fertig!
     Brüchen
   \end{itemize}
 
-  \textbf{Hinweis:} Zur Lösung der Aufgabe brauchen Sie die eingebaute
+  \textbf{Hinweis:} Zur Lösung der Aufgabe brauchst Du die eingebaute
   Funktion
   % 
   \begin{center}
@@ -1026,22 +1026,22 @@ Fertig!
   Experten, wieviele Bas ein Qux hat.  Es wird außerdem zwischen
   Arg-Quxen, Foo-Quxen und Bla-Quxen unterschieden.
   \begin{enumerate}
-  \item Schreiben Sie eine Daten-Definition für Quxe sowie eine dazu
-    passende Record-Definition. Notieren Sie dazu auch die Signaturen der
+  \item Schreibe eine Daten-Definition für Quxe sowie eine dazu
+    passende Record-Definition. Notiere dazu auch die Signaturen der
     Selektoren.
-  \item Schreiben Sie Signatur, Gerüst und Schablone für eine Funktion,
+  \item Schreibe Signatur, Gerüst und Schablone für eine Funktion,
     die ein Qux konsumiert und eine Zeichenkette zurückgibt.
-    Identifizieren Sie die dazu benutzten Konstruktionsanleitungen.
-    Achten Sie darauf, dass Sie auch die Konstruktionsanleitungen für die
+    Identifiziere die dazu benutzten Konstruktionsanleitungen.
+    Achte darauf, dass auch die Konstruktionsanleitungen für die
     Komponenten von Qux-Records zur Anwendung bringen.
-  \item Nehmen Sie an, Sie hätten für eine zu schreibende Funktion
+  \item Nimm an, Du hättest für eine zu schreibende Funktion
     \texttt{quxop2} die folgende Signatur festgelegt:
 \begin{verbatim}
 (: quxop2 (natural (one-of "Hx" "Bx" "Px") -> qux))
 \end{verbatim}
     (Dabei ist angenommen, dass die Record-Definition für ein Qux
-    den Namen \texttt{qux} hat.) Entwickeln Sie daraus Gerüst und
-    Schablone der zu schreibenden Funktion.  Identifizieren Sie die dazu
+    den Namen \texttt{qux} hat.) Entwickele daraus Gerüst und
+    Schablone der zu schreibenden Funktion.  Identifiziere die dazu
     benutzten Konstruktionsanleitungen.
   \end{enumerate}
 
@@ -1049,17 +1049,17 @@ Fertig!
 
 \begin{aufgabe}
 
-  Schreiben Sie ein Programm zur Verwaltung von wöchentlichen
+  Schreibe ein Programm zur Verwaltung von wöchentlichen
   Raumreservierungen an der Uni!
 
   \begin{enumerate}
-  \item Entwerfen Sie eine Daten- und Record-Definition für einen Eintrag eines
+  \item Entwirf eine Daten- und Record-Definition für einen Eintrag eines
     Verwaltungssystems für Vorlesungs- und Seminarräume. Jeder Eintrag beinhaltet
     folgende Informationen: der Name des Raums (als Zeichenkette), der Wochentag,
     die Uhrzeit (es wird nur in Stunden gerechnet) und der Name des Dozenten, der
     den Raum belegt.
 
-  \item Schreiben Sie eine Funktion \texttt{reserve}, die als Argumente einen Eintrag und einen
+  \item Schreibe eine Funktion \texttt{reserve}, die als Argumente einen Eintrag und einen
     Dozentennamen konsumiert und einen Eintrag zurückgibt. Falls der Raum noch nicht belegt
     wurde (d.h. im Eintrag ist der Dozentenname "`"'), soll der Raum reserviert werden und
     damit ein neuer Eintrag zurückgegeben werden, bei dem der Dozentenname gesetzt ist.
@@ -1070,13 +1070,13 @@ Fertig!
 
 \begin{aufgabe}
 
-  Schreiben Sie weitere Funktionen für die Computer aus Abschnitt~\ref{sec:computer-konfigurieren}:
+  Schreibe weitere Funktionen für die Computer aus Abschnitt~\ref{sec:computer-konfigurieren}:
   %
   \begin{itemize}
-  \item Überlegen Sie sich, wie Sie für einen Computer einen
-    geeigneten Preis abhängig von der Konfiguration berechnen würden.
-    Schreiben Sie eine Funktion, welche Ihre Methode realisiert.
-  \item Schreiben Sie eine Funktion, die den Speicher eines Computers
+  \item Überlege Dir, wie Du für einen Computer einen
+    geeigneten Preis abhängig von der Konfiguration berechnen würdest.
+    Schreibe eine Funktion, welche Deine Methode realisiert.
+  \item Schreibe eine Funktion, die den Speicher eines Computers
     erweitert.  Sie akzeptiert einen Computer und eine Zahl und liefert
     einen neuen Computer, bei dem der Hauptspeicher um die Zahl erhöht
     ist.
@@ -1088,22 +1088,22 @@ Fertig!
   Es geht ums Backen von Kuchen.
 
   \begin{enumerate}
-  \item Erstellen Sie eine Datendefinition
+  \item Erstelle eine Datendefinition
     \texttt{dough} für den Teig.  Jeder Teig besteht aus Eiern, Mehl,
-    Zucker und Wasser und hat ein Gesamtgewicht.  Überlegen Sie sich
+    Zucker und Wasser und hat ein Gesamtgewicht.  Überlege Dir
     geeignete Einheiten für die Zutaten.
     % In Teil 3. sind allerdings Einheiten angegeben. Absicht?
-  \item Erstellen Sie eine Datendefinition \texttt{cake}
+  \item Erstelle eine Datendefinition \texttt{cake}
     für Kuchen.  Diese enthält einen Teig, eine Backdauer in Minuten und 
     das Endgewicht des Kuchens.
-  \item Schreiben Sie eine Funktion
+  \item Schreibe eine Funktion
     \texttt{ingredients->dough} welche eine Anzahl an Eiern, eine
     Menge Mehl in Gramm, eine Menge Zucker in Gramm und eine
     Menge Wasser in Milliliter erhält und daraus einen Teig
-    herstellt. Gehen Sie davon aus, dass jedes Ei 64g wiegt.
-  \item Schreiben Sie eine Funktion \texttt{bake-cake}. 
+    herstellt. Gehe davon aus, dass jedes Ei 64g wiegt.
+  \item Schreibe eine Funktion \texttt{bake-cake}. 
     Diese erhält einen Teig, eine Backdauer in Minuten und erstellt einen 
-    Kuchen.  Gehen Sie davon aus, dass nach dem Backen noch 80\% des
+    Kuchen.  Gehe davon aus, dass nach dem Backen noch 80\% des
     Wassers im Kuchen sind.
   \end{enumerate}
   
@@ -1112,51 +1112,51 @@ Fertig!
 
 \begin{aufgabe}
 
-  Schreiben Sie eine Datendefinition
+  Schreibe eine Datendefinition
   \texttt{appointment} für Termine, bestehend aus Datum, Uhrzeit,
   Dauer (in Minuten) und Ort.  Verwenden sie für das Datum und die
   Uhrzeit weitere Datendefinitionen bestehend aus Tag, Monat und Jahr
   beziehungsweise Stunde und Minute.
 
   \begin{enumerate}
-  \item Schreiben Sie eine Funktion \texttt{date-ok?}, die feststellt,
+  \item Schreibe eine Funktion \texttt{date-ok?}, die feststellt,
     ob ein Datums-Objekt einem tatsächlichen Kalenderdatum entspricht,
     also korrekte Daten wie 1.1.1970 von unsinnigen wie 34.17.2006
-    unterscheidet. Lassen Sie dazu Schaltjahre außer Acht. Beachten
-    Sie die Monate mit 28, 30 und 31 Tagen.
-  \item Schreiben Sie eine Funktion \texttt{date-equal?}, die
+    unterscheidet. Lasse dazu Schaltjahre außer Acht. Beachte
+    die Monate mit 28, 30 und 31 Tagen.
+  \item Schreibe eine Funktion \texttt{date-equal?}, die
     vergleicht, ob zwei Datums-Objekte gleich sind.
-  \item Schreiben Sie eine Funktion \texttt{time-ok?}, die feststellt,
+  \item Schreibe eine Funktion \texttt{time-ok?}, die feststellt,
     ob ein Zeit-Objekt einer tatsächlichen Uhrzeit entspricht.
-  \item Schreiben Sie eine Funktion \texttt{time-overlap?}, die
+  \item Schreibe eine Funktion \texttt{time-overlap?}, die
     überprüft, ob sich zwei Zeiten mit einer jeweils gegebenen Dauer
-    (in Minuten) überschneiden. Gehen Sie davon aus, dass es sich um
+    (in Minuten) überschneiden. Gehe davon aus, dass es sich um
     Zeiten desselben Tages handelt.
-  \item Schreiben Sie eine Funktion \texttt{overlap?}, die prüft, ob
-    sich zwei gegebene Termine überschneiden. Beachten Sie die Dauer
-    der Termine. Gehen Sie davon aus, dass die Termine nicht über
+  \item Schreibe eine Funktion \texttt{overlap?}, die prüft, ob
+    sich zwei gegebene Termine überschneiden. Beachte die Dauer
+    der Termine. Gehe davon aus, dass die Termine nicht über
     Mitternacht liegen.
   \end{enumerate}
   %
   \textbf{Hinweis:} Zur Lösung der Aufgabe kann die eingebaute
   Funktion
   \begin{center}
-    \texttt{(: remainder natural natural -> natural)}
+    \texttt{(: remainder (natural natural -> natural))}
   \end{center}
 
-  hilfreich sein. Sie bestimmt den Rest einer ganzzahligen Division.
+  hilfreich sein. Sie berechnet den Rest einer ganzzahligen Division.
 
 \end{aufgabe}
 
 \begin{aufgabe}
 
-  Erstellen Sie eine Daten- und eine Record-Definition für einen
-    Fahrzeugschein (siehe Abbildung~\ref{fig:fahrzeugschein}).  Gliedern Sie die Felder des
-    Fahrzeugscheins sinnvoll in Untergruppen und erstellen Sie für diese
-    Untergruppen eigene Daten- und Record-Definitionen.  Benutzen Sie
-    sprechende Bezeichner für Records und Felder!  Geben Sie ein
-    Beispiel an, indem Sie ein Fahrzeugschein-Objekt mit allen Einträgen
-    erzeugen.
+  Erstelle eine Daten- und eine Record-Definition für einen
+    Fahrzeugschein (siehe Abbildung~\ref{fig:fahrzeugschein}).  Gliedere die Felder des
+    Fahrzeugscheins sinnvoll in Untergruppen und erstelle für diese
+    Untergruppen eigene Daten- und Record-Definitionen.  Benutze
+    sprechende Bezeichner für Records und Felder!  Gib ein
+    Beispiel an, indem Du ein Fahrzeugschein-Objekt mit allen Einträgen
+    erzeugst.
     
     
     \begin{figure}[tb]
@@ -1172,62 +1172,62 @@ Fertig!
 
 \begin{aufgabe}
 
-  Schreiben Sie für den Tübinger Stadtverkehr ein
+  Schreibe für den Tübinger Stadtverkehr ein
   Programm, welches überprüft ob ein Fahrzeug in den Umweltzonen fahren 
   darf.
   \begin{enumerate}
-  \item Definieren Sie einen Datentyp für Fahrzeuge. Dieser
+  \item Definiere einen Datentyp für Fahrzeuge. Dieser
     Datentyp soll den Typ, das Nummernschild und die Schadstoffklasse des
     Fahrzeuges beinhalten.
-  \item Erstellen Sie die Beispielfahrzeuge für die
+  \item Erstelle die Beispielfahrzeuge für die
     Fahrzeugtypen "'Stadtbus"', "'Reisebus"', "'Dieselauto"'
-    und "'Benzinauto"'. Gehen Sie davon aus, dass die Busse der
+    und "'Benzinauto"'. Gehe davon aus, dass die Busse der
     Schadstoffklasse~2, das Dieselauto der Schadstoffklasse~3 und das
     Benzinauto der Schadstoffklasse~4 angehören.
-  \item Schreiben Sie eine Funktion \texttt{fahrverbot?},
+  \item Schreibe eine Funktion \texttt{fahrverbot?},
     welche überprüft ob ein gegebenes Fahrzeug bei einer gegebenen
-    Mindest-Schadstoffklasse noch fahren darf. Gestalten Sie die Signatur
+    Mindest-Schadstoffklasse noch fahren darf. Gestalte die Signatur
     so, dass er nur Mindest-Schadstoffklassen von 1 bis 4 akzeptiert.
   \item Die Mühlstraße in Tübingen ist in einer Richtung für
-    alle Fahrzeuge außer Stadtbusse gesperrt. Schreiben Sie eine Funktion
+    alle Fahrzeuge außer Stadtbusse gesperrt. Schreibe eine Funktion
     \texttt{sonderrecht?}, die überprüft ob ein gegebenes Fahrzeug die
     Mühlstraße in der gesperrten Richtung befahren darf.  
   \item Bürgermeister Boris Palmer hat die Idee, den Tourismus
     dadurch anzukurbeln, dass Sonntags auch Reisebusse die Mühlstrasse in
-    der gesperrten Richtunge befahren dürfen. Erweitern Sie hierfür die
-    Funktion \texttt{sonderrecht?} um den Wochentag und lassen Sie Sonntags
+    der gesperrten Richtunge befahren dürfen. Erweitere hierfür die
+    Funktion \texttt{sonderrecht?} um den Wochentag und lasse sonntags
     auch Reisebusse zu.
   \end{enumerate}
-  Verwenden Sie beim Schreiben der Funktion die
+  Verwende beim Schreiben der Funktion die
   Konstruktionsanleitungen für Funktionen und für Fallunterscheidungen. 
-  Schreiben Sie Testfälle, die alle Möglichkeiten der   
+  Schreibe Testfälle, die alle Möglichkeiten der   
   Fallunterscheidung abdecken.
   
 \end{aufgabe}
 
 \begin{aufgabe}
 
-  Schreiben Sie ein Programm für einen Paketdienst, das den Preis
+  Schreibe ein Programm für einen Paketdienst, das den Preis
   für ein Paket berechnet!
   \begin{enumerate}
     
-  \item Schreiben Sie eine Daten- und eine Record-Definition für
+  \item Schreibe eine Daten- und eine Record-Definition für
     \textit{Adressen}.  Zu einer Adresse gehören der Name, die Straße
     mit Hausnummer, die Postleitzahl, der Ort und das Land.
     
   \item Der Paketdienst verlangt einen Zuschlag für Sendungen, die
-    international verschickt werden.  Schreiben Sie eine Funktion
+    international verschickt werden.  Schreibe eine Funktion
     \texttt{international?}, die als Argument eine \textit{Adresse}
     bekommt und feststellt, ob die Adresse im Ausland liegt.
 
   \item Der Paketdienst hat einen Sondertarif für Sendungen, die
-    innerhalb der gleichen Postleitzahl verschickt werden.  Schreiben
-    Sie eine Funktion \texttt{same-zip-code?}, die als Argumente zwei
+    innerhalb der gleichen Postleitzahl verschickt werden.  Schreibe
+    eine Funktion \texttt{same-zip-code?}, die als Argumente zwei
     \textit{Adressen} bekommt und feststellt, ob die Postleitzahlen
     und die Länder der beiden Adressen gleich sind.
 
   \item Ein Paket wird klassifiziert nach seinen Abmessungen.
-    Schreiben Sie eine Daten- und eine Record-Definition für
+    Schreibe eine Daten- und eine Record-Definition für
     \textit{Abmessungen}.  Abmessungen bestehen aus Länge, Breite und
     Höhe.
 
@@ -1236,24 +1236,24 @@ Fertig!
     Größenklassen \textit{Small}, \textit{Medium} und \textit{Large},
     um die Kosten für das Paket zu berechnen.  Ausschlaggebendes
     Kriterium für die Paketgröße ist die Summe der längsten und der
-    kürzesten Seite des Pakets.  Schreiben Sie eine Funktion
+    kürzesten Seite des Pakets.  Schreibe eine Funktion
     \texttt{add-longest-and-shortest-side}, die als Argument eine
     \textit{Abmessung} bekommt.  Der Rückgabewert von
     \texttt{add"=longest"=and"=shortest"=side} soll die Summe der längsten
-    und der kürzesten Seite der Abmessung sein.  Lagern Sie die
+    und der kürzesten Seite der Abmessung sein.  Lagere die
     Teilprobleme in zwei Hilfsfunktionen aus: \texttt{longest-side}
     und \texttt{shortest-side}.
 
-  \item Schreiben Sie eine Daten- und eine Record-Definition für
+  \item Schreibe eine Daten- und eine Record-Definition für
     \textit{Pakete}.  Ein Paket besteht aus einer Absender- und einer
-    Empfängeradresse.  Benutzen Sie für die Adressen Ihre bereits
+    Empfängeradresse.  Benutze für die Adressen die bereits
     erstellte Record-Definition.  Außerdem hat ein Paket noch weitere
-    Eigenschaften: Die Abmessungen (benutzen Sie dafür Ihre bereits
+    Eigenschaften: Die Abmessungen (benutze dafür die bereits
     erstellte Record-Definition), das Gewicht, die Beförderungsdauer
     und eine Zusatz\-option Nachnahme.  Die Beförderungsdauer soll
     \emph{normal}, \emph{next-day} oder \emph{next-morning} sein.
 
-  \item Schreiben Sie eine Funktion \texttt{parcel-size-class}, die
+  \item Schreibe eine Funktion \texttt{parcel-size-class}, die
     als Argument ein \textit{Paket} bekommt und die Größenklasse
     zurückgibt.  Ausschlaggebend für die Paketgröße ist die Abmessung
     (siehe oben).  Folgende Tabelle enthält die Zuordnung von
@@ -1269,9 +1269,9 @@ Fertig!
       \end{tabular}
     \end{center}
 
-  \item Schreiben Sie eine Funktion \texttt{calculate-base-postage},
+  \item Schreibe eine Funktion \texttt{calculate-base-postage},
     die als Argument ein \textit{Paket} bekommt und die
-    Basis-Portokosten für dieses Paket berechnet.  Legen Sie dabei
+    Basis-Portokosten für dieses Paket berechnet.  Lege Sie dabei
     folgende Grundtariftabelle des Paketdienstes zugrunde:
 
     \begin{center}
@@ -1287,10 +1287,10 @@ Fertig!
 
     
 
-  \item Schreiben Sie eine Funktion
+  \item Schreibe eine Funktion
     \texttt{transportation-time-factor}, die als Argument ein
     \textit{Paket} bekommt und den Aufschlagsfaktor für die
-    Beförderungsdauer zurückliefert.  Legen Sie dabei folgende
+    Beförderungsdauer zurückliefert.  Lege dabei folgende
     Aufschlagsfaktoren zugrunde:
     
     \begin{center}
@@ -1304,10 +1304,10 @@ Fertig!
       \end{tabular}
     \end{center}
     
-  \item Schreiben Sie eine Funktion
+  \item Schreibe eine Funktion
     \texttt{cash-on-delivery-surcharge}, die als Argument ein
     \textit{Paket} bekommt und den Aufschlag für die Nachnahme
-    zurückliefert.  Legen Sie dabei folgende Aufschläge zugrunde:
+    zurückliefert.  Lege dabei folgende Aufschläge zugrunde:
 
     \begin{center}
       \begin{tabular}{c|c}
@@ -1318,9 +1318,9 @@ Fertig!
       \end{tabular}
     \end{center}
 
-  \item Schreiben Sie eine Funktion \texttt{calculate-postage}, die
+  \item Schreibe eine Funktion \texttt{calculate-postage}, die
     als Argument ein \textit{Paket} bekommt und die Portokosten
-    berechnet.  Benutzen Sie dafür die von Ihnen programmierten
+    berechnet.  Benutze dafür die bereits programmierten
     Lösungen der verschiedenen Teilprobleme.
     
   \end{enumerate}
@@ -1373,16 +1373,16 @@ Fertig!
   haben.
     
   Dr.~Knaubichler braucht ein Programm, welches die neue Kreatur
-  berechnet, bevor er die Kreuzungen durchführt.  Helfen Sie ihm
+  berechnet, bevor er die Kreuzungen durchführt.  Hilf ihm
   dabei!
   
   \begin{enumerate}
 
-  \item Machen Sie eine Datenanalyse und erstellen
-    Sie passende Daten- und Recorddefinitionen.  Geben Sie alle
+  \item Mache eine Datenanalyse und erstelle
+    passende Daten- und Recorddefinitionen.  Gib alle
     Signaturen der Record-Funktionen an!
 
-  \item Schreiben Sie für jede der oben aufgelisteten
+  \item Schreibe für jede der oben aufgelisteten
     Kreuzungen von zwei Grundkreaturen eine Funktion, die die Kreuzung
     vornimmt und eine neue Kreatur zurückgibt.
   \end{enumerate}
