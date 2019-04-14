@@ -156,7 +156,7 @@ auch hier funktioniert.  Es gibt zwei Möglichkeiten, dies zu tun:
 \end{pspdf}
 % 
 Mit anderen Worten, es wird ein Element von weiter unten
-"`hochgezogen"'.  Es bleibt die Frage, wie die Funktion das Element
+"<hochgezogen">.  Es bleibt die Frage, wie die Funktion das Element
 auswählen könnte, das hochgezogen werden muß.  Offensichtlich kann
 entweder ein Element aus dem linken oder aus dem rechten Teilbaum
 ausgewählt werden.  Ideal wäre, wenn der jeweils andere Teilbaum
@@ -496,7 +496,7 @@ nicht passieren.)  Es muß also noch ein Testfall konstruiert werden:
 
 \section{Datenverfeinerung}
 
-Bei "`realen"' Programmieraufgaben sind selten schon präzise
+Bei "<realen"> Programmieraufgaben sind selten schon präzise
 Datendefinitionen vorgegeben: Stattdessen liegen oft nur ein paar vage
 Anforderungen an die Software vor, die sich unter Umständen auch noch
 mit der Zeit ändern.  In solchen Fällen ist es nicht möglich, wie bei
@@ -613,7 +613,7 @@ In diesem Fall würde der Selektor \texttt{apartment-area} sich nach
 außen genauso verhalten wie die Funktion \texttt{apartment-area}~--
 gleicher Vertrag. gleiche Funktion.  Die Tatsache, daß der
 Record-Selektor eine reguläre Funktion ist, die sich von
-"`selbstgeschriebenen"' Funktionen nach außen nicht unterscheidet,
+"<selbstgeschriebenen"> Funktionen nach außen nicht unterscheidet,
 isoliert Benutzer der Wohnungs-Funktionalität von den Unterschieden
 zwischen den zwei Varianten.
 
@@ -621,7 +621,7 @@ Aus Sicht eines Wohnungsbesitzers interessieren möglicherweise noch
 weitere Daten, zum Beispiel, ob ein Bewohner noch Untermieter hat.
 Es ist sogar möglich, daß Untermieter ihrerseits selbst Untermieter
 haben.  Dieser Idee ließe sich Rechnung tragen, indem eine Wohnung
-statt aus Zimmern aus "`Abschnitten"' besteht, und jeder Abschnitt
+statt aus Zimmern aus "<Abschnitten"> besteht, und jeder Abschnitt
 entweder ein Zimmer oder ein untervermieter Wohnungsteil ist.  Die
 Definition für Wohnungen müßte also folgendermaßen geändert werden:
 %
@@ -681,13 +681,13 @@ Apartment, das es enthält:
          (make-room 30))))
 \end{verbatim}
 %
-Es kann nun sein, daß die "`Wohnungs-Funktionalität"' schon in ein
+Es kann nun sein, daß die "<Wohnungs-Funktionalität"> schon in ein
 größeres Programm eingebaut wurde, daß dessen Funktionen benutzt,
 insbesondere den Selektor \texttt{apartment-rooms}.  Der ist im Zuge
 der Erweiterung um Untermiete unter den Tisch gefallen.  Das Konzept
 der Zimmer einer Wohnungs ist aber immer noch sinnvoll; entsprechend
 ist es möglich, \texttt{apartment-rooms} wieder zur Verfügung zur
-stellen, diesmal als "`normale"' Funktion mit einer Hilfsfunktion, um
+stellen, diesmal als "<normale"> Funktion mit einer Hilfsfunktion, um
 die Zimmer eines Abschnitts aufzuzählen:
 %
 \begin{verbatim}
@@ -731,7 +731,7 @@ Bei der Abspaltung von Hilfsfunktionen gibt es Ermessensspielraum:
 Die Hilfsfunktion \texttt{section-rooms} ist notwendig, weil sie
 rekursiv ist.
 
-"`Von außen"' ist kein Unterschied zwischen dem alten Selektor
+"<Von außen"> ist kein Unterschied zwischen dem alten Selektor
 \texttt{apartment-rooms} und der neuen Funktion zur erkennen~-- die
 Schnittstelle ist gleich geblieben: Dies ist ein wichtiger Beitrag zur
 \textit{Modularität}\index{Modularität}, die es erlaubt, Änderungen an
@@ -767,7 +767,7 @@ die Bewohner einer Wohnung präzise Adressen ausrechnen, etwa so:
 %
 Die Funktion muß also gleichzeitig nach dem Bewohner suchen und die
 Adreßangabe konstruieren.  Wenn der gesuchte Bewohner gerade der
-"`Hauptbewohner"' der Wohnung ist, ist die Aufgabe einfach:
+"<Hauptbewohner"> der Wohnung ist, ist die Aufgabe einfach:
 %
 \begin{verbatim}
 (define resident-address

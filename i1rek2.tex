@@ -119,14 +119,14 @@ noch nicht abschließend beantwortet.  Schließlich muß
 Artikels der Lastwagen optimal vollgepackt werden
 kann.  Dazu muß die Funktion vergleichen, wie ein Lastwagen \emph{mit}
 dem ersten Artikel und wie er \emph{ohne} diesen Artikel am besten
-vollgepackt werden würde.   Die Variante "`ohne"' wird mit folgendem
+vollgepackt werden würde.   Die Variante "<ohne"> wird mit folgendem
 Ausdruck ausgerechnet:
 %
 \begin{alltt}
   (load-list (rest articles) capacity)
 \end{alltt}
 %
-Die Variante "`mit"' ist etwas trickreicher~-- sie entsteht, wenn im
+Die Variante "<mit"> ist etwas trickreicher~-- sie entsteht, wenn im
 Lastwagen der Platz für den ersten Artikel reserviert wird und
 der Rest der Tragfähigkeit mit den restlichen Artikeln optimal gefüllt wird.
 Die optimale Füllung für den Rest wird mit folgendem Ausdruck

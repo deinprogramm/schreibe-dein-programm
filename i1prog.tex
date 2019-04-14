@@ -71,10 +71,10 @@ Das DrRacket-Fenster besteht aus zwei Teilen:
   Textverarbeitungsprogramm.  Was dort steht, kannst Du abspeichern.
 \item In der unteren Hälfte des Fensters~-- dem
   \textit{Interaktionsfenster\index{Interaktionsfenster}} oder der
-  sogenannten \textit{REPL\index{REPL}}\footnote{"`REPL"' steht für
-    "`Read-Eval-Print-Loop"'~-- wir werden später zeigen, warum.}
+  sogenannten \textit{REPL\index{REPL}}\footnote{"<REPL"> steht für
+    "<Read-Eval-Print-Loop">~-- wir werden später zeigen, warum.}
   werden die Ausgaben des Programms angezeigt.  Außerdem kannst Du
-  hier "`Fragen"' an das Programm stellen, um einzelne Programmteile
+  hier "<Fragen"> an das Programm stellen, um einzelne Programmteile
   gezielt auszuprobieren.
 \end{enumerate}
 %
@@ -96,7 +96,7 @@ Zum Beispiel so:
 \end{verbatim}
 %
 Wenn Du das in die REPL tippst, zeigt DrRacket \texttt{165} an, die
-\textit{Summe}\index{Summe} von 123 und 42.  Diese "`Rechenaufgabe"'
+\textit{Summe}\index{Summe} von 123 und 42.  Diese "<Rechenaufgabe">
 ist ein sogenannter \textit{Ausdruck\index{Ausdruck}}.  Ausdrücke, die
 etwas ausrechnen sollten, haben in den Lehrsprachen immer die gleiche
 Form, und die sieht so aus:
@@ -113,8 +113,8 @@ wird, also die \textit{Operation}.  Danach kommen die
 für die Operation bestimmen.
 
 Zum Merken ist es hilfreich, Ausdrücke entsprechend vorzulesen: Also
-nicht mehr "`Hundertdreiundzwanzig plus zweiundvierzig"', sondern
-"`die \emph{Summe} von Hundertdreiundzwanzig und zweiundvierzig"'.
+nicht mehr "<Hundertdreiundzwanzig plus zweiundvierzig">, sondern
+"<die \emph{Summe} von Hundertdreiundzwanzig und zweiundvierzig">.
 
 Wie schon gesagt, die Klammern sind wichtig.  Wenn Du sie vergisst,
 können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
@@ -151,8 +151,8 @@ sieht zum Beispiel so aus:
 {\color{red}Operator darf keine Zahl sein, ist aber 123}
 \end{alltt}
 %
-Das liegt daran, dass \texttt{+123} zusammen die Zahl "`plus
-hundertdreiundzwanzig"' bildet und nicht etwa in das \texttt{+} und
+Das liegt daran, dass \texttt{+123} zusammen die Zahl "<plus
+hundertdreiundzwanzig"> bildet und nicht etwa in das \texttt{+} und
 \texttt{123} aufgeteilt wird.
 
 Wenn ein Ausdruck wie \texttt{(+ 123 42)} ein Ergebnis wie 165 hat,
@@ -186,10 +186,10 @@ nicht mit Komma geschrieben werden.  Der Überstrich bei
 \end{alltt}
 %
 Die REPL funktioniert also folgendermaßen: Sie \emph{liest} einen
-Ausdruck ein ("`read"'), berechnet deren Wert oder \emph{wertet}
-diesen \emph{aus} (auf Englisch "`eval"') und zeigt das Ergebnis an
-oder \emph{druckt} dieses \emph{aus} ("`print"')~-- und dann geht es
-von vorn los, wie in einer Schleife ("`loop"').  Die Abfolge
+Ausdruck ein ("<read">), berechnet deren Wert oder \emph{wertet}
+diesen \emph{aus} (auf Englisch "<eval">) und zeigt das Ergebnis an
+oder \emph{druckt} dieses \emph{aus} ("<print">)~-- und dann geht es
+von vorn los, wie in einer Schleife ("<loop">).  Die Abfolge
 \emph{Read-Eval-Print-Loop} gibt der REPL ihren Namen.
 
 Ausdrücke können auch kombiniert werden, zum Beispiel so:
@@ -224,7 +224,7 @@ kannst aber frühere Eingaben zurückholen, indem Du
 fehlerhaften Ausdruck zu korrigieren, bei dem Du schon Return gedrückt hast.
 
 \begin{aufgabe}
-  Schreibe folgende "`mathematischen"' Ausdrücke in der Notation der
+  Schreibe folgende "<mathematischen"> Ausdrücke in der Notation der
   Lehrsprache in die REPL und lasse die REPL sie auswerten:
   %
   \begin{displaymath}
@@ -374,7 +374,7 @@ Beispiel:
 "Herbert was here!"
 \end{alltt}
 %
-Das Anführungszeichen (\verb|"|) kann nicht "`ungeschützt"' vorkommen, da es das Ende der
+Das Anführungszeichen (\verb|"|) kann nicht "<ungeschützt"> vorkommen, da es das Ende der
 Zeichenkette markiert. Es wird als Zeichen innerhalb einer Zeichenkette
 durch \verb|\"| dargestellt:
 %
@@ -384,10 +384,10 @@ durch \verb|\"| dargestellt:
 \end{feature}
 
 Abbildung~\ref{scheme:strings} beschreibt die genaue Schreibweise für
-solche "`festen"' Zeichenketten.  Feste Schreibweisen für Werte heißen
+solche "<festen"> Zeichenketten.  Feste Schreibweisen für Werte heißen
 allgemein \textit{Literale\index{Literal}}.  Das kennen wir schon von
 den Zahlen: Die Zeichenfolge \texttt{123} steht für die Zahl
-"`hundertdreiundzwanzig"'.  Kästen wie Abbildung~\ref{scheme:strings}
+"<hundertdreiundzwanzig">.  Kästen wie Abbildung~\ref{scheme:strings}
 werden in diesem Buch noch oft dazu dienen, neue Sprachelemente
 einzuführen.
 
@@ -415,7 +415,7 @@ liefert die Anzahl der Buchstaben in einer Zeichenkette:
 \end{alltt}
 %
 Die Namen \texttt{string-append} und \texttt{string-length} sehen auf
-den ersten Blick "`anders"' aus als \texttt{+} und \texttt{*} zum
+den ersten Blick "<anders"> aus als \texttt{+} und \texttt{*} zum
 Beispiel, dieser Eindruck täuscht jedoch: Sie sind allesamt Namen von
 vordefinierten Operationen, die Programme benutzen können, ohne sie
 selbst definieren zu müssen.
@@ -472,7 +472,7 @@ Seite übersprungen wird.  Danach kommen zwei Zeichenketten~--
 \verb|"solid"| heißt, dass das Innere des Sterns ausgefüllt ist und
 \verb|"blue"| ist die Farbe.  Statt \verb|"solid"| kannst Du auch
 \verb|"outline"| schreiben, dann wird auch etwas klarer, was
-"`überspringen"' heißt:
+"<überspringen"> heißt:
 %
 % filename can't contain hyphen because of alltt
 \begin{alltt}
@@ -553,7 +553,7 @@ zu einem Muster kombinieren:
 \evalsto{} \includegraphics[width=48pt]{i1prog/tile2}
 \end{alltt}
 %
-Beide Ausdrücke folgen dem gleichen Muster, sie "`kacheln"' jeweils zwei
+Beide Ausdrücke folgen dem gleichen Muster, sie "<kacheln"> jeweils zwei
 Bilder in einer quadratischen Anordnung.  Das Muster könnte man so
 hinschreiben:
 %
@@ -598,9 +598,9 @@ für \texttt{a} und \texttt{b} einsetzen wollen:
    (beside b a)))
 \end{verbatim}
 %
-Die \texttt{lambda}\index{lambda@\texttt{lambda}} ist eine Art Zauberwort, es sagt soviel wie: "`Für
+Die \texttt{lambda}\index{lambda@\texttt{lambda}} ist eine Art Zauberwort, es sagt soviel wie: "<Für
 die Variablen \texttt{a} und \texttt{b} möchte ich später (und
-vielleicht mehrmals) Werte einsetzen."'  Wenn Du das Programm jetzt
+vielleicht mehrmals) Werte einsetzen.">  Wenn Du das Programm jetzt
 startest, geht die Fehlermeldung weg und in der REPL erscheint:
 %
 \begin{alltt}
@@ -621,8 +621,8 @@ herauskommt.  Um etwas damit anfzufangen, gib ihr einen Namen mit
      (beside b a))))
 \end{verbatim}
 %
-(Alles schön richtig einrücken! "`Tile"' heißt auf Deutsch
-"`kacheln"'.)
+(Alles schön richtig einrücken! "<Tile"> heißt auf Deutsch
+"<kacheln">.)
 
 Dadurch ist eine neue Operation entstanden.  Die kannst Du direkt
 verwenden:
@@ -769,7 +769,7 @@ Verwirrend ist vielleicht der Unterschied zwischen Abstraktion und
 Funktion: Die Abstraktion ist der \texttt{lambda}-Ausdruck im
 Programm, die Funktion ist der Wert, der bei der Programmauswertung
 dabei herauskommt.  Wir verwenden im Buch aber häufig den Begriff
-"`Funktion"' für eine Abstraktion, weil uns interessiert, was bei der
+"<Funktion"> für eine Abstraktion, weil uns interessiert, was bei der
 Abstraktion herauskommt.
 
 \begin{aufgabe}
@@ -785,10 +785,10 @@ Eine Definition wie
 (define mehrwertsteuer 19)
 \end{alltt}
 %
-suggeriert, dass die Zahl 19 an dieser Stelle eine Bedeutung "`in der
-realen Welt"' hat, zum Beispiel in einem Programm, das eine Registrierkasse
+suggeriert, dass die Zahl 19 an dieser Stelle eine Bedeutung "<in der
+realen Welt"> hat, zum Beispiel in einem Programm, das eine Registrierkasse
 steuert oder das bei der Steuererklärung hilft.  Die Bedeutung könnte
-folgende Aussage sein: "`Der Mehrwertsteuersatz beträgt 19\%."'
+folgende Aussage sein: "<Der Mehrwertsteuersatz beträgt 19\%.">
 Dieser Satz repräsentiert \textit{Information}\index{Information},
 also einen Fakt über die Welt oder zumindest den Ausschnitt der Welt, in
 dem das Programm arbeiten soll.  In Computerprogrammen wird
@@ -839,20 +839,20 @@ Schauen wir uns das anhand einer realistischen Aufgabe an:
     \begin{tabular}{l|c|c|}
       & Grundgebühr pro Monat & Verbrauchspreis pro kWh \\
       \hline
-      Tarif "`Billig-Strom"' & \EUR{4,90} & \EUR{0.19} \\
+      Tarif "<Billig-Strom"> & \EUR{4,90} & \EUR{0.19} \\
       \hline
-      Tarif "`Watt für wenig"' & \EUR{8,20} & \EUR{0.16} \\
+      Tarif "<Watt für wenig"> & \EUR{8,20} & \EUR{0.16} \\
       \hline
     \end{tabular}
   \end{center}
 
   \begin{enumerate}
   \item Schreibe ein Programm das den Monatsverbrauch in
-    Kilowattstunden akzeptiert und den im Tarif "`Billig-Strom"' zu
+    Kilowattstunden akzeptiert und den im Tarif "<Billig-Strom"> zu
     zahlenden monatlichen Rechnungsbetrag berechnet.
 
   \item Schreibe ein Programm, die den Monatsverbrauch in
-    Kilowattstunden akzeptiert und den im Tarif "`Watt für wenig"' zu
+    Kilowattstunden akzeptiert und den im Tarif "<Watt für wenig"> zu
     zahlenden monatlichen Rechnungsbetrag
     berechnet.
   \end{enumerate}
@@ -863,18 +863,18 @@ Fangen wir mit dem ersten Aufgabenteil an!
 
 \paragraph{Funktion}
 
-Zunächst einmal: Da steht "`Schreibe ein Programm~\ldots"'.  In den
-Lehrsprachen dieses Buchs heißt das immer "`Schreibe eine
-\emph{Funktion}~\ldots"'.  Später werden wir Programme schreiben, die
-neben der "`Hauptfunktion"' noch "`Hilfsfunktionen"' haben, aber das
+Zunächst einmal: Da steht "<Schreibe ein Programm~\ldots">.  In den
+Lehrsprachen dieses Buchs heißt das immer "<Schreibe eine
+\emph{Funktion}~\ldots">.  Später werden wir Programme schreiben, die
+neben der "<Hauptfunktion"> noch "<Hilfsfunktionen"> haben, aber das
 Prinzip bleibt immer das gleiche.
 
-Wenn dort steht, "`das den Monatsverbrauch in Kilowattstunden
-akzeptiert"', dann bedeutet dies, dass die Funktion den
+Wenn dort steht, "<das den Monatsverbrauch in Kilowattstunden
+akzeptiert">, dann bedeutet dies, dass die Funktion den
 Monatsverbraucht als Eingabe akzeptieren soll~-- also als Argument.
 
-Ebenso bedeutet "`und den \ldots{} zu zahlenden monatlichen
-Rechnungsbetrag berechnet"', dass die Funktion diesen Rechungsbetrag
+Ebenso bedeutet "<und den \ldots{} zu zahlenden monatlichen
+Rechnungsbetrag berechnet">, dass die Funktion diesen Rechungsbetrag
 als Ergebnis liefern soll.
 
 \paragraph{Gerüst}
@@ -981,9 +981,9 @@ dem Namen der Funktion und ihrer Signatur, \texttt{(natural ->
 aber diese hier hat einen Pfeil \texttt{->} in der Mitte und ist
 deshalb eine Signatur für eine Funktion: links vom Pfeil steht, was
 die Funktion als Eingabe akzeptiert, rechts vom Pfeil die Ausgabe. Die
-Signatur-Deklaration ist also so zu lesen: "`\texttt{Billig-strom} ist
+Signatur-Deklaration ist also so zu lesen: "<\texttt{Billig-strom} ist
 eine Funktion, die eine natürliche Zahl als Eingabe akzeptiert und
-eine rationale Zahl als Ausgabe produziert."'
+eine rationale Zahl als Ausgabe produziert.">
 
 \begin{feature}{Signaturen}{scheme:signature}
   Eine \textit{Signatur\index{Signatur}} beschreibt eine Menge oder
@@ -1006,7 +1006,7 @@ eine rationale Zahl als Ausgabe produziert."'
     \end{tabular}
   \end{flushleft}
   %
-  Diese Liste bildet einen "`Turm"': Jede natürliche Zahl ist auch eine
+  Diese Liste bildet einen "<Turm">: Jede natürliche Zahl ist auch eine
   ganze Zahl (da kommen noch die negativen Zahlen hinzu), jede ganze
   Zahl ist auch eine rationale Zahl (Brüche mit Nenner ungleich 1
   kommen hinzu), jede rationale Zahl ist eine reelle Zahl
@@ -1067,7 +1067,7 @@ Abbildung~\ref{scheme:test}) macht
 nämlich einen sogenannten \textit{Testfall\index{Testfall}} oder \textit{Test\index{Test}}.  In diesem Falle
 meldet DrRacket, dass mit den Tests alles geklappt hat.  Aber das
 Programm könnte einen Fehler enthalten.  Wenn wir in der Definition
-von \texttt{billig-strom} statt \texttt{4.90} "`versehentlich"'
+von \texttt{billig-strom} statt \texttt{4.90} "<versehentlich">
 \texttt{5.90} schreiben, sieht die Ausgabe anders aus:
 %
 \begin{feature}{Tests}{scheme:test}
@@ -1187,7 +1187,7 @@ immer in der gleichen und zwar in folgender Reihenfolge durchführen:
 %
 Dies entspricht auch der Reihenfolge, in der die entsprechenden
 Elemente im Programm stehen: Wenn Du diese Reihenfolge befolgst,
-kannst Du Dein Programm einfach "`herunterschreiben"'.
+kannst Du Dein Programm einfach "<herunterschreiben">.
 
 Eine solche Anleitung zur Konstruktion von Programmen nennen wir in
 diesem Buch
@@ -1218,20 +1218,20 @@ Sackgassen gerätst.
 
 Diesen Ablauf demonstruieren wir anhand des zweiten Teils von Aufgabe~
 \ref{aufgabe:stromtarif}.  Zur Erinnerung:  Es ging um den Tarif
-"`Watt für Wenig"' mit einem Grundbetrag von \EUR{8,20} und einem
+"<Watt für Wenig"> mit einem Grundbetrag von \EUR{8,20} und einem
 Verbrauchspreis pro kWh von \EUR{0,16}.
 
 \paragraph{Kurzbeschreibung}
 
 Fangen wir mit der Kurzbeschreibung an.  Die können wir entsprechend
-zu "`Billig-Strom"' formulieren:
+zu "<Billig-Strom"> formulieren:
 \begin{verbatim}
 ; monatlichen Rechnungsbetrag für Tarif Watt für wenig berechnen
 \end{verbatim}
 
 \paragraph{Signatur}
 
-Auch die Signatur-Deklaration können wir analog zu "`Billig-Strom"'
+Auch die Signatur-Deklaration können wir analog zu "<Billig-Strom">
 formulieren~-- wir müssen uns nur einen neuen Namen aussuchen:
 %
 \begin{verbatim}
@@ -1297,7 +1297,7 @@ sich dementsprechend:
     (+ 8.20 (* 0.16 kWh))))
 \end{verbatim}
 %
-Diese "`Verdoppelung"' ist unbefriedigend und kann auch später
+Diese "<Verdoppelung"> ist unbefriedigend und kann auch später
 Probleme machen: Wenn ein Fehler bekannt wird, müssen möglicherweise
 zwei Funktionen korrigiert werden beispielsweise.
 
@@ -1351,7 +1351,7 @@ beziehungsweise den pro-kWh-Preis hinzufügen:
 \end{verbatim}
 %
 Schließlich können wir auch die Definitionen von \texttt{billig-strom}
-und \texttt{watt-für-wenig} so ändern, dass sie nicht mehr "`selbst"'
+und \texttt{watt-für-wenig} so ändern, dass sie nicht mehr "<selbst">
 den Rechnungsbetrag ausrechnen, sondern dafür
 \texttt{stromtarif"=rechnungsbetrag} benutzen:
 %
@@ -1417,7 +1417,7 @@ speziell in Kapitel~\ref{cha:higher-order}.
 % %
 % Um zu den Ausdrücken zu kommen, welche die Anzahl der PKWs ausrechnen,
 % haben wir sogenanntes \textit{Domänenwissen}\index{Domänenwissen}
-% benutzt: Die "`Domäne"' der Aufgabe sind PKWs und Motorräder, und wir
+% benutzt: Die "<Domäne"> der Aufgabe sind PKWs und Motorräder, und wir
 % wissen, dass PKWs jeweils vier Räder und Motorräder zwei haben.
 % Schließlich haben wir noch Algebra benutzt, um aus dem Domänenwissen
 % eine Formel zu machen.
@@ -1497,8 +1497,8 @@ speziell in Kapitel~\ref{cha:higher-order}.
 % %
 % Für jeden Namen kann es nur eine Definition geben.  Wir bräuchten
 % Formeln, die wir mehrfach verwenden können, bei denen wir sagen können
-% "`ich werde die Formeln mehrmals benutzen und möchte jedesmal andere
-% Werte für $n$ und $m$ einsetzen"'. Das geht beim Programmieren mit
+% "<ich werde die Formeln mehrmals benutzen und möchte jedesmal andere
+% Werte für $n$ und $m$ einsetzen">. Das geht beim Programmieren mit
 % \textit{Abstraktion}\index{Abstraktion} und sieht konkret so aus:
 % %
 % \begin{alltt}
@@ -1533,7 +1533,7 @@ speziell in Kapitel~\ref{cha:higher-order}.
 
 % % 
 % Abbildung~\ref{scheme:abstraction} erklärt die beiden Konzepte
-% "`Abstraktion"' und "`Applikation"' im allgemeinen.
+% "<Abstraktion"> und "<Applikation"> im allgemeinen.
 
 % Bisher ist jedoch noch nicht viel gewonnen, weil wir den
 % $lambda$-Ausdruck jedesmal wiederholen mußten.  Da er jedoch beide
@@ -1609,9 +1609,9 @@ speziell in Kapitel~\ref{cha:higher-order}.
 % Form von Ziffernfolgen umgehen können, aber nicht mit Zeichenketten, die
 % vielleicht auch Zahlen bezeichnen könnten.  In der Tat akzeptieren fast alle
 % Funktionen nur Argumente einer ganz bestimmten \emph{Sorte}\index{Sorte}, in
-% diesem Fall Argumente der Sorte "`natürliche Zahl"'.
+% diesem Fall Argumente der Sorte "<natürliche Zahl">.
 
-% Hier eine Liste der wichtigsten "`eingebauten"' Sorten:
+% Hier eine Liste der wichtigsten "<eingebauten"> Sorten:
 % %
 % \begin{center}
 %   \begin{tabular}{l|l}
@@ -1711,7 +1711,7 @@ speziell in Kapitel~\ref{cha:higher-order}.
 % ist an Aufgaben gescheitert, die sich mit Hilfe systematischen Vorgehens
 % anhand der Signatur leicht hätten lösen lassen.
 
-% Aus dem fernen Osten stammt der Begriff des "`Mantras"' als einem
+% Aus dem fernen Osten stammt der Begriff des "<Mantras"> als einem
 % Sinnspruch, den es sich lohnt, auswendig zu lernen.  Hier das erste Mantra:
 % %
 % \begin{mantra}[Signatur vor Ausführung]\label{mantra:contract}
@@ -1822,7 +1822,7 @@ speziell in Kapitel~\ref{cha:higher-order}.
 % \label{sec:nonsensical-data-prequel}
 
 % Die Testfälle aus dem vorangegangenen Abschnitt sind alle
-% "`sinnvoll"'~-- die Eingabedaten passen alle zu tatsächlichen
+% "<sinnvoll">~-- die Eingabedaten passen alle zu tatsächlichen
 % Parkplatzsituationen.  Was ist aber hiermit?
 % %
 % \begin{alltt}
@@ -1933,17 +1933,17 @@ speziell in Kapitel~\ref{cha:higher-order}.
  Vervielfachung von Strings:
  \begin{itemize}
   \item Schreibe eine Funktion \texttt{double-string}, die eine Zeichenkette konsumiert und
-    diese "`verdoppelt"', d.h., für eine Eingabe \verb|"Sperber"| den
+    diese "<verdoppelt">, d.h., für eine Eingabe \verb|"Sperber"| den
     Rückgabewert \verb|"SperberSperber"| liefert.
     
   \item Schreibe eine Funktion \texttt{quadruple-string}, die eine
-    Zeichenkette konsumiert und "`vervierfacht"'.
+    Zeichenkette konsumiert und "<vervierfacht">.
 
   \item Schreibe eine Funktion \texttt{octuple-string}, die eine
-    Zeichenkette konsumiert und "`verachtfacht"'.
+    Zeichenkette konsumiert und "<verachtfacht">.
 
   \item Schreibe eine Funktion \texttt{sixteentuple-string}, die
-    eine Zeichenkette konsumiert und "`versechzehnfacht"'.
+    eine Zeichenkette konsumiert und "<versechzehnfacht">.
   \end{itemize}
   % Schreibe für jede Funktion Kurzbeschreibung, Signatur, Testfälle, Gerüst und Rumpf.
 

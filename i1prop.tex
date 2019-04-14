@@ -554,7 +554,7 @@ Fall die Menge der Zahlen) zu sich selbst in Beziehung steht:
 \end{alltt}
 %
 Die Symmetrie bedeutet für \texttt{=}, daß aus \texttt{(= a b)
-  \evalsto{} \#t} das "`Spiegelbild"' \texttt{(= b a) \evalsto{} \#t}
+  \evalsto{} \#t} das "<Spiegelbild"> \texttt{(= b a) \evalsto{} \#t}
 folgt.  Mathematisch geschrieben sähe das so aus:
 %
 \begin{displaymath}
@@ -664,11 +664,11 @@ Eigenschaften, wie folgendes Beispiel zeigt:
     ...))
 \end{alltt}
 %
-Dieser Code liefert die Fehlermeldung "`Signatur hat keinen
-Generator"': Das liegt daran, daß die Signaturvariable \texttt{\%a}
+Dieser Code liefert die Fehlermeldung "<Signatur hat keinen
+Generator">: Das liegt daran, daß die Signaturvariable \texttt{\%a}
 zuwenig Information über die zugrundeliegenden Werte liefert, als daß
 \drscheme{} sinnvoll Werte für die Tests generieren könnte.  Aus diesem
-Grund müssen in \texttt{for-all} immer "`konkrete"' Signaturen ohne
+Grund müssen in \texttt{for-all} immer "<konkrete"> Signaturen ohne
 Signaturvariablen angegeben werden.  (Aus ähnlichen Gründen
 funktionieren auch einige andere Arten von Signaturen nicht bei
 \texttt{for-all}, inbesondere Record-Signaturen.  Funktionsignaturen sind
@@ -1083,7 +1083,7 @@ Inverse voneinander.  Auch diese Eigenschaft läßt sich direkt mit
 \texttt{check-property} und \texttt{for-all} formulieren.  Zu beachten
 ist wieder, obwohl \texttt{curry} und \texttt{uncurry} polymorphe
 Signaturen mit Signaturvariablen haben, daß für den Test mit
-\texttt{check-property} eine "`konkrete"' Signatur ohne
+\texttt{check-property} eine "<konkrete"> Signatur ohne
 Signaturvariablen für das Funktion-Argument benutzt werden muß, also
 zum Beispiel \texttt{string}:
 %
@@ -1177,7 +1177,7 @@ Beweisen von Programmen zum Einsatz kommen.  Zu beweisen ist:
 \ldots{} und zwar für beliebige Bindungen von \texttt{a} und
 \texttt{b} an Zahlen.  Seien die Zahlen, die an \texttt{a} bzw.\
 \texttt{b} gebunden sind, $x$ und $y$ mit $x,y\in\mathbb{C}$.  (Die
-"`mathematischen"' Namen könnten auch $a$ und $b$ sein, aber das birgt
+"<mathematischen"> Namen könnten auch $a$ und $b$ sein, aber das birgt
 ein Verwirrungsrisiko mit \texttt{a} und \texttt{b}.)  Wenn nun also
 der obige Term für bestimmte Werte von $x$ und $y$ im
 Substitutionsmodell reduziert wird, wird zuerst $x$ für \texttt{a} und
@@ -1193,7 +1193,7 @@ Um den Unterschied zwischen Variablen des Programms \texttt{a} und
 \texttt{b} und den Zahlen zu machen, die für $x$ und $y$ eingesetzt
 werden, werden diese noch mit \valof{\_} umgeben: \valof{x} in
 einem Reduktionsschritt des Substitutionsmodell ist also ein
-Platzhalter für "`die Zahl, für die $x$ steht"'~-- entsprechend für $y$.
+Platzhalter für "<die Zahl, für die $x$ steht">~-- entsprechend für $y$.
 Es gilt also:
 
 \begin{alltt}
@@ -1572,7 +1572,7 @@ Hier gibt es zwar einen rekursiven Aufruf mit Argument \texttt{(-
 Damit ist die naheliegende Induktionsannahme für \texttt{(!-helper (-
   \valof{k} 1) \valof{a})} (falls der Wert des Akkumulators
 \texttt{acc} $a$ ist) wertlos.  Funktionen mit Akkumulator sind also
-nicht nur schwieriger zu schreiben als "`regulär"' rekursive
+nicht nur schwieriger zu schreiben als "<regulär"> rekursive
 Funktionen~-- sie sind auch schwerer zu beweisen.
 
 Stattdessen ist es bei Funktionen mit Akkumulator nützlich, eine
@@ -1586,9 +1586,9 @@ vor, um \texttt{(! 4)} auszurechnen:
   (((1 \cdot 4)\cdot 3)\cdot 2)\cdot 1
 \end{displaymath}
 %
-Bei jedem rekursiven Aufruf läßt sich dieser Aufruf in "`geleistete
-Arbeit"' (die durch den Akkumulator repräsentiert ist) und "`noch zu
-leistende Arbeit"' unterteilen.  Zum Beispiel entsteht ein rekursiver
+Bei jedem rekursiven Aufruf läßt sich dieser Aufruf in "<geleistete
+Arbeit"> (die durch den Akkumulator repräsentiert ist) und "<noch zu
+leistende Arbeit"> unterteilen.  Zum Beispiel entsteht ein rekursiver
 Aufruf \texttt{(!-helper 2 12)}, bei der Akkumulator der Wert des
 unterstrichenen Teilaufrufs ist:
 %
@@ -1754,8 +1754,8 @@ diese als Eigenschaften von \texttt{/} auf.
   Finden Sie eine präzisere Formulierung der Kommutativität von
   \texttt{list-sum} als die in
   Abschnitt~\ref{sec:list-sum-commutative}, also eine, an der sich die
-  Eigenschaft, daß die "`Reihenfolge der Elemente der Liste keine
-  Rolle spielt"' klarer zu sehen ist.
+  Eigenschaft, daß die "<Reihenfolge der Elemente der Liste keine
+  Rolle spielt"> klarer zu sehen ist.
 
   Schreiben Sie dazu eine Funktion, welche die Reihenfolge der
   Elemente einer Liste abhängig von einer natürlichen Zahl $n$

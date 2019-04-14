@@ -14,7 +14,7 @@ aus der Mathematik.
 \label{sec:aussagenlogik}
 
 \index{Aussagenlogik}Eine \emph{Aussage\index{Aussage}} ist ein Satz, der prinzipiell einen \emph{Wahrheitswert\index{Wahrheitswert}}
-W\index{W} (für "`wahr\index{wahr}"') oder F\index{F} (für "`falsch\index{falsch}"')
+W\index{W} (für "<wahr\index{wahr}">) oder F\index{F} (für "<falsch\index{falsch}">)
 besitzt.
 %kann. Wir verwenden eine \emph{zweiwertige Logik} mit den Wahrheitswerten
 
@@ -26,8 +26,8 @@ besitzt.
 %\item Es gab früher Leben auf der Venus (unbekannt, aber jedenfalls W oder F).
 %\end{enumerate}
 
-%Keine Aussage in diesem Sinne ist der Satz: "`Der Wahrheitswert dieses Satzes
-%ist F"', denn es ist offensichtlich unmöglich, diesem Satz einen Wahr\-heits\-wert
+%Keine Aussage in diesem Sinne ist der Satz: "<Der Wahrheitswert dieses Satzes
+%ist F">, denn es ist offensichtlich unmöglich, diesem Satz einen Wahr\-heits\-wert
 %W oder F zuzuordnen.
 
 Aus \emph{primitiven (elementaren) Aussagen}
@@ -41,13 +41,13 @@ aufgebaut.  Es gibt zwei vordefinierte primitive Aussagen $\top$\index{*@$\top$}
 $\bot$\index{*@$\bot$} mit den Wahrheitswerten W bzw.\ F.  Die
 wichtigsten Junktoren sind:
 \begin{description}
-\item["`und"' ($\wedge$):] $a \wedge b$ \index{*@$\wedge$}
+\item["<und"> ($\wedge$):] $a \wedge b$ \index{*@$\wedge$}
         hat den Wahrheitswert W genau dann, wenn
      $a$ und $b$ beide den Wert W haben.
-\item["`oder"' ($\vee$):] $a \vee b$ \index{*@$\vee$}
+\item["<oder"> ($\vee$):] $a \vee b$ \index{*@$\vee$}
         hat den Wahrheitswert W genau dann, wenn von
      $a$ und $b$ mindestens eins den Wert W hat.
-\item["`nicht"' ($\neg$):] $\neg a$ \index{*@$\neg$}
+\item["<nicht"> ($\neg$):] $\neg a$ \index{*@$\neg$}
         hat den Wahrheitswert W genau dann, wenn $a$   
      den Wert F hat.
 \end{description}
@@ -85,7 +85,7 @@ $\neg$     \\ \hline \hline
 %
 Andere Junktoren, die ebenfalls häufig verwendet werden, sind:
 \begin{description}
-\item["`impliziert"' ($ \Rightarrow $):]\index{*@$\Rightarrow$}
+\item["<impliziert"> ($ \Rightarrow $):]\index{*@$\Rightarrow$}
 \index{Implikation}%
 \hspace{2em}\begin{tabular}{c||c|c}
 $ \Rightarrow $     &  W   &  F \\ \hline \hline
@@ -94,15 +94,15 @@ $ \Rightarrow $     &  W   &  F \\ \hline \hline
 \end{tabular}
 \end{description}
 
-$a \Rightarrow b$ spricht sich als "`wenn $a$, dann $b$"' oder "`aus $a$
-folgt $b$"'.  F $\Rightarrow$ W besitzt ebenso wie F $\Rightarrow$ F
+$a \Rightarrow b$ spricht sich als "<wenn $a$, dann $b$"> oder "<aus $a$
+folgt $b$">.  F $\Rightarrow$ W besitzt ebenso wie F $\Rightarrow$ F
 den Wahrheitswert W! In der formalen Aussagenlogik folgt
 aus einer falschen Voraussetzung jede Folgerung.  %Zum Ableiten
 %wahrer Aussagen aus anderen wahren Aussagen verwendet man deshalb den \emph{Modus ponens:} Wenn $a$ und $a\Rightarrow b$ beide den Wahrheitswert W
 %haben, dann kann man den Wahrheitswert W für $b$ folgern.
 
 \begin{description}
-\item["`genau-dann-wenn"' ($\Leftrightarrow$):]
+\item["<genau-dann-wenn"> ($\Leftrightarrow$):]
 \hspace{2em}\begin{tabular}{c||c|c}
 $\Leftrightarrow$     &  W   &  F \\ \hline \hline
     W      &  W   &  F \\ \hline
@@ -134,8 +134,8 @@ Eine zusammengesetzte Aussage heißt \emph{allgemeingültig} oder eine
 \emph{Tautologie}, \index{Tautologie}\index{allgemeingültig}
 wenn sie stets den Wahrheitswert W besitzt, unabhängig vom
 Wahr\-heits\-wert ihrer elementaren  Aussagen. Beispiele für Tautologien sind
-etwa $a \vee \overline{a}$ ("`Satz vom ausgeschlossenen Dritten"')
-und $\overline{a \wedge \overline{a}}$ ("`Satz vom \index{Widerspruch}Widerspruch"'). Zwei 
+etwa $a \vee \overline{a}$ ("<Satz vom ausgeschlossenen Dritten">)
+und $\overline{a \wedge \overline{a}}$ ("<Satz vom \index{Widerspruch}Widerspruch">). Zwei 
 Aussagen
 $a$ und $b$ heißen \emph{äquivalent}, wenn $a \Leftrightarrow b$ eine
 Tautologie ist.
@@ -171,16 +171,16 @@ a \wedge (b \vee c) \Leftrightarrow (a \wedge b) \vee (a \wedge c)
 %% Banatre, Metayer: Programming by Multiset Transformation, CACM 36(1), 
 %% 98-111
 
-Die ursprüngliche Definition des Begriffs "`Menge\index{Menge}"'
+Die ursprüngliche Definition des Begriffs "<Menge\index{Menge}">
 lautet: 
 
 %Eine ausführliche Behandlung der Mengenlehre 
 %auf naiver, also nicht axiomatischer Basis findet sich in \cite{Halmos1969}.
 
 \begin{quote}
-"`Unter einer Menge verstehen wir eine Zusammenfassung von bestimmten
+"<Unter einer Menge verstehen wir eine Zusammenfassung von bestimmten
 wohlunterschiedenen Objekten unserer Anschauung oder unseres Denkens zu
-einem Ganzen."' \textsc{(G. Cantor)}
+einem Ganzen."> \textsc{(G. Cantor)}
 \end{quote}
 
 Die Objekte einer Menge $M$ heißen \emph{Elemente\index{Element}} von $M$. Die Notation
@@ -313,9 +313,9 @@ Funktionen} dar\-zu\-stel\-len:\index{charakteristische Funktion}
 \section{Prädikatenlogik}
 \label{sec:praedikate}
 
-\index{Prädikatenlogik}Viele Aussagen haben die Form "`es gibt (mindestens) ein Objekt
-(\emph{Individuum\index{Individuum}}) mit der Eigenschaft\index{Eigenschaft}\ldots"' oder "`für alle
-Objekte aus einem bestimmten Be\-reich gilt\ldots"'.  Solche Aussagen heißen
+\index{Prädikatenlogik}Viele Aussagen haben die Form "<es gibt (mindestens) ein Objekt
+(\emph{Individuum\index{Individuum}}) mit der Eigenschaft\index{Eigenschaft}\ldots"> oder "<für alle
+Objekte aus einem bestimmten Be\-reich gilt\ldots">.  Solche Aussagen heißen
 \emph{Prädikate} 
 \index{Prädikat} und für ihre mathematische Behandlung
 werden sogenannte \emph{Quantoren} eingeführt, und zwar der \emph{All\-quan\-tor}\index{Quantor}\index{Allquantor}\index{Existenzquantor}
@@ -375,7 +375,7 @@ oder die noch kompliziertere Aussage
 \section{Multimengen}
 \label{sec:multisets}
 
-Mengen sind so definiert, daß sie jedes Element "`nur einmal enthalten"'. 
+Mengen sind so definiert, daß sie jedes Element "<nur einmal enthalten">. 
 In einer \emph{Multimenge},
 \index{Multimenge} kann jedes Element mit einer bestimmten
 \emph{Multiplizität\index{Multiplizität}} (Vielfachheit) vorkommen.  Technisch werden
@@ -472,7 +472,7 @@ solche Relation heißt jeweils \textit{Abschluß\index{Abschluß}}:
     $\rho\subseteq\rho'$.
   \end{itemize}
   %
-  Dabei heißt "`kleinste Relation"' jeweils, daß für jede andere
+  Dabei heißt "<kleinste Relation"> jeweils, daß für jede andere
   Relation $\rho''$, welche die jeweilige Eigenschaft erfüllt, gilt
   $\rho' \subseteq \rho''$.
   
@@ -577,7 +577,7 @@ zu  schreiben.
    reflexiv, transitiv und antisymmetrisch (vgl.\ Definition~\ref{def:relations}).
 \end{definition}
 
-Ein Beispiel für eine partielle Ordnung ist etwa die Relation "`$\subseteq$"' zwischen 
+Ein Beispiel für eine partielle Ordnung ist etwa die Relation "<$\subseteq$"> zwischen 
 Mengen. Eine \emph{partiell geordnete Menge} $(M;\rho)$ 
 ist eine Menge $M$ mit einer
 partiellen Ordnung $\rho$. In einer 
@@ -610,12 +610,12 @@ sind z.B.\ die Elemente $\{1,2\}$ und $\{2,3\}$ unvergleichbar.
     \end{description}
 \end{definition}
 
-Die Begriffe "`minimales"' und 
-"`kleinstes Element"' werden gern
-verwechselt. Das liegt vielleicht daran, daß die Relation "`$\leq$"' auf
-Zahlen, die oft als "`Modell"' für eine partielle Ordnung herhalten muß, in
+Die Begriffe "<minimales"> und 
+"<kleinstes Element"> werden gern
+verwechselt. Das liegt vielleicht daran, daß die Relation "<$\leq$"> auf
+Zahlen, die oft als "<Modell"> für eine partielle Ordnung herhalten muß, in
 Wirklichkeit eine totale Ordnung ist. Bei totalen Ordnungen fallen die Begriffe
-"`minimales"' und "`kleinstes Element"' jedoch zusammen.
+"<minimales"> und "<kleinstes Element"> jedoch zusammen.
 Deshalb hier noch einmal eine verbale Definition:
 \begin{description}
 \item[\it minimales Element] heißt, daß es kein Element gibt, das kleiner

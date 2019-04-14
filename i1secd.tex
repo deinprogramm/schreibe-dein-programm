@@ -11,7 +11,7 @@ Die Reduktionsregeln dienen dabei der Entwicklung von Beweisen über
 die Äquivalenz von $\lambda$-Termen.  Damit der $\lambda$-Kalkül auch
 als Modell für die tatsächliche Ausführung von Programmen, auf dem
 Computer geeignet ist, fehlen noch zwei Zutaten: die direkte
-Definition von "`eingebauten"' Werten und Operationen wie Zahlen und
+Definition von "<eingebauten"> Werten und Operationen wie Zahlen und
 booleschen Werten sowie ein formales Auswertungsmodell.  Dieses
 Kapitel stellt zunächst den \textit{angewandten $\lambda$-Kalkül} vor,
 der den normalen $\lambda$-Kalkül um primitive Werte und Operationen
@@ -32,7 +32,7 @@ Abschnitt~\ref{sec:lambdaprog} zeigte bereits, daß sich auch boolesche
 Werte und Zahlen im $\lambda$-Kalkül durch $\lambda$-Terme darstellen
 lassen.  Das ist zwar aus theoretischer Sicht gut zu wissen, auf Dauer
 aber etwas mühsam: Darum ist es sinnvoll, mit einer erweiterten
-Version des $\lambda$-Kalküls zu arbeiten, die solche "`primitiven"'
+Version des $\lambda$-Kalküls zu arbeiten, die solche "<primitiven">
 Werte direkt kennt.  Abschnitt~\ref{sec:lambdaprog} hat gezeigt,
 daß eine solche Erweiterung nur syntaktischer Zucker ist,
 also die Ausdruckskraft des Kalküls nicht wirklich erhöht.  Alle
@@ -48,7 +48,7 @@ Ein solcher erweiterter $\lambda$-Kalkül heißt auch
   \textit{Basiswerten\index{Basiswert}}.  Sei für eine natürliche
   Zahl $n$ und $i \in \{1, \ldots, n\}$ jeweils $\Sigma^i$ eine Menge
   von \textit{$i$-stelligen Primitiva\index{Primitivum}}~-- die Namen
-  von "`eingebauten Operationen"'.  Jedem $F^i\in\Sigma^i$ ist eine
+  von "<eingebauten Operationen">.  Jedem $F^i\in\Sigma^i$ ist eine
   $i$-stellige Funktion $F_B^i: B\times\ldots\times B \rightarrow
   B$~-- ihre \textit{Operation}~--
   zugordnet.  Die Sprache des angewandten $\lambda$"=Kalküls, die
@@ -116,7 +116,7 @@ ein Modell für die Auswertung der Lehrsprachen und viele andere
 Programmiersprachen .
 Allerdings ist Definition~\ref{def:call-by-value} strenggenommen etwas
 vage: Es wird immer nur der Subterm reduziert, der
-"`möglichst weit links innen steht"', aber was das heißt, ist nicht
+"<möglichst weit links innen steht">, aber was das heißt, ist nicht
 genau definiert.  Außerdem ist Reduktion zwar ein
 mächtiges formales Modell, entspricht aber nicht der
 Ausführungsmethode tatsächlicher Programmiersprachen auf echten
@@ -130,7 +130,7 @@ ursprünglicher Formulierung etwas modernisiert.)
 Damit ein Programm aus dem angewandten $\lambda$-Kalkül mit der
 SECD-Maschine ausgewertet werden kann, muß es erst einmal in einen
 speziellen \textit{Maschinencode\index{Maschinencode}} übersetzt oder
-"`compiliert"' werden.  Der Maschinencode besteht, anders als der
+"<compiliert"> werden.  Der Maschinencode besteht, anders als der
 $\lambda$-Kalkül, nicht aus geschachtelten Termen, sondern aus einer
 Folge von \textit{Instruktionen\index{Instruktion}}.  
 
@@ -169,19 +169,19 @@ Funktion in Maschinencode übersetzt:
   \end{cases}
 \end{eqnarray*}
 %
-Die Übersetzungsfunktion "`linearisiert"' einen $\lambda$-Term.  Zum
+Die Übersetzungsfunktion "<linearisiert"> einen $\lambda$-Term.  Zum
 Beispiel bedeutet die Übersetzung $\llbracket e_0\rrbracket~\llbracket
 e_1\rrbracket~\mathtt{ap}$ für einen Term $(e_0~e_1)$, daß zuerst
 $e_0$ ausgewertet wird, danach wird $e_1$ ausgewertet, und schließlich wird die
 eigentliche Applikation ausgeführt:  Entsprechend steht $\mathtt{ap}$
-für "`Applikation ausführen"' und $\mathtt{prim}_{F^k}$ für "`Primitiv
-$F$ ausführen"'.  Basiswerte und Variablen werden im Maschinencode
+für "<Applikation ausführen"> und $\mathtt{prim}_{F^k}$ für "<Primitiv
+$F$ ausführen">.  Basiswerte und Variablen werden im Maschinencode
 belassen.  Ein $\lambda$-Term wird übersetzt in ein Tupel aus seiner
 Variable und dem Maschinencode für seinen Rumpf.
 
 Durch die Linearisierung sind die Instruktionen schon in einer Liste in der
 Reihenfolge ihrer Ausführung aufgereiht.  Insbesondere hat die
-Linearisierung den Begriff "`links innen"' formalisiert: der jeweils
+Linearisierung den Begriff "<links innen"> formalisiert: der jeweils
 am weitesten links innen stehende Redex steht in der Liste der
 Instruktionen vorn.
 
@@ -241,7 +241,7 @@ dieser Mengen sind wie folgt; dabei ist $W$ die Menge der Werte:
 %
 Der Stack ist dabei eine Folge von Werten.  In der Maschine sind dies
 die Werte der zuletzt ausgewerteten Terme, wobei der zuletzt
-ausgewertete Term vorn bzw.\ "`oben"' steht.  Die Umgebung ist eine
+ausgewertete Term vorn bzw.\ "<oben"> steht.  Die Umgebung ist eine
 partielle Abbildung von Variablen auf Werte: sie ersetzt die
 Substitution in der Reduktionsrelation des $\lambda$-Kalküls.  Anstatt
 daß Werte für Variablen eingesetzt werden, merkt sich die Umgebung
@@ -278,7 +278,7 @@ $w$ gebunden ist.  Hier ist die Definition:
 Es wird also zunächst eine eventuell vorhandene alte Bindung entfernt
 und dann eine neue hinzugefügt.
 
-Um einen $\lambda$-Term $e$ in die SECD-Maschine zu "`injizieren"',
+Um einen $\lambda$-Term $e$ in die SECD-Maschine zu "<injizieren">,
 wird er in einen Anfangszustand $(\epsilon, \varnothing, \llbracket
 e\rrbracket, \epsilon)$ übersetzt.  Dann wird dieser Zustand
 wiederholt in die Zustandsübergangsrelation $\hookrightarrow$
@@ -347,7 +347,7 @@ folgt:
   Applikation müssen oben auf dem Stack ein Wert sowie eine Closure
   liegen.  (Zur Erinnerung: Eine Applikation kann nur ausgewertet
   werden, wenn eine Abstraktion vorliegt.  Abstraktionen werden zu
-  Closures ausgewertet.)  In einem solchen Fall "`sichert"' die
+  Closures ausgewertet.)  In einem solchen Fall "<sichert"> die
   Applikation den aktuellen Zustand auf den Dump, und die Auswertung fährt mit
   einem leeren Stack, der Umgebung aus der Closure~-- erweitert um
   eine Bindung für die Variable~-- und dem Code aus der Closure fort.
@@ -355,7 +355,7 @@ folgt:
   \textit{Rückkehrregel\index{Rückkehrregel}}: Sie ist anwendbar,
   wenn das Ende des Codes erreicht ist.  Das heißt, daß gerade
   die Auswertung einer Applikation fertig ist.  Auf dem Dump liegt
-  aber noch ein gesicherter Zustand, der jetzt "`zurückgeholt"' wird.
+  aber noch ein gesicherter Zustand, der jetzt "<zurückgeholt"> wird.
 \end{itemize}
 %
 Hier ein Beispiel für den Ablauf der SECD-Maschine für den Term
@@ -394,7 +394,7 @@ Diese Definition hat jedoch zwei Haken:
 %
 \begin{itemize}
 \item Die Auswertung von $\lambda$-Termen terminiert nicht immer (wie
-  zum Beispiel für den "`Endlos"=Term"' $(\lambda x.(x~x))~(\lambda x.(x~x))$), es kommt
+  zum Beispiel für den "<Endlos"=Term"> $(\lambda x.(x~x))~(\lambda x.(x~x))$), es kommt
   also nicht immer dazu, daß die Zustandsübergangsrelation bei einem
   Zustand der Form $(\epsilon, \varnothing, \llbracket e\rrbracket,
   \epsilon)$ terminiert.
@@ -403,7 +403,7 @@ Diese Definition hat jedoch zwei Haken:
 \end{itemize}
 %
 Der erste Haken sorgt dafür, daß die Auswertungsfunktion nur eine
-Relation im Sinne einer "`partiellen Funktion"' ist.  Meist wird
+Relation im Sinne einer "<partiellen Funktion"> ist.  Meist wird
 trotzdem von einer Auswertungsfunktion gesprochen.  Beim zweiten
 Haken, wenn $x$ eine Closure ist, läßt sich mit dem Resultat nicht
 viel anfangen: Um die genaue Bedeutung der Closure herauszubekommen,
@@ -506,7 +506,7 @@ Der Apostroph am Anfang eines Ausdrucks
 kennzeichnet diesen also als Literal.  Der Wert des Literals wird 
 genauso ausgedruckt, wie es im Programm steht.  (Abgesehen von
 Leerzeichen und Zeilenumbrüchen.)  Der Apostroph heißt auf englisch
-"`quote"'\index{quote@\texttt{quote}}, und deshalb ist diese
+"<quote">\index{quote@\texttt{quote}}, und deshalb ist diese
 Literalschreibweise auch unter diesem Namen bekannt.  Bei Zahlen,
 Zeichenketten und booleschen Literalen ist auch ohne Quote klar, daß
 es sich um Literale handelt.  Das Quote ist darum bei ihnen rein
@@ -671,7 +671,7 @@ die Reihe.
 Die erste Aufgabe ist dabei zunächst, wie immer, die Datenanalyse: Am
 Anfang stehen die Terme des angewandten $\lambda$-Kalküls.  Eine
 geeignete Repräsentation mit Listen und Symbolen läßt dabei die Terme
-in der "`fortgeschrittenen"' Sprachebene genau wie entsprechenden
+in der "<fortgeschrittenen"> Sprachebene genau wie entsprechenden
 Programm-Terme aussehen:
 
 \noindent\begin{tabular}{lll}
@@ -744,8 +744,8 @@ werden.
 (define primitive-application (signature (predicate primitive-application?)))
 \end{verbatim}
 %
-Die Definition läßt noch offen, was genau ein "`Basiswert"' und was ein
-"`Primitiv"' ist.  Auch hierfür werden noch Datendefinitionen
+Die Definition läßt noch offen, was genau ein "<Basiswert"> und was ein
+"<Primitiv"> ist.  Auch hierfür werden noch Datendefinitionen
 benötigt, zuerst für Basiswerte.  Der Einfachheit halber beschränkt
 sich die Implementierung erst einmal auf boolesche Werte und Zahlen:
 %
@@ -1477,7 +1477,7 @@ größer wird:
 %
 Damit ist die SECD-Maschine, so wie ist, als Ausführungsmodell für
 die Lehrsprachen ungeeignet.  Dieses Manko läßt sich zum Glück reparieren: Die
-SECD-Maschine muß endrekursive und "`normale"' Applikationen
+SECD-Maschine muß endrekursive und "<normale"> Applikationen
 unterschiedlich behandeln.  Dazu wird eine neue Instruktion namens
 $\mathtt{tailap}$ eingeführt, die wie $\mathtt{ap}$ eine Applikation
 durchführt, aber eine endrekursive Applikation signalisiert:
@@ -1491,7 +1491,7 @@ Als nächstes muß die Übersetzungsfunktion von Termen in Maschinencode
 geändert werden:  Applikationen, die Kontext um sich herum haben,
 sollen mit $\mathtt{ap}$ übersetzt werden, solche ohne Kontext mit
 $\mathtt{tailap}$.  Da der Applikation allein der Kontext nicht
-anzusehen ist, sondern nur dem Term "`drumherum"', wird die
+anzusehen ist, sondern nur dem Term "<drumherum">, wird die
 Übersetzungsfunktion $\llbracket \underline{~} \rrbracket$ in zwei
 Teile aufgespalten: für einen Term $e$ wird die Auswertungsfunktion $\llbracket\underline{~}\rrbracket$ immer dann benutzt, wenn um $e$ Kontext steht.  Eine
 weitere Funktion $\llbracket \underline{~} \rrbracket'$ wird immer
@@ -1555,7 +1555,7 @@ Rückgaberegel.  Hier sind die beiden Regeln noch einmal zur Erinnerung:
 \end{eqnarray*}
 %
 Da die erste Regel ein neues Dump-Frame erzeugt und die zweite ein
-Dump-Frame "`vernichtet"', entfällt diese Arbeit in der Regel für
+Dump-Frame "<vernichtet">, entfällt diese Arbeit in der Regel für
 $\mathtt{tailap}$:
 %
 \begin{eqnarray*}
@@ -1696,7 +1696,7 @@ Arten der Reduktion gemacht:
     wobei $b_i = m(a_i) \in B$, $a$ frisch}
 \end{eqnarray*}
 %
-Die Formulierung "`$a$ frisch"' bedeutet dabei, daß $a$ eine Adresse
+Die Formulierung "<$a$ frisch"> bedeutet dabei, daß $a$ eine Adresse
 sein sollte, die in $m$ bisher noch nicht benutzt wurde.  Die Operation
 $m[a\mapsto x]$ ist ähnlich wie bei Umgebungen definiert: der alte
 Speicherinhalt bei $a$ wird zunächst entfernt, und dann eine neue
@@ -1845,7 +1845,7 @@ SECD-Maschine.  Zwei Hauptunterschiede gibt es dabei:
 %
 \begin{itemize}
 \item Der Heap aus $H$ gehört nun zum Zustand dazu.  Anders als die
-  Umgebung wird er nicht bei der Bildung von Closures "`eingepackt"':
+  Umgebung wird er nicht bei der Bildung von Closures "<eingepackt">:
   Stattdessen wird der Heap stets linear von links nach rechts durch
   Regeln durchgefädelt.
 \item Zwischenergebnisse nehmen stets den Umweg über den Heap: Immer,

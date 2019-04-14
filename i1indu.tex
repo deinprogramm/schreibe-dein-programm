@@ -9,7 +9,7 @@
 Die Mathematik beschäftigt sich zentral mit \textit{Beweisen} von
 formalen Aussagen.  Diese sind auch in der Informatik wichtig, um die
 Korrektheit von Programmen sicherzustellen.  Dabei geht es häufig um
-Aussagen der Form "`für alle $x\in X$"', wobei $X$ eine unendliche
+Aussagen der Form "<für alle $x\in X$">, wobei $X$ eine unendliche
 Menge ist~-- zum Beispiel die Menge der natürlichen Zahlen oder die
 Menge der Listen.  In der Informatik haben viele der in der Praxis
 vorkommenden Mengen~-- insbesondere alle gemischten Daten mit
@@ -34,9 +34,9 @@ wenn er die Summe ausschreibt:
 %
 \[ 1+2+\ldots+(n-1) + n \]
 %
-\ldots~die beiden "`äußeren"' Summanden $1$ und $n$ zusammen $n+1$
-ergeben, die beiden "`nächstinneren"' Summanden $2$ und $n-1$
-ebenfalls $n+1$ undsoweiter bis zur "`Mitte"'~-- effektiv also halb so
+\ldots~die beiden "<äußeren"> Summanden $1$ und $n$ zusammen $n+1$
+ergeben, die beiden "<nächstinneren"> Summanden $2$ und $n-1$
+ebenfalls $n+1$ undsoweiter bis zur "<Mitte">~-- effektiv also halb so
 oft $n+1$ auf sich selbst addiert wird wie die Reihe selbst lang ist.
 Es ist also einfach nachzuvollziehen, wie Gauß auf die Formel kam und
 warum sie korrekt ist.
@@ -176,7 +176,7 @@ von oben ist also bewiesen.
 \label{sec:nat-induction-ka}
 \label{page:mathematical-induction}
 Das im vorigen Abschnitt verwendete Beweisprinzip für Beweise 
-von Sätzen der Form "`für alle $n\in\enn$ \ldots"'
+von Sätzen der Form "<für alle $n\in\enn$ \ldots">
 heißt
 \textit{vollständige Induktion}\index{Induktion}\index{Induktion!vollständig}.\footnote{Nicht zu
 verwechseln mit der \textit{philosophischen Induktion}.  Die
@@ -210,19 +210,19 @@ Konstruktionsanleitung für Beweise mit vollständiger Induktion:
 %
 \begin{enumerate}
 \item Formulieren Sie die zu beweisende Behauptung als Behauptung der
-  Form "`Für alle $n\in\mathbb{N}$ gilt~\ldots"', falls das noch nicht
+  Form "<Für alle $n\in\mathbb{N}$ gilt~\ldots">, falls das noch nicht
   geschehen ist.
-\item Schreiben Sie die Überschrift "`$n = 0$:"'. Schreiben Sie die
-  Behauptung noch einmal ab, wobei Sie das "`für alle $n\in\mathbb{N}$"' weglassen und für $n$ die $0$ einsetzen.
+\item Schreiben Sie die Überschrift "<$n = 0$:">. Schreiben Sie die
+  Behauptung noch einmal ab, wobei Sie das "<für alle $n\in\mathbb{N}$"> weglassen und für $n$ die $0$ einsetzen.
 \item Beweisen Sie die abgeschriebene Behauptung.  (Das ist in der Regel
   sehr einfach.)
-\item Schreiben Sie das Wort "`Induktionsvoraussetzung:"' Schreiben
-  Sie darunter die Behauptung noch einmal ab, wobei Sie das "`für
-  alle $n\in\mathbb{N}$"' weglassen~-- lassen Sie das $n$ da, wo es ist.
-\item Schreiben Sie "`Induktionsschluß (zu zeigen):"'.
+\item Schreiben Sie das Wort "<Induktionsvoraussetzung:"> Schreiben
+  Sie darunter die Behauptung noch einmal ab, wobei Sie das "<für
+  alle $n\in\mathbb{N}$"> weglassen~-- lassen Sie das $n$ da, wo es ist.
+\item Schreiben Sie "<Induktionsschluß (zu zeigen):">.
   Schreiben Sie darunter die Behauptung noch einmal ab, wobei Sie für
-  $n$ stattdessen $(n+1)$ einsetzen.  (Wieder lassen Sie das "`für alle
-  $n\in\mathbb{N}$"' weg.)
+  $n$ stattdessen $(n+1)$ einsetzen.  (Wieder lassen Sie das "<für alle
+  $n\in\mathbb{N}$"> weg.)
 \item Beweisen Sie den Induktionsschluß unter Verwendung der
   Induktionsvoraussetzung.  
 
@@ -312,7 +312,7 @@ herausgekommen und die Behauptung ist bewiesen.
 Die vollständige Induktion aus dem vorigen Abschnitt ist nur für die
 Menge der natürlichen Zahlen geeignet.  Sie funktioniert aber nicht für alle
 Mengen: Für die reellen Zahlen $\mathbb{R}$ z.B.\ erreicht die
-Konstruktion "`bei $0$ anfangen und dann immer um $1$ hochzählen"' einfach
+Konstruktion "<bei $0$ anfangen und dann immer um $1$ hochzählen"> einfach
 nicht alle Elemente der Menge.%\footnote{Bei den ganzen Zahlen
 %  $\mathbb{Z}$ und den rationalen Zahlen $\mathbb{Q}$ ist das anders,
 %  da es sich um \textit{abzählbare Mengen} handelt.  Das ist
@@ -333,7 +333,7 @@ in der Form $0+1+\ldots+1$ geschrieben werden.  Für diese Art
 Bastelanleitung für Mengen ist charakteristisch, daß es ein oder
 mehrere \textit{Basiselemente}\index{Basiselement} gibt (in diesem
 Fall die $0$) und dann ein oder mehrere Regeln, die aus beliebigeren
-"`kleineren"' Elementen "`größere"' Elemente konstruieren, in diesem
+"<kleineren"> Elementen "<größere"> Elemente konstruieren, in diesem
 Fall die Regel, die besagt, daß für jede natürliche Zahl auch ihr
 \textit{Nachfolger}\index{Nachfolger} eine natürliche Zahl ist.
 Umgekehrt läßt sich die Menge der natürlichen Zahlen $\mathbb{N}$
@@ -402,8 +402,8 @@ Menge.  Ein weiteres Beispiel sind die \index{Folge}\index{endliche
         Blick scheint das Konzept einer leeren Folge, die keine
         Elemente enthält, merkwürdig. Die Informatik hat aber die
         Erfahrung gemacht, dass allzu oft Programme abstürzen, weil
-        sie irgendwo "`nichts"' vorfinden, wo sie doch mindestens
-        "`etwas"' erwarteten. Auf den zweiten Blick ist die leere
+        sie irgendwo "<nichts"> vorfinden, wo sie doch mindestens
+        "<etwas"> erwarteten. Auf den zweiten Blick ist die leere
         Folge aber das Analog zu der $0$ bei den natürlichen Zahlen.} $\epsilon \in
       M^\ast$.\index{*@$\epsilon$}\index{leere Folge}
     \item Wenn $f \in M^\ast$ eine Folge ist und $m \in M$, so ist $mf
@@ -444,7 +444,7 @@ ausrechnet, also z.B.:
 % 
 Die Funktion entspricht also der Funktion \texttt{list-sum} aus
 Abschnitt~\ref{sec:list-sum}.  Da es zwei verschiedene Sorten endlicher Folgen gibt~-- die leere
-Folge und die "`nichtleeren"' Folgen~-- liegt es
+Folge und die "<nichtleeren"> Folgen~-- liegt es
 nahe, die entsprechende Funktion mit einer Verzweigung zu schreiben,
 die zwischen den beiden Sorten unterscheidet:
 %
@@ -534,12 +534,12 @@ Definition korrekt arbeitet:
 % 
 Die Definition von $s$ ruft sich also an der Stelle selbst auf,
 an der die induktive Definition der endlichen Folgen den Selbstbezug
-"`$f' \in M^\ast$ eine Folge"' enthält.  
+"<$f' \in M^\ast$ eine Folge"> enthält.  
 
 Mathematisch geneigte Leser werden die Definition von $s$ mit Skepsis
 betrachten, taucht doch $s$ sowohl auf der linken als auch auf der rechten
-Seite auf~-- es sieht so aus, als sei $s$ "`durch sich selbst
-definiert"'.  Tatsächlich ist dies jedoch kein Problem, da:
+Seite auf~-- es sieht so aus, als sei $s$ "<durch sich selbst
+definiert">.  Tatsächlich ist dies jedoch kein Problem, da:
 %
 \begin{itemize}
 \item sich $s(f)$ stets selbst auf einer \emph{kürzeren} Folge
@@ -555,7 +555,7 @@ erfüllt.
 \subsection{Folgeninduktion}
 \label{sec:sequence-induction}
 Das Gegenstück zur vollständigen Induktion heißt bei den Folgen
-\textit{Folgeninduktion}.  Der "`Schluß von $n$ auf $n+1$"' wird bei
+\textit{Folgeninduktion}.  Der "<Schluß von $n$ auf $n+1$"> wird bei
 der Folgeninduktion zu je einem Schluß von $f$ auf $mf$ für alle
 Folgen $f$ und alle $m\in M$ . Oft kommt es dabei auf das Folgenelement $m$ gar
 nicht an.
@@ -581,19 +581,19 @@ Folgeninduktion eine Anleitung:
 %
 \begin{enumerate}
 \item Formulieren Sie die zu beweisende Behauptung als Behauptung der
-  Form "`Für alle $f\in M^\ast$ gilt~\ldots"', falls das noch nicht
+  Form "<Für alle $f\in M^\ast$ gilt~\ldots">, falls das noch nicht
   geschehen ist.
-\item Schreiben Sie die Überschrift "`$f = \epsilon$:"'. Schreiben Sie die
-  Behauptung noch einmal ab, wobei Sie das "`für alle $f\in M^\ast$"' weglassen und für $f$ das $\epsilon$ einsetzen.
+\item Schreiben Sie die Überschrift "<$f = \epsilon$:">. Schreiben Sie die
+  Behauptung noch einmal ab, wobei Sie das "<für alle $f\in M^\ast$"> weglassen und für $f$ das $\epsilon$ einsetzen.
 \item Beweisen Sie die abgeschriebene Behauptung.  (Das ist in der Regel
   sehr einfach.)
-\item Schreiben Sie das Wort "`Induktionsvoraussetzung:"' Schreiben
-  Sie darunter die Behauptung noch einmal ab, wobei Sie das "`für
-  alle $f\in M^\ast$"' weglassen~-- lassen Sie das $f$ da, wo es ist.
-\item Schreiben Sie "`Induktionsschluß (zu zeigen):"'.
+\item Schreiben Sie das Wort "<Induktionsvoraussetzung:"> Schreiben
+  Sie darunter die Behauptung noch einmal ab, wobei Sie das "<für
+  alle $f\in M^\ast$"> weglassen~-- lassen Sie das $f$ da, wo es ist.
+\item Schreiben Sie "<Induktionsschluß (zu zeigen):">.
   Schreiben Sie darunter die Behauptung noch einmal ab, wobei Sie für
-  $f$ stattdessen $mf$ einsetzen.  (Wieder lassen Sie das "`für alle
-  $f\in M^\ast$"' weg.)
+  $f$ stattdessen $mf$ einsetzen.  (Wieder lassen Sie das "<für alle
+  $f\in M^\ast$"> weg.)
 \item Beweisen Sie den Induktionsschluß unter Verwendung der
   Induktionsvoraussetzung.  Denken Sie daran, die Behauptung für
   \emph{alle} $m\in M$ zu beweisen~-- das ist meist aber nicht immer
@@ -689,7 +689,7 @@ Definitionen eingebürgert hat, die sogenannte \textit{kontextfreie
 meisten Informatik-Büchern geht mit dem Begriff eine langwierige
 mathematische Definition einher, die für dieses Buch nicht in aller
 Ausführlichkeit benötigt wird.  Hier dient die kontextfreie Grammatik
-(ab hier einfach nur "`Grammatik"') informell als Abkürzung für
+(ab hier einfach nur "<Grammatik">) informell als Abkürzung für
 eine länger ausgeschriebene induktive Definition.  Hier die Grammatik
 für die natürlichen Zahlen:
 %
@@ -697,16 +697,16 @@ für die natürlichen Zahlen:
   \meta{$\mathbb{N}$} \: 0 \| \meta{$\mathbb{N}$} + 1
 \end{grammar}
 %
-In der Grammatik steht \meta{$\mathbb{N}$} für "`eine natürliche
-Zahl"'.  Zu lesen ist die Grammatik so: Eine natürliche Zahl ist
+In der Grammatik steht \meta{$\mathbb{N}$} für "<eine natürliche
+Zahl">.  Zu lesen ist die Grammatik so: Eine natürliche Zahl ist
 entweder die $0$ oder hat die Form $n + 1$ wobei $n$ wiederum eine
-natürliche Zahl ist.  Der obligatorische induktive Abschluß ("`Die
-obigen Regeln definieren \emph{alle} $n\in\mathbb{N}$."') wird
+natürliche Zahl ist.  Der obligatorische induktive Abschluß ("<Die
+obigen Regeln definieren \emph{alle} $n\in\mathbb{N}$.">) wird
 stillschweigend vorausgesetzt
 und darum weggelassen.  
 
-Das Zeichen \goesto{} kann also als "`ist"' oder "`hat die Form"'
-gelesen werden, das Zeichen $\vert$ als "`oder"'. Die Notation
+Das Zeichen \goesto{} kann also als "<ist"> oder "<hat die Form">
+gelesen werden, das Zeichen $\vert$ als "<oder">. Die Notation
 \meta{$X$} definiert eine entsprechende Menge $X$.  Die Grammatik ist
 also eine Art mathematische Schreibweise für zusammengesetzte Daten,
 gemischte Daten ($\vert$) und Selbstbezüge, nur eben für mathematische
@@ -728,7 +728,7 @@ also die ohne Selbstbezug~-- beschreiben Basisfälle.
 In Abschnitt~\ref{sec:finite-sequences} ist zu sehen, daß die
 Definition der beiden Beispielfunktionen auf Folgen ($s$ und
 $\mathrm{cat}$) jeweils der induktiven Definition der Folgen
-"`folgt"'~-- die Definition beider Funktionen hat die Form:
+"<folgt">~-- die Definition beider Funktionen hat die Form:
 %
 \begin{displaymath}
   F(f, \ldots)
@@ -841,9 +841,9 @@ Folgen.  Die Grammatik beschreibt einfache aussagenlogische Ausdrücke:
   \> \| $\neg$ \meta{E}
 \end{grammar}
 %
-Gedacht ist das folgendermaßen: $\top$ steht für "`wahr"', $\bot$ für
-"`falsch"', $\wedge$ für "`und"', $\vee$ für "`oder"' und $\neg$ für
-"`nicht"'.  Beispiele für Ausdrücke sind:
+Gedacht ist das folgendermaßen: $\top$ steht für "<wahr">, $\bot$ für
+"<falsch">, $\wedge$ für "<und">, $\vee$ für "<oder"> und $\neg$ für
+"<nicht">.  Beispiele für Ausdrücke sind:
 %
 \begin{displaymath}
   \begin{array}{l}
@@ -866,12 +866,12 @@ einen Ausdruck genau wie in der Arithmetik mit Klammern:
 \end{displaymath}
 %
 Jeder solche Ausdruck hat einen Wahrheitswert, also
-"`wahr"' oder "`falsch"', und eine strukturell rekursive Funktion kann
-diesen Wahrheitswert errechnen.  Diese Funktion "`heißt"' $\llbracket
+"<wahr"> oder "<falsch">, und eine strukturell rekursive Funktion kann
+diesen Wahrheitswert errechnen.  Diese Funktion "<heißt"> $\llbracket
 \underline{~}\rrbracket$\index{*@$\llbracket\underline{~}\rrbracket$}~--
 für einen Ausdruck $e$ liefert $\llbracket e\rrbracket$ den Wert $1$,
-falls der Ausdruck "`wahr"' ist und $1$, falls "`falsch"'.  Die
-doppelten eckigen Klammern heißen in der Fachsprache "`Semantikklammern"'
+falls der Ausdruck "<wahr"> ist und $1$, falls "<falsch">.  Die
+doppelten eckigen Klammern heißen in der Fachsprache "<Semantikklammern">
 und werden oft benutzt, um Funktionen auf Mengen zu schreiben, die
 durch eine Grammatik definiert sind.
 
@@ -983,7 +983,7 @@ illustriert die Technik:
 \end{satz}
 
 Die Behauptung hat bereits die für einen Induktionsbeweis geeignete
-Form "`für alle $e$"', wobei $e$ aus einer induktiv definierten Menge
+Form "<für alle $e$">, wobei $e$ aus einer induktiv definierten Menge
 kommt.  Die Behauptung muß jetzt für alle möglichen Fälle von $e$
 bewiesen werden~-- da die Grammatik für Ausdrücke fünf Fälle hat, sind
 auch fünf Fälle zu beweisen: $e=\top$, $e=\bot$, $e=e_1\wedge e_2$,
@@ -1089,7 +1089,7 @@ Induktionsschluß (zu zeigen):
 \end{alignat*}
 %
 Das Beispiel zeigt, daß strukturell induktive Beweise durchaus mehr
-als einen "`Induktionsanfang"' haben können~-- hier die Fälle $\top$
+als einen "<Induktionsanfang"> haben können~-- hier die Fälle $\top$
 und $\bot$.  Ebenso gibt es mehr als einen Induktionsschluß~-- einen
 für jede Klausel mit Selbstbezug, hier sind das drei Fälle.
 
@@ -1097,26 +1097,26 @@ Für Beweise mit struktureller Induktion gilt also folgende Anleitung:
 %
 \begin{enumerate}
 \item Formulieren Sie die zu beweisende Behauptung als
-  Behauptung der Form "`Für alle $x\in X$ gilt~\ldots"' (wobei $X$
+  Behauptung der Form "<Für alle $x\in X$ gilt~\ldots"> (wobei $X$
   eine induktiv definierte Menge ist), falls das noch nicht geschehen
   ist.
 \item Führen Sie jetzt einen Beweis für jede einzelne Klausel $C_i$
   der induktiven Definition:
-\item Schreiben Sie die Überschrift "`$x = F_i$"', wobei $F_i$ eine
+\item Schreiben Sie die Überschrift "<$x = F_i$">, wobei $F_i$ eine
   Bedingung ist, die der Klausel entspricht.  Schreiben Sie die
-  Behauptung noch einmal ab, wobei Sie das "`für alle $x\in X$"'
+  Behauptung noch einmal ab, wobei Sie das "<für alle $x\in X$">
   weglassen und für $x$ stattdessen $F_i$ einsetzen.
 \item Wenn die Klausel keinen Selbstbezug enthält, so beweisen Sie die
   Behauptung direkt.
 \item Wenn die Klausel einen oder mehrere Selbstbezüge enthält, so
   stehen in der Überschrift Variablen $x_j$ oder $x'$ o.ä., die
   ihrerseits Element von $X$ sind.  Schreiben Sie dann die Überschrift
-  "`Induktionsvoraussetzung:"'. Schreiben Sie darunter für jeden
-  Selbstbezug die Behauptung noch einmal ab, wobei Sie das "`für alle
-  $x\in X$"' weglassen und für $x$ stattdessen $x_j$ bzw.\ $x'$
+  "<Induktionsvoraussetzung:">. Schreiben Sie darunter für jeden
+  Selbstbezug die Behauptung noch einmal ab, wobei Sie das "<für alle
+  $x\in X$"> weglassen und für $x$ stattdessen $x_j$ bzw.\ $x'$
   einsetzen.
 
-  Schreiben Sie darunter das Wort "`Induktionsschluß"' und beweisen
+  Schreiben Sie darunter das Wort "<Induktionsschluß"> und beweisen
   die Behauptung.  Denken Sie daran, die Induktionsvoraussetzung zu
   benutzen.
 \end{enumerate}
@@ -1149,15 +1149,15 @@ Aus 1.\ und 2.\ folgt, daß es natürliche Zahlen
 \end{quote}
 gibt.  Ohne die $0$ am Anfang entsteht die Darstellung der natürlichen Zahlen
 durch Striche.  Die Axiome 3 und 4 besagen, daß jede Zahl nur eine Strichdarstellung 
-besitzt: jedes Anfügen eines Striches "`$\,'\,$"' erzeugt eine
+besitzt: jedes Anfügen eines Striches "<$\,'\,$"> erzeugt eine
 völlig neue Zahl.
 
 Die Peano-Formulierung ist zwar ähnlich zu Definition~\ref{def:N},
 weist aber auch interessante Unterschiede auf:
 %
 \begin{itemize}
-\item Für "`$n'$"' ist im täglichen Umgang natürlich die Bezeichnung
-  "`$n+1$"' gebräuchlich.
+\item Für "<$n'$"> ist im täglichen Umgang natürlich die Bezeichnung
+  "<$n+1$"> gebräuchlich.
 \item Die dritte und vierte Bedingung zusammen besagen, daß die
   Nachfolgerfunktion injektiv ist, d.h.\ durch fortgesetzte Anwendung
   der Nachfolgerfunktion entstehen immer neue Elemente.
@@ -1166,10 +1166,10 @@ weist aber auch interessante Unterschiede auf:
   festlegt, daß außer den solchermaßen erzeugten Elementen keine
   weiteren existieren.  Axiom 5 wird auch \emph{Induktionsaxiom}
   \index{Induktionsaxiom} genannt.  In Definition~\ref{def:N} hat das
-  Induktionsaxiom die üblichere Form "`Die obigen Regeln definieren
-  \emph{alle} $n\in\mathbb{N}$."'  Ebenfalls üblich ist eine
-  Formulierung wie wie "`\ldots die \emph{kleinste} Menge
-  mit den Eigenschaften \ldots"'.
+  Induktionsaxiom die üblichere Form "<Die obigen Regeln definieren
+  \emph{alle} $n\in\mathbb{N}$.">  Ebenfalls üblich ist eine
+  Formulierung wie wie "<\ldots die \emph{kleinste} Menge
+  mit den Eigenschaften \ldots">.
 \end{itemize}
 %
 

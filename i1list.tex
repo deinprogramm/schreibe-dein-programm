@@ -37,12 +37,12 @@ Daten variabler Größe abzubilden, insbesondere in sogenannten
 \end{center}
 %
 Keine dieser Listen ist auf ihre jeweilige Länge festgelegt: Zur Liste
-mit "`Brot"' könnten beispielsweise noch "`Gurken"' hinzukommen.  Damit ist es
+mit "<Brot"> könnten beispielsweise noch "<Gurken"> hinzukommen.  Damit ist es
 nicht möglich, diese Listen jeweils durch die bereits bekannten
 zusammengesetzten Daten und Records zu repräsentieren, da bei ihnen
 die Liste der Komponenten schon in der Datendefinition festgelegt
 ist.  Hier kommen Listen im Sinne der Programmierung ins Spiel, die es
-erlauben, "`zusammengesetzte Daten variabler Länge"' zu
+erlauben, "<zusammengesetzte Daten variabler Länge"> zu
 repräsentieren.  Die einfachste Sorte Liste ist die leere Liste
 
 FIXME
@@ -73,11 +73,11 @@ Record-Definition für Conse:\index{cons@\texttt{cons}}\index{cons@\texttt{cons}
 \end{alltt}
 %
 Für eine Signatur für den Konstruktor ist es noch zu früh, da es noch
-keine Signatur für den Begriff "`Liste"' aus der Datendefinition
+keine Signatur für den Begriff "<Liste"> aus der Datendefinition
 gibt.  Diese folgt in wenigen Augenblicken.
 
 Ein Cons kann nun benutzt werden, um die letzte Liste aus der obigen
-Tabelle zu repräsentieren.  "`Pumps"' wird als Zeichenkette zum ersten
+Tabelle zu repräsentieren.  "<Pumps"> wird als Zeichenkette zum ersten
 Element des Cons.  Die \texttt{rest}-Komponente des Cons muß eine
 Liste sein~-- dabei ist zu beachten, dass insbesondere die leere Liste
 eine Liste ist, dort also verwendet werden kann:
@@ -148,14 +148,14 @@ Entsprechend für drei Elemente:
   \label{fig:cons-lists-1}
 \end{figure}
 Diesmal sind drei Conse im Spiel.  Die Liste wird jeweils
-"`terminiert"' durch die leere Liste.  Abbildung~\ref{fig:cons-lists-1}
+"<terminiert"> durch die leere Liste.  Abbildung~\ref{fig:cons-lists-1}
 zeigt, wie die Listen aussehen, wenn sie wie andere zusammengesetzte
 Daten als Tabellen dargestellt sind~-- das $\bot$ steht für die leere
 Liste. Das sieht aus wie ineinandergeschachtelte russische Puppen und
 entspricht damit nicht der gängigen Intuition, wie Listen aufgebaut
 sind, aber es funktioniert.  Für viel mehr als drei Elemente
 funktioniert die Darstellungsweise allerdings nicht: Darum bevorzugen
-wir ab hier sogenannte "`Zeigerdiagramme"', bei denen alle Conse gleich groß
+wir ab hier sogenannte "<Zeigerdiagramme">, bei denen alle Conse gleich groß
 dargestellt sind und ein Pfeil zeigt, dass ein Cons die
 \texttt{rest}-Komponente eines anderen Conses bildet.
 Abbildung~\ref{fig:cons-lists-2} zeigt das Pfeildiagramm, das
@@ -324,8 +324,8 @@ Zug~-- da der Rest der Liste wieder eine Liste ist, können
 wir von der Summe des Rests sprechen.  Wenn diese Summe bekannt
 ist~-- also \emph{die Summe aller Elemente außer des ersten}, dann
 könnten wir (und das Programm auch) die Gesamtsumme ermitteln, indem wir
-auf diese Summe das noch fehlende erste Element addieren.  "`Die Summe
-aller Elemente außer des ersten"' können wir so aufschreiben:
+auf diese Summe das noch fehlende erste Element addieren.  "<Die Summe
+aller Elemente außer des ersten"> können wir so aufschreiben:
 %
 \begin{alltt}
 (list-sum (rest lis))
@@ -354,7 +354,7 @@ von \texttt{list-sum} ernst zu nehmen, die behauptet, dass die Funktion
 die Summe einer beliebigen Liste berechnet: \texttt{(rest lis)} ist
 eine Liste, also kann \texttt{list-sum} auch deren Summe berechnen.
 
-Um den "`Selbstaufruf"' von \texttt{list-sum} noch besser zu
+Um den "<Selbstaufruf"> von \texttt{list-sum} noch besser zu
 verstehen, betrachten wir noch einmal die Datendefinition für
 Listen zusammen mit der Datendefinition für Conse:
 
@@ -652,7 +652,7 @@ Sprachebene in \drscheme{} auszuwählen, nämlich \texttt{Schreibe Dein Programm
 Funktionen sowie den Signaturkonstruktor \texttt{list-of}\footnote{In Standard-Scheme heißt der Konstruktor für
   die eingebauten Conse \texttt{cons\index{cons@\texttt{cons}}}, die
   Selektoren \texttt{car\index{car@\texttt{car}}} und \texttt{cdr\index{cdr@\texttt{cdr}}}
-  (gesprochen "`kar"' und "`kudder"'; dies waren die Namen von Anweisungen auf einer
+  (gesprochen "<kar"> und "<kudder">; dies waren die Namen von Anweisungen auf einer
   Maschine, auf der ein Vorläufer von Scheme lief) und das Prädikat
   für die leere Liste \texttt{null?\index{null?@\texttt{null?}}}.} und eine
 eingebaute Funktion \texttt{list} zur Erzeugung beliebiger Listen.

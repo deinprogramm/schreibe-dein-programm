@@ -162,7 +162,7 @@ Hier sind zwei weitere Beispielbäume über ganzen Zahlen:
 \end{alltt}
 Als Beispiel für das Programmieren mit Bäumen dient die
 \textit{Tiefe}\index{Tiefe!eines Baumes}
-eines Binärbaums, also die maximale Anzahl von "`Ebenen"' im Bild des
+eines Binärbaums, also die maximale Anzahl von "<Ebenen"> im Bild des
 Binärbaums.  Hier sind Kurzbeschreibung, Signatur, Testfälle und
 Gerüst:\index{depth@\texttt{depth}}
 %
@@ -261,7 +261,7 @@ einer Menge von Daten: Es könnte sich um die Suche nach einer
 Telefonnummer, einer Primzahl oder einer schon geleisteten Aufgabe
 handeln.  Eine effiziente Realisierung für eine Suchfunktionalität
 sind \textit{Suchbäume\index{Suchbaum}}.  Ein Suchbaum besteht aus
-"`Elementen"': Neue Elemente können eingefügt werden, und für ein
+"<Elementen">: Neue Elemente können eingefügt werden, und für ein
 gegebenes Element kann festgestellt werden, ob es im Suchbaum
 vorhanden ist.
 
@@ -301,7 +301,7 @@ Markierung zu suchen.
 Für Suchbäume wird ein neuer Record-Typ
 definiert.\index{search-tree@\texttt{search-tree}} Zu einem Suchbaum
 gehören neben dem Baum selbst auch noch Operationen für
-Gleichheit und die "`Kleiner-als"'-Relation auf den Markierungen, beide repräsentiert durch
+Gleichheit und die "<Kleiner-als">-Relation auf den Markierungen, beide repräsentiert durch
 Prädikate (die zum Binärbaum und zueinander passen müssen).  Genau wie
 Bäume sind auch Suchbäume parametrisch:
 %
@@ -442,7 +442,7 @@ Zu \texttt{s2} paßt das folgende Bild:
 \end{center}
 \end{pspdf}
 %
-In diesem "`Suchbaum"' findet \texttt{search-tree-member?} zwar
+In diesem "<Suchbaum"> findet \texttt{search-tree-member?} zwar
 die 5, nicht aber die anderen beiden Elemente:\label{label:non-search-tree}
 %
 \begin{alltt}
@@ -454,7 +454,7 @@ die 5, nicht aber die anderen beiden Elemente:\label{label:non-search-tree}
 \evalsto{} #f
 \end{alltt}
 %
-Aus diesem Grund sollte \texttt{make-search-tree} nur "`intern"'
+Aus diesem Grund sollte \texttt{make-search-tree} nur "<intern">
 verwendet werden.   Ansonsten sollten nur die Funktionen \texttt{make"=empty"=search"=tree} und eine
 neue Funktion \texttt{search"=tree"=insert} verwendet werden, die
 ein neues Element in den
@@ -553,7 +553,7 @@ Die Funktion \texttt{search-tree-member?} muß für den Suchbaum in
 Abbildung~\ref{fig:searchtree} nicht alle Elemente nach dem gesuchten
 durchforsten; \texttt{search-tree-member?} sucht auf direktem Weg
 von der Wurzel des Suchbaums nach unten zum gesuchten Element.  Da pro
-weiterer "`Ebene"' eines Binärbaums jeweils doppelt soviele Elemente
+weiterer "<Ebene"> eines Binärbaums jeweils doppelt soviele Elemente
 Platz finden als in der vorhergehenden, wächst die Anzahl der Ebenen
 des Baums~-- die Tiefe also~-- nur mit dem Zweierlogarithmus der
 Anzahl der Elemente, also viel langsamer als zum Beispiel die Länge
@@ -770,7 +770,7 @@ die korrekte Funktionsweise von \texttt{search-tree-insert} und
 Beweis der Korrektheit noch besser:
 Es lohnt sich, etwas formaler über die
 Korrektheit von \texttt{search-tree-insert} nachzudenken.  Zunächst
-einmal ist es wichtig, zu formulieren, was der Begriff "`Korrektheit"'
+einmal ist es wichtig, zu formulieren, was der Begriff "<Korrektheit">
 im Zusammenhang mit \texttt{search-tree-insert} überhaupt bedeutet:
 %
 \begin{satz}\label{satz:suchbaum}

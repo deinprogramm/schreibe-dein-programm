@@ -8,8 +8,8 @@
 
 Bei den rekursiven Funktionen der vergangenen Kapitel war der Wert
 eines rekursiven Aufrufs stets unabhängig vom Kontext: Die Fakultät
-von 4 "`wußte nicht"', daß sie später noch mit 5 multipliziert wird,
-die Summe der Zahlen von 1 bis 4 "`wußte nicht"', daß später noch 5
+von 4 "<wußte nicht">, daß sie später noch mit 5 multipliziert wird,
+die Summe der Zahlen von 1 bis 4 "<wußte nicht">, daß später noch 5
 dazuaddiert wird, etc.  Manche Probleme sind aber so formuliert, daß
 bei der Berechnung ein Zwischenergebnis mitgeführt und aktualisiert
 wird.  Die Konstruktionsanleitungen für Funktionen, die Listen oder
@@ -137,7 +137,7 @@ das Invertieren sollte dem Computer leichtfallen.
 Tatsächlich gibt es eine bessere Methode, eine Liste umzudrehen: Die
 obige \texttt{invert}"=Funktion konstruiert die Ergebnisliste, indem
 stets Elemente \emph{hinten} angehängt werden.  Das entspricht 
-nicht der "`natürlichen"' Konstruktion von Listen mit
+nicht der "<natürlichen"> Konstruktion von Listen mit
 \texttt{cons}, das ein Element \emph{vorn} anhängt.  
 Das Ergebnis ließe sich aber durch Anhängen vorn ganz einfach
 konstruieren, und zwar, indem in folgender Reihenfolge
@@ -352,8 +352,8 @@ Zahlen verarbeiten, um einen Akkumulator erweitert:
       (!-helper n 1))))
 \end{verbatim}
 %
-Wie aus der Beispielrechnung ersichtlich ist, wird aus dem "`alten"'
-Zwischenergebnis das "`neue"' Zwischenergebnis, indem jeweils
+Wie aus der Beispielrechnung ersichtlich ist, wird aus dem "<alten">
+Zwischenergebnis das "<neue"> Zwischenergebnis, indem jeweils
 mit \texttt{n} multipliziert wird:
 %
 \begin{verbatim}
@@ -504,7 +504,7 @@ Demgegenüber hier der Prozeß ohne Akkumulator:
 \end{alltt}
 %
 Es ist deutlich sichtbar, daß die Version ohne Akkumulator alle
-Multiplikationen bis zum Schluß "`aufstaut"'.  Das heißt aber auch,
+Multiplikationen bis zum Schluß "<aufstaut">.  Das heißt aber auch,
 daß im Laufe des Berechnungsprozesses Ausdrücke auftauchen, die desto
 größer werden je größer das Argument von \texttt{!} ist: Bei
 \texttt{(!  100)} werden zum Beispiel 100 Multiplikationen aufgestaut.
@@ -517,7 +517,7 @@ mit Akkumulator nicht ein.
 Der Grund dafür sind die Schablonen: In der Schablone für Funktionen
 ohne Akkumulator steht \texttt{(... (proc (- n 1)) ...)}, das
 heißt, um den rekursiven Aufruf von \texttt{proc} wird noch
-etwas "`herumgewickelt"', oder, anders gesagt, mit dem Ergebnis des
+etwas "<herumgewickelt">, oder, anders gesagt, mit dem Ergebnis des
 rekursiven Aufrufs passiert noch etwas.  Das, was mit dem Ergebnis
 noch passiert, heißt der \textit{Kontext\index{Kontext}} des Aufrufs.
 Bei \texttt{!} ist der vollständige Ausdruck \texttt{(* n (! (- n
@@ -539,10 +539,10 @@ dieses Ausdrucks ist \texttt{[]}, also \emph{leer}~-- \emph{nichts}
 passiert mehr mit dem Rückgabewert von \texttt{!-helper}, und damit stauen
 sich auch bei der Reduktion keine Kontexte an.  Solche Funktionaufrufe
 ohne Kontext heißen \textit{endrekursiv\index{endrekursiv}}~-- eben,
-weil nach dem rekursiven Aufruf "`Ende"' ist.\footnote{Das Konzept des
+weil nach dem rekursiven Aufruf "<Ende"> ist.\footnote{Das Konzept des
   Aufrufs ohne Kontext ist nicht auf rekursive Aufrufe beschränkt.  Im
   Englischen heißen solche Aufrufe allgemeiner \textit{tail
-    calls\index{tail call}} (also ohne "`recursive"').}
+    calls\index{tail call}} (also ohne "<recursive">).}
 Die Berechnungsprozesse, die von endrekursiven Aufrufen generiert
 werden, heißen auch \textit{iterative\index{Iteration}} Prozesse.
 
@@ -552,14 +552,14 @@ Die beiden Varianten der Fakultäts-Funktion berechnen zwar beide
 stets das gleiche Ergebnis.  Die beiden Reduktionsfolgen für
 \texttt{(! 4)} aus dem vorigen Abschnitt zeigen allerdings, daß die
 beiden Funktionen bei der Berechnung unterschiedlich vorgehen:
-Während die Variante ohne Akkumulator "`von rechts"' multipliziert,
+Während die Variante ohne Akkumulator "<von rechts"> multipliziert,
 also folgendermaßen auswertet:
 %
 \begin{displaymath}
   4\cdot (3 \cdot (2 \cdot (1 \cdot 1)))
 \end{displaymath}
 %
-multipliziert die Variante mit Akkumulator "`von links"':
+multipliziert die Variante mit Akkumulator "<von links">:
 %
 \begin{displaymath}
   (((1 \cdot 4)\cdot 3)\cdot 2)\cdot 1

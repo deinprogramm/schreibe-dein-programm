@@ -31,8 +31,8 @@ vergleichen:
 \end{alltt}
 %
 \texttt{(< 0 5)} ist die Schreibweise für $0 < 5$.  Das
-\verb|#t| steht für "`true\index{true}"' oder "`wahr\index{wahr}"',
-denn die Aussage "`ist 0 kleiner als 5"' stimmt ja.
+\verb|#t| steht für "<true\index{true}"> oder "<wahr\index{wahr}">,
+denn die Aussage "<ist 0 kleiner als 5"> stimmt ja.
 Umgekehrt kommt natürlich nicht \verb|#t| heraus:
 %
 \begin{alltt}
@@ -40,15 +40,15 @@ Umgekehrt kommt natürlich nicht \verb|#t| heraus:
 \evalsto{} #f
 \end{alltt}
 %
-Das \verb|#f| steht für "`false\index{false}"' oder
-"`falsch\index{falsch}"', denn diese Aussage stimmt nicht.
+Das \verb|#f| steht für "<false\index{false}"> oder
+"<falsch\index{falsch}">, denn diese Aussage stimmt nicht.
 
-"`Wahr"' und "`falsch"' heißen zusammen \textit{boolesche
+"<Wahr"> und "<falsch"> heißen zusammen \textit{boolesche
   Werte\index{boolescher Wert}} oder auch
 \textit{Wahrheitswerte\index{Wahrheitswert}}.\footnote{Die booleschen
   Werte sind benannt nach \textit{George Boole} (1815--1864), der als
   erster einen algebraischen Ansatz für die Behandlung von Logik mit
-  den Werten "`wahr"' und "`falsch"' formulierte.}  Ein Ausdruck, bei
+  den Werten "<wahr"> und "<falsch"> formulierte.}  Ein Ausdruck, bei
 dem ein boolescher Wert herauskommt, heißt dementsprechend auch
 \textit{boolescher Ausdruck\index{boolescher Ausdruck}}.
 
@@ -59,12 +59,12 @@ die Bedingung \textit{gilt}~-- beziehungsweise, dass, wenn sie
 \verb|#f| liefert, sie \textit{nicht gilt}.
 
 \texttt{<}\index{<@\texttt{<}} ist eine eingebaute Funktion, die
-auf "`kleiner gleich"' testet, also dem mathematischen Operator $<$
+auf "<kleiner gleich"> testet, also dem mathematischen Operator $<$
 entspricht.  Ebenso gibt es auch \texttt{>}\index{>@\texttt{>}} für
-"`größer als"' (Mathematik: $>$), \texttt{=}\index{=@\texttt{=}} für
-"`gleich"' (Mathematik: $=$), \texttt{<=}\index{<@\texttt{<=}} für "`kleiner oder
-gleich"' (Mathematik: $\leq$) und \texttt{>=}\index{>=@\texttt{>=}}
-für "`größer oder gleich"' (Mathematik: $\geq$).
+"<größer als"> (Mathematik: $>$), \texttt{=}\index{=@\texttt{=}} für
+"<gleich"> (Mathematik: $=$), \texttt{<=}\index{<@\texttt{<=}} für "<kleiner oder
+gleich"> (Mathematik: $\leq$) und \texttt{>=}\index{>=@\texttt{>=}}
+für "<größer oder gleich"> (Mathematik: $\geq$).
 
 Analog zu \texttt{=} für Zahlen können Zeichenketten mit
 \texttt{string=?}\index{string=?@\texttt{string=?}} verglichen werden:
@@ -146,7 +146,7 @@ umdreht, sich also folgendermaßen verhält:
 
 Um Fallunterscheidungen zu demonstrieren, nehmen wir uns folgende
 Beispielaufgabe vor: Wir schreiben eine Funktion, die eine Zahl (auf
-Englisch) "`aufsagen"' soll.  Sie soll sich so verhalten:
+Englisch) "<aufsagen"> soll.  Sie soll sich so verhalten:
 %
 \begin{alltt}
 (say-number 0)
@@ -403,7 +403,7 @@ Eine weitere häufig vorkommende Art der Fallunterscheidung gibt es bei
 Zahlenbereichen.
 
 Um das zu demonstrieren, nehmen wir uns folgende Aufgabe vor: Wir
-schreiben eine Funktion, die "`Wasser erhitzt"', das heißt aus einer
+schreiben eine Funktion, die "<Wasser erhitzt">, das heißt aus einer
 Wasser-Anfangstemperatur und der Temperatur, die wir an Hitze hinzufügen, die
 resultierende Temperatur bestimmt.  Wir schreiben dazu drei Versionen der
 Funktion:
@@ -486,7 +486,7 @@ kopieren, aber den letzten müssen wir anpassen:
 \end{alltt}
 %
 Beim Testen ist es immer sinnvoll, auch Grenzfälle zu testen~--
-schaltet die Funktion wirklich "`rum"', wenn die 100 erreicht sind.
+schaltet die Funktion wirklich "<rum">, wenn die 100 erreicht sind.
 Dazu dienen folgende zwei Testfälle:
 %
 \begin{alltt}
@@ -562,7 +562,7 @@ Fertig!
   funktioniert das Programm dann immer noch?
 \end{aufgabe}
 %
-\paragraph{Siendendes Wasser und Eis} Kommen wir zur "`Vollversion"'.
+\paragraph{Siendendes Wasser und Eis} Kommen wir zur "<Vollversion">.
 Zur Erinnerung: Da müssen wir noch berücksichtigen, dass gefrorenem
 Wasser von 0°C eine Hitze von 80°C hinzugefügt werden muss, damit es
 schmilzt und dann immer noch hat 0°C.  
@@ -625,11 +625,11 @@ Eingaben zerfallen.  Da gibt es drei naheliegende Fälle:
   Erwärmung flüssig.
 \end{enumerate}
 %
-Der erste Fall hat außerdem noch drei "`Unterfälle"':
+Der erste Fall hat außerdem noch drei "<Unterfälle">:
 %
 \begin{itemize}
 \item Die Erwärmumg bleibt unter 0°C.
-\item Die Erwärmung bleibt bei  0°C "`stecken"'
+\item Die Erwärmung bleibt bei  0°C "<stecken">
 \item Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
 \end{itemize}
 %
@@ -754,13 +754,13 @@ Die Bedingungen sind jetzt noch komplizierter, aber erschließen sich
 hoffentlich durch genauere Betrachtungen:
 %
 \begin{itemize}
-\item "`Die Erwärmumg bleibt unter 0°C."'\\
+\item "<Die Erwärmumg bleibt unter 0°C.">\\
   Das heißt, die Summe von
   Anfangstemperatur und Erwärmung ist kleiner als 0°C.
-\item "`Die Erwärmung bleibt bei  0°C stecken."'\\
+\item "<Die Erwärmung bleibt bei  0°C stecken.">\\
   Das heißt, die Summe von Temperatur und Erwärmung muss zwischen 0°C
   und 80°C liegen.
-\item "`Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus."'\\
+\item "<Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.">\\
   Das Summe von Temperatur und Erwärmung geht nicht nur über 0°C
   sondern auch über 80°C hinaus.
 \end{itemize}
@@ -833,7 +833,7 @@ Ausdruck des Zweiges weiter.  Die restlichen Zweige werden gar nicht
 mehr berücksichtigt, unabhängig davon, ob sie \verb|#t| ergeben
 könnten oder nicht.
 Das können wir ausnutzen, um die Funktion weiter zu vereinfachen.
-Dazu betrachten wir die beiden ersten Bedingungen im "`inneren"'
+Dazu betrachten wir die beiden ersten Bedingungen im "<inneren">
 \texttt{cond}:
 %
 \begin{alltt}
@@ -881,7 +881,7 @@ Bedeutung der Ausdrücke nachdenken sondern nur Gleichungen benutzen,
 wie oft in der Mathematik.
 
 Wir sind aber mit dem Vereinfachen noch nicht fertig. Betrachten wir
-nun die drei "`äußeren"' Bedingungen:
+nun die drei "<äußeren"> Bedingungen:
 %
 \begin{alltt}
     (cond
@@ -906,9 +906,9 @@ Wir können die Funktion mit dieser Einsicht vereinfachen und \verb|#t|
 als Bedingung hinschreiben.  (Probier es aus!)  Allerdings finden
 manche das hässlich: Darum ist es auch möglich, statt \verb|#t| das
 besondere Wort \texttt{else\index{else@\texttt{else}}}
-("`andernfalls"' auf Englisch) hinzuschreiben.
+("<andernfalls"> auf Englisch) hinzuschreiben.
 Der \texttt{else}-Zweig kommt also zum Zug, wenn alle anderen
-"`durchgefallen"' sind.  Das Ergebnis sieht
+"<durchgefallen"> sind.  Das Ergebnis sieht
 dann so aus:
 %
 \begin{verbatim}
@@ -988,7 +988,7 @@ sehen wir, dass zunächst der erste Zweig des äußeren \texttt{cond}
 greift, weil die Bedingung \verb|(< temp 0)| als Wert \verb|#t| hat.
 Im inneren \texttt{cond} schließlich ergeben die ersten beiden
 Bedingungen jeweils \verb|#f|, es bleibt also der \texttt{else}-Zweig,
-und addiert die Wärme "`blind"' auf die Anfangstemperatur.
+und addiert die Wärme "<blind"> auf die Anfangstemperatur.
 
 Wir müssen also unser Programm korrigieren, weil dieser Fall noch
 nicht berücksichtigt ist: Die Anfangstemperatur ist unter 0°C, die
@@ -1042,7 +1042,7 @@ Die Vorgehensweise bei einer Datenanalyse sieht im allgemeinen so aus:
   offensichtlich.
 \end{konstruktionsanleitung}
 %
-In diesem Fall ist "`Haustier"' eine problemrelevante Größe, zu der
+In diesem Fall ist "<Haustier"> eine problemrelevante Größe, zu der
 wir eine Datendefinition geschrieben haben.  Zum Bei der Erwärmung von
 Wasser haben wir allerdings nicht extra hingeschrieben, dass die
 Wassertemperatur eine reelle Zahl ist, weil dies allgemein bekannt
@@ -1050,8 +1050,8 @@ ist,
 
 Für die Formulierung der Datendefinition gibt es eine Reihe von
 typischen Mustern, die sich immer wiederfinden.  Eins ist bei der
-Definition von "`Haustier"' ersichtlich, nämlich "`eins der
-folgenden"', das darauf hinweist, dass es sich bei "`Haustier"' um
+Definition von "<Haustier"> ersichtlich, nämlich "<eins der
+folgenden">, das darauf hinweist, dass es sich bei "<Haustier"> um
 eine Aufzählung handelt.  Später werden wir noch andere Arten
 von Daten beschreiben zusammen mit den dazu passenden Formulierungen
 in den Datendefinitionen.
@@ -1066,7 +1066,7 @@ aus der Datendefinition zunächst eine Signaturdefinition abgeleitet:
   (signature (one-of "Katze" "Hund" "Schlange")))
 \end{verbatim}
 %
-Da die Datendefinition für "`Haustier"' drei Fälle hat, muss auch die
+Da die Datendefinition für "<Haustier"> drei Fälle hat, muss auch die
 Signaturdefinition drei Fälle haben.  Aus der Signaturdefinition
 ergibt sich direkt eine Verzweigung im Rumpf, die sich nur aus der
 Signatur \texttt{(pet -> boolean)} beziehungsweise der
@@ -1145,7 +1145,7 @@ alles aufgeht.  Was am Ende übrigbleibt, ist oft erstaunlich einfach.
 In der Mathematik gibt es auch Verzweigungen.  Diese werden in der
 Regel mit einer großen geschweiften Klammer geschrieben.  In der
 Mathematik ist es allerdings üblich, alle Bedingungen
-"`auszuschreiben"', also ihre Bedeutung nicht von der Reihenfolge der
+"<auszuschreiben">, also ihre Bedeutung nicht von der Reihenfolge der
 Auswertung abhängig zu machen, wie wir es bei \texttt{heat-water}
 getan haben.  Die Funktion schreiben wir den mathematischen
 Gepflogenheiten entsprechend als einbuchstabige Funktion $h$ mit
@@ -1244,8 +1244,8 @@ Spezialfall: Der zweite Fall ist gerade dadurch definiert, dass er
 nicht der erste ist, der entsprechende \texttt{cond}-Ausdruck hat also
 immer einen Zweig mit Bedingung und einen mit \texttt{else}-Zweig.
 Weil solche binären Verzweigungen so häufg vorkommen, gibt es eine
-etwas kürzere Spezialform für das "`binäre \texttt{cond} mit
-\texttt{else}"' namens \texttt{if}\index{if@\texttt{if}}.  Damit
+etwas kürzere Spezialform für das "<binäre \texttt{cond} mit
+\texttt{else}"> namens \texttt{if}\index{if@\texttt{if}}.  Damit
 können wir \texttt{exchange-for-cute} etwas kürzer schreiben:
 %
 \begin{verbatim}
@@ -1279,7 +1279,7 @@ oder der Wert der Alternative.
 \end{feature}
 %
 \begin{aufgabe}
-  In der Mathematik gibt den Begriff des "`Absolutbetrags"' einer
+  In der Mathematik gibt den Begriff des "<Absolutbetrags"> einer
   Zahl: Für eine negative Zahl liefert es die entsprechende positive
   Zahl (aus $-5$ wird also $5$), alle anderen Zahlen bleiben
   unverändert.  Schreibe eine Funktion, die den Absolutbetrag einer
@@ -1306,7 +1306,7 @@ Konstruktionsanleitung:
 
 \section{Syntaktischer Zucker}
 
-Tatsächlich ist \texttt{if} die "`primitivere"' Form als
+Tatsächlich ist \texttt{if} die "<primitivere"> Form als
 \texttt{cond}: jede \texttt{cond}-Form kann in eine äquivalente
 \texttt{if}-Form übersetzt werden, und zwar nach
 folgendem Schema:
@@ -1450,7 +1450,7 @@ wenn die Auswertung einen Fehler liefert:
 \section*{Aufgaben}
 
 \begin{aufgabe}
-Zu den "`Flensburg"'-Punkten, die es bei Verstößen gegen die
+Zu den "<Flensburg">-Punkten, die es bei Verstößen gegen die
 Straßenverkehrsordnung gibt, hat eine Seite im Internet folgendes zu
 sagen:
 %

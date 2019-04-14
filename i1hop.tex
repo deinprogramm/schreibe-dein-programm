@@ -112,7 +112,7 @@ immer schlecht, vor allem vor dem Gesichtspunkt der Wartbarkeit von
 Programmen. Wenn etwa der Deutsche Fußballbund die Regeln für die Vergabe von
 Punkten ändern sollte, müssten hier beide Funktionen in gleicher Weise
 angepasst werden.  Die Lösung für das Problem zeigt sich dadurch, dass der
-gemeinsame Code aus den beiden Funktionen "`ausfaktorisiert"' wird. 
+gemeinsame Code aus den beiden Funktionen "<ausfaktorisiert"> wird. 
 
 Musterbildung\index{Musterbildung} ist eine der wichtigsten Abstraktionstechniken, und deshalb gibt
 es ein eigenes Mantra:
@@ -346,7 +346,7 @@ Vorteilen:
   korrekt.
 \end{itemize}
 %
-Damit diese Vorteile zur Geltung kommen, müssen die "`alten"'
+Damit diese Vorteile zur Geltung kommen, müssen die "<alten">
 Abstraktionsvorlagen gelöscht und durch Anwendungen der Abstraktion
 ersetzt werden:
 %
@@ -497,7 +497,7 @@ Infix-Schreibweise also:
 Nach dieser Sichtweise wird $\odot$ zwischen die Elemente der Liste
 eingefügt.
 
-In jedem Fall wird die Liste "`eingefaltet"'~-- daher der Name.
+In jedem Fall wird die Liste "<eingefaltet">~-- daher der Name.
 
 Die Definition von \texttt{concatenate} aus
 Abschnitt~\ref{sec:more-lists} paßt ebenfalls auf das abstrahierte
@@ -586,8 +586,8 @@ Meist tauchen Lambda-Ausdrücke zwar als Teil von Funktiondefinition
 auf, aber es ist natürlich möglich, Funktionen außerhalb einer
 Definition zu verwenden, ohne ihnen einen Namen zu geben.  Dafür gab
 es schon in Kapitel~\ref{cha:whats-programming} Beispiele. Mit Hilfe
-solcher "`anonymer Funktionen\index{anonyme
-  Funktion}\index{Funktion!anonym}"' läßt sich auch \texttt{list-filter}
+solcher "<anonymer Funktionen\index{anonyme
+  Funktion}\index{Funktion!anonym}"> läßt sich auch \texttt{list-filter}
 durch \texttt{list-fold} definieren:
 %
 \begin{alltt}
@@ -631,7 +631,7 @@ nicht mit separaten Hilfsfunktionen schreiben.  Für
 \end{alltt}
 %
 In \drscheme{} erscheint bei dieser Definition eine Fehlermeldung 
-"`\texttt{unbound variable}"' und \texttt{p?} wird rosa markiert.  Das
+"<\texttt{unbound variable}"> und \texttt{p?} wird rosa markiert.  Das
 liegt daran, daß \texttt{p?} weiter außen im \texttt{lambda} von
 \texttt{filter} gebunden ist.  Dieses \texttt{p?} ist aber nach den
 Regeln der lexikalischen Bindung\index{lexikalische Bindung} (siehe
@@ -749,12 +749,12 @@ Das geht auch ohne Zwischendefinitionen:
 \end{alltt}
 %
 \texttt{Make-add} ist eine andere Version von \texttt{+}, nämlich
-eine, die zwei Argumente nicht "`auf einmal"' akzeptiert, sondern
-"`nacheinander"'.  Summen von zwei Zahlen, normalerweise geschrieben
+eine, die zwei Argumente nicht "<auf einmal"> akzeptiert, sondern
+"<nacheinander">.  Summen von zwei Zahlen, normalerweise geschrieben
 als \texttt{(+ $a$ $b$)} lassen sich auch als \texttt{((make-add $a$)
   $b$)} schreiben.  Diese Transformation von einer Funktion mit zwei
 Parametern in eine Funktion mit nur einem Parameter, die eine Funktion
-mit einem weiteren Parameter zurückgibt, die dann schließlich den "`Wert"'
+mit einem weiteren Parameter zurückgibt, die dann schließlich den "<Wert">
 liefert, läßt sich auch auf andere Funktionen anwenden:\index{make-mult@\texttt{make-mult}}\index{make-prepend@\texttt{make-prepend}}
 %
 \begin{alltt}
@@ -912,8 +912,8 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   Hier ein Beispiel:
   % 
   \begin{quote}
-    "`In der Saison 2009/2010 gab es ja immerhin vier Spieltage, an
-    denen die größte Tordifferenz kleiner als 3 war."'
+    "<In der Saison 2009/2010 gab es ja immerhin vier Spieltage, an
+    denen die größte Tordifferenz kleiner als 3 war.">
   \end{quote}
   %
 \begin{enumerate}
@@ -936,7 +936,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     Funktion, die zwei Elemente der Liste akzeptiert und
     zurückliefert, ob diese gleich sind.  (Also zum Beispiel
     \texttt{=} bei Listen von Zahlen.)  Sie liefert dann eine Liste,
-    in der jedes Element "`nur einmal vorkommt"', also kein anderes,
+    in der jedes Element "<nur einmal vorkommt">, also kein anderes,
     das dazu gleich ist.
   \item Schreiben Sie eine Funktion, die aus der Liste aller Spiele
     eine Liste aller Spielplannummern extrahiert.
@@ -947,8 +947,8 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     Spiels zurückliefert.
   \item Schreiben Sie eine Funktion, welche das maximale Element einer
     Liste berechnet.  Die Funktion sollte neben der Liste eine
-    Funktion akzeptieren, die berechnet, ob ein Element "`kleiner oder
-    gleich"' einem anderen ist.
+    Funktion akzeptieren, die berechnet, ob ein Element "<kleiner oder
+    gleich"> einem anderen ist.
   \item Schreiben Sie schließlich einen Ausdruck, der die Anzahl der
     Spieltage der Saison 2009/2010 liefert, bei denen die größte
     Tordifferenz kleiner als 3 war.
@@ -972,7 +972,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 
 \begin{aufgabe}
   \texttt{List-fold} sammelt die Elemente von hinten nach vorn bzw.
-  von rechts nach links auf, entsprechend der "`natürlichen"'
+  von rechts nach links auf, entsprechend der "<natürlichen">
   Rekursionsstruktur über Listen.  Das gleiche Spiel läßt sich auch in
   der anderen Richtung durchführen.  Heraus kommt eine Funktion
   \texttt{list-fold-left}, die folgende Gleichung (in

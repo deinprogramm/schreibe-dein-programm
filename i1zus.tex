@@ -52,8 +52,8 @@ Anders gesagt, der Computer ein Computer\index{Computer} \emph{besteht aus}:
 Natürlich besteht ein Computer auch noch aus anderen Teilen, die
 aber (zumindest in diesem Beispiel) immer gleich sind.  In einer Bestellung muß
 die Kundin also nur diese drei Bestandteile angeben.  Wir nehmen an,
-dass es beim Prozessor nur auf den Namen ("`Athlon"', "`Xeon"',
-"`Cell"', \ldots) ankommt, beim RAM nur auf die Größe in Gigabyte, und
+dass es beim Prozessor nur auf den Namen ("<Athlon">, "<Xeon">,
+"<Cell">, \ldots) ankommt, beim RAM nur auf die Größe in Gigabyte, und
 auch bei der Festplatte nur auf die Größe in Gigabyte.  Eine
 vereinfachte Darstellung könnte so aussehen:
 %
@@ -76,7 +76,7 @@ Bestandteile und ist damit zusammengesetzt.  Der Computerhändler wird
 viele Computer nach diesem Schema ausliefern, bei denen allesamt
 Prozessor, RAM und Festplatte von den Kundinnen bestimmt wird.  Solche
 Informationen, die alle dem gleichen Schema folgen, können also nach
-"`Typ"' sortiert werden, wobei der Typ
+"<Typ"> sortiert werden, wobei der Typ
 festlegt, um was für eine Art Information es geht und aus welchen
 Teilen sie zusammengesetzt ist.  In der obigen Tabelle ist das
 \textit{Feld} die Allgemeinbezeichnung für ein Bestandteil, das
@@ -99,9 +99,9 @@ des Typs haben.
 \end{verbatim}
 
 Der Record-Typ für Computer sieht feste Felder\index{Feld}
-vor ("`Prozessor"', "`RAM"' und "`Festplatte"').  Ein einzelner Record
+vor ("<Prozessor">, "<RAM"> und "<Festplatte">).  Ein einzelner Record
 dieses Typs besteht aus Komponenten\index{Komponente}, eine pro
-Feld. (In diesem Fall "`\texttt{Cell}"', $8$ und $250$.)
+Feld. (In diesem Fall "<\texttt{Cell}">, $8$ und $250$.)
 Der Record-Typ für Computer ist in der DeinProgramm-Sprachen
 \texttt{Anfänger} eingebaut.\footnote{Weiter hinten in diesem Kapitel
   beschreiben wir, wie ein Programm eigene Record-Typen definieren
@@ -128,7 +128,7 @@ hergestellt:
 Die drei Eingaben sind respektive Prozessor, RAM und Festplatte.
 \texttt{Make-computer} macht daraus einen Wert der eingebauten Sorte
 \texttt{computer} der Computer-Records.  Da \texttt{make-computer}
-einen Computer-Record "`konstruiert"', heißt die Funktion auch
+einen Computer-Record "<konstruiert">, heißt die Funktion auch
 \textit{Konstruktor\index{Konstruktor}}.
 
 Mit der Schreibweise
@@ -247,7 +247,7 @@ Record akzeptiert.  Umgekehrt gibt es auch Funktionen, die Records
 produzieren.  Angenommen, unser Computerhändler bietet neben der
 Einzelkonfiguration von Prozessor, Hauptspeicher und Festplatte einige
 Standardmodelle an~-- sagen wir, ein Billigmodell, ein Modell für
-Profis (was immer eine "`Profi"' sein mag) und ein Modell für
+Profis (was immer eine "<Profi"> sein mag) und ein Modell für
 Computerspieler.  Je nachdem, welches der Modelle der Kunde auswählt,
 muß die entsprechende Konfiguration zusammengesetzt werden.  Für die
 Standardkonfiguration gibt es drei feste Möglichkeiten, es handelt
@@ -418,7 +418,7 @@ ein karges Gerüst hinschreiben:\index{wallclock-time@\texttt{wallclock-time}}
 \end{verbatim}
 %
 Als nächstes müssen wir festlegen, \emph{wie viele} Bestandteile die
-Records haben sollen.  In diesem Fall ("`Stunde und Minute"`) sind es
+Records haben sollen.  In diesem Fall ("<Stunde und Minute"<) sind es
 zwei.  Wir können das Gerüst entsprechend erweitern:
 %
 \begin{verbatim}
@@ -646,9 +646,9 @@ FIXME: Verweis auf Anhang
 
 \subsection{Datenanalyse für zusammengesetzte Daten}
 
-Zusammengesetzte Daten kannst Du an Formulierungen wie "`ein $X$
-besteht aus~\ldots"', "`ein $X$ ist charakterisiert durch~\ldots"'
-oder "`ein $X$ hat~\ldots"' erkennen.  Manchmal lautet die
+Zusammengesetzte Daten kannst Du an Formulierungen wie "<ein $X$
+besteht aus~\ldots">, "<ein $X$ ist charakterisiert durch~\ldots">
+oder "<ein $X$ hat~\ldots"> erkennen.  Manchmal lautet die
 Formulierung etwas anders.  Die daraus resultierende Datendefinition
 ist ein Kommentar im Programm in folgender Form:
 %
@@ -774,11 +774,11 @@ Record-Definition machen:
   (dillo-alive? boolean))
 \end{verbatim}
 %
-("`Dillo"' steht kurz für "`Armadillo"', englisch für Gürteltier.)
+("<Dillo"> steht kurz für "<Armadillo">, englisch für Gürteltier.)
 
 Für das Feld \texttt{alive?} könnten wir unterschiedliche Repräsentationen
 wählen: Eine Aufzählung wäre möglich; die Autoren haben sich für einen
-booleschen Wert entschieden, der die Frage "`Lebt das Gürteltier?"'
+booleschen Wert entschieden, der die Frage "<Lebt das Gürteltier?">
 beantwortet.  Hier sind die Signaturen für die Record-Funktionen:
 %
 \begin{verbatim}
@@ -857,8 +857,8 @@ bei toten: eine Fallunterscheidung.  Entsprechend brauchen wir eine
 Verzweigung im Rumpf, und zwar nach dem Wert von \texttt{(dillo-alive?
   d)}, der glücklicherweise schon in der Schablone steht.
 
-Da sich der Fall "`Gürteltier tot"' dadurch definiert, dass der
-Fall "`Gürteltier lebendig"' nicht eintritt, ist die binäre Verzweigung
+Da sich der Fall "<Gürteltier tot"> dadurch definiert, dass der
+Fall "<Gürteltier lebendig"> nicht eintritt, ist die binäre Verzweigung
 nach Konstruktionsanleitung~\ref{ka:boolesche-fallunterscheidung} auf
 Seite~\pageref{ka:boolesche-fallunterscheidung} angemessen:
 %
@@ -873,7 +873,7 @@ Seite~\pageref{ka:boolesche-fallunterscheidung} angemessen:
 \end{verbatim}
 %
 Nun müssen wir noch die beiden Zweige ergänzen.  Am
-einfachsten ist "`Gürteltier tot"', dann nämlich kommt
+einfachsten ist "<Gürteltier tot">, dann nämlich kommt
 das gleiche Gürteltier aus der Funktion, das hineingegangen ist.  Wir
 setzen also \texttt{d} als Alternative der Verzweigung ein:
 %
@@ -1061,7 +1061,7 @@ Fertig!
 
   \item Schreibe eine Funktion \texttt{reserve}, die als Argumente einen Eintrag und einen
     Dozentennamen konsumiert und einen Eintrag zurückgibt. Falls der Raum noch nicht belegt
-    wurde (d.h. im Eintrag ist der Dozentenname "`"'), soll der Raum reserviert werden und
+    wurde (d.h. im Eintrag ist der Dozentenname "<">), soll der Raum reserviert werden und
     damit ein neuer Eintrag zurückgegeben werden, bei dem der Dozentenname gesetzt ist.
     Andernfalls wird der Eintrag unverändert zurückgegeben.
   \end{enumerate}
@@ -1180,8 +1180,8 @@ Fertig!
     Datentyp soll den Typ, das Nummernschild und die Schadstoffklasse des
     Fahrzeuges beinhalten.
   \item Erstelle die Beispielfahrzeuge für die
-    Fahrzeugtypen "'Stadtbus"', "'Reisebus"', "'Dieselauto"'
-    und "'Benzinauto"'. Gehe davon aus, dass die Busse der
+    Fahrzeugtypen ">Stadtbus">, ">Reisebus">, ">Dieselauto">
+    und ">Benzinauto">. Gehe davon aus, dass die Busse der
     Schadstoffklasse~2, das Dieselauto der Schadstoffklasse~3 und das
     Benzinauto der Schadstoffklasse~4 angehören.
   \item Schreibe eine Funktion \texttt{fahrverbot?},
