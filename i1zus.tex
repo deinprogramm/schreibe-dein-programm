@@ -24,7 +24,7 @@ Ding \textit{mehrere Eigenschaften} hat:
 \item Ein Lautsprecher hat Minimal- und Maximalfrequenz.
 \end{itemize}
 %
-Um solche Informationen abzubilden, führt dieses Kapitel eine neue Art
+Um solche Informationen abzubilden, führen wir in diesem Kapitel eine neue Art
 Daten ein, die \textit{zusammengesetzten
   Daten}\index{zusammengesetzten Daten}.
 
@@ -37,11 +37,11 @@ die Festplatte oder die Größe des RAM"=Hauptspeichers:
 %
 \begin{center}
   \medskip
-  \includegraphics[height=0.3\textheight]{computer}
+  \includegraphics[height=0.3\textheight]{i1zus/computer}
   \medskip
 \end{center}
 %
-Anders gesagt, der Computer ein Computer\index{Computer} \emph{besteht aus}:
+Anders gesagt, ein Computer\index{Computer} \emph{besteht aus}:
 %
 \begin{itemize}
 \item Prozessor
@@ -50,22 +50,33 @@ Anders gesagt, der Computer ein Computer\index{Computer} \emph{besteht aus}:
 \end{itemize}
 %
 Natürlich besteht ein Computer auch noch aus anderen Teilen, die
-aber (zumindest in diesem Beispiel) immer gleich sind.  In einer Bestellung muß
-die Kundin also nur diese drei Bestandteile angeben.  Wir nehmen an,
-dass es beim Prozessor nur auf den Namen ("<Athlon">, "<Xeon">,
-"<Cell">, \ldots) ankommt, beim RAM nur auf die Größe in Gigabyte, und
-auch bei der Festplatte nur auf die Größe in Gigabyte.  Eine
-vereinfachte Darstellung könnte so aussehen:
+aber (zumindest in diesem Beispiel) immer gleich oder irrelevant sind.
+In einer Bestellung muss die Kundin also nur diese drei Bestandteile
+angeben.  Wir nehmen an, dass es beim Prozessor nur auf den Namen
+("<Athlon">, "<Xeon">, "<Cell">, \ldots) ankommt, beim RAM nur auf die
+Größe in Gigabyte, und auch bei der Festplatte nur auf die Größe in
+Gigabyte.
+
+Wir können daraus eine amtliche Datendefinition machen:
+%
+\begin{alltt}
+; Ein Computer besteht aus:
+; - Prozessor
+; - Hauptspeicher-Kapazität in Gbyte
+; - Festplatten-Kapazität in Gbyte
+\end{alltt}
+%
+Wichtig ist hier die Formulierung "<besteht aus">, die auf
+zusammengesetzte Daten hindeutet.  Die Daten, die aus so einer
+Datendefinition für zusammengesetzte Daten entstehen, können als
+Tabelle dargestellt werden:
 %
 \begin{center}
-  Computer:
+  Computer\qquad
   \begin{tabular}[c]{r|l}
     \textbf{Feld} & \textbf{Komponente}\\\hline
-    \hline
      Prozessor & \verb|"Cell"|\\
-     \hline
      RAM & 8\\
-    \hline 
     Festplatte & 250
   \end{tabular}
 \end{center}
@@ -90,29 +101,38 @@ zu einem bestimmten
 Sorte Information repräsentiert wird und welche Felder die Records
 des Typs haben.
 
-\begin{verbatim}
-(define-record-functions computer
-  make-computer
-  (computer-processor  string)
-  (computer-ram        rational)
-  (computer-hard-drive rational))
-\end{verbatim}
-
 Der Record-Typ für Computer sieht feste Felder\index{Feld}
 vor ("<Prozessor">, "<RAM"> und "<Festplatte">).  Ein einzelner Record
 dieses Typs besteht aus Komponenten\index{Komponente}, eine pro
 Feld. (In diesem Fall "<\texttt{Cell}">, $8$ und $250$.)
-Der Record-Typ für Computer ist in der DeinProgramm-Sprachen
-\texttt{Anfänger} eingebaut.\footnote{Weiter hinten in diesem Kapitel
-  beschreiben wir, wie ein Programm eigene Record-Typen definieren
-  kann.}
 
-Für jeden Record-Typ gibt es Funktionen, mit denen Records
-zusammengebaut und auch wieder auseinandergenommen werden können.
-Analog zum Zusammenbauen eines Computer mit Cell-Prozessor, 8 Gigabyte
-RAM und 250 Gigabyte Festplatte wird der dazugehörige Record mit der
-eingebauten Funktion \texttt{make-computer} folgendermaßen
-hergestellt:
+Record-Typen müssen in einem Programm explizit mit Hilfe einer
+speziellen \textit{Record-Definition}\index(Record-Definition} definiert werden, die mit
+\texttt{define-record-functions} beginnt.  Hier ist die
+Record-Definition für
+Computer:\index{define-record-functions@\texttt{define-record-functions}}
+%
+\begin{verbatim}
+(define-record-functions computer
+  make-computer
+  (computer-processor  string)
+  (computer-ram        natural)
+  (computer-hard-drive natural))
+\end{verbatim}
+%
+Diese etwas komplizierte Form erläutern wir Schritt für Schritt.  Sie
+heißt \texttt{define-record-functions}, weil sie gleich mehrere
+Funktionen definiert, die mit Records zu tun haben.  Als erstes nach
+dem \texttt{define-record-functions} steht der Name des Record-Typs,
+\texttt{computer}.  Die Record-Definition bindet \texttt{computer}
+an eine Signaturen für Computer-Records.
+
+Als nächstes in der Record-Definition kommt \texttt{make-computer},
+der Name einer Funktion, die für die \textit{Konstruktion} eines
+Computer-Records zuständig ist.  Analog zum Zusammenbauen eines
+Computer mit Cell-Prozessor, 8 Gigabyte RAM und 250 Gigabyte
+Festplatte wird der dazugehörige Record mit der eingebauten Funktion
+\texttt{make-computer} folgendermaßen hergestellt:
 %
 \begin{alltt}
 (make-computer "Cell" 8 250)
@@ -122,7 +142,7 @@ hergestellt:
 \texttt{Make-computer} hat folgende Signatur:
 %
 \begin{alltt}
-(: make-computer (string rational rational -> computer))
+(: make-computer (string natural natural -> computer))
 \end{alltt}
 %
 Die drei Eingaben sind respektive Prozessor, RAM und Festplatte.
@@ -137,7 +157,7 @@ Mit der Schreibweise
 #<record:... ...>
 \end{verbatim}
 %
-werden Record-Typ und Komponenten sichtbar.
+werden Record-Typ und ihre Komponenten in der REPL sichtbar.
 
 Computer-Records sind Werte wie andere auch und lassen sich zum Beispiel an
 Variablen binden:
@@ -159,7 +179,8 @@ Umgekehrt zur Konstruktion nehmen manche Bastler aus dem Computer die
 Einzelteile wieder heraus, zum Beispiel, um sie in einem anderen
 Computer zu verbauen. Für dieses Herausnehmen sind die Funktionen
 \texttt{computer"=processor}, \texttt{computer"=ram} und
-\texttt{computer-hard-drive} zuständig:
+\texttt{computer-hard-drive} zuständig, die von der
+Record-Definition definiert werden:
 %
 \begin{alltt}
 (computer-processor gamer)
@@ -175,19 +196,37 @@ folgende Signaturen:
 %
 \begin{alltt}
 (: computer-processor (computer -> string))
-(: computer-ram (computer -> rational))
-(: computer-hard-drive (computer -> rational))
+(: computer-ram (computer -> natural))
+(: computer-hard-drive (computer -> natural))
 \end{alltt}
 %
-Mit Hilfe des Konstruktors und der Selektoren kann der Programmierer
-weitergehende Funktionen definieren.  Für den Anfang könnte das
+Genau genommen sind diese Signaturen redundant: In der
+Record-Definition steht ja schon, dass die Felder die Signaturen
+\texttt{string}, \texttt{natural} und \texttt{natural} sind.  Jeder
+Selektor hat \texttt{computer} als Eingabe und die jeweilige
+Feld-Signatur als Ausgabe.  Genauso ist es mit der Signatur des
+Konstruktors.
+%
+\begin{aufgabe}
+  Wie ist der Zusammenhang zwischen der Record-Definition und der
+  Signatur des Konstruktors?
+\end{aufgabe}
+%
+Trotzdem ist es zumindest am Anfang hilfreich, sich die Arbeitsweise
+von Konstruktor und Selektoren anhand ihrer Signaturen klarzumachen.
+Wir schreiben sie darum in diesem Kapitel noch hin, danach nicht mehr.
+
+Mit Hilfe des Konstruktors und der Selektoren können wir weitergehende
+Funktionen definieren.
+Für den Anfang könnte das
 eine Funktion sein, die den Gesamtspeicher eines Computers berechnet,
 also Hauptspeicher und Festplattenspeicher zusammen.
-Eine solche Funktion müßte Kurzbeschreibung und Signatur wie folgt haben:\index{total-memory@\texttt{total-memory}}
+Eine solche Funktion müßte Kurzbeschreibung und Signatur wie folgt
+haben:\index{total-memory@\texttt{total-memory}} 
 %
 \begin{alltt}
 ; Gesamtspeicher berechnen
-(: total-memory (computer -> rational))
+(: total-memory (computer -> natural))
 \end{alltt}
 %
 Hier sind unsere Erwartungen an \texttt{total-memory}, als Testfälle
@@ -198,7 +237,7 @@ formuliert:
 (check-expect (total-memory gamer) 1004)
 \end{alltt}
 % 
-Das Gerüst müßte folgendermaßen sein:
+Das Gerüst ist wie folgt:
 %
 \begin{alltt}
 (define total-memory
@@ -249,17 +288,31 @@ Einzelkonfiguration von Prozessor, Hauptspeicher und Festplatte einige
 Standardmodelle an~-- sagen wir, ein Billigmodell, ein Modell für
 Profis (was immer eine "<Profi"> sein mag) und ein Modell für
 Computerspieler.  Je nachdem, welches der Modelle der Kunde auswählt,
-muß die entsprechende Konfiguration zusammengesetzt werden.  Für die
+muss die entsprechende Konfiguration zusammengesetzt werden.  Für die
 Standardkonfiguration gibt es drei feste Möglichkeiten, es handelt
 sich hier also um eine Aufzählung.
 
+Für die Aufzählung machen wir erst einmal~-- nach
+Konstruktionsanleitung~\ref{ka:aufzaehlung} auf
+Seite~\pageref{ka:aufzaehlung}~-- eine Daten- und eine
+Signatur-Definition:
+%
+\begin{verbatim}
+; Ein Modell ist eins der folgenden:
+; - Billigmodell
+; - Profi-Modell
+; - Gamer-Modell
+(define model
+  (signature
+   (one-of "cheap" "professional" "gamer")))
+\end{verbatim}
+%
 Eine Funktion, die zu einer Standardkonfiguration den passenden
-Computer fertigt, könnte folgende Kurzbeschreibung und Signatur haben:
+Computer fertigt, könnte damit folgende Kurzbeschreibung und Signatur haben:
 %
 \begin{verbatim}
 ; Standard-Computer zusammenstellen
-(: standard-computer
-   ((one-of "cheap" "professional" "game") -> computer))
+(: standard-computer (model -> computer))
 \end{verbatim}
 %
 Die Testfälle sollten alle drei Standardkonfigurationen abdecken:
@@ -269,7 +322,7 @@ Die Testfälle sollten alle drei Standardkonfigurationen abdecken:
               (make-computer "Sempron" 2 500))
 (check-expect (standard-computer "professional")
               (make-computer "Xeon" 4 1000))
-(check-expect (standard-computer "game")
+(check-expect (standard-computer "gamer")
               (make-computer "Quad" 4 750))
 \end{verbatim}
 %
@@ -281,6 +334,8 @@ Hier ist das Gerüst:
     ...))
 \end{verbatim}
 %
+Bei der Schablone gehen wir wieder nach Konstruktionsanleitung~\ref{ka:aufzaehlung} auf
+Seite~\pageref{ka:aufzaehlung} vor.
 Da es sich beim Argument um eine Fallunterscheidung~-- eine Aufzählung
 mit \emph{drei} Alternativen~-- handelt, können wir die
 dazu passende Schablone~-- eine Verzweigung mit \emph{drei} Zweigen~--
@@ -305,7 +360,7 @@ wir dazu \texttt{string=?}:
     (cond
       ((string=? k "cheap") ...)
       ((string=? k "professional") ...)
-      ((string=? k "game") ...))))
+      ((string=? k "gamer") ...))))
 \end{verbatim}
 %
 In jedem Zweig müssen wir nun dafür sorgen, dass der entsprechende
@@ -322,7 +377,7 @@ platzieren, jeweils mit drei Argumenten:
        (make-computer ... ... ...))
       ((string=? k "professional")
        (make-computer ... ... ...))
-      ((string=? k "game")
+      ((string=? k "gamer")
        (make-computer ... ... ...)))))
 \end{verbatim}
 %
@@ -340,65 +395,20 @@ Beispiel den Testfällen entnehmen.  Folgendes kommt dabei heraus:
        (make-computer "Sempron" 2 500))
       ((string=? k "professional")
        (make-computer "Xeon" 4 1000))
-      ((string=? k "game")
+      ((string=? k "gamer")
        (make-computer "Quad" 4 750)))))
 \end{verbatim}
 %
 Fertig!
 
-\section{Record-Definitionen}
+\begin{aufgabe}
+  Schreibe eine Funktion, die einen Computer klassifiziert als
+  "<fett">, "<Durchschnitt"> oder "<müde">.  Definiere die Kriterien
+  dafür selbst.
+\end{aufgabe}
+
+\section{Funktionen auf Records}
 \label{sec:record-definitions}
-
-Natürlich sind zusammengesetzte Daten in den DeinProgramm-Sprachen
-nicht auf Computer-Konfigurationen beschränkt.  Sie können beliebige
-neue Arten zusammengesetzter Daten definieren.  Voraussetzung für die
-Definition einer neuen Art zusammengesetzter Daten ist, dass Du eine klare
-Vorstellung davon haben, was die Komponenten sind.  Dabei hilft eine
-informelle Beschreibung wie diese hier:
-%
-\begin{alltt}
-; Ein Computer besteht aus:
-; - Prozessor
-; - Hauptspeicher-Kapazität in Gbyte
-; - Festplatten-Kapazität in Gbyte
-\end{alltt}
-%
-Eine solche informelle Beschreibung heißt auch
-\index{Datendefinition}\textit{Datendefinition}.  Eine Datendefinition
-für zusammengesetzte Daten kannst Du direkt in Code umwandeln.  In den
-DeinProgramm-Sprachen ist dafür eine sogenannte
-\textit{Record-Definition\index{Record-Definition}} zuständig.
-
-Wenn \texttt{computer}-Records nicht schon in die Anfänger-Sprache
-eingebaut wäre, könnten wir sie selbst definierne mit folgender
-Record-Definition, die den neuen Operator
-\texttt{define-record-procedures} verwendet:
-%
-\begin{verbatim}
-(define-record-functions computer
-  make-computer
-  (computer-processor  string)
-  (computer-ram        rational)
-  (computer-hard-drive rational))
-\end{verbatim}
-%
-Diese Record-Definition hat mehrere Bestandteile:
-%
-\begin{itemize}
-\item Zunächst einmal ist da der Name des Record-Typs,
-  \texttt{computer}.  Diesen können wir später als Signatur einsetzen.
-\item Dann ist da der Name des Konstruktors \texttt{make-computer}.
-\item Dann sind da die Namen der Selektoren,
-  \texttt{computer-processor}, \texttt{computer-ram} und
-  \texttt{computer"=hard"=drive}.
-\item Zu jedem Selektor gehört noch die Signatur des jeweiligen
-  Feldes, also \texttt{string} für den Prozessornamen und
-  \texttt{rational} für die beiden Speichergrößen.
-\end{itemize}
-%
-Eine Record-Definition definiert automatisch den neuen Record-Typ, den
-Konstruktor und die Selektoren unter den Namen in der
-\texttt{define-record-procedures}-Form.
 
 Für ein weiteres Beispiel greifen wir auf folgenden Satz aus der
 Einleitung zurück, den wir schon als Datendefinition auslegen können:
