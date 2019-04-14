@@ -107,7 +107,7 @@ dieses Typs besteht aus Komponenten\index{Komponente}, eine pro
 Feld. (In diesem Fall "<\texttt{Cell}">, $8$ und $250$.)
 
 Record-Typen müssen in einem Programm explizit mit Hilfe einer
-speziellen \textit{Record-Definition}\index(Record-Definition} definiert werden, die mit
+speziellen \textit{Record-Definition}\index{Record-Definition} definiert werden, die mit
 \texttt{define-record-functions} beginnt.  Hier ist die
 Record-Definition für
 Computer:\index{define-record-functions@\texttt{define-record-functions}}
@@ -408,7 +408,7 @@ Fertig!
 \end{aufgabe}
 
 \section{Funktionen auf Records}
-\label{sec:record-definitions}
+\label{sec:funktionen-auf-records}
 
 Für ein weiteres Beispiel greifen wir auf folgenden Satz aus der
 Einleitung zurück, den wir schon als Datendefinition auslegen können:
@@ -428,7 +428,7 @@ ein karges Gerüst hinschreiben:\index{wallclock-time@\texttt{wallclock-time}}
 \end{verbatim}
 %
 Als nächstes müssen wir festlegen, \emph{wie viele} Bestandteile die
-Records haben sollen.  In diesem Fall ("<Stunde und Minute"<) sind es
+Records haben sollen.  In diesem Fall ("<Stunde und Minute">) sind es
 zwei.  Wir können das Gerüst entsprechend erweitern:
 %
 \begin{verbatim}
@@ -463,9 +463,8 @@ natürliche Zahlen:
   (wallclock-time-minute natural))
 \end{verbatim}
 %
-Es hilft dem Verständnis zumindest am Anfang, dass wir die Signaturen
-der definierten Funktionen hinzuschreiben.  Diese ergeben sich direkt
-aus der Record-Definition:
+Wir schreiben die Signaturen der definierten Funktionen aus.  Diese
+ergeben sich direkt aus der Record-Definition:
 %
 \begin{verbatim}
 (: make-wallclock-time (natural natural -> wallclock-time))
@@ -478,7 +477,7 @@ stehen die Signaturen der Felder vor dem Pfeil.  Heraus kommt beim
 Konstruktor immer ein Record, da steht also der Name des Record-Types.
 
 \begin{feature}{\texttt{define-record-functions} (einfach)}{scheme:define-record-functions-simple}
-Eine \texttt{define"=record"=procedures}"=Form\index{define-record-functions@\texttt{define-record-functions}}
+Eine Record-Definition\index{Record-Definition}\index{define-record-functions@\texttt{define-record-functions}}
 hat folgende allgemeine Gestalt:\label{def:define-record-functions}
 %
 \begin{alltt}
@@ -517,7 +516,7 @@ vorn (sie akzeptieren ja jeweils einen Record) und nach dem Pfeil
 steht die Signatur des jeweiligen Feldes.
 
 Abbildung~\ref{scheme:define-record-functions-simple} fasst die Form
-von \texttt{define-record-functions} zusammen.
+von Record-Definitionen zusammen.
 
 Hier sind drei Beispiele für Uhrzeiten:
 %
@@ -527,8 +526,7 @@ Hier sind drei Beispiele für Uhrzeiten:
 (define wt3 (make-wallclock-time 1 1)) ; 1 Uhr 1
 \end{verbatim}
 %
-Auch für Uhrzeiten können wir einige kleinere Aufgaben beispielhaft
-lösen.  Zuerst berechnen wir für eine Uhrzeit die Anzahl der Minuten
+Zuerst berechnen wir für eine Uhrzeit die Anzahl der Minuten
 seit Mitternacht.  Hier sind Kurzbeschreibung, Signatur, Testfälle und Gerüst:\index{minutes-since-midnight@\texttt{minutes-since-midnight}}
 %
 \begin{verbatim}
@@ -544,9 +542,11 @@ seit Mitternacht.  Hier sind Kurzbeschreibung, Signatur, Testfälle und Gerüst:
     ...))
 \end{verbatim}
 %
-Da es sich bei \texttt{minutes-since-midnight} um eine Funktion
-handelt, die eine Uhrzeit als Eingabe akzeptiert, fügen wir in die
-Schablone Aufrufe der Selektoren ein:
+\texttt{Minutes-since-midnight} soll eine Funktion handelt, die
+Uhrzeiten als Eingabe akzeptiert, also zusammengesetzte Daten.  Eine
+Funktion, die aus zusammengesetzten Daten etwas berechnet, muss meist
+deren Bestandteile verwenden, auf die sie mit den Selektoren zugreifen
+kann.  Wir fügen als nächsten Schritt Aufrufe beider Selektoren ein:
 %
 \begin{verbatim}
 (define minutes-since-midnight
@@ -610,7 +610,7 @@ Funktion \texttt{/} macht das leider nicht:
 %
 \begin{alltt}
 (/ 61 60)
-\evalsto 1.016
+\evalsto 1.01\(\overline{\mathtt{6}}\)
 \end{alltt}
 %
 Aber die Funktion \texttt{quotient} hilft uns weiter:
