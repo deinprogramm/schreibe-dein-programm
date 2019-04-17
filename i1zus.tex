@@ -647,14 +647,14 @@ Damit können wir den Rumpf vervollständigen:
     (make-wallclock-time (quotient msm 60) (remainder msm 60))))
 \end{verbatim}
 
-\section{Schablonen für  zusammengesetzte Daten}
+\section{Konstruktionsanleitungen für zusammengesetzte Daten}
 
 Dieser Abschnitt fasst die Erkenntnisse aus den Beispielen
-zu zusammengesetzten Daten in Form von Konstruktionsanleitungen zusammen.
+zu zusammengesetzten Daten in Form von Konstruktionsanleitungen
+zusammen.  Wir fangen an mit der Datenanalyse und der zugehörigen
+Record-Definition.
 
-FIXME: Verweis auf Anhang
-
-\subsection{Datenanalyse für zusammengesetzte Daten}
+\begin{konstruktionsanleitung}{Zusammengesetzte Daten}
 
 Zusammengesetzte Daten kannst Du an Formulierungen wie "<ein $X$
 besteht aus~\ldots">, "<ein $X$ ist charakterisiert durch~\ldots">
@@ -669,9 +669,7 @@ ist ein Kommentar im Programm in folgender Form:
 ; ...
 ; - Bestandteil / Eigenschaft n
 \end{alltt}
-
-\subsection{Record-Definition für zusammengesetzte Daten}
-
+%
 Auf die Datendefinition folgt eine entsprechende Record-Definition.
 Dafür überlege Dir Namen für den Record-Typ $T$ und für die
 Felder, $f_1 \ldots f_n$.  Für jedes Feld solltest Du außerdem
@@ -706,22 +704,32 @@ und die Selektoren:
 (: \(T\)-\(f\sb{n}\) (\(T\) -> \(\mathit{sig}\sb{n}\)))
 \end{alltt}
 %
+\end{konstruktionsanleitung}
+%
 Wenn Du genügend Übung in der Verwendung von Konstruktoren und
 Selektoren hast, kannst Du die Signaturen (die ja redundant sind)
 auch weglassen: Die relevanten Signaturen für die Felder stehen ja
 schon in der Record-Definition.
 
-\subsection{Zusammengesetzte Daten als Eingabe}
+Wenn Du die Datenanalyse und die Record-Definition für
+zusammengesetzte Daten abgeschlossen hast, solltest Du anhand der
+Signatur der Funktion feststellen, ob die zusammengesetzten Daten als
+Ein- oder als Ausgabe verwendet werden.  Abhängig davon kannst Du die
+entsprechende Schablone aus den folgenden beiden
+Konstruktionsanleitung auswählen.
 
-Wenn Du eine Funktion schreibst, die zusammengesetzte Daten als
-Eingabe akzeptiert (das ergibt sich aus der Signatur), gehe nach
-Schreiben des Gerüstes folgendermaßen vor:
+\begin{konstruktionsanleitung}{Zusammengesetzte Daten als Eingabe}
+  Wenn Deine Funktion zusammengesetzte Daten als Eingabe akzeptiert
+  (das ergibt sich aus der Signatur), gehe nach Schreiben des Gerüstes
+  folgendermaßen vor:
 %
 \begin{enumerate}
 \item Für jede dieser Komponenten, schreibe  \texttt{($\mathit{sel}$ $r$)} in die
   Schablone, wobei $\mathit{sel}$ der Selektor der Komponente und $r$ der Name
-  des Record-Parameters ist, also zum Beispiel
-  \texttt{(wallclock-time-hour wt)}.
+  des Record-Parameters ist, also zum Beispiel:
+\begin{verbatim}
+(wallclock-time-hour wt)
+\end{verbatim}
 \item Vervollständige die Schablone, indem Du einen Ausdruck
   konstruieren, in dem die Selektor"=Anwendungen vorkommen.
 \item Es ist möglich, dass nicht alle Selektor-Anwendungen im Rumpf
@@ -729,22 +737,28 @@ Schreiben des Gerüstes folgendermaßen vor:
   wieder.
 \end{enumerate}
 %
-Mit etwas Übung kannst Du nicht benötigte Selektor-Anwendung auch
-von vornherein weglassen.  Gelegentlich deutet es aber auf einen
-Fehler hin, wenn eine fehlt: Darum ist es oft sinnvoll, sie zunächst
+\end{konstruktionsanleitung}
+%
+Mit etwas Übung kannst Du nicht benötigte Selektor-Anwendung auch von
+vornherein weglassen.  Gelegentlich deutet es aber auf einen Fehler
+hin, wenn eine fehlt: Darum ist es oft sinnvoll, sie zunächst
 hinzuschreiben.
 
-\subsection{Zusammengesetzte Daten als Ausgabe}
-
 Funktionen, die zusammengesetzte Daten als Ausgabe haben, müssen einen
-entsprechenden Record konstruieren und deshalb den Konstruktor aufrufen.
-Die Schablone ergibt sich folgendermaßen:
+entsprechenden Record konstruieren und deshalb den Konstruktor
+aufrufen.  Die Schablone ergibt sich folgendermaßen:
 %
-\begin{quote}
-  Wenn die Funktion zusammengesetzte Daten als Ausgabe hat, schreibe
+\begin{konstruktionsanleitung}{Zusammengesetzte Daten als Ausgabe}
+  Wenn Deine Funktion zusammengesetzte Daten als Ausgabe hat, schreibe
   einen Aufruf des passenden Record-Konstruktors in den Rumpf,
-  zunächst mit einer Ellipse für jedes Feld des Records.
-\end{quote}
+  zunächst mit einer Ellipse für jedes Feld des Records, also zum
+  Beispiel:
+  %
+\begin{alltt}
+(make-wallclock-time \ldots{} \ldots)
+\end{alltt}
+
+\end{konstruktionsanleitung}
 
 \section{Ein- und Ausgabe zusammengesetzter Daten}
 \label{sec:armadillo}
