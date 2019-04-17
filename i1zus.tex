@@ -938,6 +938,19 @@ Konstruktoraufruf in dem Zweig steht, in dem das so ist:
         d)))
 \end{verbatim}
 %
+FIXME: Andere Möglichkeiten, den Rumpf zu gestalten -- \texttt{if}
+nach außen etc.
+
+\begin{alltt}
+(define feed-dillo
+  (lambda (d)
+    (make-dillo (if (dillo-alive? d)
+                    (+ (dillo-weight d) 500)
+                    (dillo-weight d))
+                (dillo-alive? d))))
+\end{alltt}
+
+%
 Komme zum unangenehmen, dem Überfahren, das aus einem
 lebenden Gürteltier ein totes macht.  Hier Kurzbeschreibung und
 Signatur:\index{run-over-dillo@\texttt{run-over-dillo}}\label{page:run-over-dillo}
