@@ -1544,17 +1544,16 @@ folgende Konsequenz berechnet!
   \item Ein \emph{Ersatzspielerin} hat eine Rückennummer zwischen 12 und 99.
   \item Alle anderen Rückennummern sind ungültig.
   \end{itemize}
- 
-  Schreibe nun eine Funktion mit folgender Signatur:
+  %
+  Schreibe zunächst eine Datendefinition für Positionen und dann eine
+  passende Signaturdefinition mit dem Namen \texttt{position}.
   
-  {\small
+  Schreibe nun eine Funktion mit folgender Signatur:
+  %
 \begin{verbatim}
- (: nummer->position
-    (number ->
-      (one-of "Torwart" "Abwehr" "Mittelfeld" "Sturm" "Ersatz" "Ungültig")))
+ (: nummer->position (natural -> position))
 \end{verbatim}
-  }
-
+  %
   Die Funktion soll dabei zu einer gegebenen Rückennummer die
   zugehörige Position berechnen.
 
