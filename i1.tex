@@ -22,6 +22,7 @@
 \usepackage{amssymb}
 \usepackage{stmaryrd}
 \usepackage{prooftree} % für Regeln im Kalkül...
+\usepackage{mdframed}
 \usepackage{theorem}
 \theoremstyle{plain}
 \usepackage{amsmath}
@@ -98,9 +99,12 @@
 \theorembodyfont{\normalfont}
 \theoremheaderfont{\normalfont\sffamily\scshape}
 
-
 \newtheorem{mantra}{Mantra}%[chapter]
-\newtheorem{konstruktionsanleitung}{Konstruktionsanleitung}%[chapter]
+
+\newtheorem{xkonstruktionsanleitung}{Konstruktionsanleitung}%[chapter]
+\newenvironment{konstruktionsanleitung}%
+  {\begin{mdframed}[backgroundcolor=lightgray]\begin{xkonstruktionsanleitung}}%
+  {\end{xkonstruktionsanleitung}\end{mdframed}}
 
 \newcommand{\deq}{\stackrel{\rm def}{=}}
 \newcommand{\diff}{\stackrel{\rm def}{\Longleftrightarrow}}
