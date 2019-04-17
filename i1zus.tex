@@ -407,8 +407,7 @@ Fertig!
   dafür selbst.
 \end{aufgabe}
 
-\section{Funktionen auf Records}
-\label{sec:funktionen-auf-records}
+\section{Zusammengesetzte Daten selbst konstruieren}
 
 Für ein weiteres Beispiel greifen wir auf folgenden Satz aus der
 Einleitung zurück, den wir schon als Datendefinition auslegen können:
@@ -565,6 +564,12 @@ vervollständigen damit den Rumpf:
        (wallclock-time-minute wt))))
 \end{verbatim}
 %
+\begin{aufgabe}
+  Schreibe eine Funktion, die für eine Uhrzeit zurückliefert, ob sich
+  diese am Vormittag oder am Nachmittag (also vor oder nach 12 Uhr
+  mittags) befindet.
+\end{aufgabe}
+%
 Die Umrechnung können wir auch umdrehen, mit einer Funktion wie folgt:
 %
 \begin{verbatim}
@@ -647,6 +652,23 @@ Damit können wir den Rumpf vervollständigen:
     (make-wallclock-time (quotient msm 60) (remainder msm 60))))
 \end{verbatim}
 
+\begin{aufgabe}
+  Schreibe eine Funktion \texttt{make-wallclock-time-12h}, die eine
+  Uhrzeit aus einer Zeitangabe im 12-Stunden-Format konstruiert.  Also
+  zum Beispiel:
+  %
+\begin{alltt}
+(make-wallclock-time-12h 6 30 "AM")
+\evalsto{} #<record:wallclock-time 6 30>
+(make-wallclock-time-12h 6 30 "PM")
+\evalsto{} #<record:wallclock-time 18 30>
+(make-wallclock-time-12h 12 30 "AM")
+\evalsto{} #<record:wallclock-time 0 30>
+(make-wallclock-time-12h 12 30 "PM")
+\evalsto{} #<record:wallclock-time 12  30>
+\end{alltt}
+\end{aufgabe}
+
 \section{Konstruktionsanleitungen für zusammengesetzte Daten}
 
 Dieser Abschnitt fasst die Erkenntnisse aus den Beispielen
@@ -654,9 +676,9 @@ zu zusammengesetzten Daten in Form von Konstruktionsanleitungen
 zusammen.  Wir fangen an mit der Datenanalyse und der zugehörigen
 Record-Definition.
 
-\begin{konstruktionsanleitung}{Zusammengesetzte Daten}
-
-Zusammengesetzte Daten kannst Du an Formulierungen wie "<ein $X$
+\begin{konstruktionsanleitung}{Zusammengesetzte Daten: Datenanalyse}
+  \label{ka:zusammengesetzt-datenanalyse}
+Zu"-sam"-men"-ge"-setzte Daten kannst Du an Formulierungen wie "<ein $X$
 besteht aus~\ldots">, "<ein $X$ ist charakterisiert durch~\ldots">
 oder "<ein $X$ hat~\ldots"> erkennen.  Manchmal lautet die
 Formulierung etwas anders.  Die daraus resultierende Datendefinition
@@ -718,7 +740,9 @@ Ein- oder als Ausgabe verwendet werden.  Abhängig davon kannst Du die
 entsprechende Schablone aus den folgenden beiden
 Konstruktionsanleitung auswählen.
 
-\begin{konstruktionsanleitung}{Zusammengesetzte Daten als Eingabe}
+\begin{konstruktionsanleitung}{Zusammengesetzte Daten als Eingabe:
+    Schablone}
+  \label{ka:zusammengesetzt-eingabe-schablone}
   Wenn Deine Funktion zusammengesetzte Daten als Eingabe akzeptiert
   (das ergibt sich aus der Signatur), gehe nach Schreiben des Gerüstes
   folgendermaßen vor:
@@ -748,7 +772,9 @@ Funktionen, die zusammengesetzte Daten als Ausgabe haben, müssen einen
 entsprechenden Record konstruieren und deshalb den Konstruktor
 aufrufen.  Die Schablone ergibt sich folgendermaßen:
 %
-\begin{konstruktionsanleitung}{Zusammengesetzte Daten als Ausgabe}
+\begin{konstruktionsanleitung}{Zusammengesetzte Daten als Ausgabe:
+    Schablone}
+    \label{ka:zusammengesetzt-ausgabe-schablone}
   Wenn Deine Funktion zusammengesetzte Daten als Ausgabe hat, schreibe
   einen Aufruf des passenden Record-Konstruktors in den Rumpf,
   zunächst mit einer Ellipse für jedes Feld des Records, also zum
@@ -771,10 +797,12 @@ Die überqueren insbesondere die Highways
 und werden dabei leider oft überfahren~-- am Straßenrand
 sind entsprechend viele Gürteltiere zu sehen.  Außerdem füttern
 freundliche Autofahrer gelegentlich die Gürteltiere.  Mit diesen
-beiden Aspekte wollen wir uns beschäftigen: Was passiert, wenn ein
+biden Aspekte wollen wir uns beschäftigen: Was passiert, wenn ein
 Gürteltier überfahren wird?  Was passiert, wenn ein Gürteltier
 gefüttert wird?  Entsprechend interessiert uns, ob ein Gürteltier am
-Leben ist und welches Gewicht es hat.  Das können wir direkt in eine
+Leben ist und welches Gewicht es hat.  Das können wir nach
+Konstruktionsanleitung~\ref{ka:zusammengesetzt-datenanalyse} auf
+Seite~\pageref{ka:zusammengesetzt-datenanalyse} direkt in eine
 Datendefinition übersetzen:
 %
 \begin{verbatim}
@@ -787,7 +815,6 @@ Wiederum handelt es sich sichtlich um zusammengesetzte Daten, wie
 aus der Formulierung "<hat"> ersichtlich ist.  Wir beschränken uns
 hier auf die beiden Eigenschaften, die für die Aufgabenstellung
 relevant sind.
-
 Aus der Datendefinition können wir direkt eine passende
 Record-Definition machen:
 % 
@@ -801,7 +828,7 @@ Record-Definition machen:
 ("<Dillo"> steht kurz für "<Armadillo">, englisch für Gürteltier.)
 
 Für das Feld \texttt{alive?} könnten wir unterschiedliche Repräsentationen
-wählen: Eine Aufzählung wäre möglich; die Autoren haben sich für einen
+wählen: Eine Aufzählung wäre möglich; wir haben uns für einen
 booleschen Wert entschieden, der die Frage "<Lebt das Gürteltier?">
 beantwortet.  Hier sind die Signaturen für die Record-Funktionen:
 %
@@ -854,7 +881,9 @@ Hier das Gerüst der Funktion:
 \texttt{Feed-dillo} hat zusammengesetzte Daten sowohl als Eingabe
 als auch als Ausgabe.  Entsprechend kommen die Schablonen für beide
 Situationen zum Einsatz.  Zunächst die Schablone für zusammengesetzte
-Daten als Eingabe; wir schreiben die Aufrufe der Selektoren auf:
+Daten als Eingabe aus
+Konstruktionsanleitung~\ref{ka:zusammengesetzt-eingabe-schablone} auf
+Seite \pageref{ka:zusammengesetzt-eingabe-schablone}; wir schreiben die Aufrufe der Selektoren auf:
 %
 \begin{verbatim}
 (define feed-dillo
@@ -863,7 +892,9 @@ Daten als Eingabe; wir schreiben die Aufrufe der Selektoren auf:
     ... (dillo-alive? d) ...))
 \end{verbatim}
 %
-Dazu kommt die Schablone für zusammengesetzte Daten als Ausgabe, also
+Dazu kommt die Schablone für zusammengesetzte Daten als Ausgabe aus
+Konstruktionsanleitung~\ref{ka:zusammengesetzt-ausgabe-schablone} auf
+Seite~\pageref{ka:zusammengesetzt-ausgabe-schablone}, also
 der Aufruf des Konstruktors:
 %
 \begin{verbatim}
@@ -877,14 +908,16 @@ der Aufruf des Konstruktors:
 Der zweite Testfall zeigt, dass, was \texttt{feed-dillo}
 betrifft, die Gürteltiere in zwei verschiedene Gruppen fallen:
 \texttt{Feed-dillo} verhält sich bei lebenden Gürteltieren anders als
-bei toten: eine Fallunterscheidung.  Entsprechend brauchen wir eine
-Verzweigung im Rumpf, und zwar nach dem Wert von \texttt{(dillo-alive?
-  d)}, der glücklicherweise schon in der Schablone steht.
+bei toten: eine Fallunterscheidung.
 
-Da sich der Fall "<Gürteltier tot"> dadurch definiert, dass der
-Fall "<Gürteltier lebendig"> nicht eintritt, ist die binäre Verzweigung
-nach Konstruktionsanleitung~\ref{ka:boolesche-fallunterscheidung} auf
-Seite~\pageref{ka:boolesche-fallunterscheidung} angemessen:
+Entsprechend brauchen wir eine Verzweigung im Rumpf, und zwar nach dem
+Wert von \texttt{(dillo-alive? d)}, der glücklicherweise schon in der
+Schablone steht.  Da \texttt{dillo-alive?} einen booleschen Wert
+liefert, handelt es sich um eine boolesche Fallunterscheidung.
+Deshalb 
+können wir Konstruktionsanleitung~\ref{ka:boolesche-fallunterscheidung}
+auf Seite~\pageref{ka:boolesche-fallunterscheidung} anwenden und eine
+binäre Verzweigung benutzen:
 %
 \begin{verbatim}
 (define feed-dillo
@@ -938,20 +971,7 @@ Konstruktoraufruf in dem Zweig steht, in dem das so ist:
         d)))
 \end{verbatim}
 %
-FIXME: Andere Möglichkeiten, den Rumpf zu gestalten -- \texttt{if}
-nach außen etc.
-
-\begin{alltt}
-(define feed-dillo
-  (lambda (d)
-    (make-dillo (if (dillo-alive? d)
-                    (+ (dillo-weight d) 500)
-                    (dillo-weight d))
-                (dillo-alive? d))))
-\end{alltt}
-
-%
-Komme zum unangenehmen, dem Überfahren, das aus einem
+Wir kommen nun zum unangenehmen Teil, dem Überfahren, das aus einem
 lebenden Gürteltier ein totes macht.  Hier Kurzbeschreibung und
 Signatur:\index{run-over-dillo@\texttt{run-over-dillo}}\label{page:run-over-dillo}
 %
@@ -1006,7 +1026,7 @@ der Aufruf des Konstruktors:
     ... (dillo-alive? d) ...))
 \end{verbatim}
 %
-  Da das Überfahren das Gewicht nicht ändert, übernimmt
+Da das Überfahren das Gewicht nicht ändert, übernimmt
 der Ausdruck für das Gewicht das Gewicht des Eingabe-Gürteltiers aus
 der Schablone:
 %
@@ -1030,10 +1050,155 @@ können wir den Selektoraufruf \texttt{(dillo-alive? d)} verwerfen:
 %
 Fertig!
 
+\section{Alternativen bei den Konstruktionsanleitung}
+
+Vielleicht ist Dir bei der Folge von Schablonen für
+\texttt{feed-dillo} aufgefallen, dass die Anordnung der Schablonen für
+die Konstruktion zusammgesetzter Daten und die Schablone für binäre
+Fallunterscheidungen recht willkürlich angeordnet haben, indem wir die
+Verzweigung "<außen"> um den Konstruktoraufruf gestellt haben.
+
+Die Konstruktionsanleitungen hätten wir genauso gut andersherum
+anwenden können, in dem wir die Verzweigung "<innen"> in den
+Konstruktoraufruf von \texttt{make-dillo} gestellt hätten:
+%
+\begin{alltt}
+(define feed-dillo
+  (lambda (d)
+    (make-dillo (if (dillo-alive? d)
+                    ...
+                    ...)
+                ...)
+   ... (dillo-alive? d) ...
+   ... (dillo-weight d) ...))
+\end{alltt}
+%
+Bei dieser Vorgehensweise füllen wir zunächst die Ellipsen für die
+beiden möglichen Gewichte aus:
+%
+\begin{alltt}
+(define feed-dillo
+  (lambda (d)
+    (make-dillo (if (dillo-alive? d)
+                    (+ (dillo-weight d) 500)
+                    (dillo-weight d))
+                ...)
+   ... (dillo-alive? d) ...)
+\end{alltt}
+%
+Was das zweite Argument von \texttt{make-dillo} betrifft, also ob das
+Gürteltier lebendig oder tot ist, so ist der Wert dort so wie
+vorher, also entsprechend dem Ergebnis von \texttt{dillo-alive?}:
+%
+\begin{alltt}
+(define feed-dillo
+  (lambda (d)
+    (make-dillo (if (dillo-alive? d)
+                    (+ (dillo-weight d) 500)
+                    (dillo-weight d))
+                (dillo-alive? d))))
+\end{alltt}
+%
+Diese Version ist genauso korrekt wie die erste, und keine ist
+offensichtlich "<besser"> als die andere. \footnote{Erfahrene
+Entwicklerinnen können hier anmerken, dass die erste Version im Fall
+  "<totes Gürteltier"> vermeidet, ein neues Gürteltier zu erzeugen.
+  Dafür ist die zweite Version kürzer.}
+
+Bei der Kombination von Konstruktionsanleitungen ist es also oft
+möglich, mehrere unterschiedliche Wege zu beschreiten.  Meist
+funktionieren alle davon, sie unterscheiden sich aber gelegentlich in
+Länge und subjektiver Eleganz.
+
+Eine andere Alternative bei der Konstruktion von \texttt{feed-dillo}
+wäre an dieser Stelle möglich gewesen:
+%
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    (if (dillo-alive? d)
+        (make-dillo ... ...)
+        d)))
+\end{verbatim}
+%
+Hier haben wir ziemlich vorschnell \texttt{d} in der Alternative des
+\texttt{if} geschrieben, weil es uns "<offensichtlich"> erschien, dass
+der Zustand eines toten Gürteltiers nach dem Füttern genauso wie
+vorher ist.  Es wäre konsequenter gewesen, erst einmal die Schablonen
+vollständig anzuwenden:
+%
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    (if (dillo-alive? d)
+        (make-dillo ... ...)
+        (make-dillo ... ...))))
+\end{verbatim}
+%
+Dann hätten wir auch für den zweiten Zweig ("<Gürteltier tot">) die Fragen beantwortet,
+welches Gewicht das Gürteltier hat und ob es noch lebt:
+%
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    (if (dillo-alive? d)
+        (make-dillo (+ (dillo-weight d) 500) #t)
+        (make-dillo (dillo-weight d) #f))))
+\end{verbatim}
+%
+Auch diese Version ist richtig.  Wir könnten diese Version noch etwas
+umformen, in dem wir die Beobachtung ausnutzen, dass der Wert des
+\texttt{dillo-alive?}-Felds im Ergebnis dem Ergebnis von
+\texttt{(dillo-alive? d)} entspricht und das im zweiten
+\texttt{make-dillo}-Aufruf einsetzen:
+%
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    (if (dillo-alive? d)
+        (make-dillo (+ (dillo-weight d) 500) #t)
+        (make-dillo (dillo-weight d) (dillo-alive? d)))))
+\end{verbatim}
+%
+Das Programm ist zwar länger geworden, es gibt aber auch eine Einsicht
+frei, wenn wir zweiten \texttt{make-dillo}-Aufruf näher anschauen.
+Dieser Aufruf stellt ein \texttt{dillo}-Record her, bei dem jedes Feld
+aus dem entsprechenden Feld von \texttt{d} bestückt wird.  Es ist
+deshalb gleich zu \texttt{d}.  Eine Gleichung bringt das zum Ausdruck:
+%
+\begin{displaymath}
+  \texttt{(make-dillo (dillo-alive? d) (dillo-weight d))} = \texttt{d}
+\end{displaymath}
+%
+Wir können also den \texttt{make-dillo}-Aufruf durch \texttt{d}
+ersetzen und so das Programm mit Hilfe der Gleichung vereinfachen:
+%
+\begin{verbatim}
+(define feed-dillo
+  (lambda (d)
+    (if (dillo-alive? d)
+        (make-dillo (+ (dillo-weight d) 500) #t)
+        d)))
+\end{verbatim}
+%
+Jetzt ist die erste Version von \texttt{feed-dillo} entstanden, ohne
+dass wir uns vorschnell überlegen mussten, dass im Fall "<Gürteltier
+tot"> die Eingabe gleich der Ausgabe ist.  In diesem Beispiel mögen die
+resultierende Einsicht und Vereinfachung banal sein.  Wir können aber
+Gleichungen oft benutzen, um erstaunliche Einsichten zu erzielen oder
+unsere Programme kürzer, schneller oder eleganter zu machen.
+
+FIXME: Mantra-Time
+
+\begin{aufgabe}
+  Formuliere Gleichungen entsprechend der für \texttt{dillo} für die
+  Record-Typen \texttt{computer} und \texttt{wallclock"=time} aus
+  diesem Kapitel.
+\end{aufgabe}
+
 \section*{Aufgaben}
 
 \begin{aufgabe}
-
   Schreibe eine Daten- und eine
   Record-Definition für \textit{Brüche} und verschiedene Funktionen
   für das Bruchrechnen:
@@ -1052,7 +1217,7 @@ Fertig!
     \texttt{(: gcd (number number -> number))},
   \end{center}
   % 
-  die den größten gemeinsamen Teiler (greatest common divisor) von
+  die den größten gemeinsamen Teiler ("<greatest common divisor">) von
   zwei natürlichen Zahlen berechnet.
 
 \end{aufgabe}
@@ -1217,8 +1382,8 @@ Fertig!
     Datentyp soll den Typ, das Nummernschild und die Schadstoffklasse des
     Fahrzeuges beinhalten.
   \item Erstelle die Beispielfahrzeuge für die
-    Fahrzeugtypen ">Stadtbus">, ">Reisebus">, ">Dieselauto">
-    und ">Benzinauto">. Gehe davon aus, dass die Busse der
+    Fahrzeugtypen "<Stadtbus">, "<Reisebus">, "<Dieselauto">
+    und "<Benzinauto">. Gehe davon aus, dass die Busse der
     Schadstoffklasse~2, das Dieselauto der Schadstoffklasse~3 und das
     Benzinauto der Schadstoffklasse~4 angehören.
   \item Schreibe eine Funktion \texttt{fahrverbot?},
