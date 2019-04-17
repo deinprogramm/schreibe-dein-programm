@@ -102,8 +102,8 @@
 \newtheorem{mantra}{Mantra}%[chapter]
 
 \newtheorem{xkonstruktionsanleitung}{Konstruktionsanleitung}%[chapter]
-\newenvironment{konstruktionsanleitung}%
-  {\begin{mdframed}[backgroundcolor=lightgray]\begin{xkonstruktionsanleitung}}%
+\newenvironment{konstruktionsanleitung}[1]
+  {\begin{mdframed}[backgroundcolor=lightgray]\begin{xkonstruktionsanleitung}[#1]}%
   {\end{xkonstruktionsanleitung}\end{mdframed}}
 
 \newcommand{\deq}{\stackrel{\rm def}{=}}
