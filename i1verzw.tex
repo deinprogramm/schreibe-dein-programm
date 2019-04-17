@@ -1576,19 +1576,21 @@ folgende Konsequenz berechnet!
     entsprechende Verwarngeld zurück.
     
     Diese Verwarnungen sind wie folgt festgelegt:
-    \begin{itemize}
-    \item Überschreitung der Höchstparkdauer bis 30 Minuten: \euro{5}
-    \item bis zu einer Stunde: \euro{10}
-    \item bis zu zwei Stunden: \euro{15}
-    \item bis zu drei Stunden: \euro{20}
-    \item länger als drei Stunden:  \euro{25}
-    \end{itemize}
+    \begin{flushleft}
+      \begin{tabular}{rl}
+    Überschreitung der Höchstparkdauer bis 30 Minuten & \euro{5}\\
+    bis zu einer Stunde & \euro{10}\\
+    bis zu zwei Stunden & \euro{15}\\
+    bis zu drei Stunden & \euro{20}\\
+    länger als drei Stunden &  \euro{25}
+      \end{tabular}
+    \end{flushleft}
     
   \item Das Überfahren einer roten Ampel kostet je nach
     Gefährdungslage mehr, gibt Punkte und Fahrverbote. Schreibe
     zwei Funktionen, eine für das Bußgeld \texttt{rote-ampel-bußgeld}, 
-    eine für die Punkte in Flensburg \texttt{rote-ampel-punkte} 
-    und eine für das Fahrverbot \texttt{rote-ampel-fahrverbot}, 
+    eine für die Punkte in Flensburg \texttt{rote"=ampel"=punkte} 
+    und eine für das Fahrverbot \texttt{rote"=ampel"=fahrverbot}, 
     welche ausgibt, ob ein Fahrverbot erteilt wird. Übergib
     den Funktionen, wie lange die Ampel schon rot war und ob eine
     Gefährdung oder Sachbeschädigung vorlag.
