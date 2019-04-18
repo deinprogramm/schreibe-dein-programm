@@ -1211,14 +1211,19 @@ erläutern werden.
     \end{enumerate}
 \end{konstruktionsanleitung}
 %
-Es mag Dir übermäßig bürokratisch vorkommen, immer die gleiche
-Reihenfolge einzuhalten.  Bürokratisch ist das in jedem Fall, ist aber
-eine wertvolle Hilfestellung, die verhindert, dass Du in unnötige
-Sackgassen gerätst.
-
 Für jeden diese Schritte gibt es jeweils eine Konstruktionsanleitung,
-für manche mehrere je nach Situation.  Fangen wir mit denen an, die
-wir schon eingeführt haben.
+für manche mehrere je nach Situation.  Es mag Dir übermäßig
+bürokratisch vorkommen, immer die gleiche Reihenfolge einzuhalten und
+immer nach der jeweiligen Konstruktionsanleitung vorzugehen.
+Bürokratisch ist das in jedem Fall, ist aber eine wertvolle
+Hilfestellung, die verhindert, dass Du in unnötige Sackgassen
+gerätst.  Wenn Du irgendwann beim Lösen einer Aufgabe in
+eine Sackgasse gerätst, solltest Du als erstes überprüfen, ob Du auch
+nach den Konstruktionsanleitungen vorgegangen bist.  Oft ist die
+Ursache des Problems, dass einer der Schritte fehlt.
+
+Zunächst einmal führen wir Konstruktionsanleitungen für die Schritte
+des Ablaufs ein, die wir schon eingeführt haben:
 
 \begin{konstruktionsanleitung}{Kurzbeschreibung}
   \index{Kurzbeschreibung}
@@ -1365,6 +1370,7 @@ entsprechende Formel hineinschreiben:
 Fertig!
 
 \section{Die Macht der Abstraktion}
+\label{sec:abstraktion}
 
 Wir haben bei Aufgabe~\ref{aufgabe:stromtarif} für die beiden
 Aufgabenteile völlig voneinander unabhängige Lösungen geschrieben.
@@ -1456,9 +1462,93 @@ erspart nicht nur oft Arbeit und macht unsere Programme leichter zu
 handhaben, sondern führt manchmal zu ganz neuen Erkenntnissen~--
 zu sehen zum Beispiel in Kapitel~\ref{cha:higher-order}.
 
+\section{Mantras für die Programmierung}
+
+\index{Mantra}
+Nach den einfachen Programmen bisher werden wir in den
+folgenden Kapiteln immer interessante Funktionen schreiben und dabei
+weitere Konstruktionsanleitungen für spezifische Situationen
+einführen.
+
+Es gibt aber einige übergreifende Prinzipien des Programmierens, die
+wir immer wieder aufgreifen werden.  Nicht alle sind jetzt schon
+relevant, aber wir listen sie hier einmal auf, damit sie an einer
+Stelle gesammelt sind und wir darauf in den folgenden Kapiteln bezug
+nehmen können.
+
+Das erste Mantra soll einem Phänomen entgegenwirken, dass wir oft bei
+unseren Studierenden beobachtet haben, die manchmal bei einer Aufgabe
+aufgeben, bevor sie alles hingeschrieben haben, was sie wissen.
+%
+\begin{mantra}
+  \label{mantra:schreib}
+  Achte darauf, dass für alles, was Du weißt, tatsächlich auch etwas
+  im Programm steht.
+\end{mantra}
+%
+Die Konstruktionsanleitungen geben Hilfestellung dafür, \emph{wie} Du
+in Deinem Programm schreiben kannst, was Du weißt:
+%
+\begin{mantra}
+  \label{mantra:ka}
+  Gehe nach den Konstruktionsanleitungen vor.  Wenn Du Dich in einer
+  Sackgasse wiederfindest, überprüfe, ob Du alle relevanten
+  Konstruktionsanleitungen angewendet hast.
+\end{mantra}
+%
+Das nächste Prinzip ist ein Mantra, weil DrRacket (oder andere
+Programmierumgebungen) oft nützliche Rückmeldungen geben, diese aber
+auf den ersten Blick mühsam zu lesen sind.  Es lohnt sich trotzdem
+fast immer:
+%
+\begin{mantra}
+  \label{mantra:lies}
+  Wenn DrRacket Dir Rückmeldung zu Deinem Programm gibt, lies
+  gründlich, was dort steht.
+\end{mantra}
+%
+Das folgende Mantra haben wir schon in Abschnitt~\ref{sec:abstraktion}
+auf Seite~\pageref{sec:abstraktion} kennengelernt:
+%
+\begin{mantra}
+  \label{mantra:abstraktion}
+  Wenn Du zwei Programmteile siehst, die sich nur an wenigen Stellen
+  unterscheiden und die inhaltlich verwandt sind, abstrahiere!
+\end{mantra}
+%
+Bisher haben wir nur kleine Programme mit ein, zwei oder drei
+Funktionen geschrieben: Größere Programme bestehen aus vielen
+Funktionen, und dieses Mantra benennt das Prinzip, nachdem wir es in
+Funktionen aufteilen:
+%
+\begin{mantra}
+  \label{mantra:separate-funktionen}
+  Wenn in Deinem Programm verschiedene Größen berechnet werden,
+  schreibe für die Berechnung jeder Größe eine separate Funktion.
+\end{mantra}
+%
+Wir werden oft mathematische Einsichten in Form von Gleichungen
+benutzen, um unsere Programme zu verbessern:
+%
+\begin{mantra}
+  \label{mantra:gleichungen}
+  Nutze Gleichungen aus, um Dein Programm zu vereinfachen.
+\end{mantra}
+%
+Manchmal macht es Spaß, ein kompliziertes Programm zusammenzubasteln
+wie ein Puzzle.  Leider führt dies oft zu unerwünschter Komplexität:
+Komplexe Programme sind fehleranfällig, schwierig zu verstehen und
+schwierig weiterzuentwickeln.  Wir sollten uns dafür hüten:
+%
+\begin{mantra}
+  \label{mantra:komplexitaet}
+  Wenn Deine Funktion Dir kompliziert scheint, ist es wahrscheinlich,
+  dass sie Fehler enthält: Entweder, weil sie eigentlich einfacher
+  sein sollte, oder weil die Aufgabe kompliziert und damit ihre Lösung
+  fehleranfällig ist.
+\end{mantra}
+
 \section*{Aufgaben}
-
-
 
 \begin{aufgabe}
  Vervielfachung von Strings:
