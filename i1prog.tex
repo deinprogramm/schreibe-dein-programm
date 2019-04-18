@@ -778,6 +778,7 @@ Abstraktion herauskommt.
 \end{aufgabe}
 
 \section{Information und Daten}
+\label{sec:information-daten}
 
 Eine Definition wie
 %
@@ -814,9 +815,20 @@ von Informationen darstellen:
 \item die Rückennummer von Alexandra Popp
 \end{itemize}
 %
-Damit andere unsere Programme lesen können, werden wir also immer
-wieder klarstellen müssen, wie Information in Daten zu übersetzen ist
-und umgekehrt.
+Welche gemeint ist, hängt vom Kontext ab.  Damit andere unsere
+Programme lesen können, werden wir also immer wieder klarstellen
+müssen, was der Kontext ist und wie Information in Daten zu übersetzen
+ist und umgekehrt.  An konkreten Beispielen können (und sollten) wir
+dazu einen Kommentar anbringen:
+%
+\begin{verbatim}
+(define bruce-willis 23) ; Anzahl der Haare
+(define temperatur-tübingen 23) ; 23°C in Tübingen
+(define temperatur-tübingen-2000-07-01 23)
+  ; 23°C in Tübingen am 7.1.2000
+(define schlafzimmer 23) ; Schlafzimmer ist 23m²
+(define alexandra-popp 23) ; Rückennummer
+\end{verbatim}
 
 \section{Programme systematisch konstruieren}
 
