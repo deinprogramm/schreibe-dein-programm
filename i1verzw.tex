@@ -130,6 +130,15 @@ die immer dann \verb|#t| ergeben, wenn \emph{einer} der $e_i$ \verb|#t| ergibt, 
 \evalsto{} #f
 \end{alltt}
 %
+Das \texttt{or} berechnet also ein \textit{inklusives}
+Oder\index{inklusives Oder}: \texttt{(or $A$ $B$)} bedeutet "<$A$ oder
+$B$ oder beides">, im Gegensatz zum \textit{exklusiven}
+Oder\index{exklusives Oder} "<entweder $A$ oder
+$B$">.\footnote{In der Informatik ist mit "<oder"> ohne Zusatz fast
+  immer das inklusive Oder gemeint. Wer das exklusive Oder meint, sagt
+  auch "<exklusives Oder">.}
+
+Oder gemeint: 
 Des weiteren gibt es noch eine eingebaute Funktion
 \texttt{not}\index{not@\texttt{not}}, die einen booleschen Wert
 umdreht, sich also folgendermaßen verhält:
@@ -141,6 +150,10 @@ umdreht, sich also folgendermaßen verhält:
 \evalsto{} #f
 \end{alltt}
 %
+\begin{aufgabe}
+  Schreibe eine Funktion, die von zwei booleschen Werten das exklusive
+  Oder berechnet. 
+\end{aufgabe}
 
 \section{Verzweigungen}
 
