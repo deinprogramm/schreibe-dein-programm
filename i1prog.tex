@@ -1200,21 +1200,107 @@ erläutern werden.
 \begin{konstruktionsanleitung}{Ablauf}
   Gehe bei der Konstruktion einer Funktion in folgender Reihenfolge
   vor:
-  \begin{itemize}
+  \begin{enumerate}
     \item Kurzbeschreibung
     \item Datenanalyse
-    \item Signatur
+    \item Signatur-Deklaration
     \item Tests
     \item Gerüst
     \item Schablonen
     \item Rumpf
-    \end{itemize}
+    \end{enumerate}
 \end{konstruktionsanleitung}
 %
 Es mag Dir übermäßig bürokratisch vorkommen, immer die gleiche
 Reihenfolge einzuhalten.  Bürokratisch ist das in jedem Fall, ist aber
 eine wertvolle Hilfestellung, die verhindert, dass Du in unnötige
 Sackgassen gerätst.
+
+Für jeden diese Schritte gibt es jeweils eine Konstruktionsanleitung,
+für manche mehrere je nach Situation.  Fangen wir mit denen an, die
+wir schon eingeführt haben.
+
+\begin{konstruktionsanleitung}{Kurzbeschreibung}
+  \index{Kurzbeschreibung}
+  \label{ka:kurzbeschreibung}
+  Schreibe für die Funktion zunächst einen Kommentar, die ihren Zweck
+  kurz beschreibt.  Ein Satz, der auf eine Zeile passen sollte,
+  reicht.  Beispiel:
+  %
+\begin{verbatim}
+; monatlichen Rechnungsbetrag für Tarif Billig-Strom berechnen
+\end{verbatim}
+\end{konstruktionsanleitung}
+
+\begin{konstruktionsanleitung}{Signatur-Deklaration}
+  \index{Signatur-Deklaration}
+  \label{ka:signatur-deklaration}
+  Schreibe für die Funktion direkt unter die Kurzschbeschreibung eine
+  Signatur-Deklaration.  Dazu denke Dir zunächst einen möglichst
+  aussagekräftigen Namen aus.  Überlege dann, welche Sorten die Ein-
+  und Ausgaben haben und schreibe dann eine Signatur, welche die Ein-
+  und Ausgaben der Funktion möglichst präzise beschreiben.  Beispiel:
+  %
+  \begin{verbatim}
+(: billig-strom (natural -> rational))
+\end{verbatim}
+  %
+  Achte bei den Zahlen-Signaturen besonders auf eine möglichst präzise
+  Signatur.  Bei \texttt{billig"=strom} wäre auch die Signatur
+  \texttt{(number -> number)} korrekt, aber nicht so genau.
+\end{konstruktionsanleitung}
+
+\begin{konstruktionsanleitung}{Tests}
+  \index{Tests}
+  \label{ka:tests}
+  Schreibe für die Funktion unter die Signatur Tests.  Denke Dir dafür
+  möglichst möglichst einfache, aber auch möglichst interessante
+  Beispiele für Aufrufe der Funktion auf und lege fest, was dabei
+  herauskommen soll.  Mache aus den Beispielen Tests mit
+  \texttt{check-expect}.  Beispiel:
+\begin{alltt}
+(check-expect (billig-strom 0) 4.9)
+(check-expect (billig-strom 10) 6.8)
+(check-expect (billig-strom 20) 8.7)
+(check-expect (billig-strom 30) 10.6)
+\end{alltt}
+\end{konstruktionsanleitung}
+
+\begin{konstruktionsanleitung}{Gerüst}
+  \index{Gerüst}
+  \label{ka:geruest}
+  Schreibe unter die Tests ein Gerüst für die Funktion: Dazu
+  übernimmst Du den Namen aus der Signatur-Deklaration in eine
+  Funktionsdefinition wie zum Beispiel:
+  %
+\begin{verbatim}
+(define billig-strom
+  (lambda (...)
+    ...))
+\end{verbatim}
+  %
+  Denke Dir Namen für die Eingaben der Funktion aus.  Das müssen
+  genauso viele sein, wie die Signatur Eingaben hat.  Schreibe dann
+  diese Namen als Eingaben in die \texttt{lambda}-Abstraktion.
+  Beispiel:
+  \begin{verbatim}
+(define billig-strom
+  (lambda (kWh)
+    ...))
+\end{verbatim}
+\end{konstruktionsanleitung}
+
+\begin{konstruktionsanleitung}{Rumpf}
+  \index{Rumpf}
+  \label{ka:rumpf}
+  Als letzten Schritt fülle mit Hilfe des Wissens über das Problem
+  den Rumpf der Funktion aus.
+\begin{alltt}
+(define billig-strom
+  (lambda (kWh)
+    \textbf{(+ 4.90 (* 0.19 kWh))}))
+\end{alltt}
+\end{konstruktionsanleitung}
 
 Diesen Ablauf demonstruieren wir anhand des zweiten Teils von Aufgabe~
 \ref{aufgabe:stromtarif}.  Zur Erinnerung:  Es ging um den Tarif
@@ -1368,7 +1454,7 @@ den Rechnungsbetrag ausrechnen, sondern dafür
 Zu dieser Technik werden wir in diesem Buch noch oft greifen.  Sie
 erspart nicht nur oft Arbeit und macht unsere Programme leichter zu
 handhaben, sondern führt manchmal zu ganz neuen Erkenntnissen~--
-speziell in Kapitel~\ref{cha:higher-order}.
+zu sehen zum Beispiel in Kapitel~\ref{cha:higher-order}.
 
 % \section{Domänenwissen}
 % \label{sec:domaenenwissen}
