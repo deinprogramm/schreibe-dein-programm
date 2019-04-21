@@ -1053,8 +1053,19 @@ Die Vorgehensweise bei einer Datenanalyse sieht im allgemeinen so aus:
   Kandidaten sind immer die Substantive. Schreibe für jede dieser
   Größen eine Datendefinition, es sei denn, diese ist aus dem Kontext
   offensichtlich.
+
+  Wenn es für die Datendefinition noch keine Signatur gibt, schreibe
+  eine Signaturdefinition dazu.  Schreibe außerdem Beispiele auf und
+  schreibe jeweils einen Kommentar, der die Beziehung zwischen Daten
+  und Information beschreibt.
 \end{konstruktionsanleitung}
 %
+\emph{Wie} Du die Signaturdefinition schreibst, dafür gibt es in
+diesem Buch jede Menge Konstruktionsanleitungen.  Zur Beziehung
+zwischen Daten und Information gab es bereits
+Abschnitt~\ref{sec:information-daten} auf
+Seite~\pageref{sec:information-daten}.
+
 In diesem Fall ist "<Haustier"> eine problemrelevante Größe, zu der
 wir eine Datendefinition geschrieben haben.  Zum Bei der Erwärmung von
 Wasser haben wir allerdings nicht extra hingeschrieben, dass die
@@ -1079,6 +1090,10 @@ aus der Datendefinition zunächst eine Signaturdefinition abgeleitet:
   (signature (one-of "Katze" "Hund" "Schlange")))
 \end{verbatim}
 %
+Bei Aufzählungen gibt es nur drei Beispiele, die schon in der
+Signaturdefinition stehen: Wir müssen also keine weiteren
+aufschreiben.
+
 Da die Datendefinition für "<Haustier"> drei Fälle hat, muss auch die
 Signaturdefinition drei Fälle haben.  Aus der Signaturdefinition
 ergibt sich direkt eine Verzweigung im Rumpf, die sich nur aus der
@@ -1106,7 +1121,17 @@ Funktion nicht der Anzahl der Fälle entspricht.
 So ein unfertiges Programm, in dem sich einige Elemente aus der
 Analyse der Daten ergeben haben ohne besondere Berücksichtigung der
 konkreten Aufgabenstellung heißt \textit{Schablone}.  Zu bestimmten
-Arten von Datendefinitionen gehören bestimmte Schablonen.  Für jede
+Arten von Datendefinitionen gehören bestimmte Schablonen.
+
+\begin{konstruktionsanleitung}{Schablone}
+  \index{Schablone}
+  Wenn Du das Gerüst fertiggestellt hast, benutze die Signatur und die
+  dazugehörigen Datendefinitionen, um Konstruktionsanleitungen mit ein
+  oder mehreren Schablonen auszuwählen und übertrage die Elemente der
+  Schablonen in den Rumpf der Funktion.
+\end{konstruktionsanleitung}
+%
+Für jede
 Sorte von Datendefinition schreiben wir eine Konstruktionsanleitung
 mit Schablone:
 %
