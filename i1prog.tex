@@ -211,10 +211,12 @@ auch mal Fehlermeldungen wie diese hier:
 \end{alltt}
 %
 Das liegt daran, dass das \texttt{*} hier an der Stelle eines
-Operanden für die Summe dient.  Ein anderes Wort für Operand in diesem
-Zusammenhang ist \textit{Argument}, darum steht da sinngemäß, dass
+Operanden für die Summe dient.  Das Wort \textit{Argument} steht für
+den Wert des Operanden einer Funktion, darum steht da sinngemäß, dass
 \texttt{+} eine Zahl als erstes Argument etwartet, aber
-stattdessen die Funktion \texttt{+} bekommen hat.
+stattdessen die Funktion \texttt{+} bekommen hat.  (Das Wort
+"<Argument"> definieren wir genauer in Abschnitt~\ref{sec:argument} auf
+Seite~\pageref{sec:argument}.)
 
 Abspeichern geht mit der REPL nicht, und der REPL-Inhalt verschwindet
 auch jedesmal, wenn Du \texttt{Start} bzw.\ \texttt{Run} drückst.  Du
@@ -727,7 +729,7 @@ Dann wertet DrRacket den Ausdruck wie folgt aus:
 %
 \begin{enumerate}
 \item Die Operanden werden ausgewertet und ergeben die sogenannten
-  \textit{Argumente\index{Argument}}.
+  \textit{Argumente\index{Argument}}.\label{sec:argument}
 \item Die Argumente werden ausgewertet und die Ergebnisse für die
   Variablen des \texttt{lambda}-Ausdrucks~-- die sogenannten
   \textit{Parameter\index{Parameter}}~-- im Innenteil des
