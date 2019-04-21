@@ -1376,13 +1376,13 @@ heißen abgeleitete Formen auch \textit{syntaktischer
   Schreibe die Funktion \texttt{cute?} aus Abschnitt~\ref{sec:pet} so
   um, dass sie \texttt{if} statt  \texttt{cond} verwendet.
 \end{aufgabe}
-
+%
 Auch \texttt{and} und \texttt{or} sind eigentlich syntaktischer Zucker:
 Es ist immer möglich, einen \texttt{and}-Ausdruck in \texttt{if}s
 zu übersetzen.  Es gelten folgende Übersetzungsregeln:
 %
 \begin{alltt}
-(and) \(\mapsto\) #t
+(and \(e\)) \(\mapsto\) \(e\)
 (and \(e\sb{1}\) \(e\sb{2}\) \(\ldots\)) \(\mapsto\) (if \(e\sb{1}\) (and \(e\sb{2}\) \(\ldots\)) #f)
 \end{alltt}
 %
@@ -1392,16 +1392,15 @@ in eine Kaskade von \texttt{if}-Ausdrücken übersetzt:
 \begin{alltt}
 (and a b c)
 \(\mapsto{}\) (if a (and b c) #f)
-\(\mapsto{}\) (if a (if b (and c) #f) #f)
-\(\mapsto{}\) (if a (if b (if c (and) #f) #f) #f)
-\(\mapsto{}\) (if a (if b (if c #t #f) #f) #f)
+\(\mapsto{}\) (if a (if b (and c) #f))
+\(\mapsto{}\) (if a (if b c #f))
 \end{alltt}
 %
 Ebenso lassen sich \texttt{or}-Ausdrücke immer in
 \texttt{if}-Ausdrücke übersetzen:
 %
 \begin{alltt}
-(or) \(\mapsto\) #f
+(or \(e\)) \(\mapsto\) \(e\)
 (or \(e\sb{1}\) \(e\sb{2}\) \(\ldots\)) \(\mapsto\) (if \(e\sb{1}\) #t (or \(e\sb{2}\) \(\ldots\)))
 \end{alltt}
 %
@@ -1411,9 +1410,18 @@ Beispiel:
 (or a b c)
 \(\mapsto{}\) (if a #t (or b c))
 \(\mapsto{}\) (if a #t (if b #t (or c)))
-\(\mapsto{}\) (if a #t (if b #t (if c #t (or))))
-\(\mapsto{}\) (if a #t (if b #t (if c #t #f)))
+\(\mapsto{}\) (if a #t (if b #t c))
 \end{alltt}
+%
+\begin{aufgabe}
+  Beim syntaktischen Zucker für \texttt{and} und \texttt{or} könnten
+  wir auch definieren, in was \texttt{(and)} und \texttt{(or)} (also
+  jeweils ohne Operanden) übersetzt wird.  Was wäre jeweils die
+  korrekte Übersetzung?  (Achtung: Die korrekte Übersetzung überrascht
+  Dich vielleicht.)  Übersetze \texttt{(and a b c)} und \texttt{(or a
+    b c)} jeweils mit Hilfe Deiner neuen Regeln so, als ob die Regeln
+  \texttt{(and \(e\))} und \texttt{(or \(e\))} nicht da wären.
+\end{aufgabe}
 
 \section{Unsinnige Daten abfangen}
 \label{sec:nonsensical-data}
