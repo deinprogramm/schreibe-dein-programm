@@ -1017,12 +1017,21 @@ einfügen.  Der sieht so aus:
          ((>= (- (+ temp heat) 80) 100) 100)
 \end{verbatim}
 %
-Jetzt ist das Programm endlich fertig und korrekt! Eine Lektion bleibt:
-%
-\begin{center}
-  \emph{Bei komplizierten Fallunterscheidungen,\\ teste gründlich und
-    gehe davon aus, dass Du Zweige vergessen hast.}
-\end{center}
+Jetzt ist das Programm endlich fertig und korrekt!
+
+Doch wie konnte dieser Fehler unbemerkt bleiben, zumindest zunächst
+von uns?  Das liegt daran, dass die Fallunterscheidung, die der
+Aufgabe zugrundliegt, ziemlich komplex ist.  Bei komplexen Programmen
+ist das Risiko \emph{immmer} groß, dass sie Fehler enthalten.  Bei
+komplexen Fallunterscheidungen bedeutet dies, dass fast immer ein Fall
+im Programm fehlt, zumindest beim ersten Anlauf.  Wir sollten uns bei
+der Gelegenheit an Mantra~\ref{mantra:komplexitaet} und
+Seite~\pageref{mantra:komplexitaet} erinnern:
+
+\mantrakomplexitaet*
+
+\noindent Bei komplizierten Fallunterscheidungen, teste deshalb gründlich und
+gehe davon aus, dass Du Zweige vergessen hast.
 
 \section{Datenanalyse und Schablonen}
 \label{sec:datenanalyse}
@@ -1061,10 +1070,10 @@ Die Vorgehensweise bei einer Datenanalyse sieht im allgemeinen so aus:
 \end{konstruktionsanleitung}
 %
 \emph{Wie} Du die Signaturdefinition schreibst, dafür gibt es in
-diesem Buch jede Menge Konstruktionsanleitungen.  Zur Beziehung
-zwischen Daten und Information gab es bereits
+diesem Buch eine Reihe spezialisierter Konstruktionsanleitungen.  Die
+Beziehung zwischen Daten und Information geht auf
 Abschnitt~\ref{sec:information-daten} auf
-Seite~\pageref{sec:information-daten}.
+Seite~\pageref{sec:information-daten} zurück.
 
 In diesem Fall ist "<Haustier"> eine problemrelevante Größe, zu der
 wir eine Datendefinition geschrieben haben.  Zum Bei der Erwärmung von
@@ -1080,10 +1089,20 @@ eine Aufzählung handelt.  Später werden wir noch andere Arten
 von Daten beschreiben zusammen mit den dazu passenden Formulierungen
 in den Datendefinitionen.
 
-Die Datenanalyse spielt die zentrale Rolle bei der Umsetzung der
-Konstruktionsanleitung und führt immer auch zu Elementen in unserem
-Programm.  Bei der Funktion \texttt{cute?} haben wir zum Beispiel
-aus der Datendefinition zunächst eine Signaturdefinition abgeleitet:
+Die Datenanalyse ist die wichtigste Methode zur Umsetzung der
+Mantras~\ref{mantra:schreib} und \ref{mantra:lies}:
+%
+\mantraschreib*
+%
+\mantralies*
+%
+\noindent Die Datenanalyse lenkt beim Lesen zunächst unseren Blick auf die
+Daten, \emph{nicht} darauf, was später mit ihnen gemacht wird.  (Das
+kommt später.)  Außerdem gibt sie uns Werkzeug an die Hand, wie wir
+die Erkenntnisse aus dem Lesen strukturieren und aufschreiben können.
+Insbesondere führ sie immer auch zu Elementen in unserem Programm.
+Bei der Funktion \texttt{cute?} haben wir zum Beispiel aus der
+Datendefinition zunächst eine Signaturdefinition abgeleitet:
 %
 \begin{verbatim}
 (define pet
@@ -1131,7 +1150,12 @@ Arten von Datendefinitionen gehören bestimmte Schablonen.
   Schablonen in den Rumpf der Funktion.
 \end{konstruktionsanleitung}
 %
-Für jede
+Die Schablone ist das nächste Werkzeug für die Umsetzung von
+Mantra~\ref{sec:schreib}:
+%
+\mantraschreib*
+%
+\noindent Für jede
 Sorte von Datendefinition schreiben wir eine Konstruktionsanleitung
 mit Schablone:
 %
