@@ -186,13 +186,11 @@ Die Signatur sagt leider nichts darüber aus, dass die Funktion nur bis
 Drei funktioniert~-- später werden wir noch beschreiben, wie die
 Signatur präziser werden kann.  Hier wollten wir uns jedoch erst
 einmal auf die Funktionsdefinition konzentrieren.  Vorher machen wir
-aber die obigen Beispiele zu Testfällen und fügen noch zwei hinzu:
+aber die obigen Beispiele zu Testfällen:
 %
 \begin{alltt}
 (check-expect (say-number 0) "zero")
 (check-expect (say-number 1) "one")
-(check-expect (say-number 2) "two")
-(check-expect (say-number 3) "three")
 \end{alltt}
 %
 Das Gerüst ergibt sich direkt aus der Signatur:
@@ -262,6 +260,44 @@ Fertig!
   Finde heraus was passiert, wenn Du die Funktion mit einer Zahl
   aufrufst, für die sie nicht gemacht ist.
 \end{aufgabe}
+
+\section{Testabdeckung}
+\label{sec:testabdeckung}
+\index{Abdeckung}\index{Testabdeckung}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.7\textwidth]{i1verzw/coverage}
+  \caption{Anzeige von Testabdeckung in DrRacket}
+  \label{fig:coverage}
+\end{figure}
+
+Vielleicht ist Dir bei der \texttt{say-number}-Funktion aus dem
+vorigen Abschnitt aufgefallen, dass das Programm unmittelbar, nachdem
+es gelaufen hat, etwas merkwürdig aussieht: Zwei Zeilen sind farbig
+hinterlegt, wie in Abbildung~\ref{fig:coverage} zu sehen.  Das liegt
+daran, dass diese beiden Zeilen nie ausgewertet wurden, weil die
+Tests nur die ersten beiden Fälle 0 und 1 übeprüfen.  Theoretisch
+könnte in den beiden letzten Zweigen für 2 und 3 noch ein Fehler
+stecken, und die Tests würden es nicht bemerken.
+
+Wenn Du folgende Testfälle hinzufügst, geht die farbige Hinterlegung weg:
+%
+\begin{verbatim}
+(check-expect (say-number 2) "two")
+(check-expect (say-number 3) "three")
+\end{verbatim}
+%
+Probier es aus~-- am besten erst nur den einen, dann den anderen!
+
+Die farbige Hinterlegung zeigt die \textit{Testabdeckung} oder kurz
+\textit{Abdeckung} an: Ein Ausdruck im Programm, der durch die Tests
+ausgewertet wird, heißt \textit{abgedeckt}.  Die farbig hinterlegten
+Ausdrücke sind also nicht abgedeckt.  Der letzte Satz von
+Konstruktionsanleitun~\ref{ka:tests} auf Seite~\pageref{ka:tests}
+zielt gerade darauf: Eine Funktion sollte durch ihre Tests vollständig
+abgedeckt werden.  Die Abdeckung ist also eine Minimalanforderung an
+unsere Tests.
 
 \section{Aufzählungen}
 

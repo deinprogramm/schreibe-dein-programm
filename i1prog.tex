@@ -1283,7 +1283,17 @@ des Ablaufs ein, die wir schon eingeführt haben:
 (check-expect (billig-strom 20) 8.7)
 (check-expect (billig-strom 30) 10.6)
 \end{alltt}
+  Achte darauf, dass die Tests dafür sorgen, dass jeder Teil 
+  Deiner Funktion einmal zur Auswertung kommt.
 \end{konstruktionsanleitung}
+%
+Der letzte Satz der Konstruktionsanleitung ergibt, was das Beispiel
+\texttt{billig-strom} betrifft, keinen Sinn, da jeder Tests dafür
+sorgt, dass die Addition und die Multiplikation in
+\texttt{billig-strom} ausgwertet werden.  In
+Abschnitt~\ref{sec:testabdeckung} werden wir aber Beispiele
+programmieren, bei denen es nicht selbstverständlich ist, dass die
+Tests alles auswerten.
 
 \begin{konstruktionsanleitung}{Gerüst}
   \index{Gerüst}
