@@ -940,10 +940,13 @@ unmittelbar ersichtlich, was die Programmteile tun oder ob sie
 tatsächlich korrekt sind.  Es ist darum sinnvoll, die Funktion mit
 einigen Programmelementen zu ergänzen, welche die Verständlichkeit
 erhöhen und auch die Wahrscheinlichkeit, dass die Funktion korrekt
-ist.
+ist.  In den nächsten Abschnitten nehmen wir uns diese
+Programmelemente einzeln vor.
 
-\paragraph{Kurzbeschreibung}
-Wir fangen dazu an mit einer kurzen Beschreibung auf Deutsch (der
+\section{Kurzbeschreibung}
+
+Als erste Unterstüzung der Lesbarkeit stellen wir einer Funktion eine
+eine kurze Beschreibung auf Deutsch voran, die
 sogenannten \textit{Kurzbeschreibung\index{Kurzbeschreibung}}), die
 beschreibt, was die Funktion macht.  Eine prägnante Zeile ist dafür
 genug.  Das könnte so aussehen:
@@ -967,7 +970,10 @@ beim Auswerten, aber für menschliche Leserinnen ist sie nützlich.
 Abbildung~\ref{scheme:comment} fasst zusammen, wie das Semikolon
 funktioniert.
 
-\paragraph{Signatur} Als nächstes ergänzen wir eine \textit{Signatur\index{Signatur}}, die
+\section{Signatur}
+
+Die Lesbarkeit des Programms wird außerdem durch die
+\textit{Signatur\index{Signatur}} unterstützt, die
 beschreibt, was für Daten die Funktion als Argumente erwartet und was
 für Daten sie liefert.
 
@@ -1052,7 +1058,9 @@ die durch die Signatur \(s\) beschrieben ist.
 Abbildung~\ref{scheme:signature} beschreibt das Format von Signaturen
 und Signatur-Deklarationen genauer.
 
-\paragraph{Tests} Wir haben oben in der REPL die Funktion
+\section{Tests}
+
+Wir haben oben in der REPL die Funktion
 \texttt{billig-strom} ausprobiert, indem wir DrRacket mehrere Aufrufe
 mit unterschiedlichen Eingaben habne auswerten lassen.  Anhand dieser
 Beispiele können wir auch (vielleicht mit einem Taschenrechner)
