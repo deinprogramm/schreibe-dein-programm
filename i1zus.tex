@@ -159,8 +159,10 @@ Mit der Schreibweise
 %
 werden Record-Typ und ihre Komponenten in der REPL sichtbar.
 
-Computer-Records sind Werte wie andere auch und lassen sich zum Beispiel an
-Variablen binden:
+Hier sind einige Beispiele für Computer-Records, mit Kommentaren,
+welche die Beziehung zwischen Daten und Information (siehe
+Abschnitt~\ref{sec:information-daten} auf
+Seite~\pageref{sec:information-daten}) herstellt:
 %
 \begin{alltt}
 ; Cell, 4 Gbyte RAM, 1000 Gbyte Festplatte
@@ -443,7 +445,7 @@ umzusetzen:
 
 \mantraschreib*
 
-Als nächstes kommen die Namen der Selektoren.  Dabei befolgen wir eine
+\noindent Als nächstes kommen die Namen der Selektoren.  Dabei befolgen wir eine
 Konvention, die Selektoren alle mit \texttt{wallclock-time-} anfangen
 zu lassen.  Bei der Benennung des Konstruktor haben wir ebenfalls
 eine Konvention angewendet, dessen Name sich aus \texttt{make-} und
@@ -523,7 +525,8 @@ steht die Signatur des jeweiligen Feldes.
 Abbildung~\ref{scheme:define-record-functions-simple} fasst die Form
 von Record-Definitionen zusammen.
 
-Hier sind drei Beispiele für Uhrzeiten:
+Hier sind drei Beispiele für Uhrzeiten als Daten, mit Kommentaren,
+welche die repräsentierte Information beschreiben:
 %
 \begin{verbatim}
 (define wt1 (make-wallclock-time 11 55)) ; fünf vor zwölf
@@ -847,7 +850,7 @@ beantwortet.  Hier sind die Signaturen für die Record-Funktionen:
 (: dillo-alive? (dillo -> boolean))
 \end{verbatim}
 %
-Hier sind einige Exemplare:
+Hier sind einige Exemplare als Daten plus Information:
 %
 \begin{verbatim}
 (define d1 (make-dillo 55000 #t)) ; 55 kg, lebendig 
