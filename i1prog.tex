@@ -1007,8 +1007,14 @@ eine rationale Zahl als Ausgabe produziert.">
 
 \begin{feature}{Signaturen}{scheme:signature}
   Eine \textit{Signatur\index{Signatur}} beschreibt eine Menge oder
-  Sorte von Werten.  Folgende Signaturen für Zahlenmengen sind
-  eingebaut:
+  Sorte von Werten.
+
+  \smallskip
+  Die Signatur \texttt{string}\index{string@\texttt{string}}
+  beschreibt eine Zeichenkette.
+  \smallskip
+  
+  Folgende Signaturen für Zahlen sind eingebaut:
   %
   \begin{flushleft}
     \begin{tabular}{ll}
@@ -1032,9 +1038,9 @@ eine rationale Zahl als Ausgabe produziert.">
   kommen hinzu), jede rationale Zahl ist eine reelle Zahl
   (nicht-rationale Zahlen wie $\sqrt{2}$ kommen hinzu, und jede reelle
   Zahl ist auch eine Zahl (komplexe Zahlen\index{komplexe Zahlen} kommen hinzu).
-  
-  Diese Liste wird in zukünftigen Kapiteln noch erweitert werden.
 
+\smallskip
+  
   Signaturen für Funktionen haben die Form
 %
 \begin{alltt}
@@ -1043,19 +1049,24 @@ eine rationale Zahl als Ausgabe produziert.">
 %
 Die Signaturen $s_1 \ldots s_n$ sind die Signaturen für die Argumente
 der Funktion und $s$ die Signatur für das Ergebnis.
+\end{feature}
 
-Eine \textit{Signatur-Deklaration\index{Signatur-Ddeklaration}} hat
+\begin{feature}{Signatur-Deklarationen}{scheme:signatur-deklaration}
+Eine \textit{Signatur-Deklaration\index{Signatur-Deklaration}} für
+eine Funktion hat
 folgende Form:
 %
 \begin{alltt}
-(: \(v\) \(s\))
+(: \(f\) (\(s\sb{1}\) \ldots \(s\sb{n}\) -> \(s\)))
 \end{alltt}
 %
-Sie sagt aus, dass der Wert der Variablen \(v\) zu der Menge gehört,
-die durch die Signatur \(s\) beschrieben ist.
+Sie sagt aus, dass das Verhalten der Funktion der Signatur entspricht:
+Wenn die Eingaben der Funktion den Signaturen \(s\sb{1} \ldots
+s\sb{n}\) entspricht, dann entspricht die Ausgabe der Signatur $s$.
 \end{feature}
 %
-Abbildung~\ref{scheme:signature} beschreibt das Format von Signaturen
+Abbildungen~\ref{scheme:signature} und
+\ref{scheme:signatur-deklaration} beschreiben das Format von Signaturen
 und Signatur-Deklarationen genauer.
 
 \section{Tests}
@@ -1145,7 +1156,7 @@ Kriterium ist, dass jeder Teil des Programms, das wir geschrieben
 haben, im Laufe der Tests einmal ausgewertet werden sollte.  DrRacket
 kann Dir dabei helfen.
 
-\label{page:abdeckung}
+\label{page:abdeckung0}
 Wenn Du das Programm nur auf die Funktionsdefinition reduzierst (also
 alle Tests und Beispielaufrufe entfernst) und dann laufen lässt,
 sollte Dir auffallen, dass der Rumpf von \texttt{billig-strom} blau
@@ -1182,6 +1193,30 @@ Test machen:
 \begin{aufgabe}
   Schreibe für \texttt{tile} zwei Tests!
 \end{aufgabe}
+
+Übrigens ist eine Signatur-Deklaration auch so eine Art Testfall.
+Das sehen wir, wenn wir absichtlich einen Fehler wie diesen hier
+machen:
+%
+\begin{verbatim}
+(check-expect (watt-für-wenig "30") 13.0)
+\end{verbatim}
+%
+Probier es aus!  Es erscheint zusammen mit den Meldungen über die
+Tests eine Meldung über eine
+\textit{Signaturverletzung}\index{Signaturverletzung} wie folgt:
+%
+\begin{alltt}
+Signaturverletzungen:
+	bekam "30" in stromtarif.rkt \ldots, Signatur in stromtarif.rkt \ldots
+\end{alltt}
+%
+In der Meldung stehen klickbare Links, die Dir zeigen, wo die
+Signaturverletzung passiert ist und welche Signatur verletzt wurde.
+
+Wenn Signaturverletzungen erscheinen, solltest Du diese genau lesen,
+weil sie auf ein Problem in Deinem Programm hinweisen und wertvolle
+Hinweise zu dessen Lösung geben.
 
 \section{Konstruktionsanleitungen}
 \label{sec:konstruktionsanleitungen}
