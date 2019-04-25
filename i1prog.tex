@@ -1145,16 +1145,18 @@ Kriterium ist, dass jeder Teil des Programms, das wir geschrieben
 haben, im Laufe der Tests einmal ausgewertet werden sollte.  DrRacket
 kann Dir dabei helfen.
 
+\label{page:abdeckung}
 Wenn Du das Programm nur auf die Funktionsdefinition reduzierst (also
 alle Tests und Beispielaufrufe entfernst) und dann laufen lässt,
 sollte Dir auffallen, dass der Rumpf von \texttt{billig-strom} blau
 hinterlegt ist.  (Außerdem Teile der Signatur von
 \texttt{billig-strom}.)  Diese Hinterlegung zeigt die sogenannte
-\textit{Coverage\index{Coverage}} an: Die blau hinterlegten
+\textit{Abdeckung\index{Abdeckung}} an: Die blau hinterlegten
 Programmteile sind noch nie gelaufen und wurden ergo auch noch nicht
 getestet.  Es fehlen also noch Tests.  In Zukunft achten wir also
 darauf, dass, nachdem das Programm gelaufen ist, nichts blaues
-übrigbleibt~-- andernfalls müssen wir mehr Tests schreiben kann.
+übrigbleibt~-- andernfalls müssen wir mehr Tests schreiben kann.  Wir
+kommen in Abschnitt~\ref{sec:testabdeckung} auf dieses Thema zurück.
 
 Bei Programmen, die Bilder erzeugen, ist es in der Regel nicht
 möglich, die Testfälle vorher zu schreiben.  Du kannst aber Beispiele
@@ -1291,8 +1293,8 @@ des Ablaufs ein, die wir schon eingeführt haben:
 (check-expect (billig-strom 20) 8.7)
 (check-expect (billig-strom 30) 10.6)
 \end{alltt}
-  Achte darauf, dass die Tests dafür sorgen, dass jeder Teil 
-  Deiner Funktion einmal zur Auswertung kommt.
+  Achte darauf, dass die Tests dafür sorgen, dass der Code Deiner
+  Funktion durch die Tests vollständig abgedeckt wird.
 \end{konstruktionsanleitung}
 %
 Der letzte Satz der Konstruktionsanleitung ergibt, was das Beispiel
