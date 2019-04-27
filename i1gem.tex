@@ -34,7 +34,7 @@ aus dem vorigen Kapitel.
 
 Genau wie bei Gürteltieren interessiert uns bei Papageien das Gewicht,
 aber wir nehmen an, da Papageien in der Regel nicht auf texanischen
-Highways überfahren werden, daß sie immer lebendig sind.  Außerdem
+Highways überfahren werden, dass sie immer lebendig sind.  Außerdem
 betrachten wir ausschließlich sprechende Papageien, die jeweils einen
 einzelnen Satz sagen können.  Hier die Datendefinition:
 %
@@ -114,7 +114,7 @@ zusammengesetzte Daten als Ein- und als Ausgabe:
 %
 Fertig!
 
-Sie können sich vielleicht vorstellen, dass  Papageien und
+Du kannst Dir vielleicht vorstellen, dass Papageien und
 Gürteltiere sich in einem Programm begegnen, also \emph{gemischt}
 vorkommen.  Papageien und Gürteltiere gehören zum gemeinsamen
 Oberbegriff \textit{Tier}\index{Tier}.  Dafür könnte eine
@@ -170,7 +170,7 @@ Diese sieht folgendermaßen aus:
 %
 Das \texttt{signature} kennen wir von den Fallunterscheidungen aus
 Abschnitt~\ref{page:signature}.  Das \texttt{mixed} ist neu und steht
-für "<gemischte Daten">.  Sie können die obige Definition lesen als
+für "<gemischte Daten">.  Du kannst die obige Definition lesen als
 "<Tiere sind gemischt aus Gürteltieren und Papageien">; das klingt
 aber auf Deutsch hölzern, weshalb wir für die Datendefinition bei der
 Formulierung "<eins der folgenden"> bleiben.  Mit der Definition steht
@@ -342,12 +342,12 @@ Aus diesem Beispiel ergibt sich eine Konstruktionsanleitung für
 gemischte Daten.  Zunächst zur Daten- und Signaturdefinition:
 %
 \begin{itemize}
-\item Gemischte Daten liegen vor, wenn Sie eine Datensorte durch eine
+\item Gemischte Daten liegen vor, wenn Du eine Datensorte durch eine
   Formulierung der Form "<ein $X$ ist eins der folgenden"> beschreiben
-  können: Diese Formulierung ist die Datendefinition.
-\item Stellen Sie fest, wieviele unterschiedliche Fälle die Sorte
+  kannst: Diese Formulierung ist die Datendefinition.
+\item Stelle fest, wieviele unterschiedliche Fälle die Sorte
   für die gemischten Daten hat.
-\item Schreiben Sie eine Signaturdefinition der folgenden Form unter
+\item Schreibe eine Signaturdefinition der folgenden Form unter
   die Datendefinition:
 \begin{alltt}
 (define \(S\)
@@ -360,18 +360,18 @@ gemischte Daten.  Zunächst zur Daten- und Signaturdefinition:
 \end{itemize}
 %
 Eine Schablone für eine Funktion und deren Testfälle, die gemischte
-Daten akzeptiert, können Sie folgendermaßen konstruieren:
+Daten akzeptiert, kannst Du folgendermaßen konstruieren:
 %
 \begin{itemize}
-\item Schreiben Sie Tests für jeden der Fälle.
-\item  Schreiben Sie eine \texttt{cond}-Verzweigung als Rumpf in die
+\item Schreibe Tests für jeden der Fälle.
+\item  Schreibe eine \texttt{cond}-Verzweigung als Rumpf in die
   Schablone, die genau $n$ Zweige hat~-- also genau soviele Zweige,
   wie es Fälle gibt.
-\item Schreiben Sie für jeden Zweig einen Test, der den entsprechenden
+\item Schreibe für jeden Zweig einen Test, der den entsprechenden
   Fall identifiziert.
-\item Vervollständigen Sie die Zweige, indem Sie eine Datenanalyse für
-  jeden einzelnen Fall vornehmen und entsprechende Hilfsfunktionen
-  oder Konstruktionsanleitungen benutzen.
+\item Vervollständige die Zweige, indem Du eine Datenanalyse für
+  jeden einzelnen Fall vornimmst und entsprechende Hilfsfunktionen
+  oder Konstruktionsanleitungen benutzt.
   Die übersichtlichsten Programme entstehen meist, wenn für jeden Fall
   separate Hilfsfunktionen definiert sind.\label{page:separate-mixed-procs}
 \end{itemize}
@@ -381,10 +381,10 @@ Anhang~\ref{app:konstruktionsanleitungen} faßt dies noch einmal
 zusammen.
 
 Eine Konstruktionsanleitung oder Schablone für gemischte Daten
-\emph{als Ausgabe} ist unnötig~-- Sie benutzen einfach die Schablone
+\emph{als Ausgabe} ist unnötig~-- Du benutzt einfach die Schablone
 des entsprechenden Falls.
 
-Beachten Sie den Unterschied zwischen \texttt{one-of} und
+Beachte den Unterschied zwischen \texttt{one-of} und
 \texttt{mixed}, die leicht zu verwechseln sind: \texttt{One-of} steht
 für "<einer der folgenden \emph{Werte}">, während \texttt{mixed} für
 "<gehörend zu einer der folgenden \emph{Signaturen}"> steht.
@@ -769,15 +769,15 @@ Fertig!
 
   
   \begin{enumerate}
-  \item Führen Sie eine Datenanalyse durch und erstellen Sie Daten- und 
+  \item Führe eine Datenanalyse durch und erstelle Sie Daten- und 
     Record-Definitionen.
-  \item Schreiben Sie eine Funktion \texttt{stückpreis}, die eine Warenklasse
+  \item Schreibe eine Funktion \texttt{stückpreis}, die eine Warenklasse
     konsumiert und den Stückpreis zurückgibt.
-  \item Schreiben Sie eine Funktion \texttt{buchen}, die eine Warenklasse und die Anzahl der
+  \item Schreibe eine Funktion \texttt{buchen}, die eine Warenklasse und die Anzahl der
     abzubuchenden Exemplare konsumiert, den Bestand der Warenklasse reduziert und die
     Warenklasse zurückgibt. Falls mehr Exemplare gefordert werden, als in der Warenklasse
     vorhanden sind, soll der Bestand auf 0 gesetzt werden.
-  \item Schreiben Sie eine Funktion \texttt{haltbar?}, die eine
+  \item Schreibe eine Funktion \texttt{haltbar?}, die eine
     Warenklasse und ein Datum konsumiert und \texttt{\#t} zurückgibt, falls das
     Mindesthaltbarkeitsdatum (MHD) nicht überschritten wurde. Falls kein MHD bekannt ist,
     soll \texttt{\#t} zurückgeben werden.
@@ -786,15 +786,15 @@ Fertig!
 
 \begin{aufgabe}
   \label{aufgabe:knaubichler2}
-  Erweitern Sie die Lösung von Aufgabe~\ref{aufgabe:knaubichler} aus
+  Erweitere die Lösung von Aufgabe~\ref{aufgabe:knaubichler} aus
   dem vorigen Kapitel (Seite~\pageref{aufgabe:knaubichler}):
   
   \begin{enumerate}
-  \item Schreiben Sie nun eine Funktion, die zwei
+  \item Schreibe nun eine Funktion, die zwei
     Grundkreaturen in beliebiger Reihenfolge akzeptiert, die Kreuzung
     vornimmt und eine neue Kreatur zurückgibt.
     
-  \item Schreiben Sie nun eine
+  \item Schreibe nun eine
     Funktion, die drei Grundkreaturen in beliebiger Reihenfolge
     akzeptiert, die Kreuzung vornimmt und eine neue Kreatur
     zurückgibt.
@@ -818,8 +818,8 @@ Fertig!
   \item Es gibt drei Klassen von Formen: Kreise, Rechtecke und
     gleichschenklige Dreiecke.  Alle Formen haben eine
     Ursprungskoordinate und enthalten eine Information über die Größe
-    (Radius, Höhe, Breite, etc), wie Sie es auf der Abbildung sehen.
-    Benutzen Sie für die Ursprungskoordinate die vorgegebenen kartesischen
+    (Radius, Höhe, Breite, etc), wie Du auf der Abbildung siehst.
+    Benutze für die Ursprungskoordinate die vorgegebenen kartesischen
     Koordinaten!
 
     % \begin{figure}[h]
@@ -861,8 +861,8 @@ Fertig!
 
   \end{itemize}
 
-  Zeigen Sie den Hackern, was richtiges Software-Engineering ist und
-  benutzen Sie die passenden Konstruktionsanleitungen, um Repräsentationen für die Formen und die zugehörigen
+  Zeige den Hackern, was richtiges Software-Engineering ist und
+  benutze die passenden Konstruktionsanleitungen, um Repräsentationen für die Formen und die zugehörigen
   Funktionen zu schreiben!
 \end{aufgabe}
 
@@ -883,21 +883,21 @@ Fertig!
   werden, ob zusätzlich eine "<Gefährdung des Straßenverkehrs"> vorliegt.
   
   \begin{enumerate}
-  \item Schreiben Sie eine Datendefinition für
-    Verstöße gegen die Straßenverkehrsordnung.  Schreiben Sie Daten-
+  \item Schreibe eine Datendefinition für
+    Verstöße gegen die Straßenverkehrsordnung.  Schreibe Daten-
     und Recorddefinitionen für die verschiedenen Verstöße.  Hinweis:
-    Die Zeitpunkte können Sie durch Zeichenketten repräsentieren.  
-    Geben Sie alle Signaturen an!
+    Die Zeitpunkte kannst Du durch Zeichenketten repräsentieren.  
+    Gib alle Signaturen an!
 
-  \item Schreiben Sie eine Funktion, die einen
+  \item Schreibe eine Funktion, die einen
     beliebigen Verstoß entgegennimmt und den Ort des Verstoßes
     zurückgibt.
 
-    Schreiben Sie analog eine Funktion, die einen
+    Schreibe analog eine Funktion, die einen
     beliebigen Verstoß entgegennimmt und den Zeitpunkt des Verstoßes
     zurückgibt.
 
-  \item Schreiben Sie eine Funktion, die einen
+  \item Schreibe eine Funktion, die einen
     beliebigen Verstoß entgegennimmt, diesen als Gefährdung des
     Straßenverkehrs betrachtet und wieder zurückgibt (d.~h. jeder 
     Verstoß ist ein Verstoß mit Gefährdung).
@@ -916,28 +916,28 @@ Fertig!
   \end{itemize}
   
   \begin{enumerate} \setcounter{enumii}{3}
-  \item Schreiben Sie eine Datendefinition für
+  \item Schreibe eine Datendefinition für
     Tatbestände auf Verstöße gegen die Straßenverkehrsordnung.
-    Schreiben Sie Daten- und Recorddefinitionen für die verschiedenen
-    Tatbestände.  Geben Sie alle Signaturen an!
+    Schreibe Daten- und Recorddefinitionen für die verschiedenen
+    Tatbestände.  Gib alle Signaturen an!
 
-  \item Schreiben Sie eine Funktion, die einen
+  \item Schreibe eine Funktion, die einen
     beliebigen Tatbestand konsumiert und die Anzahl der anfallenden
     Punkte zurückliefert.
   \end{enumerate}
 
-  Schreiben Sie nun Funktionen, die Verstöße konsumieren und die
+  Schreibe nun Funktionen, die Verstöße konsumieren und die
   Tatbestände berechnen:
 
   \begin{enumerate} \setcounter{enumii}{5}
-  \item Schreiben Sie eine Funktion, die Falschparken
+  \item Schreibe eine Funktion, die Falschparken
     konsumiert und ein einfaches Vergehen mit 20~Euro Bußgeld zurückgibt.
     Wenn das Falschparken eine Gefährdung des Straßenverkehrs
     darstellt (z.B.  bei Behinderung von Rettungsfahrzeugen),
     soll die Funktion eine Ordnungswidrigkeit mit 40~Euro Bußgeld,
     einem Punkt und keinem Fahrverbot zurückgeben.
 
-  \item Schreiben Sie eine Funktion, die Überfahren
+  \item Schreibe eine Funktion, die Überfahren
     einer roten Ampel konsumiert und eine Ordnungswidrigkeit
     zurückgibt.  Dabei gilt:
     \begin{itemize}
@@ -947,7 +947,7 @@ Fertig!
       Gefährdung vorlag: 125~Euro, 4~Punkte, 1~Monat Fahrverbot
     \end{itemize}
 
-  \item Schreiben Sie eine Funktion, die überhöhte
+  \item Schreibe eine Funktion, die überhöhte
     Geschwindigkeit konsumiert und den Tatbestand zurückgibt.  Dabei
     gilt:
     \begin{itemize}
@@ -966,7 +966,7 @@ Fertig!
       auch keine Freiheitsstrafe)
     \end{itemize}
 
-  \item Schreiben Sie eine Funktion, die einen
+  \item Schreibe eine Funktion, die einen
     Verstoß konsumiert und dessen Folge zurückgibt.  Benutzen Sie die
     Funktionen aus den vorherigen Teilaufgaben.
   \end{enumerate}
