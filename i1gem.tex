@@ -61,7 +61,8 @@ Hier die dazu passende Record-Definition:
 (: parrot-sentence (parrot -> string))
 \end{verbatim}
 %
-Hier zwei Beispiele für Papageien:
+Hier zwei Beispiele für Papageien mit Kommenaren, die die Beziehung
+zwischen Daten und Information beschreiben:
 %
 \begin{verbatim}
 (define p1 (make-parrot 10000 "Der Gärtner war's.")) ; 10kg, Miss Marple
@@ -109,7 +110,6 @@ zusammengesetzte Daten als Ein- und als Ausgabe:
   (lambda (p)
     (make-parrot (+ (parrot-weight p) 50)
                  (parrot-sentence p))))
-
 \end{verbatim}
 %
 Fertig!
@@ -139,7 +139,7 @@ sinnvoll, nach dem "<Gewicht eines Tiers"> zu fragen oder "<ein Tier
 zu füttern">, was wir im folgenden auch vorhaben.
 
 Die Beschreibung des Begriffs "<Tier"> ist bereits als Datendefinition
-geeignet, und muß für Inklusion im Programm nur als Kommentar
+geeignet, und muss für Inklusion im Programm nur als Kommentar
 umformatiert werden:
 %
 \begin{verbatim}
@@ -202,7 +202,7 @@ Das Gerüst sieht so aus:
 \end{verbatim}
 %
 Im Rumpf müssen wir zwischen Gürteltieren und Papageien unterscheiden:
-Schließlich muß \texttt{animal-weight} die Funktion
+Schließlich muss \texttt{animal-weight} die Funktion
 \texttt{dillo-weight} für Gürteltiere, für Papageien aber die Funktion
 \texttt{parrot-weight} aufrufen.  Wir brauchen also~-- wie bei
 Fallunterscheidungen~-- eine Verzweigung, und zwar mit einem Zweig für
@@ -339,26 +339,39 @@ aktualisierte Beschreibung der Form von
 \texttt{define-record-functions} mit Prädikaten.
 
 Aus diesem Beispiel ergibt sich eine Konstruktionsanleitung für
-gemischte Daten.  Zunächst zur Daten- und Signaturdefinition:
-%
-\begin{itemize}
-\item Gemischte Daten liegen vor, wenn Du eine Datensorte durch eine
+gemischte Daten.
+
+\begin{konstruktionsanleitung}{Gemischte Daten: Datenanalyse}
+  \label{ka:gemischt-datenanalyse}
+Gemischte Daten liegen vor, wenn Du eine Datensorte durch eine
   Formulierung der Form "<ein $X$ ist eins der folgenden"> beschreiben
-  kannst: Diese Formulierung ist die Datendefinition.
-\item Stelle fest, wieviele unterschiedliche Fälle die Sorte
-  für die gemischten Daten hat.
-\item Schreibe eine Signaturdefinition der folgenden Form unter
-  die Datendefinition:
+  kannst.  Die daraus resultierende Datendefinition hat die folgende
+  Form:
+  %
 \begin{alltt}
-(define \(S\)
-  (signature
-    (mixed \(S\sb{1}\) \(S\sb{2}\) \(\ldots\) \(S\sb{n}\))))
+; Ein X ist eins der folgenden:
+; - Fall 1
+; - Fall 2
+; - ...
+; - Fall n
 \end{alltt}
-  Dabei ist $S$ die Signatur für die neue Datensorte; $S_1$ bis $S_n$
-  sind die Signaturen für die Signaturen, aus denen die neue
-  Datensorte zusammengemischt ist.
-\end{itemize}
 %
+Schreibe eine Signaturdefinition der folgenden Form unter
+die Datendefinition:
+%
+\begin{alltt}
+(define \(\mathit{sig}\)
+  (signature
+    (mixed \(\mathit{sig}\sb{1}\) \(\mathit{sig}\sb{2}\) \(\ldots\) \(\mathit{sig}\sb{n}\))))
+\end{alltt}
+$\mathit{Sig}$ ist die Signatur für die neue Datensorte; $S_1$ bis $S_n$
+sind die Signaturen für die Signaturen, aus denen die neue
+Datensorte zusammengemischt ist.
+\end{konstruktionsanleitung}
+
+\begin{konstruktionsanleitung}{Gemischte Daten als Eingabe:
+    Schablone}
+  \label{ka:gemischt-eingabe-schablone}
 Eine Schablone für eine Funktion und deren Testfälle, die gemischte
 Daten akzeptiert, kannst Du folgendermaßen konstruieren:
 %
@@ -366,24 +379,21 @@ Daten akzeptiert, kannst Du folgendermaßen konstruieren:
 \item Schreibe Tests für jeden der Fälle.
 \item  Schreibe eine \texttt{cond}-Verzweigung als Rumpf in die
   Schablone, die genau $n$ Zweige hat~-- also genau soviele Zweige,
-  wie es Fälle gibt.
+  wie es Fälle in der Datendefinition beziehungsweise der Signatur gibt.
 \item Schreibe für jeden Zweig einen Test, der den entsprechenden
   Fall identifiziert.
 \item Vervollständige die Zweige, indem Du eine Datenanalyse für
   jeden einzelnen Fall vornimmst und entsprechende Hilfsfunktionen
-  oder Konstruktionsanleitungen benutzt.
+  und Konstruktionsanleitungen benutzt.
   Die übersichtlichsten Programme entstehen meist, wenn für jeden Fall
   separate Hilfsfunktionen definiert sind.\label{page:separate-mixed-procs}
 \end{itemize}
 %
-Konstruktionsanleitung~\ref{ka:gemischt} für gemischte Daten in
-Anhang~\ref{app:konstruktionsanleitungen} faßt dies noch einmal
-zusammen.
-
 Eine Konstruktionsanleitung oder Schablone für gemischte Daten
 \emph{als Ausgabe} ist unnötig~-- Du benutzt einfach die Schablone
 des entsprechenden Falls.
-
+\end{konstruktionsanleitung}
+%
 Beachte den Unterschied zwischen \texttt{one-of} und
 \texttt{mixed}, die leicht zu verwechseln sind: \texttt{One-of} steht
 für "<einer der folgenden \emph{Werte}">, während \texttt{mixed} für
@@ -450,7 +460,8 @@ jeweils rationale Zahlen:
   (sugars-glucose-g  rational))
 \end{verbatim}
 %
-Hier einige Beispiele:
+Hier einige Beispiele, zusammen mit Kommenaren, die die Beziehung
+zwischen Daten und Information beschreiben:
 %
 \begin{verbatim}
 (define s1 (make-sugars 1 1)) ; 1 g Fruktose, 1 g Glukose
@@ -645,7 +656,7 @@ Hier ist jetzt ein \texttt{cond} in einem anderen \texttt{cond}
 eingeschachtelt.  Da so etwas schnell unübersichtlich wird, lohnt es
 sich, wie auf Seite~\pageref{page:separate-mixed-procs} empfohlen,
 diesen Zweig in eine separate Hilfsfunktion auszulagern.  Hier sind
-Kurzbeschreibung und Signatur:
+ Kurzbeschreibung und Signatur:
 %
 \begin{verbatim}
 ; Zuckeranteil in g in Ampel umwandeln
@@ -721,7 +732,7 @@ Wir müssen Fruktose- und den Glukose-Anteil addieren und die Summe
 dann ebenfalls entsprechend der Tabelle vom Anfang in eine Ampelfarbe
 umwandeln.  Aber halt!~-- Genau für das Umwandeln der Zahl aus der
 Tabelle in eine Ampelfarbe haben wir ja gerade die Hilfsfunktion
-\texttt{sugar-weight->traffic-light} geschrieben, und diese können wir
+\texttt{sugar"=weight->traffic"=light} geschrieben, und diese können wir
 erneut zum Einsatz bringen:
 %
 \begin{verbatim}
@@ -737,7 +748,7 @@ erneut zum Einsatz bringen:
 \end{verbatim}         
 %
 Bleibt der letzte Fall~-- der ist zum Glück trivial, da es sich schon
-um eine Farbe handelt, Die muß \texttt{sugar-traffic-light} nur
+um eine Farbe handelt, Die muss \texttt{sugar-traffic-light} nur
 zurückgeben:
 %
 \begin{verbatim}
