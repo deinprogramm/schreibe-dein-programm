@@ -93,7 +93,11 @@ Gerüst:
 \end{verbatim}
 %
 Die Schablone entsteht aus der Kombination der Schablonen für
-zusammengesetzte Daten als Ein- und als Ausgabe:
+zusammengesetzte Daten
+als Einage (Konstruktionsanleitung~\ref{ka:zusammengesetzt-eingabe-schablone} auf
+Seite \pageref{ka:zusammengesetzt-eingabe-schablone}) und als Ausgabe
+(Konstruktionsanleitung~\ref{ka:zusammengesetzt-ausgabe-schablone} auf
+Seite \pageref{ka:zusammengesetzt-ausgabe-schablone}):
 %
 \begin{verbatim}
 (define feed-parrot
@@ -150,7 +154,7 @@ umformatiert werden:
 %
 Bei zusammengesetzen Daten kann die Datendefinition in eine
 Record-Definition überführt werden.  In diesem Fall sind die
-Record-Definitionen für alle Tiere schon da.  Wenn wir Tier in
+Record-Definitionen für alle Tiere schon da.  Wenn wir Tiere in
 Funktionen verarbeiten wollen, brauchen wir allerdings eine Signatur
 für Tiere.  Zum Beispiel wollen eine Funktion schreiben, die für jedes
 Tier das Gewicht ermittelt.  Diese Funktion könnte folgende Signatur haben:
@@ -169,7 +173,8 @@ Diese sieht folgendermaßen aus:
 \end{verbatim}
 %
 Das \texttt{signature} kennen wir von den Fallunterscheidungen aus
-Abschnitt~\ref{page:signature}.  Das \texttt{mixed} ist neu und steht
+Abschnitt~\ref{page:signature} auf Seite~\pageref{page:signature}.
+Das \texttt{mixed}\index{mixed@\texttt{mixed}} ist neu und steht
 für "<gemischte Daten">.  Du kannst die obige Definition lesen als
 "<Tiere sind gemischt aus Gürteltieren und Papageien">; das klingt
 aber auf Deutsch hölzern, weshalb wir für die Datendefinition bei der
@@ -201,12 +206,9 @@ Das Gerüst sieht so aus:
     ...))
 \end{verbatim}
 %
-Im Rumpf müssen wir zwischen Gürteltieren und Papageien unterscheiden:
-Schließlich muss \texttt{animal-weight} die Funktion
-\texttt{dillo-weight} für Gürteltiere, für Papageien aber die Funktion
-\texttt{parrot-weight} aufrufen.  Wir brauchen also~-- wie bei
-Fallunterscheidungen~-- eine Verzweigung, und zwar mit einem Zweig für
-Gürteltiere und einem Zweig für Papageien:
+Tiere bilden auch eine Fallunterscheidung in den Daten, mit zwei
+Fällen: Gürteltiere und Papageien.  Im Rumpf der Funktion brauchen wir
+also eine Verzweigung mit zwei Zweigen:
 %
 \begin{verbatim}
 (define animal-weight
@@ -216,29 +218,29 @@ Gürteltiere und einem Zweig für Papageien:
       (... ...))))
 \end{verbatim}
 %
-Wir brauchen als nächstes zwei Tests~-- einen, der Gürteltiere
-und einen, der Papageien identifiziert.  Bisher fehlen dafür noch die
-Mittel.  Wir können aber die Record-Definitionen um sogenannte
-Prädikate erweitern, und die werden uns erlauben, die Tests zu
+Wir brauchen als nächstes zwei Bedingungen~-- eine, die Gürteltiere
+und eine, die Papageien identifiziert.  Dafür erweitern wir die
+Record-Definitionen um ein neues Element, das \textit{Prädikat}\index{Prädikat}.
+Die Prädikate werden uns erlauben, die Bedingungen zu
 schreiben.  Die Record-Definitionen sehen dann so aus:
 %
 \begin{alltt}
 (define-record-functions dillo
   make-dillo
-  dillo? ; \(\Longleftarrow\)
+  dillo? ; \(\Longleftarrow\) Prädikat
   (dillo-weight natural)
   (dillo-alive? boolean))
 
 (define-record-functions parrot
   make-parrot
-  parrot? ; \(\Longleftarrow\)
+  parrot? ; \(\Longleftarrow\) Prädikat
   (parrot-weight   natural)
   (parrot-sentence string))
 \end{alltt}
 %
 Es sind zwei neue Namen hinzugekommen, \texttt{dillo?} und
-\texttt{parrot?}. Dies sind spezielle Funktionen, sogenannte
-\texttt{Prädikate}\index{Prädikat} mit folgenden Signaturen:
+\texttt{parrot?}. Das sind die Prädikate, und sie haben folgenden
+Signaturen:
 %
 \begin{verbatim}
 (: dillo? (any -> boolean))
@@ -304,28 +306,27 @@ hat folgende allgemeine Gestalt:\label{def:define-record-functions}
 \end{alltt}
 %
 Diese Form definiert einen Record-Typ mit $n$ Feldern.
-Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, für die
+Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{ssel}_n$ allesamt Variablen, für die
 \texttt{define-record-functions} Definitionen anlegt:
 %
 \begin{itemize}
 \item $t$ ist der Name des Record-Typs.
-\item $c$ ist der Name des Konstruktors, den
-  \texttt{define-record-functions} anlegt.  Der Konstruktor hat 
-  folgende Signatur:
+\item $c$ ist der Name des Konstruktors mit 
+  folgender Signatur:
 %  
 \begin{alltt}
 (: \(c\) (\(\mathit{sig}\sb{1}\) \(\ldots\) \(\mathit{sig}\sb{n}\) -> \(t\)))
 \end{alltt}
 \item $p$ ist der Name des Prädikats, der Records diesen Typs von
-  anderen Werten unterscheidet.  Das Prädikat kann auchn weggelassen
+  anderen Werten unterscheidet.  Das Prädikat kann auch weggelassen
   werden.
 
     Das Prädikat hat folgende Signatur:
 \begin{alltt}
 (: \(p\) (any -> boolean))
 \end{alltt}
-\item $s_1, \ldots, s_n$ sind die Namen der Selektoren für die Felder
-  des Record-Typen.  Der Selektor $s_i$ hat folgende Signatur:
+\item $\mathit{Sel}_1, \ldots, \mathit{sel}_n$ sind die Namen der Selektoren für die Felder
+  des Record-Typen.  Der Selektor $\mathit{sel}_i$ hat folgende Signatur:
 % 
 \begin{alltt}
 (: \(\mathit{sel}\sb{i}\) (\(t\) -> \(\mathit{sig}\sb{i}\)))
@@ -336,10 +337,11 @@ Dabei sind $t$, $c$, $s_1 \ldots s_n$ allesamt Variablen, für die
 %
 Abbildung~\ref{scheme:define-record-functions-predicates} ist eine
 aktualisierte Beschreibung der Form von
-\texttt{define-record-functions} mit Prädikaten.
+\texttt{define-record-functions}, bei der auch Prädikate
+berücksichtigt sind
 
 Aus diesem Beispiel ergibt sich eine Konstruktionsanleitung für
-gemischte Daten.
+gemischte Daten.  Zunächst die Datenanalyse:
 
 \begin{konstruktionsanleitung}{Gemischte Daten: Datenanalyse}
   \label{ka:gemischt-datenanalyse}
@@ -364,11 +366,15 @@ die Datendefinition:
   (signature
     (mixed \(\mathit{sig}\sb{1}\) \(\mathit{sig}\sb{2}\) \(\ldots\) \(\mathit{sig}\sb{n}\))))
 \end{alltt}
-$\mathit{Sig}$ ist die Signatur für die neue Datensorte; $S_1$ bis $S_n$
-sind die Signaturen für die Signaturen, aus denen die neue
+$\mathit{Sig}$ ist die Signatur für die neue Datensorte; $\mathit{Sig}_1$ bis $\textit{s}_n$
+sind die Signaturen, aus denen die neue
 Datensorte zusammengemischt ist.
 \end{konstruktionsanleitung}
-
+%
+\noindent Die Konstruktionsanleitung für die Schablone ergibt sich aus
+der Konstruktionsanleitung~\ref{ka:fallunterscheidung-schablone} für
+Fallunterscheidungen auf Seite~\pageref{ka:fallunterscheidung-schablone}:
+%
 \begin{konstruktionsanleitung}{Gemischte Daten als Eingabe:
     Schablone}
   \label{ka:gemischt-eingabe-schablone}
@@ -389,15 +395,20 @@ Daten akzeptiert, kannst Du folgendermaßen konstruieren:
   separate Hilfsfunktionen definiert sind.\label{page:separate-mixed-procs}
 \end{itemize}
 %
+\end{konstruktionsanleitung}
+%
 Eine Konstruktionsanleitung oder Schablone für gemischte Daten
 \emph{als Ausgabe} ist unnötig~-- Du benutzt einfach die Schablone
 des entsprechenden Falls.
-\end{konstruktionsanleitung}
-%
+
 Beachte den Unterschied zwischen \texttt{one-of} und
 \texttt{mixed}, die leicht zu verwechseln sind: \texttt{One-of} steht
 für "<einer der folgenden \emph{Werte}">, während \texttt{mixed} für
 "<gehörend zu einer der folgenden \emph{Signaturen}"> steht.
+
+\begin{aufgabe}
+  FIXME
+\end{aufgabe}
 
 \section{Die Zucker-Ampel}
 

@@ -334,7 +334,7 @@ Für die Aufzählung der Haustiere gibt es noch keine fertige Signatur,
 die müssen wir deshalb erst noch definieren.  Die
 \textit{Signatur-Definition\index{Signatur-Definition}} sieht so
 aus:\index{pet@\texttt{pet}}
-\label{sec:pet}
+\label{sec:pet}\label{page:signature}
 %
 \begin{alltt}
 (define pet
@@ -1126,9 +1126,28 @@ typischen Mustern, die sich immer wiederfinden.  Eins ist bei der
 Definition von "<Haustier"> ersichtlich, nämlich "<eins der
 folgenden">, das darauf hinweist, dass es sich bei "<Haustier"> um
 eine Aufzählung handelt.  Später werden wir noch andere Arten
-von Daten beschreiben zusammen mit den dazu passenden Formulierungen
-in den Datendefinitionen.
+von Daten beschreiben, zusammen mit den dazu passenden Formulierungen
+in den Datendefinitionen.  Für Aufzählungen
+ist die daraus resultierende Konstruktionsanleitung diese hier:
+%
+\begin{konstruktionsanleitung}{Aufzählung: Datenanalyse}
+  \label{ka:aufzaehlung}
+  Versuche, für die Datendefinition eine Formulierung \emph{\ldots{}
+    ist eins der folgenden} zu finden und schreibe dann eine
+  Auflistung aller Fälle.  Falls jedes der Fälle nur aus einem
+  einzelnen Wert besteht, handelt es sich um eine
+  \textit{Aufzählung\index{Aufzählung}}.
 
+  Schreibe für jede Aufzählung eine Signaturdefinition der Form:
+  % 
+\begin{alltt}
+(define \(s\) (signature (one-of \ldots)))
+\end{alltt}
+  %
+  Achte darauf, dass die Anzahl der Fälle der Signaturdefinition der
+  Anzahl der Fälle der Datendefinition entspricht.
+\end{konstruktionsanleitung}
+%
 Die Datenanalyse ist die wichtigste Methode zur Umsetzung der
 Mantras~\ref{mantra:schreib} und \ref{mantra:lies}:
 %
@@ -1195,31 +1214,17 @@ Mantra~\ref{mantra:schreib}:
 %
 \mantraschreib*
 %
-\noindent Für jede
-Sorte von Datendefinition schreiben wir eine Konstruktionsanleitung
-mit Schablone:
+\noindent Für jede Sorte von Datendefinition schreiben neben der
+Konstruktionsanleitung für die Datenanalyse auch eine für die
+Schablone.  Die Schablone für Fallunterscheidungen sieht
+folgendermaßen aus:
 %
-\begin{konstruktionsanleitung}{Aufzählung}
-  \label{ka:aufzaehlung}
-  Versuche, für die Datendefinition eine Formulierung \emph{\ldots{}
-    ist eins der folgenden} zu finden und schreibe dann eine
-  Auflistung aller Fälle.  Falls jedes der Fälle nur aus einem
-  einzelnen Wert besteht, handelt es sich um eine
-  \textit{Aufzählung\index{Aufzählung}}.
-
-  Schreibe für jede Aufzählung eine Signaturdefinition der Form:
-  % 
-\begin{alltt}
-(define \(s\) (signature (one-of \ldots)))
-\end{alltt}
-  %
-  Achte darauf, dass die Anzahl der Fälle der Signaturdefinition der
-  Anzahl der Fälle der Datendefinition entspricht.
-  
-  Wenn Du eine Funktion schreibst, die eine Aufzählung als Eingabe
-  verarbeitet, schreibe als Schablone in den Rumpf eine Verzweigung
-  mit sovielen Zweigen, wie es in der Aufzählung Fälle gibt, nach
-  folgendem Muster:
+\begin{konstruktionsanleitung}{Fallunterscheidung: Schablone}
+  \label{ka:fallunterscheidung-schablone}
+  Wenn Du eine Funktion schreibst, die eine Fallunterscheidung als
+  Eingabe verarbeitet, schreibe als Schablone in den Rumpf eine
+  Verzweigung mit sovielen Zweigen, wie es in der Fallunterscheidung
+  Fälle gibt, nach folgendem Muster:
   %
 \begin{alltt}
 (define \(f\)
