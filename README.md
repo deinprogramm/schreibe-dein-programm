@@ -37,6 +37,5 @@ Wer aktiv am Buch schreibt, mag u.U. ein `includeonly`-Statement in
 # Lizenz
 
 Dieses Buch ist lizensiert unter der Creative-Commons-Lizenz
-[Namensnennung 4.0 International (CC BY
-4.0)](http://creativecommons.org/licenses/by/4.0/deed.de).
+[Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/deed.de).
 
