@@ -138,7 +138,6 @@ $B$">.\footnote{In der Informatik ist mit "<oder"> ohne Zusatz fast
   immer das inklusive Oder gemeint. Wer das exklusive Oder meint, sagt
   auch "<exklusives Oder">.}
 
-Oder gemeint: 
 Des weiteren gibt es noch eine eingebaute Funktion
 \texttt{not}\index{not@\texttt{not}}, die einen booleschen Wert
 umdreht, sich also folgendermaßen verhält:
@@ -209,12 +208,12 @@ Fälle~-- 0, 1, 2 und 3~-- sie bildet somit eine
 \textit{Fallunterscheidung\index{Fallunterscheidung}}.  Um eine
 Fallunterscheidung in der Eingabe einer Funktion verarbeiten zu können,
 benötigen wir ein neues Programmelement, die
-\textit{Verzeweigung\index{Verzweigung}}.  Verzweigungen beginnen mit
+\textit{Verzweigung\index{Verzweigung}}.  Verzweigungen beginnen mit
 dem Wort \texttt{cond} und gehören zu den kompliziertesten
 Programmelementen, die wir in diesem Buch benutzen.  Aber keine Sorge,
 so schlimm wird es nicht.  Um eine Verzweigung zu schreiben, müssen
 wir wissen, \emph{wie viele} Fälle es gibt.  In diesem Fall sind das
-vier.  Die Verzewigung dafür hat folgende Form:
+vier.  Die Verzweigung dafür hat folgende Form:
 %
 
 \begin{alltt}
@@ -227,7 +226,7 @@ vier.  Die Verzewigung dafür hat folgende Form:
       (\ldots{} \ldots))))
 \end{alltt}
 %
-Jeder von den beiden \texttt{(\ldots \ldots)} ist ein sogenannter
+Jedes der Programmstücke \texttt{(\ldots\ \ldots)} ist ein sogenannter
 \textit{Zweig\index{Zweig}}.  Der erste Teil eines Zweigs ist immer
 eine Bedingung, der für den entsprechenden Fall \verb|#t| liefern
 sollte und für die anderen Fälle \verb|#f|.  In diesem Fall muss die
@@ -238,7 +237,7 @@ identifizieren:
 (define say-number
   (lambda (n)
     (cond
-      ((= n 0) \ldots")
+      ((= n 0) \ldots)
       ((= n 1) \ldots)
       ((= n 2) \ldots)
       ((= n 3) \ldots))))
@@ -276,7 +275,7 @@ Fertig!
 \end{figure}
 
 Vielleicht ist Dir bei der \texttt{say-number}-Funktion aus dem
-vorigen Abschnitt aufgefallen, dass das bei dem Programm unmittelbar, nachdem
+vorigen Abschnitt aufgefallen, dass bei dem Programm unmittelbar, nachdem
 es gelaufen hat, zwei Zeilen farbig
 hinterlegt sind, wie in Abbildung~\ref{fig:coverage} zu sehen.  Das liegt
 daran, dass diese beiden Zeilen nie ausgewertet wurden, weil die
@@ -298,7 +297,7 @@ schon in Abschnitt~\ref{page:abdeckung0} auf
 Seite~\pageref{page:abdeckung0} kurz diskutiert haben: Ein Ausdruck im
 Programm, der durch die Tests ausgewertet wird, heißt
 \textit{abgedeckt}.  Die farbig hinterlegten Ausdrücke sind also nicht
-abgedeckt.  Der letzte Satz von Konstruktionsanleitun~\ref{ka:tests}
+abgedeckt.  Der letzte Satz von Konstruktionsanleitung~\ref{ka:tests}
 auf Seite~\pageref{ka:tests} zielt gerade darauf: Eine Funktion sollte
 durch ihre Tests vollständig abgedeckt werden.  Die Abdeckung ist also
 eine Minimalanforderung an unsere Tests.
@@ -484,7 +483,7 @@ Kurzbeschreibung:
 %
 Als nächstes kommt die Signatur-Deklaration.  Die Anfangstemperatur
 und die hinzugefügte Hitze sind die Eingaben; sie stellen wir als
-reelle Zahlen dar.  Heraus kommt die Endtemperatur, auch eine reele
+reelle Zahlen dar.  Heraus kommt die Endtemperatur, auch eine reelle
 Zahl.  Da wir schon wissen, dass diese Version etwas einfach ist,
 hängen wir eine \texttt{-0} an den Namen:
 %
@@ -539,7 +538,8 @@ kopieren, aber den letzten müssen wir anpassen:
 \end{alltt}
 %
 Beim Testen ist es immer sinnvoll, auch Grenzfälle zu testen~--
-schaltet die Funktion wirklich "<rum">, wenn die 100 erreicht sind.
+schaltet die Funktion wirklich um, wenn die 100 erreicht sind. %%Nicht rum!
+                              
 Dazu dienen folgende zwei Testfälle:
 %
 \begin{alltt}
@@ -668,7 +668,7 @@ Nullpunkt herum so passiert und wo genau er überschritten wird:
 (check-expect (heat-water -1 82) 1)
 \end{verbatim}
 %
-Wieder sollten wir darüber nachdenken, in was für Fälle unsere
+Wieder sollten wir darüber nachdenken, in welche Fälle unsere
 Eingaben zerfallen.  Da gibt es drei naheliegende Fälle:
 %
 \begin{enumerate}
@@ -871,11 +871,11 @@ Tests nochmals laufen lassen: Aber sie laufen alle noch erfolgreich
 durch.
 
 Bevor wir die Funktion noch weiter vereinfachen, ist es sinnvoll, die
-Funktionsweis eder Auswertung von \texttt{cond}-Ausdrücken zu ergründen:
+Funktionsweise der Auswertung von \texttt{cond}-Ausdrücken zu ergründen:
 %
 \begin{aufgabe}
   Lasse die \texttt{heat-water}-Funktion im Stepper laufen und
-  beobachte, wie~-- vor allem in welche Reihenfolge~-- die Bedindungen
+  beobachte, wie~-- vor allem in welcher Reihenfolge~-- die Bedindungen
   in einem \texttt{cond}-Ausdruck ausgewertet werden.
 \end{aufgabe}
 %
@@ -1159,7 +1159,7 @@ Mantras~\ref{mantra:schreib} und \ref{mantra:lies}:
 Daten, \emph{nicht} darauf, was später mit ihnen gemacht wird.  (Das
 kommt später.)  Außerdem gibt sie uns Werkzeug an die Hand, wie wir
 die Erkenntnisse aus dem Lesen strukturieren und aufschreiben können.
-Insbesondere führ sie immer auch zu Elementen in unserem Programm.
+Insbesondere führt sie immer auch zu Elementen in unserem Programm.
 Bei der Funktion \texttt{cute?} haben wir zum Beispiel aus der
 Datendefinition zunächst eine Signaturdefinition abgeleitet:
 %
@@ -1214,7 +1214,7 @@ Mantra~\ref{mantra:schreib}:
 %
 \mantraschreib*
 %
-\noindent Für jede Sorte von Datendefinition schreiben neben der
+\noindent Für jede Sorte von Datendefinition schreiben wir neben der
 Konstruktionsanleitung für die Datenanalyse auch eine für die
 Schablone.  Die Schablone für Fallunterscheidungen sieht
 folgendermaßen aus:
@@ -1287,7 +1287,7 @@ ist die Benutzung eines \texttt{else}-Zweigs im \texttt{cond}
 sinnvoll.
 
 Nehmen wir einmal an, dass Du ein Haustier (wie in
-Abschnitt~\ref{sec:pet} auf Seite~\pageref{sec:pet} zum Geburtstag
+Abschnitt~\ref{sec:pet} auf Seite~\pageref{sec:pet}) zum Geburtstag
 geschenkt bekommen hast. Mit dem Geschenk kam das Angebot, das
 Haustier gegen ein anderes auszutauschen, falls es Dir nicht gefällt.
 Nehmen wir weiter an, dass Du nur an niedlichen Haustieren
@@ -1497,7 +1497,7 @@ Beispiel:
 
 Noch einmal zurück zur Funktion \texttt{heat-water} in
 Abschnitt~\ref{sec:heat-water}: Die hat schon ziemlich viele Zweige.
-Genau genommen decken die aber immer noch nicht alles ab.  Zum
+Genau genommen decken die aber immer noch nicht alles ab.  %Zum
 Bei Anfangstemperaturen über 100°C verhält sich die Funktion merkwürdig:
 %
 \begin{alltt}
@@ -1624,7 +1624,7 @@ folgende Konsequenz berechnet!
 \begin{aufgabe}
   Schreibe die folgenden Funktionen:
   \begin{enumerate}
-  \item \texttt{min-of-two}, welche die kleinste von zwei
+  \item \texttt{min-of-two}, welche die kleinere von zwei
     gegebenen Zahlen ausgibt
   \item \texttt{min-of-three}, welche die kleinste von drei
     gegebenen Zahlen ausgibt
@@ -1694,6 +1694,8 @@ folgende Konsequenz berechnet!
     \begin{flushleft}
       \begin{tabular}{rl}
     Überschreitung der Höchstparkdauer bis 30 Minuten & \euro{5}\\
+%%% Ich denke, das führt zu normenungerechten Schreibweisen. In
+%%% Deutschland schreiben wir, glaube ich, 5 € und nicht €5
     bis zu einer Stunde & \euro{10}\\
     bis zu zwei Stunden & \euro{15}\\
     bis zu drei Stunden & \euro{20}\\
