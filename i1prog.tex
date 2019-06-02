@@ -8,14 +8,14 @@
 
 Dieses Kapitel gibt einen Überblick über das wichtigste Handwerkszeug
 des Programmierens: Welche Software Du dafür brauchst, wie Du diese
-Software bedienst, wie kleine Programme aussehen und aus was für
+Software bedienst, wie kleine Programme aussehen und aus welchen
 Elementen sie bestehen.
 
 \section{DrRacket}
 
 Zunächst einmal benötigst Du die Software \textit{Racket}\index{Racket}, die es zum
 kostenlosen Download auf der Seite \url{https://racket-lang.org/} für
-alle gängingen Plattformen gibt.  Auf der Seite ist ein
+alle gängigen Plattformen gibt.  Auf der Seite ist ein
 \texttt{Download}-Knopf~-- folge den dortigen Instruktionen für die
 Installation.
 
@@ -152,7 +152,7 @@ sieht zum Beispiel so aus:
 \end{alltt}
 %
 Das liegt daran, dass \texttt{+123} zusammen die Zahl "<plus
-hundertdreiundzwanzig"> bildet und nicht etwa in das \texttt{+} und
+hundertdreiundzwanzig"> bildet und nicht etwa in das \texttt{+}-Zeichen und
 \texttt{123} aufgeteilt wird.
 
 Wenn ein Ausdruck wie \texttt{(+ 123 42)} ein Ergebnis wie 165 hat,
@@ -186,7 +186,7 @@ nicht mit Komma geschrieben werden.  Der Überstrich bei
 \end{alltt}
 %
 Die REPL funktioniert also folgendermaßen: Sie \emph{liest} einen
-Ausdruck ein ("<read">), berechnet deren Wert oder \emph{wertet}
+Ausdruck ein ("<read">), berechnet dessen Wert oder \emph{wertet}
 diesen \emph{aus} (auf Englisch "<eval">) und zeigt das Ergebnis an
 oder \emph{druckt} dieses \emph{aus} ("<print">)~-- und dann geht es
 von vorn los, wie in einer Schleife ("<loop">).  Die Abfolge
@@ -318,7 +318,7 @@ kannst Du den markierten Ausdruck dann mit einem Druck auf die
 Tab-Taste korrekt einrücken.
 
 \begin{aufgabe}
-  Bring bei einem mehrzahligen Programm die Einrückung richtig
+  Bring bei einem mehrzeiligen Programm die Einrückung richtig
   durcheinander, zum Beispiel so:
 \begin{verbatim}
 (define nr
@@ -332,7 +332,7 @@ Tab-Taste korrekt einrücken.
 \end{aufgabe}
 %
 Den Inhalt des Definitionsfenster kannst Du abspeichern, indem Du auf
-den Knopf mit der Diskette
+den Knopf mit dem Diskettensymbol
 \raisebox{-1ex}{\includegraphics[height=12pt]{i1prog/save}} drückst.
 
 \section{Rechnen ohne Zahlen}
@@ -355,8 +355,8 @@ Diese Werte heißen \textit{Zeichenketten\index{Zeichenkette}}.
 
 Die einfachste Art, eine Zeichenkette herzustellen, ist, die
 Buchstaben hinzuschreiben, aus denen sie besteht.  Die
-Anführungszeichen müssen drumherum, um die Zeichenketten von anderen
-Ausdrücken zu unterscheiden.  Die Anführungszeichen gehören aber nicht
+Anführungszeichen müssen drumherum, damit die Zeichenketten von anderen
+Ausdrücken unterschieden werden können.  Die Anführungszeichen gehören aber nicht
 zu den Buchstaben dazu, aus denen die Zeichenkette besteht~--
 \verb|"abc"| besteht aus den drei Buchstaben \texttt{abc}.
 
@@ -799,9 +799,9 @@ rechnen kann~-- in diesem Fall die Zahl 19.  Diese vereinfachte Form
 heißt \textit{Daten}\index{Daten}: Daten sind
 \textit{Repräsentationen}\index{Repräsentation} für Information.
 
-Eine der wichtigsten Aufgaben beim Programmieren ist, die richtigen
+Eine der wichtigsten Aufgaben beim Programmieren ist, die richtige
 Form für die Daten zu wählen, um die für das Programm relevanten
-Informationen darzustellen die Informationen dann in Daten zu
+Informationen darzustellen und die Informationen dann in Daten zu
 übersetzen.
 
 Nicht immer ist offensichtlich, welche Information durch bestimmte
@@ -860,11 +860,11 @@ Schauen wir uns das anhand einer realistischen Aufgabe an:
   \end{center}
 
   \begin{enumerate}
-  \item Schreibe ein Programm das den Monatsverbrauch in
+  \item Schreibe ein Programm, das den Monatsverbrauch in
     Kilowattstunden akzeptiert und den im Tarif "<Billig-Strom"> zu
     zahlenden monatlichen Rechnungsbetrag berechnet.
 
-  \item Schreibe ein Programm, die den Monatsverbrauch in
+  \item Schreibe ein Programm, das den Monatsverbrauch in
     Kilowattstunden akzeptiert und den im Tarif "<Watt für wenig"> zu
     zahlenden monatlichen Rechnungsbetrag
     berechnet.
@@ -973,8 +973,7 @@ funktioniert.
 
 Die Lesbarkeit des Programms wird außerdem durch die
 \textit{Signatur\index{Signatur}} unterstützt, die
-beschreibt, was für Daten die Funktion als Argumente erwartet und was
-für Daten sie liefert.
+beschreibt, welche Art von Daten die Funktion als Argumente erwartet und welche sie liefert.
 
 Die Anzahl der Kilowattstunden auf dem Zählerableseblatt ist in der
 Regel eine ganze Zahl, die nicht negativ sein kann.  Die Ausgabe kann
@@ -1060,7 +1059,7 @@ folgende Form:
 \end{alltt}
 %
 Sie sagt aus, dass das Verhalten der Funktion der Signatur entspricht:
-Wenn die Eingaben der Funktion den Signaturen \(s\sb{1} \ldots
+Wenn die Eingaben der Funktion $f$ den Signaturen \(s\sb{1} \ldots
 s\sb{n}\) entspricht, dann entspricht die Ausgabe der Signatur $s$.
 \end{feature}
 %
@@ -1072,7 +1071,7 @@ und Signatur-Deklarationen genauer.
 
 Wir haben oben in der REPL die Funktion
 \texttt{billig-strom} ausprobiert, indem wir DrRacket mehrere Aufrufe
-mit unterschiedlichen Eingaben habne auswerten lassen.  Anhand dieser
+mit unterschiedlichen Eingaben haben auswerten lassen.  Anhand dieser
 Beispiele können wir auch (vielleicht mit einem Taschenrechner)
 überprüfen, ob die Funktion dabei korrekte Ergebnisse produziert hat.
 
@@ -1269,7 +1268,7 @@ erläutern werden.
     \end{enumerate}
 \end{konstruktionsanleitung}
 %
-Für jeden diese Schritte gibt es jeweils eine Konstruktionsanleitung,
+Für jeden dieser Schritte gibt es jeweils eine Konstruktionsanleitung,
 für manche mehrere je nach Situation.  Es mag Dir übermäßig
 bürokratisch vorkommen, immer die gleiche Reihenfolge einzuhalten und
 immer nach der jeweiligen Konstruktionsanleitung vorzugehen.
@@ -1286,7 +1285,7 @@ des Ablaufs ein, die wir schon eingeführt haben:
 \begin{konstruktionsanleitung}{Kurzbeschreibung}
   \index{Kurzbeschreibung}
   \label{ka:kurzbeschreibung}
-  Schreibe für die Funktion zunächst einen Kommentar, die ihren Zweck
+  Schreibe für die Funktion zunächst einen Kommentar, der ihren Zweck
   kurz beschreibt.  Ein Satz, der auf eine Zeile passen sollte,
   reicht.  Beispiel:
   %
@@ -1298,7 +1297,7 @@ des Ablaufs ein, die wir schon eingeführt haben:
 \begin{konstruktionsanleitung}{Signatur-Deklaration}
   \index{Signatur-Deklaration}
   \label{ka:signatur-deklaration}
-  Schreibe für die Funktion direkt unter die Kurzschbeschreibung eine
+  Schreibe für die Funktion direkt unter die Kurzbeschreibung eine
   Signatur-Deklaration.  Dazu denke Dir zunächst einen möglichst
   aussagekräftigen Namen aus.  Überlege dann, welche Sorten die Ein-
   und Ausgaben haben und schreibe dann eine Signatur, welche die Ein-
@@ -1316,7 +1315,7 @@ des Ablaufs ein, die wir schon eingeführt haben:
 \begin{konstruktionsanleitung}{Tests}
   \index{Tests}
   \label{ka:tests}
-  Schreibe für die Funktion unter die Signatur Tests.  Denke Dir dafür
+  Schreibe unter die Signatur Tests für die Funktion.  Denke Dir dafür
   möglichst möglichst einfache, aber auch möglichst interessante
   Beispiele für Aufrufe der Funktion auf und lege fest, was dabei
   herauskommen soll.  Mache aus den Beispielen Tests mit
@@ -1332,9 +1331,10 @@ des Ablaufs ein, die wir schon eingeführt haben:
 \end{konstruktionsanleitung}
 %
 Der letzte Satz der Konstruktionsanleitung ergibt, was das Beispiel
-\texttt{billig-strom} betrifft, keinen Sinn, da jeder Tests dafür
+\texttt{billig-strom} betrifft, keinen Sinn, da jeder einzelne der
+Tests bereits dafür
 sorgt, dass die Addition und die Multiplikation in
-\texttt{billig-strom} ausgwertet werden.  In
+\texttt{billig-strom} ausgewertet werden.  In
 Abschnitt~\ref{sec:testabdeckung} werden wir aber Beispiele
 programmieren, bei denen es nicht selbstverständlich ist, dass die
 Tests alles auswerten.
@@ -1459,7 +1459,7 @@ sich dementsprechend:
 %
 Diese "<Verdoppelung"> ist unbefriedigend und kann auch später
 Probleme machen: Wenn ein Fehler bekannt wird, müssen möglicherweise
-zwei Funktionen korrigiert werden beispielsweise.
+zwei Funktionen korrigiert werden.
 
 Es wäre also gut, wenn wir die Gemeinsamkeiten der beiden Funktionen
 irgendwie zusammenfassen könnten, mithin über \texttt{billig-strom}
@@ -1630,18 +1630,18 @@ schwierig weiterzuentwickeln.  Wir sollten uns dafür hüten:
 \begin{aufgabe}
  Vervielfachung von Strings:
  \begin{itemize}
-  \item Schreibe eine Funktion \texttt{double-string}, die eine Zeichenkette konsumiert und
+  \item Schreibe eine Funktion \texttt{double-string}, die eine Zeichenkette akzeptiert und
     diese "<verdoppelt">, d.h., für eine Eingabe \verb|"Sperber"| den
     Rückgabewert \verb|"SperberSperber"| liefert.
     
   \item Schreibe eine Funktion \texttt{quadruple-string}, die eine
-    Zeichenkette konsumiert und "<vervierfacht">.
+    Zeichenkette akzeptiert und "<vervierfacht">.
 
   \item Schreibe eine Funktion \texttt{octuple-string}, die eine
-    Zeichenkette konsumiert und "<verachtfacht">.
+    Zeichenkette akzeptiert und "<verachtfacht">.
 
   \item Schreibe eine Funktion \texttt{sixteentuple-string}, die
-    eine Zeichenkette konsumiert und "<versechzehnfacht">.
+    eine Zeichenkette akzeptiert und "<versechzehnfacht">.
   \end{itemize}
   % Schreibe für jede Funktion Kurzbeschreibung, Signatur, Testfälle, Gerüst und Rumpf.
 
@@ -1699,7 +1699,7 @@ schwierig weiterzuentwickeln.  Wir sollten uns dafür hüten:
   Maße für die Energieeffizienz von Kraftfahrzeugen:
   \begin{itemize}
   \item In Europa ist das gängige Maß der \emph{Verbrauch} in Liter
-    pro 100km (l/100km);
+    pro 100 km (l/100km);
   \item in den USA ist das gängige Maß die \emph{Reichweite} in Meilen
     pro Gallone (mi/gal).
   \end{itemize}
@@ -1709,7 +1709,7 @@ schwierig weiterzuentwickeln.  Wir sollten uns dafür hüten:
   Halte sich bei jeder Funktion, die Du schreibst, an den
   Ablauf: Schreibe zuerst die Kurzbeschreibung
   und die Signatur.  Schreibe als nächstes einige Testfälle.
-  Leite Sie danach das Gerüst von der Signatur her und vervollständige
+  Leite danach das Gerüst von der Signatur her und vervollständige
   den Rumpf der Funktion.
 
   \begin{enumerate}
@@ -1717,7 +1717,7 @@ schwierig weiterzuentwickeln.  Wir sollten uns dafür hüten:
   \item Schreibe eine Funktion
     \texttt{liters-per-hundred-kilometers}, die eine Menge Benzin in
     Liter und die Reichweite dieses Benzins in Kilometer akzeptiert
-    und daraus den Verbrauch in Liter pro 100km berechnet.
+    und daraus den Verbrauch in Liter pro 100 km berechnet.
 
   \item Schreibe eine Funktion
     \texttt{miles-per-gallon}, die eine Entfernung in Meilen und den
@@ -1739,7 +1739,7 @@ schwierig weiterzuentwickeln.  Wir sollten uns dafür hüten:
     Maßeinheit umrechnen.
 
   \item Schreibe die Funktion
-    \texttt{l/100km->mi/gal}, die einen Verbrauch in Liter pro 100km
+    \texttt{l/100km->mi/gal}, die einen Verbrauch in Liter pro 100 km
     akzeptiert und in die Reichweite in Meilen pro Gallone umrechnet.
     Benutze dafür die Funktionen, die Du in den anderen
     Teilaufgaben erstellt hast.  Solltest Du auf weitere Teilprobleme
@@ -1747,7 +1747,7 @@ schwierig weiterzuentwickeln.  Wir sollten uns dafür hüten:
 
   \item Schreibe die Funktion
     \texttt{mi/gal->l/100km}, die eine Reichweite in Meilen pro
-    Gallone akzeptiert und in den Verbrauch in Liter pro 100km
+    Gallone akzeptiert und in den Verbrauch in Liter pro 100 km
     umrechnet.  Benutze dafür die Funktionen, die Du in den
     anderen Teilaufgaben erstellt hast.  Solltest Du auf weitere
     Teilprobleme stoßen, abstrahiere diese Teilprobleme in eigene

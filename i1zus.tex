@@ -125,13 +125,14 @@ heißt \texttt{define-record-functions}, weil sie gleich mehrere
 Funktionen definiert, die mit Records zu tun haben.  Als erstes nach
 dem \texttt{define-record-functions} steht der Name des Record-Typs,
 \texttt{computer}.  Die Record-Definition bindet \texttt{computer}
-an eine Signaturen für Computer-Records.
+an eine Signatur für Computer-Records.
 
 Als nächstes in der Record-Definition kommt \texttt{make-computer},
 der Name einer Funktion, die für die \textit{Konstruktion} eines
 Computer-Records zuständig ist.  Analog zum Zusammenbauen eines
 Computer mit Cell-Prozessor, 8 Gigabyte RAM und 250 Gigabyte
 Festplatte wird der dazugehörige Record mit der eingebauten Funktion
+%%Moment mal: "eingebaute" Funktion? Scheint mir ein Fehler zu sein HK
 \texttt{make-computer} folgendermaßen hergestellt:
 %
 \begin{alltt}
@@ -147,6 +148,8 @@ Festplatte wird der dazugehörige Record mit der eingebauten Funktion
 %
 Die drei Eingaben sind respektive Prozessor, RAM und Festplatte.
 \texttt{Make-computer} macht daraus einen Wert der eingebauten Sorte
+%% Schon wieder: "eingebaut"? Die haben wir doch grade erst selber
+%% definiert HK
 \texttt{computer} der Computer-Records.  Da \texttt{make-computer}
 einen Computer-Record "<konstruiert">, heißt die Funktion auch
 \textit{Konstruktor\index{Konstruktor}}.
@@ -550,7 +553,7 @@ seit Mitternacht.  Hier sind Kurzbeschreibung, Signatur, Testfälle und Gerüst:
     ...))
 \end{verbatim}
 %
-\texttt{Minutes-since-midnight} soll eine Funktion handelt, die
+\texttt{Minutes-since-midnight} soll eine Funktion sein, die
 Uhrzeiten als Eingabe akzeptiert, also zusammengesetzte Daten.  Eine
 Funktion, die aus zusammengesetzten Daten etwas berechnet, muss meist
 deren Bestandteile verwenden, auf die sie mit den Selektoren zugreifen
@@ -969,7 +972,7 @@ verbraucht:
 \end{verbatim}
 %
 Wir müssen beim Aufruf des Konstruktors \texttt{make-dillo} angeben,
-welches Gewicht das frisch überfahrene Gürteltier haben soll und ob es
+welches Gewicht das frisch gefütterte Gürteltier haben soll und ob es
 noch am Leben ist.  Das Gewicht erhöht sich um das Gewicht des
 Futters.  Außerdem ist das Gürteltier noch am Leben, weil der
 Konstruktoraufruf in dem Zweig steht, in dem das so ist:
@@ -1173,7 +1176,7 @@ umformen, in dem wir die Beobachtung ausnutzen, dass der Wert des
 \end{verbatim}
 %
 Das Programm ist zwar länger geworden, es gibt aber auch eine Einsicht
-frei, wenn wir zweiten \texttt{make-dillo}-Aufruf näher anschauen.
+frei, wenn wir den zweiten \texttt{make-dillo}-Aufruf näher anschauen.
 Dieser Aufruf stellt ein \texttt{dillo}-Record her, bei dem jedes Feld
 aus dem entsprechenden Feld von \texttt{d} bestückt wird.  Es ist
 deshalb gleich zu \texttt{d}.  Eine Gleichung bringt das zum Ausdruck:

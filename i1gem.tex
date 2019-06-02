@@ -133,11 +133,18 @@ Beschreibung so aussehen:
 \item ein Papagei
 \end{itemize}
 %
-Die Formulierung "<eins der folgenden"> passt nicht zu
+Die Formulierung "<eins der folgenden"> ist Dir schon aus
+Abschnitt~\ref{sec:datendefinition} bekannt, dort stand "<eins der
+folgenden"> für je ein Element einer Aufzählung, das heisst also einer
+endlichen Menge.  Dementsprechend wurde in der Datendefinition auch
+die Formulierung \verb$one-of$ verwendet. Demgegenüber geht es jetzt
+jedoch um eine Auswahl zwischen Elementen potentiell unendlicher
+Mengen, nämlich der Menge der Gürteltiere und der Menge der
+Papageien. Das passt nicht zu
 zusammengesetzen Daten, bei denen "<besteht aus"> oder "<hat folgende
 Eigenschaften"> oder so ähnlich vorkommen müssten.
-Das ist ein Hinweis auf
-eine neue Form der Organisation von Daten: \textit{gemischte
+Es liegt vielmehr
+eine neue Form der Organisation von Daten vor: \textit{gemischte
   Daten}.\index{gemischte Daten} Entsprechend ist es durchaus
 sinnvoll, nach dem "<Gewicht eines Tiers"> zu fragen oder "<ein Tier
 zu füttern">, was wir im folgenden auch vorhaben.
@@ -343,11 +350,15 @@ berücksichtigt sind
 Aus diesem Beispiel ergibt sich eine Konstruktionsanleitung für
 gemischte Daten.  Zunächst die Datenanalyse:
 
+%% HK: diese KA ist im Grunde nicht ganz richtig. Wir müssten sagen
+%% "...Formulierung der Form ... beschreiben kannst, es sich aber
+%% nicht um eine reine Aufzählung handelt."
 \begin{konstruktionsanleitung}{Gemischte Daten: Datenanalyse}
   \label{ka:gemischt-datenanalyse}
 Gemischte Daten liegen vor, wenn Du eine Datensorte durch eine
   Formulierung der Form "<ein $X$ ist eins der folgenden"> beschreiben
-  kannst.  Die daraus resultierende Datendefinition hat die folgende
+  kannst, es sich dabei aber nicht um die Auswahl aus der endlichen
+  Menge einer Aufzählung handelt.  Die daraus resultierende Datendefinition hat die folgende
   Form:
   %
 \begin{alltt}
