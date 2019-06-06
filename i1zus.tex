@@ -120,9 +120,9 @@ Computer:\index{define-record-functions@\texttt{define-record-functions}}
   (computer-hard-drive natural))
 \end{verbatim}
 %
-Diese etwas komplizierte Form erläutern wir Schritt für Schritt.  Sie
-heißt \texttt{define-record-functions}, weil sie gleich mehrere
-Funktionen definiert, die mit Records zu tun haben.  Als erstes nach
+Diese etwas komplizierte Form erläutern wir Schritt für Schritt.  Weil sie gleich mehrere
+Funktionen definiert, die mit Records zu tun haben, heißt
+sie \texttt{define-record-functions}.  Als erstes nach
 dem \texttt{define-record-functions} steht der Name des Record-Typs,
 \texttt{computer}.  Die Record-Definition bindet \texttt{computer}
 an eine Signatur für Computer-Records.
@@ -146,7 +146,7 @@ Festplatte wird der dazugehörige Record mit der eingebauten Funktion
 (: make-computer (string natural natural -> computer))
 \end{alltt}
 %
-Die drei Eingaben sind respektive Prozessor, RAM und Festplatte.
+Die drei Eingaben sind der Reihe nach Prozessor, RAM und Festplatte.
 \texttt{Make-computer} macht daraus einen Wert der eingebauten Sorte
 %% Schon wieder: "eingebaut"? Die haben wir doch grade erst selber
 %% definiert HK
