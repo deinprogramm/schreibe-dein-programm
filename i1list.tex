@@ -43,9 +43,11 @@ zusammengesetzten Daten und Records zu repräsentieren, da bei ihnen
 die Liste der Komponenten schon in der Datendefinition festgelegt
 ist.  Hier kommen Listen im Sinne der Programmierung ins Spiel, die es
 erlauben, "<zusammengesetzte Daten variabler Länge"> zu
-repräsentieren.  Die einfachste Sorte Liste ist die leere Liste
+repräsentieren.  Die einfachste Sorte Liste ist die \textit{leere Liste}:\index{leere
+  Liste}\index{Liste!leer}
 
-FIXME
+%% FIXME HK: Ich nehme mal an, dieses FIXME bezog sich auf eine
+%% Erklärung, wieso wir überhaupt leere Listen brauchen
 %
 \begin{alltt}
 (define-record-functions empty-list
@@ -55,8 +57,23 @@ FIXME
 (define empty (make-empty))
 \end{alltt}
 %
-Dies ist die \textit{leere Liste}\index{leere
-  Liste}\index{Liste!leer}.  Um Listen herzustellen, die nicht leer
+Auf den ersten Blick mag es verwunderlich sein, wieso ein Konzept wie
+die  leere Liste gebraucht wird oder nicht im Gegenteil völlig sinnlos
+ist.  Ein genaueres Nachdenken führt aber zu der Einsicht, dass
+ziemlich viele Listen zu dem Zweck aufgestellt werden, in irgendeinem
+Sinne "<abgearbeitet"> zu werden; die klassische Einkaufsliste ist ein
+typisches Beispiel dafür. Viele Menschen schreiben Einkaufslisten auf
+ein Papier und streichen der Reihe nach alles durch, was sie schon im
+Einkaufskorb haben.  Ein Programm auf der anderen Seite würde aus
+einer Liste jedes Element entfernen, das bereits abgearbeitet wurde.
+Wenn das letzte Element entfernt wurde, entsteht zwangsläufig eine
+leere Liste, und es sind schon unzählige Programme abgestürzt, weil
+sie nach einem Listenelement gesucht haben, das es gar nicht gab.  Es
+empfiehlt sich daher tatsächlich, mit dem Fall der leeren Liste
+anzufangen und später beim Programmieren mit Listen den Fall der
+leeren Liste nicht zu vergessen.
+
+Um Listen herzustellen, die nicht leer
 sind, dienen \textit{Conse}\index{Cons}, eine besonders allgemein
 verwendbare Sorte zusammengesetzter Daten.  Hier sind Daten- und
 Record-Definition für Conse:\index{cons@\texttt{cons}}\index{cons@\texttt{cons}}\index{cons?@\texttt{cons?}}\index{first@\texttt{first}}\index{rest@\texttt{rest}}\label{def:cons}
@@ -232,12 +249,12 @@ Konstruktionsanleitung für gemischte Daten zur Anwendung:
 \end{verbatim}
 %
 Als nächstes sollten wir die Tests ergänzen, die auf die leere
-Liste bzw.\ Conse testen.  Für \texttt{empty} hat dieses Buch Ihnen
-den Test bisher vorenthalten: Das eingebaute Prädikat
-\texttt{empty?}\index{empty?@\texttt{empty?}} liefert \verb|#t| für
-die leere Liste und \verb|#f| für jeden anderen Wert.  Für Conse ist
-das Prädikat \texttt{cons?} bereits von der Record-Definition
-definiert:
+Liste bzw.\ Conse testen.  % Für \texttt{empty} hat dieses Buch Dir
+% den Test bisher vorenthalten: Das eingebaute Prädikat
+% \texttt{empty?}\index{empty?@\texttt{empty?}} liefert \verb|#t| für
+% die leere Liste und \verb|#f| für jeden anderen Wert.  Für Conse ist
+% das Prädikat \texttt{cons?} bereits von der Record-Definition
+% definiert:   %% HK das stand alles schon oben
 %
 \begin{verbatim}
 (define list-sum
@@ -478,9 +495,9 @@ kombiniert werden müssen:
             (all-positive? (rest lis)))))))
 \end{verbatim}
 %
-Konstruktionsanleitung~\ref{ka:listen} auf Seite~\pageref{ka:listen}
+FIXME: Konstruktionsanleitung~\ref{ka:listen} auf Seite~\pageref{ka:listen}
 faßt die Schablone für Funktionen, die Listen akzeptieren, noch einmal
-zusammen.
+zusammen. %%Die fehlt noch hier!
 
 \section{Signaturkonstruktoren}
 
