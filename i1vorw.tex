@@ -8,33 +8,61 @@
 
 \markboth{Vorwort}{Vorwort}
 
-Das hier präsentierte Material entstammt einer Reihe von einführenden
-Vorlesungen zur Informatik für Haupt- und Nebenfachstudenten und für
-Geisteswissenschaftler sowie Erfahrungen in zahlreichen Schulungen,
-Tutorials und anderen Veranstaltungen.  Inhalte und Präsentation
-wurden dabei unter Beobachtung der Studenten und ihres Lern\-er\-folgs
-immer wieder verbessert.  Der Stoff dieses Buchs entspricht einer
-einsemestrigen Vorlesung \textit{Informatik~I} mit vier
-Vorlesungsstunden und zwei Übungsstunden.
+Schriftsteller fürchten die leere Seite.  Maler fürchten die weiße
+Leinwand.  Für Architekten ist es die grüne Wiese.  Für Programmierer
+ist es der Cursor, der fordernd im leeren Fenster des Editors
+blinkt\dots Wie geht man eine Programmieraufgabe an, wenn zu Beginn
+keine einzige Zeile Code existiert, wenn keine Funktion oder
+Datenstruktur Orientierung bietet, und wenn zwar \emph{alles} möglich
+aber gerade deshalb schwer greifbar erscheint?
 
-\textit{Schreibe Dein Programm!} ist aus dem Vorgängerbuch \textit{Die
-  Macht der Abstraktion} entstanden, das seinerseits aus dem
-Vorgängerbuch \textit{Vom Problem zum Programm} entstanden ist.  Wir
-bemerkten nach der Veröffentlichung von \textit{Die Macht der
-  Abstraktion}, daß wir das Buch einerseits einem breiten Publikum
-einfach zugänglich machen wollten, andererseits kontinuierlich
-Verbesserungen einarbeiten wollten.  Beides war mit unserem damaligen
-Verleger leider nicht zu machen.  Entsprechend haben wir uns
-entschieden, unsere Arbeit unter neuem Titel fortzuführen und frei
-zugänglich zu machen.  Es wird hoffentlich die letzte Titeländerung
-bleiben.
+Mike Sperber und Herbert Klaeren haben in \textit{Schreibe Dein
+Programm!} hierzu gute Nachrichten.  Programme lassen sich nämlich sehr
+systematisch konstruieren und---teilweise nahezu auto\-ma\-tisch---aus der
+gegebenen Problemstellung ableiten.  Über das gesamte Buch verstreut
+finden sich \textit{Konstruktionsanleitungen}, deren Programmskelette
+konkrete Hinweise auf die Struktur der Lösung des Problems geben.  Steht
+das Skelett erst einmal, lassen sich dessen Lücken oft unmittelbar
+vervollständigen, teils durch die Nutzung weiterer derartiger
+Konstruktionen, teils weil sich die Komplettierung direkt aus dem
+Problem ergibt.  Programmierung mittels dieses Konstruktionsanleitungen
+kommt dem disziplinierten ingenieursmäßigen Bauen näher als alles
+andere.
 
-Wir hatten zwar bereits viel Material aus \textit{Die Macht der
-  Abstraktion} bis zur Unkenntlichkeit revidiert.  Die
-"<TBD">-Abschnitte in \textit{Schreibe Dein Programm!} kennzeichnen
-Stellen, deren Notwendigkeit bereits in \textit{Die Macht der
-  Abstraktion} etabliert werde, die aber noch geschrieben werden
-müssen.
+Aus meinen Vorlesungen \textit{Informatik~I} an der Universität Tübingen
+kommen die Studierenden nicht heraus, ohne sich ordentlich ``die Finger
+schmutzig gemacht zu haben''.  In der Vorlesung selbst, den
+wöchentlichen Übungsblättern und zusätzlichen betreuten
+Programmierstunden wird Code geschrieben, was das Zeug hält.  Dabei
+konnte ich bereits Hunderte von Studierenden---typischerweise echte
+Anfänger, die noch keine Programmiersprache kennen---beobachten, wie
+mittels Konstruktionsanleitungen die Herausforderung des leeren Editors
+angenommen und gemeistert wurde.  Die resultierenden Programme sind
+(zumeist \texttt{;-)}) korrekt, kompakt und, vor allem, lesbar und
+nachvollziehbar.  Wir können so in der \textit{Informatik~I} erstaunlich
+anspruchsvolle Aufgaben angehen und sind am Ende des zweiten
+Drittels der Vorlesung in der Lage, die Studierenden \textit{PacMan},
+\textit{Tetris} oder \textit{Asteroids} nachbauen zu lassen.
+
+\textit{Schreibe Dein Programm!} ist gleichzeitig eine Einführung in die
+funktionale Programmierung mit Scheme.  Scheme selbst tritt mit seiner
+einfachen Syntax in den Hintergrund\footnote{Wo wir üblicherweise einen
+Zoo von Notationen $x+1$, $\sin(x)$, $x^2$, $\vert x\vert$, $\sqrt{x}$,
+$x!$, \dots nutzen, begnügt sich Scheme uniform mit der
+Notation~\texttt{(f~x)}.} und gibt den Blick frei auf die essentiellen
+Ideen des Denkens und Programmierens mit (mathematischen) Funktionen.
+Genau wie Mike Sperber und Herbert Klaeren bin ich überzeugt, dass
+dieses elegante Programmierparadigma ``gekommen ist, um zu bleiben'' und
+auf lange Sicht Programmierstil und -sprachen weitreichend beeinflussen
+wird.  Zusammen mit den Konstruktionsanleitungen gibt dieses Buch
+Programmieranfängern daher gleich zwei Superkräfte mit auf den Weg.  Das
+nenne ich einen \emph{Deal}!
+
+\begin{flushright}
+  Torsten Grust
+
+  Tübingen, Juli~2019
+\end{flushright}
 
 \section*{Danksagungen}
 
@@ -81,8 +109,8 @@ Arbeit mit diesem Buch.
 
 \thispagestyle{empty}
 
-%%% Local Variables: 
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "i1"
-%%% End: 
+%%% End:
 
