@@ -395,15 +395,15 @@ damit fester Bestandteil der Schablone für Funktionen, die Listen
 akzeptieren:
 %
 \begin{alltt}
-(: \textit{proc} (a-list -> ...))
+(: \textit{func} (a-list -> ...))
 
-(define \textit{proc}
+(define \textit{func}
   (lambda (lis)
     (cond
       ((empty? lis) ...)
       ((cons? lis)
        ... (first lis)
-       ... (\textit{proc} (rest lis)) ...))))
+       ... (\textit{func} (rest lis)) ...))))
 \end{alltt}
 %
 Jetzt wo wir die Schablone haben, gehen wir noch ein weiteres Beispiel
