@@ -428,31 +428,29 @@ für "<einer der folgenden \emph{Werte}">, während \texttt{mixed} für
   eine Funktion, welche das enthaltene Gemüse für ein Essen liefert.
 \end{aufgabe}
 
-\section{Die Zucker-Ampel}
+\section{Die Lebensmittelampel}
 
 In diesem Abschnitt nehmen wir uns noch ein weiteres Beispiel für
 gemischte Daten vor, diesmal von vorneherein unter Benutzung der
 Konstruktionsanleitung aus dem vorigen Abschnitt.
 
-Einige Länder der Europäischen Union planen zum Zeitpunkt der
-Drucklegung dieses Buches, den Gehalt bestimmter Inhaltsstoffe von
-Lebensmitteln vereinfacht durch eine sogenannte \textit{Ampel}
-darzustellen.  Bei Zucker zum Beispiel sieht die Ampel so aus, bezogen
+Die Lebensmittelampel ist eine Kennzeichnung auf Lebensmittelverpackungen,
+die den Gehalt von gesundsheitsrelevanten Nährstoffen in den
+Ampfelfarben ausweist: Grün für niedrigen Gehalt, Gelb für mittleren Gehalt und
+Rot für hohen Gehalt. Bei Zucker zum Beispiel sieht die Ampel so aus, bezogen
 auf 100~g eines Lebensmittels:
 %
 \begin{center}
   \begin{tabular}{l|l|l}
     grün & niedriger Gehalt &  weniger als 5 g\\
-    gelb & mittlerer Gehalt & zwischen 5 g und 12,5 g\\
-    rot & hoher Gehalt & mehr als 12,5 g
+    gelb & mittlerer Gehalt & zwischen 5 g und 22,5 g\\
+    rot & hoher Gehalt & mehr als 22,5 g
   \end{tabular}
 \end{center}
 %
-Uns geht es nicht darum, ob solch eine Kennzeichnung sinnvoll ist oder
-nicht, oder ob Zucker "<gesund"> oder "<ungesund"> ist.  Auf jeden
-Fall sind trotz der Bemühungen der Europäischen Union die
+Trotz der Bemühungen der Europäischen Union die
 Bezeichnungen uneinheitlich.  Technisch gesehen ist die Ampel
-natürlich redundant, wenn der Zuckergehalt in Gramm angegeben ist.
+redundant, wenn der Zuckergehalt in Gramm angegeben ist.
 Manchmal ist allerdings der Zuckergehalt auch separat für Fruktose und
 Glukose angegeben.
 
@@ -470,7 +468,7 @@ die Datenanalyse:
   oder Zuckerampel angegeben werden.
 \end{itemize}
 %
-Hier ist dei Datendefinition für die zusammengesetzen Zuckeranteile:
+Hier ist die Datendefinition für die zusammengesetzen Zuckeranteile:
 %
 \begin{verbatim}
 ; Zuckeranteile bestehen aus:
@@ -489,7 +487,7 @@ jeweils rationale Zahlen:
   (sugars-glucose-g  rational))
 \end{verbatim}
 %
-Hier einige Beispiele, zusammen mit Kommenaren, die die Beziehung
+Hier einige Beispiele, zusammen mit Kommentaren, die die Beziehung
 zwischen Daten und Information beschreiben:
 %
 \begin{verbatim}
@@ -497,7 +495,7 @@ zwischen Daten und Information beschreiben:
 (define s2 (make-sugars 2 3)) ; 2 g Fruktose, 3 g Glukose
 (define s3 (make-sugars 5 5)) ; 5 g Fruktose, 5 g Glukose
 (define s4 (make-sugars 10 2.5)) ; 10 g Fruktose, 2.5 g Glukose
-(define s5 (make-sugars 10 3)) ; 10 g Fruktose, 3 g Glukose
+(define s5 (make-sugars 10 13)) ; 10 g Fruktose, 13 g Glukose
 (define s6 (make-sugars 15 10)) ; 15 g Fruktose, 10 g Glukose
 \end{verbatim}
 %
@@ -511,16 +509,17 @@ Fallunterscheidung:
 ; - grün
 \end{verbatim}
 %
-Wir geben der dazu passenden Signatur einen Namen:
+Das ist eine Aufzählung, wir geben entsprechend der dazu passenden
+Signatur einen Namen:
 %
 \begin{verbatim}
 (define traffic-light
   (signature
-   (one-of "rot" "gelb" "grün")))
+   (one-of "red" "yellow" "green")))
 \end{verbatim}
 %
 Die Angabe über den Zuckergehalt kann jede der drei oben genannten Formen
-annehmen.  Es handelt 
+annehmen:
 %
 \begin{verbatim}
 ; Ein Zuckergehalt ist eins der folgenden:
@@ -529,7 +528,7 @@ annehmen.  Es handelt
 ; - Ampelbezeichnung
 \end{verbatim}
 %
-Wieder ist an der Formulierung erkennbar, dass es sich um gemsichte
+Wieder ist an der Formulierung erkennbar, dass es sich um gemischte
 Daten handelt, und zwar mit drei Fällen.  Das übersetzen wir in ein
 Signaturdefinition mit \texttt{mixed} und ebenfalls drei Fällen:
 %
@@ -559,22 +558,22 @@ Wir brauchen ziemlich viele Testfälle, um alle Fälle von
 Zuckergehalt abzudecken sowie die Eckfälle der Tabelle von oben.
 %
 \begin{verbatim}
-(check-expect (sugar-traffic-light 2) "grün")
-(check-expect (sugar-traffic-light 5) "gelb")
-(check-expect (sugar-traffic-light 10) "gelb")
-(check-expect (sugar-traffic-light 12.5) "gelb")
-(check-expect (sugar-traffic-light 20) "rot")
+(check-expect (sugar-traffic-light 2) "green")
+(check-expect (sugar-traffic-light 5) "yellow")
+(check-expect (sugar-traffic-light 10) "yellow")
+(check-expect (sugar-traffic-light 12.5) "yellow")
+(check-expect (sugar-traffic-light 23) "red")
 
-(check-expect (sugar-traffic-light s1) "grün")
-(check-expect (sugar-traffic-light s2) "gelb")
-(check-expect (sugar-traffic-light s3) "gelb")
-(check-expect (sugar-traffic-light s4) "gelb")
-(check-expect (sugar-traffic-light s5) "rot")
-(check-expect (sugar-traffic-light s6) "rot")
+(check-expect (sugar-traffic-light s1) "green")
+(check-expect (sugar-traffic-light s2) "yellow")
+(check-expect (sugar-traffic-light s3) "yellow")
+(check-expect (sugar-traffic-light s4) "yellow")
+(check-expect (sugar-traffic-light s5) "red")
+(check-expect (sugar-traffic-light s6) "red")
 
-(check-expect (sugar-traffic-light "grün") "grün")
-(check-expect (sugar-traffic-light "gelb") "gelb")
-(check-expect (sugar-traffic-light "rot") "rot")
+(check-expect (sugar-traffic-light "green") "green")
+(check-expect (sugar-traffic-light "yellow") "yellow")
+(check-expect (sugar-traffic-light "red") "red")
 \end{verbatim}
 %
 Als nächstes ist, wie immer, das Gerüst dran:
@@ -671,21 +670,19 @@ Schließlich müssen wir noch die Antworten eintragen:
     (cond
       ((rational? f) 
        (cond
-         ((< f 5) "grün")
-         ((and (>= f 5) (<= f 12.5)) "gelb")
-         ((> f 12.5) "rot")))
+         ((< f 5) "green")
+         ((and (>= f 5) (<= f 12.5)) "yellow")
+         ((> f 12.5) "red")))
       ((sugars? f) ...)
       ((string? f) ...))))
 \end{verbatim}         
 %
-FIXME: gab's schon im Kapitel Fallunterscheidungen; ggf.\ dort
-Hilfsfunktion?
-
-Hier ist jetzt ein \texttt{cond} in einem anderen \texttt{cond}
-eingeschachtelt.  Da so etwas schnell unübersichtlich wird, lohnt es
-sich, wie auf Seite~\pageref{page:separate-mixed-procs} empfohlen,
-diesen Zweig in eine separate Hilfsfunktion auszulagern.  Hier sind
- Kurzbeschreibung und Signatur:
+Das verschachtelte \texttt{cond} ist etwas unübersichtlich: In
+Konstruktionsanleitung~\ref{ka:gemischt-eingabe-schablone} auf
+Seite~\pageref{page:separate-mixed-procs} ist bereits vermerkt, dass
+es sinnvoll ist, diesen Zweig in eine separate Hilfsfunktion
+auszulagern.  Hier sind Kurzbeschreibung und Signatur für diese
+Hilfsfunktion:
 %
 \begin{verbatim}
 ; Zuckeranteil in g in Ampel umwandeln
@@ -697,11 +694,11 @@ Die Testfälle lassen sich aus den Testfällen für
 gewinnen:
 %
 \begin{verbatim}
-(check-expect (sugar-weight->traffic-light 2) "grün")
-(check-expect (sugar-weight->traffic-light 5) "gelb")
-(check-expect (sugar-weight->traffic-light 10) "gelb")
-(check-expect (sugar-weight->traffic-light 12.5) "gelb")
-(check-expect (sugar-weight->traffic-light 20) "rot")
+(check-expect (sugar-weight->traffic-light 2) "green")
+(check-expect (sugar-weight->traffic-light 5) "yellow")
+(check-expect (sugar-weight->traffic-light 10) "yellow")
+(check-expect (sugar-weight->traffic-light 12.5) "yellow")
+(check-expect (sugar-weight->traffic-light 23) "red")
 \end{verbatim}
 %
 Gerüst:
@@ -718,15 +715,15 @@ bietet dazu nach einem Klick auf "<Syntaxprüfung"> die Möglichkeit, mit einem
 Rechtsklick auf den Parameter \texttt{f} ein Menü aufzuklappen, das unter
 anderem die Auswahl "<\texttt{f} umbenennen"> anbietet. \drscheme{} sorgt dann
 dafür, dass alle zugehörigen Vorkommen von \texttt{f} in gleicher Weise
-umbenannt werden.
+umbenannt werden.\label{def:sugar-weight-traffic-light}
 %
 \begin{verbatim}
 (define sugar-weight->traffic-light
   (lambda (w)
     (cond
-      ((< w 5) "grün")
-      ((and (>= w 5) (<= w 12.5)) "gelb")
-      ((> w 12.5) "rot"))))
+      ((< w 5) "green")
+      ((and (>= w 5) (<= w 22.5)) "yellow")
+      ((> w 12.5) "red"))))
 \end{verbatim}
 %
 Zurück zu \texttt{sugar-traffic-light}: Dort benutzen wir zunächst die
@@ -797,19 +794,26 @@ Fertig!
 \section*{Aufgaben}
 
 \begin{aufgabe}
+  Vereinfache in der Funktion \texttt{sugar-weight->traffic-light} auf
+  Seite~\pageref{def:sugar-weight-traffic-light} die Bedingungen, wie
+  in Abschnitt~\ref{page:bedingungen-vereinfachen} auf
+  Seite~\pageref{page:bedingungen-vereinfachen} beschrieben.
+\end{aufgabe}
+
+\begin{aufgabe}
   Ein Supermarkt möchte seine Waren in einem Programm verwalten. Es gibt
   drei Warenklassen:
-  \begin{itemize}
-  \item Essen - Beschrieben durch einen Namen, den Stückpreis, das Mindesthaltbarkeitsdatum
-    und den aktuellen Bestand im Supermarkt.
-  \item Getränke - Beschrieben durch einen Namen, den Stückpreis, das Mindesthaltbarkeitsdatum
+  \begin{description}
+  \item[Essen] beschrieben durch einen Namen, den Stückpreis, das Mindesthaltbarkeitsdatum
+    und den aktuellen Bestand im Supermarkt
+  \item[Getränke] beschrieben durch einen Namen, den Stückpreis, das Mindesthaltbarkeitsdatum
     und den Bestand. Zusätzlich muss hier noch festgehalten werden, ob Pfand verlangt wird.
-  \item Sonstige - Beschrieben durch einen Namen, den Stückpreis und den Bestand.
-  \end{itemize}
+  \item[Sonstige] beschrieben durch einen Namen, den Stückpreis und den Bestand.
+  \end{description}
 
   
   \begin{enumerate}
-  \item Führe eine Datenanalyse durch und erstelle Sie Daten- und 
+  \item Führe eine Datenanalyse durch und erstelle Daten- und 
     Record-Definitionen.
   \item Schreibe eine Funktion \texttt{stückpreis}, die eine Warenklasse
     konsumiert und den Stückpreis zurückgibt.
@@ -847,10 +851,10 @@ Fertig!
   \textit{Exciting Games, Inc.} ist in Personalnot: Für die
   Implementierung des bahnbrechenden 2D-Spiels \textit{The Adventures
     of DrRacket} wird dringend eine Repräsentation der grafischen
-  Formen Kreis, Rechteck und Dreieck benötigt.  Alle fiesen Hacker
+  Formen Kreis, Rechteck und Dreieck benötigt.  Alle Hacker
   sind leider wahnsinnig damit beschäftigt, bunte Pixel in der Gegend
   herumzuschieben und können sich daher nicht dieser grundlegenden
-  Aufgabe widmen.  Deswegen fällt Ihnen diese Aufgabe zu!  Ihnen geht
+  Aufgabe widmen.  Deswegen fällt Dir diese Aufgabe zu!  Dir geht
   nur ein mit Pizzabelag verschmierter Zettel zu, der offenbar als
   Arbeitsanweisung gedacht ist.  Darauf steht:
   \begin{itemize}
@@ -900,7 +904,7 @@ Fertig!
     \end{itemize}
 
   \end{itemize}
-
+  %
   Zeige den Hackern, was richtiges Software-Engineering ist und
   benutze die passenden Konstruktionsanleitungen, um Repräsentationen für die Formen und die zugehörigen
   Funktionen zu schreiben!
@@ -925,8 +929,8 @@ Fertig!
   \begin{enumerate}
   \item Schreibe eine Datendefinition für
     Verstöße gegen die Straßenverkehrsordnung.  Schreibe Daten-
-    und Recorddefinitionen für die verschiedenen Verstöße.  Hinweis:
-    Die Zeitpunkte kannst Du durch Zeichenketten repräsentieren.  
+    und Record-Definitionen für die verschiedenen Verstöße.  
+    Die Zeitpunkte kannst Du durch Zeichenketten wie \verb|"11.4.1971 22:00"| repräsentieren.  
     Gib alle Signaturen an!
 
   \item Schreibe eine Funktion, die einen
@@ -939,7 +943,7 @@ Fertig!
 
   \item Schreibe eine Funktion, die einen
     beliebigen Verstoß entgegennimmt, diesen als Gefährdung des
-    Straßenverkehrs betrachtet und wieder zurückgibt (d.~h. jeder 
+    Straßenverkehrs betrachtet und wieder zurückgibt (das heißt jeder 
     Verstoß ist ein Verstoß mit Gefährdung).
   \end{enumerate}
 
