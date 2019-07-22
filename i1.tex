@@ -30,17 +30,6 @@
 \usepackage{eurosym}
 \usepackage{alltt}
 \usepackage{verbatim}
-\usepackage{ifpdf}
-\ifpdf
-\usepackage{pdftricks}
-\begin{psinputs}
-\fi
-\usepackage{pstricks}
-\usepackage{pst-node}
-\usepackage{pst-tree}
-\ifpdf
-\end{psinputs}
-\fi
 \usepackage{fancybox}
 \usepackage{tabularx}
 \usepackage{url}
@@ -60,13 +49,6 @@
 % from lmodern.sty
 % this gives us bold typewriter
 \renewcommand{\ttdefault}{lmtt}
-
-\ifpdf
-\let\pspdf\pdfdisplay
-\let\endpspdf\endpdfdisplay
-\else
-\newenvironment{pspdf}{}{}
-\fi
 
 \theorembodyfont{\normalfont}
 \theoremheaderfont{\normalfont\sffamily\scshape}

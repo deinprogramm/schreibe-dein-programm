@@ -34,14 +34,15 @@ eins der folgenden:
 \end{itemize}
 %
 \begin{figure}[h!]
-\begin{pspdf}
-\begin{center}
-  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{Axl} { \pstree{\Tr{Slash} {
-      \pstree{\Tr{Buckethead}} { \Tdot \pstree{\Tr{Dizzy}} { \Tdot \Tdot } } \Tdot}
-    \pstree{\Tr{Duff}} { \pstree{\Tr{Brain}} { \Tdot \Tdot } \Tdot
-      } }
-\end{center}
-\end{pspdf}
+  TBD
+% \begin{pspdf}
+% \begin{center}
+%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{Axl} { \pstree{\Tr{Slash} {
+%       \pstree{\Tr{Buckethead}} { \Tdot \pstree{\Tr{Dizzy}} { \Tdot \Tdot } } \Tdot}
+%     \pstree{\Tr{Duff}} { \pstree{\Tr{Brain}} { \Tdot \Tdot } \Tdot
+%       } }
+% \end{center}
+% \end{pspdf}
   \caption{Binärbaum}
   \label{fig:bintree1}
 \end{figure}
@@ -52,15 +53,17 @@ Binärbäume haben eine einleuchtende grafische Darstellung, die in
 Abbildung~\ref{fig:bintree1} vorgestellt wird.  Die Punkte unten
 am Baum stehen für leere Binärbäume.  Ein Bild der Form:
 
-\begin{pspdf}
-\begin{center}
-  \pstree[levelsep=4ex,treesep=3em,labelsep=3pt,nodesep=2pt]{\Tr{$L$}}
-  {
-    \Tr{\raisebox{-1ex}{\ldots}}
-    \Tr{\raisebox{-1ex}{\ldots}}
-    }
-\end{center}
-\end{pspdf}
+TBD
+
+% \begin{pspdf}
+% \begin{center}
+%   \pstree[levelsep=4ex,treesep=3em,labelsep=3pt,nodesep=2pt]{\Tr{$L$}}
+%   {
+%     \Tr{\raisebox{-1ex}{\ldots}}
+%     \Tr{\raisebox{-1ex}{\ldots}}
+%     }
+% \end{center}
+% \end{pspdf}
 
 steht für einen Knoten mit Markierung $L$, unter dem sich ein linker und
 ein rechter Teilbaum befinden.  Die Teilbäume werden auch
@@ -269,13 +272,14 @@ Suchbäume setzen eine Gleichheitsoperation und eine totale Ordnung auf
 den Elementen (siehe Definition~\ref{def:total-order}) voraus.
 
 \begin{figure}[tb]
-\begin{pspdf}
-\begin{center}
-  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{\texttt{N}}} {
-    \pstree{\Tr{\texttt{B}}} { \pstree{\Tr{\texttt{A}}}{\Tdot \Tdot} \pstree{\Tr{\texttt{D}}}{\Tdot \Tdot }}
-    \pstree{\Tr{\texttt{Q}}} { \pstree{\Tr{\texttt{P}}}{\Tdot \Tdot} \pstree{\Tr{\texttt{R}}}{\Tdot \Tdot} } }
-\end{center}
-\end{pspdf}
+% \begin{pspdf}
+% \begin{center}
+%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{\texttt{N}}} {
+%     \pstree{\Tr{\texttt{B}}} { \pstree{\Tr{\texttt{A}}}{\Tdot \Tdot} \pstree{\Tr{\texttt{D}}}{\Tdot \Tdot }}
+%     \pstree{\Tr{\texttt{Q}}} { \pstree{\Tr{\texttt{P}}}{\Tdot \Tdot} \pstree{\Tr{\texttt{R}}}{\Tdot \Tdot} } }
+% \end{center}
+% \end{pspdf}
+  TBD
   \caption{Ein Suchbaum über Buchstaben}
   \label{fig:searchtree}
 \end{figure}
@@ -432,15 +436,18 @@ erzeugen, der nicht die Suchbaumeigenschaft erfüllt, wie etwa
 %
 Zu \texttt{s2} paßt das folgende Bild:
 %
-\begin{pspdf}
-\begin{center}
-  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{5}}
-  {
-    \pstree{\Tr{17}}{\Tdot\Tdot}
-    \pstree{\Tr{3}}{\Tdot\Tdot}
-    }
-\end{center}
-\end{pspdf}
+% \begin{pspdf}
+% \begin{center}
+%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{5}}
+%   {
+%     \pstree{\Tr{17}}{\Tdot\Tdot}
+%     \pstree{\Tr{3}}{\Tdot\Tdot}
+%     }
+% \end{center}
+% \end{pspdf}
+
+TBD
+
 %
 In diesem "<Suchbaum"> findet \texttt{search-tree-member?} zwar
 die 5, nicht aber die anderen beiden Elemente:\label{label:non-search-tree}
@@ -529,12 +536,15 @@ Hilfsfunktion \texttt{insert} die eigentliche Arbeit: Soll
 \texttt{l} in den leeren Baum eingefügt werden, so gibt
 \texttt{insert} einen trivialen Baum der Form
 %
-\begin{pspdf}
-\begin{center}
-    \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{\texttt{l}}}
-    {\Tdot\Tdot}
-\end{center}
-\end{pspdf}
+% \begin{pspdf}
+% \begin{center}
+%     \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{\texttt{l}}}
+%     {\Tdot\Tdot}
+% \end{center}
+% \end{pspdf}
+
+TBD
+
 % 
 zurück.  Wenn \texttt{t} ein Knoten ist, gibt es wieder drei Fälle:
 Wenn \texttt{l} mit der
@@ -560,19 +570,20 @@ Anzahl der Elemente, also viel langsamer als zum Beispiel die Länge
 einer Liste, die alle Elemente aufnehmen müßte.
 
 \begin{figure}[tb]
-  \begin{pspdf}
-  \begin{center}
-    \pstree[nodesep=2pt,levelsep=4ex,treesep=3em]{\Tr{\texttt{A}}}{\Tdot
-      \pstree{\Tr{\texttt{B}}}{\Tdot
-        \pstree{\Tr{\texttt{D}}}{\Tdot
-          \pstree{\Tr{\texttt{N}}}{\Tdot
-            \pstree{\Tr{\texttt{P}}}{\Tdot
-              \pstree{\Tr{\texttt{Q}}}{\Tdot
-                \pstree{\Tr{\texttt{R}}}{\Tdot \Tdot}}}}}}}
-    \caption{Ein entarteter Suchbaum}
-    \label{fig:stupid-searchtree}
-  \end{center}
-\end{pspdf}
+%   \begin{pspdf}
+%   \begin{center}
+%     \pstree[nodesep=2pt,levelsep=4ex,treesep=3em]{\Tr{\texttt{A}}}{\Tdot
+%       \pstree{\Tr{\texttt{B}}}{\Tdot
+%         \pstree{\Tr{\texttt{D}}}{\Tdot
+%           \pstree{\Tr{\texttt{N}}}{\Tdot
+%             \pstree{\Tr{\texttt{P}}}{\Tdot
+%               \pstree{\Tr{\texttt{Q}}}{\Tdot
+%                 \pstree{\Tr{\texttt{R}}}{\Tdot \Tdot}}}}}}}
+%   \end{center}
+% \end{pspdf}
+  TBD
+     \caption{Ein entarteter Suchbaum}
+     \label{fig:stupid-searchtree}
 \end{figure}
 
 Leider ist nicht jeder Suchbaum so angenehm organisiert wie der in
@@ -792,12 +803,15 @@ im Zusammenhang mit \texttt{search-tree-insert} überhaupt bedeutet:
 \begin{itemize}
 \item $\tau$ ist der leere Baum.  Der dann zurückgegebene Baum
   der Form
-\begin{pspdf}
-  \begin{center}
-    \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{$l$}}
-    {\Tdot\Tdot}
-  \end{center}
-\end{pspdf}
+
+  TBD
+  
+% \begin{pspdf}
+%   \begin{center}
+%     \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{$l$}}
+%     {\Tdot\Tdot}
+%   \end{center}
+% \end{pspdf}
 erfüllt offensichtlich die Suchbaumeigenschaft.
 \item $\tau$ ist ein Knoten, dessen Markierung mit
   $l$ übereinstimmt.  Dann gibt \texttt{insert} 
@@ -806,28 +820,34 @@ erfüllt offensichtlich die Suchbaumeigenschaft.
   Suchbaumeigenschaft erhalten.
 \item $\tau$ ist ein Knoten, dessen Markierung \emph{größer}
   ist als $l$, sieht also so aus:
-\begin{pspdf}
-  \begin{center}
-    \pstree[levelsep=4ex,treesep=3em,dotsize=0pt 0.1]{\Tr{$m$}}
-    {
-      \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$a$}}}
-      \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$b$}}}
-      }
-  \end{center}
-\end{pspdf}
+% \begin{pspdf}
+%   \begin{center}
+%     \pstree[levelsep=4ex,treesep=3em,dotsize=0pt 0.1]{\Tr{$m$}}
+%     {
+%       \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$a$}}}
+%       \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$b$}}}
+%       }
+%   \end{center}
+% \end{pspdf}
+
+  TBD
+  
   wobei sowohl $a$ als auch $b$ selbst die Suchbaumeigenschaft
   erfüllen. In diesem
   Fall sieht der entstehende Baum folgendermaßen aus:
   %
-  \begin{pspdf}
-  \begin{center}
-    \pstree[levelsep=4ex,treesep=3em,dotsize=0pt 0.1]{\Tr{$m$}} {
-      \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{
-          \texttt{(insert \valof{a})}
-          }}}
-      \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$b$}}} }
-  \end{center}
-  \end{pspdf}
+  % \begin{pspdf}
+  % \begin{center}
+  %   \pstree[levelsep=4ex,treesep=3em,dotsize=0pt 0.1]{\Tr{$m$}} {
+  %     \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{
+  %         \texttt{(insert \valof{a})}
+  %         }}}
+  %     \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$b$}}} }
+  % \end{center}
+  % \end{pspdf}
+
+  TBD
+  
 % 
   Per Induktionsannahme erfüllt \texttt{(insert \valof{a})} die
   Suchbaumeigenschaft.  Da $b$ auch die Suchbaumeigenschaft

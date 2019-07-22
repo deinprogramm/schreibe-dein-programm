@@ -28,74 +28,88 @@ Das Löschen eines Elements in einem Suchbaum ist deutlich schwieriger
 als das Einfügen.  Beim Suchbaum \texttt{s3} erscheint die Aufgabe
 noch einfach.  Hier das Bild dazu:
 %
-\begin{pspdf}
-\begin{center}
-  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
-  {
-    \Tdot
-    \pstree{\Tr{17}}{
-      \pstree{\Tr{5}}{\Tdot\Tdot}
-      \Tdot
-    }
-  }
-\end{center}
-\end{pspdf}
+
+TBD
+
+% \begin{pspdf}
+% \begin{center}
+%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+%   {
+%     \Tdot
+%     \pstree{\Tr{17}}{
+%       \pstree{\Tr{5}}{\Tdot\Tdot}
+%       \Tdot
+%     }
+%   }
+% \end{center}
+% \end{pspdf}
 % 
 Angenommen, die 3 soll gelöscht werden. In diesem Fall kann der
 Suchbaum durch dessen rechten Teilbaum ersetzt werden:
 %
-\begin{pspdf}
-\begin{center}
-    \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{17}}{
-      \pstree{\Tr{5}}{\Tdot\Tdot}
-      \Tdot
-      }
-\end{center}
-\end{pspdf}
+
+TBD
+
+% \begin{pspdf}
+% \begin{center}
+%     \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{17}}{
+%       \pstree{\Tr{5}}{\Tdot\Tdot}
+%       \Tdot
+%       }
+% \end{center}
+% \end{pspdf}
 %
 Angenommen, die 17 soll gelöscht werden: Dann kann der Teilbaum mit 17 an
 der Spitze durch seinen eigenen linken Teilbaum ersetzt werden:
 %
-\begin{pspdf}
-\begin{center}
-  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
-  {
-    \Tdot
-    \pstree{\Tr{5}}{\Tdot\Tdot}
-  }
-\end{center}
-\end{pspdf}
+TBD
+
+% \begin{pspdf}
+% \begin{center}
+%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+%   {
+%     \Tdot
+%     \pstree{\Tr{5}}{\Tdot\Tdot}
+%   }
+% \end{center}
+% \end{pspdf}
 %
 Ähnlich kann der Teilbaum mit der 5 an der Spitze durch den leeren
 Baum ersetzt werden:
 %
-\begin{pspdf}
-\begin{center}
-  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
-  {
-    \Tdot
-    \pstree{\Tr{17}}{
-      \Tdot
-      \Tdot
-    }
-  }
-\end{center}
-\end{pspdf}
+
+TBD
+
+% \begin{pspdf}
+% \begin{center}
+%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+%   {
+%     \Tdot
+%     \pstree{\Tr{17}}{
+%       \Tdot
+%       \Tdot
+%     }
+%   }
+% \end{center}
+% \end{pspdf}
 %
 Wird der Suchbaum nur minimal erweitert, wird die Sache schon schwieriger:
 %
-\begin{pspdf}
-\begin{center}
-  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
-  {
-    \Tdot
-    \pstree{\Tr{17}}{
-      \pstree{\Tr{5}}{\Tdot\Tdot}
-      \pstree{\Tr{20}}{\Tdot\Tdot}
-    }
-  }
-\end{center}
-\end{pspdf}
+
+TBD
+
+% \begin{pspdf}
+% \begin{center}
+%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+%   {
+%     \Tdot
+%     \pstree{\Tr{17}}{
+%       \pstree{\Tr{5}}{\Tdot\Tdot}
+%       \pstree{\Tr{20}}{\Tdot\Tdot}
+%     }
+%   }
+% \end{center}
+% \end{pspdf}
 %
 Wie könnte hier die 17 gelöscht werden? Es ist nicht möglich, den
 Teilbaum mit 17 an der Spitze einfach durch seinen linken oder rechten
@@ -133,27 +147,30 @@ Ansatz, nur den Teilbaum zu ersetzen, an dessen Spitze das zu
 löschende Element steht und den restlichen Baum unverändert zu lassen,
 auch hier funktioniert.  Es gibt zwei Möglichkeiten, dies zu tun:
 %
-\begin{pspdf}
-\begin{center}
-  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
-  {
-    \Tdot
-    \pstree{\Tr{5}}{
-      \Tdot
-      \pstree{\Tr{20}}{\Tdot\Tdot}
-    }
-  }
-  \qquad
-  \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
-  {
-    \Tdot
-    \pstree{\Tr{20}}{
-      \pstree{\Tr{5}}{\Tdot\Tdot}
-      \Tdot
-    }
-  }
-\end{center}
-\end{pspdf}
+
+TBD
+
+% \begin{pspdf}
+% \begin{center}
+%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+%   {
+%     \Tdot
+%     \pstree{\Tr{5}}{
+%       \Tdot
+%       \pstree{\Tr{20}}{\Tdot\Tdot}
+%     }
+%   }
+%   \qquad
+%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{3}}
+%   {
+%     \Tdot
+%     \pstree{\Tr{20}}{
+%       \pstree{\Tr{5}}{\Tdot\Tdot}
+%       \Tdot
+%     }
+%   }
+% \end{center}
+% \end{pspdf}
 % 
 Mit anderen Worten, es wird ein Element von weiter unten
 "<hochgezogen">.  Es bleibt die Frage, wie die Funktion das Element
