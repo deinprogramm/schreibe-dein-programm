@@ -375,17 +375,15 @@ Um den "<Selbstaufruf"> von \texttt{list-sum} noch besser zu
 verstehen, betrachten wir noch einmal die Datendefinition für
 Listen zusammen mit der Datendefinition für Conse:
 
-\begin{pspdf}
-\begin{ttfamily}\obeylines
-; Eine \rnode[r]{ListeDef}{\textbf{Liste}} ist eins der folgenden:
+\begin{alltt}
+; Eine \textbf{Liste} ist eins der folgenden:
 ; - die leere Liste
 ; - ein Cons
 ; Ein Cons besteht aus:
 ; - einem beliebigen Element
-; - einer \rnode[r]{ListeRef}{\textbf{Liste}}\nccurve[nodesep=3pt]{->}{ListeRef}{ListeDef}
-\end{ttfamily}
-\end{pspdf}
-
+; - einer \textbf{Liste}
+\end{alltt}
+%
 Die Datendefinition enthält einen Verweis auf \emph{sich selbst},
 genannt \emph{Selbstbezug}\index{Selbstbezug}.  Dieser Selbstbezug ist
 beim Rest~-- der Selbstaufruf, der in \texttt{list-sum} auf den Rest
