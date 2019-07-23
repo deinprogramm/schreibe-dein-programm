@@ -1,0 +1,26 @@
+\lst@definelanguage{SdP}{
+  morekeywords=[1]{define, lambda},
+  morekeywords=[2]{begin,
+    case, cond, match
+    else, if,
+    let*, let, letrec
+    and, or
+    quasiquote, quote, unquote, unquote-splicing},
+  alsodigit=!\$\%&*+-./:<=>?@^_~,
+  sensitive=true,
+  morecomment=[l]{;},
+  morecomment=[s]{\#|}{|\#},
+  morestring=[b]",
+  basicstyle=\ttfamily\color[HTML]{2B2E82},
+  keywordstyle=\bf\ttfamily\color[HTML]{202060},
+  commentstyle=\color[HTML]{B27D2E},
+  stringstyle={\color[HTML]{568232}},
+  upquote=true,
+  breaklines=false,
+  breakatwhitespace=false,
+  keepspaces=true,
+  literate=*{`}{{`}}{1},
+  columns=fullflexible,
+  literate={ä}{{\"a}}1 {ö}{{\"o}}1 {ü}{{\"u}}1 {Ä}{{\"A}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1 {ß}{{\ss}}1,
+  escapechar=\|
+}
