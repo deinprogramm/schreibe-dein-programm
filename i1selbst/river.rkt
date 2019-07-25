@@ -107,7 +107,7 @@
            (flows-through? (confluence-tributary river) location)
            ...)))))
 
-(define flows-through?
+#;(define flows-through?
   (lambda (river location)
     (cond
       ((stream? river)
@@ -118,3 +118,13 @@
            (or
             (flows-through? (confluence-main-stem river) location)
             (flows-through? (confluence-tributary river) location)))))))
+
+(define flows-through?
+  (lambda (river location)
+    (cond
+      ((stream? river)
+       (string=? (stream-origin river) location))
+      ((confluence? river)
+       (or (string=? (confluence-location river) location)
+           (flows-through? (confluence-main-stem river) location)
+           (flows-through? (confluence-tributary river) location))))))

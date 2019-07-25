@@ -396,9 +396,79 @@ rekursive Aufrufe.  Daraus machen wir eine Schablone:
   Selbstbezüge enthalten sind, dann schreibe an die Stellen der
   Selbstbezüge jeweils einen rekursiven Aufruf.
 \end{konstruktionsanleitung}
+%
+Ein Nachtrag noch: Der \lstinline{if}-Ausdruck in der
+\lstinline{flows-through?}-Funktion passt \emph{fast} auf das Muster
+aus Aufgabe~\ref{aufgabe:iftruefalse}.  Der einzige Unterschied ist,
+dass in der Alternative der Verzweigung nicht \lstinline{#f} steht.
+Allgemein wir ein solcher \lstinline{if}-Ausdruck folgendermaßen
+ausgewertet:
+%
+\begin{lstlisting}
+(if |$b$| #t |$a$|)
+|\evalsto| #t ; falls |$b=$| #t
+|\evalsto| |$a$|  ; falls |$b=$| #f
+\end{lstlisting}
+%
+Das können wir mit dem Verhalten von \lstinline{or} vergleichen:
+%
+\begin{lstlisting}
+(or |$b$| |$a$|)
+|\evalsto| #t ; falls |$b$| |\evalsto| #t
+|\evalsto| |$a$|  ; falls |$b$| |\evalsto| #f
+\end{lstlisting}
+%
+Wir können den \lstinline{if}-Ausdruck aus \lstinline{flows-through?}
+also durch ein \lstinline{or} ersetzen:
+%
+\begin{lstlisting}
+         (or (string=? (confluence-location river) location)
+             (or
+              (flows-through? (confluence-main-stem river) location)
+              (flows-through? (confluence-tributary river) location)))
+\end{lstlisting}
+%
+Das können wir sogar noch weiter vereinfachen, weil \lstinline{or}
+auch mit drei Operanden funktioniert:
+%
+\begin{lstlisting}
+         (or (string=? (confluence-location river) location)
+             (flows-through? (confluence-main-stem river) location)
+             (flows-through? (confluence-tributary river) location))
+\end{lstlisting}
+%
+Wenn wir das Resultat, steht da folgendes:
+%
+\begin{quote}
+  Der Zusammenfluss \lstinline{river} fließt durch
+  \lstinline{location}, wenn
 
+  \begin{itemize}
+  \item der Zusammenfluss gerade bei \lstinline{location} stattfindet
 
-% Shapes
+    \centerline{\textbf{oder}}
+  \item der Hauptfluss durch \lstinline{location} fließt
+
+    \centerline{\textbf{oder}}
+  \item der Nebenfluss durch \lstinline{location} fließt.
+  \end{itemize}
+\end{quote}
+%
+So erzählt ist die Funktionsweise von \lstinline{flows-through?}
+(hoffentlich) direkt verständlich.
+
+Wir können so aus diesem Beispiel und
+Aufgabe~\ref{aufgabe:iftruefalse} zwei Gleichungen entsprechend
+Mantra~\ref{mantra:gleichungen} auf Seite~\pageref{mantra:gleichungen}
+machen:
+%
+\begin{lstlisting}
+(if |$b$| #t #f) |$=$| |$b$|
+(if |$b$| #t |$a$|)  |$=$| (or |$b$| |$a$|)
+\end{lstlisting}
+%
+
+% Shapesu
 % Files & Directories
 % StVO?
 % Verträge?
