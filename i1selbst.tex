@@ -87,7 +87,7 @@ Daraus können wir direkt eine Signaturdefinition machen:
 %
 \begin{lstlisting}
 (define river
-  (signature (mixed stream confluence)))
+  (signature (mixed creek confluence)))
 \end{lstlisting}
 %
 Die Datendefinitionen für "<Bach"> und "<Zusammentreffen"> fehlen
@@ -110,10 +110,10 @@ Entsprechend ist es auch sinnvoll, dafür eine Record-Definition zu
 schreiben:
 %
 \begin{lstlisting}
-(define-record-functions stream
-  make-stream
-  stream?
-  (stream-origin string))
+(define-record-functions creek
+  make-creek
+  creek?
+  (creek-origin string))
 \end{lstlisting}
 %
 Wenn später noch weitere Eigenschaften hinzukommen, können wir die
@@ -176,12 +176,12 @@ unterschiedlicher Größe.  Den Abschnitt des Neckar in~\ref{fig:neckar}
 können wir so abbilden:
 %
 \begin{lstlisting}
-(define eschach (make-stream "Heimliswald")) ; Quelle des Neckar
-(define prim (make-stream "Dreifaltigkeitsberg")) ; Quelle des Neckar
+(define eschach (make-creek "Heimliswald")) ; Quelle des Neckar
+(define prim (make-creek "Dreifaltigkeitsberg")) ; Quelle des Neckar
 ; erster Zusammenfluss des Neckar:
 (define neckar-1 (make-confluence "Rottweil" eschach prim))
 ; Zufluss des Neckar:
-(define schlichem (make-stream "Tieringen")) 
+(define schlichem (make-creek "Tieringen")) 
 ; zweiter Zusammenfluss des Neckar:
 (define neckar-2 (make-confluence "Epfendorf" neckar-1 schlichem))
 \end{lstlisting}
@@ -227,18 +227,18 @@ Da es sich bei \lstinline{river} um gemischte Daten handelt, können
 wir die Schablone dafür ergänzen.  Da \lstinline{river} zwei Fälle hat
 (Bäche und Zusammenflüsse), muss die Schablone zwei Zweige haben.  Die
 Bedingungen sind Aufrufe der jeweiligen Prädikate für
-\lstinline{stream} und \lstinline{confluence}:
+\lstinline{creek} und \lstinline{confluence}:
 %
 \begin{lstlisting}
 (define flows-through?
   (lambda (river location)
     (cond
-      ((stream? river) ...)
+      ((creek? river) ...)
       ((confluence? river) ...))))
 \end{lstlisting}
 %
 Nun können wir Code für die beiden Zweige ergänzen.  Fangen wir mit
-den Bächen an.  Da es sich bei \lstinline{stream} um zusammengesetzte
+den Bächen an.  Da es sich bei \lstinline{creek} um zusammengesetzte
 Daten handelt (mit nur einem Bestandteil), sollte der Aufruf des
 Selektors im Rumpf vorkommen:
 %
@@ -246,13 +246,13 @@ Selektors im Rumpf vorkommen:
 (define flows-through?
   (lambda (river location)
     (cond
-      ((stream? river)
-       ... (stream-origin river) ...
+      ((creek? river)
+       ... (creek-origin river) ...
       ((confluence? river)
        ...))))
 \end{lstlisting}
 %
-Der Selektor \lstinline{stream-origin} hat einen Ursprungsort.  Wenn dieser dem
+Der Selektor \lstinline{creek-origin} hat einen Ursprungsort.  Wenn dieser dem
 gesuchten Ort entspricht, so fließt der Fluss durch diesen Ort, sonst
 nicht.  Im ersten Fall sollte \lstinline{#t} herauskommen, im zweiten
 \lstinline{#f}.  Das sieht so aus:
@@ -261,8 +261,8 @@ nicht.  Im ersten Fall sollte \lstinline{#t} herauskommen, im zweiten
 (define flows-through?
   (lambda (river location)
     (cond
-      ((stream? river)
-       (if (string=? (stream-origin river) location)
+      ((creek? river)
+       (if (string=? (creek-origin river) location)
            #t
            #f))
       ((confluence? river)
@@ -273,12 +273,12 @@ Dieser Code kann noch etwas vereinfacht werden: Der
 \lstinline{if}-Ausdruck sagt ja salopp formuliert:
 %
 \begin{quote}
-  Wenn \lstinline{(string=? (stream-origin river) location)} als
+  Wenn \lstinline{(string=? (creek-origin river) location)} als
   Resultat \lstinline{#t} liefert, dann \lstinline{#f}, und wenn es
   \lstinline{#f} liefert, dann \lstinline{#f}.
 \end{quote}
 %
-Da reicht es auch, \lstinline{(string=? (stream-origin river) location)} hinzuschreiben.
+Da reicht es auch, \lstinline{(string=? (creek-origin river) location)} hinzuschreiben.
 %
 \begin{aufgabe}\label{aufgabe:iftruefalse}
   Kannst Du diese Vereinfachung auf \lstinline{if}-Ausdrücken
@@ -294,8 +294,8 @@ Selektoraufrufe hinschreiben:
 (define flows-through?
   (lambda (river location)
     (cond
-      ((stream? river)
-       (string=? (stream-origin river) location))
+      ((creek? river)
+       (string=? (creek-origin river) location))
       ((confluence? river)
       ...
        (confluence-location river)
@@ -316,8 +316,8 @@ mit "<ja"> beziehungsweise \lstinline{#t} beantworten:
 (define flows-through?
   (lambda (river location)
     (cond
-      ((stream? river)
-       (string=? (stream-origin river) location))
+      ((creek? river)
+       (string=? (creek-origin river) location))
       ((confluence? river)
        (if (string=? (confluence-location river) location)
            #t
@@ -346,8 +346,8 @@ Wir schreiben das mal hin:
 (define flows-through?
   (lambda (river location)
     (cond
-      ((stream? river)
-       (string=? (stream-origin river) location))
+      ((creek? river)
+       (string=? (creek-origin river) location))
       ((confluence? river)
        (if (string=? (confluence-location river) location)
            #t
@@ -368,8 +368,8 @@ um unsere Antwort zu errechnen: Wenn der Hauptfluss durch
 (define flows-through?
   (lambda (river location)
     (cond
-      ((stream? river)
-       (string=? (stream-origin river) location))
+      ((creek? river)
+       (string=? (creek-origin river) location))
       ((confluence? river)
        (if (string=? (confluence-location river) location)
            #t
