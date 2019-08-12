@@ -19,6 +19,13 @@ mathematische Funktionen und Programm-Funktionen operieren auf Daten mit
 Fallunterscheidung durch \textit{Verzweigungen\index{Verzweigung}}.
 Um diese geht es in diesem Kapitel.
 
+In diesem Kapitel werden wir zunächst zwei besonders einfache Arten
+von Fallunterscheidungen behandeln, nämlich \textit{Aufzählungen} und
+\textit{Zahlenbereiche}.  In Kapitel~\ref{cha:gemischte-daten} auf
+Seite~\pageref{cha:gemischte-daten} werden wir mit ganz allgemeinen
+Fallunterscheidungen, sogenannten \textit{gemischten Daten}
+programmieren.
+
 \section{Rechnen mit booleschen Werten}
 
 Für die Programme dieses Kapitels benötigen wir eine neue Art von
@@ -306,9 +313,8 @@ eine Minimalanforderung an unsere Tests.
 
 Nächste Beispielaufgabe: Wir wollen Haustiere einteilen in niedliche
 und nicht so niedliche.  Es gibt in der Welt dieser Aufgabe nur drei
-verschiedene Haustiere: Katzen, Hunde und Pythons.  Die Haustiere
-bilden eine sogenannte \textit{Aufzählung\index{Aufzählung}}, die wir
-in einem Kommentar im Programm so beschreiben könnten:
+verschiedene Haustiere: Katzen, Hunde und Pythons.  Haustiere
+könnten wir in einem Kommentar im Programm so beschreiben:
 %
 \label{sec:datendefinition}
 \begin{verbatim}
@@ -318,19 +324,28 @@ in einem Kommentar im Programm so beschreiben könnten:
 ; - Schlange
 \end{verbatim}
 %
-Solch ein kurzen Kommentar, der die Daten beschreibt, die in unserer
+Solch ein kurzer Kommentar, der die Daten beschreibt, die in unserer
 Aufgabe vorkommen, heißt
-\textit{Datendefinition\index{Datendefinition}}.  Mehr dazu in Abschnitt~\ref{sec:datenanalyse}
+\textit{Datendefinition\index{Datendefinition}}.  Mehr dazu in
+Abschnitt~\ref{sec:datenanalyse}.  Die Formulierung der
+Datendefinition "<eins der folgenden"> deutet daraufhin, dass auch
+diese Sorte Daten in mehrere Fälle zerfällt~-- es handelt es sich also
+wieder um eine Fallunterscheidung.
 
-Dass es sich um eine Aufzählung handelt, erkennen wir an der
-Datendefinition: Wir benötigen für unsere Aufgabe nur die Information,
-um welche Alternative aus der Datendefinition es geht~-- hier: welches
-Haustier.  Für die Elemente einer Aufzählung benutzen wir 
-Zeichenketten mit dem entsprechenden Text, also \verb|"Katze"|,
-\verb|"Hund"| und \verb|"Schlange"|.
+Bevor wir die eigentliche Aufgabe lösen (niedlich oder nicht), müssen
+wir uns zunächst überlegen, wie wir Haustiere im Programm
+repräsentieren: Für die Zwecke dieser Aufgabe reicht es zu wissen, mit
+\emph{welcher} der drei Möglichkeiten wir es zu tun haben.  Wir
+benutzen die einfachste Möglichkeit, Zeichenketten mit dem
+entsprechenden Text, also \verb|"Katze"|, \verb|"Hund"| und
+\verb|"Schlange"|.
+
+Eine solche Auflistung von Werten bildet eine sogenannte
+\textit{Aufzählung\index{Aufzählung}}~-- ein Spezialfall einer
+Fallunterscheidung.
 
 Für die Aufzählung der Haustiere gibt es noch keine fertige Signatur,
-die müssen wir deshalb erst noch definieren.  Die
+die müssen wir noch definieren.  Die
 \textit{Signatur-Definition\index{Signatur-Definition}} sieht so
 aus:\index{pet@\texttt{pet}}
 \label{sec:pet}\label{page:signature}
@@ -1127,18 +1142,25 @@ Für die Formulierung der Datendefinition gibt es eine Reihe von
 typischen Mustern, die sich immer wiederfinden.  Eins ist bei der
 Definition von "<Haustier"> ersichtlich, nämlich "<eins der
 folgenden">, das darauf hinweist, dass es sich bei "<Haustier"> um
-eine Aufzählung handelt.  Später werden wir noch andere Arten
-von Daten beschreiben, zusammen mit den dazu passenden Formulierungen
-in den Datendefinitionen.  Für Aufzählungen
-ist die daraus resultierende Konstruktionsanleitung diese hier:
+eine Fallunterscheidung handelt.  
+
+\begin{konstruktionsanleitung}{Fallunterscheidung: Datenanalyse}
+  \label{ka:fallunterscheidung}
+  Versuche, für die Datendefinition eine Formulierung \emph{\ldots{}
+    ist eins der folgenden} zu finden. Wenn da möglich ist, beschreibt
+  Deine Datendefinition eine
+  \textit{Fallunterscheidung\index{Fallunterscheidung}}.  Schreibe
+  dann eine Auflistung aller Fälle, jeder Fall auf eine separate
+  Zeile.
+\end{konstruktionsanleitung}
+%
+Für den Sonderfall der Aufzählung haben wir folgende Konstruktionsanleitung:
 %
 \begin{konstruktionsanleitung}{Aufzählung: Datenanalyse}
   \label{ka:aufzaehlung}
-  Versuche, für die Datendefinition eine Formulierung \emph{\ldots{}
-    ist eins der folgenden} zu finden und schreibe dann eine
-  Auflistung aller Fälle.  Falls jedes der Fälle nur aus einem
-  einzelnen Wert besteht, handelt es sich um eine
-  \textit{Aufzählung\index{Aufzählung}}.
+  Falls Deine Datendefinition eine Fallunterscheidung beschriebt und
+  jeder der Fälle nur aus einem einzelnen Wert besteht, handelt es
+  sich um eine \textit{Aufzählung\index{Aufzählung}}.
 
   Schreibe für jede Aufzählung eine Signaturdefinition der Form:
   % 
