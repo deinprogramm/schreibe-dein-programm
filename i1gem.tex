@@ -16,7 +16,10 @@ Klassen der gleichen Sorte Daten vor:
 \item Ein Essen kann ein Frühstück, Mittagessen oder Abendessen sein.
 \end{itemize}
 %
-Solche Daten heißen \textit{gemischte Daten\index{gemischte Daten}}.
+Solche Daten sind heißen \textit{gemischte Daten\index{gemischte
+    Daten}}, und es handelt sich um eine weitere Form von
+Falluntscheidungen, neben den aus Kapitel~\ref{cha:conditionals}
+bekannten Aufzählungen und Zahlenbereichen.
 
 Obwohl die Daten verschiedenartig sind, unterstützen sie doch
 gemeinsame Operationen: Das Gewicht eines Tiers kann sowohl für
@@ -134,20 +137,19 @@ Beschreibung so aussehen:
 \end{itemize}
 %
 Die Formulierung "<eins der folgenden"> ist Dir schon aus
-Abschnitt~\ref{sec:datendefinition} bekannt, dort stand "<eins der
-folgenden"> für je ein Element einer Aufzählung, das heisst also einer
-endlichen Menge.  Dementsprechend wurde in der Datendefinition auch
-die Formulierung \verb$one-of$ verwendet. Demgegenüber geht es jetzt
-jedoch um eine Auswahl zwischen Elementen potentiell unendlicher
-Mengen, nämlich der Menge der Gürteltiere und der Menge der
-Papageien. Das passt nicht zu
-zusammengesetzen Daten, bei denen "<besteht aus"> oder "<hat folgende
-Eigenschaften"> oder so ähnlich vorkommen müsste.
-Es liegt vielmehr
-eine neue Form der Organisation von Daten vor: \textit{gemischte
-  Daten}.\index{gemischte Daten} Entsprechend ist es durchaus
-sinnvoll, nach dem "<Gewicht eines Tiers"> zu fragen oder "<ein Tier
-zu füttern">, was wir im folgenden auch vorhaben.
+Abschnitt~\ref{sec:datendefinition} und
+Konstruktionsanleitung~\ref{ka:fallunterscheidung} auf
+Seite~\pageref{ka:fallunterscheidung} bekannt: Sie deutet auf eine
+Fallunterscheidung\index{Fallunterscheidung} hin.
+
+Da aber Gürteltiere und Papageien nicht als nur jeweils ein Wert
+repräsentiert sind, handelt es sich nicht um eine Aufzählung: Die
+beiden Fälle der Fallunterscheidung beschreiben unterschiedliche
+\textit{Klassen}\index{Klasse} von Tieren, jede mit ihrer eigenen
+Signatur.  Damit liegt eine neue Organisation von Daten vor:
+\textit{gemischte Daten}.\index{gemischte Daten} Entsprechend ist es
+durchaus sinnvoll, nach dem "<Gewicht eines Tiers"> zu fragen oder
+"<ein Tier zu füttern">, was wir im folgenden auch vorhaben.
 
 Die Beschreibung des Begriffs "<Tier"> ist bereits als Datendefinition
 geeignet, und muss für Inklusion im Programm nur als Kommentar
@@ -184,7 +186,8 @@ Diese sieht folgendermaßen aus:
 Das \texttt{signature} kennen wir von den Fallunterscheidungen aus
 Abschnitt~\ref{page:signature} auf Seite~\pageref{page:signature}.
 Das \texttt{mixed}\index{mixed@\texttt{mixed}} ist neu und steht
-für "<gemischte Daten">.  Du kannst die obige Definition lesen als
+für "<gemischte Daten">, also Fallunterscheidungen, bei denen jeder
+Fall seine eigene Signatur hat.  Du kannst die obige Definition lesen als
 "<Tiere sind gemischt aus Gürteltieren und Papageien">; das klingt
 aber auf Deutsch hölzern, weshalb wir für die Datendefinition bei der
 Formulierung "<eins der folgenden"> bleiben.  Mit der Definition steht
@@ -354,22 +357,10 @@ gemischte Daten.  Zunächst die Datenanalyse:
 
 \begin{konstruktionsanleitung}{Gemischte Daten: Datenanalyse}
   \label{ka:gemischt-datenanalyse}
-Gemischte Daten liegen vor, wenn Du eine Datensorte durch eine
-  Formulierung der Form "<ein $X$ ist eins der folgenden"> beschreiben
-  kannst, es sich dabei aber nicht um 
-  eine reine Aufzählung handelt.  Die daraus resultierende Datendefinition hat die folgende
-  Form:
-  %
-\begin{alltt}
-; Ein X ist eins der folgenden:
-; - Fall 1
-; - Fall 2
-; - ...
-; - Fall n
-\end{alltt}
-%
-Schreibe eine Signaturdefinition der folgenden Form unter
-die Datendefinition:
+  Gemischte Daten sind Fallunterscheidungen, bei denen jeder Fall eine
+  eigene Klasse von Daten mit eigener Signatur ist.
+  Schreibe bei gemischten Daten eine Signaturdefinition der folgenden Form unter die
+  Datendefinition:
 %
 \begin{alltt}
 (define \(\mathit{sig}\)
@@ -397,7 +388,7 @@ Daten akzeptiert, kannst Du folgendermaßen konstruieren:
 \item  Schreibe eine \texttt{cond}-Verzweigung als Rumpf in die
   Schablone, die genau $n$ Zweige hat~-- also genau soviele Zweige,
   wie es Fälle in der Datendefinition beziehungsweise der Signatur gibt.
-\item Schreibe für jeden Zweig einen Test, der den entsprechenden
+\item Schreibe für jeden Zweig eine Bedingung, der den entsprechenden
   Fall identifiziert.
 \item Vervollständige die Zweige, indem Du eine Datenanalyse für
   jeden einzelnen Fall vornimmst und entsprechende Hilfsfunktionen
