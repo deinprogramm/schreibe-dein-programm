@@ -3,7 +3,7 @@
 % "Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International (CC BY-SA 4.0)"
 % https://creativecommons.org/licenses/by-sa/4.0/deed.de
 
-\chapter{Daten mit Selbstbezug}
+\chapter{Programmieren mit Selbstbezügen und Kombinatoren}
 \label{cha:selbstbezug}
 
 Zusammengesetzte und gemischte Daten sind die Hauptorganisationsformen
@@ -12,8 +12,9 @@ feste Größe haben und damit im Wortsinn beschränkt sind.  Viele
 Informationen haben aber variable Größe: Die Bücher im Regal werden
 immer mehr, Bauwerke bestehen aus variabel vielen Bauteilen.  Um
 solche Informationen als Daten zu repräsentieren, stellen wir in
-diesem Kapitel eine weitere Technik der Datenmodellierung vor, den
-\textit{Selbstbezug}\index{Selbstbezug}.  Hier sind einfache Beispiele:
+diesem Kapitel einen weiteren Aspekt der Datenanalyse vor, den
+\textit{Selbstbezug}\index{Selbstbezug}.  Hier sind einfache
+Beispiele:
 %
 \begin{itemize}
 \item Ein Fluss besteht aus Hauptfluss und Nebenfluss~-- beides wieder
@@ -23,8 +24,16 @@ diesem Kapitel eine weitere Technik der Datenmodellierung vor, den
 \item Ein großer Bücherstapel besteht aus einem etwas kleineren
   Bücherstapel und einem weiteren Buch.
 \end{itemize}
+%
+Bei all diesen Beispielen werden aus kleineren Dingen größere gemacht:
+Aus zwei Flüssen, die zusammenfließen, wird ein großer Fluss.  Aus
+mehreren Dateien und Verzeichnissen wird ein großes Verzeichnis.  Aus
+einem kleinen Bücherstapel wird ein großer.  In der Programmierung
+nennen wir das Bauen von großen Dingen aus kleinen Dingern derselben
+Sorte \textit{kombinieren}. Die Funktionen, die das erledigen, heißen
+\textit{Kombinatoren}\index{Kombinator}: Um die geht es in diesem Kapitel.
 
-\section{Flüsse modellieren}
+\section{Flüsse abbilden}
 
 \begin{figure}[tbh]
   \centering
@@ -186,6 +195,10 @@ können wir so abbilden:
 (define neckar-2 (make-confluence "Epfendorf" neckar-1 schlichem))
 \end{lstlisting}
 %
+An diesen Beispielen sieht man sehr schön, dass
+\texttt{make-confluence} zwei Flüsse zu einem kombiniert~-- es handelt
+sich um einen \textit{Kombinator}\index{Kombinator}.
+
 Wir hatten angekündigt, eine Funktion zu schreiben, die feststellt, ob
 ein Fluss durch einen bestimmten Ort fließt.  Wir machen das wieder
 nach Vorschrift, also zuerst die Kurzbeschreibung:
@@ -468,7 +481,451 @@ machen:
 \end{lstlisting}
 %
 
-% Shapesu
+\section{Bilder modellieren}
+
+FIXME: Kombinatoren \texttt{overlay}, \texttt{beside}, \texttt{above}
+
+
+FIXME: Kombinator erkennen an der Signatur
+
+FIXME: andere Signatur für \texttt{make-confluence}
+
+\section{Finanzverträge abbilden}
+
+Es ist Zeit für ein etwas größeres Beispiel.  Wir bilden
+Finanzverträge ab und programmieren dazu eine stark vereinfachte
+Version eines Klassikers der Informatik-Forschung, das zu mehreren
+Veröffentlichungen und zur Gründung einer erfolgreichen Firma geführt
+hat.\footnote{Wer mehr wissen möchte, sollte das Paper von Peyton
+  Jones und Eber~\cite{FinancialContracts} lesen, das es auch im
+  Internet zum Download gibt.}  Selbstbezüge spielen eine wichtige
+Rolle.
+
+In der Finanzbranche werden oft Verträge geschlossen, die zur
+strukturierten Zahlung von Geldbeträgen führen.  Wer eine Bankerin
+fragt, was der einfachste solche Vertrag ist, bekommt oft die Antwort
+\textit{Zero-Bond}.  Hier ist ein Beispiel für einen Zero-Bond:
+%
+\begin{center}
+  Ich bekomme am 31.\ Juni 2030 \EUR{1000}.
+\end{center}
+%
+So ein Vertrag wird immer zwischen zwei Vertragspartnern geschlossen und der
+eine ist immer "<ich">.  Daher kommt die Formulierung "<Ich
+bekomme">.  Der Begriff "<Zero-Bond"> setzt sich zusammen aus "<keine
+Zinsen"> (Zero) und "<Recht auf spätere Zahlung"> (Bond).
+
+Wir können daraus eine einfache Datendefinition machen:
+%
+\begin{lstlisting}
+; Ein Zero-Bond hat folgende Eigenschaften:
+; - Datum
+; - Betrag
+; - Währung
+\end{lstlisting}
+%
+An der Formulierung "<hat folgende Eigenschaften"> sehen wir sofort,
+dass es sich um zusammengesetzte Daten handelt.  Daraus folgt direkt
+diese Reocrd-Definition:
+%
+\begin{lstlisting}
+(define-record-functions zero-bond
+  make-zero-bond
+  (zero-bond-date     date)
+  (zero-bond-amount   rational)
+  (zero-bond-currency currency))
+\end{lstlisting}
+%
+Wir müssten noch Definitionen für \texttt{date} und \texttt{currency}
+beisteuern, schieben das aber auf die lange Bank.  Wir wollen
+stattdessen zunächst noch einmal grundsätzlich über die richtige
+Datendefinition für solche Verträge nachdenken.
+
+Es gibt ja noch viel mehr solche Verträge: Futures, Forwards, Swaps,
+Swaptions~\ldots{} Jeder Vertrag hat mehrere Eigenschaften, das würde
+also darauf hinauslaufen, dass wir sehr viele Datendefinitionen für
+zusammengesetzte Daten und die zugehörigen Record-Definitionen
+schreiben müssten~-- und am Ende eine Datendefinition zu "<Vertrag">,
+die auf eine große Signatur für gemischte Daten hinausläuft.  Das ist
+eine Menge Arbeit, und sie wäre auch nie fertig, weil sich die Banker
+ständig neue Verträge ausdenken.
+
+Wer aber genug solche Verträge studiert, bemerkt, dass diese aus
+Bausteinen bestehen, die immer wiederkehren.  Das suggeriert einen
+anderen Ansatz, nämlich diese Bausteine zu identifizieren und dafür
+die Datenanalyse durchzuführen.  Wir nachvollziehen stattdessen der
+Arbeit der Autoren des Papers~\cite{FinancialContracts}.  Die haben
+(über mehrere Monate) einen Satz bestechend einfacher Bausteine
+zusammengestellt, indem sie bekannte Verträge in möglichst kleine und
+einfache Bestandteile zerlegten.  Jeder dieser Bestandteile ist für
+sich genommen ein "<kleiner Vertrag">, es gibt aber auch Kombinatoren,
+die aus kleinen Verträgen größere machen, insbesondere auch noch
+unbekannte Klassen von Verträgen.  Aus diesen Bestandteilen lassen sich
+sehr viele Finanzverträge (auch noch unbekannte) abbilden durch den
+Einsatz von Kombinatoren.
+
+Da es mehrere Klassen von Bausteinen und Kombinatoren gibt, werden wir
+Verträge als gemischte Daten repräsentieren und dafür schrittweise
+eine Datendefinition folgender Form aufbauen:
+%
+\begin{lstlisting}
+; Ein Vertrag ist eins der folgenden:
+; - ...
+\end{lstlisting}
+%
+Dazu gehört natürlich eine passende Signaturdefinition, die wir
+ebenfalls schrittweise aufbauen werden:
+%
+\begin{lstlisting}
+(define contract
+  (signature (mixed |\ldots|)))
+\end{lstlisting}
+%
+Um die Bausteine und Kombinatoren zu identifizieren, schauen wir uns
+zunächst den Zero-Bond näher an.  Auch wenn der einfach aussieht, gibt
+es mehrere Aspekte, die auch unabhängig voneinander Sinn ergeben: die
+Auszahlung eines bestimmten \textit{Betrags} in einer bestimmten
+\textit{Währung} und die Möglichkeit, eine Zahlung \textit{später} zu
+veranlassen.  Das sind drei separate Ideen, und es ist sinnvoll, diese
+getrennt als Daten zu repräsentieren.
+
+\paragraph{Zahlung einer bestimmten Währung}
+Fangen wir an mit der Zahlung einer bestimmten Währung.  Der
+Einfachheit halber nehmen wir an, dass alle Zahlungen in Euro sind.
+Um die richtige Daten-Definition zu finden, versuchen wir, die
+\emph{einfachste} Euro-Zahlung zu finden, und die besteht aus
+\emph{einem} Euro.  Die Daten-Definition dazu ist ernüchternd einfach:
+%
+\begin{lstlisting}
+; Ein Euro hat keine Eigenschaften
+\end{lstlisting}
+%
+Wir könnten den Euro einfach als die Zeichenkette \lstinline{"EUR"}
+abbilden.  Das wäre sinnvoll, wenn der Euro Teil einer Aufzählung ist.
+Dies ist allerdins hier nicht der Fall, andere Vertragsbausteine haben
+durchaus Eigenschaften.  (Siehe dazu auch
+Aufgabe~\ref{aufgabe:aufzaehlung-vs-nullstellig} auf
+Seite~\pageref{aufgabe:aufzaehlung-vs-nullstellig}.)  Wir nehmen die
+Datendefinition stattdessen beim Wort "<hat~\ldots{} Eigenschaften">
+und bilden den Euro als zusammesngesetzte Daten ab.  Dann wird daraus
+folgende Record-Definition:
+%
+\begin{lstlisting}
+(define-record-functions one-euro
+  make-one-euro
+  one-euro?)
+\end{lstlisting}
+%
+Wir fügen als nächstes \lstinline{one-euro} zur Daten- und zur
+Signaturdefinition von \lstinline{contract} hinzu:
+%
+\begin{lstlisting}
+; Ein Vertrag ist eins der folgenden:
+; - ein Euro
+; - ...
+(define contract
+  (signature (mixed one-euro |\ldots|)))
+\end{lstlisting}
+%
+\paragraph{Beliebige Beträge}
+Als nächstes bilden wir die Möglichkeit ab, einen Betrag zu wählen.
+Eine naheliegende erste Idee wäre, die Idee "<$n$ Euros"> abzubilden,
+etwa so:
+%
+\begin{lstlisting}
+; Euros haben folgende Eigenschaft:
+; - wieviele
+(define-record-functions euros
+  make-euros
+  euros?
+  (euros-amount rational))
+\end{lstlisting}
+%
+Wenn wir das hätten, bräuchten wir aber \lstinline{one-euro} nicht mehr.
+Außerdem wäre das Resultat dann nicht mehr so einfach wie möglich:
+Besser wäre es, wenn wir die Idee "<wieviele"> trennen könnten von
+"<Euro">.  Dann könnten wir sagen "<mehrere von einem Euro">.  Das
+klingt erstmal komisch, auch in der Datendefinition:
+%
+\begin{lstlisting}
+; Mehrere haben folgende Eigenschaften:
+; - wieviele
+; - wovon
+\end{lstlisting}
+%
+Aber die richtige Form für zusammengesetzte Daten hat das schon
+einmal.  Es reicht für eine erste Skizze einer Record-Definition:
+%
+\begin{lstlisting}
+(define-record-functions multiple
+  make-multiple
+  multiple?
+  (multiple-number |\ldots|)
+  (multiple-of     |\ldots|))
+\end{lstlisting}
+%
+Wir müssen aber noch klären, was die Signatur von
+\lstinline{multiple-number} respektive \lstinline{multiple-of} ist.
+Bei \lstinline{multiple-number} müssen wir uns nicht auf ganze Zahlen
+beschränken~-- ein halber Euro geht schließlich auch.  Da ist
+\lstinline{rational} sinnvoll.
+
+Bei \lstinline{multiple-of} liegt es nahe, \lstinline{one-euro}
+hinzuschreiben: Dann könnten wir den Zero-Bond schon hinschreiben.
+Allerdings wäre \lstinline{multiple} ziemlich eingeschränkt und nicht
+besonders zukunftssicher: Was, wenn andere Währungen dazukommen,
+\lstinline{one-gbp} oder so?  Vielleicht sind wir versucht, eine
+Signatur \lstinline{currency} für Währungen zu definieren und für
+\lstinline{multiple-of} zu verwenden.  Aber das wäre immer noch zu
+eingeschränkt: Man kann ja auch mehrere Aktien (zum Beispiel) im
+Rahmen eines Vertrags übergeben~-- oder auch mehrere Zero-Bonds oder
+andere Verträge.
+
+Und da ist sie ganz plötzlich, die zentrale Idee: Dass ein Vertrag den
+Abschluss \emph{anderer} Verträge verfügen kann.  Wir schreiben
+deshalb als Signatur von \lstinline{multiple-of} einfach
+\lstinline{contract} und schärfen bei der Gelegenheit die Datendefinition:
+%
+\begin{lstlisting}
+; Ein Vielfaches besteht aus:
+; - Anzahl
+; - Vertrag 
+(define-record-functions multiple
+    make-multiple
+    multiple?
+    (multiple-number rational)
+    (multiple-of     contract))
+\end{lstlisting}
+%
+Nun gibt es schon zwei Klassen Verträge~-- \lstinline{one-euro} und
+\lstinline{multiple}.  Wir erweitern die Definition von
+\lstinline{contract} entsprechend:
+%
+\begin{lstlisting}
+(define contract
+  (signature (mixed one-euro multiple)))
+\end{lstlisting}
+%
+Mit Hilfe von \lstinline{one-euro} und \lstinline{multiple} können wir
+einen Vertrag definieren, der festlegt, dass wir \EUR{100} bekommen~--
+sofort:
+%
+\begin{lstlisting}
+(define euro100 (make-multiple 100 (make-one-euro))) ; 100 Euros
+\end{lstlisting}
+%
+\begin{aufgabe}
+  Definiere eine Funktion \lstinline{make-euros} mit Kurzbeschreibung,
+  Signatur und Test wie folgt:
+\begin{lstlisting}
+; Euro-Betrag auszahlen
+(: make-euros (rational -> contract))
+
+(check-expect (make-euros 100) euro100)
+\end{lstlisting}
+\end{aufgabe}
+%
+Mit Hilfe der Funktion aus der Aufgabe können wir leicht auch
+\EUR{200} definieren:
+%
+\begin{lstinline}
+(define euro200 (make-euros 200)) ; 200 Euros
+\end{lstinline}
+
+\paragraph{Verzögerungen}
+Für die Zero-Bonds benötigen wir noch die Möglichkeit,
+eine Zahlung zu verzögern.
+Dazu benutzen wir den gleichen Trick wie
+bei \lstinline{multiple} und definieren einen weiteren Kombinator, der
+einen ganzen Vertrag verzögert: Wir schließen also einen Vertrag ab,
+später einen Vertrag abzuschließen, und der kann dann die Zahlung
+auslösen.  Um so einen Vertrag zu beschreiben, benötigen wir das
+Datum, an dem der "<spätere"> Vertrag aktiv wird und den späteren
+Vertrag selbst:
+%
+\begin{lstlisting}
+; Eine Verzögerung besteht aus:
+; - Datum
+; - Vertrag, der zu dem Datum gültig wird
+\end{lstlisting}
+%
+Diese Datendefinition beschreibt wieder zusammengesetzte Daten.  Die
+dazugehörige Record-Definition sieht so aus:
+%
+\begin{lstlisting}
+(define-record-functions later
+  make-later
+  later?
+  (later-date     date)
+  (later-contract contract))
+\end{lstlisting}
+%
+Mit \lstinline{later} können wir die Signatur-Definition von
+\lstinline{contract} erweitern:
+
+Allerdings müssen wir uns noch
+
+\begin{lstlisting}
+(define contract
+  (signature (mixed one-euro multiple later)))
+\end{lstlisting}
+%
+Aber es fehlt noch etwas: Wir haben für \lstinline{later-date} die
+Signatur \lstinline{date} verwendet, die noch gar nicht definiert ist.
+Die Definition von \texttt{date} liegt zum Glück recht nahe:
+%
+\begin{lstlisting}
+(define-record-functions date
+  make-date
+  date?
+  (date-year  natural)
+  (date-month natural)
+  (date-day   natural))
+\end{lstlisting}
+%
+\begin{aufgabe}
+  Wir haben für alle Felder von \lstinline{date} die Signatur
+  \lstinline{natural} verwendet. Diese Signatur ist sehr unpräzise.
+  Eine Möglichkeit, sie zu verbessern ist, eine
+  \textit{Prädikat-Signatur}\index{Prädikat-Signatur} zu definieren.
+  Dafür brauchen wir ein Prädikat, das einen korrekten Monat
+  identifiziert:
+  %
+\begin{lstlisting}
+; Bezeichnet eine Zahl einen Monat?
+(: month? (natural -> boolean))
+
+(check-expect (month? 1) #t)
+(check-expect (month? 6) #t)
+(check-expect (month? 12) #t)
+(check-expect (month? 0) #f)
+(check-expect (month? 13) #f)
+
+(define month?
+  (lambda (n)
+    (and (>= n 1)
+         (<= n 12))))  
+\end{lstlisting}
+  %
+  Mit diesem Prädikat können wir eine Signatur definieren, die genau
+  dann passt, wenn das Prädikat \lstinline{#t} liefert.  Dazu benutzen
+  einen neues Konstruktor für Signaturen, \lstinline{predicate}\index{predicate@\texttt{predicate}}:
+\begin{lstlisting}
+(define month (signature (predicate month?)))
+\end{lstlisting}
+%
+  Ändere die Definition von \lstinline{date}, so dass sie
+  \lstinline{month} benutzt!  Mache eine entsprechende Änderung für
+  \lstinline{date-day}!
+\end{aufgabe}
+%
+Bevor es weitergeht, definieren wir noch zwei Beispiele für das Datum:
+%
+\begin{lstlisting}
+(define date1 (make-date 2019 07 26)) ; 26. Juli 2019
+(define date2 (make-date 2019 12 24)) ; Weihnachten 2019
+\end{lstlisting}
+%
+Damit können wir nun endlich einen Zero-Bond definieren:
+%
+\begin{lstlisting}
+; Ich bekomme am 31. Juni 2030 1000 Euros.
+(define zero1 (make-later (make-date 2030 06 31)
+                          (euros 1000)))
+\end{lstlisting}
+
+\paragraph{Verträge kombinieren}
+
+Jetzt wo die Zero-Bonds erledigt sind, können wir überlegen, ob es
+noch weitere Möglichkeiten geben sollte, Verträge herzustellen.  Wann
+immer Du Repräsentationen mit Kombinatoren baust, solltest Du nach
+Möglichkeiten suchen, aus zwei Dingen ein größeres Ding zu bauen.
+
+Beispiele für dieses Prinzip haben wir in diesem Kapitel schon mehrere
+gesehen:
+%
+\begin{itemize}
+\item Ein Hauptfluss und ein Nebenfluss werden zu einem Fluss
+  kombiniert.
+\item Zwei Bilder werden übereinander, nebeneinander und aufeinander
+  zu einem Bild kombiniert.
+\end{itemize}
+%
+Auf die Verträge bezogen bedeutet dies, dass wir zwei Verträge
+zusammensetzen, der die Rechte und Pflichten von beiden kombiniert.
+So könnte dies gehen:
+%
+\begin{lstlisting}
+; Eine Kombinationsvertrag besteht aus:
+; - Vertrag Nr. 1
+; - Vertrag Nr. 2
+\end{lstlisting}
+%
+Das sind wieder zusammengesetzte Daten mit zwei Selbstbezügen:
+%
+\begin{lstlisting}
+(define-record-functions both
+  make-both
+  both?
+  (both-contract-1 contract)
+  (both-contract-2 contract))
+\end{lstlisting}
+%
+Wir müssen noch die Definition von \lstinline{contract} erweitern:
+%
+\begin{lstlisting}
+(define contract
+  (signature (mixed one-euro multiple later both)))
+\end{lstlisting}
+%
+Mit \lstinline{both} können wir zum Beispiel folgenden Vertrag definieren:
+
+\begin{lstlisting}
+; heute 1000 Euros und am 31. Juni 2030 nochmal
+(define now-and-later (make-both (euros 1000)
+                                 zero1))
+\end{lstlisting}
+%
+So etwas gibt es auch in der realen Welt: Sparpläne sind zum Beispiel
+nach diesem Prinzip organisiert.
+
+\paragraph{Der kleinste Vertrag}
+
+FIXME
+
+In Aufgabe~\ref{aufgabe:give} aus Seite~\pageref{aufgabe:give} geht es
+um noch einen weiteren Kombinator.
+
+
+\paragraph{Verträge verwalten}
+
+Wir haben viel Energie für die Repräsentation von Verträgen verwendet,
+aber noch gar nichts damit gemacht.  Es fehlen noch ein paar saftige
+Funktionen!
+
+Wenn wir einen Vertrag haben, wollen wir vielleicht wissen, wieviel
+Geld wir eigentlich jetzt bekommen.  Das nehmen wir uns als erste Aufgabe
+vor.
+
+
+
+\paragraph{Verträge optimieren}
+
+\begin{aufgabe}
+  FIXME: multiple von multiple
+\end{aufgabe}
+
+\section*{Aufgaben}
+
+\begin{aufgabe}\label{aufgabe:give}
+  FIXME give
+\end{aufgabe}
+
+\begin{aufgabe}\label{aufgabe:aufzaehlung-vs-nullstellig}
+  FIXME: Aufzählung vs.\ nullstellige zusammengesetzte Daten
+\end{aufgabe}
+
+% Shapes
 % Files & Directories
 % StVO?
 % Verträge?
