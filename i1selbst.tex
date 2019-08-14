@@ -891,11 +891,38 @@ nach diesem Prinzip organisiert.
 
 \paragraph{Der kleinste Vertrag}
 
-FIXME
+Es gibt noch ein weiteres Prinzip beim Repräsentieren mit
+Kombinatoren: Suche immer nach dem \emph{kleinsten} möglichen
+Baustein.  Wir haben ja schon einen ziemlich kleinen Baustein
+definiert: \lstinline{one-euro}.  Aber oft ist der kleine Baustein
+eine Variation von "<nichts">, und so ist es auch hier: Der kleinste
+Vertrag ist einer ohne Rechte oder Pflichten.  Ihn sollten wir
+unbedingt auch definieren~-- zunächst nur der Vollständigkeit halber,
+aber später werden wir ihn tatsächlich noch brauchen.
 
+Solch ein "<Nichts-Vertrag"> hat, wie \lstinline{one-euro} auch, keine
+Eigenschaften.  Wir repräsentieren ihn aber, genau wie bei
+\lstinline{one-euro}, durch einen Record, damit wir ihn mit Hilfe
+seiner Signatur in die Definition von \lstinline{contract} einbauen
+können:
+%
+\begin{lstlisting}
+; Ein Nichts-Vertrag hat keine Eigenschaften
+(define-record-functions nothing
+  make-nothing
+  nothing?)
+\end{lstlisting}
+%
+Entsprechend erweitern wir \lstinline{contract}:
+%
+\begin{lstlisting}
+(define contract
+  (signature
+   (mixed one-euro multiple later both nothing)))
+\end{lstlisting}
+%
 In Aufgabe~\ref{aufgabe:give} aus Seite~\pageref{aufgabe:give} geht es
 um noch einen weiteren Kombinator.
-
 
 \paragraph{Verträge verwalten}
 
