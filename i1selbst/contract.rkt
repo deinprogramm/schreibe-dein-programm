@@ -20,8 +20,9 @@
 
 (define contract
   (signature
-   (mixed nothing one-euro multiple later both)))
+   (mixed one-euro multiple later both nothing)))
 
+; Ein Nichts-Vertrag hat keine Eigenschaften
 (define-record-functions nothing
   make-nothing
   nothing?)
@@ -205,14 +206,14 @@
 
 ; Ich bekomme am 31. Juni 2030 1000 Euros.
 (define zero1 (make-later (make-date 2030 06 31)
-                          (euros 1000)))
+                          (make-euros 1000)))
 ; heute 1000 Euros und am 31. Juni 2030 nochmal
-(define now-and-later (make-both (euros 1000)
+(define now-and-later (make-both (make-euros 1000)
                                  zero1))
 
 ; Ich bekomme am 24. Dezember 2040 1000 Euros
-(define zero1 (make-later (make-date 2040 12 24)
-                          (euros 2000)))
+(define zero2 (make-later (make-date 2040 12 24)
+                          (make-euros 2000)))
 
 
 (define later1 (make-later date1 euro100))
@@ -220,47 +221,59 @@
 
 (define both1 (make-both euro100 later1))
 (define both2 (make-both both1 later2))
-  
 
-#;(define contract-payment
+
+; Für einen Vertrag berechnen, wieviel Geld wir bekommen
+
+(: contract-payment (contract -> rational))
+
+(check-expect (contract-payment euro100) 100)
+(check-expect (contract-payment euro200) 200)
+(check-expect (contract-payment later1) 100)
+(check-expect (contract-payment later2) 200)
+(check-expect (contract-payment both1) 200)
+(check-expect (contract-payment both2) 400)
+
+(define contract-payment
   (lambda (contract)
     (cond
       ((nothing? contract) 0)
       ((one-euro? contract) 1)
       ((multiple? contract)
-       (* (multiple-factor contract)
-          (contract-payment (multiple-contract contract))))
-      ((later? contract) 0)
+       (* (multiple-number contract)
+          (contract-payment (multiple-of contract))))
+      ((later? contract)
+       (contract-payment (later-contract contract)))
       ((both? contract)
        (+ (contract-payment (both-contract-1 contract))
           (contract-payment (both-contract-2 contract)))))))
 
 ; Was muss bis zu einem gegebenen Datum ausgezahlt werden?
-(: contract-payment (contract date -> rational))
+(: contract-payment-until (contract date -> rational))
 
-(check-expect (contract-payment euro100 date1) 100)
-(check-expect (contract-payment euro200 date1) 200)
-(check-expect (contract-payment later1 date1) 100)
-(check-expect (contract-payment later2 date1) 0)
-(check-expect (contract-payment later2 date2) 200)
-(check-expect (contract-payment both1 date1) 200)
-(check-expect (contract-payment both2 date2) 400)
+(check-expect (contract-payment-until euro100 date1) 100)
+(check-expect (contract-payment-until euro200 date1) 200)
+(check-expect (contract-payment-until later1 date1) 100)
+(check-expect (contract-payment-until later2 date1) 0)
+(check-expect (contract-payment-until later2 date2) 200)
+(check-expect (contract-payment-until both1 date1) 200)
+(check-expect (contract-payment-until both2 date2) 400)
 
-(define contract-payment
+(define contract-payment-until
   (lambda (contract date)
     (cond
       ((nothing? contract) 0)
       ((one-euro? contract) 1)
       ((multiple? contract)
        (* (multiple-number contract)
-          (contract-payment (multiple-of contract) date)))
+          (contract-payment-until (multiple-of contract) date)))
       ((later? contract)
        (if (date<=? (later-date contract) date)
-           (contract-payment (later-contract contract) date)
+           (contract-payment-until (later-contract contract) date)
            0))
       ((both? contract)
-       (+ (contract-payment (both-contract-1 contract) date)
-          (contract-payment (both-contract-2 contract) date))))))
+       (+ (contract-payment-until (both-contract-1 contract) date)
+          (contract-payment-until (both-contract-2 contract) date))))))
 
 
 ; Was bleibt übrig, nachdem zu einem gegebenen Datum ausgezahlt wurde?

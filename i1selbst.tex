@@ -769,9 +769,7 @@ dazugehörige Record-Definition sieht so aus:
 %
 Mit \lstinline{later} können wir die Signatur-Definition von
 \lstinline{contract} erweitern:
-
-Allerdings müssen wir uns noch
-
+%
 \begin{lstlisting}
 (define contract
   (signature (mixed one-euro multiple later)))
@@ -833,12 +831,21 @@ Bevor es weitergeht, definieren wir noch zwei Beispiele für das Datum:
 (define date2 (make-date 2019 12 24)) ; Weihnachten 2019
 \end{lstlisting}
 %
-Damit können wir nun endlich einen Zero-Bond definieren:
+Mit Hilfe dieser Definitionen können wir auch endlich zwei Beispiele
+für \lstinline{later} angeben:
+%
+\begin{lstlisting}
+(define later1 (make-later date1 euro100)) ; Ich bekomme Neujahr 2020 100€.
+(define later2 (make-later date2 euro200)) ; Ich bekomme am 27.7.2019 200€.
+\end{lstlisting}
+%
+Außerdem können wir den Zero-Bond vom Anfang dieses Abschnitts
+definieren:
 %
 \begin{lstlisting}
 ; Ich bekomme am 31. Juni 2030 1000 Euros.
 (define zero1 (make-later (make-date 2030 06 31)
-                          (euros 1000)))
+                          (make-euros 1000)))
 \end{lstlisting}
 
 \paragraph{Verträge kombinieren}
@@ -878,6 +885,15 @@ Das sind wieder zusammengesetzte Daten mit zwei Selbstbezügen:
   (both-contract-2 contract))
 \end{lstlisting}
 %
+Hier sind zwei Beispiele für \lstinline{both}:
+%
+\begin{lstlisting}
+; Heute 100€, später nochmal 100€
+(define both1 (make-both euro100 later1))
+; Heute 200€, später nochmal 200€
+(define both2 (make-both both1 later2))
+\end{lstlisting}
+%
 Wir müssen noch die Definition von \lstinline{contract} erweitern:
 %
 \begin{lstlisting}
@@ -885,16 +901,6 @@ Wir müssen noch die Definition von \lstinline{contract} erweitern:
   (signature (mixed one-euro multiple later both)))
 \end{lstlisting}
 %
-Mit \lstinline{both} können wir zum Beispiel folgenden Vertrag definieren:
-
-\begin{lstlisting}
-; heute 1000 Euros und am 31. Juni 2030 nochmal
-(define now-and-later (make-both (euros 1000)
-                                 zero1))
-\end{lstlisting}
-%
-So etwas gibt es auch in der realen Welt: Sparpläne sind zum Beispiel
-nach diesem Prinzip organisiert.
 
 \paragraph{Der kleinste Vertrag}
 
@@ -938,10 +944,198 @@ aber noch gar nichts damit gemacht.  Es fehlen noch ein paar saftige
 Funktionen!
 
 Wenn wir einen Vertrag haben, wollen wir vielleicht wissen, wieviel
-Geld wir eigentlich jetzt bekommen.  Das nehmen wir uns als erste Aufgabe
-vor.
-
-
+Geld wir eigentlich jetzt bekommen.  Das nehmen wir uns als erste
+Aufgabe vor.  Wir fangen an mit folgender Kurzbeschreibung:
+%
+\begin{lstlisting}
+; Für einen Vertrag berechnen, wieviel Geld wir bekommen
+\end{lstlisting}
+%
+In der Kurzbeschreibung tauchen die Begriffe "<Vertrag"> und "<Geld">
+auf, das übersetzen wir in folgende Signatur:
+%
+\begin{lstlisting}
+(: contract-payment (contract -> rational))
+\end{lstlisting}
+%
+Die Funktion fasst alle Zahlungen zu einem Euro-Betrag zusammen,
+Zinsen ignorieren wir.  Die Funktionsweise illustrieren wir wie immer
+mit Testfällen.  Bei festen Euro-Beträgen ist recht klar, was
+herauskommen muss:
+%
+\begin{lstlisting}
+(check-expect (contract-payment euro100) 100)
+(check-expect (contract-payment euro200) 200)
+\end{lstlisting}
+%
+Die Beispiele \lstinline{later1} und \lstinline{later2} sind
+verzögerte Verträge über \EUR{100} beziehungsweise \EUR{200}.  Die
+Verzögerung spielt bei \lstinline{contract-payment} keine Rolle:
+%
+\begin{lstlisting}
+(check-expect (contract-payment later1) 100)
+(check-expect (contract-payment later2) 200)
+\end{lstlisting}
+%
+Bei den beiden \lstinline{both}-Beispielen werden jeweils zwei
+Zahlungen von \EUR{100} respektive \EUR{200} kombiniert:
+%
+\begin{lstlisting}
+(check-expect (contract-payment both1) 200)
+(check-expect (contract-payment both2) 400)
+\end{lstlisting}
+%
+Die Schablone sieht so aus:
+%
+\begin{lstlisting}
+(define contract-payment
+  (lambda (contract)
+    |\ldots|))
+\end{lstlisting}
+%
+Die Definition von \lstinline{contract}, es handelt sich um gemischte
+Datne, führt zunächst zu folgender Schablone:
+%
+\begin{lstlisting}
+(define contract-payment
+  (lambda (contract)
+    (cond
+      ((nothing? contract) |\ldots|)
+      ((one-euro? contract) |\ldots|)
+      ((multiple? contract) |\ldots|)
+      ((later? contract) |\ldots|)
+      ((both? contract) |\ldots|))))
+\end{lstlisting}
+%
+Bei den einzelnen Fällen von \lstinline{contract} handelt es sich
+jeweils um zusammengesetzte Daten, wir können also die Schablone um
+die Anwendungen der Selektoren ergänzen, soweit es welche gibt:
+%
+\begin{lstlisting}
+(define contract-payment
+  (lambda (contract)
+    (cond
+      ((nothing? contract) |\ldots|)
+      ((one-euro? contract) |\ldots|)
+      ((multiple? contract)
+       |\ldots|
+       (multiple-number contract)
+       (multiple-of contract)
+       |\ldots|)
+      ((later? contract)
+       |\ldots|
+       (later-date contract)
+       (later-contract contract)
+       |\ldots|)
+      ((both? contract)
+       |\ldots|
+       (both-contract-1 contract)
+       (both-contract-2 contract)
+       |\ldots|))))
+\end{lstlisting}
+%
+Es geht noch weiter:\\
+\lstinline{(multiple-of contract)},\\
+\lstinline{(later-contract contract)},\\
+\lstinline{(both-contract-1 contract)}  und \lstinline{(both-contract-2 contract)} \\
+sind allesamt
+Selbstbezüge, wir können also dort rekursive Aufrufe hinschreiben:
+%
+\begin{lstlisting}
+(define contract-payment
+  (lambda (contract)
+    (cond
+      ((nothing? contract) |\ldots|)
+      ((one-euro? contract) |\ldots|)
+      ((multiple? contract)
+       |\ldots|
+       (multiple-number contract)
+       (contract-payment (multiple-of contract))
+       |\ldots|)
+      ((later? contract)
+       |\ldots|
+       (later-date contract)
+       (contract-payment (later-contract contract))
+       |\ldots|)
+      ((both? contract)
+       |\ldots|
+       (contract-payment (both-contract-1 contract))
+       (contract-payment (both-contract-2 contract))
+       |\ldots|))))
+\end{lstlisting}
+%
+Damit ist die Schablone fertig und wir können versuche, für jeden Fall
+etwas sinnvolles hinzuschreiben.  Bei den ersten beiden ist es nicht
+so schwierig: Bei einem \lstinline{nothing}-Vertrag wird nichts
+ausgezahlt, bei einem \lstinline{one-euro}-Vertrag wird ein \EUR{1}
+ausgezahlt:
+%
+\begin{lstlisting}
+(define contract-payment
+  (lambda (contract)
+    (cond
+      ((nothing? contract) 0)
+      ((one-euro? contract) 1)
+      |\ldots|)))
+\end{lstlisting}
+%
+Wir nehmen uns als nächstes den \lstinline{multiple}-Fall vor: Da
+stehen in der Schablone schon:
+\begin{itemize}
+\item\lstinline{(multiple-number contract)}, also die \emph{Anzahl}
+\item\lstinline{(contract-payment (multiple-of contract))}, also
+  \emph{was bei einem ausgezahlt} wird
+%
+Diese beiden Grüßen müssen wir miteinander multiplizieren, um die
+Gesamtsumme zu berechnen, die ausgezahlt wird:
+%
+\begin{lstlisting}
+(define contract-payment
+  (lambda (contract)
+    (cond
+      |\ldots|
+      ((multiple? contract)
+       (* (multiple-number contract)
+          (contract-payment (multiple-of contract))))
+      |\ldots|)))
+\end{lstlisting}
+%
+Nun ist der \texttt{later}-Fall an der Reihe.  Für
+\lstinline{contract-payment} ist \lstinline{(later-daet contract)},
+also der Zeitpunkt, zu dem der Vertrag aktiv wird, irrelevant: Es geht
+ja nur um den Betrag des "<inneren"> Vertrags, und der steht schon in
+der Schablone:
+%
+\begin{lstlisting}
+(define contract-payment
+  (lambda (contract)
+    (cond
+      |\ldots|
+      ((later? contract)
+       (contract-payment (later-contract contract)))
+      |\ldots|)))
+\end{lstlisting}
+%
+Zu guter letzt kommt \lstinline{both}.  Die Zahlungen, die sich aus
+den beiden Teilverträgen ergeben, stehen schon in der Schablone.  Wir
+müssen sie lediglich addieren.  Die vollständige Funktion sieht dann
+so aus:
+%
+\begin{lstlisting}
+(define contract-payment
+  (lambda (contract)
+    (cond
+      ((nothing? contract) 0)
+      ((one-euro? contract) 1)
+      ((multiple? contract)
+       (* (multiple-number contract)
+          (contract-payment (multiple-of contract))))
+      ((later? contract)
+       (contract-payment (later-contract contract)))
+      ((both? contract)
+       (+ (contract-payment (both-contract-1 contract))
+          (contract-payment (both-contract-2 contract)))))))
+\end{lstlisting}
 
 \paragraph{Verträge optimieren}
 
