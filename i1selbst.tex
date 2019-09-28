@@ -835,15 +835,15 @@ Mit Hilfe dieser Definitionen können wir auch endlich zwei Beispiele
 für \lstinline{later} angeben:
 %
 \begin{lstlisting}
-(define later1 (make-later date1 euro100)) ; Ich bekomme Neujahr 2020 100€.
-(define later2 (make-later date2 euro200)) ; Ich bekomme am 27.7.2019 200€.
+(define later1 (make-later date1 euro100)) ; Ich bekomme Neujahr 2020 100|\EUR{}|.
+(define later2 (make-later date2 euro200)) ; Ich bekomme am 27.7.2019 200|\EUR{}|.
 \end{lstlisting}
 %
 Außerdem können wir den Zero-Bond vom Anfang dieses Abschnitts
 definieren:
 %
 \begin{lstlisting}
-; Ich bekomme am 31. Juni 2030 1000 Euros.
+; Ich bekomme am 31. Juni 2030 1000|\EUR{}|.
 (define zero1 (make-later (make-date 2030 06 31)
                           (make-euros 1000)))
 \end{lstlisting}
@@ -888,9 +888,9 @@ Das sind wieder zusammengesetzte Daten mit zwei Selbstbezügen:
 Hier sind zwei Beispiele für \lstinline{both}:
 %
 \begin{lstlisting}
-; Heute 100€, später nochmal 100€
+; Heute 100|\EUR{}|, später nochmal 100|\EUR{}|
 (define both1 (make-both euro100 later1))
-; Heute 200€, später nochmal 200€
+; Heute 200|\EUR{}|, später nochmal 200|\EUR{}|
 (define both2 (make-both both1 later2))
 \end{lstlisting}
 %
@@ -1085,7 +1085,8 @@ stehen in der Schablone schon:
 \item\lstinline{(multiple-number contract)}, also die \emph{Anzahl}
 \item\lstinline{(contract-payment (multiple-of contract))}, also
   \emph{was bei einem ausgezahlt} wird
-%
+\end{itemize}
+% 
 Diese beiden Grüßen müssen wir miteinander multiplizieren, um die
 Gesamtsumme zu berechnen, die ausgezahlt wird:
 %
