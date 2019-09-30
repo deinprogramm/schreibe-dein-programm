@@ -848,6 +848,30 @@ definieren:
                           (make-euros 1000)))
 \end{lstlisting}
 
+\begin{figure}[tb]
+  \centering
+\begin{tikzpicture}
+  \draw [fill=gray!50] (0, 0) rectangle (10, 4);
+  \draw [fill=gray!75] (0.5, 0.5) rectangle (9.5, 3);
+  \draw [fill=gray] (1, 1) rectangle (8, 2);
+  \node [right] at (0.5, 3.5) {\lstinline{later}};
+  \node at (5, 3.5) {\lstinline{"31.6.20230"}};
+  \node [right] at (1, 2.5) {\lstinline{multiple}};
+  \node at (5, 2.5) {\lstinline{1000}};
+  \node [right] at (1.5, 1.5) {\lstinline{one-euro}};
+\end{tikzpicture}
+  
+  \caption{Zero-Bond als Schichten dargestellt}
+  \label{fig:zero-bond}
+\end{figure}
+
+\noindent Abbildung~\ref{fig:zero-bond} zeigt den Aufbau des
+Zero-Bonds \lstinline{zero1} als ineinandergeschachtelte Schichten:
+In den \lstinline{later}-Vertrag ist ein \lstinline{multiple}-Vertrag
+eingeschachtelt, und dort wiederum der \lstinline{one-euro}-Vertrag.
+Aus dieser Sicht ist der \lstinline{multiple}-Vertrag der
+"<innere"> Vertrag des \lstinline{later}-Vertrags.
+
 \paragraph{Verträge kombinieren}
 
 Jetzt wo die Zero-Bonds erledigt sind, können wir überlegen, ob es
