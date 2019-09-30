@@ -961,7 +961,7 @@ Entsprechend erweitern wir \lstinline{contract}:
 In Aufgabe~\ref{aufgabe:give} aus Seite~\pageref{aufgabe:give} geht es
 um noch einen weiteren Kombinator.
 
-\paragraph{Verträge verwalten}
+\paragraph{Verträge bewerten}
 
 Wir haben viel Energie für die Repräsentation von Verträgen verwendet,
 aber noch gar nichts damit gemacht.  Es fehlen noch ein paar saftige
@@ -1126,7 +1126,7 @@ Gesamtsumme zu berechnen, die ausgezahlt wird:
 \end{lstlisting}
 %
 Nun ist der \texttt{later}-Fall an der Reihe.  Für
-\lstinline{contract-payment} ist \lstinline{(later-daet contract)},
+\lstinline{contract-payment} ist \lstinline{(later-date contract)},
 also der Zeitpunkt, zu dem der Vertrag aktiv wird, irrelevant: Es geht
 ja nur um den Betrag des "<inneren"> Vertrags, und der steht schon in
 der Schablone:
@@ -1162,6 +1162,312 @@ so aus:
           (contract-payment (both-contract-2 contract)))))))
 \end{lstlisting}
 
+\paragraph{Verträge verwalten}
+
+Eine weitere nützliche Funktion von Verträgen betrifft die Entwicklung
+eines Vertrags über die Zeit: Je länger ein Vertrag geschlossen ist,
+desto mehr Zahlungen werden dadurch getätigt und entsprechend bleiben
+weniger Zahlungen übrig.  Um das abzubilden, brauchen wir eine
+Funktion, die ausrechnet, was von einem Vertrag nach einem bestimmten
+Zeitpunkt noch übrigbleibt.  So könnte die Kurzbeschreibung lauten:
+%
+\begin{lstlisting}
+; Was bleibt übrig, nachdem zu einem gegebenen Datum ausgezahlt wurde?
+\end{lstlisting}
+%
+Um diese Funktion zu schreiben, müssen wir uns erst einmal überlegen,
+wie dieser "<Rest"> von einem Vertrag repräsentiert werden kann.  Die
+richtige Idee ist so einfach, dass es gar nicht so einfach ist, sie zu
+sehen: Den "<Rest eines Vertrags"> können wir wieder als Vertrag
+repräsentieren.  Wir müssen also keine neue Datenanalyse durchführen
+und können mit der Signatur fortfahren.  Die Funktion braucht als
+Eingabe einen Vertrag; als Ausgabe kommt der neue Vertrag heraus.
+Außerdem brauchen wir noch das Datum, das in der Kurzbeschreibung
+erwähnt wird:
+%
+\begin{lstlisting}
+(: contract-rest (contract date -> contract))
+\end{lstlisting}
+%
+Kommen wir zu einigen Testfällen: Die Verträge \lstinline{euro100} und
+\lstinline{euro200} werden sofort ausgezahlt, da bleibt also nichts
+mehr übrig:
+%
+\begin{lstinline}
+(check-expect (contract-rest euro100 date1) (make-nothing))
+(check-expect (contract-rest euro200 date1) (make-nothing))
+\end{lstinline}
+%
+Das Beispiel \lstinline{later1} kommt zum Datum \lstinline{date1} zur
+Auszahlung (der 26.~Juli 2019), ab diesem Datum ist also nichts mehr
+übrig:
+%
+\begin{lstinline}
+(check-expect (contract-rest later1 date1) (make-nothing))
+\end{lstinline}
+%
+Der Beispielvertrag \lstinline{later2} hingegen wird erst zu
+\lstinline{date2} ausgezahlt, das ist Weihnachten 2019.  Zum Zeitpunkt
+\lstinline{date1} passiert deswegen noch nichts, der Vertrag
+kommt also unverändert zurück:
+%
+\begin{lstinline}
+(check-expect (contract-rest later2 date1) later2)
+\end{lstinline}
+%
+Interesant wird es bei den \lstinline{both}-Verträgen.  Bei
+\lstinline{both1} passiert die eine "<Hälfte"> sofort, die andere wird
+bis \lstinline{date1} verzögert.  Zum Zeitpunkt \lstinline{date1}
+bleibt allerdings von beiden Hälften nichts übrig:
+%
+\begin{lstlisting}
+(check-expect (contract-rest both1 date1) (make-nothing))
+\end{lstlisting}
+%
+Bei \lstinline{both2} bleibt allerdings zum Zeitpunkt
+\lstinline{date1} noch etwas übrig, nämlich die "<rechte"> Hälfte,
+\lstinline{later2}:
+%
+\begin{lstlisting}
+(check-expect (contract-rest both2 date1) later2)
+\end{lstlisting}
+%
+Aber zum Zeitpunkt \lstinline{date2} ist auch das perdu:
+%
+\begin{lstlisting}
+(check-expect (contract-rest both2 date2) (make-nothing))
+\end{lstlisting}
+%
+Wir schreiten nun zur Funktion selbst.  Hier das Gerüst:
+%
+\begin{lstlisting}
+(define contract-rest
+  (lambda (contract date)
+    |\ldots|))
+\end{lstlisting}
+%
+Die Eingabe-Signatur enthält ein \lstinline{contract}, wir können also
+wieder die Schablone für gemischte Daten verwenden:
+%
+\begin{lstlisting}
+(define contract-rest
+  (lambda (contract date)
+    (cond
+      ((nothing? contract) |\ldots|)
+      ((one-euro? contract) |\ldots|)
+      ((multiple? contract) |\ldots|)
+      ((later? contract) |\ldots|)
+      ((both? contract) |\ldots|))))
+\end{lstlisting}
+%
+Wir ergänzen als nächstes die Schablonen für die einzelnen Fälle, bei
+denen es sich ja jeweils um zusammengesetzte Daten handelt:
+%
+\begin{lstlisting}
+(define contract-rest
+  (lambda (contract date)
+    (cond
+      ((nothing? contract) |\ldots|)
+      ((one-euro? contract) |\ldots|)
+      ((multiple? contract)
+       |\ldots|
+       (multiple-number contract)
+       (multiple-of contract)
+       |\ldots|)
+      ((later? contract)
+       |\ldots|
+       (later-date contract)
+       (later-contract contract)
+       |\ldots|)
+      ((both? contract)
+       |\ldots|
+       (both-contract-1 contract)
+       (both-contract-2 contract)
+       |\ldots|))))
+\end{lstlisting}
+%
+%
+Fast hätten wir es vergessen~-- in den Fällen für
+\lstinline{multiple}, \lstinline{later} und \lstinline{both} gibt es
+ja Selbstreferenzen und damit rekursive Aufrufe:
+%
+\begin{lstlisting}
+(define contract-rest
+  (lambda (contract date)
+    (cond
+      ((nothing? contract) |\ldots|)
+      ((one-euro? contract) |\ldots|)
+      ((multiple? contract)
+       |\ldots|
+       (multiple-number contract)
+       (contract-rest (multiple-of contract) date)
+       |\ldots|)
+      ((later? contract)
+       |\ldots|
+       (later-date contract)
+       (contract-rest (later-contract contract) date)
+       |\ldots|)
+      ((both? contract)
+       |\ldots|
+       (contract-rest (both-contract-1 contract) date)
+       (contract-rest (both-contract-2 contract) date)
+       |\ldots|))
+    |\ldots|
+    (date-year date)
+    (date-month date)
+    (date-day date)
+    |\ldots|))
+\end{lstlisting}
+%
+Wir können außerdem noch die Schablone für \lstinline{date} bemühen,
+wobei es sich zum zusammengesetzte Daten handelt.  Das Datum ist nur
+im \lstinline{later}-Fall relevant~-- wir füllen die Schablone aus,
+wenn wir zu diesem Fall kommen.
+
+Wir fangen wieder mit den einfachen Fällen an.  Bei
+\lstinline{nothing} und \lstinline{one-euro} bleibt jeweils nichts
+übrig:
+%
+\begin{lstlisting}
+(define contract-rest
+  (lambda (contract date)
+    (cond
+      ((nothing? contract) (make-nothing))
+      ((one-euro? contract) (make-nothing))
+      |\ldots|)))
+\end{lstlisting}
+%
+\begin{aufgabe}
+  Sind beide Fälle schon durch Testfälle abgedeckt?  Wenn nicht,
+  schreibe einen!
+\end{aufgabe}
+%
+Als nächstes ist \lstinline{multiple} an der Reihe.  Der rekursive
+Aufruf aus der Schablone beantwortet die folgende Frage: "<Wieviel ist
+von \emph{einem} Vertrag nach dem Datum noch übrig?"> Wenn wir mit $n$
+das Ergebnis von \lstinline{(multiple-number contract)} bezeichnen,
+dann bezeichnen, müssen wir die Frage beantwortenm, wieviel von $n$
+Verträgen übrig bleibt.  Im übertragenen Sinne futtern $n$ Esser in
+der Mensa an jeweils der gleichen Portion Brei, werden aber
+unterbrochen. Wenn wir wissen, wieviel von einer Portion übrigbleibt,
+wieviel bleibt dann insgesamt übrig?  Wir müssen wieder mit $n$
+multiplizieren:
+%
+\begin{lstlisting}
+(define contract-rest
+  (lambda (contract date)
+    (cond
+      |\ldots|
+      ((multiple? contract)
+       (make-multiple (multiple-number contract)
+                      (contract-rest (multiple-of contract) date)))
+      |\ldots|)))
+\end{lstlisting}
+%
+Als nächstes ist der \lstinline{later}-Fall dran.  Der rekursive
+Aufruf beantwortet die Frage, was von dem Vertrag übrigbleibt, falls
+das Datum \lstinline{date} schon vorbei beziehungsweise gerade heute
+ist.  Wenn \lstinline{date} noch in der Zukunft liegt, passiert gar
+nichts und die Funktion sollte den gesamten Vertrag
+\lstinline{contract} zurückliefern.
+
+Das heißt, das \lstinline{date} in zwei Klassen zerfällt, nämlich (a)
+vor oder gleich dem Datum \lstinline{(later-date contract)} oder (b)
+danach.  Wir brauchen also eine Verzweigung danach, und dazu müssen
+wir die beiden Daten miteinander vergleichen.  Diese Aufgabe ist
+hinreichend kompliziert, dass wir sie zurückstellen und uns
+fest vornehmen, später eine Funktion mit folgender Kurzbeschreibung
+und Signatur zu schreiben:
+%
+\begin{lstlisting}
+; Ist ein Datum früher als ein anderes?
+(: date<=? (date date -> boolean))
+\end{lstlisting}
+%
+Mit Hilfe dieser Funktion können wir den \lstinline{later}-Fall
+folgendermaßen fertigstellen:
+%
+\begin{lstlisting}
+(define contract-rest
+  (lambda (contract date)
+    (cond
+      |\ldots|
+      ((later? contract)
+       (if (date<=? (later-date contract) date)
+           (contract-rest (later-contract contract) date)
+           contract))
+      |\ldots|)))
+\end{lstlisting}
+%
+Wir haben dabei etwas geschummelt und uns darum gedrückt, die
+Schablone für \lstinline{date} auszufüllen.  Das müssen wir bei
+\lstinline{date<=?} nachholen.
+
+Es bleibt der Fall für \lstinline{both}.  Die rekursiven Aufrufe aus der
+Schablone liefern, was vom "<linken"> beziehungsweise "<rechten">
+Vertrag übriggeblieben ist.  Wir müssen die Ergebnisse nur wieder
+zusammensetzen:
+%
+\begin{lstlisting}
+(define contract-rest
+  (lambda (contract date)
+    (cond
+      |\ldots|
+      ((both? contract)
+       (make-both (contract-rest (both-contract-1 contract) date)
+                  (contract-rest (both-contract-2 contract) date))))))
+\end{lstlisting}
+%
+Fertig!
+
+Also fast: Wir müssen ja noch die Funktion \lstinline{date<=?}
+schreiben.  Für einen Teil davon spannen wir Dich ein:
+%
+\begin{aufgabe}
+  Schreibe ausreichende Testfälle für \lstinline{date<=?}!
+\end{aufgabe}
+%
+Hier ist das Gerüst:
+%
+\begin{lstlisting}
+(define date<=?
+  (lambda (date1 date2)
+    |\ldots|))
+\end{lstlisting}    
+%
+Das es sich sowohl bei \lstinline{date1} als auch \lstinline{date2} um
+zusammengesetzte Daten handelt
+%
+\begin{lstlisting}
+(define date<=?
+  (lambda (date1 date2)
+    |\ldots|
+    (date-year date1) (date-year date2)
+    (date-month date1) (date-month date2)
+    (date-day date1) (date-day date2)
+    |\ldots|))
+\end{lstlisting}    
+%
+Um den Rumpf richtig hinzubekommen, müssen wir sorgfältig alle
+möglichen Fälle abarbeiten.  Zunächst müssen wir die beiden
+Jahreszahlen vergleichen~-- wenn sie bei \lstinline{date1} und
+\lstinline{date2} unterschiedlich sind, so steht das Ergebnis fest.
+Wenn nicht, so muss die Funktion die Monate vergleichen und
+schließlich die Tage.  Das sieht am Ende so aus:
+%
+\begin{lstlisting}
+(define date<=?
+  (lambda (date1 date2)
+    (cond
+      ((< (date-year date1) (date-year date2)) #t)
+      ((> (date-year date1) (date-year date2)) #f)
+      ((< (date-month date1) (date-month date2)) #t)
+      ((> (date-month date1) (date-month date2)) #f)
+      ((< (date-day date1) (date-day date2)) #t)
+      ((> (date-day date1) (date-day date2)) #f)
+      (else #t))))
+\end{lstlisting}
+    
 \paragraph{Verträge optimieren}
 
 \begin{aufgabe}
@@ -1170,6 +1476,11 @@ so aus:
 
 \section*{Aufgaben}
 
+\begin{aufgabe}
+  FIXME Wieviel wird zu einem bestimmten Zeitpunkt gezahlt
+\end{aufgabe}
+
+  
 \begin{aufgabe}\label{aufgabe:give}
   FIXME give
 \end{aufgabe}
