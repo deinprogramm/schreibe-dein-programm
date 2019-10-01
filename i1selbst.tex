@@ -483,12 +483,65 @@ machen:
 
 \section{Bilder modellieren}
 
-FIXME: Kombinatoren \texttt{overlay}, \texttt{beside}, \texttt{above}
+Erinnerst Du Dich noch an Abschnitt~\ref{sec:rechnen-mit-bildern} auf
+Seite \pageref{sec:rechnen-mit-bildern}?  Da haben wir mit Hilfe des
+\texttt{image.rkt}-Teachpacks die Funktionen \lstinline{beside} und
+\lstinline{above} verwendet, um Bilder zusammenzusetzen:
+%
+\begin{lstlisting}
+(define s1 (square 40 "solid" "red"))
+(define c1 (circle 40 "solid" "green"))
+(define p1 (star-polygon 20 10 3 "solid" "blue"))
+(beside s1 p1)
+|\evalsto{} \includegraphics[height=24pt]{i1prog/beside.png}|
+(above s1 c1)
+|\evalsto{} \includegraphics[width=24pt]{i1prog/above.png}|
+\end{lstlisting}
+%
+Bei beiden Funktionen war es möglich, die Ergebnisse wieder als Bilder
+zu verwenden:
+%
+\begin{lstlisting}
+(above (beside s1 p1) (beside p1 c1))
+|\evalsto{} \includegraphics[width=48pt]{i1prog/abovebeside.png}|
+\end{lstlisting}
+%
+Für Bilder ist die Signatur \lstinline{image} zuständig; mir ihrer
+Hilfe können wir Signaturen für \lstinline{above} und
+\lstinline{beside}  formulieren:
+%
+\begin{lstlisting}
+(: beside (image image -> image))
+(: above (image image -> image))
+\end{lstlisting}
+%
+An den Signaturen lässt sich klar erkennen, dass es sich um
+Kombinatoren handelt.  Indirekt können wir daraus schließen, dass es
+in der Datendefinition von Bildern ebenfalls Selbstbezüge gibt.  Die
+könnte so aussehen:
+%
+\begin{lstlisting}
+; Ein Bild ist eins der folgenden:
+; |\ldots| 
+; - eine Nebeneinanderstellung von einem Bild und noch einem Bild
+; - eine Übereinanderstellung von einem Bild und noch einem Bild
+; |\ldots| 
+\end{lstlisting}
+%
+Das heißt, bei den Bildern ist das gleiche Konstruktionsprinzip am
+Werk wie bei den Flüssen: Aus "<kleinen"> Bildern werden "<größere">,
+und daraus gegebenenfalls noch größere undsoweiter.
 
-
-FIXME: Kombinator erkennen an der Signatur
-
-FIXME: andere Signatur für \texttt{make-confluence}
+An den Signaturen von \lstinline{beside} und \lstinline{above} ist
+leicht erkennbar, dass es sich um Kombinatoren handelt: Es gehen
+\lstinline{image} rein und \lstinline{image} kommt auch wieder
+heraus.  Um das bei den Flüssen aus dem letzten Abschnitt klar
+anzuzeigen, wäre es sinnvoll, für \lstinline{make-confluence}
+ebenfalls eine explizite Signatur anzugeben:
+%
+\begin{lstlisting}
+(: make-confluence (string river river -> river))
+\end{lstlisting}
 
 \section{Finanzverträge abbilden}
 
