@@ -1633,19 +1633,41 @@ vereinfachen heißen auch \textit{smart constructors}.\index{smart constructor}
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  
-\end{aufgabe}
-\begin{aufgabe}
-  multiple von multiple
+  Schreibe einen sinnvollen \textit{smart constructor} für
+  \lstinline{later}-Verträge.
 \end{aufgabe}
 
 \begin{aufgabe}
-  FIXME Wieviel wird zu einem bestimmten Zeitpunkt gezahlt
+  Betrachte folgenden Vertrag:
+  %
+\begin{lstlisting}
+(make-multiple 100 (make-multiple 100 (make-one-euro)))    
+\end{lstlisting}
+%
+Kann dieser Vertrag vereinfacht werden?  Wenn ja, erweitere den
+entsprechenden \textit{smart constructor}.
 \end{aufgabe}
 
   
 \begin{aufgabe}\label{aufgabe:give}
-  FIXME give
+  Füge eine weitere Klasse von Verträgen hinzu, die
+  \lstinline{give}-Verträge: Ein \lstinline{give}-Vertrag dreht alle
+  Zahlungen um, die sich aus einem Vertrag ergeben.  Das heißt, ein
+  \lstinline{give}-Vertrag von \EUR{1} führt dazu, dass der
+  Vertragsinhaber dem Vertragspartner \EUR{1} \emph{geben} muss und
+  nicht bekommt.  Erweitere die beiden Funktionen, so dass sie auch
+  mit \lstinline{give}-Verträgen klarkommen.  Benutze, um Zahlungen
+  "<in die andere Richtung"> zu repräseniteren, ein negatives
+  Vorzeichen.
+\end{aufgabe}
+
+\begin{aufgabe}
+  Die Funktionen \lstinline{contract-payment} und
+  \lstinline{contract-rest} passen nicht so recht zusammen: Die eine
+  berechnet \emph{alle} Zahlungen, die anderen den Rest eines Vertrags
+  ab einem bestimmten Zeitpunkt.  Schreibe eine Funktion
+  \lstinline{contract-payment-until}, die alle Zahlungen bis zu einem
+  bestimmten Zeitpunkt berechnet!
 \end{aufgabe}
 
 \begin{aufgabe}\label{aufgabe:aufzaehlung-vs-nullstellig}
