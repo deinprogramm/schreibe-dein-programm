@@ -1468,13 +1468,176 @@ schließlich die Tage.  Das sieht am Ende so aus:
       (else #t))))
 \end{lstlisting}
     
-\paragraph{Verträge optimieren}
+\paragraph{Verträge vereinfachen}
 
+Leider ist der Code für die \lstinline{contract-rest}-Funktion zwar
+vollständig, funktioniert aber nicht wie erwartet: Die Tests schlagen
+fehl, und zwar fast alle!  Wie kann das sein?  Hier ist
+der erste:
+%
+\begin{lstlisting}
+(check-expect (contract-rest euro100 date1) (make-nothing))
+\end{lstlisting}
+%
+Hier ist die Meldung vom Fehlschlag:
+%
+\begin{alltt}
+Der tatsächliche Wert \textcolor{blue}{#<record:multiple 100 #<record:nothing>>}
+ist nicht der erwartete Wert \textcolor{blue}{#<record:nothing>}.
+\end{alltt}
+%
+Was ist passiert?  Zur Erinnerung, der Vertrag \lstinline{euro100} ist
+so definiert:
+%
+\begin{lstlisting}
+(define euro100 (make-multiple 100 (make-one-euro))) 
+\end{lstlisting}
+%
+Die \lstinline{contract-rest}-Funktion hat erst einmal berechnet, was
+von dem einen Euro übriggeblieben ist und vom Rest dann 100 Stück
+zurückgegeben: 100 Stück von nichts.  Das Ergebnis ist ja auch
+formal korrekt, aber eben nicht wie vom Testfall erwartet.
+Unpraktisch ist es auf jeden Fall:
+%
 \begin{aufgabe}
-  FIXME: multiple von multiple
+  Finde noch drei weitere komplizierte Wege, "<Verträge über nichts">
+  aufzuschreiben.
 \end{aufgabe}
+%
+Um das Problem zu vermeiden, wäre es gut, wenn das Programm Verträge
+über "<$n$ mal nichts"> gar nicht erst konstruieren würden.  Dafür
+müssen wir beim Konstruktor \lstinline{make-multiple} ansetzen.  Wenn
+der auf einen \lstinline{nothing}-Vertrag angewendet wird, muss das
+Ergebnis auch wieder ein \lstinline{nothing}-Vertrag sein.  Um das zu
+erreichen, müssen wir \lstinline{make-multiple} umdefinieren.  Da die
+Definition von \lstinline{make-multiple} von
+\lstinline{define-record-functions} erledigt wird, wenden wir einen
+Trick an und benennen den Konstruktor erst einmal um, in dem wir die
+Record-Definition ändern:
+%
+\begin{lstlisting}
+(define-record-functions multiple
+  really-make-multiple
+  multiple?
+  (multiple-number   rational)
+  (multiple-of       contract))
+\end{lstlisting}
+%
+Der Name \lstinline{really-make-multiple} ist reine Konvention~--
+solange der Name nur anders ist als \lstinline{make-multiple}!  Als
+nächstes definieren wir eine neue Funktion mit dem alten Namen und dem
+gleichen Vertrag.  Hier Kurzbeschreibungl, Signatur und ein Testfall,
+der gerade \lstinline{euro100} entspricht:
+%
+\begin{lstlisting}
+; multiple-Vertrag konstruieren, dabei vereinfachen
+(: make-multiple (rational contract -> contract))
+
+(check-expect (make-multiple 100 (make-nothing)) (make-nothing))
+\end{lstlisting}
+%
+Hier ist das Gerüst für die Funktion:
+%
+\begin{lstlisting}
+(define make-multiple
+  (lambda (factor contract)
+    |\ldots|))
+\end{lstlisting}
+%
+Die Eingabe \lstinline{contract} zerfällt nun in zwei Fälle:
+\lstinline{nothing}-Verträge und alle anderen.  Im ersten Fall geben
+wir wieder einen \lstinline{nothing}-Vertrag zurück, im zweiten Fall
+rufen wir den richtigen Konstruktor auf:
+%
+\begin{lstlisting}
+(define make-multiple
+  (lambda (factor contract)
+    (if (nothing? contract)
+        (make-nothing)
+        (really-make-multiple factor contract))))
+\end{lstlisting}
+%
+Damit funktionieren schonmal die ersten beiden Testfälle, die
+ursprünglich fehlgeschlagen.  Es bleiben aber noch weitere.  Der erste
+ist dieser hier:
+%
+\begin{alltt}
+Der tatsächliche Wert #<record:both \textcolor{blue}{#<record:nothing> #<record:nothing>>}
+ist nicht der erwartete Wert \textcolor{blue}{#<record:nothing>}.
+\end{alltt}
+%
+Das deutet auf ein analoges Problem wie bei \lstinline{multiple} hin:
+Nichts und nochmal nichts ist eben nichts, aber der Konstruktor von
+\lstinline{both} weiß das nicht.  Wir wenden den gleichen Trick an und
+benennen zunächst den Konstruktor um:
+%
+\begin{lstlisting}
+(define-record-functions both
+  really-make-both
+  both?
+  (both-contract-1 contract)
+  (both-contract-2 contract))  
+\end{lstlisting}
+%
+Als nächstes definieren wir einen neuen Konstruktor selber:
+%
+\begin{lstlisting}
+; Kombinationsvertrag konstruieren, dabei vereinfachen
+(: make-both (contract contract -> contract))
+
+(check-expect (make-both (make-nothing) (make-nothing)) (make-nothing))
+\end{lstlisting}
+%
+Durch diesen Testfall ist "<nichts und nichts"> abgedeckt.  Das können
+wir aber noch etwas verallgemeinern.  Das illustrieren am besten die
+folgenden Testfälle, bei denen jeweils nur die linke beziehungsweise
+rechte Seite des \lstinline{both}-Vertrags nichts ist:
+%
+\begin{lstlisting}
+(check-expect (make-both (make-one-euro) (make-nothing)) (make-one-euro))
+(check-expect (make-both (make-nothing) (make-one-euro)) (make-one-euro))
+\end{lstlisting}
+%
+Hier ist das Gerüst zur Funktion:
+%
+\begin{lstlisting}
+(define make-both
+  (lambda (contract-1 contract-2)
+    |\ldots|))
+\end{lstlisting}
+%
+Die Eingaben zerfallen in drei Klassen, nämlich wenn
+\lstinline{contract-1} nichts ist, wenn \lstinline{contract-2} nichts
+ist und alle anderen.  Entsprechend brauchen wir eine Verzweigung mit
+drei Zweigen:
+%
+\begin{lstlisting}
+(define make-both
+  (lambda (contract-1 contract-2)
+    (cond
+      ((nothing? contract-1) contract-2)
+      ((nothing? contract-2) contract-1)
+      (else
+       (really-make-both contract-1 contract-2)))))
+\end{lstlisting}
+%
+Und nun endlich verlaufen alle Tests erfolgreich.
+
+Die Funktionen \lstinline{make-multiple} und \lstinline{make-both},
+welche die ursprünglichen Konstruktoren gleichen Namens ersetzen und
+bei der Konstruktion die entstehenden Verträge gleich schon etwas
+vereinfachen heißen auch \textit{smart constructors}.\index{smart constructor}
+
+% FIXME: Prinzipien, Mantras?
 
 \section*{Aufgaben}
+
+\begin{aufgabe}
+  
+\end{aufgabe}
+\begin{aufgabe}
+  multiple von multiple
+\end{aufgabe}
 
 \begin{aufgabe}
   FIXME Wieviel wird zu einem bestimmten Zeitpunkt gezahlt

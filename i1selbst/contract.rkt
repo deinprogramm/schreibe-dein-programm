@@ -135,6 +135,9 @@
   (multiple-number   rational)
   (multiple-of       contract))
 
+(define make-multiple really-make-multiple)
+
+#|
 (: make-multiple (rational contract -> contract))
 
 (check-expect (make-multiple 100 (make-nothing)) (make-nothing))
@@ -144,6 +147,9 @@
     (if (nothing? contract)
         (make-nothing)
         (really-make-multiple factor contract))))
+|#
+
+
 
 ; Eine Verzögerung besteht aus:
 ; - Datum
@@ -160,8 +166,9 @@
   (later-date     date)
   (later-contract contract))
 
+(define make-later really-make-later)
 
-(define make-later
+#;(define make-later
   (lambda (date contract)
     (if (nothing? contract)
         (make-nothing)
@@ -183,7 +190,9 @@
   (both-contract-1 contract)
   (both-contract-2 contract))
 
-(define make-both
+(define make-both really-make-both)
+
+#;(define make-both
   (lambda (contract-1 contract-2)
     (cond
       ((nothing? contract-1) contract-2)
@@ -285,13 +294,13 @@
 (check-expect (contract-rest later1 date1) (make-nothing))
 (check-expect (contract-rest later2 date1) later2)
 (check-expect (contract-rest both1 date1) (make-nothing))
-(check-expect (contract-rest both2 date1) (make-later date2 (make-multiple 200 (make-one-euro))))
+(check-expect (contract-rest both2 date1) later2)
 (check-expect (contract-rest both2 date2) (make-nothing))
 
 (define contract-rest
   (lambda (contract date)
     (cond
-      ((nothing? contract) contract)
+      ((nothing? contract) (make-nothing))
       ((one-euro? contract) (make-nothing))
       ((multiple? contract)
        (make-multiple (multiple-number contract)
