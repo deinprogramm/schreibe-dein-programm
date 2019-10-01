@@ -542,6 +542,12 @@ ebenfalls eine explizite Signatur anzugeben:
 \begin{lstlisting}
 (: make-confluence (string river river -> river))
 \end{lstlisting}
+%
+Kombinatoren verstecken sich in vielen Problemstellungen, Du musst Sie
+nur suchen: Dann findest Du erstaunlich oft auch welche.  Darum geht
+es in Mantra~\ref{mantra:kombinator}:
+
+\mantrakombinator*
 
 \section{Finanzverträge abbilden}
 
@@ -1681,7 +1687,18 @@ welche die ursprünglichen Konstruktoren gleichen Namens ersetzen und
 bei der Konstruktion die entstehenden Verträge gleich schon etwas
 vereinfachen heißen auch \textit{smart constructors}.\index{smart constructor}
 
-% FIXME: Prinzipien, Mantras?
+\paragraph{Kombinatorrepräsentationen finden} Wie schon am Anfang
+dieses Abschnitts erwähnt, die Autoren des Papers über Finanzverträge
+habne Monate gebraucht, um die beschriebene elegante Repräsentation zu
+finden.  Sie sind nach zwei Prinzipien vorgegangen:
+%
+\begin{itemize}
+\item Sie haben Finanzverträge in ihre kleinsten Bestandteile zerlegt.
+\item Sie haben nach Kombinatoren für Finanzverträge gesucht und
+  welche gefunden, entsprechend Mantra~\ref{mantra:kombinatoren}.
+\end{itemize}
+%
+Die Prinzipien sind auf viele andere Problemstellungen übertragbar.
 
 \section*{Aufgaben}
 
@@ -1710,7 +1727,7 @@ entsprechenden \textit{smart constructor}.
   Vertragsinhaber dem Vertragspartner \EUR{1} \emph{geben} muss und
   nicht bekommt.  Erweitere die beiden Funktionen, so dass sie auch
   mit \lstinline{give}-Verträgen klarkommen.  Benutze, um Zahlungen
-  "<in die andere Richtung"> zu repräseniteren, ein negatives
+  "<in die andere Richtung"> zu repräsentieren, ein negatives
   Vorzeichen.
 \end{aufgabe}
 
