@@ -86,7 +86,7 @@ Record-Definition für Conse:\index{cons@\texttt{cons}}\index{cons@\texttt{cons}
   cons
   cons?
   (first any)
-  (rest  a-list))
+  (rest  list-of-numbers))
 \end{alltt}
 %
 Für eine Signatur für den Konstruktor ist es noch zu früh, da es noch
@@ -95,7 +95,7 @@ gibt.  Diese folgt in wenigen Augenblicken.
 
 Ein Cons kann nun benutzt werden, um die letzte Liste aus der obigen
 Tabelle zu repräsentieren.  "<Pumps"> wird als Zeichenkette zum ersten
-Element des Cons.  Die \texttt{rest}-Komponente des Cons muß eine
+Element des Cons.  Die \texttt{rest}-Komponente des Cons muss eine
 Liste sein~-- dabei ist zu beachten, dass insbesondere die leere Liste
 eine Liste ist, dort also verwendet werden kann:
 %
@@ -105,30 +105,30 @@ eine Liste ist, dort also verwendet werden kann:
 \end{alltt}
 %
 Jetzt kommt der entscheidende Punkt: Conse sind \emph{auch} Listen,
-Listen sind also gemischte Daten:\index{a-list@\texttt{a-list}}\label{def:a-list}
+Listen sind also gemischte Daten:\index{list-of-numbers@\texttt{list-of-numbers}}\label{def:list-of-numbers}
 %
 \begin{alltt}
 ; Eine Liste ist eins der folgenden:
 ; - die leere Liste
 ; - ein Cons
-(define a-list
+(define list-of-numbers
   (signature
    (mixed empty-list
           cons-list)))
 \end{alltt}
 %
-Die Signatur \texttt{empty-list} ist bereits eingebaut und paßt auf
+Die Signatur \texttt{empty-list} ist bereits eingebaut und passt auf
 die leere Liste \texttt{empty} (und nichts sonst).  (Der Name
 \texttt{list} ist in den Lehrsprachen bereits vergeben, darum
-heißt die Signatur \texttt{a-list}.)  Jetzt ist es möglich, eine
+heißt die Signatur \texttt{list-of-numbers}.)  Jetzt ist es möglich, eine
 Signatur für \texttt{cons} sowie die anderen Funktionen der
 Record-Definition von \texttt{cons} zu vergeben:
 %
 \begin{alltt}
-(: cons (any a-list -> cons-list))
+(: cons (any list-of-numbers -> cons-list))
 (: cons? (any -> boolean))
 (: first (cons-list -> any))
-(: rest (cons-list -> a-list))
+(: rest (cons-list -> list-of-numbers))
 \end{alltt}
 %
 FIXME:
@@ -176,7 +176,7 @@ wir ab hier sogenannte "<Zeigerdiagramme">, bei denen alle Conse gleich groß
 dargestellt sind und ein Pfeil zeigt, dass ein Cons die
 \texttt{rest}-Komponente eines anderen Conses bildet.
 Abbildung~\ref{fig:cons-lists-2} zeigt das Pfeildiagramm, das
-Abbildung~\ref{fig:cons-lists-1} entspricht; es paßt besser zur
+Abbildung~\ref{fig:cons-lists-1} entspricht; es passt besser zur
 gängigen Intuition von Listen.
 
 \begin{figure}[tb]
@@ -207,7 +207,7 @@ Hier Kurzbeschreibung und Vertrag:\label{sec:list-sum}\index{list-sum@\texttt{li
 %
 \begin{verbatim}
 ; Summe der Elemente einer Liste von Zahlen berechnen
-(: list-sum (a-list -> number))
+(: list-sum (list-of-numbers -> number))
 \end{verbatim}
 %
 Für die Testfälle halten die Beispiellisten her:
@@ -237,7 +237,7 @@ Funktion sieht so aus:
 \texttt{1} ähnlich sieht.)
 
 Zur Erinnerung: Listen sind zunächst gemischte Daten~-- die Definition
-von \texttt{a-list} benutzt \texttt{mixed} mit zwei Fällen.  Entsprechend kommt die
+von \texttt{list-of-numbers} benutzt \texttt{mixed} mit zwei Fällen.  Entsprechend kommt die
 Konstruktionsanleitung für gemischte Daten zur Anwendung:
 %
 \begin{verbatim}
@@ -279,7 +279,7 @@ die Schablone:
 \end{verbatim}
 %
 Jetzt können wir ans Ausfüllen der beiden Zweige gehen: Die erste
-Ellipse muß die Frage beantworten, was die Summe der leeren Liste sein
+Ellipse muss die Frage beantworten, was die Summe der leeren Liste sein
 soll.  Diese Frage ist bei nahezu \emph{allen} Funktionen relevant,
 die Listen akzeptieren, es empfiehlt sich darum grundsätzlich, einen
 Testfall für die leere Liste zu formulieren:
@@ -393,7 +393,7 @@ damit fester Bestandteil der Schablone für Funktionen, die Listen
 akzeptieren:
 %
 \begin{alltt}
-(: \textit{func} (a-list -> ...))
+(: \textit{func} (list-of-numbers -> ...))
 
 (define \textit{func}
   (lambda (lis)
@@ -417,7 +417,7 @@ Ja/Nein-Frage, die damit auch die Kurzbeschreibung bildet:
 Hier ist der dazu passende Vertrag:\index{all-positive?@\texttt{all-positive?}}
 %
 \begin{verbatim}
-(: all-positive? (a-list -> boolean))
+(: all-positive? (list-of-numbers -> boolean))
 \end{verbatim}
 %
 Für Testfälle stehen die leere Liste sowie die drei Beispiellisten
@@ -494,7 +494,7 @@ kombiniert werden müssen:
 \end{verbatim}
 %
 FIXME: Konstruktionsanleitung~\ref{ka:listen} auf Seite~\pageref{ka:listen}
-faßt die Schablone für Funktionen, die Listen akzeptieren, noch einmal
+fasst die Schablone für Funktionen, die Listen akzeptieren, noch einmal
 zusammen. %%Die fehlt noch hier!
 
 \section{Signaturkonstruktoren}
@@ -504,13 +504,13 @@ Die Beispiellisten vom Anfang dieses Kapitels sind allesamt
 von derselben Sorte.  Es gibt eine Liste von Essenszutaten, eine von
 Eigennamen, eine von Zahlen, eine von dramatischen Figuren, eine von
 Frisuren und eine von Schuhen.  Die Datendefinition für
-\texttt{a-list} von Seite~\ref{def:a-list} ist da allerdings nicht
+\texttt{list-of-numbers} von Seite~\ref{def:list-of-numbers} ist da allerdings nicht
 festgelegt: es heißt ausdrücklich, dass jedes Cons ein
 \emph{beliebiges} Element enthält.  So ist beispielsweise auch
 folgende Liste zulässig:
 %
 \begin{verbatim}
-(: ml1 a-list)
+(: ml1 list-of-numbers)
 (define ml1 (cons 5 (cons "Herbert" empty)))
 \end{verbatim}
 %
@@ -535,7 +535,7 @@ also \texttt{cons} zum Beispiel auf Elemente der Signatur
 \end{alltt}
 %
 Entsprechend würden wir die daraus resultierende Signatur für Listen
-nicht mehr \texttt{a-list} sondern \texttt{list-of-numbers} nennen:\index{list-of-numbers@\texttt{list-of-numbers}}
+nicht mehr \texttt{list-of-numbers} sondern \texttt{list-of-numbers} nennen:\index{list-of-numbers@\texttt{list-of-numbers}}
 %
 \begin{verbatim}
 (define list-of-numbers
@@ -600,7 +600,7 @@ Zu lesen sind die obigen Signaturdeklarationen so:
 
 Diese Signaturen sind allerdings noch unbefriedigend, da sie nicht zum
 Ausdruck bringen, dass das zweite Argument von \texttt{cons} immer
-eine \emph{Liste} sein muß beziehungsweise daß \texttt{rest} immer
+eine \emph{Liste} sein muss beziehungsweise dass \texttt{rest} immer
 eine Liste liefert.  Diese Problematik stellen wir noch einen Moment
 hintenan, werden aber später zu ihr zurückkehren~-- zunächst einmal zu
 den Signaturen für Listen.
@@ -608,7 +608,7 @@ den Signaturen für Listen.
 FIXME
 
 Mit Hilfe von \texttt{cons-of} können wir versuchen, einen Ersatz für
-\texttt{a-list} zu definieren, der spezifiziert, auf welche Signatur
+\texttt{list-of-numbers} zu definieren, der spezifiziert, auf welche Signatur
 die Elemente der Liste passen.  Das könnte so aussehen:
 %
 \begin{alltt}
@@ -802,7 +802,7 @@ Beispielgürteltiere aus Abschnitt~\ref{page:run-over-dillo}.)
 
 Diese Liste hat die Signatur \texttt{(list-of dillo)}.  Wenn wir eine
 Funktion schreiben wollen, die alle Gürteltiere aus einer Liste
-überfährt, müßte diese also folgende Kurzbeschreibung und Signatur
+überfährt, müsste diese also folgende Kurzbeschreibung und Signatur
 haben:
 %
 \begin{verbatim}
@@ -930,7 +930,7 @@ fangen, um die Sache spannender zu machen, mit \texttt{lis-2} an:
 \end{alltt}
 %
 Der erste Zweig des \texttt{cond} ist noch einfach: Wenn
-\texttt{lis-2} leer ist, muß \texttt{lis-1} herauskommen.  Jedoch wäre für
+\texttt{lis-2} leer ist, muss \texttt{lis-1} herauskommen.  Jedoch wäre für
 das obige Beispiel der Wert von \texttt{(concatenate lis-1 (rest lis-2))} die
 folgende Liste:
 %
@@ -972,7 +972,7 @@ also:
 \end{alltt}
 %
 Es fehlt das erste Element von \texttt{lis-1}, \texttt{(first
-  lis-1)}, das vorn an das Ergebnis angehängt werden muß.  Das geht
+  lis-1)}, das vorn an das Ergebnis angehängt werden muss.  Das geht
 mit \texttt{cons}:
 %
 \begin{alltt}
@@ -1014,7 +1014,7 @@ Viele andere Programmiersprachen bauen auf \textit{Felder\index{Feld}} oder
 \textit{Arrays\index{Array}} als fundamentale Datenstrukturen für die
 Repräsentation von Folgen.  Diese gibt es in
 Scheme auch (unter dem Namen \textit{Vektor\index{Vektor}}), finden jedoch
-nur selten Verwendung: Oft läßt sich eine
+nur selten Verwendung: Oft lässt sich eine
 bessere Lösung mit Listen oder anderen Repräsentationen finden.
 
 \section*{Aufgaben}
