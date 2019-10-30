@@ -6,655 +6,522 @@
 \chapter{Programmieren mit Listen}
 \label{cha:rek}
 
-Die bisher betrachteten Daten hatten alle immer eine feste Größe~--
-die Anzahl der Komponenten zusammengesetzter Daten ist fest, ebenso wie die
-Anzahl der Fälle bei Fallunterscheidungen oder gemischten Daten.  Das
-reicht nicht für alle Anwendungen: Die Bücher im Regal, die Wagen
-eines Zuges, die Fotos im Album sind allesamt in ihrer Anzahl
-variabel.  Für die Repräsentation solcher Informationen wird also eine
-neue Art der Datendefinition benötigt, welche die schon bekannten
-zusammengesetzten und gemischten Daten ergänzt: der
-\textit{Selbstbezug}.  Selbstbezüge können benutzt werden, um solche
-Daten variabler Größe abzubilden, insbesondere in sogenannten
-\textit{Listen}.
+Im vorigen Kapitel haben wir bereits Daten mit Selbstbezug
+kennengelernt, die Informationen variabler Größe repräsentieren
+können: Flüsse, Bilder und Finanzverträge.  Die Repräsentationen dafür
+waren recht speziell das jeweilige Einsatzgebiet gekoppelt.  In diesem
+Kapitel lernen wir eine besonders praktische Datenstruktur mit
+Selbstbezug kennen, die in nahezu allen Einsatzgebieten nützlich ist:
+\textit{Listen}.\index{Liste}
 
-\section{Listen repräsentieren}
-\label{sec:lists}
-
-\index{Liste}Hier sind einige Listen aus dem täglichen Leben:
+Hier sind einige Listen aus dem täglichen Leben:
 %
 \begin{center}
   \begin{tabular}{l@{\qquad}l@{\qquad}l@{\qquad}l@{\qquad}l@{\qquad}l}
-  Brot & Herbert & 1 & Phidipides & Dauerwelle & Pumps \\
-  Butter & Mike & 2 & Diabetes & Dreadlocks \\
-  Käse & & 3 & Bursitis & Irokese \\
-  & & 4 & Woody & Vokuhila \\
-  && 5 & Hepatitis \\
-  && 6 & Zeus \\
-  &&& Doris\\
-  &&& Lorenzo
+  Brot & Herbert & 1 & Axl & Dauerwelle & Pumps \\
+  Butter & Mike & 2 & Slash & Dreadlocks \\
+  Käse & & 3 & Duff & Irokese \\
+  & & 4 & Dizzy & Vokuhila \\
+  && 5 & Izzy \\
+  && 6 & Melissa \\
+  &&& Brain\\
+  &&& Bumblefoot 
 \end{tabular}
 \end{center}
 %
 Keine dieser Listen ist auf ihre jeweilige Länge festgelegt: Zur Liste
-mit "<Brot"> könnten beispielsweise noch "<Gurken"> hinzukommen.  Damit ist es
-nicht möglich, diese Listen jeweils durch die bereits bekannten
-zusammengesetzten Daten und Records zu repräsentieren, da bei ihnen
-die Liste der Komponenten schon in der Datendefinition festgelegt
-ist.  Hier kommen Listen im Sinne der Programmierung ins Spiel, die es
-erlauben, "<zusammengesetzte Daten variabler Länge"> zu
-repräsentieren.  Die einfachste Sorte Liste ist die \textit{leere Liste}:\index{leere
-  Liste}\index{Liste!leer}
+mit "<Brot"> könnten beispielsweise noch "<Gurken"> hinzukommen, zur
+Liste mit Axl, Slash undsoweiter könnte zum Beispiel noch Steven
+dazukommen.
 
-%% FIXME HK: Ich nehme mal an, dieses FIXME bezog sich auf eine
-%% Erklärung, wieso wir überhaupt leere Listen brauchen
+\section{Listen repräsentieren}
+
+In der Einführung haben wir Listen mit unterschiedlichen Sorten von
+Elementen gesehen.  Für den Anfang konzentrieren wir uns zunächst
+einmal auf Listen von Zahlen, um die Dinge einfach zu halten.  Dann
+schreiben wir eine Funktion, um die Zahlen aus so einer Liste zu
+addieren. Es gibt verschiedene Möglichkeiten, Listen zu
+repräsentieren.  Die Repräsentation, die wir in diesem Kapitel
+einführen, hat als besonders einfach und universell verwendbar
+herausgestlelt.
+
+Diese Repräsentation ist nach dem gleichen Prinzip entstanden die zum
+Finanzverträge in Abschnitt~\ref{sec:financial-contracts} auf
+Seite~\pageref{sec:financial-contracts}: Wir suchen zunächst nach der
+einfachsten Liste, die wir uns vorstellen können.  Man könnte auf die
+Idee kommen, dass dies eine Liste mit nur einem Element ist, aber noch
+einfacher ist eine mit gar keinen Elementen~-- die \textit{leere
+  Liste} an\index{leere Liste}\index{Liste!leer}.  Natürlich werden
+wir auch nichtleere Listen brauchen, darum ist der erste Entwurf
+einer Datendefinition wie folgt:
 %
-\begin{alltt}
+\begin{lstlisting}
+; Eine Liste aus Zahlen ist eins der folgenden:
+; - eine leere Liste
+; - eine nichtleere Liste
+\end{lstlisting}
+%
+Die leere Liste hat offensichtlich keine Bestandteile, wir werden sie
+aber später von den nichtleeren Listen unterscheiden müssen.  Wir
+benutzen deshalb eine leere Record-Definition:
+%
+\begin{lstlisting}
+; leere Liste
 (define-record-functions empty-list
-  make-empty
+  make-empty-list
   empty?)
+\end{lstlisting}
+%
+Beim Namen für das Prädikat haben wir etwas gemogelt.  Von Amts wegen
+müsste es \lstinline{empty-list?} heißen.  Da es aber noch öfter
+vorkommen wird, kürzen wir es zu \lstinline{empty?} ab. Da alle leeren
+Listen gleich sind, definieren wir eine Abkürzung dafür, die ebenfalls
+noch oft vorkommen wird:
+%
+\begin{lstlisting}
+(define empty (make-empty-list))
+\end{lstlisting}
+%
+Nun sind die nichtleeren Listen dran.  Nach dem Kombinatorprinzip aus dem
+vorigen Kapitel sollten wir eine nichtleere Liste konstruieren, indem
+wir eine bestehende Liste erweitern:
+%
+\begin{lstlisting}
+; Eine nichtleere Liste besteht aus:
+; - dem ersten Element
+; - einer Liste aus Zahlen mit den restlichen Elementen
+\end{lstlisting}
+%
+Diese spezielle Definition für nichtleere Listen heißt
+\textit{Cons-Liste}.\index{Cons-Liste}  Das zweite Feld enthält
+eine "<Liste aus Zahlen">~-- da ist der Selbstbezug.
 
-(define empty (make-empty))
-\end{alltt}
+Wir ändern die Datendefinition für Listen entsprechend ab:
 %
-Auf den ersten Blick mag es verwunderlich sein, wieso ein Konzept wie
-die  leere Liste gebraucht wird oder nicht im Gegenteil völlig sinnlos
-ist.  Ein genaueres Nachdenken führt aber zu der Einsicht, dass
-ziemlich viele Listen zu dem Zweck aufgestellt werden, in irgendeinem
-Sinne "<abgearbeitet"> zu werden; die klassische Einkaufsliste ist ein
-typisches Beispiel dafür. Viele Menschen schreiben Einkaufslisten auf
-ein Papier und streichen der Reihe nach alles durch, was sie schon im
-Einkaufskorb haben.  Ein Programm auf der anderen Seite würde aus
-einer Liste jedes Element entfernen, das bereits abgearbeitet wurde.
-Wenn das letzte Element entfernt wurde, entsteht zwangsläufig eine
-leere Liste, und es sind schon unzählige Programme abgestürzt, weil
-sie nach einem Listenelement gesucht haben, das es gar nicht gab.  Es
-empfiehlt sich daher tatsächlich, mit dem Fall der leeren Liste
-anzufangen und später beim Programmieren mit Listen den Fall der
-leeren Liste nicht zu vergessen.
+\begin{lstlisting}
+; Eine Liste aus Zahlen ist eins der folgenden:
+; - eine leere Liste
+; - eine Cons-Liste
 
-Um Listen herzustellen, die nicht leer
-sind, dienen \textit{Conse}\index{Cons}, eine besonders allgemein
-verwendbare Sorte zusammengesetzter Daten.  Hier sind Daten- und
-Record-Definition für Conse:\index{cons@\texttt{cons}}\index{cons@\texttt{cons}}\index{cons?@\texttt{cons?}}\index{first@\texttt{first}}\index{rest@\texttt{rest}}\label{def:cons}
+; Eine Cons-Liste besteht aus:
+; - dem ersten Element
+; - einer Liste aus Zahlen mit den restlichen Elementen
+\end{lstlisting}
 %
-\begin{alltt}
-; Ein Cons besteht aus:
-; - einem beliebigen Element
-; - einer Liste
-(define-record-functions cons-list
-  cons
-  cons?
-  (first any)
-  (rest  list-of-numbers))
-\end{alltt}
+Die Datendefinition für Cons wandeln wir in eine Record-Definition um.
+Dafür nehmen wir an, dass die Signatur für Listen von Zahlen
+\lstinline{list-of-numbers} heißt~-- die werden wir im Nachgang
+definieren:
 %
-Für eine Signatur für den Konstruktor ist es noch zu früh, da es noch
-keine Signatur für den Begriff "<Liste"> aus der Datendefinition
-gibt.  Diese folgt in wenigen Augenblicken.
-
-Ein Cons kann nun benutzt werden, um die letzte Liste aus der obigen
-Tabelle zu repräsentieren.  "<Pumps"> wird als Zeichenkette zum ersten
-Element des Cons.  Die \texttt{rest}-Komponente des Cons muss eine
-Liste sein~-- dabei ist zu beachten, dass insbesondere die leere Liste
-eine Liste ist, dort also verwendet werden kann:
-%
-\begin{alltt}
-(cons "Pumps" empty)
-\evalsto{} #<record:cons "Pumps" #<empty-list>>
-\end{alltt}
-%
-Jetzt kommt der entscheidende Punkt: Conse sind \emph{auch} Listen,
-Listen sind also gemischte Daten:\index{list-of-numbers@\texttt{list-of-numbers}}\label{def:list-of-numbers}
-%
-\begin{alltt}
-; Eine Liste ist eins der folgenden:
-; - die leere Liste
-; - ein Cons
-(define list-of-numbers
-  (signature
-   (mixed empty-list
-          cons-list)))
-\end{alltt}
-%
-Die Signatur \texttt{empty-list} ist bereits eingebaut und passt auf
-die leere Liste \texttt{empty} (und nichts sonst).  (Der Name
-\texttt{list} ist in den Lehrsprachen bereits vergeben, darum
-heißt die Signatur \texttt{list-of-numbers}.)  Jetzt ist es möglich, eine
-Signatur für \texttt{cons} sowie die anderen Funktionen der
-Record-Definition von \texttt{cons} zu vergeben:
-%
-\begin{alltt}
-(: cons (any list-of-numbers -> cons-list))
-(: cons? (any -> boolean))
-(: first (cons-list -> any))
-(: rest (cons-list -> list-of-numbers))
-\end{alltt}
-%
-FIXME:
-
-Hinter der Bezeichnung \verb$%a$ verbirgt sich eine 
-\emph{Signaturvariable}\index{Signaturvariable}: Sie
-steht für eine beliebige Sorte, die aber in den zwei Zeilen, wo sie vorkommt,
-die gleiche Sorte darstellen soll.  Damit ist \verb$%a$ etwas anderes als
-\texttt{any}, welches erlauben würde, dass die Rückgabesorte von \texttt{first}
-verschieden wäre von der Sorte, welche der Konstruktor \texttt{cons} zuvor
-verwendet hat.
-
-So weit, so gut: Bisher gab es die leere Liste und eine Liste mit einem
-Element.  Wie kommen mehr Elemente in eine Liste?  Indem
-\texttt{cons} noch einmal aufgerufen wird:
-%
-\begin{alltt}
-(cons "Mike" (cons "Herbert" empty))
-\evalsto{}#<record:cons "Mike" #<record:cons "Herbert" #<empty-list>>>
-\end{alltt}
-%
-Zu einer Liste mit zwei Elementen gehören also zwei Conse.
-Entsprechend für drei Elemente:
-%
-\begin{alltt}
-(cons "Brot" (cons "Butter" (cons "Käse" empty)))
-\evalsto{}#<record:cons "Brot" #<record:cons "Butter" #<record:cons "Käse" #<empty-list>>>>
-\end{alltt}
-%
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=0.8\textwidth]{i1list/pair-lists1}
-  \caption{Liste mit Consen repräsentiert}
-  \label{fig:cons-lists-1}
-\end{figure}
-Diesmal sind drei Conse im Spiel.  Die Liste wird jeweils
-"<terminiert"> durch die leere Liste.  Abbildung~\ref{fig:cons-lists-1}
-zeigt, wie die Listen aussehen, wenn sie wie andere zusammengesetzte
-Daten als Tabellen dargestellt sind~-- das $\bot$ steht für die leere
-Liste. Das sieht aus wie ineinandergeschachtelte russische Puppen und
-entspricht damit nicht der gängigen Intuition, wie Listen aufgebaut
-sind, aber es funktioniert.  Für viel mehr als drei Elemente
-funktioniert die Darstellungsweise allerdings nicht: Darum bevorzugen
-wir ab hier sogenannte "<Zeigerdiagramme">, bei denen alle Conse gleich groß
-dargestellt sind und ein Pfeil zeigt, dass ein Cons die
-\texttt{rest}-Komponente eines anderen Conses bildet.
-Abbildung~\ref{fig:cons-lists-2} zeigt das Pfeildiagramm, das
-Abbildung~\ref{fig:cons-lists-1} entspricht; es passt besser zur
-gängigen Intuition von Listen.
-
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=0.8\textwidth]{i1list/pair-lists2}
-  \caption{Liste mit Consen repräsentiert, als Pfeildiagramm}
-  \label{fig:cons-lists-2}
-\end{figure}
-
-
-\section{Mit Listen programmieren}
-
-Als erstes Beispiel für das Programmieren mit Listen schreiben wir
-eine Funktion, die eine Liste von Zahlen akzeptiert und deren Summe
-liefert.  Dazu werden erst einmal einige Beispiele solcher Listen
-benötigt:
-%
-\begin{verbatim}
-; Liste mit den Zahlen 1 2 3
-(define n1 (cons 1 (cons 2 (cons 3 empty))))
-; Liste mit den Zahlen e und pi
-(define n2 (cons 2.7183 (cons 3.14159 empty)))
-; Liste mit den Zahlen 2 3 5 7
-(define n3 (cons 2 (cons 3 (cons 5 (cons 7 empty)))))
-\end{verbatim}
-
-Hier Kurzbeschreibung und Vertrag:\label{sec:list-sum}\index{list-sum@\texttt{list-sum}}
-%
-\begin{verbatim}
-; Summe der Elemente einer Liste von Zahlen berechnen
-(: list-sum (list-of-numbers -> number))
-\end{verbatim}
-%
-Für die Testfälle halten die Beispiellisten her:
-%
-\begin{verbatim}
-(check-expect (list-sum n1) 6)
-(check-within (list-sum n2) 5.85989 0.001)
-(check-expect (list-sum n3) 17)
-\end{verbatim}
-%
-Nicht vergessen: In \texttt{n2} sind Zahlen mit Dezimalpunkt.
-Deshalb müssen wir \texttt{check-within} verwenden.  Diese Funktion
-hat drei Parameter: Die ersten beiden geben ein reales und ein
-erwartetes Ergebnis an
-und der dritte sagt, um wieviel das reale Ergebnis in der positiven
-oder negativen Richtung vom erwarteten Ergebnis abweichen darf. Das Gerüst der
-Funktion sieht so aus:
-%
-\begin{verbatim}
-(define list-sum
-  (lambda (lis)
-    ...))
-\end{verbatim}
-%
-(Es empfiehlt sich, als Bezeichner für Listen nicht einfach nur ein
-\texttt{l} zu verwenden, da es in vielen Schriftarten der Ziffer
-\texttt{1} ähnlich sieht.)
-
-Zur Erinnerung: Listen sind zunächst gemischte Daten~-- die Definition
-von \texttt{list-of-numbers} benutzt \texttt{mixed} mit zwei Fällen.  Entsprechend kommt die
-Konstruktionsanleitung für gemischte Daten zur Anwendung:
-%
-\begin{verbatim}
-(define list-sum
-  (lambda (lis)
-    (cond
-      (... ...)
-      (... ...))))
-\end{verbatim}
-%
-Als nächstes sollten wir die Tests ergänzen, die auf die leere
-Liste bzw.\ Conse testen.  % Für \texttt{empty} hat dieses Buch Dir
-% den Test bisher vorenthalten: Das eingebaute Prädikat
-% \texttt{empty?}\index{empty?@\texttt{empty?}} liefert \verb|#t| für
-% die leere Liste und \verb|#f| für jeden anderen Wert.  Für Conse ist
-% das Prädikat \texttt{cons?} bereits von der Record-Definition
-% definiert:   %% HK das stand alles schon oben
-%
-\begin{verbatim}
-(define list-sum
-  (lambda (lis)
-    (cond
-      ((empty? lis) ...)
-      ((cons? lis) ...))))
-\end{verbatim}
-%
-Beim zweiten Zweig des \texttt{cond} handelt es sich um
-zusammengesetzte Daten. Ergo ergänzen wir entsprechend der
-Konstruktionsanleitung für zusammengesetzte Daten Selektor-Aufrufe in
-die Schablone:
-%
-\begin{verbatim}
-(define list-sum
-  (lambda (lis)
-    (cond
-      ((empty? lis) ...)
-      ((cons? lis)
-       ... (first lis) ... (rest lis) ...))))
-\end{verbatim}
-%
-Jetzt können wir ans Ausfüllen der beiden Zweige gehen: Die erste
-Ellipse muss die Frage beantworten, was die Summe der leeren Liste sein
-soll.  Diese Frage ist bei nahezu \emph{allen} Funktionen relevant,
-die Listen akzeptieren, es empfiehlt sich darum grundsätzlich, einen
-Testfall für die leere Liste zu formulieren:
-%
-\begin{alltt}
-(check-expect (list-sum empty) \textrm{?})
-\end{alltt}
-%
-Die Antwort ist nicht ganz offensichtlich, wir können 
-sie aber durch folgende Überlegung gewinnen: Betrachten wir Listen aus
-Einsen, dann entspricht deren Summe immer der Länge der Liste.  Wenn
-die Liste leer ist hat sie die Länge $0$, entsprechend ist also auch
-ihre Summe $0$:
-%
-\begin{alltt}
-(check-expect (list-sum empty) 0)
-\ldots
-(define list-sum
-  (lambda (lis)
-    (cond
-      ((empty? lis) 0)
-      ((cons? lis)
-       ... (first lis) ... (rest lis) ...))))
-\end{alltt}
-%
-Bleibt der zweite Zweig mit den Consen.  Hier hilft es, die beiden
-Selektor-Aufrufe \texttt{(first lis)} und \texttt{(rest lis)} auf die
-Daten zurückzubeziehen.  \texttt{(first lis)} liefert für die drei
-Beispiellisten folgende Werte:
-%
-\begin{alltt}
-(first n1)
-\evalsto{} 1
-(first n2)
-\evalsto{} 2.7183
-(first n3)
-\evalsto{} 2
-\end{alltt}
-%
-Das ist jeweils das \emph{erste Element}~-- kein Wunder, dass der
-Selektor \texttt{first}\index{first@\texttt{first}} heißt.  Nun für \texttt{rest}\index{rest@\texttt{rest}}:
-%
-\begin{alltt}
-(rest n1)
-\evalsto{} #<record:cons 2 #<record:cons 3 #<empty-list>>>
-(rest n2)
-\evalsto{}  #<record:cons 3.14159 #<empty-list>>
-(rest n3)
-\evalsto{} #<record:cons 3 #<record:cons 5 #<record:cons 7 #<empty-list>>>>
-\end{alltt}
-%
-Dies sind jeweils Listen mit allen Elementen \emph{außer dem
-  ersten}, also quasi den \emph{Rest}~-- daher der Name \texttt{rest}
-für den Selektor.
-
-Zurück zur Schablone: Was können wir mit dem ersten Element der Liste
-und dem Rest der Liste anfangen?  Hier kommt ein besonderer Trick zum
-Zug~-- da der Rest der Liste wieder eine Liste ist, können
-wir von der Summe des Rests sprechen.  Wenn diese Summe bekannt
-ist~-- also \emph{die Summe aller Elemente außer des ersten}, dann
-könnten wir (und das Programm auch) die Gesamtsumme ermitteln, indem wir
-auf diese Summe das noch fehlende erste Element addieren.  "<Die Summe
-aller Elemente außer des ersten"> können wir so aufschreiben:
-%
-\begin{alltt}
-(list-sum (rest lis))
-\end{alltt}
-%
-Entsprechend die Summe des ersten Elements und der Summe des Rests:
-%
-\begin{alltt}
-(+ (first lis) (list-sum (rest lis)))
-\end{alltt}
-%
-Das können wir in die Schablone von oben einsetzen:
-%
-\begin{verbatim}
-(define list-sum
-  (lambda (lis)
-    (cond
-      ((empty? lis) 0)
-      ((cons? lis)
-       (+ (first lis) (list-sum (rest lis)))))))
-\end{verbatim}
-%
-Dieses Programm ist nicht nur vollständig, es funktioniert auch
-tatsächlich: Alles was wir gemacht haben war, die Kurzbeschreibung
-von \texttt{list-sum} ernst zu nehmen, die behauptet, dass die Funktion
-die Summe einer beliebigen Liste berechnet: \texttt{(rest lis)} ist
-eine Liste, also kann \texttt{list-sum} auch deren Summe berechnen.
-
-Um den "<Selbstaufruf"> von \texttt{list-sum} noch besser zu
-verstehen, betrachten wir noch einmal die Datendefinition für
-Listen zusammen mit der Datendefinition für Conse:
-
-\begin{alltt}
-; Eine \textbf{Liste} ist eins der folgenden:
-; - die leere Liste
-; - ein Cons
-; Ein Cons besteht aus:
-; - einem beliebigen Element
-; - einer \textbf{Liste}
-\end{alltt}
-%
-Die Datendefinition enthält einen Verweis auf \emph{sich selbst},
-genannt \emph{Selbstbezug}\index{Selbstbezug}.  Dieser Selbstbezug ist
-beim Rest~-- der Selbstaufruf, der in \texttt{list-sum} auf den Rest
-erfolgt, folgt also der Datendefinition.  Ein Selbstaufruf
-heißt auch \textit{rekursiver Aufruf}\index{rekursiver Aufruf} und ist
-damit fester Bestandteil der Schablone für Funktionen, die Listen
-akzeptieren:
-%
-\begin{alltt}
-(: \textit{func} (list-of-numbers -> ...))
-
-(define \textit{func}
-  (lambda (lis)
-    (cond
-      ((empty? lis) ...)
-      ((cons? lis)
-       ... (first lis)
-       ... (\textit{func} (rest lis)) ...))))
-\end{alltt}
-%
-Jetzt wo wir die Schablone haben, gehen wir noch ein weiteres Beispiel
-durch, bei dem wir sie von vornherein anwenden:  Gefragt ist eine
-Funktion, die eine Liste von Zahlen akzeptiert und feststellt, ob alle
-Listenelemente  positiv sind.  Die Funktion beantwortet eine
-Ja/Nein-Frage, die damit auch die Kurzbeschreibung bildet:
-%
-\begin{alltt}
-; sind alle Zahlen aus einer Liste positiv?
-\end{alltt}
-%
-Hier ist der dazu passende Vertrag:\index{all-positive?@\texttt{all-positive?}}
-%
-\begin{verbatim}
-(: all-positive? (list-of-numbers -> boolean))
-\end{verbatim}
-%
-Für Testfälle stehen die leere Liste sowie die drei Beispiellisten
-\texttt{n1}, \texttt{n2} und \texttt{n3} aus dem vorherigen Beispiel
-zur Verfügung:
-%
-\begin{verbatim}
-(check-expect (all-positive? empty) #t)
-(check-expect (all-positive? n1) #t)
-(check-expect (all-positive? n2) #t)
-(check-expect (all-positive? n3) #t)
-\end{verbatim}
-%
-Der \texttt{empty}-Testfall ist vielleicht etwas verwirrend: In der
-Tat sind alle Elemente der leeren Liste positiv.  Eine andere Art dies
-zu sagen wäre, dass kein Element der leeren Liste nicht positiv ist.
-
-Diese Testfälle reichen sichtlich nicht aus, da alle \verb|#t| ergeben
-sollen: Diese würden auch von folgender Funktion erfüllt:
-%
-\begin{verbatim}
-(define all-positive?
-  (lambda (lis)
-    #t))
-\end{verbatim}
-%
-Also werden noch Beispiele mit nicht-positiven Elementen benötigt~--
-insbesondere eins mit dem Grenzfall $0$:
-\begin{verbatim}
-(check-expect (all-positive? (cons -5 empty)) #f)
-(check-expect (all-positive? (cons 0 empty)) #f)
-(check-expect (all-positive? (cons 1 (cons -2 empty))) #f)
-\end{verbatim}
-%
-Das Gerüst ist wie folgt:
-%
-\begin{verbatim}
-(define all-positive?
-  (lambda (lis)
-    ...))
-\end{verbatim}
-%
-Wir können nun die Schablone für Listen direkt benutzen:
-%
-\begin{verbatim}
-(define all-positive?
-  (lambda (lis)
-    (cond
-      ((empty? lis) ...)
-      ((cons? lis)
-       ... (first lis)
-       ... (all-positive? (rest lis)) ...))))
-\end{verbatim}
-%
-Das Ergebnis im ersten Zweig wird durch den ersten Testfall diktiert:
-\verb|#t|.  Wie schon zuvor machen wir uns die Bedeutung der
-Ausdrücke im \texttt{cons}-Zweig klar:
-\texttt{(first lis)} ist das erste Element der Liste.
-\texttt{(all-positive? (rest lis))} besagt, ob alle Elemente
-des Rests von \texttt{lis} positiv sind.  Es sind nur dann alle
-Elemente von \texttt{lis} positiv, wenn \texttt{(first lis)}
-positiv ist \emph{und} \texttt{(all-positive? (rest lis))} als Ergebnis
-\verb|#t| liefert.  Damit ist klar, wie die beiden Ausdrücke
-kombiniert werden müssen:
-%
-\begin{verbatim}
-(define all-positive?
-  (lambda (lis)
-    (cond
-      ((empty? lis) #t)
-      ((cons? lis)
-       (and (> (first lis) 0)
-            (all-positive? (rest lis)))))))
-\end{verbatim}
-%
-FIXME: Konstruktionsanleitung~\ref{ka:listen} auf Seite~\pageref{ka:listen}
-fasst die Schablone für Funktionen, die Listen akzeptieren, noch einmal
-zusammen. %%Die fehlt noch hier!
-
-\section{Signaturkonstruktoren}
-
-Die Beispiellisten vom Anfang dieses Kapitels sind allesamt
-\textit{homogen}\index{homogen}: Alle Elemente der Liste sind jeweils
-von derselben Sorte.  Es gibt eine Liste von Essenszutaten, eine von
-Eigennamen, eine von Zahlen, eine von dramatischen Figuren, eine von
-Frisuren und eine von Schuhen.  Die Datendefinition für
-\texttt{list-of-numbers} von Seite~\ref{def:list-of-numbers} ist da allerdings nicht
-festgelegt: es heißt ausdrücklich, dass jedes Cons ein
-\emph{beliebiges} Element enthält.  So ist beispielsweise auch
-folgende Liste zulässig:
-%
-\begin{verbatim}
-(: ml1 list-of-numbers)
-(define ml1 (cons 5 (cons "Herbert" empty)))
-\end{verbatim}
-%
-In den meisten Fällen gehören jedoch alle Elemente einer Liste zu
-derselben Sorte beziehungsweise haben dieselbe Signatur: Schön wäre
-es, wenn die Signatur für die Liste dokumentieren könnte, welche
-Signatur die Elemente haben.  Wir könnten bei
-der Definition von \texttt{cons} die Signatur der Elemente angeben,
-also \texttt{cons} zum Beispiel auf Elemente der Signatur
-\texttt{number} fest abonnieren: 
-%
-\begin{alltt}
+\begin{lstlisting}
 (define-record-functions cons-list
   cons
   cons?
   (first number)
   (rest  list-of-numbers))
-(: cons (number list-of-\textbf{numbers} -> cons))
-(: cons? (any -> boolean))
-(: first (cons -> \textbf{number}))
-(: rest (cons -> list-of-\textbf{numbers}))
-\end{alltt}
+\end{lstlisting}
 %
-Entsprechend würden wir die daraus resultierende Signatur für Listen
-nicht mehr \texttt{list-of-numbers} sondern \texttt{list-of-numbers} nennen:\index{list-of-numbers@\texttt{list-of-numbers}}
+Ähnlich wie bei \lstinline{empty-list} haben wir die Funktionen der
+Record-Definition kürzer genannt als sonst, weil sie noch oft
+vorkommen werden:
+sonst:\index{cons@\texttt{cons}}\index{cons@\texttt{cons}}\index{cons?@\texttt{cons?}}\index{first@\texttt{first}}\index{rest@\texttt{rest}}\label{def:cons}
+Der Konstruktor heißt \lstinline{cons} statt
+\lstinline{make-cons-list}, das Prädikat nur \lstinline{cons?}  statt
+\lstinline{cons-list} und bei den Selektoren fehlt jeweils das
+\lstinline{cons-} vorn.
+
+Es fehlt noch die Definition der Signatur \lstinline{list-of-numbers}
+für "<Liste von Zahlen">, die aus leeren Listen und Cons-Listen
+gemischt wird:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define list-of-numbers
   (signature
    (mixed empty-list
           cons-list)))
-\end{verbatim}
+\end{lstlisting}
 %
+Hier sind einige Beispiele für Listen:
+%
+\begin{lstlisting}
+; leere Liste
+(define list0 empty)
+; einelementige Liste mit der Zahl 42
+(define list1 (cons 42 empty))
+; Liste mit den Zahlen 1 2 3
+(define list3 (cons 1 (cons 2 (cons 3 empty))))
+; Liste mit den Zahlen e und pi
+(define list2 (cons 2.7183 (cons 3.14159 empty)))
+; Liste mit den Zahlen 2 3 5 7
+(define list4 (cons 2 (cons 3 (cons 5 (cons 7 empty)))))
+\end{lstlisting}
+%
+\begin{figure}[tb]
+  \centering
+  \begin{tikzpicture}
+    \draw (0, 0) rectangle (9.5, 4); \node [below] at (1, 4)
+    {\lstinline{cons-list}}; \node [right] at (1, 3) {\lstinline{2}};
+    \draw (2, 0.5) rectangle (9, 3.5); \node [below] at (3, 3.5)
+    {\lstinline{cons-list}}; \node [right] at (3, 2.5)
+    {\lstinline{3}}; \draw (4, 1) rectangle (8.5, 3); \node [below] at
+    (5, 3) {\lstinline{cons-list}}; \node [right] at (5, 2)
+    {\lstinline{5}}; \draw (6, 1.5) rectangle (8, 2.5); \node [right]
+    at (6, 2) {\lstinline{empty-list}};
+  \end{tikzpicture}
+  
+  \caption{Struktur der Liste mit den Elementen 2 3 5}
+  \label{fig:list-structure}
+\end{figure}
+%
+\noindent An den Beispielen kann man sehen, dass es einen Unterschied
+zwischen der intuitiven Struktur von Listen und ihrer Repräsentation
+gibt. Intuitiv besteht eine Liste aus einer Aneinanderreihung ihrer
+Elemente.  Die Repräsentation ist aber geschachtelt, wie
+Abbildung~\ref{fig:list-structure} zeigt.  Sie erlaubt uns
+insbesondere, aus kleineren Listen größere zu bauen und trotzdem die
+kleineren Listen wiederzuverwenden:
+%
+\begin{lstlisting}
+; Liste mit den Zahlen 1 2 3 5 7
+(define list5 (cons 1 list4))
+\end{lstlisting}
+%
+Mache Dir anhand dieses Beispiels klar, dass \lstinline{cons} an eine
+existierende Liste \emph{vorn} ein Element anhängt.
 
-FIXME
+Nun sind wir bereit, eine Funktion über Listen zu schreiben, welche
+die Zahlen einer Liste aufaddiert.  Kurzbeschreibung und Signatur
+sehen so aus:
+%
+\begin{lstlisting}
+; Summe der Elemente einer Liste von Zahlen berechnen
+(: list-sum (list-of-numbers -> number))
+\end{lstlisting}
+%
+Als nächstes brauchen wir Testfälle, die wir mit Hilfe der
+Beispiel-Listen von oben (und gegebenenfalls einem Taschenrechner)
+konstruieren:
+%
+\begin{lstlisting}
+(check-expect (list-sum list2) 5.85989)
+(check-expect (list-sum list3) 6)
+(check-expect (list-sum list4) 17)
+\end{lstlisting}
+%
+\begin{aufgabe}
+  Schreibe auch Testfälle für \lstinline{list-sum} auf Basis der
+  Beispiel-Listen \lstinline{list0} und \lstinline{list1}!  Falls Du
+  Dir nicht sicher bist, rate!
+\end{aufgabe}
+%
+Als nächstes kommt wie immer das Gerüst:
+%
+\begin{lstlisting}
+(define list-sum
+  (lambda (list)
+    |\ldots|))
+\end{lstlisting}
+%
+Die Signatur sagt, dass \lstinline{list-sum} eine Liste als Eingabe
+akzeptiert~-- gemischte Daten.  Die Schablone dazu sieht so aus:
+%
+\begin{lstlisting}
+(define list-sum
+  (lambda (list)
+    (cond
+      ((empty? list) |\ldots|)
+      ((cons? list) |\ldots|))))
+\end{lstlisting}       
+%
+Beim \lstinline{cons-list}-Fall handelt es sich um zusammengesetzte
+Daten, wir können also entsprechend der Schablone dafür
+Selektor-Aufrufe hinschreiben.  Bei \lstinline{rest} sitzt außerdem
+ein Selbstbezug, wir schreiben also auch einen rekursiven Aufruf in
+die Schablone:
+%
+\begin{lstlisting}
+(define list-sum
+  (lambda (list)
+    (cond
+      ((empty? list) |\ldots|)
+      ((cons? list)
+       |\ldots|
+       (first list)
+       (list-sum (rest list))
+       |\ldots|))))
+\end{lstlisting}
+%
+Nun sind alle möglichen Konstruktionsanleitungen angewendet und wir
+vervollständigen die Schablone.  Wir fangen an mit dem Fall für
+Cons-Listen.  Dort steht in der Schablone \lstinline{(first list)} 
+und \lstinline{(list-sum (rest list))}.  Zum Verständnis
+hilft, die beiden Ausdrucke "<ins Deutsche zu übersetzen">:
+\lstinline{(first list)} ist das \emph{erste Element der Liste} und
+\lstinline{(list-sum (rest list))} ist die \emph{Summe der restlichen
+  Elemente}. Gefragt
+ist aber die Summe \emph{aller Elemente}, dazu müssen wir die beiden
+noch addieren:
+%
+\begin{lstlisting}
+(+ (first list) (list-sum (rest list)))
+\end{lstlisting}
+%
+Es bleibt der Fall der leeren Liste.  Intuitiv hat die gar keine
+Summe, aber irgendetwas müssen wir da hinschreiben.  Wir schreiben da
+mal 0 hin, werden diese Wahl aber noch diskutieren:
+%
+\begin{lstlisting}
+(define list-sum
+  (lambda (list)
+    (cond
+      ((empty? list) 0)
+      ((cons? list)
+       (+ (first list) (list-sum (rest list)))))))
+\end{lstlisting}
+%
+Damit funktionieren die Testfälle und die Funktion ist fertig!
 
-Mit
-\texttt{define-record-functions} können wir die
-Record-Definition von \texttt{cons} erweitern:
-%
-\begin{verbatim}
-(define-record-functions (cons-of a)
-  cons cons?
-  (first a)
-  (rest (list-of a)))
-\end{verbatim}
-%
-\texttt{Cons-of} ist der Signaturkonstruktor.  (Das angehängte
-\texttt{-of} ist, ähnlich wie das \texttt{make-} bei den
-Konstruktoren, das \texttt{?} beim Prädikat und den Feld-Namen bei den
-Selektoren reine Konvention.)
+\begin{aufgabe}
+  Verfolge die Auswertung der Testfälle im Stepper!
+\end{aufgabe}
 
-Konstruktor, Prädikat
-und Selektoren für das neue \texttt{cons} haben die folgenden
-Signaturen:
+\begin{aufgabe}
+  Ändere den Zweig für die leere Liste und schreibe etwas anderes als
+  0 hin.  Funktionieren die Testfälle dann noch?
+\end{aufgabe}
 %
-\begin{verbatim}
-(: cons (%a (list-of %a) -> (cons-of %a)))
-(: cons? (any -> boolean))
-(: first ((cons-of %a) -> %a))
-(: rest ((cons-of %a) -> (list-of %a)))
-\end{verbatim}
-%
-Hier ist  \verb|%a| eine
-\textit{Signaturvariable}, die für eine beliebige
-Signatur steht, die erst beim Aufruf von \texttt{cons} beziehungsweise
-\texttt{first} oder \texttt{rest} festgelegt wird.
-Die Tatsache, dass hier zwei verschiedene Signaturvariablen
-verwendet wurden bringt die zusätzliche Information für den
-menschlichen Leser zum Ausdruck, dass die
-Argumente von \texttt{cons-of} zu potentiell
-unterschiedlichen Signaturen gehören.
+Tatsächlich ist 0 die einzig richtige Zahl, die im
+\lstinline{empty}-Fall stehen darf.  Das mag intuitiv einleuchten: die
+leere Liste ist schließlich "<nichts"> und 0 ist auch irgendwie
+"<nichts">.  Ein weiteres Beispiel wird aber gleich zeigen, dass diese
+Argumentation zu einfach ist.
 
-Zu lesen sind die obigen Signaturdeklarationen so:
+Wir schreiben als nächstes eine Funktion, die alle Zahlen einer Liste
+\emph{multipliziert}.   Hier sind Kurzbeschreibung, Signatur, Tests
+und Gerüst:
 %
-\begin{itemize}
-\item \texttt{cons} akzeptiert zwei Argumente beliebiger Signaturen
-  \verb|%a| und \verb|%b| und
-  liefert als Resultat einen Record, dessen erstes Feld von der Signatur
-  \verb|%a| und dessen zweites Feld von der Signatur \verb|%b| ist.
-\item Das Resultat von \texttt{first} hat die
-  Signatur des ersten Feldes seines Arguments.
-\item Das Resultat von \texttt{rest} hat die
-  Signatur des zweiten Feldes seines Arguments.
-\end{itemize}
+\begin{lstlisting}
+; Produkt der Elemente einer Liste von Zahlen berechnen
+(: list-product (list-of-numbers -> number))
+
+(check-expect (list-product list1) 42)
+(check-expect (list-product list3) 6)
+(check-expect (list-product list4) 210)
+
+(define list-product
+  (lambda (list)
+    |\ldots|))
+\end{lstlisting}
 %
-
-Diese Signaturen sind allerdings noch unbefriedigend, da sie nicht zum
-Ausdruck bringen, dass das zweite Argument von \texttt{cons} immer
-eine \emph{Liste} sein muss beziehungsweise dass \texttt{rest} immer
-eine Liste liefert.  Diese Problematik stellen wir noch einen Moment
-hintenan, werden aber später zu ihr zurückkehren~-- zunächst einmal zu
-den Signaturen für Listen.
-
-FIXME
-
-Mit Hilfe von \texttt{cons-of} können wir versuchen, einen Ersatz für
-\texttt{list-of-numbers} zu definieren, der spezifiziert, auf welche Signatur
-die Elemente der Liste passen.  Das könnte so aussehen:
+Die Schablone entsteht genau wie bei \lstinline{list-sum} aus den
+Konstruktionsanleitungen für gemischte Daten, zusammengesetzte Daten
+und Selbstbezüge:
 %
+\begin{lstlisting}
+(define list-product
+  (lambda (list)
+    (cond
+      ((empty? list) |\ldots|)
+      ((cons? list)
+       |\ldots|
+       (first list) 
+       |\ldots|
+       (list-product (rest list))))))
+\end{lstlisting}
+%
+Wir kümmern uns wieder zuerst um den
+\lstinline{cons}-Fall. In der Schablone stehen \lstinline{(first list)}, das erste
+Element und \lstinline{(list-product (rest list))}, das Produkt der
+restlichen Elemente.  Wir müssen nur noch beide miteinander
+multiplizieren, um das Produkt aller Elemente zu berechnen:
+%
+\begin{lstlisting}
+(* (first list) (list-product (rest list)))
+\end{lstlisting}
+%
+Bleibt wieder der \lstinline{empty}-Fall~-- wieder die leere Liste.
+Die Versuchung ist groß, wieder "<nichts"> hinzuschreiben, also 0.
+Dann allerdings schlagen \emph{alle} Testfälle fehl:
 \begin{alltt}
-(define list-of-numbers
-  (signature
-    (mixed empty-list
-           (cons-of \textbf{number} list-of-numbers))))
+Der tatsächliche Wert 0 ist nicht der erwartete Wert 42.
+Der tatsächliche Wert 0 ist nicht der erwartete Wert 6.
+Der tatsächliche Wert 0 ist nicht der erwartete Wert 210.
 \end{alltt}
 %
-Entsprechend für Zeichenketten:
+Woran liegt das?  Das kann man zum Beispiel anhand der Auswertung von
+\lstinline{(list-product list3)} sehen.  Die sieht so aus~-- wir haben
+einige Zwischenschritte ausgelassen:
 %
-\begin{alltt}
-(define list-of-strings
-  (signature
-    (mixed empty-list
-           (cons-of \textbf{string} list-of-strings))))
-\end{alltt}
+\begin{lstlisting}
+(list-product list3)
+|\evalsto| (list-product (cons 1 (cons 2 (cons 3 empty))))
+|\evalsto| (cond ((empty? (cons 1 |\ldots|)) |\ldots|) ((cons? (cons 1 |\ldots|)) |\ldots|))
+|\evalsto| (cond ((empty? (cons 1 |\ldots|)) |\ldots|) ((cons? (cons 1 |\ldots|)) |\ldots|))
+|\evalsto| (* (first (cons 1 |\ldots|)) (list-product (rest (cons 1 |\ldots|))))
+|\evalsto| (* 1 (list-product (rest (cons 1 |\ldots|))))
+|\evalsto| (* 1 (list-product (cons 2 (cons 3 empty))))
+|\evalsto| (* 1 (* 2 (list-product (cons 3 empty))))
+|\evalsto| (* 1 (* 2 (* 3 (list-product empty))))
+|\evalsto| (* 1 (* 2 (* 3 (cond ((empty? empty) 0) |\ldots|))))
+|\evalsto| (* 1 (* 2 (* 3 (cond (#t 0) |\ldots|))))
+|\evalsto| (* 1 (* 2 (* 3 0)))
+\end{lstlisting}
 %
-Wie schon oben angemerkt, wäre es unbefriedigend, für jede Elementsignatur eine
-eigene Listensignatur definieren zu müssen, immer auf die gleiche
-Weise.  Aber glücklicherweise unterscheiden sich
-\texttt{list-of-numbers} und \texttt{list-of-strings} nur an einer
-einzigen Stelle, und über die können wir abstrahieren:
+Die Auswertung ist auf so einem guten Weg~-- aber um Schluss macht
+\lstinline{list-product} alles kaputt und multipliziert mit 0.  Und so
+ist es mit \emph{jeder} Eingabe.  Davor stehen die Zahlen, die
+eigentlich miteinander multipliziert werden sollen.  Wir müssten nur
+statt mit 0 mit einer Zahl multiplizieren, die das Ergebnis nicht
+kaputt macht sondern genauso lässt, wie es ist.  Im Fall der
+Multiplikation ist das die 1, nicht die 0.  Die richtige Funktion
+sieht damit so aus:
 %
-\begin{verbatim}
+\begin{lstlisting}
+(define list-product
+  (lambda (list)
+    (cond
+      ((empty? list) 1)
+      ((cons? list)
+       (* (first list) (list-product (rest list)))))))
+\end{lstlisting}
+%
+Rückblickend können wir damit auch erklären, warum bei
+\lstinline{list-sum} im \lstinline{empty}-Fall 0 stehen muss: Die 0
+macht beim Addieren das Ergebnis nicht kaputt.  Darum spricht man auch
+davon, dass 0 das \textit{neutrale Element}\index{neutrales Element}
+bezüglich der Addition ist, 1 das neutrale Element bezüglich der
+Multiplikation.
+
+\section{Listen mit anderen Elementen}
+
+Das Prinzip "<Liste"> ist nicht auf Listen von Zahlen beschränkt:
+Genauso gut kann man sich Listen aus Zeichenketten, den Tieren aus
+Kapitel~\ref{sec:animal} oder Bildern vorstellen.  Die Datendefinition
+ist schnell angepasst, wir entfernen einfach alle Erwähnungen von
+Zahlen und sprechen ausschließlich von "<Elementen">:
+%
+\begin{lstlisting}
+; Eine Liste ist eins der folgenden:
+; - eine leere Liste
+; - eine Cons-Liste
+
+; Eine Cons-Liste besteht aus:
+; - dem ersten Element
+; - einer Liste mit den restlichen Elementen
+\end{lstlisting}
+%
+Tatsächlich können wir Listen bereits bauen, deren Elemente keine
+Zahlen sind:
+%
+\begin{lstlisting}
+(define string-list (cons "Mike" (cons "Sperber" empty)))
+\end{lstlisting}
+%
+\begin{aufgabe}
+  Probiere die Definition von \lstinline{string-list} aus!
+\end{aufgabe}
+%
+Diese Definition kann DrRacket zwar ausführen, aber es gibt jede
+Signaturverletzungen.
+
+Die verletzten Signaturen sind allesamt \lstinline{number}, am
+prominentesten in der Record-Definition von \lstinline{cons-list}.
+Wenn wir dort auch Zeichenketten verwenden wollen, müssen wir über
+\lstinline{number} und \lstinline{string} abstrahieren.  Bei der
+Record-Definition geht das, indem wir aus \lstinline{cons} stattdessen
+\lstinline{(cons-list element)} machen.
+Das wirkt wie ein
+\lstinline{lambda} und wir können dann \lstinline{element} innerhalb
+der Record-Definition benutzen:
+%
+\begin{lstlisting}
+(define-record-functions (cons-list element)
+  cons
+  cons?
+  (first element)
+  (rest  \|ldots|))
+\end{lstlisting}
+%
+Wir müssen dann immer da, wo wir vorher \lstinline{cons-list} stand,
+\lstinline{(cons-list |\ldots|)} schreiben und eine Signatur für die
+Elemente angeben, also zum Beispiel \lstinline{(cons-list number)}
+oder \lstinline{(cons-list string)}
+
+Die Signatur von \lstinline{rest} war vorher
+\lstinline{list-of-numbers}, die müssen wir also auch ändern.  Wie
+genau, ergibt sich erst im Zusammenhang mit der abstrahierten
+Definition von \lstinline{list-of-numbers}.  Da es sich hier um eine
+ganz normale Definition mit \lstinline{define} handelt, können wir ein
+\lstinline{lambda} einführen, um über den Signatur der Elemente zu
+abstrahieren:
+%
+\begin{lstlisting}
 (define list-of
-  (lambda (x)
+  (lambda (element)
     (signature
-      (mixed empty-list
-             (cons-of x)))))
-\end{verbatim}
+     (mixed empty-list
+            (cons-list element)))))
+\end{lstlisting}
 %
-Fertig!  Nun können wir Signaturen für Listen von Zahlen als
-\texttt{(list-of number)}, Listen von Zeichenketten als
-\texttt{(list-of string)} und Listen von beliebigen Werten als
-\texttt{(list-of any)} schreiben.  Außerdem können wir diese
-Definition jetzt verwenden, um bessere Signaturen für
-\texttt{cons}, \texttt{first} und \texttt{rest} anzugeben:
+Wir können mit dieser Definition statt \lstinline{list-of-numbers} also
+\lstinline{(list-of number}) schreiben.  Damit können wir auch die
+Record-Definition von \lstinline{cons-list} vervollständigen, indem
+wir\linebreak[4]\lstinline{(list-of element)} da hinschreiben, wo vorher
+\lstinline{list-of-numbers} stand:
 %
-\begin{verbatim}
-(: cons (%a (list-of %a) -> (cons-of %a)))
-(: cons? (any -> boolean))
-(: first ((cons-of %a) -> %a))
-(: rest ((cons-of %a) -> (list-of %a)))
-\end{verbatim}
+\begin{lstlisting}
+(define-record-functions (cons-list element)
+  cons
+  cons?
+  (first element)
+  (rest  (list-of element)))
+\end{lstlisting}
 %
+Das erledigt die Hälfte der Signaturverletzungen.  Die andere Hälfte
+steckte in den Signatur"=Deklarationen für \lstinline{cons},
+\lstinline{first} und \lstinline{rest}.  Für die Signaturen brauchen
+wir ein neues Konstrukt um auszudrücken, dass potenziell bei jedem
+Aufruf von \lstinline{cons}, \lstinline{first} und \lstinline{rest}
+eine andere Elementsignatur verwendet wird.  Das sieht so aus:
+%
+\begin{lstlisting}
+(: cons (%element (list-of %element) -> (cons-list %element)))
+(: first ((cons-list %element) -> %element))
+(: rest ((cons-list %element) -> (list-of %element)))
+\end{lstlisting}
+%
+Das \verb|%| kennzeichnet
+\textit{Signaturvariablen}\index{Signaturvariable}.  Die
+Signaturvariable \lstinline{%element} steht für eine beliebige
+Signatur.  Die Signatur-Deklaration von \lstinline{cons} bedeutet
+außerdem, dass die Signatur von neuem Element (das erste \lstinline{%element})
+und die Signatur der Listenelemente (das \lstinline{%element} in 
+\lstinline{(list %element)} übereinstimmen sollten.  (DrRacket
+  überprüft dies aber nicht.)
+
+Mit diesen Änderungen an den Signatur-Deklarationen gehen die
+Signatur-Verletzungen ganz weg.  Bevor das Programm aber wieder
+funktioniert, müssen wir allerdings noch eine weitere Fehlermeldung
+ausmerzen: \lstinline{list-of-numbers} ist ja jetzt nicht mehr
+definiert, steht aber noch in den Signatur-Deklarationen von
+\lstinline{list-sum} und \lstinline{list-product}.  Wir können
+entweder dort \lstinline{list-of-numbers} durch \lstinline{(list-of
+  number)} ersetzen oder einfach eine Signatur-Definition
+dazuschreiben:
+%
+\begin{lstlisting}
+(define list-of-numbers (signature (list-of number)))
+\end{lstlisting}
+%
+Diese Definition muss vor den Definitionen von \lstinline{list-sum}
+und \lstinline{list-product} stehen.
+
+FIXME: Erweiterte Record-Form
+
+
+\section{Konstruktionsanleitung}
+
+FIXME
 
 \section{Eingebaute Listen}
 
@@ -717,6 +584,15 @@ sind Kurzbeschreibung und Signatur:
 \end{alltt}
 %
 FIXME:
+
+Hinter der Bezeichnung \verb$%a$ verbirgt sich eine 
+\emph{Signaturvariable}\index{Signaturvariable}: Sie
+steht für eine beliebige Sorte, die aber in den zwei Zeilen, wo sie vorkommt,
+die gleiche Sorte darstellen soll.  Damit ist \verb$%a$ etwas anderes als
+\texttt{any}, welches erlauben würde, dass die Rückgabesorte von \texttt{first}
+verschieden wäre von der Sorte, welche der Konstruktor \texttt{cons} zuvor
+verwendet hat.
+
 
 Dieser Funktion ist egal, welche Signatur
 die Elemente der Liste erfüllen, weil das Konzept der Länge einer
