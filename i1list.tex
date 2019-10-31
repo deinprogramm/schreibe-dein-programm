@@ -528,7 +528,7 @@ dazuschreiben:
 Diese Definition muss vor den Definitionen von \lstinline{list-sum}
 und \lstinline{list-product} stehen, damit sie dort bekannt ist.
 
-\begin{feature}{\texttt{define-record-functions} (mit Signatur-Parametern)}{scheme:define-record-functions-parameters}
+\begin{feature}{\texttt{define-record-functions} mit Signatur-Parametern}{scheme:define-record-functions-parameters}
 Eine \texttt{define"=record"=functions}"=Form\index{define-record-functions@\texttt{define-record-functions}}
 mit Signatur-Parametern hat folgende allgemeine Gestalt:\label{def:define-record-functions-parameters}
 %
@@ -563,7 +563,26 @@ Signatur-Parametern zusammen.
 
 \section{Konstruktionsanleitung}
 
-FIXME
+\begin{konstruktionsanleitung}{Listen als Eingabe: Schablone}
+  \label{ka:listen-eingabe-schablone}
+Eine Schablone für eine Funktion, die eine Liste akzeptiert, sieht
+folgendermaßen aus:
+%
+\begin{lstlisting}
+(define |\(f\)|
+  (lambda (|\ldots| |\(\mathit{list}\)| |\ldots|)
+    (cond
+      ((empty? |\(\mathit{list}\)|) |\ldots|)
+      ((cons? |\(\mathit{list}\)|)
+       |\ldots|
+       (first |\(\mathit{list}\)|)
+       (|\(f\)| (first |\(\mathit{list}\)|))
+       |\ldots|
+       ))))
+\end{lstlisting}
+  
+  
+\end{konstruktionsanleitung}
 
 \section{Eingebaute Listen}
 
