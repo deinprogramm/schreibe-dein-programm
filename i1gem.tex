@@ -323,7 +323,7 @@ Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, 
 \texttt{define-record-functions} Definitionen anlegt:
 %
 \begin{itemize}
-\item $t$ ist der Name des Record-Typs.
+\item $t$ ist der Name der Record-Signatur.
 \item $c$ ist der Name des Konstruktors mit 
   folgender Signatur:
 %  
@@ -339,7 +339,7 @@ Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, 
 (: \(p\) (any -> boolean))
 \end{alltt}
 \item $\mathit{Sel}_1, \ldots, \mathit{sel}_n$ sind die Namen der Selektoren für die Felder
-  des Record-Typen.  Der Selektor $\mathit{sel}_i$ hat folgende Signatur:
+  des Record-Typs.  Der Selektor $\mathit{sel}_i$ hat folgende Signatur:
 % 
 \begin{alltt}
 (: \(\mathit{sel}\sb{i}\) (\(t\) -> \(\mathit{sig}\sb{i}\)))

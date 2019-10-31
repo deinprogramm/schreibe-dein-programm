@@ -123,16 +123,16 @@ Computer:\index{define-record-functions@\texttt{define-record-functions}}
 Diese etwas komplizierte Form erläutern wir Schritt für Schritt.  Weil sie gleich mehrere
 Funktionen definiert, die mit Records zu tun haben, heißt
 sie \texttt{define-record-functions}.  Als erstes nach
-dem \texttt{define-record-functions} steht der Name des Record-Typs,
-\texttt{computer}.  Die Record-Definition bindet \texttt{computer}
-an eine Signatur für Computer-Records.
+dem \texttt{define-record-functions} steht der Name der Signatur für
+die Werte des Record-Typs,
+\texttt{computer}.  Diese Signatur nennen wir ab sofort die
+\textit{Record-Signatur}.\index{Record-Signatur}
 
 Als nächstes in der Record-Definition kommt \texttt{make-computer},
 der Name einer Funktion, die für die \textit{Konstruktion} eines
 Computer-Records zuständig ist.  Analog zum Zusammenbauen eines
 Computer mit Cell-Prozessor, 8 Gigabyte RAM und 250 Gigabyte
-Festplatte wird der dazugehörige Record mit der eingebauten Funktion
-%%Moment mal: "eingebaute" Funktion? Scheint mir ein Fehler zu sein HK
+Festplatte wird der dazugehörige Record mit der Funktion
 \texttt{make-computer} folgendermaßen hergestellt:
 %
 \begin{alltt}
@@ -147,9 +147,7 @@ Festplatte wird der dazugehörige Record mit der eingebauten Funktion
 \end{alltt}
 %
 Die drei Eingaben sind der Reihe nach Prozessor, RAM und Festplatte.
-\texttt{Make-computer} macht daraus einen Wert der eingebauten Sorte
-%% Schon wieder: "eingebaut"? Die haben wir doch grade erst selber
-%% definiert HK
+\texttt{Make-computer} macht daraus einen Wert der Sorte
 \texttt{computer} der Computer-Records.  Da \texttt{make-computer}
 einen Computer-Record "<konstruiert">, heißt die Funktion auch
 \textit{Konstruktor\index{Konstruktor}}.
@@ -503,7 +501,7 @@ Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, 
 \texttt{define-record-functions} Definitionen anlegt:
 %
 \begin{itemize}
-\item $t$ ist der Name des Record-Typs.
+\item $t$ ist der Name der Record-Signatur.
 \item $c$ ist der Name des Konstruktors, den
   \texttt{define-record-functions} anlegt.  Der Konstruktor hat 
   folgende Signatur:
@@ -512,7 +510,7 @@ Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, 
 (: \(c\) (\(\mathit{sig}\sb{1}\) \(\ldots\) \(\mathit{sig}\sb{n}\) -> \(t\)))
 \end{alltt}
 \item $\mathit{Sel}_1, \ldots, \mathit{sel}_n$ sind die Namen der Selektoren für die Felder
-  des Record-Typen.  Der Selektor $s_i$ hat folgende Signatur:
+  des Record-Typs.  Der Selektor $s_i$ hat folgende Signatur:
 % 
 \begin{alltt}
 (: \(\mathit{sel}\sb{i}\) (\(t\) -> \(\mathit{sig}\sb{i}\)))
@@ -521,7 +519,7 @@ Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, 
 %
 \end{feature}
 
-Bei den Selektoren ist es umgekehrt: Da steht immer der Record-Typ
+Bei den Selektoren ist es umgekehrt: Da steht immer die Record-Signatur
 vorn (sie akzeptieren ja jeweils einen Record) und nach dem Pfeil
 steht die Signatur des jeweiligen Feldes.
 
@@ -719,8 +717,8 @@ Form:
   (\(T\)-\(f\sb{n}\) \(\mathit{sig}\sb{n}\)))
 \end{alltt}
 %
-Der Name des Record-Typs \(T\) kann dann als Signatur verwendet
-werden, \texttt{make-\(T\)} ist der Konstruktor und \(T\)-\(f\sb{1}\)
+Der Name des Record-Typs \(T\) ist die Record-Signatur,
+\texttt{make-\(T\)} ist der Konstruktor und \(T\)-\(f\sb{1}\)
 sind die Selektoren.
 
 Dass der Konstruktorname mit \texttt{make-} anfängt und dass die

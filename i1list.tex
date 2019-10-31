@@ -442,8 +442,20 @@ der Record-Definition benutzen:
   (rest  \|ldots|))
 \end{lstlisting}
 %
-Wir müssen dann immer da, wo wir vorher \lstinline{cons-list} stand,
-\lstinline{(cons-list |\ldots|)} schreiben und eine Signatur für die
+Diese Record-Definition definiert \lstinline{cons-list} als Funktion,
+die eine Signatur akzeptiert (die Signatur der Elemente) und eine
+Signatur zurückliefert, nämlich die der Cons-Listen mit der gegebenen
+Signatur für die Elemente.  Die Signatur können wir auch hinschreiben:
+%
+\begin{lstlisting}
+(: cons-list (signature -> signature))
+\end{lstlisting}
+%
+Da \lstinline{cons-list} eine Signatur konstruiert, nennen wir diese
+Funktion auch \textit{Signatur-Konstruktor}.\index{Signatur-Konstruktor}
+Das \lstinline{element} ist ein \textit{Signatur-Parameter}\index{Signatur-Parameter}.
+Wir müssen also immer da, wo wir vorher \lstinline{cons-list} stand,
+\lstinline{(cons-list ...)} schreiben und eine Signatur für die
 Elemente angeben, also zum Beispiel \lstinline{(cons-list number)}
 oder \lstinline{(cons-list string)}
 
@@ -502,11 +514,11 @@ und die Signatur der Listenelemente (das \lstinline{%element} in
 Mit diesen Änderungen an den Signatur-Deklarationen gehen die
 Signatur-Verletzungen ganz weg.  Bevor das Programm aber wieder
 funktioniert, müssen wir allerdings noch eine weitere Fehlermeldung
-ausmerzen: \lstinline{list-of-numbers} ist ja jetzt nicht mehr
+ausmerzen: \lstinline{list-of-numbers} ist nicht mehr
 definiert, steht aber noch in den Signatur-Deklarationen von
 \lstinline{list-sum} und \lstinline{list-product}.  Wir können
 entweder dort \lstinline{list-of-numbers} durch \lstinline{(list-of number)}
-ersetzen oder einfach eine Signatur-Definition
+ersetzen oder eine Signatur-Definition
 dazuschreiben:
 %
 \begin{lstlisting}
@@ -514,10 +526,40 @@ dazuschreiben:
 \end{lstlisting}
 %
 Diese Definition muss vor den Definitionen von \lstinline{list-sum}
-und \lstinline{list-product} stehen.
+und \lstinline{list-product} stehen, damit sie dort bekannt ist.
 
-FIXME: Erweiterte Record-Form
+\begin{feature}{\texttt{define-record-functions} (mit Signatur-Parametern)}{scheme:define-record-functions-parameters}
+Eine \texttt{define"=record"=functions}"=Form\index{define-record-functions@\texttt{define-record-functions}}
+mit Signatur-Parametern hat folgende allgemeine Gestalt:\label{def:define-record-functions-parameters}
+%
+\begin{alltt}
+(define-record-functions (\(t\) \mathit{sp}\sb{1} \ldots \mathit{sp}\sb{k})
+  \(c\)
+  \(p\)
+  (\(\mathit{sel}\sb{1}\) \(\mathit{sig}\sb{1}\))
+  \(\ldots\)
+  (\(\mathit{sel}\sb{n}\) \(\mathit{sig}\sb{n}\)))
+\end{alltt}
+%
+%
+\begin{itemize}
+\item Die Signatur-Parameter $\mathit{sp}\sb{1} \ldots \mathit{sp}\sb{k}$
+können in den Signaturen
+\(\mathit{sig}\sb{1}\ldots\mathit{sig}\sb{n}\) verwendet werden.
+\item $t$ ist der Name des Signatur-Konstruktors mit der Signatur:
+  %
+\begin{alltt}
+(: \(t\) (signature $\ldots$ \((k-\textrm{mal})\) -> signature))
+\end{alltt}
+  \item $c$, $p$ und $\mathit{sel}_1, \ldots, \mathit{sel}_n$ sind wie
+    bisher die Namen von Konstruktor, Prädikat und Selektoren.
+\end{itemize}
+%
+\end{feature}
 
+Abbildung~\ref{scheme:define-record-functions-parameters} fasst die
+neue Form von \lstinline{define-record-functions} mit
+Signatur-Parametern zusammen.
 
 \section{Konstruktionsanleitung}
 
