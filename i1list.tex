@@ -524,8 +524,30 @@ und die Signatur der Listenelemente (das \lstinline{%element} in
 \lstinline{(list %element)} übereinstimmen sollten.  (DrRacket
   überprüft dies aber nicht.)
 
-FIXME: Warum nicht any?
-  
+Vielleicht ist Dir der Gedanke gekommen, dass statt
+\lstinline{%element} in den obigen Signaturen auch \lstinline{any}
+stehen könnte.  Rein technisch gesehen ist das korrekt.  Allerdings
+wären die resultierenden Signaturen weniger präzise.  Nimm einmal
+dann, dort stünde zum Beispiel das hier:
+%
+\begin{lstlisting}
+(: cons (any (list-of any) -> (cons-list any)))
+\end{lstlisting}
+%
+Diese Signatur sagt "<\lstinline{cons} akzeptiert irgendeinen Wert und
+irgendeine Liste und produziert wieder irgendeine Liste">.  Zum
+Vergleich sagt die Signatur
+%
+\begin{lstlisting}
+(: cons (%element (list-of %element) -> (cons-list %element)))
+\end{lstlisting}
+%
+aus, dass das neue Element, das \lstinline{cons} akzeptiert, die
+gleiche Signatur erfüllen muss wie die schon vorhandenen Elemente der
+Liste und dann die Elemente der Resultatliste die gleiche Signatur
+erfüllen: Alle drei Vorkommen von \lstinline{%element} müssen in einer
+konkreten Anwendung von \lstinline{cons} die gleiche Signatur sein.
+
 Mit diesen Änderungen an den Signatur-Deklarationen gehen die
 Signatur"=Verletzungen ganz weg.  Bevor das Programm aber wieder
 funktioniert, müssen wir noch eine weitere Fehlermeldung
