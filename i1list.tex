@@ -575,6 +575,14 @@ Signatur-Parametern zusammen.
 
 \section{Konstruktionsanleitung}
 
+Bei der Konstruktion von Funktionen, die Listen akzeptieren, haben wir
+drei Schablonen kombiniert: Die Schablonen für gemischte und
+zusammengesetzte Daten sowie die Schablone für Selbstbezüge.  Wir
+werden noch viele Funktionen mit Listen als Eingabe schreiben, bei
+denen jedesmal genau die gleichen Schablonen kombiniert werden.
+Deshalb lohnt es sich, solchen Funktionen eine eigene
+Konstruktionsanleitung mit der enstandenen Schablonenkombination zu widmen:
+
 \begin{konstruktionsanleitung}{Listen als Eingabe: Schablone}
   \label{ka:listen-eingabe-schablone}
 Eine Schablone für eine Funktion, die eine Liste akzeptiert, sieht
@@ -598,86 +606,92 @@ folgendermaßen aus:
 
 \section{Eingebaute Listen}
 
-Da Listen in diesem Buch noch oft vorkommen und es umständlich
-ist, jedesmal die Definitionen für \texttt{cons} und \texttt{list-of} an den Anfang
-von Programmen zu setzen, ist es an dieser Stelle Zeit, eine neue
-Sprachebene in \drscheme{} auszuwählen, nämlich \texttt{Schreibe Dein Programm!}
-(ohne \texttt{Anfänger}).\index{Sprachebene}  Diese enthält \texttt{cons},
-\texttt{cons?}, \texttt{first} und \texttt{rest} als eingebaute
-Funktionen sowie den Signaturkonstruktor \texttt{list-of}{In Standard-Scheme heißt der Konstruktor für
-  die eingebauten Conse \texttt{cons\index{cons@\texttt{cons}}}, die
-  Selektoren \texttt{car\index{car@\texttt{car}}} und \texttt{cdr\index{cdr@\texttt{cdr}}}
-  (gesprochen "<kar"> und "<kudder">; dies waren die Namen von Anweisungen auf einer
-  Maschine, auf der ein Vorläufer von Scheme lief) und das Prädikat
-  für die leere Liste \texttt{null?\index{null?@\texttt{null?}}}.} und eine
-eingebaute Funktion \texttt{list} zur Erzeugung beliebiger Listen.
+Da Listen in diesem Buch noch oft vorkommen und es umständlich ist,
+jedesmal die Definitionen für \lstinline{cons} und \lstinline{list-of} an
+den Anfang von Programmen zu setzen, macht die nächste Sprachebene das
+Programmieren mit Listen einfacher.\index{Sprachebene}
 
-Außerdem werden nichtleere Listen ab dieser Sprachebene in der REPL
-anders ausgedruckt, nämlich, der besseren Übersicht halber, als
-\verb|#<list ...>|,
-wobei die Listenelemente zwischen den spitzen Klammern aufgereiht sind.
-Beispiele:
+\noindent\textbf{Schalte deshalb in die nächste Sprachebene hoch:}
 
-\begin{alltt}
+\noindent Fange eine neue Datei an.  Wähle danach wieder das Menü
+\texttt{Sprache} aus, darunter \texttt{Sprache auswählen} und dann
+\texttt{Schreibe Dein Programm!} (\emph{ohne} \texttt{Anfänger}).
+Dann drücke noch einmal \texttt{Start}.
+
+\begin{feature}{\texttt{list}}{scheme:list}
+  Die eingebaute Funktion \lstinline{list}\index{list@\texttt{list}} erlaubt es, Listen aus ihren Elementen
+  ohne Verwendung von \lstinline{cons} zu erzeugen.  Sie
+  akzeptiert eine beliebige Anzahl von Argumenten, macht daraus eine
+  Liste und gibt diese zurück:
+%
+\begin{lstlisting}
+(list 1 2 3)
+\evalsto{} #<list 1 2 3>
+(list "Axl" "Slash" "Izzy")
+\evalsto{} #<list "Axl" "Slash" "Izzy">
+\end{lstlisting}
+\end{feature}
+
+Ab sofort sind \lstinline{cons}, \lstinline{cons?}, \lstinline{first} und
+\lstinline{rest} vordefiniert genau wie der Signaturkonstruktor
+\lstinline{list-of}.  Es gibt außerdem eine praktische neue Funktion
+\lstinline{list}, die in Abbildung~\ref{scheme:list} beschrieben ist.
+
+In der neuen Sprachebene werden nichtleere Listen übersichtlicher ausgedruckt
+als bisher, nämlich als
+\verb|#<list ...>|, wobei die Listenelemente zwischen den spitzen
+Klammern aufgereiht sind.  Beispiele:
+%
+\begin{lstlisting}
 (list 1)
 \evalsto{} #<list 1>
 (list 1 2)
 \evalsto{} #<list 1 2>
 (list 1 2 3)
 \evalsto{} #<list 1 2 3>
-\end{alltt}
+\end{lstlisting}
 %
-\begin{feature}{\texttt{list}}{scheme:list}
-  Die eingebaute Funktion \texttt{list}\index{list@\texttt{list}} erlaubt es, Listen aus ihren Elementen
-  ohne Verwendung von \texttt{cons} zu erzeugen.  Sie
-  akzeptiert eine beliebige Anzahl von Argumenten, macht daraus eine
-  Liste und gibt diese zurück:
-%
-\begin{alltt}
-(list 1 2 3)
-\evalsto{} #<list 1 2 3>
-(list "Axl" "Slash" "Izzy")
-\evalsto{} #<list "Axl" "Slash" "Izzy">
-\end{alltt}
-\end{feature}
-
 
 \section{Parametrische Polymorphie}
 \label{sec:parametric-polymorphism}
 \label{sec:more-lists}
 
-In diesem Abschnitt programmieren wir eine Funktion, welche die Länge
-einer Liste ermittelt.\index{list-length@\texttt{list-length}} Das ist
-eine einfache Fingerübung mit einer interessanten Eigenschaft.  Hier
-sind Kurzbeschreibung und Signatur:
+Keine Angst vor der hochtrabenden Überschrift: Wir schreiben in diesem
+Abschnitt eine recht einfache Funktion,, welche die Länge einer Liste
+ermittelt.\index{list-length@\texttt{list-length}} Hier ist die
+Kurzbeschreibung:
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Länge einer Liste berechnen
-(: list-length ((list-of %a) -> natural))
-\end{alltt}
+\end{lstlisting}
 %
-FIXME:
+Der Anfang einer Signatur-Deklaration sieht so aus:
+%
+\begin{lstlisting}
+(: list-length ((list-of |\ldots|) -> natural))
+\end{lstlisting}
+%
+Was können wir anstelle der Ellipse hinschreiben?  Der Funktion sollte
+egal sein, auf welche Signatur die Elemente der Liste passen. Wir
+können dies zum Ausdruck bringen, indem wir eine Signaturvariable
+verwenden, genau wie bei den Signaturen von \lstinline{cons},
+\lstinline{first} und \lstinline{rest}.  Das sieht so aus:
+%
+\begin{lstlisting}
+(: list-length ((list-of %element) -> natural))
+\end{lstlisting}
+%
+Die Verwendung der Signaturvariable \lstinline{%element} bedeutet,
+genau wie oben, dass die Signatur der Elemente der Liste bei jedem
+Aufruf von \lstinline{list-length} anders sein kann.
 
-Hinter der Bezeichnung \verb$%a$ verbirgt sich eine 
-\emph{Signaturvariable}\index{Signaturvariable}: Sie
-steht für eine beliebige Sorte, die aber in den zwei Zeilen, wo sie vorkommt,
-die gleiche Sorte darstellen soll.  Damit ist \verb$%a$ etwas anderes als
-\texttt{any}, welches erlauben würde, dass die Rückgabesorte von \texttt{first}
-verschieden wäre von der Sorte, welche der Konstruktor \texttt{cons} zuvor
-verwendet hat.
-
-
-Dieser Funktion ist egal, welche Signatur
-die Elemente der Liste erfüllen, weil das Konzept der Länge einer
-Liste unabhängig davon ist, was die Elemente sind.
-Dementsprechend steht dort nur die Signaturvariable \verb|%a|.
 Solche Funktionen, die Argumente akzeptieren, deren Signaturen
 Signaturvariablen enthalten, heißen \textit{polymorph} oder auch
 \textit{parametrisch polymorph} (weil die Signaturvariable eine Art
 Parameter abgibt), und das dazugehörige Konzept heißt
 \textit{parametrische
   Polymorphie}\index{Polymorphie}\index{parametrische Polymorphie}:
-ein großes Wort, das hier für eine kleine Sache steht.  Interessantere
+ein großes Wort, das hier für eine kleine Sache steht.  Mehr Interessantere
 Beispiele für parametrische Polymorphie wird es in
 Kapitel~\ref{cha:higher-order} geben.
 
@@ -705,7 +719,7 @@ Es ist \texttt{list-length} egal, was der Wert von \texttt{(first
   lis)} ist.  Die Länge der Liste ist unabhängig davon, was für Werte
 sich darin befinden: entscheidend ist nur, wieviele es sind.  (Dieser
 Umstand ist gerade verantwortlich für die parametrische Polymorphie.)
-Damit können wir \texttt{(first lis)} aus der Schablone streichen und
+Deshalb können wir \texttt{(first lis)} aus der Schablone streichen und
 diese dann zum vollständigen Rumpf ergänzen:
 %
 \begin{alltt}
