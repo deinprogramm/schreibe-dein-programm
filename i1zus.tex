@@ -854,10 +854,10 @@ beantwortet.  Hier sind die Signaturen für die Record-Funktionen:
 Hier sind einige Exemplare als Daten plus Information:
 %
 \begin{verbatim}
-(define d1 (make-dillo 55000 #t)) ; 55 kg, lebendig 
-(define d2 (make-dillo 58000 #f)) ; 58 kg, tot
-(define d3 (make-dillo 60000 #t)) ; 60 kg, lebendig
-(define d4 (make-dillo 63000 #f)) ; 63 kg, tot
+(define dillo1 (make-dillo 55000 #t)) ; 55 kg, lebendig 
+(define dillo2 (make-dillo 58000 #f)) ; 58 kg, tot
+(define dillo3 (make-dillo 60000 #t)) ; 60 kg, lebendig
+(define dillo4 (make-dillo 63000 #f)) ; 63 kg, tot
 \end{verbatim}
 %
 Fangen wir damit an, Gürteltiere zu füttern.  Die
@@ -873,7 +873,7 @@ und Signatur:
 Hier der erste, naheliegende Testfall:
 %
 \begin{verbatim}
-(check-expect (feed-dillo d1) (make-dillo 55500 #t))
+(check-expect (feed-dillo dillo1) (make-dillo 55500 #t))
 \end{verbatim}
 %
 Bei \texttt{feed-dillo} ist relevant, was es mit toten
@@ -881,7 +881,7 @@ Gürteltieren macht: Tote Gürteltiere fressen nicht, entsprechend
 nehmen sie auch nicht zu, wenn man ihnen Futter anbietet:
 %
 \begin{verbatim}
-(check-expect (feed-dillo d2) d2)
+(check-expect (feed-dillo dillo2) dillo2)
 \end{verbatim}
 %
 Hier das Gerüst der Funktion:
@@ -993,10 +993,10 @@ Signatur:\index{run-over-dillo@\texttt{run-over-dillo}}\label{page:run-over-dill
 (: run-over-dillo (dillo -> dillo))
 \end{verbatim}
 %
-Aus dem Beispiel \texttt{d1} können wir den ersten Testfall machen:
+Aus dem Beispiel \texttt{dillo1} können wir den ersten Testfall machen:
 %
 \begin{verbatim}
-(check-expect (run-over-dillo d1) (make-dillo 55000 #f))
+(check-expect (run-over-dillo dillo1) (make-dillo 55000 #f))
 \end{verbatim}
 %
 Wir sollten aber auch berücksichtigen, was \texttt{run-over-dillo} mit
@@ -1004,7 +1004,7 @@ toten Gürteltieren anstellt.  Diese bleiben auch nach dem Überfahren
 tot:
 %
 \begin{verbatim}
-(check-expect (run-over-dillo d2) d2)
+(check-expect (run-over-dillo dillo2) dillo2)
 \end{verbatim}
 %
 Hier das Gerüst der Funktion:
@@ -1596,7 +1596,7 @@ Seite~\pageref{mantra:gleichungen}:
   \begin{enumerate}
 
   \item Mache eine Datenanalyse und erstelle
-    passende Daten- und Recorddefinitionen.  Gib alle
+    passende Daten- und Record-Definitionen.  Gib alle
     Signaturen der Record-Funktionen an!
 
   \item Schreibe für jede der oben aufgelisteten

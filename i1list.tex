@@ -5,6 +5,7 @@
 
 \chapter{Programmieren mit Listen}
 \label{cha:rek}
+\label{cha:list}
 
 Im vorigen Kapitel haben wir bereits Daten mit Selbstbezug
 kennengelernt, die Informationen variabler Größe repräsentieren
@@ -523,6 +524,8 @@ und die Signatur der Listenelemente (das \lstinline{%element} in
 \lstinline{(list %element)} übereinstimmen sollten.  (DrRacket
   überprüft dies aber nicht.)
 
+FIXME: Warum nicht any?
+  
 Mit diesen Änderungen an den Signatur-Deklarationen gehen die
 Signatur"=Verletzungen ganz weg.  Bevor das Programm aber wieder
 funktioniert, müssen wir noch eine weitere Fehlermeldung
@@ -626,9 +629,9 @@ Dann drücke noch einmal \texttt{Start}.
 %
 \begin{lstlisting}
 (list 1 2 3)
-\evalsto{} #<list 1 2 3>
+|\evalsto| #<list 1 2 3>
 (list "Axl" "Slash" "Izzy")
-\evalsto{} #<list "Axl" "Slash" "Izzy">
+|\evalsto| #<list "Axl" "Slash" "Izzy">
 \end{lstlisting}
 \end{feature}
 
@@ -639,16 +642,16 @@ Ab sofort sind \lstinline{cons}, \lstinline{cons?}, \lstinline{first} und
 
 In der neuen Sprachebene werden nichtleere Listen übersichtlicher ausgedruckt
 als bisher, nämlich als
-\verb|#<list ...>|, wobei die Listenelemente zwischen den spitzen
+\lstinline{#<list ...>}, wobei die Listenelemente zwischen den spitzen
 Klammern aufgereiht sind.  Beispiele:
 %
 \begin{lstlisting}
 (list 1)
-\evalsto{} #<list 1>
+|\evalsto| #<list 1>
 (list 1 2)
-\evalsto{} #<list 1 2>
+|\evalsto| #<list 1 2>
 (list 1 2 3)
-\evalsto{} #<list 1 2 3>
+|\evalsto| #<list 1 2 3>
 \end{lstlisting}
 %
 
@@ -697,23 +700,23 @@ Kapitel~\ref{cha:higher-order} geben.
 
 Weiter mit \texttt{list-length}~-- hier ist das Gerüst:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define list-length
   (lambda (lis)
-    ...))
-\end{alltt}
+    |\ldots|))
+\end{lstlisting}
 %
 Die Schablone ist wie gehabt:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define list-length
   (lambda (lis)
     (cond
-      ((empty? lis) ...)
+      ((empty? lis) |\ldots|)
       ((cons? lis) 
-       ... (first lis) ...
-       ... (list-length (rest lis)) ...))))
-\end{alltt}
+       |\ldots| (first lis) |\ldots|
+       |\ldots| (list-length (rest lis)) |\ldots|))))
+\end{lstlisting}
 %
 Es ist \texttt{list-length} egal, was der Wert von \texttt{(first
   lis)} ist.  Die Länge der Liste ist unabhängig davon, was für Werte
@@ -722,7 +725,7 @@ Umstand ist gerade verantwortlich für die parametrische Polymorphie.)
 Deshalb können wir \texttt{(first lis)} aus der Schablone streichen und
 diese dann zum vollständigen Rumpf ergänzen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define list-length
   (lambda (lis)
     (cond
@@ -730,7 +733,7 @@ diese dann zum vollständigen Rumpf ergänzen:
       ((cons? lis) 
        (+ 1 
           (list-length (rest lis)))))))
-\end{alltt}
+\end{lstlisting}
 %
 
 \section{Funktionen, die Listen produzieren}
@@ -749,63 +752,68 @@ Auf Seite~\pageref{page:run-over-dillo} haben wir die Funktion
 \texttt{run-over-dillo} geschrieben, die für das Überfahren von
 Gürteltieren zuständig ist.  In diesem Abschnitt schreiben wir die
 Funktion, die das gleich massenweise erledigt, beispielsweise für alle
-Gürteltiere auf einem Highway.  Dazu übernehmen wir Daten- und
-Record-Definition von Gürteltieren aus
+Gürteltiere auf einem Highway.
+
+Dazu übernehmen wir Daten- und Record-Definition von Gürteltieren aus
 Abschnitt~\ref{page:run-over-dillo} sowie die Funktiondefinition von
-\texttt{run-over-dillo}.  Gürteltiere können wir in Listen stecken,
-ebenso wie Zahlen, Zeichenketten oder boolesche Werte.  Hier ist ein
-Beispiel:
+\lstinline{run-over-dillo}.  Du kannst auch einfach den Gürteltier-Code
+erweitern~-- dann musst Du allerdings die Sprachebene auf
+\texttt{Schreibe Dein Programm!} hochschalten, damit die Listen zur
+Verfügung stehen.
+
+Gürteltiere können wir in Listen stecken, ebenso wie Zahlen,
+Zeichenketten oder boolesche Werte.  Hier ist ein Beispiel:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Gürteltiere auf Highway 75
-(define dl75 (list d1 d2 d3 d4))
-\end{verbatim}
-(\texttt{D1}, \texttt{d2}, \texttt{d3} und \texttt{d4} sind die
+(define highway75 (list dillo1 dillo2 dillo3 dillo4))
+\end{lstlisting}
+(\lstinline{Dillo1}, \lstinline{dillo2}, \lstinline{dillo3} und \lstinline{dillo4} sind die
 Beispielgürteltiere aus Abschnitt~\ref{page:run-over-dillo}.)
 
-Diese Liste hat die Signatur \texttt{(list-of dillo)}.  Wenn wir eine
+Diese Liste hat die Signatur \lstinline{(list-of dillo)}.  Wenn wir eine
 Funktion schreiben wollen, die alle Gürteltiere aus einer Liste
 überfährt, müsste diese also folgende Kurzbeschreibung und Signatur
 haben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Gürteltiere überfahren
 (: run-over-dillos ((list-of dillo) -> (list-of dillo)))
-\end{verbatim}
+\end{lstlisting}
 %
 Als Testfall kann obige Beispielliste herhalten:
 %
-\begin{verbatim}
-(check-expect (run-over-dillos dl75)
+\begin{lstlisting}
+(check-expect (run-over-dillos highway75)
               (list (make-dillo 55000 #f)
-                    d2
+                    dillo2
                     (make-dillo 60000 #f)
-                    d4))
-\end{verbatim}
+                    dillo4))
+\end{lstlisting}
 %
-Zur Erinnerung: \texttt{d2} und \texttt{d4} sind bereits tot,
+Zur Erinnerung: \lstinline{dillo2} und \lstinline{dillo4} sind bereits tot,
 dementsprechend sind sie überfahren wie zuvor.
 
 Hier ist das Gerüst:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define run-over-dillos
-  (lambda (dls)
-    ...))
-\end{verbatim}
+  (lambda (dillos)
+    |\ldots|))
+\end{lstlisting}
 %
 Die Funktion akzeptiert eine Liste als Eingabe, wir können also, wie
 schon so oft, die entsprechende Schablone zum Einsatz bringen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define run-over-dillos
-  (lambda (dls)
+  (lambda (dillos)
     (cond
-     ((empty? dls) ...)
-     ((cons? dls)
-      ... (first dls) ...
-      ... (run-over-dillos (rest dls)) ...))))
-\end{verbatim}
+     ((empty? dillos) |\ldots|)
+     ((cons? dillos)
+      |\ldots| (first dillos) |\ldots|
+      |\ldots| (run-over-dillos (rest dillos)) |\ldots|))))
+\end{lstlisting}
 %
 Im ersten Zweig ist die Sache klar: Geht eine leere Liste rein, kommt
 auch eine leere Liste raus.  Im zweiten Zweig können wir uns erst
@@ -813,153 +821,171 @@ einmal um das erste Gürteltier kümmern.  Wir haben ja bereits eine
 Funktion, die ein einzelnes Gürteltier überfährt; diese können wir auf
 das erste Element der Liste anwenden:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define run-over-dillos
-  (lambda (dls)
+  (lambda (dillos)
     (cond
-     ((empty? dls) empty)
-     ((cons? dls)
-      ... (run-over-dillo (first dls)) ...
-      ... (run-over-dillos (rest dls)) ...))))
-\end{verbatim}
+     ((empty? dillos) empty)
+     ((cons? dillos)
+      |\ldots| (run-over-dillo (first dillos)) |\ldots|
+      |\ldots| (run-over-dillos (rest dillos)) |\ldots|))))
+\end{lstlisting}
 %
 Lesen wir noch einmal die beiden Ausdrücke, die im zweiten Zweig
 stehen:
 %
 \begin{itemize}
-\item \texttt{(run-over-dillo (first dls))} ist das erste Gürteltier
+\item \lstinline{(run-over-dillo (first dillos))} ist das erste Gürteltier
   der Liste, überfahren.
-\item \texttt{(run-over-dillos (rest dls))} ist eine Liste der
+\item \lstinline{(run-over-dillos (rest dillos))} ist eine Liste der
   restlichen Gürteltiere, überfahren.
 \end{itemize}
 %
 Gefragt ist eine Liste \emph{aller} Gürteltiere, überfahren:
 Wir müssen also nur die Resultate der beiden Ausdrucke mit
-\texttt{cons} kombinieren:
+\lstinline{cons} kombinieren:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define run-over-dillos
-  (lambda (dls)
+  (lambda (dillos)
     (cond
-     ((empty? dls) empty)
-     ((cons? dls)
-      (cons (run-over-dillo (first dls))
-                 (run-over-dillos (rest dls)))))))
-\end{verbatim}
+     ((empty? dillos) empty)
+     ((cons? dillos)
+      (cons (run-over-dillo (first dillos))
+                 (run-over-dillos (rest dillos)))))))
+\end{lstlisting}
 %
 Fertig!
 
 Dieses Beispiel zeigt, dass wir für Funktionen, die Listen produzieren,
 keine neue Technik brauchen: Wenn eine Funktion eine leere Liste
 produzieren soll, benutzen wir an der entsprechenden Stelle
-\texttt{empty}, und bei nichtleeren Listen benutzen wir
-\texttt{cons}, bringen also die Schablone für Funktionen zum
+\lstinline{empty}, und bei nichtleeren Listen benutzen wir
+\lstinline{cons}, bringen also die Schablone für Funktionen zum
 Einsatz, die zusammengesetzte Daten produzieren.
+
+FIXME: filter
 
 \subsection{Zwei Listen aneinanderhängen}
 In unserem nächsten Beispiel ist eine Funktion
-\texttt{concatenate}\index{concatenate@\texttt{concatenate}} gefragt, die zwei
-Listen aneinanderhängt:\label{sec:concatenate}
+\lstinline{concatenate}\index{concatenate@\texttt{concatenate}} gefragt, die zwei
+Listen aneinanderhängt.\label{sec:concatenate}
 % 
-\begin{alltt}
-(concatenate (list 1 2 3) (list 4 5 6))
-\evalsto{} #<list 1 2 3 4 5 6>
-\end{alltt}
 %
 Kurzbeschreibung, Signatur und Gerüst sehen folgendermaßen aus:\index{concatenate@\texttt{concatenate}}
 %
-\begin{alltt}
+\begin{lstlisting}
 ; zwei Listen aneinanderhängen
-(: concatenate ((list-of %a) (list-of %a) -> (list-of %a)))
-(define concatenate
-  (lambda (lis-1 lis-2)
-    ...))
-\end{alltt}
+(: concatenate ((list-of %element) (list-of %element) 
+               -> (list-of %element)))
+\end{lstlisting}
 %
-Die Konstruktionsanleitung aus Abschnitt~\ref{sec:lists} ist
+Diese Funktion ist wie \lstinline{list-length} polymorph~-- in der
+Signatur kommt die Signaturvariable \lstinline{%element} vor.
+Beachte, dass \lstinline{%element} \emph{dreimal} vorkommt: Die
+Signatur besagt, dass die Signaturen der Elemente der beiden
+Eingabelisten und die Signatur der Ausgabeliste sich einander entsprechen.
+
+Hier sind Testfall und Gerüst für \lstinline{concatenate}:
+% 
+\begin{lstlisting}
+(check-expect (concatenate (list 1 2 3) (list 4 5 6))
+              (list 1 2 3 4 5 6))
+
+(define concatenate
+  (lambda (list1 list2)
+    |\ldots|))
+\end{lstlisting}
+%
+Konstruktionsanleitung~\ref{ka:listen-eingabe-schablone} auf Seite~\pageref{ka:listen-eingabe-schablone} ist
 eigentlich nur für Funktionen gedacht, die eine einzelne Liste
-akzeptieren.  Welche von beiden ist das $l$ aus der Anleitung?  Im
+akzeptieren.  Welche von beiden ist das $\mathit{list}$ aus der Anleitung?  Im
 Zweifelsfall können wir beide Alternativen ausprobieren.  Wir
-fangen, um die Sache spannender zu machen, mit \texttt{lis-2} an:
+versuchen es zunächst mit \lstinline{list2}:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define concatenate
-  (lambda (lis-1 lis-2)
+  (lambda (list1 list2)
     (cond
-      ((empty? lis-2) ...)
-      ((cons? lis-2) 
-       ... (first lis-2)
-       ... (concatenate lis-1 (rest lis-2)) ...))))
-\end{alltt}
+      ((empty? list2) |\ldots|)
+      ((cons? list2) 
+       |\ldots| (first list2) |\ldots|
+       |\ldots| (concatenate list1 (rest list2)) |\ldots|))))
+\end{lstlisting}
 %
-Der erste Zweig des \texttt{cond} ist noch einfach: Wenn
-\texttt{lis-2} leer ist, muss \texttt{lis-1} herauskommen.  Jedoch wäre für
-das obige Beispiel der Wert von \texttt{(concatenate lis-1 (rest lis-2))} die
+Der erste Zweig des \lstinline{cond} ist noch einfach: Wenn
+\lstinline{list2} leer ist, muss \lstinline{list1} herauskommen.  Jedoch wäre für
+das obige Beispiel der Wert von
+%
+\begin{lstlisting}
+(concatenate list1 (rest list2))
+\end{lstlisting}
+%
+die
 folgende Liste:
 %
-\begin{alltt}
+\begin{lstlisting}
 #<list 1 2 3 5 6>
-\end{alltt}
+\end{lstlisting}
 %
 Bei dieser Liste fehlt das
 Element 4 in der Mitte, und es ist nicht ersichtlich, wie unsere Funktion
 sie passend ergänzen könnte.  Diese
 Möglichkeit führt also in eine Sackgasse. Wir versuchen deshalb, die Schablone  auf
-\texttt{lis-1} 
- statt auf \texttt{lis-2} anzuwenden:
+\lstinline{list1} 
+ statt auf \lstinline{list2} anzuwenden:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define concatenate
-  (lambda (lis-1 lis-2)
+  (lambda (list1 list2)
     (cond
-      ((empty? lis-1) ...)
-      ((cons? lis-1) 
-       ... (first lis-1)
-       ... (concatenate (rest lis-1) lis-2) ...))))
-\end{alltt}
+      ((empty? list1) |\ldots|)
+      ((cons? list1) 
+       |\ldots| (first list1) |\ldots|
+       |\ldots| (concatenate (rest list1) list2) |\ldots|))))
+\end{lstlisting}
 %
 Die erste Ellipse ist einfach zu ersetzen:  Ist die erste Liste
-leer, ist das Ergebnis die zweite Liste \texttt{lis-2}.  Für den
+leer, ist das Ergebnis die zweite Liste \lstinline{list2}.  Für den
 zweiten Fall sollten wir uns noch einmal ins Gedächtnis rufen,
-was für einen Wert \texttt{(concatenate (rest lis-1) lis-2)} liefert: das Ergebnis
+was für einen Wert \lstinline{(concatenate (rest list1) list2)} liefert: das Ergebnis
 dieses Aufrufs ist eine
-Liste, die aus \texttt{(rest lis-1)} und \texttt{lis-2} zusammengesetzt
-wurde.  Auf das obige Beispiel übertragen, mit \texttt{lis-1} $=$
-\verb|#<list 1 2 3>| und \texttt{lis-2} $=$
-\verb|#<list 4 5 6>|, ist \texttt{(rest lis-1)} $=$ \verb|#<list 2 3>|.
-Der Wert von \texttt{(concatenate (rest lis-1) lis-2)} wäre
+Liste, die aus \lstinline{(rest list1)} und \lstinline{list2} zusammengesetzt
+wurde.  Auf das obige Beispiel übertragen, falls \lstinline{list1} die Liste
+\lstinline{#<list 1 2 3>} ist und \lstinline{list2} die Liste
+\lstinline{#<list 4 5 6>}, so hat \lstinline{(rest list1)} den Wert \lstinline{#<list 2 3>}.
+Der Wert von \lstinline{(concatenate (rest list1) list2)} wäre
 also:
 %
-\begin{alltt}
+\begin{lstlisting}
 #<list 2 3 4 5 6>
-\end{alltt}
+\end{lstlisting}
 %
-Es fehlt das erste Element von \texttt{lis-1}, \texttt{(first
-  lis-1)}, das vorn an das Ergebnis angehängt werden muss.  Das geht
-mit \texttt{cons}:
+Es fehlt das erste Element von \lstinline{list1}, \lstinline{(first list1)}, 
+das vorn an das Ergebnis angehängt werden muss.  Das geht
+mit \lstinline{cons}:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define concatenate
-  (lambda (lis-1 lis-2)
+  (lambda (list1 list2)
     (cond
-      ((empty? lis-1) lis-2)
-      ((cons? lis-1) 
-       (cons (first lis-1)
-                  (concatenate (rest lis-1) lis-2))))))
-\end{alltt}
+      ((empty? list1) list2)
+      ((cons? list1) 
+       (cons (first list1)
+             (concatenate (rest list1) list2))))))
+\end{lstlisting}
 %
 Dieses Beispiel zeigt ein weiteres Schablonenelement, das noch öfter
 vorkommen wird:  Wie bei anderen zusammengesetzten Daten müssen Funktionen, die
-Listen konstruieren sollen, irgendwo ein \texttt{cons} enthalten.
-
-\texttt{List-length} und \texttt{concatenate} sind gute
-Programmierübungen.  Da viele Programme diese Operationen benötigen,
-sind sie in den Lehrsprachen  bereits unter den Namen
-\texttt{length}\index{length@\texttt{length}} und
-\texttt{append}\index{append@\texttt{append}} eingebaut.
-
+Listen konstruieren sollen, irgendwo ein \lstinline{cons} enthalten.
 
 \section*{Anmerkungen}
+
+Da viele Programme die Funktionen \lstinline{list-length} und
+\lstinline{concatenate} benötigen,
+sind sie in den Lehrsprachen  bereits unter den Namen
+\lstinline{length}\index{length@\texttt{length}} und
+\lstinline{append}\index{append@\texttt{append}} eingebaut.
 
 Listen sind, was Datenstrukturen betrifft, eine Art Alleskleber:
 Sie taugen auch für die Repräsentation von Tabellen,
@@ -973,18 +999,11 @@ Dies unterscheidet funktionale Sprachen von vielen anderen Programmiersprachen, 
 denen Listen vom Programmierer selbst definiert werden müssen oder nur
 eine untergeordnete Rolle spielen.
 
-Viele andere Programmiersprachen bauen auf \textit{Felder\index{Feld}} oder
-\textit{Arrays\index{Array}} als fundamentale Datenstrukturen für die
-Repräsentation von Folgen.  Diese gibt es in
-Scheme auch (unter dem Namen \textit{Vektor\index{Vektor}}), finden jedoch
-nur selten Verwendung: Oft lässt sich eine
-bessere Lösung mit Listen oder anderen Repräsentationen finden.
-
 \section*{Aufgaben}
 
 \begin{aufgabe}
   Schreibe Ausdrücke für Listen, welche die Beispiellisten vom
-  Anfang von Abschnitt~\ref{sec:lists} repräsentieren.
+  Anfang von Kapitel~\ref{cha:list} auf Seite~\pageref{cha:list} repräsentieren.
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -992,22 +1011,18 @@ Schreibe folgende Funktionen auf Listen:
   
   \begin{enumerate} 
     
-  \item Eine Funktion \texttt{count-zeroes}, die die Anzahl von Nullen
+  \item Eine Funktion \lstinline{count-zeroes}, die die Anzahl von Nullen
     in einer Liste von Zahlen berechnet.
     
-  \item Eine Funktion \texttt{contains>10?}, die feststellt, ob eine
+  \item Eine Funktion \lstinline{contains>10?}, die feststellt, ob eine
     Liste von Zahlen eine Zahl enthält, die größer als 10 ist.
-    
-  \item Eine Funktion \texttt{list-length}, die die Länge einer Liste
-    von Zahlen berechnet.
-
   \end{enumerate}
   
 \end{aufgabe}
 
 \begin{aufgabe}
-   Auf einem Acker gibt es ~--- vereinfacht
-  dargestellt~--- Kartoffeln, Erdklumpen und Steine.  Ein
+   Auf einem Acker gibt es~-- vereinfacht
+  dargestellt~-- Kartoffeln, Erdklumpen und Steine.  Ein
   Ackerbestandteil ist also eine Kartoffel, ein Erdklumpen oder ein
   Stein.  Jedes dieser Ackerbestandteile hat ein Gewicht in Gramm;
   Kartoffeln besitzen außerdem zusätzlich noch die Eigenschaft, ob sie
@@ -1018,37 +1033,37 @@ Schreibe folgende Funktionen auf Listen:
   \begin{enumerate}
   \item Führe eine Datenanalyse für
     Ackerbestandteile durch und schreibe passende Daten- und
-    Recorddefinitionen.  Gib ein paar Beispiele für
+    Record-Definitionen.  Gib ein paar Beispiele für
     Ackerbestandteile an, die Du in den nächsten Teilaufgaben in
     Testfällen verwenden kannst.
 
   \item Schreibe eine Funktion
-    \texttt{edible-potato?}, die überprüft ob ein übergebener
+    \lstinline{edible-potato?}, die überprüft ob ein übergebener
     Ackerbestandteil eine essbare Kartoffel ist.
 
-  \item Schreibe eine Funktion \texttt{weight}, 
+  \item Schreibe eine Funktion \lstinline{weight}, 
     die das Gewicht eines beliebigen Ackerbestandteils zurückgibt.
 
-  \item Schreibe eine Daten- und Recorddefinition
+  \item Schreibe eine Daten- und Record-Definition
     für Listen von Ackerbestandteilen.  Gib alle Signaturen an!
     Gib außerdem mindestens fünf verschiedene Beispiele für Listen
     mit Ackerbestandteilen an.
 
-  \item Schreibe eine Funktion \texttt{total-weight},
+  \item Schreibe eine Funktion \lstinline{total-weight},
     die eine Liste von Ackerbestandteilen akzeptiert und das Gesamtgewicht
     aller Ackerbestandteile in der Liste ausrechnet.
 
   \item Schreibe eine Funktion
-    \texttt{total-edible-potatoes-weight}, die eine Liste von Ackerbestandteilen
+    \lstinline{total-edible-potatoes-weight}, die eine Liste von Ackerbestandteilen
     akzeptiert und das Gesamtgewicht aller essbaren Kartoffeln in der Liste
     ausrechnet.
 
-  \item Schreibe eine Funktion \texttt{count}, die 
+  \item Schreibe eine Funktion \lstinline{count}, die 
     eine Liste von Ackerbestandteilen akzeptiert und die Anzahl der
     Ackerbestandteile in der Liste bestimmt.
 
   \item Schreibe eine Funktion
-    \texttt{count-edible-potatoes}, die eine Liste von
+    \lstinline{count-edible-potatoes}, die eine Liste von
     Ackerbestandteilen akzeptiert und die Anzahl der essbaren
     Kartoffeln in der Liste bestimmt.
 
@@ -1057,7 +1072,7 @@ Schreibe folgende Funktionen auf Listen:
     kommt deswegen mit großen Steinen und Erdklumpen nicht klar.  Der
     Erntevorgang wird abgebrochen, sobald ein Stein oder ein
     Erdklumpen, der schwerer als 1kg ist, in die Maschine gerät.
-    Schreibe die Funktion \texttt{harvester}, die diesen Vorgang
+    Schreibe die Funktion \lstinline{harvester}, die diesen Vorgang
     simuliert. Als Eingabe bekommt diese Funktion eine Liste von
     Ackerbestandteilen, die sie nach und nach abarbeitet.
     Herauskommen soll eine Liste von Ackerbestandteilen, in der die
@@ -1067,23 +1082,25 @@ Schreibe folgende Funktionen auf Listen:
     aus den vorherigen Aufgabenteilen.
 
   \item Schreibe eine Funktion
-    \texttt{heaviest-potato}, die aus einer Liste von
+    \lstinline{heaviest-potato}, die aus einer Liste von
     Ackerbestandteilen die schwerste essbare Kartoffel heraussucht und
     zurückgibt.  Wenn in der Liste keine essbare Kartoffel enthalten ist, soll
-    die Funktion \verb|#f| zurückgeben.
+    die Funktion \lstinline{#f} zurückgeben.
 
+    FIXME: Nein, nicht \lstinline{#f}
+    
     \item Schreibe eine Funktion
-      \texttt{filter-edible-potatoes}, die eine Liste von
+      \lstinline{filter-edible-potatoes}, die eine Liste von
       Ackerbestandteilen akzeptiert und essbaren Kartoffeln als Liste
       zurückgibt.
 
     \item Schreibe eine Funktion
-      \texttt{drop-stones}, die eine Liste von Ackerbestandteilen
+      \lstinline{drop-stones}, die eine Liste von Ackerbestandteilen
       akzeptiert und eine Liste zurückgibt, in der es keine Steine mehr
       gibt.
 
     \item Schreibe eine Funktion
-      \texttt{average-weight-edible-potatoes}, die eine Liste von
+      \lstinline{average-weight-edible-potatoes}, die eine Liste von
       Ackerbestandteilen akzeptiert und das durchschnittliche Gewicht
       der essbaren Kartoffeln berechnet.
 
@@ -1117,20 +1134,20 @@ Schreibe folgende Funktionen auf Listen:
   \item Schreibe folgende Funktionen:
 
     \begin{itemize}
-    \item \texttt{cell-full?}, die überprüft, ob eine
+    \item \lstinline{cell-full?}, die überprüft, ob eine
       Zelle vollständig geladen ist (d.h. ob die momentante
       Ladung gleich der maximalen Ladung ist)
 
-    \item \texttt{cell-empty?}, die überprüft, ob eine Zelle entladen
+    \item \lstinline{cell-empty?}, die überprüft, ob eine Zelle entladen
       ist (d.h. ob die momentane Ladung gleich der minimalen Ladung
       ist, also 10\% der maximalen Ladung)
 
-    \item \texttt{cell-defect?}, die überprüft, ob eine
+    \item \lstinline{cell-defect?}, die überprüft, ob eine
       Zelle defekt ist (d.h. ob die momentane Ladung die
       maximale Ladung überschreitet oder die minimale Ladung
       unterschreitet)
 
-    \item \texttt{cell-ok?}, die überprüft, ob eine
+    \item \lstinline{cell-ok?}, die überprüft, ob eine
       Zelle funktioniert (d.h. ob die momentane Ladung
       innerhalb der minimalen und maximalen Ladung liegt)
 
@@ -1139,45 +1156,45 @@ Schreibe folgende Funktionen auf Listen:
   \item Schreibe folgende Funktionen:
 
     \begin{itemize}
-    \item \texttt{battery-full?}, die überprüft, ob ein Akku
+    \item \lstinline{battery-full?}, die überprüft, ob ein Akku
       vollständig geladen ist (d.h. ob alle Zellen voll sind); eine
       Batterie ohne Zelle gilt als geladen.
 
-    \item \texttt{battery-empty?}, die überprüft, ob ein Akku entladen
+    \item \lstinline{battery-empty?}, die überprüft, ob ein Akku entladen
       ist (d.h. ob alle Zellen leer sind); eine Batterie ohne Zelle
       gilt auch als leer.
 
-    \item \texttt{battery-defect?}, die überprüft, ob ein Akku defekt
+    \item \lstinline{battery-defect?}, die überprüft, ob ein Akku defekt
       ist (d.h. ob mindestens eine Zelle defekt ist); eine Batterie
       ohne Zelle gilt als nicht defekt.
 
-    \item \texttt{battery-ok?}, die überprüft, ob ein Akku
+    \item \lstinline{battery-ok?}, die überprüft, ob ein Akku
       funktioniert (d.h. ob alle Zellen funktionieren); eine Batterie
       ohne Zelle gilt als funktionstüchtig.
       
     \end{itemize}
 
-    \textbf{Gehe in den folgenden Teilaufgaben davon aus, dass
+    Gehe in den folgenden Teilaufgaben davon aus, dass
       nur \emph{funktionierende} Zellen und Batterien übergeben
-      werden!}
+      werden:
 
   \item Das Ladegerät kann eine Zelle um 500mAh pro Stunde
     aufladen.  Schreibe eine Funktion \\
-    \texttt{time-to-fully-charge-cell}, die ausrechnet, wieviele
+    \lstinline{time-to-fully-charge-cell}, die ausrechnet, wieviele
     Stunden es dauert, bis das Ladegerät die Zelle aufgeladen hat.
 
   \item Schreibe eine Funktion
-    \texttt{time-to-fully-charge-battery}, die ausrechnet, wieviele
+    \lstinline{time-to-fully-charge-battery}, die ausrechnet, wieviele
     Stunden es dauert, bis das Ladegerät den Akku aufgeladen hat.
 
-  \item Schreibe eine Funktion \texttt{charge-cell}, die eine
+  \item Schreibe eine Funktion \lstinline{charge-cell}, die eine
     Zelle und eine Zeit in Stunden konsumiert und die Zelle
     zurückgibt, die mit dem in der vorherigen Teilaufgabe genannten
     Ladegerät für die übergebene Zeit geladen wurde.  Die Ladung darf
     aber nicht über die maximale Ladung steigen!  Die restliche Zeit
     verfällt, wenn die Zelle bereits voll ist.
 
-  \item Schreibe eine Funktion \texttt{charge-battery}, die einen
+  \item Schreibe eine Funktion \lstinline{charge-battery}, die einen
     Akku auflädt.  Die Funktion gibt einen Akku zurück, der mit dem
     Ladegerät für die übergebene Zeit geladen wurde.  Ist eine Zelle
     vollständig geladen, so wird die nächste Zelle mit der restlichen
@@ -1187,25 +1204,25 @@ Schreibe folgende Funktionen auf Listen:
   \item Das Entladen einer Zelle hängt vom Verbraucher ab: Ein Gerät
     hat einen Verbrauchswert, angegeben in mA.  Anschaulich betrachtet
     heißt das, dass das Gerät pro Zeit eine gewissen Strom verbraucht.
-    Schreibe eine Funktion \texttt{time-to-fully-discharge-cell},
+    Schreibe eine Funktion \lstinline{time-to-fully-discharge-cell},
     die eine Zelle und einen Verbrauch pro Stunde konsumiert und
     ausrechnet, wie lange es dauert, bis die Zelle entladen ist.
 
   \item Schreibe eine Funktion
-    \texttt{time-to-fully-discharge-battery}, die einen Akku und einen
+    \lstinline{time-to-fully-discharge-battery}, die einen Akku und einen
     Verbrauch pro Stunde konsumiert, und ausrechnet, wie lange es
     dauert, bis der Akku entladen ist.
 
-  \item Schreibe eine Funktion \texttt{discharge-cell}, die eine
+  \item Schreibe eine Funktion \lstinline{discharge-cell}, die eine
     Zelle, einen Verbrauch pro Stunde und die Dauer (in Stunden)
     konsumiert, für die der Verbraucher den Strom der Zelle
     verbraucht.  Die Funktion soll eine Zelle zurückgeben, die für die
     Dauer den Verbraucher mit Strom versorgt hat.  Die Ladung darf
     aber nicht unter die minimale Ladung fallen! Die restliche Zeit
-    verfällt, wenn die Zelle bereits leer ist (tatsächlich geht dem
-    Verbraucher einfach der Strom aus...).
+    verfällt, wenn die Zelle bereits leer ist. (Tatsächlich geht dem
+    Verbraucher einfach der Strom aus.)
 
-  \item Schreibe eine Funktion \texttt{discharge-battery}, die
+  \item Schreibe eine Funktion \lstinline{discharge-battery}, die
     eine Batterie, einen Verbrauch pro Stunde und die Dauer (in
     Stunden) konsumiert.  Die Funktion soll eine Batterie,
     zurückgeben, die für die Dauer den Verbraucher mit Strom versorgt
@@ -1227,28 +1244,28 @@ Schreibe folgende Funktionen auf Listen:
   
   \begin{enumerate}
   \item Schreibe eine Funktion
-    \texttt{list-min}, die das kleinste Element einer
+    \lstinline{list-min}, die das kleinste Element einer
     Liste zurückgibt.
 
-    Beispiel: \verb|(list-min (list 2 3 4 1 5 6))| ergibt \verb|1|
+    Beispiel: \lstinline{(list-min (list 2 3 4 1 5 6))} ergibt 1.
 
     Wenn die Funktion auf eine leere Liste angewendet
-    wird, soll die Funktion eine \texttt{violation} produzieren.
+    wird, soll die Funktion eine \lstinline{violation} produzieren.
   \item Schreibe eine Funktion
-    \texttt{delete-once}, die aus einer Liste von Zahlen das erste
+    \lstinline{delete-once}, die aus einer Liste von Zahlen das erste
     Vorkommen einer gegebenen Zahl entfernt.
 
-    Beispiel: \verb|(delete-once 5 (list 1 2 5 3 4 5))| ergibt
-    \verb|#<list 1 2 3 4 5>|
+    Beispiel: \lstinline{(delete-once 5 (list 1 2 5 3 4 5))} ergibt
+    \lstinline{#<list 1 2 3 4 5>].
     
     (Wenn die Liste die Zahl nicht enthält,
     soll sie unverändert zurückgegeben werden.)
-  \item  Schreibe eine Funktion \texttt{sort}, die
+  \item  Schreibe eine Funktion \lstinline{sort}, die
     eine Liste von Zahlen in aufsteigender Reihenfolge sortiert.
-    Benutze dazu \texttt{list-min} und \texttt{delete-once}.
+    Benutze dazu \lstinline{list-min} und \lstinline{delete-once}.
 
-    Beispiel: \verb|(sort (list 1 5 3 2 4))| ergibt
-    \verb|#<list 1 2 3 4 5>|
+    Beispiel: \lstinline{(sort (list 1 5 3 2 4))} ergibt
+    \lstinline{#<list 1 2 3 4 5>}.
 
   \end{enumerate}
 \end{aufgabe}
@@ -1277,34 +1294,34 @@ Schreibe folgende Funktionen auf Listen:
 
 \begin{aufgabe}
    Du bist Besitzer eines Parkplatzes mit
-  Bereichen für unterschiedliche Fahrzeuge:  PKWs (\texttt{car}), Lastwagen
-  (\texttt{truck}), Wohnmobile (\texttt{caravan)}, Busse (\texttt{bus})
-  und Fahrräder (\texttt{bike}). 
+  Bereichen für unterschiedliche Fahrzeuge:  PKWs (\lstinline{car}), Lastwagen
+  (\lstinline{truck}), Wohnmobile (\lstinline{caravan)}, Busse (\lstinline{bus})
+  und Fahrräder (\lstinline{bike}). 
   Wegen der Finanznot hat die Stadt Tübingen beschlossen, dass 
   Du für jedes Fahrzeug, das auf Ihrem Parkplatz
   parkt, Abgaben entrichten musst, und zwar pro Tag je:
   \begin{list}{-}{}
-  \item \texttt{car}: 3 Cent
-  \item \texttt{truck}: 5 Cent + 3 Cent pro Achse
-  \item \texttt{caravan}: 4 Cent
-  \item \texttt{bus}: 10 Cent + 1 Cent pro Sitzplatz
-  \item \texttt{bike}: 1 Cent.
+  \item \lstinline{car}: 3 Cent
+  \item \lstinline{truck}: 5 Cent + 3 Cent pro Achse
+  \item \lstinline{caravan}: 4 Cent
+  \item \lstinline{bus}: 10 Cent + 1 Cent pro Sitzplatz
+  \item \lstinline{bike}: 1 Cent.
   \end{list} 
   Der Fahrzeughalter kann die Abgaben nur für den jeweiligen Tag begleichen, 
   so dass Du die Parkdauer nicht beachten musst.
 
   \begin{enumerate}
   \item Mache eine Datenanalyse und schreibe Daten- und 
-    Recorddefinitionen für die Fahrzeugtypen \texttt{truck}, \texttt{bus} und
-    \texttt{simple-vehicle}. Dabei werden unter \texttt{simple-vehicle} die
+    Record-Definitionen für die Fahrzeugtypen \lstinline{truck}, \lstinline{bus} und
+    \lstinline{simple-vehicle}. Dabei werden unter \lstinline{simple-vehicle} die
     Fahrzeuge zusammengefasst, bei denen keine variablen Kosten anfallen.
   \item Schreibe  Funktionen
-    \texttt{tax-truck}, \texttt{tax-bus} und \texttt{tax-simple-vehicle}
+    \lstinline{tax-truck}, \lstinline{tax-bus} und \lstinline{tax-simple-vehicle}
     zur Ermittlung der Abgaben für diese Fahrzeugtypen
-  \item Definiere einen Datentyp \texttt{vehicle}. Schreibe eine
-    Funktion \texttt{tax-vehicle}, die die Abgaben für ein beliebiges Fahrzeug 
+  \item Definiere einen Datentyp \lstinline{vehicle}. Schreibe eine
+    Funktion \lstinline{tax-vehicle}, die die Abgaben für ein beliebiges Fahrzeug 
     berechnet.    
-  \item Schreibe nun eine Funktion \texttt{calculate-tax}, die die täglichen 
+  \item Schreibe nun eine Funktion \lstinline{calculate-tax}, die die täglichen 
     Abgaben berechnet, die Du an das Finanzamt für alle Fahrzeuge auf ihrem Parkplatz
     bezahlen musst. Die Funktion akzeptiert eine Liste von Fahrzeugen und
     berechnet die Gesamtabgaben eines Tages.
@@ -1319,41 +1336,44 @@ Schreibe folgende Funktionen auf Listen:
 \begin{aufgabe}
   Da Du jetzt mit Listen programmieren kannst, bittet Dr.~Knaubichler
   Dich nochmals um Ihre Hilfe (siehe Aufgabe~\ref{aufgabe:knaubichler2}
-  aus dem vorigen Kapitel, Seite~\pageref{aufgabe:knaubichler2}):
+  auf Seite~\pageref{aufgabe:knaubichler2}):
   Schreibe ein Programm, das aus einer Liste von Grundkreaturen
   die zwei Grundkreaturen auswählt, die miteinander gekreuzt die
   leistungsstärkste Kreatur ergeben.
-
-  Gehen dazu wie folgt vor:
+  Gehe dazu wie folgt vor:
 
   \begin{enumerate}
   \item Schreibe ein Prädikat für Kreaturen.
 
   \item Schreibe eine Funktion
-    \texttt{creature-power}, die eine beliebige Kreatur akzeptiert und
+    \lstinline{creature-power}, die eine beliebige Kreatur akzeptiert und
     deren Leistung berechnet.  Die Leistung ist die Summe aller
     Eigenschaften.
 
   \item  Schreibe eine Funktion
-    \texttt{find-optimal-breeding-partner}, die eine Grundkreatur
+    \lstinline{find-optimal-breeding-partner}, die eine Grundkreatur
     $c_1$ und eine Liste von Grundkreaturen akzeptiert.  Die Funktion
     soll die Grundkreatur $c_2$ aus der Liste auswählen und
     zurückgeben, die der beste Kreuzungspartner von $c_1$ ist.  Die
     Kreuzung von $c_1$ und $c_2$ soll also unter allen möglichen
     Kreuzungen die Kreatur mit der höchsten Leistung ergeben.  Falls
-    die Liste der Grundkreaturen leer ist, soll die Funktion \verb|#f|
+    die Liste der Grundkreaturen leer ist, soll die Funktion \lstinline{#f}
     zurückgeben.
 
+    FIXME: Nicht \lstinline{#f}
+    
   \item  Schreibe eine Funktion
-    \texttt{breed-optimal-partner}, die eine Grundkreatur $c_1$ und
+    \lstinline{breed-optimal-partner}, die eine Grundkreatur $c_1$ und
     eine Liste von Grundkreaturen akzeptiert.  Die Funktion soll $c_1$
     mit der Grundkreatur aus der Liste kreuzen, die zur
     leistungsstärksten Kreatur führt.  Falls die Liste der
-    Grundkreaturen leer ist, soll die Funktion \verb|#f| zurückgeben.
-    Benutze \texttt{find-optimal-breeding-partner}.
+    Grundkreaturen leer ist, soll die Funktion \lstinline{#f} zurückgeben.
+    Benutze \lstinline{find-optimal-breeding-partner}.
 
+    FIXME: Nicht \lstinline{#f}
+    
   \item  Schreibe eine Funktion
-    \texttt{optimal-breed}, die eine Liste von Grundkreaturen
+    \lstinline{optimal-breed}, die eine Liste von Grundkreaturen
     akzeptiert.  Die Funktion soll die beiden Grundkreaturen aus der
     Liste miteinander kreuzen, die unter allen möglichen Kreuzungen
     die Kreatur mit der höchsten Leistung ergeben.  Benutze die

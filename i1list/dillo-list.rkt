@@ -1,6 +1,6 @@
 ;; Die ersten drei Zeilen dieser Datei wurden von DrRacket eingefügt. Sie enthalten Metadaten
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
-#reader(lib "beginner-reader.rkt" "deinprogramm" "sdp")((modname dillo) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
+#reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname dillo-list) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
 ; Ein Gürteltier hat folgende Eigenschaften:
 ; - Gewicht (in g)
 ; - lebendig oder tot
@@ -50,3 +50,23 @@
   (lambda (d)
     (make-dillo (dillo-weight d)
                 #f)))
+
+; Gürteltiere auf Highway 75
+(define highway75 (list dillo1 dillo2 dillo3 dillo4))
+
+; Gürteltiere überfahren
+(: run-over-dillos ((list-of dillo) -> (list-of dillo)))
+
+(check-expect (run-over-dillos highway75)
+              (list (make-dillo 55000 #f)
+                    dillo2
+                    (make-dillo 60000 #f)
+                    dillo4))
+
+(define run-over-dillos
+  (lambda (dillos)
+    (cond
+     ((empty? dillos) empty)
+     ((cons? dillos)
+      (cons (run-over-dillo (first dillos))
+                 (run-over-dillos (rest dillos)))))))

@@ -15,3 +15,16 @@
        (+ 1 
           (list-length (rest lis)))))))
 
+; zwei Listen aneinanderhängen
+(: concatenate ((list-of %element) (list-of %element) -> (list-of %element)))
+
+(check-expect (concatenate (list 1 2 3) (list 4 5 6))
+              (list 1 2 3 4 5 6))
+
+(define concatenate
+  (lambda (list1 list2)
+    (cond
+      ((empty? list1) list2)
+      ((cons? list1) 
+       (cons (first list1)
+             (concatenate (rest list1) list2))))))
