@@ -874,7 +874,7 @@ Wir müssen also nur die Resultate der beiden Ausdrucke mit
      ((empty? dillos) empty)
      ((cons? dillos)
       (cons (run-over-dillo (first dillos))
-                 (run-over-dillos (rest dillos)))))))
+            (run-over-dillos (rest dillos)))))))
 \end{lstlisting}
 %
 Fertig!
@@ -886,7 +886,126 @@ produzieren soll, benutzen wir an der entsprechenden Stelle
 \lstinline{cons}, bringen also die Schablone für Funktionen zum
 Einsatz, die zusammengesetzte Daten produzieren.
 
-FIXME: filter
+\subsection{Gürteltiere sortieren}
+
+Wir nehmen uns noch eine weitere Übung vor, bei der Listen produziert
+werden: Aus einer Liste von Gürteltieren wollen wir alle (noch)
+lebenden herausholen, vielleicht, um sie in Sicherheit zu bringen.
+
+So sehen Kurzbeschreibung, Signatur, ein Testfall und Gerüst aus:
+%
+\begin{lstlisting}
+; Lebendige Gürteltiere aufsammeln
+(: live-dillos ((list-of dillo) -> (list-of dillo)))
+
+(check-expect (live-dillos highway75)
+              (list dillo1 dillo3))
+
+(define live-dillos
+  (lambda (dillos)
+    |\ldots|))
+\end{lstlisting}
+%
+Wir fügen als nächstes die Standard-Schablone für Funktionen ein, die
+Listen akzeptieren:
+%
+\begin{lstlisting}
+(define live-dillos
+  (lambda (dillos)
+    (cond
+      ((empty? dillos) |\ldots|)
+      ((cons? dillos)
+       |\ldots| (first dillos) |\ldots|
+       |\ldots| (live-dillos (rest dillos)) |\ldots|))))
+\end{lstlisting}
+%
+Die Schablone ergänzen wir nun zur fertigen Funktion.  Der ersten
+Fall betrifft die leere Liste~-- aus einer leeren Liste von
+Gürteltiere können wir auch keine lebendigen Gürteltiere herausholen,
+da kommt also \lstinline{empty} hin.
+
+Im zweiten Fall ist es etwas aufwendiger.  Wir machen uns wieder klar,
+was die beiden Bestandteile bedeuten, die in der Schablone stehen:
+%
+\begin{itemize}
+\item \lstinline{(first dillo)} ist das erste Gürteltier in der Liste.
+\item \lstinline{(live-dillos (rest dillos))} sind die lebendigen
+  unter den restlichen Gürteltiere.
+\end{itemize}
+%
+Da die Gesamtaufgabe ist, die lebendigen Gürteltiere
+herauszusortieren, sollten wir beim ersten Gürteltier feststellen, ob
+es (noch) lebt.  Da steht dann folgender Zwischenstand
+%
+\begin{lstlisting}
+(define live-dillos
+  (lambda (dillos)
+    (cond
+      ((empty? dillos) empty)
+      ((cons? dillos)
+       |\ldots| (dillo-alive? (first dillos)) |\ldots|
+       |\ldots| (first dillos) |\ldots|
+       |\ldots| (live-dillos (rest dillos)) |\ldots|))))
+\end{lstlisting}
+%
+Der Aufruf \lstinline{(dillo-alive? (first dillos))} liefert einen
+booleschen Wert~-- mit dem können wir eigentlich nur eine Sache
+anfangen, nämlich ihn als Bedingung in einer binären
+\lstinline{if}-Verzweigung benutzen:
+%
+\begin{lstlisting}
+(define live-dillos
+  (lambda (dillos)
+    (cond
+      ((empty? dillos) empty)
+      ((cons? dillos)
+       (if (dillo-alive? (first dillos))
+           |\ldots|
+           |\ldots|)
+       |\ldots| (first dillos) |\ldots|
+       |\ldots| (live-dillos (rest dillos)) |\ldots|))))
+\end{lstlisting}
+%
+Wir müssen uns jetzt überlegen, was wir in die beiden Zweige des
+\lstinline{if} schreiben.  Im ersten Zweig~-- der Konsequente~--  ist
+das Gürteltier \lstinline{(first dillos)} (noch) am Leben, im
+zweiten~-- der Alternative~-- ist es tot.
+
+In der Alternative (Gürteltier tot) ist \lstinline{(live-dillos (rest dillos))} schon
+die richtige Antwort.  \lstinline{(first dillos)} fällt unter den Tisch:
+%
+\begin{lstlisting}
+(define live-dillos
+  (lambda (dillos)
+    (cond
+      ((empty? dillos) empty)
+      ((cons? dillos)
+       (if (dillo-alive? (first dillos))
+           |\ldots|
+           (live-dillos (rest dillos)))
+       |\ldots| (first dillos) |\ldots|))))
+\end{lstlisting}
+%
+Auch, wenn wir den rekursiven Aufruf \lstinline{(live-dillos (rest dillos))}
+scheinbar "<verbraucht"> haben~-- im  anderen Zweig (Gürteltier lebt
+(noch)) brauchen wir die restlichen lebendigen Gürteltiere noch
+einmal.  Wir müssen diesmal aber darauf achten, dass wir das erste
+Gürteltier in der Ausgabe wieder unterbringen und vorn an die
+restlichen Gürteltiere dran-\lstinline{cons}-en:
+%
+\begin{lstlisting}
+(define live-dillos
+  (lambda (dillos)
+    (cond
+      ((empty? dillos) empty)
+      ((cons? dillos)
+       (if (dillo-alive? (first dillos))
+           (cons (first dillos)
+                 (live-dillos (rest dillos)))
+           (live-dillos (rest dillos)))))))
+\end{lstlisting}
+%
+Fertig!
 
 \subsection{Zwei Listen aneinanderhängen}
 In unserem nächsten Beispiel ist eine Funktion

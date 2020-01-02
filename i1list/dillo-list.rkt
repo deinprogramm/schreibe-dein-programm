@@ -69,4 +69,21 @@
      ((empty? dillos) empty)
      ((cons? dillos)
       (cons (run-over-dillo (first dillos))
-                 (run-over-dillos (rest dillos)))))))
+            (run-over-dillos (rest dillos)))))))
+
+; Lebendige Gürteltiere aufsammeln
+(: live-dillos ((list-of dillo) -> (list-of dillo)))
+
+(check-expect (live-dillos highway75)
+              (list dillo1 dillo3))
+
+(define live-dillos
+  (lambda (dillos)
+    (cond
+      ((empty? dillos) empty)
+      ((cons? dillos)
+       (if (dillo-alive? (first dillos))
+           (cons (first dillos)
+                 (live-dillos (rest dillos)))
+           (live-dillos (rest dillos)))))))
+           
