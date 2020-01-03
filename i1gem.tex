@@ -205,8 +205,8 @@ Diese Funktion sollte entsprechend für Gürteltiere \emph{und}
 Papageien funktionieren, wir brauchen also Testfälle für beide:
 %
 \begin{lstlisting}
-(check-expect (animal-weight d1) 55000)
-(check-expect (animal-weight d2) 58000)
+(check-expect (animal-weight dillo1) 55000)
+(check-expect (animal-weight dillo2) 58000)
 (check-expect (animal-weight parrot1) 10000)
 (check-expect (animal-weight parrot2) 5000)
 \end{lstlisting}
@@ -266,11 +266,11 @@ werden.  Die beiden Prädikate unterscheiden Gürteltiere
 beziehungsweise Papageien von anderen Werten:
 %
 \begin{lstlisting}
-(dillo? d1)
+(dillo? dillo1)
 \evalsto #t
 (dillo? parrot1)
 \evalsto #f
-(parrot? d1)
+(parrot? dillo1)
 \evalsto #f
 (parrot? parrot1)
 \evalsto #t
