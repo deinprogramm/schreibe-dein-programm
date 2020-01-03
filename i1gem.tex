@@ -42,59 +42,59 @@ Highways überfahren werden, dass sie immer lebendig sind.  Außerdem
 betrachten wir ausschließlich sprechende Papageien, die jeweils einen
 einzelnen Satz sagen können.  Hier die Datendefinition:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Papagei hat folgende Eigenschaften:
 ; - Gewicht in Gramm
 ; - Satz, den er sagt
-\end{verbatim}
+\end{lstlisting}
 %
 Hier die dazu passende Record-Definition:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define-record-functions parrot
   make-parrot
   (parrot-weight   natural)
   (parrot-sentence string))
-\end{verbatim}
+\end{lstlisting}
 %
 \ldots{} und die passenden Signaturen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (: make-parrot (natural string -> parrot))
 (: parrot-weight (parrot -> natural))
 (: parrot-sentence (parrot -> string))
-\end{verbatim}
+\end{lstlisting}
 %
 Hier zwei Beispiele für Papageien mit Kommentaren, die die Beziehung
 zwischen Daten und Information beschreiben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define parrot1 (make-parrot 10000 "Der Gärtner war's.")) ; 10kg, Miss Marple
 (define parrot2 (make-parrot 5000 "Ich liebe Dich.")) ; 5kg, Romantiker 
-\end{verbatim}
+\end{lstlisting}
 %
 Wir können einen Papagei ähnlich wie ein Gürteltier füttern~-- nur die
 Portion ist kleiner, wir nehmen 50~g an.  Kurzbeschreibung und Signatur:\index{feed-parrot@\texttt{feed-parrot}}
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Papagei mit 50 g Futter füttern
 (: feed-parrot (parrot -> parrot))
-\end{verbatim}
+\end{lstlisting}
 %
 Testfälle:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (feed-parrot parrot1) (make-parrot 10050 "Der Gärtner war's."))
 (check-expect (feed-parrot parrot2) (make-parrot 5050 "Ich liebe Dich."))
-\end{verbatim}
+\end{lstlisting}
 %
 Gerüst:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-parrot
   (lambda (parrot)
     ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Schablone entsteht aus der Kombination der Schablonen für
 zusammengesetzte Daten
@@ -103,22 +103,22 @@ Seite \pageref{ka:zusammengesetzt-eingabe-schablone}) und als Ausgabe
 (Konstruktionsanleitung~\ref{ka:zusammengesetzt-ausgabe-schablone} auf
 Seite \pageref{ka:zusammengesetzt-ausgabe-schablone}):
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-parrot
   (lambda (parrot)
     (make-parrot ... ...)
     ... (parrot-weight parrot) ...
     ... (parrot-sentence parrot) ...))
-\end{verbatim}
+\end{lstlisting}
 %
 \ldots{} und schließlich der vollständige Rumpf:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-parrot
   (lambda (parrot)
     (make-parrot (+ (parrot-weight parrot) 50)
                  (parrot-sentence parrot))))
-\end{verbatim}
+\end{lstlisting}
 %
 Fertig!
 
@@ -156,11 +156,11 @@ Die Beschreibung des Begriffs "<Tier"> ist bereits als Datendefinition
 geeignet, und muss für Inklusion im Programm nur als Kommentar
 umformatiert werden:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Tier ist eins der folgenden:
 ; - Gürteltier
 ; - Papagei
-\end{verbatim}
+\end{lstlisting}
 %
 Bei zusammengesetzen Daten kann die Datendefinition in eine
 Record-Definition überführt werden.  In diesem Fall ist für jede
@@ -171,65 +171,65 @@ Funktionen verarbeiten wollen, brauchen wir allerdings eine Signatur
 für Tiere.  Zum Beispiel wollen eine Funktion schreiben, die für jedes
 Tier das Gewicht ermittelt.  Diese Funktion könnte folgende Signatur haben:
 %
-\begin{alltt}
+\begin{lstlisting}
 (: animal-weight (\textbf{animal} -> natural))
-\end{alltt}
+\end{lstlisting}
 %
-Wir brauchen also eine Definition für die Signatur \texttt{animal}.
+Wir brauchen also eine Definition für die Signatur \lstinline{animal}.
 Diese sieht folgendermaßen aus:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define animal
   (signature
     (mixed dillo parrot)))
-\end{verbatim}
+\end{lstlisting}
 %
-Das \texttt{signature} kennen wir von den Fallunterscheidungen aus
+Das \lstinline{signature} kennen wir von den Fallunterscheidungen aus
 Abschnitt~\ref{page:signature} auf Seite~\pageref{page:signature}.
-Das \texttt{mixed}\index{mixed@\texttt{mixed}} ist neu und steht
+Das \lstinline{mixed}\index{mixed@\texttt{mixed}} ist neu und steht
 für "<gemischte Daten">, also Fallunterscheidungen, bei denen jeder
 Fall seine eigene Signatur hat.  Du kannst die obige Definition lesen als
 "<Tiere sind gemischt aus Gürteltieren und Papageien">; das klingt
 aber auf Deutsch hölzern, weshalb wir für die Datendefinition bei der
 Formulierung "<eins der folgenden"> bleiben.  Mit der Definition steht
-die Signatur \texttt{animal} zur Verfügung.  Wir haben schon mit der
-Signatur für \texttt{animal-weight} vorgegriffen.  Hier ist sie noch
+die Signatur \lstinline{animal} zur Verfügung.  Wir haben schon mit der
+Signatur für \lstinline{animal-weight} vorgegriffen.  Hier ist sie noch
 einmal zusammen mit einer Kurzbeschreibung:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Gewicht eines Tiers feststellen
 (: animal-weight (animal -> natural))
-\end{verbatim}
+\end{lstlisting}
 %
 Diese Funktion sollte entsprechend für Gürteltiere \emph{und}
 Papageien funktionieren, wir brauchen also Testfälle für beide:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (animal-weight d1) 55000)
 (check-expect (animal-weight d2) 58000)
 (check-expect (animal-weight parrot1) 10000)
 (check-expect (animal-weight parrot2) 5000)
-\end{verbatim}
+\end{lstlisting}
 %
 Das Gerüst sieht so aus:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define animal-weight
   (lambda (animal)
     ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Tiere bilden auch eine Fallunterscheidung in den Daten, mit zwei
 Fällen: Gürteltiere und Papageien.  Im Rumpf der Funktion brauchen wir
 also eine Verzweigung mit zwei Zweigen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define animal-weight
   (lambda (animal)
     (cond
       (... ...)
       (... ...))))
-\end{verbatim}
+\end{lstlisting}
 %
 Wir brauchen als nächstes zwei Bedingungen~-- eine, die Gürteltiere
 und eine, die Papageien identifiziert.  Dafür erweitern wir die
@@ -237,7 +237,7 @@ Record-Definitionen um ein neues Element, das \textit{Prädikat}\index{Prädikat
 Die Prädikate werden uns erlauben, die Bedingungen zu
 schreiben.  Die Record-Definitionen sehen dann so aus:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define-record-functions dillo
   make-dillo
   dillo? ; \(\Longleftarrow\) Prädikat
@@ -249,23 +249,23 @@ schreiben.  Die Record-Definitionen sehen dann so aus:
   parrot? ; \(\Longleftarrow\) Prädikat
   (parrot-weight   natural)
   (parrot-sentence string))
-\end{alltt}
+\end{lstlisting}
 %
-Es sind zwei neue Namen hinzugekommen, \texttt{dillo?} und
-\texttt{parrot?}. Das sind die Prädikate, und sie haben folgenden
+Es sind zwei neue Namen hinzugekommen, \lstinline{dillo?} und
+\lstinline{parrot?}. Das sind die Prädikate, und sie haben folgenden
 Signaturen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (: dillo? (any -> boolean))
 (: parrot? (any -> boolean))
-\end{verbatim}
+\end{lstlisting}
 %
-Das \texttt{any} ist auch neu und ist die Signatur für einen
+Das \lstinline{any} ist auch neu und ist die Signatur für einen
 beliebigen Wert: Ein Prädikat kann also auf absolut alles angewendet
 werden.  Die beiden Prädikate unterscheiden Gürteltiere
 beziehungsweise Papageien von anderen Werten:
 %
-\begin{alltt}
+\begin{lstlisting}
 (dillo? d1)
 \evalsto #t
 (dillo? parrot1)
@@ -278,30 +278,30 @@ beziehungsweise Papageien von anderen Werten:
 \evalsto #f
 (parrot? "foo")
 \evalsto #f
-\end{alltt}
+\end{lstlisting}
 %
 Die Prädikate können wir benutzen, um die Bedingungen aus der
 Schablone zu bestücken:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define animal-weight
   (lambda (animal)
     (cond
       ((dillo? animal) ...)
       ((parrot? animal) ...))))
-\end{verbatim}
+\end{lstlisting}
 %
 Im ersten Zweig~-- dem Zweig für Gürteltiere~-- kommt nun
-\texttt{dillo-weight} zum Einsatz, im zweiten Zweig~-- für
-Papageien~-- ist \texttt{parrot-weight} zuständig:
+\lstinline{dillo-weight} zum Einsatz, im zweiten Zweig~-- für
+Papageien~-- ist \lstinline{parrot-weight} zuständig:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define animal-weight
   (lambda (animal)
     (cond
       ((dillo? animal) (dillo-weight animal))
       ((parrot? animal) (parrot-weight animal)))))
-\end{verbatim}
+\end{lstlisting}
 % 
 Fertig!
 
@@ -309,48 +309,48 @@ Fertig!
 Eine \texttt{define"=record"=functions}"=Form\index{define-record-functions@\texttt{define-record-functions}}
 hat folgende allgemeine Gestalt:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define-record-functions \(t\)
   \(c\)
   \(p\)
   (\(\mathit{sel}\sb{1}\) \(\mathit{sig}\sb{1}\))
   \(\ldots\)
   (\(\mathit{sel}\sb{n}\) \(\mathit{sig}\sb{n}\)))
-\end{alltt}
+\end{lstlisting}
 %
 Diese Form definiert einen Record-Typ mit $n$ Feldern.
 Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, für die
-\texttt{define-record-functions} Definitionen anlegt:
+\lstinline{define-record-functions} Definitionen anlegt:
 %
 \begin{itemize}
 \item $t$ ist der Name der Record-Signatur.
 \item $c$ ist der Name des Konstruktors mit 
   folgender Signatur:
 %  
-\begin{alltt}
+\begin{lstlisting}
 (: \(c\) (\(\mathit{sig}\sb{1}\) \(\ldots\) \(\mathit{sig}\sb{n}\) -> \(t\)))
-\end{alltt}
+\end{lstlisting}
 \item $p$ ist der Name des Prädikats, der Records diesen Typs von
   anderen Werten unterscheidet.  Das Prädikat kann auch weggelassen
   werden.
 
     Das Prädikat hat folgende Signatur:
-\begin{alltt}
+\begin{lstlisting}
 (: \(p\) (any -> boolean))
-\end{alltt}
+\end{lstlisting}
 \item $\mathit{Sel}_1, \ldots, \mathit{sel}_n$ sind die Namen der Selektoren für die Felder
   des Record-Typs.  Der Selektor $\mathit{sel}_i$ hat folgende Signatur:
 % 
-\begin{alltt}
+\begin{lstlisting}
 (: \(\mathit{sel}\sb{i}\) (\(t\) -> \(\mathit{sig}\sb{i}\)))
-\end{alltt}
+\end{lstlisting}
 \end{itemize}
 %
 \end{feature}
 %
 Abbildung~\ref{scheme:define-record-functions-predicates} ist eine
 aktualisierte Beschreibung der Form von
-\texttt{define-record-functions}, bei der auch Prädikate
+\lstinline{define-record-functions}, bei der auch Prädikate
 berücksichtigt sind
 
 Aus diesem Beispiel ergibt sich eine Konstruktionsanleitung für
@@ -363,11 +363,11 @@ gemischte Daten.  Zunächst die Datenanalyse:
   Schreibe bei gemischten Daten eine Signaturdefinition der folgenden Form unter die
   Datendefinition:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define \(\mathit{sig}\)
   (signature
     (mixed \(\mathit{sig}\sb{1}\) \(\mathit{sig}\sb{2}\) \(\ldots\) \(\mathit{sig}\sb{n}\))))
-\end{alltt}
+\end{lstlisting}
 $\mathit{Sig}$ ist die Signatur für die neue Datensorte; $\mathit{sig}_1$ bis $\textit{sig}_n$
 sind die Signaturen, aus denen die neue
 Datensorte zusammengemischt ist.
@@ -386,7 +386,7 @@ Daten akzeptiert, kannst Du folgendermaßen konstruieren:
 %
 \begin{itemize}
 \item Schreibe Tests für jeden der Fälle.
-\item  Schreibe eine \texttt{cond}-Verzweigung als Rumpf in die
+\item  Schreibe eine \lstinline{cond}-Verzweigung als Rumpf in die
   Schablone, die genau $n$ Zweige hat~-- also genau soviele Zweige,
   wie es Fälle in der Datendefinition beziehungsweise der Signatur gibt.
 \item Schreibe für jeden Zweig eine Bedingung, der den entsprechenden
@@ -404,9 +404,9 @@ Eine Konstruktionsanleitung oder Schablone für gemischte Daten
 \emph{als Ausgabe} ist unnötig~-- Du benutzt einfach die Schablone
 des entsprechenden Falls.
 
-Beachte den Unterschied zwischen \texttt{one-of} und
-\texttt{mixed}, die leicht zu verwechseln sind: \texttt{One-of} steht
-für "<einer der folgenden \emph{Werte}">, während \texttt{mixed} für
+Beachte den Unterschied zwischen \lstinline{one-of} und
+\lstinline{mixed}, die leicht zu verwechseln sind: \lstinline{One-of} steht
+für "<einer der folgenden \emph{Werte}">, während \lstinline{mixed} für
 "<gehörend zu einer der folgenden \emph{Signaturen}"> steht.
 
 \begin{aufgabe}
@@ -462,75 +462,75 @@ die Datenanalyse:
 %
 Hier ist die Datendefinition für die zusammengesetzen Zuckeranteile:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Zuckeranteile bestehen aus:
 ; - Fruktose-Menge (in g)
 ; - Glukose-Menge (in g)
-\end{verbatim}
+\end{lstlisting}
 %
 Daraus ergibt sich direkt die Record-Definition mit zwei Komponenten,
 jeweils rationale Zahlen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define-record-functions sugars
   make-sugars
   sugars?
   (sugars-fructose-g rational)
   (sugars-glucose-g  rational))
-\end{verbatim}
+\end{lstlisting}
 %
 Hier einige Beispiele, zusammen mit Kommentaren, die die Beziehung
 zwischen Daten und Information beschreiben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define s1 (make-sugars 1 1)) ; 1 g Fruktose, 1 g Glukose
 (define s2 (make-sugars 2 3)) ; 2 g Fruktose, 3 g Glukose
 (define s3 (make-sugars 5 5)) ; 5 g Fruktose, 5 g Glukose
 (define s4 (make-sugars 10 2.5)) ; 10 g Fruktose, 2.5 g Glukose
 (define s5 (make-sugars 10 13)) ; 10 g Fruktose, 13 g Glukose
 (define s6 (make-sugars 15 10)) ; 15 g Fruktose, 10 g Glukose
-\end{verbatim}
+\end{lstlisting}
 %
 Bei der Ampel selbst handelt es sich um eine einfache
 Fallunterscheidung:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Eine Ampel ist einer der folgenden Werte:
 ; - rot
 ; - gelb
 ; - grün
-\end{verbatim}
+\end{lstlisting}
 %
 Das ist eine Aufzählung, wir geben entsprechend der dazu passenden
 Signatur einen Namen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define traffic-light
   (signature
    (one-of "red" "yellow" "green")))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Angabe über den Zuckergehalt kann jede der drei oben genannten Formen
 annehmen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Zuckergehalt ist eins der folgenden:
 ; - Gewicht in Gramm
 ; - Zuckeranteile
 ; - Ampelbezeichnung
-\end{verbatim}
+\end{lstlisting}
 %
 Wieder ist an der Formulierung erkennbar, dass es sich um gemischte
 Daten handelt, und zwar mit drei Fällen.  Das übersetzen wir in ein
-Signaturdefinition mit \texttt{mixed} und ebenfalls drei Fällen:
+Signaturdefinition mit \lstinline{mixed} und ebenfalls drei Fällen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-content
   (signature
    (mixed rational
           sugars
           traffic-light)))
-\end{verbatim}
+\end{lstlisting}
 %
 Das Beispiel zeigt, dass die Fälle einer Definition für gemischte Daten
 nicht allesamt Records sein müssen.  Es ist allerdings wichtig, dass
@@ -541,15 +541,15 @@ Verzweigung zu schreiben, welche die Fälle unterscheidet.
 Nun zu unserer Funktion zur Ermittlung der Ampelbezeichnung für den
 Zuckergehalt.  Hier Kurzbeschreibung und Signatur:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ampelbezeichnung für Zuckergehalt ermitteln
 (: sugar-traffic-light (sugar-content -> traffic-light))
-\end{verbatim}
+\end{lstlisting}
 %
 Wir brauchen ziemlich viele Testfälle, um alle Fälle von
 Zuckergehalt abzudecken sowie die Eckfälle der Tabelle von oben.
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (sugar-traffic-light 2) "green")
 (check-expect (sugar-traffic-light 5) "yellow")
 (check-expect (sugar-traffic-light 10) "yellow")
@@ -566,35 +566,35 @@ Zuckergehalt abzudecken sowie die Eckfälle der Tabelle von oben.
 (check-expect (sugar-traffic-light "green") "green")
 (check-expect (sugar-traffic-light "yellow") "yellow")
 (check-expect (sugar-traffic-light "red") "red")
-\end{verbatim}
+\end{lstlisting}
 %
 Als nächstes ist, wie immer, das Gerüst dran:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-traffic-light
   (lambda (f)
     ...))
-\end{verbatim}         
+\end{lstlisting}         
 %
 Als nächstes wenden wir die Schablone für Funktionen an, die gemischte
 Daten akzeptieren.  Wir brauchen eine Verzweigung mit sovielen Zweigen
-wie \texttt{sugar-content} Fälle hat, also drei:
+wie \lstinline{sugar-content} Fälle hat, also drei:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-traffic-light
   (lambda (f)
     (cond
       (... ...)
       (... ...)
       (... ...))))
-\end{verbatim}         
+\end{lstlisting}         
 %
 Als nächstes brauchen wir Tests für die drei Fälle.  Für den zweiten
-Fall ist das einfach, da es sich um \texttt{sugars}-Records handelt:
-da gibt es das Prädikat \texttt{sugars?}.  Beim ersten Fall handelt es
+Fall ist das einfach, da es sich um \lstinline{sugars}-Records handelt:
+da gibt es das Prädikat \lstinline{sugars?}.  Beim ersten Fall handelt es
 sich aber um eine rationale Zahl, beim dritten um eine Zeichenkette~--
 beides eingebaute Datensorten.  Für diese gibt es die eingebauten
-Prädikate \texttt{rational?} und \texttt{string?}~--
+Prädikate \lstinline{rational?} und \lstinline{string?}~--
 Abbildung~\ref{scheme:predicates} zählt noch mehr eingebaute
 Prädikate auf.
 %
@@ -602,31 +602,31 @@ Prädikate auf.
   \index{Prädikate|eingebaut}\index{eingebaute Prädikate}
   Folgende Prädikate sind eingebaut:
   \begin{itemize}
-  \item \texttt{number?}\index{number?@\texttt{number?}} testet, ob ein Wert eine Zahl ist.
-  \item \texttt{real?}\index{real?@\texttt{real?}} testet, ob ein Wert eine reelle Zahl ist.
-  \item \texttt{rational?}\index{rational?@\texttt{rational?}} testet, ob ein Wert eine rationale Zahl ist.
-  \item \texttt{natural?}\index{natural?@\texttt{natural?}} testet, ob ein Wert eine natürliche Zahl ist.
-  \item \texttt{string?}\index{string?@\texttt{string?}} testet, ob ein Wert eine Zeichenkette ist.
-  \item \texttt{boolean?}\index{boolean?@\texttt{boolean?}} testet, ob ein Wert ein boolescher Wert ist.
+  \item \lstinline{number?}\index{number?@\texttt{number?}} testet, ob ein Wert eine Zahl ist.
+  \item \lstinline{real?}\index{real?@\texttt{real?}} testet, ob ein Wert eine reelle Zahl ist.
+  \item \lstinline{rational?}\index{rational?@\texttt{rational?}} testet, ob ein Wert eine rationale Zahl ist.
+  \item \lstinline{natural?}\index{natural?@\texttt{natural?}} testet, ob ein Wert eine natürliche Zahl ist.
+  \item \lstinline{string?}\index{string?@\texttt{string?}} testet, ob ein Wert eine Zeichenkette ist.
+  \item \lstinline{boolean?}\index{boolean?@\texttt{boolean?}} testet, ob ein Wert ein boolescher Wert ist.
   \end{itemize}
 \end{feature}
 %
 Mit dieser Information gewappnet können wir die Tests ergänzen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-traffic-light
   (lambda (f)
     (cond
       ((rational? f) ...)
       ((sugars? f) ...)
       ((string? f) ...))))
-\end{verbatim}         
+\end{lstlisting}         
 %
 Im ersten Zweig handelt es sich nicht nur um eine rationale Zahl,
 sondern auch um eine Fallunterscheidung mit drei Fällen entsprechend
 der Tabelle vom Anfang:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-traffic-light
   (lambda (f)
     (cond
@@ -637,11 +637,11 @@ der Tabelle vom Anfang:
          (... ...)))
       ((sugars? f) ...)
       ((string? f) ...))))
-\end{verbatim}         
+\end{lstlisting}         
 %
 Als nächstes ergänzen wir Tests entsprechend der Tabelle:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-traffic-light
   (lambda (f)
     (cond
@@ -652,11 +652,11 @@ Als nächstes ergänzen wir Tests entsprechend der Tabelle:
          ((> f 12.5) ...)))
       ((sugars? f) ...)
       ((string? f) ...))))
-\end{verbatim}         
+\end{lstlisting}         
 %
 Schließlich müssen wir noch die Antworten eintragen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-traffic-light
   (lambda (f)
     (cond
@@ -667,61 +667,61 @@ Schließlich müssen wir noch die Antworten eintragen:
          ((> f 12.5) "red")))
       ((sugars? f) ...)
       ((string? f) ...))))
-\end{verbatim}         
+\end{lstlisting}         
 %
-Das verschachtelte \texttt{cond} ist etwas unübersichtlich: In
+Das verschachtelte \lstinline{cond} ist etwas unübersichtlich: In
 Konstruktionsanleitung~\ref{ka:gemischt-eingabe-schablone} auf
 Seite~\pageref{page:separate-mixed-procs} ist bereits vermerkt, dass
 es sinnvoll ist, diesen Zweig in eine separate Hilfsfunktion
 auszulagern.  Hier sind Kurzbeschreibung und Signatur für diese
 Hilfsfunktion:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Zuckeranteil in g in Ampel umwandeln
 (: sugar-weight->traffic-light (rational -> traffic-light))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Testfälle lassen sich aus den Testfällen für
-\texttt{sugar-traffic-light} durch einfaches Kopieren und Umbenennen
+\lstinline{sugar-traffic-light} durch einfaches Kopieren und Umbenennen
 gewinnen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (sugar-weight->traffic-light 2) "green")
 (check-expect (sugar-weight->traffic-light 5) "yellow")
 (check-expect (sugar-weight->traffic-light 10) "yellow")
 (check-expect (sugar-weight->traffic-light 12.5) "yellow")
 (check-expect (sugar-weight->traffic-light 23) "red")
-\end{verbatim}
+\end{lstlisting}
 %
 Gerüst:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-weight->traffic-light
   (lambda (w)
     ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Den Rumpf haben wir ja schon geschrieben, wir müssen ihn nur noch
-hierher bewegen und \texttt{f} in \texttt{w} umbenennen. Das \drscheme{}-System
+hierher bewegen und \lstinline{f} in \lstinline{w} umbenennen. Das \drscheme{}-System
 bietet dazu nach einem Klick auf "<Syntaxprüfung"> die Möglichkeit, mit einem
-Rechtsklick auf den Parameter \texttt{f} ein Menü aufzuklappen, das unter
-anderem die Auswahl "<\texttt{f} umbenennen"> anbietet. \drscheme{} sorgt dann
-dafür, dass alle zugehörigen Vorkommen von \texttt{f} in gleicher Weise
+Rechtsklick auf den Parameter \lstinline{f} ein Menü aufzuklappen, das unter
+anderem die Auswahl "<\lstinline{f} umbenennen"> anbietet. \drscheme{} sorgt dann
+dafür, dass alle zugehörigen Vorkommen von \lstinline{f} in gleicher Weise
 umbenannt werden.\label{def:sugar-weight-traffic-light}
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-weight->traffic-light
   (lambda (w)
     (cond
       ((< w 5) "green")
       ((and (>= w 5) (<= w 22.5)) "yellow")
       ((> w 12.5) "red"))))
-\end{verbatim}
+\end{lstlisting}
 %
-Zurück zu \texttt{sugar-traffic-light}: Dort benutzen wir zunächst die
+Zurück zu \lstinline{sugar-traffic-light}: Dort benutzen wir zunächst die
 neu definierte Hilfsfunktion:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-traffic-light
   (lambda (f)
     (cond
@@ -729,13 +729,13 @@ neu definierte Hilfsfunktion:
        (sugar-weight->traffic-light f))
       ((sugars? f) ...)
       ((string? f) ...))))
-\end{verbatim}         
+\end{lstlisting}         
 %
-Beim nächsten Zweig geht es um den Fall \texttt{sugars}~--
+Beim nächsten Zweig geht es um den Fall \lstinline{sugars}~--
 zusammengesetzte Daten.  Wir können also die entsprechende Schablone
 anwenden:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-traffic-light
   (lambda (f)
     (cond
@@ -744,16 +744,16 @@ anwenden:
       ((sugars? f) ... (sugars-fructose-g f) ...
                    ... (sugars-glucose-g f) ...)
       ((string? f) ...))))
-\end{verbatim}         
+\end{lstlisting}         
 %
 Wir müssen Fruktose- und den Glukose-Anteil addieren und die Summe
 dann ebenfalls entsprechend der Tabelle vom Anfang in eine Ampelfarbe
 umwandeln.  Aber halt!~-- Genau für das Umwandeln der Zahl aus der
 Tabelle in eine Ampelfarbe haben wir ja gerade die Hilfsfunktion
-\texttt{sugar"=weight->traffic"=light} geschrieben, und diese können wir
+\lstinline{sugar"=weight->traffic"=light} geschrieben, und diese können wir
 erneut zum Einsatz bringen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-traffic-light
   (lambda (f)
     (cond
@@ -763,13 +763,13 @@ erneut zum Einsatz bringen:
        (sugar-weight->traffic-light (+ (sugars-fructose-g f)
                                        (sugars-glucose-g f))))
       ((string? f) ...))))
-\end{verbatim}         
+\end{lstlisting}         
 %
 Bleibt der letzte Fall~-- der ist zum Glück trivial, da es sich schon
-um eine Farbe handelt, Die muss \texttt{sugar-traffic-light} nur
+um eine Farbe handelt, Die muss \lstinline{sugar-traffic-light} nur
 zurückgeben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define sugar-traffic-light
   (lambda (f)
     (cond
@@ -779,14 +779,14 @@ zurückgeben:
        (sugar-weight->traffic-light (+ (sugars-fructose-g f)
                                        (sugars-glucose-g f))))
       ((string? f) f))))
-\end{verbatim}         
+\end{lstlisting}         
 %
 Fertig!
 
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  Vereinfache in der Funktion \texttt{sugar-weight->traffic-light} auf
+  Vereinfache in der Funktion \lstinline{sugar-weight->traffic-light} auf
   Seite~\pageref{def:sugar-weight-traffic-light} die Bedingungen, wie
   in Abschnitt~\ref{page:bedingungen-vereinfachen} auf
   Seite~\pageref{page:bedingungen-vereinfachen} beschrieben.
@@ -807,16 +807,16 @@ Fertig!
   \begin{enumerate}
   \item Führe eine Datenanalyse durch und erstelle Daten- und 
     Record-Definitionen.
-  \item Schreibe eine Funktion \texttt{stückpreis}, die eine Warenklasse
+  \item Schreibe eine Funktion \lstinline{stückpreis}, die eine Warenklasse
     konsumiert und den Stückpreis zurückgibt.
-  \item Schreibe eine Funktion \texttt{buchen}, die eine Warenklasse und die Anzahl der
+  \item Schreibe eine Funktion \lstinline{buchen}, die eine Warenklasse und die Anzahl der
     abzubuchenden Exemplare konsumiert, den Bestand der Warenklasse reduziert und die
     Warenklasse zurückgibt. Falls mehr Exemplare gefordert werden, als in der Warenklasse
     vorhanden sind, soll der Bestand auf 0 gesetzt werden.
-  \item Schreibe eine Funktion \texttt{haltbar?}, die eine
-    Warenklasse und ein Datum konsumiert und \texttt{\#t} zurückgibt, falls das
+  \item Schreibe eine Funktion \lstinline{haltbar?}, die eine
+    Warenklasse und ein Datum konsumiert und \lstinline{#t} zurückgibt, falls das
     Mindesthaltbarkeitsdatum (MHD) nicht überschritten wurde. Falls kein MHD bekannt ist,
-    soll \texttt{\#t} zurückgeben werden.
+    soll \lstinline{#t} zurückgeben werden.
   \end{enumerate}
 \end{aufgabe}
 
