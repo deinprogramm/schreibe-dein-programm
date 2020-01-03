@@ -6,60 +6,58 @@
 ; - lebendig oder tot
 (define-record-functions dillo
   make-dillo
-  dillo? ; \(\Longleftarrow\)
+  dillo?
   (dillo-weight natural)
   (dillo-alive? boolean))
 
 (: make-dillo (natural boolean -> dillo))
-(: dillo? (any -> boolean))
 (: dillo-weight (dillo -> natural))
 (: dillo-alive? (dillo -> boolean))
 
-(define d1 (make-dillo 55000 #t)) ; 55 kg, lebendig 
-(define d2 (make-dillo 58000 #f)) ; 58 kg, tot
-(define d3 (make-dillo 60000 #t)) ; 60 kg, lebendig
-(define d4 (make-dillo 63000 #f)) ; 63 kg, tot
+(define dillo1 (make-dillo 55000 #t)) ; 55 kg, lebendig 
+(define dillo2 (make-dillo 58000 #f)) ; 58 kg, tot
+(define dillo3 (make-dillo 60000 #t)) ; 60 kg, lebendig
+(define dillo4 (make-dillo 63000 #f)) ; 63 kg, tot
 
 ; Gürteltier mit 500g Futter füttern
 (: feed-dillo (dillo -> dillo))
 
-(check-expect (feed-dillo d1) (make-dillo 55500 #t))
-(check-expect (feed-dillo d2) d2)
+(check-expect (feed-dillo dillo1) (make-dillo 55500 #t))
+(check-expect (feed-dillo dillo2) dillo2)
 
 #;(define feed-dillo
-  (lambda (d)
-    (if (dillo-alive? d)
-        (make-dillo (+ (dillo-weight d) 500)
+  (lambda (dillo)
+    (if (dillo-alive? dillo)
+        (make-dillo (+ (dillo-weight dillo) 500)
                     #t)
         d)))
 
 (define feed-dillo
-  (lambda (d)
-    (make-dillo (if (dillo-alive? d)
-                    (+ (dillo-weight d) 500)
-                    (dillo-weight d))
-                (dillo-alive? d))))
+  (lambda (dillo)
+    (make-dillo (if (dillo-alive? dillo)
+                    (+ (dillo-weight dillo) 500)
+                    (dillo-weight dillo))
+                (dillo-alive? dillo))))
 
 
 ; Gürteltier überfahren
 (: run-over-dillo (dillo -> dillo))
 
-(check-expect (run-over-dillo d1) (make-dillo 55000 #f))
-(check-expect (run-over-dillo d2) d2)
-(check-expect (run-over-dillo d2) d2)
+(check-expect (run-over-dillo dillo1) (make-dillo 55000 #f))
+(check-expect (run-over-dillo dillo2) dillo2)
+(check-expect (run-over-dillo dillo2) dillo2)
 
 (define run-over-dillo
-  (lambda (d)
-    (make-dillo (dillo-weight d)
+  (lambda (dillo)
+    (make-dillo (dillo-weight dillo)
                 #f)))
-
 
 ; Ein Papagei hat folgende Eigenschaften:
 ; - Gewicht in Gramm
 ; - Satz, den er sagt
 (define-record-functions parrot
   make-parrot
-  parrot? ; \(\Longleftarrow\)
+  parrot?
   (parrot-weight   natural)
   (parrot-sentence string))
 
@@ -68,19 +66,19 @@
 (: parrot-weight (parrot -> natural))
 (: parrot-sentence (parrot -> string))
 
-(define p1 (make-parrot 10000 "Der Gärtner war's.")) ; 10kg, Miss Marple
-(define p2 (make-parrot 5000 "Ich liebe Dich.")) ; 5kg, Romantiker 
+(define parrot1 (make-parrot 10000 "Der Gärtner war's.")) ; 10kg, Miss Marple
+(define parrot2 (make-parrot 5000 "Ich liebe Dich.")) ; 5kg, Romantiker 
 
 ; Papagei mit 50 g Futter füttern
 (: feed-parrot (parrot -> parrot))
 
-(check-expect (feed-parrot p1) (make-parrot 10050 "Der Gärtner war's."))
-(check-expect (feed-parrot p2) (make-parrot 5050 "Ich liebe Dich."))
+(check-expect (feed-parrot parrot1) (make-parrot 10050 "Der Gärtner war's."))
+(check-expect (feed-parrot parrot2) (make-parrot 5050 "Ich liebe Dich."))
 
 (define feed-parrot
-  (lambda (p)
-    (make-parrot (+ (parrot-weight p) 50)
-                 (parrot-sentence p))))
+  (lambda (parrot)
+    (make-parrot (+ (parrot-weight parrot) 50)
+                 (parrot-sentence parrot))))
 
 ; Ein Tier ist eins der folgenden:
 ; - Gürteltier
@@ -92,13 +90,13 @@
 ; Gewicht eines Tiers feststellen
 (: animal-weight (animal -> natural))
 
-(check-expect (animal-weight d1) 55000)
-(check-expect (animal-weight d2) 58000)
-(check-expect (animal-weight p1) 10000)
-(check-expect (animal-weight p2) 5000)
+(check-expect (animal-weight dillo1) 55000)
+(check-expect (animal-weight dillo2) 58000)
+(check-expect (animal-weight parrot1) 10000)
+(check-expect (animal-weight parrot2) 5000)
 
 (define animal-weight
-  (lambda (a)
+  (lambda (animal)
     (cond
-      ((dillo? a) (dillo-weight a))
-      ((parrot? a) (parrot-weight a)))))
+      ((dillo? animal) (dillo-weight animal))
+      ((parrot? animal) (parrot-weight animal)))))

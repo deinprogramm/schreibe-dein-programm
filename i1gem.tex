@@ -69,8 +69,8 @@ Hier zwei Beispiele für Papageien mit Kommentaren, die die Beziehung
 zwischen Daten und Information beschreiben:
 %
 \begin{verbatim}
-(define p1 (make-parrot 10000 "Der Gärtner war's.")) ; 10kg, Miss Marple
-(define p2 (make-parrot 5000 "Ich liebe Dich.")) ; 5kg, Romantiker 
+(define parrot1 (make-parrot 10000 "Der Gärtner war's.")) ; 10kg, Miss Marple
+(define parrot2 (make-parrot 5000 "Ich liebe Dich.")) ; 5kg, Romantiker 
 \end{verbatim}
 %
 Wir können einen Papagei ähnlich wie ein Gürteltier füttern~-- nur die
@@ -84,15 +84,15 @@ Portion ist kleiner, wir nehmen 50~g an.  Kurzbeschreibung und Signatur:\index{f
 Testfälle:
 %
 \begin{verbatim}
-(check-expect (feed-parrot p1) (make-parrot 10050 "Der Gärtner war's."))
-(check-expect (feed-parrot p2) (make-parrot 5050 "Ich liebe Dich."))
+(check-expect (feed-parrot parrot1) (make-parrot 10050 "Der Gärtner war's."))
+(check-expect (feed-parrot parrot2) (make-parrot 5050 "Ich liebe Dich."))
 \end{verbatim}
 %
 Gerüst:
 %
 \begin{verbatim}
 (define feed-parrot
-  (lambda (p)
+  (lambda (parrot)
     ...))
 \end{verbatim}
 %
@@ -105,19 +105,19 @@ Seite \pageref{ka:zusammengesetzt-ausgabe-schablone}):
 %
 \begin{verbatim}
 (define feed-parrot
-  (lambda (p)
+  (lambda (parrot)
     (make-parrot ... ...)
-    ... (parrot-weight p) ...
-    ... (parrot-sentence p) ...))
+    ... (parrot-weight parrot) ...
+    ... (parrot-sentence parrot) ...))
 \end{verbatim}
 %
 \ldots{} und schließlich der vollständige Rumpf:
 %
 \begin{verbatim}
 (define feed-parrot
-  (lambda (p)
-    (make-parrot (+ (parrot-weight p) 50)
-                 (parrot-sentence p))))
+  (lambda (parrot)
+    (make-parrot (+ (parrot-weight parrot) 50)
+                 (parrot-sentence parrot))))
 \end{verbatim}
 %
 Fertig!
@@ -207,15 +207,15 @@ Papageien funktionieren, wir brauchen also Testfälle für beide:
 \begin{verbatim}
 (check-expect (animal-weight d1) 55000)
 (check-expect (animal-weight d2) 58000)
-(check-expect (animal-weight p1) 10000)
-(check-expect (animal-weight p2) 5000)
+(check-expect (animal-weight parrot1) 10000)
+(check-expect (animal-weight parrot2) 5000)
 \end{verbatim}
 %
 Das Gerüst sieht so aus:
 %
 \begin{verbatim}
 (define animal-weight
-  (lambda (a)
+  (lambda (animal)
     ...))
 \end{verbatim}
 %
@@ -225,7 +225,7 @@ also eine Verzweigung mit zwei Zweigen:
 %
 \begin{verbatim}
 (define animal-weight
-  (lambda (a)
+  (lambda (animal)
     (cond
       (... ...)
       (... ...))))
@@ -268,11 +268,11 @@ beziehungsweise Papageien von anderen Werten:
 \begin{alltt}
 (dillo? d1)
 \evalsto #t
-(dillo? p1)
+(dillo? parrot1)
 \evalsto #f
 (parrot? d1)
 \evalsto #f
-(parrot? p1)
+(parrot? parrot1)
 \evalsto #t
 (dillo? 5)
 \evalsto #f
@@ -285,10 +285,10 @@ Schablone zu bestücken:
 %
 \begin{verbatim}
 (define animal-weight
-  (lambda (a)
+  (lambda (animal)
     (cond
-      ((dillo? a) ...)
-      ((parrot? a) ...))))
+      ((dillo? animal) ...)
+      ((parrot? animal) ...))))
 \end{verbatim}
 %
 Im ersten Zweig~-- dem Zweig für Gürteltiere~-- kommt nun
@@ -297,10 +297,10 @@ Papageien~-- ist \texttt{parrot-weight} zuständig:
 %
 \begin{verbatim}
 (define animal-weight
-  (lambda (a)
+  (lambda (animal)
     (cond
-      ((dillo? a) (dillo-weight a))
-      ((parrot? a) (parrot-weight a)))))
+      ((dillo? animal) (dillo-weight animal))
+      ((parrot? animal) (parrot-weight animal)))))
 \end{verbatim}
 % 
 Fertig!

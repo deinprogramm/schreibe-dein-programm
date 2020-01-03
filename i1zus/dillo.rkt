@@ -25,18 +25,18 @@
 (check-expect (feed-dillo dillo2) dillo2)
 
 #;(define feed-dillo
-  (lambda (d)
-    (if (dillo-alive? d)
-        (make-dillo (+ (dillo-weight d) 500)
+  (lambda (dillo)
+    (if (dillo-alive? dillo)
+        (make-dillo (+ (dillo-weight dillo) 500)
                     #t)
         d)))
 
 (define feed-dillo
-  (lambda (d)
-    (make-dillo (if (dillo-alive? d)
-                    (+ (dillo-weight d) 500)
-                    (dillo-weight d))
-                (dillo-alive? d))))
+  (lambda (dillo)
+    (make-dillo (if (dillo-alive? dillo)
+                    (+ (dillo-weight dillo) 500)
+                    (dillo-weight dillo))
+                (dillo-alive? dillo))))
 
 
 ; Gürteltier überfahren
@@ -47,6 +47,6 @@
 (check-expect (run-over-dillo dillo2) dillo2)
 
 (define run-over-dillo
-  (lambda (d)
-    (make-dillo (dillo-weight d)
+  (lambda (dillo)
+    (make-dillo (dillo-weight dillo)
                 #f)))

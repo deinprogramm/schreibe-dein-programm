@@ -887,9 +887,23 @@ nehmen sie auch nicht zu, wenn man ihnen Futter anbietet:
 Hier das Gerüst der Funktion:
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
+  (lambda (dillo)
     ...))
 \end{verbatim}
+%
+Für den Namen des Parameters verwenden wir auch \texttt{dillo}, nicht
+zu verwechseln mit der Signatur, die ebenfalls \texttt{dillo}. Das
+\texttt{lambda} sorgt dafür, dass \texttt{dillo} innherhalb seines
+Rumpfes sich auf den Parameter bezieht, nicht auf die weiter außen
+stehende Signatur.
+
+\begin{aufgabe}
+  Um Du Dir klarzumachen, welches \texttt{dillo} zu welchem
+  \texttt{lambda} beziehungsweise zu welcher Definition gehört, kannst
+  Du in \drscheme{} den Knopf \texttt{Syntaxprüfung} drücken und
+  danach mit der Maus über die verschiedenen Vorkommen von
+  \texttt{dillo} streichen.
+\end{aufgabe}
 %
 \texttt{Feed-dillo} hat zusammengesetzte Daten sowohl als Eingabe
 als auch als Ausgabe.  Entsprechend kommen die Schablonen für beide
@@ -900,9 +914,9 @@ Seite \pageref{ka:zusammengesetzt-eingabe-schablone}; wir schreiben die Aufrufe 
 %
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
-    ... (dillo-weight d) ...
-    ... (dillo-alive? d) ...))
+  (lambda (dillo)
+    ... (dillo-weight dillo) ...
+    ... (dillo-alive? dillo) ...))
 \end{verbatim}
 %
 Dazu kommt die Schablone für zusammengesetzte Daten als Ausgabe aus
@@ -912,10 +926,10 @@ der Aufruf des Konstruktors:
 %
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
+  (lambda (dillo)
     (make-dillo ... ...)
-    ... (dillo-weight d) ...
-    ... (dillo-alive? d) ...))
+    ... (dillo-weight dillo) ...
+    ... (dillo-alive? dillo) ...))
 \end{verbatim}
 %
 Der zweite Testfall zeigt, dass, was \texttt{feed-dillo}
@@ -924,7 +938,7 @@ betrifft, die Gürteltiere in zwei verschiedene Gruppen fallen:
 bei toten: eine Fallunterscheidung.
 
 Entsprechend brauchen wir eine Verzweigung im Rumpf, und zwar nach dem
-Wert von \texttt{(dillo"=alive? d)}, der glücklicherweise schon in der
+Wert von \texttt{(dillo"=alive? dillo)}, der glücklicherweise schon in der
 Schablone steht.  Da \texttt{dillo-alive?} einen booleschen Wert
 liefert, handelt es sich um eine boolesche Fallunterscheidung.
 Deshalb 
@@ -934,27 +948,27 @@ binäre Verzweigung benutzen:
 %
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
-    (if (dillo-alive? d)
+  (lambda (dillo)
+    (if (dillo-alive? dillo)
          ...
          ...)
     (make-dillo ... ...)
-    ... (dillo-weight d) ...
+    ... (dillo-weight dillo) ...
 \end{verbatim}
 %
 Nun müssen wir noch die beiden Zweige ergänzen.  Am
 einfachsten ist "<Gürteltier tot">, dann nämlich kommt
 das gleiche Gürteltier aus der Funktion, das hineingegangen ist.  Wir
-setzen also \texttt{d} als Alternative der Verzweigung ein:
+setzen also \texttt{dillo} als Alternative der Verzweigung ein:
 %
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
-    (if (dillo-alive? d)
+  (lambda (dillo)
+    (if (dillo-alive? dillo)
          ...
-         d)
+         dillo)
     (make-dillo ... ...)
-    ... (dillo-weight d) ...
+    ... (dillo-weight dillo) ...
 \end{verbatim}
 %
 Im ersten Zweig müssen wir schließlich einen neuen Gürteltier-Wert
@@ -963,10 +977,10 @@ Konstruktur-Aufruf und der zweite Selektor-Aufruf aus der Schablone
 verbraucht:
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
-    (if (dillo-alive? d)
+  (lambda (dillo)
+    (if (dillo-alive? dillo)
         (make-dillo ... ...)
-        d)))
+        dillo)))
 \end{verbatim}
 %
 Wir müssen beim Aufruf des Konstruktors \texttt{make-dillo} angeben,
@@ -977,11 +991,11 @@ Konstruktoraufruf in dem Zweig steht, in dem das so ist:
 %
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
-    (if (dillo-alive? d)
-        (make-dillo (+ (dillo-weight d) 500)
+  (lambda (dillo)
+    (if (dillo-alive? dillo)
+        (make-dillo (+ (dillo-weight dillo) 500)
                     #t)
-        d)))
+        dillo)))
 \end{verbatim}
 %
 Wir kommen nun zum unangenehmen Teil, dem Überfahren, das aus einem
@@ -1011,7 +1025,7 @@ Hier das Gerüst der Funktion:
 %
 \begin{verbatim}
 (define run-over-dillo
-  (lambda (d)
+  (lambda (dillo)
     ...))
 \end{verbatim}
 %
@@ -1023,9 +1037,9 @@ Selektoren auf:
 %
 \begin{verbatim}
 (define run-over-dillo
-  (lambda (d)
-    ... (dillo-weight d) ...
-    ... (dillo-alive? d) ...))
+  (lambda (dillo)
+    ... (dillo-weight dillo) ...
+    ... (dillo-alive? dillo) ...))
 \end{verbatim}
 %
 Dazu kommt die Schablone für zusammengesetzte Daten als Ausgabe, also
@@ -1033,10 +1047,10 @@ der Aufruf des Konstruktors:
 %
 \begin{verbatim}
 (define run-over-dillo
-  (lambda (d)
+  (lambda (dillo)
     (make-dillo ... ...)
-    ... (dillo-weight d) ...
-    ... (dillo-alive? d) ...))
+    ... (dillo-weight dillo) ...
+    ... (dillo-alive? dillo) ...))
 \end{verbatim}
 %
 Da das Überfahren das Gewicht nicht ändert, übernimmt
@@ -1045,19 +1059,19 @@ der Schablone:
 %
 \begin{verbatim}
 (define run-over-dillo
-  (lambda (d)
-    (make-dillo (dillo-weight d) ...)
-    ... (dillo-alive? d) ...))
+  (lambda (dillo)
+    (make-dillo (dillo-weight dillo) ...)
+    ... (dillo-alive? dillo) ...))
 \end{verbatim}
 %
 Das Gürteltier ist nach dem Überfahren auf jeden Fall tot.  Da es
 keine Rolle spielt, ob das Gürteltier vorher lebendig war oder nicht,
-können wir den Selektoraufruf \texttt{(dillo-alive? d)} verwerfen:
+können wir den Selektoraufruf \texttt{(dillo-alive? dillo)} verwerfen:
 %
 \begin{verbatim}
 (define run-over-dillo
-  (lambda (d)
-    (make-dillo (dillo-weight d)
+  (lambda (dillo)
+    (make-dillo (dillo-weight dillo)
                 #f)))
 \end{verbatim}
 %
@@ -1077,13 +1091,13 @@ Konstruktoraufruf von \texttt{make-dillo} gestellt hätten:
 %
 \begin{alltt}
 (define feed-dillo
-  (lambda (d)
-    (make-dillo (if (dillo-alive? d)
+  (lambda (dillo)
+    (make-dillo (if (dillo-alive? dillo)
                     ...
                     ...)
                 ...)
-   ... (dillo-alive? d) ...
-   ... (dillo-weight d) ...))
+   ... (dillo-alive? dillo) ...
+   ... (dillo-weight dillo) ...))
 \end{alltt}
 %
 Bei dieser Vorgehensweise füllen wir zunächst die Ellipsen für die
@@ -1091,12 +1105,12 @@ beiden möglichen Gewichte aus:
 %
 \begin{alltt}
 (define feed-dillo
-  (lambda (d)
-    (make-dillo (if (dillo-alive? d)
-                    (+ (dillo-weight d) 500)
-                    (dillo-weight d))
+  (lambda (dillo)
+    (make-dillo (if (dillo-alive? dillo)
+                    (+ (dillo-weight dillo) 500)
+                    (dillo-weight dillo))
                 ...)
-   ... (dillo-alive? d) ...)
+   ... (dillo-alive? dillo) ...)
 \end{alltt}
 %
 Was das zweite Argument von \texttt{make-dillo} betrifft, also ob das
@@ -1105,11 +1119,11 @@ vorher, also entsprechend dem Ergebnis von \texttt{dillo-alive?}:
 %
 \begin{alltt}
 (define feed-dillo
-  (lambda (d)
-    (make-dillo (if (dillo-alive? d)
-                    (+ (dillo-weight d) 500)
-                    (dillo-weight d))
-                (dillo-alive? d))))
+  (lambda (dillo)
+    (make-dillo (if (dillo-alive? dillo)
+                    (+ (dillo-weight dillo) 500)
+                    (dillo-weight dillo))
+                (dillo-alive? dillo))))
 \end{alltt}
 %
 Diese Version ist genauso korrekt wie die erste, und keine ist
@@ -1128,13 +1142,13 @@ wäre an dieser Stelle möglich gewesen:
 %
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
-    (if (dillo-alive? d)
+  (lambda (dillo)
+    (if (dillo-alive? dillo)
         (make-dillo ... ...)
-        d)))
+        dillo)))
 \end{verbatim}
 %
-Hier haben wir ziemlich vorschnell \texttt{d} in der Alternative des
+Hier haben wir ziemlich vorschnell \texttt{dillo} in der Alternative des
 \texttt{if} geschrieben, weil es uns "<offensichtlich"> erschien, dass
 der Zustand eines toten Gürteltiers nach dem Füttern genauso wie
 vorher ist.  Es wäre konsequenter gewesen, erst einmal die Schablonen
@@ -1142,8 +1156,8 @@ vollständig anzuwenden:
 %
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
-    (if (dillo-alive? d)
+  (lambda (dillo)
+    (if (dillo-alive? dillo)
         (make-dillo ... ...)
         (make-dillo ... ...))))
 \end{verbatim}
@@ -1153,45 +1167,45 @@ welches Gewicht das Gürteltier hat und ob es noch lebt:
 %
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
-    (if (dillo-alive? d)
-        (make-dillo (+ (dillo-weight d) 500) #t)
-        (make-dillo (dillo-weight d) #f))))
+  (lambda (dillo)
+    (if (dillo-alive? dillo)
+        (make-dillo (+ (dillo-weight dillo) 500) #t)
+        (make-dillo (dillo-weight dillo) #f))))
 \end{verbatim}
 %
 Auch diese Version ist richtig.  Wir könnten diese Version noch etwas
 umformen, in dem wir die Beobachtung ausnutzen, dass der Wert des
 \texttt{dillo-alive?}-Felds im Ergebnis dem Ergebnis von
-\texttt{(dillo-alive? d)} entspricht und das im zweiten
+\texttt{(dillo-alive? dillo)} entspricht und das im zweiten
 \texttt{make-dillo}-Aufruf einsetzen:
 %
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
-    (if (dillo-alive? d)
-        (make-dillo (+ (dillo-weight d) 500) #t)
-        (make-dillo (dillo-weight d) (dillo-alive? d)))))
+  (lambda (dillo)
+    (if (dillo-alive? dillo)
+        (make-dillo (+ (dillo-weight dillo) 500) #t)
+        (make-dillo (dillo-weight dillo) (dillo-alive? dillo)))))
 \end{verbatim}
 %
 Das Programm ist zwar länger geworden, es gibt aber auch eine Einsicht
 frei, wenn wir den zweiten \texttt{make-dillo}-Aufruf näher anschauen.
 Dieser Aufruf stellt ein \texttt{dillo}-Record her, bei dem jedes Feld
-aus dem entsprechenden Feld von \texttt{d} bestückt wird.  Es ist
-deshalb gleich zu \texttt{d}.  Eine Gleichung bringt das zum Ausdruck:
+aus dem entsprechenden Feld von \texttt{dillo} bestückt wird.  Es ist
+deshalb gleich zu \texttt{dillo}.  Eine Gleichung bringt das zum Ausdruck:
 %
 \begin{displaymath}
-  \texttt{(make-dillo (dillo-alive? d) (dillo-weight d))} = \texttt{d}
+  \texttt{(make-dillo (dillo-alive? dillo) (dillo-weight dillo))} = \texttt{dillo}
 \end{displaymath}
 %
-Wir können also den \texttt{make-dillo}-Aufruf durch \texttt{d}
+Wir können also den \texttt{make-dillo}-Aufruf durch \texttt{dillo}
 ersetzen und so das Programm mit Hilfe der Gleichung vereinfachen:
 %
 \begin{verbatim}
 (define feed-dillo
-  (lambda (d)
-    (if (dillo-alive? d)
-        (make-dillo (+ (dillo-weight d) 500) #t)
-        d)))
+  (lambda (dillo)
+    (if (dillo-alive? dillo)
+        (make-dillo (+ (dillo-weight dillo) 500) #t)
+        dillo)))
 \end{verbatim}
 %
 Jetzt ist die erste Version von \texttt{feed-dillo} entstanden, ohne
