@@ -572,7 +572,7 @@ Als nächstes ist, wie immer, das Gerüst dran:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
-  (lambda (f)
+  (lambda (sugar-content)
     ...))
 \end{lstlisting}         
 %
@@ -582,7 +582,7 @@ wie \lstinline{sugar-content} Fälle hat, also drei:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
-  (lambda (f)
+  (lambda (sugar-content)
     (cond
       (... ...)
       (... ...)
@@ -615,11 +615,11 @@ Mit dieser Information gewappnet können wir die Tests ergänzen:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
-  (lambda (f)
+  (lambda (sugar-content)
     (cond
-      ((rational? f) ...)
-      ((sugars? f) ...)
-      ((string? f) ...))))
+      ((rational? sugar-content) ...)
+      ((sugars? sugar-content) ...)
+      ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
 Im ersten Zweig handelt es sich nicht nur um eine rationale Zahl,
@@ -628,45 +628,45 @@ der Tabelle vom Anfang:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
-  (lambda (f)
+  (lambda (sugar-content)
     (cond
-      ((rational? f) 
+      ((rational? sugar-content) 
        (cond
          (... ...)
          (... ...)
          (... ...)))
-      ((sugars? f) ...)
-      ((string? f) ...))))
+      ((sugars? sugar-content) ...)
+      ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
 Als nächstes ergänzen wir Tests entsprechend der Tabelle:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
-  (lambda (f)
+  (lambda (sugar-content)
     (cond
-      ((rational? f) 
+      ((rational? sugar-content) 
        (cond
-         ((< f 5) ...)
-         ((and (>= f 5) (<= f 12.5)) ...)
-         ((> f 12.5) ...)))
-      ((sugars? f) ...)
-      ((string? f) ...))))
+         ((< sugar-content 5) ...)
+         ((and (>= sugar-content 5) (<= sugar-content 12.5)) ...)
+         ((> sugar-content 12.5) ...)))
+      ((sugars? sugar-content) ...)
+      ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
 Schließlich müssen wir noch die Antworten eintragen:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
-  (lambda (f)
+  (lambda (sugar-content)
     (cond
-      ((rational? f) 
+      ((rational? sugar-content) 
        (cond
-         ((< f 5) "green")
-         ((and (>= f 5) (<= f 12.5)) "yellow")
-         ((> f 12.5) "red")))
-      ((sugars? f) ...)
-      ((string? f) ...))))
+         ((< sugar-content 5) "green")
+         ((and (>= sugar-content 5) (<= sugar-content 12.5)) "yellow")
+         ((> sugar-content 12.5) "red")))
+      ((sugars? sugar-content) ...)
+      ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
 Das verschachtelte \lstinline{cond} ist etwas unübersichtlich: In
@@ -697,25 +697,25 @@ Gerüst:
 %
 \begin{lstlisting}
 (define sugar-weight->traffic-light
-  (lambda (w)
+  (lambda (sugar-weight)
     ...))
 \end{lstlisting}
 %
 Den Rumpf haben wir ja schon geschrieben, wir müssen ihn nur noch
-hierher bewegen und \lstinline{f} in \lstinline{w} umbenennen. Das \drscheme{}-System
+hierher bewegen und \lstinline{sugar-content} in \lstinline{sugar-weight} umbenennen. Das \drscheme{}-System
 bietet dazu nach einem Klick auf "<Syntaxprüfung"> die Möglichkeit, mit einem
-Rechtsklick auf den Parameter \lstinline{f} ein Menü aufzuklappen, das unter
-anderem die Auswahl "<\lstinline{f} umbenennen"> anbietet. \drscheme{} sorgt dann
-dafür, dass alle zugehörigen Vorkommen von \lstinline{f} in gleicher Weise
+Rechtsklick auf den Parameter \lstinline{sugar-content} ein Menü aufzuklappen, das unter
+anderem die Auswahl "<\lstinline{sugar-content} umbenennen"> anbietet. \drscheme{} sorgt dann
+dafür, dass alle zugehörigen Vorkommen von \lstinline{sugar-content} in gleicher Weise
 umbenannt werden.\label{def:sugar-weight-traffic-light}
 %
 \begin{lstlisting}
 (define sugar-weight->traffic-light
-  (lambda (w)
+  (lambda (sugar-weight)
     (cond
-      ((< w 5) "green")
-      ((and (>= w 5) (<= w 22.5)) "yellow")
-      ((> w 12.5) "red"))))
+      ((< sugar-weight 5) "green")
+      ((and (>= sugar-weight 5) (<= sugar-weight 22.5)) "yellow")
+      ((> sugar-weight 12.5) "red"))))
 \end{lstlisting}
 %
 Zurück zu \lstinline{sugar-traffic-light}: Dort benutzen wir zunächst die
@@ -723,12 +723,12 @@ neu definierte Hilfsfunktion:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
-  (lambda (f)
+  (lambda (sugar-content)
     (cond
-      ((rational? f)
-       (sugar-weight->traffic-light f))
-      ((sugars? f) ...)
-      ((string? f) ...))))
+      ((rational? sugar-content)
+       (sugar-weight->traffic-light sugar-content))
+      ((sugars? sugar-content) ...)
+      ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
 Beim nächsten Zweig geht es um den Fall \lstinline{sugars}~--
@@ -737,13 +737,13 @@ anwenden:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
-  (lambda (f)
+  (lambda (sugar-content)
     (cond
-      ((rational? f)
-       (sugar-weight->traffic-light f))
-      ((sugars? f) ... (sugars-fructose-g f) ...
-                   ... (sugars-glucose-g f) ...)
-      ((string? f) ...))))
+      ((rational? sugar-content)
+       (sugar-weight->traffic-light sugar-content))
+      ((sugars? sugar-content) ... (sugars-fructose-g sugar-content) ...
+                   ... (sugars-glucose-g sugar-content) ...)
+      ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
 Wir müssen Fruktose- und den Glukose-Anteil addieren und die Summe
@@ -755,14 +755,14 @@ erneut zum Einsatz bringen:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
-  (lambda (f)
+  (lambda (sugar-content)
     (cond
-      ((rational? f)
-       (sugar-weight->traffic-light f))
-      ((sugars? f)
-       (sugar-weight->traffic-light (+ (sugars-fructose-g f)
-                                       (sugars-glucose-g f))))
-      ((string? f) ...))))
+      ((rational? sugar-content)
+       (sugar-weight->traffic-light sugar-content))
+      ((sugars? sugar-content)
+       (sugar-weight->traffic-light (+ (sugars-fructose-g sugar-content)
+                                       (sugars-glucose-g sugar-content))))
+      ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
 Bleibt der letzte Fall~-- der ist zum Glück trivial, da es sich schon
@@ -771,14 +771,14 @@ zurückgeben:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
-  (lambda (f)
+  (lambda (sugar-content)
     (cond
-      ((rational? f)
-       (sugar-weight->traffic-light f))
-      ((sugars? f)
-       (sugar-weight->traffic-light (+ (sugars-fructose-g f)
-                                       (sugars-glucose-g f))))
-      ((string? f) f))))
+      ((rational? sugar-content)
+       (sugar-weight->traffic-light sugar-content))
+      ((sugars? sugar-content)
+       (sugar-weight->traffic-light (+ (sugars-fructose-g sugar-content)
+                                       (sugars-glucose-g sugar-content))))
+      ((string? sugar-content) sugar-content))))
 \end{lstlisting}         
 %
 Fertig!
