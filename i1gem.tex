@@ -783,6 +783,134 @@ zurückgeben:
 %
 Fertig!
 
+\section{Fehler repräsentieren}
+
+Dieser Abschnitt beschreibt eine weitere häufig vorkommende Anwendung
+für gemischte Daten.  Es geht um Situationen, wo Du eine Funktion
+keine sinnvolle Antwort weiß.
+
+Als Beispiel schreiben wir eine Funktion, welche die Steigung einer
+Geraden auf der Ebene berechnet anhand der Koordinaten zweier Punkte
+darauf.  Die Funktion akzeptiert vier Argumente: Die X- und die Y-Koordinate des
+ersten Punkts und danach die X- und die Y-Koordinate des zweiten
+Punkts.  Wir fangen mit Kurzbeschreibung, Signatur, einigen Tests
+und einem Gerüst an:
+%
+\begin{lstlisting}
+; Steigung einer Gerade berechnen
+(: slope (real real real real -> real))
+
+(check-expect (slope 0 0 1 1) 1)
+(check-expect (slope 0 0 2 1) 1/2)
+(check-expect (slope 1 2 3 5) 3/2)
+
+(define slope
+  (lambda (x1 y1 x2 y2)
+    ...))
+\end{lstlisting}
+%
+Die Formelsammlung sagt, dass wir zur Berechnung der Steigung die
+Differenz der Y-Koordinaten durch die Differenz der X-Koordinaten
+teilen müssen:
+%
+\begin{lstlisting}
+(define slope
+  (lambda (x1 y1 x2 y2)
+    (/ (- y2 y1)
+       (- x2 x1))))
+\end{lstlisting}
+%
+Fertig, könnte man meinen.  Es gibt aber Linien, die keine Steigung
+haben.  In der REPL sieht das so aus:
+%
+\begin{alltt}
+> (slope 0 0 0 1)
+{\color{red}/: durch 0 geteilt}
+\end{alltt}
+%
+Die Meldung ist ein bisschen unfreundlich und birgt mehrere Probleme:
+%
+\begin{itemize}
+\item Die Meldung besagt zwar, was das Programm gemacht hat (durch 0
+  geteilt), aber benennt nicht die Ursache des Problems: dass die
+  Gerade keine Steigung hat.
+\item Das Programm bricht einfach ab, ohne dass es eine Möglichkeit
+  bekommt, mit dem Problem umzugehen.
+\item Dass das Programm einfach abbrechen kann, ist aus der Signatur
+  nicht ersichtlich, die suggeriert, dass die Funktion immer eine
+  reelle Zahl zurückliefert.
+\end{itemize}
+%
+Alle drei Probleme können wir auf einmal mit gemischten Daten lösen.
+Dazu müssen wir zunächst dafür sorgen, dass die Funktion einen
+sinnvollen Wert zurückliefert, bevor sie durch 0 teilen würde.
+Dadurch werden die Eingaben in zwei Klassen aufgeteilt: Es gibt eine
+Steigung oder eben nicht.  Es bietet sich eine binäre Verzweigung an,
+um diese beiden Klassen zu unterscheiden:
+%
+\begin{lstlisting}
+(define slope
+  (lambda (x1 y1 x2 y2)
+    (if (= (- x2 x1) 0)
+        ...
+        (/ (- y2 y1)
+           (- x2 x1))))) 
+\end{lstlisting}
+%
+Nur müssen wir anstelle der Ellipse irgendetwas ins Programm
+schreiben.  Wir können nicht einfach irgendeine reelle Zahl nehmen, da
+diese ja auch eine legitime Steigung sein könnte.  Stattdessen
+brauchen wir einen Wert, den wir von den legitimen Zahlen
+unterscheiden können.  Wir könnten eine spezielle Zeichenkette oder
+\lstinline{#f} benutzen.  (Siehe dazu Aufgabe~\ref{aufgabe:no-slope}
+auf Seite~\pageref{aufgabe:no-slope}.)
+
+Wir empfehlen aber, stattdessen einen eigenen Record-Typ zu
+definieren, und zwar so:
+%
+\begin{lstlisting}
+; Es gibt keine Steigung
+(define-record-functions no-slope
+  make-no-slope
+  no-slope?)
+\end{lstlisting}
+%
+Dieser Record-Typ hat keine Felder, das heißt, er kann nur benutzt
+werden, um einen einzigen Wert herzustellen, nämlich
+\lstinline{(make-no-slope)}.  (Es handelt sich also um eine
+degenerierte Version von zusammengesetzten Daten ohne Bestandteile.)
+Diesen Wert können wir aber durch das Prädikat \lstinline{no-slope?}
+von allen anderen Werten unterscheiden und benutzen ihn, wenn es keine
+Steigung gibt:
+%
+\begin{lstlisting}
+(define slope
+  (lambda (x1 y1 x2 y2)
+    (if (= (- x2 x1) 0)
+        (make-no-slope)
+        (/ (- y2 y1)
+           (- x2 x1)))))
+\end{lstlisting}
+%
+Jetzt können wir einen Testfall definieren:
+%
+\begin{lstlisting}
+(check-expect (no-slope? (slope 0 0 0 1)) #t)
+\end{lstlisting}
+%
+Allerdings liefert \drscheme{} für diesen Testfall eine
+Signaturverletzung: Die Signatur tut ja immer noch so, als würde immer
+eine reelle Zahl herauskommen.  Wir erweitern sie also folgendermaßen:
+%
+\begin{lstlisting}
+(: slope (real real real real -> (mixed real no-slope)))
+\end{lstlisting}
+%
+Dieser Signatur sieht man unmittelbar an, was sie liefert und kann aus
+den Namen auch schließen, was die beiden Fälle bedeuten.  Natürlich
+könnten wir eine eigene Signatur definieren wie sonst bei gemischten
+Daten, das lohnt aber hier kaum.
+
 \section*{Aufgaben}
 
 \begin{aufgabe}
@@ -1008,6 +1136,26 @@ Fertig!
   \end{enumerate}
 \end{aufgabe}
 
+\begin{aufgabe}\label{aufgabe:no-slope}
+  Experimentiere für die Funktion \lstinline{slope} in
+  Abschnitt~\ref{sec:slope} auf Seite~\pageref{sec:slope}
+  mit anderen Repräsentationen als einem eigenen
+  Record-Typ für "<keine Steigung">:
+  %
+  \begin{itemize}
+  \item Liefere \lstinline{#f} zurück.
+  \item Liefere eine Zeichenkette \lstinline{"no slope"} zurück.
+  \end{itemize}
+  %
+  Wie muss jeweils die Signatur von \lstinline{slope} lauten?
+  
+  Wie könnte ein Programm dann nach einem Aufruf feststellen, ob es
+  keine Steigung gab?  Schreibe für beide Varianten ein Prädikat
+  \lstinline{no-slope?} diese Situation feststellt.
+
+  Was haben die insgesamt drei Varianten für die Repräsentation von
+  "<keine Steigung"> jeweils für Vor- und Nachteile?
+\end{aufgabe}
 
 %%% Local Variables: 
 %%% mode: latex
