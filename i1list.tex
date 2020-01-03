@@ -1120,17 +1120,207 @@ Dieses Beispiel zeigt ein weiteres Schablonenelement, das noch öfter
 vorkommen wird:  Wie bei anderen zusammengesetzten Daten müssen Funktionen, die
 Listen konstruieren sollen, irgendwo ein \lstinline{cons} enthalten.
 
-\section{Fehlschlag als Wert}
-
-FIXME
-
-\section*{Anmerkungen}
-
 Da viele Programme die Funktionen \lstinline{list-length} und
 \lstinline{concatenate} benötigen,
-sind sie in den Lehrsprachen  bereits unter den Namen
+sind sie in den Lehrsprachen  übrigens bereits unter den Namen
 \lstinline{length}\index{length@\texttt{length}} und
 \lstinline{append}\index{append@\texttt{append}} eingebaut.
+
+
+\section{Minimum einer Liste und lokale Variablen}
+\label{sec:list-min}
+
+Wir nehmen uns noch eine weitere Übung vor, nämlich das Minimum einer
+Liste von Zahlen zu berechnen.  Das ist scheinbar einfach, birgt aber
+einige Untiefen.  Hier sind der erste Anlauf für Kurzbeschreibung,
+Tests und Gerüst:
+%
+\begin{lstlisting}
+; Minimum einer Liste von Zahlen berechnen
+(: list-min ((list-of real) -> real))
+
+(check-expect (list-min (list 5 3 1 4)) 1)
+(check-expect (list-min (list 5 3 1 4 -4 3)) -4)
+\end{lstlisting}
+%
+Vielleicht siehst Du schon das erste Problem.  Die Tests sparen einen
+einfachen aber wichtigen Fall aus, nämlich die leere Liste~-- und die
+hat kein Minimum.
+
+Eine Möglichkeit wäre, in dem Fall \lstinline{violation} aufzurufen
+wie in Abschnitt~\ref{sec:violation} auf
+Seite~\pageref{sec:violation}.  (Siehe dazu
+Aufgabe~\ref{aufgabe:list-min-violation} auf
+Seite~\pageref{aufgabe:list-min-violation}.)  Eine andere ist, wie in
+Abschnitt~\ref{sec:maybe} auf Seite~\pageref{sec:maybe} einen
+Extra-Wert für diesen Fall zu benutzen.  Das hat wie dort den Vorteil,
+dass wir in der Signatur ablesen können, dass die Funktion auch
+fehlschlagen kann.  Wir führen also folgenden leeren Record-Typ dafür
+ein:
+%
+\begin{lstlisting}
+; Kein Resultat
+(define-record-functions no-result
+  make-no-result
+  no-result?)
+\end{lstlisting}
+%
+Die Signatur erweitern wir entsprechend:
+%
+\begin{lstlisting}
+(: list-min ((list-of real) -> (mixed real no-result)))
+\end{lstlisting}
+%
+Außerdem schreiben wir noch einen Testfall dafür:
+%
+\begin{lstlisting}
+(check-expect (no-result? (list-min empty)) #t)
+\end{lstlisting}
+%
+Nun können wir wie gewohnt die Schablone für Listen anwenden:
+%
+\begin{lstlisting}
+(define list-min
+  (lambda (list)
+    (cond
+      ((empty? list) ...)
+      ((cons? list)
+       ... (first list) ...
+       ... (list-min (rest list)) ...))))
+\end{lstlisting}
+%
+Der \lstinline{empty}-Fall ist gerade der, in dem es kein Resultat
+gibt:
+%
+\begin{lstlisting}
+(define list-min
+  (lambda (list)
+    (cond
+      ((empty? list) (make-no-result))
+      ((cons? list)
+       ... (first list) ...
+       ... (list-min (rest list)) ...))))
+\end{lstlisting}
+%
+Im \lstinline{cons}-Fall müssen wir darauf achten, dass der rekursive
+Aufruf von \lstinline{list-min} gemischte Daten liefert.  Wir müssen
+also eine Verzweigung einbauen, die zwischen \lstinline{no-result} und
+einer Zahl unterscheidet.  Wir machen das mit einer binären Verzweigung:
+%
+\begin{lstlisting}
+(define list-min
+  (lambda (list)
+    (cond
+      ((empty? list) (make-no-result))
+      ((cons? list)
+       (if (no-result? (list-min (rest list)))
+           ...
+           ...)
+       ... (first list) ...
+       ... (list-min (rest list)) ...))))
+\end{lstlisting}
+%
+Falls der rekursive Aufruf ein \lstinline{no-result} liefert, haben
+wir nur das erste Element der Liste \lstinline{(first list)} in der
+Hand~-- der Rest der Liste muss dann ja leer sein.  In dem Fall muss
+\lstinline{(first list)} auch das Minimum sein:
+%
+\begin{lstlisting}
+(define list-min
+  (lambda (list)
+    (cond
+      ((empty? list) (make-no-result))
+      ((cons? list)
+       (if (no-result? (list-min (rest list)))
+           (first list)
+           ...)
+       ... (first list) ...
+       ... (list-min (rest list)) ...))))
+\end{lstlisting}
+%
+Falls der rekursive Aufruf von \lstinline{list-min} ein Resultat
+liefert, ist dieses Resultat das Minimum der restlichen Liste.
+Um das Minimum der Gesamtliste zu berechnen, müssen wir es allerdings
+noch mit \lstinline{(first list)} vergleichen, das ebenfalls das
+Minimum sein könnte.  Abhängig vom Ergebnis des Vergleichs ist das
+eine oder das andere das Minimum:
+%
+\begin{lstlisting}
+(define list-min
+  (lambda (list)
+    (cond
+      ((empty? list) (make-no-result))
+      ((cons? list)
+       (if (no-result? (list-min (rest list)))
+           (first list)
+           (if (< (first list)
+                  (list-min (rest list)))
+               (first list)
+               (list-min (rest list))))))))
+\end{lstlisting}
+%
+Diese Funktion ist korrekt.
+
+Allerdings hat sie noch einen Makel: \lstinline{(list-min (rest list))}
+taucht insgesamt dreimal auf, und es ist tatsächlich
+möglich, dass alle drei tatsächlich ausgewertet werden: Dreimal die
+gleiche Arbeit.  (Du kannst Dich mit dem Stepper davon überzeugen.)
+Wir sollten dafür sorgen, dass der rekursive Aufruf nur einmal
+ausgewertet wird.  Dazu führen wir ein neues Programmierkonstrukt ein,
+die \textit{lokale Variable}\index{lokale
+  Variable}\index{Definition!lokal} (siehe Abbildung~\ref{scheme:local-definition}), für die zunächst
+eine Definition innerhalb des Rumpfes von \lstinline{list-min} anlegen:
+%
+\begin{lstlisting}
+(define list-min
+  (lambda (list)
+    (cond
+      ((empty? list) (make-no-result))
+      ((cons? list)
+       (define rest-min (list-min (rest list)))
+       ...))))
+\end{lstlisting}
+%
+\begin{feature}{lokale Definition, lokale Variable}{scheme:local-definition}
+  Im Rumpf eines \lstinline{lambda} und im Zweig eines
+  \lstinline{cond} kann jeweils am Anfang eine Definition stehen.
+  Eine solche \textit{lokale Definition}\index{Definition!lokal}
+  bindet eine \textit{lokale Variable}\index{lokale Variable}.
+
+  Diese Definition wir jedesmal ausgewertet, wenn die Auswertung beim
+  Rumpf des \lstinline{lambda} beziehungsweise beim Zweig des
+  \lstinline{cond} ankommt und ist auch nur innerhalb davon
+  ("<lokal">) sichtbar.
+\end{feature}
+%
+Diese Definition wird jedesmal ausgewertet, wenn die Auswertung den
+\lstinline{cond}-Zweig für \lstinline{cons} erreicht und ist auch nur
+innerhalb dieses Zweiges aktiv.  Wir ersetzen nun überall
+%
+\begin{lstlisting}
+(list-min (rest list))
+\end{lstlisting}
+durch die neue Variable
+\lstinline{rest-min}:
+%
+\begin{lstlisting}
+(define list-min
+  (lambda (list)
+    (cond
+      ((empty? list) (make-no-result))
+      ((cons? list)
+       (define rest-min (list-min (rest list)))
+       (if (no-result? rest-min)
+           (first list)
+           (if (< (first list)
+                  rest-min)
+               (first list)
+               rest-min))))))
+\end{lstlisting}
+%
+Fertig!
+
+\section*{Anmerkungen}
 
 Listen sind, was Datenstrukturen betrifft, eine Art Alleskleber:
 Sie taugen auch für die Repräsentation von Tabellen,
@@ -1527,6 +1717,12 @@ Schreibe folgende Funktionen auf Listen:
   \end{enumerate}
 \end{aufgabe}
 
+\begin{aufgabe}\label{aufgabe:list-min-violation}
+  Programmiere eine Variante der Funktion \lstinline{list-min} in
+  Abschnitt~\ref{sec:list-min} auf Seite~\pageref{sec:list-min}, in
+  der Du statt \lstinline{(make-no-result)} die Funktion
+  \lstinline{violation} aufrufst.  Was musst Du noch alles ändern?
+\end{aufgabe}
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "i1"
