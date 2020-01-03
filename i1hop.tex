@@ -129,6 +129,10 @@ führen, die dann wie folgt für die Definition von \texttt{home-points} und
 (define home-points (compute-points game-home-goals game-guest-goals))
 (define guest-points (compute-points game-guest-goals game-home-goals))
 \end{verbatim}
+%
+\textbf{Wichtig:} Diese beiden Definitionen müssen \emph{nach} der
+Definition von \texttt{compute-points} stehen, da davor
+\texttt{compute-points} noch nicht definiert ist.
 
 Die Signatur von \texttt{compute-points} müsste dann wie folgt sein:
 \begin{verbatim}
@@ -455,6 +459,9 @@ und so aufmultiplizieren:
 %
 Die Signatur für \texttt{list-fold} ist nicht auf den ersten Blick
 ersichtlich.  Hier ein erster Anlauf:
+
+FIXME: Wie kommt man darauf?
+
 %
 \begin{alltt}
 (: list-fold (%a (%a %a -> %a) (list-of %a) -> %a))
@@ -464,6 +471,8 @@ Wie sich weiter unten herausstellen wird, kann
 diese Signatur aber
 noch verallgemeinert werden.  Erst kommen allerdings noch einige
 Erläuterungen zur Funktionsweise.
+
+FIXME: zuviele Funktionen
 
 \texttt{List-fold} funktioniert wie folgt: Die Funktion hat als
 Parameter eine Funktion mit zwei Parametern, einen Wert und eine
@@ -556,7 +565,7 @@ Argument \texttt{(first lis)} ignoriert (es spielt ja für die Listenlänge
 keine Rolle) und auf das zweite Argument eins addiert.  Diese
 Hilfsfunktion sieht so aus:\index{add-1-for-length@\texttt{add-1-for-length}}
 %
-FIXME: warum nicht \texttt{\%a}?
+FIXME: warum nicht \texttt{\%a}?  Warum heißt das \texttt{ignore}?
 
 \begin{alltt}
 (: add-1-for-length (any natural -> natural))

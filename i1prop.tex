@@ -135,7 +135,7 @@ Beispiel ist die Subtraktion \texttt{-} nicht kommutativ:
 Hierfür liefert \drscheme{} folgende Meldung:
 %
 \begin{alltt}
-        Eigenschaft falsifizierbar mit a = \framebox{0.0} b = \framebox{-1.5}
+        Eigenschaft falsifizierbar mit a = \framebox{#i1.25} b = \framebox{#i-4.0}
 \end{alltt}
 %
 \textit{Falsifizierbar}\index{falsifizierbar} bedeutet, daß es ein
@@ -177,6 +177,9 @@ Eigenschaften formulieren, so zum Beispiel die Assoziativität\index{Assoziativi
 %
 Hierbei gibt es allerdings eine böse Überraschung~-- \drscheme{} produziert
 ein Gegenbeispiel:
+
+FIXME: inexakte Zahlen
+
 %
 \begin{alltt}
 Eigenschaft falsifizierbar mit
@@ -701,7 +704,7 @@ berücksichtigen:
 (check-expect (number-list=? (list 1.0 2.0 3.0) (list 1.0 2.1 3.0)) #f)
 \end{alltt}
 %
-Die erste Schablone, ausgewählt nach dem ersten Listenparameter
+Die Schablone für Listen als Eingabe, ausgewählt nach dem ersten Listenparameter
 \texttt{lis-1}, sieht so aus:
 % 
 \begin{alltt}
@@ -1187,6 +1190,8 @@ $y$ für \texttt{b} eingesetzt.  Für $x=5$ und $y=17$ also:
 (= (+ 5 17) (+ 17 5))
 \end{alltt}
 %
+FIXME: \valof{\_} schwierig
+
 Der Beweis soll aber für beliebige Werte für $x$ und $y$
 funktionieren: $x$ und $y$ müssen also im Beweis auftauchen.
 Um den Unterschied zwischen Variablen des Programms \texttt{a} und
@@ -1357,7 +1362,7 @@ Seite~\pageref{sec:nat-induction-ka}:
 \item $k = 0$:
 \begin{alltt}
 (factorial 0)
-\(Longrightarrow\) \valof{0!}
+\(\Longrightarrow\) \valof{0!}
 \end{alltt}
 %
 \item Beweis für $k=0$:

@@ -340,7 +340,6 @@ Zahlen verarbeiten, um einen Akkumulator erweitert:
 (check-expect (! 3) 6)
 (check-expect (! 5) 120)
 
-(: ! (natural -> natural))
 (define !
   (lambda (n)
     (letrec
@@ -702,11 +701,6 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
   aus Aufgabe~\ref{ex:evensodds} auf Seite~\pageref{ex:evensodds}.
   Falls du Hilfsfunktionen auf Listen dafür benutzt, gib auch dafür
   endrekursive Definitionen an.
-\end{aufgabe}
-
-\begin{aufgabe}
-  Schreiben Sie eine endrekursive Variante von \texttt{power} aus
-  Aufgabe~\ref{aufg:power} von Seite~\pageref{aufg:power}.
 \end{aufgabe}
 
 %%% Local Variables: 
