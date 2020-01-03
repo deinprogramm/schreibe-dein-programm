@@ -228,7 +228,7 @@ kannst aber frühere Eingaben zurückholen, indem Du
 (je nach Computertyp) drückst.  Das kannst Du auch benutzen, um einen
 fehlerhaften Ausdruck zu korrigieren, bei dem Du schon Return gedrückt hast.
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   Schreibe folgende "<mathematischen"> Ausdrücke in der Notation der
   Lehrsprache in die REPL und lasse die REPL sie auswerten:
   %
@@ -240,7 +240,7 @@ fehlerhaften Ausdruck zu korrigieren, bei dem Du schon Return gedrückt hast.
       (23 + 42) * (12 + (14 * 2))
     \end{array}
   \end{displaymath}
-\end{aufgabe}
+\end{aufgabeinline}
 %
 \section{Das Definitionsfenster}
 
@@ -320,7 +320,7 @@ Ausdruck markieren (und dann ausschneiden) kannst, indem Du auf die
 kannst Du den markierten Ausdruck dann mit einem Druck auf die
 Tab-Taste korrekt einrücken.
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   Bring bei einem mehrzeiligen Programm die Einrückung richtig
   durcheinander, zum Beispiel so:
 \begin{verbatim}
@@ -332,7 +332,7 @@ Tab-Taste korrekt einrücken.
 \end{verbatim}
   %
   Benutze dann die Tab-Taste, um die Einrückung wieder zu korrigieren.
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Den Inhalt des Definitionsfenster kannst Du abspeichern, indem Du auf
 den Knopf mit dem Diskettensymbol
@@ -437,7 +437,7 @@ Zeichenketten, die diese darstellen:
 \evalsto{} "23"
 \end{alltt}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Mache Dir den Unterschied zwischen der Zahl \texttt{23} und der
   Zeichenkette \verb|"23"| klar.  Probiere zum Beispiel aus:
 \begin{alltt}
@@ -445,7 +445,7 @@ Zeichenketten, die diese darstellen:
 (string-append 23 "42")
 (number->string "23")
 \end{alltt}
-\end{aufgabe}
+\end{aufgabeinline}
 
 \subsection{Rechnen mit Bildern}
 \label{sec:rechnen-mit-bildern}
@@ -486,7 +486,7 @@ Seite übersprungen wird.  Danach kommen zwei Zeichenketten~--
 \evalsto{} \includegraphics[height=24pt]{i1prog/starpolygon_outline}
 \end{alltt}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Wofür stehen die Zahleneingaben bei \texttt{square} und
   \texttt{circle}?  Probiere unterschiedliche Zahlen aus!  Es gibt
   auch eine eingebaute Funktion \texttt{rectangle}.  Kannst Du ein
@@ -494,7 +494,7 @@ Seite übersprungen wird.  Danach kommen zwei Zeichenketten~--
   konstruieren?  Außerdem gibt es eine eingebaute Funktion
   \texttt{ellipse}, die genauso benutzt wird wie \texttt{rectangle}~--
   probiere sie aus!
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Bilder sind Werte wie Zahlen und Zeichenketten auch.  Du kannst
 mit Definitionen auch Namen dafür vergeben:
@@ -505,11 +505,11 @@ mit Definitionen auch Namen dafür vergeben:
 (define p1 (star-polygon 20 10 3 "solid" "blue"))
 \end{verbatim}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Du kannst auch Bilddateien oder Bilder in Webseiten in Dein Programm
   einfügen, wie in einem Textverarbeitsprogramm.  Probier es aus und
   gib dem Bild einen Namen!
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Mit Bildern kann DrRacket auch rechnen:
 %
@@ -522,7 +522,7 @@ Mit Bildern kann DrRacket auch rechnen:
 \evalsto{} \includegraphics[width=48pt]{i1prog/abovebeside.png}
 \end{alltt}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Probiere in der der REPL folgende Ausdrücke aus:
 \begin{verbatim}
 (triangle 50 "outline" "red")
@@ -532,7 +532,7 @@ Mit Bildern kann DrRacket auch rechnen:
   Schreibe mit Hilfe der Funktionen \texttt{triangle} und
   \texttt{square} einen Ausdruck, der ein ganz einfaches Haus
   berechnet.
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Das heißt, \texttt{beside} akzeptiert als Eingabe zwei (oder mehr)
 Bilder und macht daraus wieder ein Bild, in dem die Teilbilder
@@ -710,11 +710,11 @@ und der Stern für \texttt{b}:
 %
 \noindent Dabei verschwindet auch das \texttt{lambda}.
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Probiere das Beispiel im Stepper aus und klicke Dich bis zum Ende
   durch. Mache Dir dabei klar, wie jeweils die linke mit der rechten
   Seite zusammenhängt.
-\end{aufgabe}
+\end{aufgabeinline}
 %
 \texttt{(tile s1 p1)} ist eine sogenannte
 \textit{Applikation\index{Applikation}}: Das ist ein Ausdruck mit
@@ -777,10 +777,10 @@ dabei herauskommt.  Wir verwenden im Buch aber häufig den Begriff
 "<Funktion"> für eine Abstraktion, weil uns interessiert, was bei der
 Abstraktion herauskommt.
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   Kannst Du das Ergebnis von \texttt{tile} wieder als Eingabe für
   \texttt{tile} benutzen?  Probier es aus!
-\end{aufgabe}
+\end{aufgabeinline}
 
 \section{Information und Daten}
 \label{sec:information-daten}
@@ -1190,9 +1190,9 @@ Test machen:
 (check-expect (square 40 "solid" "red") \includegraphics[height=24pt]{i1prog/square})
 \end{alltt}
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   Schreibe für \texttt{tile} zwei Tests!
-\end{aufgabe}
+\end{aufgabeinline}
 
 Übrigens ist eine Signatur-Deklaration auch so eine Art Testfall.
 Das sehen wir, wenn wir absichtlich einen Fehler wie diesen hier

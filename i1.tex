@@ -78,6 +78,9 @@
 
 \newtheorem{aufgabe}{Aufgabe}[chapter]
 \renewcommand{\theaufgabe}{\thechapter.\arabic{aufgabe}}
+\newenvironment{aufgabeinline}
+ {\aufgabe}
+ {\qed\endaufgabe}
 
 \newtheorem{bemerkung}[satz]{Bemerkung}
 \renewcommand{\thebemerkung}{\thechapter.\arabic{bemerkung}}

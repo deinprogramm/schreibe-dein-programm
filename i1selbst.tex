@@ -292,10 +292,10 @@ Dieser Code kann noch etwas vereinfacht werden: Der
 %
 Da reicht es auch, \lstinline{(string=? (creek-origin river) location)} hinzuschreiben.
 %
-\begin{aufgabe}\label{aufgabe:iftruefalse}
+\begin{aufgabeinline}\label{aufgabe:iftruefalse}
   Kannst Du diese Vereinfachung auf \lstinline{if}-Ausdrücken
   verallgemeinern und als Gleichung schreiben?
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Als nächstes können wir uns um den anderen Fall kümmern,
 \lstinline{confluence}.  Auch dort handelt es sich um
@@ -780,7 +780,7 @@ sofort:
 (define euro100 (make-multiple 100 (make-one-euro))) ; 100 Euros
 \end{lstlisting}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Definiere eine Funktion \lstinline{make-euros} mit Kurzbeschreibung,
   Signatur und Test wie folgt:
 \begin{lstlisting}
@@ -789,7 +789,7 @@ sofort:
 
 (check-expect (make-euros 100) euro100)
 \end{lstlisting}
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Mit Hilfe der Funktion aus der Aufgabe können wir leicht auch
 \EUR{200} definieren:
@@ -847,7 +847,7 @@ Die Definition von \texttt{date} liegt zum Glück recht nahe:
   (date-day   natural))
 \end{lstlisting}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Wir haben für alle Felder von \lstinline{date} die Signatur
   \lstinline{natural} verwendet. Diese Signatur ist sehr unpräzise.
   Eine Möglichkeit, sie zu verbessern ist, eine
@@ -881,7 +881,7 @@ Die Definition von \texttt{date} liegt zum Glück recht nahe:
   Ändere die Definition von \lstinline{date}, so dass sie
   \lstinline{month} benutzt!  Mache eine entsprechende Änderung für
   \lstinline{date-day}!
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Bevor es weitergeht, definieren wir noch zwei Beispiele für das Datum:
 %
@@ -1398,10 +1398,10 @@ Wir fangen wieder mit den einfachen Fällen an.  Bei
       |\ldots|)))
 \end{lstlisting}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Sind beide Fälle schon durch Testfälle abgedeckt?  Wenn nicht,
   schreibe einen!
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Als nächstes ist \lstinline{multiple} an der Reihe.  Der rekursive
 Aufruf aus der Schablone beantwortet die folgende Frage: "<Wieviel ist
@@ -1484,9 +1484,9 @@ Fertig!
 Also fast: Wir müssen ja noch die Funktion \lstinline{date<=?}
 schreiben.  Für einen Teil davon spannen wir Dich ein:
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Schreibe ausreichende Testfälle für \lstinline{date<=?}!
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Hier ist das Gerüst:
 %
@@ -1560,10 +1560,10 @@ zurückgegeben: 100 Stück von nichts.  Das Ergebnis ist ja auch
 formal korrekt, aber eben nicht wie vom Testfall erwartet.
 Unpraktisch ist es auf jeden Fall:
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Finde noch drei weitere komplizierte Wege, "<Verträge über nichts">
   aufzuschreiben.
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Um das Problem zu vermeiden, wäre es gut, wenn das Programm Verträge
 über "<$n$ mal nichts"> gar nicht erst konstruieren würden.  Dafür

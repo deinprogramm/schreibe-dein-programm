@@ -210,10 +210,10 @@ Selektor hat \texttt{computer} als Eingabe und die jeweilige
 Feld-Signatur als Ausgabe.  Genauso ist es mit der Signatur des
 Konstruktors.
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Wie ist der Zusammenhang zwischen der Record-Definition und der
   Signatur des Konstruktors?
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Trotzdem ist es zumindest am Anfang hilfreich, sich die Arbeitsweise
 von Konstruktor und Selektoren anhand ihrer Signaturen klarzumachen.
@@ -404,11 +404,11 @@ Beispiel den Testfällen entnehmen.  Folgendes kommt dabei heraus:
 %
 Fertig!
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   Schreibe eine Funktion, die einen Computer klassifiziert als
   "<fett">, "<Durchschnitt"> oder "<müde">.  Definiere die Kriterien
   dafür selbst.
-\end{aufgabe}
+\end{aufgabeinline}
 
 \section{Zusammengesetzte Daten selbst konstruieren}
 
@@ -574,11 +574,11 @@ vervollständigen damit den Rumpf:
        (wallclock-time-minute wt))))
 \end{verbatim}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Schreibe eine Funktion, die für eine Uhrzeit zurückliefert, ob sich
   diese am Vormittag oder am Nachmittag (also vor oder nach 12 Uhr
   mittags) befindet.
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Die Umrechnung können wir auch umdrehen, mit einer Funktion wie folgt:
 %
@@ -662,7 +662,7 @@ Damit können wir den Rumpf vervollständigen:
     (make-wallclock-time (quotient msm 60) (remainder msm 60))))
 \end{verbatim}
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   Schreibe eine Funktion \texttt{make-wallclock-time-12h}, die eine
   Uhrzeit aus einer Zeitangabe im 12-Stunden-Format konstruiert.  Also
   zum Beispiel:
@@ -677,7 +677,7 @@ Damit können wir den Rumpf vervollständigen:
 (make-wallclock-time-12h 12 30 "PM")
 \evalsto{} #<record:wallclock-time 12  30>
 \end{alltt}
-\end{aufgabe}
+\end{aufgabeinline}
 
 \section{Konstruktionsanleitungen für zusammengesetzte Daten}
 
@@ -897,13 +897,13 @@ zu verwechseln mit der Signatur, die ebenfalls \texttt{dillo}. Das
 Rumpfes sich auf den Parameter bezieht, nicht auf die weiter außen
 stehende Signatur.
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   Um Du Dir klarzumachen, welches \texttt{dillo} zu welchem
   \texttt{lambda} beziehungsweise zu welcher Definition gehört, kannst
   Du in \drscheme{} den Knopf \texttt{Syntaxprüfung} drücken und
   danach mit der Maus über die verschiedenen Vorkommen von
   \texttt{dillo} streichen.
-\end{aufgabe}
+\end{aufgabeinline}
 %
 \texttt{Feed-dillo} hat zusammengesetzte Daten sowohl als Eingabe
 als auch als Ausgabe.  Entsprechend kommen die Schablonen für beide
@@ -1219,11 +1219,11 @@ Seite~\pageref{mantra:gleichungen}:
 %
 \mantragleichungen%
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   Formuliere Gleichungen entsprechend der für \texttt{dillo} für die
   Record-Typen \texttt{computer} und \texttt{wallclock"=time} aus
   diesem Kapitel.
-\end{aufgabe}
+\end{aufgabeinline}
 
 \section*{Aufgaben}
 

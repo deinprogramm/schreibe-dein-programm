@@ -158,10 +158,10 @@ umdreht, sich also folgendermaßen verhält:
 Für boolesche Werte gibt es die Signatur
 \texttt{boolean}\index{boolean@\texttt{boolean}}.
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   Schreibe eine Funktion, die von zwei booleschen Werten das exklusive
   Oder berechnet. 
-\end{aufgabe}
+\end{aufgabeinline}
 
 \section{Verzweigungen}
 
@@ -264,10 +264,10 @@ so aus:
 \end{alltt}
 %
 Fertig!
-\begin{aufgabe}
+\begin{aufgabeinline}
   Finde heraus was passiert, wenn Du die Funktion mit einer Zahl
   aufrufst, für die sie nicht gemacht ist.
-\end{aufgabe}
+\end{aufgabeinline}
 
 \section{Abdeckung}
 \label{sec:testabdeckung}
@@ -365,7 +365,7 @@ Da sind gleich zwei neue Programmelemente drin:
   die Werte, die zur Aufzählung gehören.
 \end{itemize}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Die Funktion \texttt{say-number} aus dem vorigen Abschnitt hat ja als
   Signatur-Deklaration die folgende:
 \begin{alltt}
@@ -375,7 +375,7 @@ Da sind gleich zwei neue Programmelemente drin:
   Mach die Signatur präziser mit Hilfe von Datendefinitionen und
   Signatur-Definitionen!  Ersetze dafür \texttt{natural} und
   \texttt{string} durch Aufzählungen.
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Zurück zu unserer Funktion zur Niedlichkeitsanalyse.  Die definierte
 Signatur \texttt{pet} können wir nun in der Signatur-Deklaration
@@ -621,13 +621,13 @@ Fertig!
 %
 
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Müssen es bei den beiden Bedingungen unbedingt \verb|<=| und
   \verb|>| sein?  Was passiert, wenn Du \verb|<=| durch \verb|<|
   ersetzt und das Programm dann laufen lässt?  Was passiert, wenn Du
   dann auch das \verb|>| ersetzt~-- durch \verb|>=|?  Warum
   funktioniert das Programm dann immer noch?
-\end{aufgabe}
+\end{aufgabeinline}
 %
 \paragraph{Siendendes Wasser und Eis} Kommen wir zur "<Vollversion">.
 Zur Erinnerung: Da müssen wir noch berücksichtigen, dass gefrorenem
@@ -885,11 +885,11 @@ durch.
 Bevor wir die Funktion noch weiter vereinfachen, ist es sinnvoll, die
 Funktionsweise der Auswertung von \texttt{cond}-Ausdrücken zu ergründen:
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Lasse die \texttt{heat-water}-Funktion im Stepper laufen und
   beobachte, wie~-- vor allem in welcher Reihenfolge~-- die Bedindungen
   in einem \texttt{cond}-Ausdruck ausgewertet werden.
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Wenn Du diese Aufgabe erledigt hast, wirst Du beobachtet haben, dass Racket
 die Bedingungen in einem \texttt{cond}-Ausdruck nacheinander
@@ -1415,13 +1415,13 @@ Bedingung ist der Wert der Verzweigung entweder der Wert der Konsequente
 oder der Wert der Alternative.
 \end{feature}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   In der Mathematik gibt den Begriff des "<Absolutbetrags"> einer
   Zahl: Für eine negative Zahl liefert es die entsprechende positive
   Zahl (aus $-5$ wird also $5$), alle anderen Zahlen bleiben
   unverändert.  Schreibe eine Funktion, die den Absolutbetrag einer
   Zahl berechnet!
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Für boolesche Fallunterscheidungen gibt es eine separate
 Konstruktionsanleitung:
@@ -1470,10 +1470,10 @@ und damit dem Programmierer die Arbeit versüßen,
 heißen abgeleitete Formen auch \textit{syntaktischer
   Zucker\index{syntaktischer Zucker}\index{Zucker, syntaktischer}}.
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   Schreibe die Funktion \texttt{cute?} aus Abschnitt~\ref{sec:pet} so
   um, dass sie \texttt{if} statt  \texttt{cond} verwendet.
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Auch \texttt{and} und \texttt{or} sind eigentlich syntaktischer Zucker:
 Es ist immer möglich, einen \texttt{and}-Ausdruck in \texttt{if}s
@@ -1511,7 +1511,7 @@ Beispiel:
 \(\mapsto{}\) (if a #t (if b #t c))
 \end{alltt}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Beim syntaktischen Zucker für \texttt{and} und \texttt{or} könnten
   wir auch definieren, in was \texttt{(and)} und \texttt{(or)} (also
   jeweils ohne Operanden) übersetzt wird.  Was wäre jeweils die
@@ -1519,7 +1519,7 @@ Beispiel:
   Dich vielleicht.)  Übersetze \texttt{(and a b c)} und \texttt{(or a
     b c)} jeweils mit Hilfe Deiner neuen Regeln so, als ob die Regeln
   \texttt{(and \(e\))} und \texttt{(or \(e\))} nicht da wären.
-\end{aufgabe}
+\end{aufgabeinline}
 
 \section{Unsinnige Daten abfangen}
 \label{sec:nonsensical-data}
