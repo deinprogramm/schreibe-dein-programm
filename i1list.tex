@@ -1420,10 +1420,9 @@ Schreibe folgende Funktionen auf Listen:
     \lstinline{heaviest-potato}, die aus einer Liste von
     Ackerbestandteilen die schwerste essbare Kartoffel heraussucht und
     zurückgibt.  Wenn in der Liste keine essbare Kartoffel enthalten ist, soll
-    die Funktion \lstinline{#f} zurückgeben.
+    die Funktion \lstinline{(make-no-result)} zurückgeben. (Siehe
+    Abschnitt~\ref{sec:maybe} auf Seite~\pageref{sec:maybe}.)
 
-    FIXME: Nein, nicht \lstinline{#f}
-    
     \item Schreibe eine Funktion
       \lstinline{filter-edible-potatoes}, die eine Liste von
       Ackerbestandteilen akzeptiert und essbaren Kartoffeln als Liste
@@ -1571,21 +1570,11 @@ Schreibe folgende Funktionen auf Listen:
 \end{aufgabe}
 
 \begin{aufgabe}
-   Schreibe eine Funktion, die auf möglichst
+  Schreibe eine Funktion, die auf möglichst
   einfache Weise eine Liste von Zahlen aufsteigend sortiert! Gehe
   dazu wie folgt vor:
-
-  FIXME: nichtleere Listen!
-  
+  %
   \begin{enumerate}
-  \item Schreibe eine Funktion
-    \lstinline{list-min}, die das kleinste Element einer
-    Liste zurückgibt.
-
-    Beispiel: \lstinline{(list-min (list 2 3 4 1 5 6))} ergibt 1.
-
-    Wenn die Funktion auf eine leere Liste angewendet
-    wird, soll die Funktion eine \lstinline{violation} produzieren.
   \item Schreibe eine Funktion
     \lstinline{delete-once}, die aus einer Liste von Zahlen das erste
     Vorkommen einer gegebenen Zahl entfernt.
@@ -1597,7 +1586,8 @@ Schreibe folgende Funktionen auf Listen:
     soll sie unverändert zurückgegeben werden.)
   \item  Schreibe eine Funktion \lstinline{sort}, die
     eine Liste von Zahlen in aufsteigender Reihenfolge sortiert.
-    Benutze dazu \lstinline{list-min} und \lstinline{delete-once}.
+    Benutze dazu \lstinline{list-min} auf Abschnitt~\ref{sec:list-min}
+    auf Seite~\pageref{sec:list-min} und \lstinline{delete-once}.
 
     Beispiel: \lstinline{(sort (list 1 5 3 2 4))} ergibt
     \lstinline{#<list 1 2 3 4 5>}.
@@ -1692,21 +1682,19 @@ Schreibe folgende Funktionen auf Listen:
     zurückgeben, die der beste Kreuzungspartner von $c_1$ ist.  Die
     Kreuzung von $c_1$ und $c_2$ soll also unter allen möglichen
     Kreuzungen die Kreatur mit der höchsten Leistung ergeben.  Falls
-    die Liste der Grundkreaturen leer ist, soll die Funktion \lstinline{#f}
-    zurückgeben.
-
-    FIXME: Nicht \lstinline{#f}
+    die Liste der Grundkreaturen leer ist, soll die Funktion
+    \lstinline{(make-no-result)} 
+    zurückgeben.  (Siehe
+    Abschnitt~\ref{sec:maybe} auf Seite~\pageref{sec:maybe}.)
     
   \item  Schreibe eine Funktion
     \lstinline{breed-optimal-partner}, die eine Grundkreatur $c_1$ und
     eine Liste von Grundkreaturen akzeptiert.  Die Funktion soll $c_1$
     mit der Grundkreatur aus der Liste kreuzen, die zur
     leistungsstärksten Kreatur führt.  Falls die Liste der
-    Grundkreaturen leer ist, soll die Funktion \lstinline{#f} zurückgeben.
+    Grundkreaturen leer ist, soll die Funktion \lstinline{(make-no-result)} zurückgeben.
     Benutze \lstinline{find-optimal-breeding-partner}.
 
-    FIXME: Nicht \lstinline{#f}
-    
   \item  Schreibe eine Funktion
     \lstinline{optimal-breed}, die eine Liste von Grundkreaturen
     akzeptiert.  Die Funktion soll die beiden Grundkreaturen aus der
