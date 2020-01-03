@@ -6,8 +6,7 @@
 \chapter{Programmieren mit Selbstbezügen und Kombinatoren}
 \label{cha:selbstbezug}
 
-Zusammengesetzte und gemischte Daten sind die Hauptorganisationsformen
-für Daten.  Allerdings haben wir bisher nur Daten vorgestellt, die
+Bisher haben wir nur Daten vorgestellt, die
 feste Größe haben und damit im Wortsinn beschränkt sind.  Viele
 Informationen haben aber variable Größe: Die Bücher im Regal werden
 immer mehr, Bauwerke bestehen aus variabel vielen Bauteilen.  Um
@@ -108,7 +107,7 @@ jeweils noch der Name.  Eine passende Datendefinition sieht so aus:
 ; - Ursprungsort
 \end{lstlisting}
 %
-Das klingt ein bißchen komisch, weil der Bach ja nur \emph{eine}
+Das klingt ein bisschen komisch, weil der Bach ja nur \emph{eine}
 Eigenschaft hat, aber die Datendefinition trotzdem zusammengesetzte
 Daten beschreibt.  Trotzdem ist das legitim und korrekt~-- niemand
 wird sagen wollen, dass der Ursprungsort der Bach \emph{ist}.
@@ -450,7 +449,7 @@ auch mit drei Operanden funktioniert:
              (flows-through? (confluence-tributary river) location))
 \end{lstlisting}
 %
-Wenn wir das Resultat, steht da folgendes:
+Wenn wir das Resultat auf seine Bedeutung hin lesen, steht da folgendes:
 %
 \begin{quote}
   Der Zusammenfluss \lstinline{river} fließt durch
@@ -558,7 +557,7 @@ Version eines Klassikers der Informatik-Forschung, das zu mehreren
 Veröffentlichungen und zur Gründung einer erfolgreichen Firma geführt
 hat.\footnote{Wer mehr wissen möchte, sollte das Paper von Peyton
   Jones und Eber~\cite{FinancialContracts} lesen, das es auch im
-  Internet zum Download gibt.}  Selbstbezüge spielen eine wichtige
+  Internet kostenlos zum Download gibt.}  Selbstbezüge spielen eine wichtige
 Rolle.
 
 Wichtig bei diesem Beispiel: Für die Repräsentation von
@@ -566,7 +565,7 @@ Finanzverträgen aus diesem Abschnitt haben renommierte
 Informatik-Forscher mehrere Monate gebraucht.  Wir können sie mit den
 bisher präsentierten Programmiermitteln nachbauen, aber Du solltest
 nicht von Dir erwarten, dass Du das Beispiel in wenigen Stunden auch
-selbst hättest ausdenken können.
+selbst hättest entwickeln können.
 
 In der Finanzbranche werden oft Verträge geschlossen, die zur
 strukturierten Zahlung von Geldbeträgen führen.  Wer eine Bankerin
@@ -620,16 +619,16 @@ ständig neue Verträge ausdenken.
 Wer aber genug solche Verträge studiert, bemerkt, dass diese aus
 Bausteinen bestehen, die immer wiederkehren.  Das suggeriert einen
 anderen Ansatz, nämlich diese Bausteine zu identifizieren und dafür
-die Datenanalyse durchzuführen.  Wir nachvollziehen stattdessen der
-Arbeit der Autoren des Papers~\cite{FinancialContracts}.  Die haben
+die Datenanalyse durchzuführen.  Wir vollziehen stattdessen der
+Arbeit der Autoren des Papers~\cite{FinancialContracts} nach.  Die haben
 (über mehrere Monate) einen Satz bestechend einfacher Bausteine
 zusammengestellt, indem sie bekannte Verträge in möglichst kleine und
 einfache Bestandteile zerlegten.  Jeder dieser Bestandteile ist für
 sich genommen ein "<kleiner Vertrag">, es gibt aber auch Kombinatoren,
 die aus kleinen Verträgen größere machen, insbesondere auch noch
-unbekannte Klassen von Verträgen.  Aus diesen Bestandteilen lassen sich
-sehr viele Finanzverträge (auch noch unbekannte) abbilden durch den
-Einsatz von Kombinatoren.
+unbekannte Klassen von Verträgen.  Mit diesen Bestandteilen lassen sich
+durch den Einsatz von Kombinatoren sehr viele Finanzverträge (auch
+noch unbekannte) abbilden.
 
 Da es mehrere Klassen von Bausteinen und Kombinatoren gibt, werden wir
 Verträge als gemischte Daten repräsentieren und dafür schrittweise
@@ -674,7 +673,7 @@ durchaus Eigenschaften.  (Siehe dazu auch
 Aufgabe~\ref{aufgabe:aufzaehlung-vs-nullstellig} auf
 Seite~\pageref{aufgabe:aufzaehlung-vs-nullstellig}.)  Wir nehmen die
 Datendefinition stattdessen beim Wort "<hat~\ldots{} Eigenschaften">
-und bilden den Euro als zusammesngesetzte Daten ab.  Dann wird daraus
+und bilden den Euro als zusammengesetzte Daten ab.  Dann wird daraus
 folgende Record-Definition:
 %
 \begin{lstlisting}
@@ -935,8 +934,8 @@ Aus dieser Sicht ist der \lstinline{multiple}-Vertrag der
 \paragraph{Verträge kombinieren}
 
 Jetzt wo die Zero-Bonds erledigt sind, können wir überlegen, ob es
-noch weitere Möglichkeiten geben sollte, Verträge herzustellen.  Wann
-immer Du Repräsentationen mit Kombinatoren baust, solltest Du nach
+noch weitere Möglichkeiten geben sollte, Verträge herzustellen.  Immer
+wenn Du Repräsentationen mit Kombinatoren baust, solltest Du nach
 Möglichkeiten suchen, aus zwei Dingen ein größeres Ding zu bauen.
 
 Beispiele für dieses Prinzip haben wir in diesem Kapitel schon mehrere
@@ -950,7 +949,7 @@ gesehen:
 \end{itemize}
 %
 Auf die Verträge bezogen bedeutet dies, dass wir zwei Verträge
-zusammensetzen, der die Rechte und Pflichten von beiden kombiniert.
+zu einem zusammensetzen, der die Rechte und Pflichten von beiden kombiniert.
 So könnte dies gehen:
 %
 \begin{lstlisting}
@@ -1018,7 +1017,7 @@ Entsprechend erweitern wir \lstinline{contract}:
    (mixed one-euro multiple later both nothing)))
 \end{lstlisting}
 %
-In Aufgabe~\ref{aufgabe:give} aus Seite~\pageref{aufgabe:give} geht es
+In Aufgabe~\ref{aufgabe:give} auf Seite~\pageref{aufgabe:give} geht es
 um noch einen weiteren Kombinator.
 
 \paragraph{Verträge bewerten}
@@ -1077,8 +1076,9 @@ Die Schablone sieht so aus:
     |\ldots|))
 \end{lstlisting}
 %
-Die Definition von \lstinline{contract}, es handelt sich um gemischte
-Datne, führt zunächst zu folgender Schablone:
+Da es sich bei der Definition von \lstinline{contract} um gemischte
+Daten handelt, sieht die erste Schablone für
+\lstinline{contract-payment} so aus:
 %
 \begin{lstlisting}
 (define contract-payment
@@ -1267,7 +1267,8 @@ Auszahlung (der 26.~Juli 2019), ab diesem Datum ist also nichts mehr
 \end{lstinline}
 %
 Der Beispielvertrag \lstinline{later2} hingegen wird erst zu
-\lstinline{date2} ausgezahlt, das ist Weihnachten 2019.  Zum Zeitpunkt
+\lstinline{date2} ausgezahlt, das ist Weihnachten 2019.\footnote{Als
+  dieses Kapitel geschrieben wurde, lag das noch in der Zukunft.}  Zum Zeitpunkt
 \lstinline{date1} passiert deswegen noch nichts, der Vertrag
 kommt also unverändert zurück:
 %
@@ -1276,7 +1277,7 @@ kommt also unverändert zurück:
 \end{lstinline}
 %
 Interesant wird es bei den \lstinline{both}-Verträgen.  Bei
-\lstinline{both1} passiert die eine "<Hälfte"> sofort, die andere wird
+\lstinline{both1} passiert der eine Teil sofort, der andere wird
 bis \lstinline{date1} verzögert.  Zum Zeitpunkt \lstinline{date1}
 bleibt allerdings von beiden Hälften nichts übrig:
 %
@@ -1406,10 +1407,10 @@ Als nächstes ist \lstinline{multiple} an der Reihe.  Der rekursive
 Aufruf aus der Schablone beantwortet die folgende Frage: "<Wieviel ist
 von \emph{einem} Vertrag nach dem Datum noch übrig?"> Wenn wir mit $n$
 das Ergebnis von \lstinline{(multiple-number contract)} bezeichnen,
-dann bezeichnen, müssen wir die Frage beantwortenm, wieviel von $n$
+dann müssen wir die Frage beantwortenm, wieviel von $n$
 Verträgen übrig bleibt.  Im übertragenen Sinne futtern $n$ Esser in
 der Mensa an jeweils der gleichen Portion Brei, werden aber
-unterbrochen. Wenn wir wissen, wieviel von einer Portion übrigbleibt,
+unterbrochen. Wenn wir wissen, wieviel von einer Portion jeweils übrigbleibt,
 wieviel bleibt dann insgesamt übrig?  Wir müssen wieder mit $n$
 multiplizieren:
 %
@@ -1586,7 +1587,7 @@ Record-Definition ändern:
 Der Name \lstinline{really-make-multiple} ist reine Konvention~--
 solange der Name nur anders ist als \lstinline{make-multiple}!  Als
 nächstes definieren wir eine neue Funktion mit dem alten Namen und dem
-gleichen Vertrag.  Hier Kurzbeschreibungl, Signatur und ein Testfall,
+gleichen Vertrag.  Hier Kurzbeschreibung, Signatur und ein Testfall,
 der gerade \lstinline{euro100} entspricht:
 %
 \begin{lstlisting}
@@ -1618,7 +1619,7 @@ rufen wir den richtigen Konstruktor auf:
 \end{lstlisting}
 %
 Damit funktionieren schonmal die ersten beiden Testfälle, die
-ursprünglich fehlgeschlagen.  Es bleiben aber noch weitere.  Der erste
+ursprünglich fehlgeschlagen sind.  Es bleiben aber noch weitere.  Der erste
 ist dieser hier:
 %
 \begin{alltt}
@@ -1688,15 +1689,14 @@ welche die ursprünglichen Konstruktoren gleichen Namens ersetzen und
 bei der Konstruktion die entstehenden Verträge gleich schon etwas
 vereinfachen heißen auch \textit{smart constructors}.\index{smart constructor}
 
-\paragraph{Kombinatorrepräsentationen finden} Wie schon am Anfang
-dieses Abschnitts erwähnt, die Autoren des Papers über Finanzverträge
-habne Monate gebraucht, um die beschriebene elegante Repräsentation zu
+\paragraph{Kombinatorrepräsentationen finden} Die Autoren des Papers über Finanzverträge
+haben Monate gebraucht, um die beschriebene elegante Repräsentation zu
 finden.  Sie sind nach zwei Prinzipien vorgegangen:
 %
 \begin{itemize}
 \item Sie haben Finanzverträge in ihre kleinsten Bestandteile zerlegt.
 \item Sie haben nach Kombinatoren für Finanzverträge gesucht und
-  welche gefunden, entsprechend Mantra~\ref{mantra:kombinator}.
+  welche gefunden, entsprechend Mantra~\ref{mantra:kombinator} auf Seite~\pageref{mantra:kombinator}.
 \end{itemize}
 %
 Die Prinzipien sind auf viele andere Problemstellungen übertragbar.
@@ -1744,7 +1744,7 @@ entsprechenden \textit{smart constructor}.
   Statt nullstelliger zusammengesetzter Daten wie \lstinline{nothing}
   oder \lstinline{one-euro} könnte man theoretisch auch~-- wie bei
   Aufzählungen~-- feste Zeichenketten wie \lstinline{"nothing"} und
-  \lstinline{"one-euro"} verwenden.  Versuche dies umzusetzen!
+  \lstinline{"one-euro"} verwenden.  Versuch dies umzusetzen!
 \end{aufgabe}
 
 %%% Local Variables: 
