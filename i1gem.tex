@@ -404,7 +404,7 @@ Eine Konstruktionsanleitung oder Schablone für gemischte Daten
 \emph{als Ausgabe} ist unnötig~-- Du benutzt einfach die Schablone
 des entsprechenden Falls.
 
-Beachte den Unterschied zwischen \lstinline{one-of} und
+Beachte den Unterschied zwischen \lstinline{enum} und
 \lstinline{mixed}, die leicht zu verwechseln sind: \lstinline{One-of} steht
 für "<einer der folgenden \emph{Werte}">, während \lstinline{mixed} für
 "<gehörend zu einer der folgenden \emph{Signaturen}"> steht.
@@ -507,7 +507,7 @@ Signatur einen Namen:
 \begin{lstlisting}
 (define traffic-light
   (signature
-   (one-of "red" "yellow" "green")))
+   (enum "red" "yellow" "green")))
 \end{lstlisting}
 %
 Die Angabe über den Zuckergehalt kann jede der drei oben genannten Formen

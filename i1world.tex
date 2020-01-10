@@ -102,7 +102,7 @@ ist:\index{h-place@\texttt{h-place}}
 (define h-place
    (signature
       (mixed natural
-             (one-of "left"
+             (enum "left"
                      "right"
                      "center"))))
 \end{alltt}
@@ -120,7 +120,7 @@ wie folgt definiert:\index{v-place@\texttt{v-place}}
 (define h-place
    (signature
       (mixed natural
-             (one-of "top"
+             (enum "top"
                      "bottom"
                      "center"))))
 \end{alltt}

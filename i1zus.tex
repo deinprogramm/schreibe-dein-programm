@@ -307,7 +307,7 @@ Signatur-Definition:
 ; - Gamer-Modell
 (define model
   (signature
-   (one-of "cheap" "professional" "gamer")))
+   (enum "cheap" "professional" "gamer")))
 \end{verbatim}
 %
 Eine Funktion, die zu einer Standardkonfiguration den passenden
@@ -1268,7 +1268,7 @@ Seite~\pageref{mantra:gleichungen}:
   \item Nimm an, Du hättest für eine zu schreibende Funktion
     \texttt{quxop2} die folgende Signatur festgelegt:
 \begin{verbatim}
-(: quxop2 (natural (one-of "Hx" "Bx" "Px") -> qux))
+(: quxop2 (natural (enum "Hx" "Bx" "Px") -> qux))
 \end{verbatim}
     (Dabei ist angenommen, dass die Record-Definition für ein Qux
     den Namen \texttt{qux} hat.) Entwickele daraus Gerüst und

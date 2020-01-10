@@ -351,7 +351,7 @@ aus:\index{pet@\texttt{pet}}
 %
 \begin{alltt}
 (define pet
-  (signature (one-of "Katze" "Hund" "Schlange")))
+  (signature (enum "Katze" "Hund" "Schlange")))
 \end{alltt}
 %
 Da sind gleich zwei neue Programmelemente drin:
@@ -359,9 +359,9 @@ Da sind gleich zwei neue Programmelemente drin:
 \begin{itemize}
 \item \texttt{Signature\index{signature@\texttt{signature}}} müssen wir immer schreiben, wenn wir eine
   neue Signatur erzeugen.
-\item \texttt{One-of\index{one-of@\texttt{one-of}}} (das funktioniert
+\item \texttt{enum\index{enum@\texttt{enum}}} (das funktioniert
   nur innerhalb eines \texttt{signature}-Ausdrucks) ist für
-  Aufzählungen zuständig.  In einem \texttt{one-of}-Ausdruck stehen
+  Aufzählungen zuständig.  In einem \texttt{enum}-Ausdruck stehen
   die Werte, die zur Aufzählung gehören.
 \end{itemize}
 %
@@ -1170,7 +1170,7 @@ Für den Sonderfall der Aufzählung haben wir folgende Konstruktionsanleitung:
   Schreibe für jede Aufzählung eine Signaturdefinition der Form:
   % 
 \begin{alltt}
-(define \(s\) (signature (one-of \ldots)))
+(define \(s\) (signature (enum \ldots)))
 \end{alltt}
   %
   Achte darauf, dass die Anzahl der Fälle der Signaturdefinition der
@@ -1194,7 +1194,7 @@ Datendefinition zunächst eine Signaturdefinition abgeleitet:
 %
 \begin{verbatim}
 (define pet
-  (signature (one-of "Katze" "Hund" "Schlange")))
+  (signature (enum "Katze" "Hund" "Schlange")))
 \end{verbatim}
 %
 Bei Aufzählungen gibt es nur drei Beispiele, die schon in der

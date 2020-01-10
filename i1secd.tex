@@ -1428,7 +1428,7 @@ Definition:
 %
 \begin{verbatim}
 ; Evaluationsfunktion zur SECD-Maschine berechnen
-(: eval-secd (term -> (mixed value (one-of 'function))))
+(: eval-secd (term -> (mixed value (enum 'function))))
 (define eval-secd
   (lambda (e)
     (let ((val (first
@@ -2293,7 +2293,7 @@ SECD-Maschine realisiert wird:
 
 
 ; Evaluationsfunktion zur SECD-Maschine berechnen
-(: eval-secdh (term -> (mixed value (one-of 'function))))
+(: eval-secdh (term -> (mixed value (enum 'function))))
 (define eval-secdh
   (lambda (e)
     (let ((final (secdh-step* (inject-secdh e))))
