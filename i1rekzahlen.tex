@@ -34,7 +34,7 @@ Das Gerüst ergibt sich aus der Signatur:
 \end{alltt}
 %
 Wie oben festgestellt, handelt es sich bei den natürlichen Zahlen um
-eine Fallunterscheidung mit zwei Fällen.  In der Schablone muß also
+eine Fallunterscheidung mit zwei Fällen.  In der Schablone muss also
 eine Verzweigung mit zwei Fällen stehen:
 %
 \begin{alltt}
@@ -56,7 +56,7 @@ ab:
       (else ...))))
 \end{alltt}
 %
-Diese Fallunterscheidung läßt sich leichter mit \texttt{if}
+Diese Fallunterscheidung lässt sich leichter mit \texttt{if}
 schreiben:\footnote{Es wäre genauso richtig, beide Zweige
   mit einem Test zu versehen, wie bei den Funktionen über Listen:
 %
@@ -101,7 +101,7 @@ Der rekursive Aufruf \texttt{(factorial (- n 1))} soll nach
 Signatur und Beschreibung der Funktion das Produkt der Zahlen von 1 bis
 $\texttt{n}-1$ berechnen.  Gefragt ist aber das Produkt der Zahlen von
 1 bis \texttt{n}.  Es fehlt noch \texttt{n} selbst, das mit dem
-Ergebnis multipliziert werden muß:
+Ergebnis multipliziert werden muss:
 %
 \begin{alltt}
 (define factorial
@@ -130,7 +130,7 @@ Substitutionsmodell ergibt:
 \end{alltt}
 %
 Damit ist klar, dass die unbekannte Zahl, die an Stelle der 
-\texttt{...} stehen muß, multipliziert mit 1 wiederum 1 ergeben muß.
+\texttt{...} stehen muss, multipliziert mit 1 wiederum 1 ergeben muss.
 Die einzige Zahl, die diese Bedingung erfüllt, ist 1 selbst.  Die
 vollständige Definition von \texttt{factorial} ist also:
 %
@@ -142,7 +142,7 @@ vollständige Definition von \texttt{factorial} ist also:
         (* n (factorial (- n 1))))))
 \end{alltt}
 %
-An einem größeren Beispiel läßt sich anhand des Substitutionsmodells
+An einem größeren Beispiel lässt sich anhand des Substitutionsmodells
 oder im Stepper besonders gut sehen, wie die Rekursion verläuft:
 %
 \begin{alltt}
@@ -176,13 +176,13 @@ Die typischen Beobachtungen an diesem Beispiel sind:
 \item \texttt{Factorial} ruft sich nie mit derselben Zahl $n$ auf, mit
   der es selbst aufgerufen wurde, sondern immer mit $n-1$.
 \item Die natürlichen Zahlen sind so strukturiert, dass die Kette $n,
-  n-1, n-2 \ldots$ irgendwann bei $0$ abbrechen muß.
+  n-1, n-2 \ldots$ irgendwann bei $0$ abbrechen muss.
 \item \texttt{Factorial} ruft sich bei $n=0$ \emph{nicht}
   selbst auf.
 \end{itemize}
 %
 Aus diesen Gründen kommt der von
-\texttt{(factorial $n$)} erzeugte Berechnungsprozeß immer zum Schluß.  
+\texttt{(factorial $n$)} erzeugte Berechnungsprozess immer zum Schluss.  
 
 Aus der Definition von \texttt{factorial} ergibt sich eine
 Konstruktionsanleitung für Funktionen, die natürliche Zahlen
@@ -199,7 +199,7 @@ verarbeiten.  Die Schablone für solche Funktionen sieht folgendermaßen aus:
 \label{sec:ka-recursion-numbers}
 %
 Konstruktionsanleitung~\ref{ka:N} in
-Anhang~\ref{app:konstruktionsanleitungen} faßt dies noch einmal
+Anhang~\ref{app:konstruktionsanleitungen} fasst dies noch einmal
 zusammen.
 
 TDB: Funktionen, die Listen erzeugen etc.
