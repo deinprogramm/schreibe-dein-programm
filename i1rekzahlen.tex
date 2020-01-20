@@ -3,217 +3,398 @@
 % "Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International (CC BY-SA 4.0)"
 % https://creativecommons.org/licenses/by-sa/4.0/deed.de
 
-\chapter{Funktionen über natürlichen Zahlen}
+\chapter{Natürliche Zahlen}
 \label{cha:recursion-numbers}
 
-%\section{Funktionen über natürlichen Zahlen} HK: Hier die einzige numerierte
-%section, also zunächst überflüssig
-\label{sec:factorial}
+In diesem Kapitel geht es um Funktionen, die etwas zählen und sich
+dementsprechend mit Zahlen beschäftigen.  Wir haben schon eine Reihe
+von Programmen gesehen, die mit Zahlen rechnen, aber Zählen ist etwas
+besonderes und verdient deshalb ein eigenes Kapitel mit eigener
+Konstruktionsanleitung.
 
-Aus der induktiven Definition der natürlichen Zahlen ergibt sich direkt eine Schablone für die
-Konstruktion von Funktionen auf den natürlichen Zahlen.  Angenommen,
-es sei eine Funktion gefragt, die für eine Zahl $n$ das Produkt aller
-Zahlen von $1$ bis $n$ berechnet. 
-Dieses Produkt heißt 
-\textit{Fakultät}\index{Fakultät}, auf Englisch
-\textit{factorial\index{factorial@\texttt{factorial}}}. 
-  Beschreibung und Signatur sind wie folgt:
+\section{Zahlen, die zählen}
+
+Du kennst bestimmt aus dem Mathematikunterricht die
+\textit{Potenz}\index{Potenz} einer Zahl (der
+\textit{Basis}\index{Basis}) $b$ zu einem
+\textit{Exponenten}\index{Exponent} $e$:
 %
-\begin{alltt}
-; das Produkt aller Zahlen von 1 bis n berechnen
-(: factorial (natural -> natural))
-\end{alltt}
-\label{page:factorial}
+\begin{displaymath}
+  b^e
+\end{displaymath}
 %
-Das Gerüst ergibt sich aus der Signatur:
+Uns interessieren hier Exponenten, die ganze Zahlen ab 0 sind.  Für
+solche Exponenten ist die Potenz folgendermaßen definiert:
 %
-\begin{alltt}
-(define factorial
+\begin{displaymath}
+  b^e \deq \underbrace{b \times \ldots \times b}_{e\textrm{-mal}}
+\end{displaymath}
+%
+Der Exponent $e$ muss also eine natürliche Zahl\index{natürliche Zahl}
+sein.\footnote{Spitzfindige Leser können anmerken, dass in manchen
+  Lehrbüchern die natürlichen Zahlen mit 1 beginnen, aber wir halten
+  uns an DIN~5473, und da ist die 0 mit dabei.}
+  
+  Umgangssprachlich sind natürliche Zahlen gerade die Zahlen, die
+Gegenstände zählen.  In unserer Intuition sind die natürlichen Zahlen
+einfach auf einem Zahlenstrahl angeordnet und bilden eine Reihe.  Für
+das Programmieren ist das aber wenig hilfreich.  Viel mehr können wir
+mit der folgenden Datendefinition anfangen:
+%
+\begin{lstlisting}
+; Eine natürliche Zahl ist eine der folgenden:
+; - 0
+; - der Nachfolger einer natürlichen Zahl
+\end{lstlisting}
+%
+In dieser Definition findet man alte Bekannte wieder: Es handelt sich
+um eine Fallunterscheidung, und der zweite Fall enthält einen
+Selbstbezug.
+
+Dir mag der Begriff "<Nachfolger"> etwas befremdlich erscheinen: Der
+Nachfolger einer Zahl ist einfach nur die Zahl "<plus 1">.  Weil der
+Nachfolger im Zusammenhang mit natürlichen Zahlen eine besondere
+Bedeutung hat, spendieren wir ihm zunächst eine eigene Hilfsfunktion:
+%
+\begin{lstlisting}
+; Nachfolger einer Zahl
+(: successor (natural -> natural))
+
+(define successor
   (lambda (n)
+    (+ n 1)))
+\end{lstlisting}
+%
+Wo ein Nachfolger ist, muss es auch einen Vorgänger geben, und der
+zieht Eins ab:
+%
+\begin{lstlisting}
+; Vorgänger einer Zahl
+(: predecessor (natural -> natural))
+
+(define predecessor
+  (lambda (n)
+    (- n 1)))
+\end{lstlisting}
+%
+Allerdings haben wir bei dieser Definition etwas geschummelt, weil der
+Vorgänger nur für die natürlichen Zahlen funktioniert, welche die
+Nachfolger anderer natürlicher Zahlen sind~-- also für sogenannte
+\textit{positive} natürliche Zahlen\index{positive natürliche Zahlen}.
+Die Signatur kann das nicht zum Ausdruck bringen, da es keine
+eingebaute Signatur dafür gibt.  Aber wir können eine Verzweigung
+entsprechend der Datendefinition einbauen, um die Funktion vor
+Missbrauch zu schützen:
+%
+\begin{lstlisting}
+(define predecessor
+  (lambda (n)
+    (cond
+      ((zero? n)
+       (violation "0 does not have a predecessor"))
+      ((positive? n)
+       (- n 1)))))
+\end{lstlisting}
+%
+Du siehst in der Funktionsdefinition die beiden eingebauten Prädikate
+\lstinline{zero?}\index{zero?@\texttt{zero?}} und
+\lstinline{positive?}\index{positive?@\texttt{positive?}}, welche die
+beiden Fälle der Datendefinition der natürlichen Zahlen unterscheiden.
+
+Zurück zur eigentlichen Aufgabe, der Potenz.  So könnten
+Kurzbeschreibung, Signatur und zwei Tests aussehen:
+%
+\begin{lstlisting}
+; Potenz einer Zahl berechnen
+(: power (number natural -> number))
+
+(check-expect (power 5 0) 1)
+(check-expect (power 5 3) 125)
+\end{lstlisting}
+%
+Als nächtes ist das Gerüst dran:
+%
+\begin{lstlisting}
+(define power
+  (lambda (base exponent)
     ...))
-\end{alltt}
+\end{lstlisting}
 %
-Wie oben festgestellt, handelt es sich bei den natürlichen Zahlen um
-eine Fallunterscheidung mit zwei Fällen.  In der Schablone muss also
-eine Verzweigung mit zwei Fällen stehen:
+Für den Rumpf können wir eine Schablone aus der Datendefinition
+ableiten für \lstinline{exponent} ableiten, das ist ja die natürliche
+Zahl.  Die Datendefinition für natürliche Zahlen ist eine
+Fallunterscheidung mit zwei Fällen, dementsprechend brauchen wir eine
+Verzweigung mit zwei Zweigen:
 %
-\begin{alltt}
-(define factorial
-  (lambda (n)
+\begin{lstlisting}
+(define power
+  (lambda (base exponent)
     (cond
-      (... ...)
-      (... ...))))
-\end{alltt}
+      ((zero? exponent) ...)
+      ((positive? exponent) ...))))
+\end{lstlisting}
 %
-Der erste Fall ist die $0$, der andere Fall deckt alle anderen Zahlen
-ab:
+Im zweiten Fall der Datendefinition steckt außerdem eine
+Selbstreferenz, wir schreiben also noch einen rekursiven Aufruf in die
+Schablone:
 %
-\begin{alltt}
-(define factorial
-  (lambda (n)
+\begin{lstlisting}
+(define power
+  (lambda (base exponent)
     (cond
-      ((= n 0) ...)
-      (else ...))))
-\end{alltt}
+      ((zero? exponent) ...)
+      ((positive? exponent)
+       ... (power base (predecessor exponent)) ...))))
+\end{lstlisting}
 %
-Diese Fallunterscheidung lässt sich leichter mit \texttt{if}
-schreiben:\footnote{Es wäre genauso richtig, beide Zweige
-  mit einem Test zu versehen, wie bei den Funktionen über Listen:
-%
-\begin{alltt}
-(define factorial\\
-\hspace*{0em}~~(lambda (n)\\
-\hspace*{0em}~~~~(cond\\
-\hspace*{0em}~~~~~~((= n 0) ...)\\
-\hspace*{0em}~~~~~~((> n 0) ...))))
-\end{alltt}
-%
-Umgekehrt ließe sich auch die Fallunterscheidung bei 
-Listen mit \texttt{if} schreiben.  Welche
-Variante am besten ist, ist Geschmackssache.}
-%
-\begin{alltt}
-(define factorial
-  (lambda (n)
-    (if (= n 0)
-        ...
-        ...)))
-\end{alltt}
-%
-Der Fall $0$ ist hier gar nicht so einfach zu beantworten.  Was sind
-schließlich "<die Zahlen von $1$ bis $0$">?  Dafür ist der andere Zweig
-einfacher zu ergänzen: hier ist nämlich die Konstruktionsanleitung für
-zusammengesetzte Daten anwendbar.  Als Selektor wird die
-Vorgängeroperation angewendet, es steht also \texttt{(- n 1)} in der
-Alternative.
-Genau wie bei den endlichen Folgen liegt nahe, dass auf \texttt{(- n 1)} ein
-rekursiver Aufruf erfolgt:
-%
-\begin{alltt}
-(define factorial
-  (lambda (n)
-    (if (= n 0)
-        ...
-        ... (factorial (- n 1)) ...)))
-\end{alltt}
-%
-Der rekursive Aufruf \texttt{(factorial (- n 1))} soll nach
-Signatur und Beschreibung der Funktion das Produkt der Zahlen von 1 bis
-$\texttt{n}-1$ berechnen.  Gefragt ist aber das Produkt der Zahlen von
-1 bis \texttt{n}.  Es fehlt noch \texttt{n} selbst, das mit dem
-Ergebnis multipliziert werden muss:
-%
-\begin{alltt}
-(define factorial
-  (lambda (n)
-    (if (= n 0)
-        ...
-        (* n (factorial (- n 1))))))
-\end{alltt}
-%
-Es fehlt schließlich noch der erste Zweig der \texttt{if}-Form.  In
-Fällen wie diesem, wo die Antwort nicht offensichtlich ist,
-lohnt es sich, ein oder zwei einfache Beispiele durchzurechnen, die meist die
-Antwort zwingend festlegen.  Das einfachste Beispiel ist wohl 1~--
-das Produkt der Zahlen von 1 bis 1 sollte 1 sein.  Auswertung mit dem
-Substitutionsmodell ergibt:
+Nun müssen wir noch die Lücken füllen:
 
-\begin{alltt}
-(factorial 1)
-\(\Longrightarrow\) (if (= 1 0) ... (* 1 (factorial (- 1 1))))
-\(\Longrightarrow\) (if #f ... (* 1 (factorial (- 1 1))))
-\(\Longrightarrow\) (* 1 (factorial (- 1 1)))
-\(\Longrightarrow\) (* 1 (factorial 0))
-\(\Longrightarrow\) (* 1 (if (= 0 0) ... (* 0 (factorial (- 0 1)))))
-\(\Longrightarrow\) (* 1 (if #t ... (* 0 (factorial (- 0 1)))))
-\(\Longrightarrow\) (* 1 ...)
-\end{alltt}
-%
-Damit ist klar, dass die unbekannte Zahl, die an Stelle der 
-\texttt{...} stehen muss, multipliziert mit 1 wiederum 1 ergeben muss.
-Die einzige Zahl, die diese Bedingung erfüllt, ist 1 selbst.  Die
-vollständige Definition von \texttt{factorial} ist also:
-%
-\begin{alltt}
-(define factorial
-  (lambda (n)
-    (if (= n 0)
-        1
-        (* n (factorial (- n 1))))))
-\end{alltt}
-%
-An einem größeren Beispiel lässt sich anhand des Substitutionsmodells
-oder im Stepper besonders gut sehen, wie die Rekursion verläuft:
-%
-\begin{alltt}
-(factorial 4)
-\(\Longrightarrow\) (if (= 4 0) 1 (* 4 (factorial (- 4 1))))
-\(\Longrightarrow\) (if #f 1 (* 4 (factorial (- 4 1))))
-\(\Longrightarrow\) (* 4 (factorial (- 4 1)))
-\(\Longrightarrow\) (* 4 (factorial 3))
-\(\Longrightarrow\) (* 4 (if (= 3 0) 1 (* 3 (factorial (- 3 1)))))
-\(\Longrightarrow\) (* 4 (if #f 1 (* 3 (factorial (- 3 1)))))
-\(\Longrightarrow\) (* 4 (* 3 (factorial (- 3 1))))
-\(\Longrightarrow\) (* 4 (* 3 (factorial 2)))
-\(\ldots\)
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (factorial 1))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (if (= 1 0) 1 (* 1 (factorial (- 1 1)))))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (if #f ... (* 1 (factorial (- 1 1)))))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (factorial (- 1 1))))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (factorial 0)))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (if (= 0 0) 1 (* 0 (factorial (- 0 1))))))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (if #t 1 (* 0 (factorial (- 0 1)))))))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 1))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 1)))
-\(\Longrightarrow\) (* 4 (* 3 2))
-\(\Longrightarrow\) (* 4 6)
-\(\Longrightarrow\) 24
-\end{alltt}
-%
-Die typischen Beobachtungen an diesem Beispiel sind:
-%
-\begin{itemize}
-\item \texttt{Factorial} ruft sich nie mit derselben Zahl $n$ auf, mit
-  der es selbst aufgerufen wurde, sondern immer mit $n-1$.
-\item Die natürlichen Zahlen sind so strukturiert, dass die Kette $n,
-  n-1, n-2 \ldots$ irgendwann bei $0$ abbrechen muss.
-\item \texttt{Factorial} ruft sich bei $n=0$ \emph{nicht}
-  selbst auf.
-\end{itemize}
-%
-Aus diesen Gründen kommt der von
-\texttt{(factorial $n$)} erzeugte Berechnungsprozess immer zum Schluss.  
+Beim ersten Fall~--Exponent 0~-- muss als Potenz 1 herauskommen, das
+neutrale Element bezüglich der Multiplikation: Das ist ja nichts
+anderes, als die Zahlen der leeren Liste zu multiplizieren.  (Siehe
+dazu auch Seite~\pageref{page:neutrales-element} in
+Abschnitt~\ref{page:neutrales-element}.)
 
-Aus der Definition von \texttt{factorial} ergibt sich eine
-Konstruktionsanleitung für Funktionen, die natürliche Zahlen
-verarbeiten.  Die Schablone für solche Funktionen sieht folgendermaßen aus:
+Für den anderen Fall ist das Ergebnis des rekursiven Aufruf die Potenz
+von \lstinline{base} mit dem Vorgänger von \lstinline{exponent} als
+Exponent.  Damit wir als Ergebnis \lstinline{base} mit sich selbst
+\lstinline{exponent}-mal multipliziert bekommen, fehlt noch eine
+Multiplikation mit \lstinline{base}:
 %
-\begin{alltt}
-(: proc (natural -> ...))
-(define \(p\)
-  (lambda (\(n\))
-    (if (= \(n\) 0)
-        ...
-        ... (\(p\) (- \(n\) 1)) ...)))
-\end{alltt}
-\label{sec:ka-recursion-numbers}
+\begin{lstlisting}
+(define power
+  (lambda (base exponent)
+    (cond
+      ((zero? exponent) 1)
+      ((positive? base)
+       (* base
+          (power base (predecessor exponent)))))))
+\end{lstlisting}
 %
-Konstruktionsanleitung~\ref{ka:N} in
-Anhang~\ref{app:konstruktionsanleitungen} fasst dies noch einmal
-zusammen.
+Fertig!
 
-TDB: Funktionen, die Listen erzeugen etc.
+Der Begriff des Vorgängers ist hier eher im Weg: Er passt zwar gut zur
+Verwendung des Worts "<Nachfolger"> in der
+Datendefinition. \lstinline{(predecessor exponent)} ist aber hier das
+gleiche ist wie \lstinline{(- exponent 1)}, und entsprechend werden
+wir auch in der Schablone direkt \lstinline{(- ... 1)} statt
+\lstinline{predecessor} verwenden.
+\begin{aufgabe}
+  Die Funktion \lstinline{predecessor} hat zwei Zweige: Warum ist der
+  Aufruf in \lstinline{power} immer gleichbedeutend zu
+  \lstinline{(- exponent 1)}~-- was ist mit dem anderen Zweig?
+\end{aufgabe}
+
+
+\begin{konstruktionsanleitung}{Natürliche Zahlen als Eingabe: Schablone}
+  \label{ka:nats-eingabe-schablone}
+  Eine Schablone für eine Funktion, die eine natürliche Zahl akzeptiert, sieht
+folgendermaßen aus:
+%
+\begin{lstlisting}
+(define |\(f\)|
+  (lambda (|\ldots| |\(\mathit{n}\)| |\ldots|)
+    (cond
+      ((zero? |\(\mathit{n}\)|) |\ldots|)
+      ((positive? |\(\mathit{n}\)|)
+       |\ldots|
+       (|\(f\)| (- |\(\mathit{list}\)| 1))
+       |\ldots|
+       ))))
+\end{lstlisting}
+  
+\end{konstruktionsanleitung}
+
+\section{Natürliche Zahlen und Listen}
+
+Zwischen natürlichen Zahlen und Listen besteht eine enge Beziehung:
+Die Datendefinition für natürliche Zahlen entspricht in ihrer Struktur
+der von Listen.  Die Funktion~\lstinline{list-length} in
+Abschnitt~\ref{page:list-length} auf Seite~\pageref{page:list-length}
+macht aus einer Liste eine natürliche Zahl.  Das geht auch umgekehrt:
+%
+\begin{lstlisting}
+; Liste aus Kopien eines Werts erzeugen
+(: copies (natural %element -> (list-of %element)))
+
+(check-expect (copies 4 23)
+              (list 23 23 23 23))
+(check-expect (copies 5 "Mike")
+              (list "Mike" "Mike" "Mike" "Mike" "Mike"))
+\end{lstlisting}
+%
+Die Signatur der Funktion enthält die Signaturvariable \lstinline{%element}, ist also
+polymorph und macht klar, dass die Elemente der Liste nur zur Signatur
+\lstinline{%element} gehören können.
+%
+\begin{lstlisting}
+(define copies
+  (lambda (count element)
+    ...))
+\end{lstlisting}
+%
+Die Konstruktionsanleitung schlägt folgende Schablone vor:
+%
+\begin{lstlisting}
+(define copies
+  (lambda (count element)
+    (cond
+      ((zero? count) ...)
+      ((positive? count)
+       ... (copies (- count 1) element) ...)))))
+\end{lstlisting}
+%
+Für den ersten Fall brauchen wir eine Liste mit 0 Elemente.  Im
+zweiten Fall liefert der rekursive Aufruf eine Liste mit einem Element
+weniger, als wir brauchen. Das ergänzen wir zur fertigen Definition
+so:
+%
+\begin{lstlisting}
+(define copies
+  (lambda (count element)
+    (cond
+      ((zero? count)
+       empty)
+      ((positive? count)
+       (cons element
+             (copies (- count 1) element))))))
+\end{lstlisting}
+%
+Eine weitere nützliche Funktion akzeptiert die Nummer eines
+Listenelementes~-- einen sogenannten \textit{Index}\index{Index}~--
+und liefert das Element:
+%
+\begin{lstlisting}
+; Nummeriertes Element aus einer Liste holen
+(: nth ((list-of %element) natural -> %element))
+
+(check-expect (nth (list 1 2 3 4 5) 0) 1)
+(check-expect (nth (list 1 2 3 4 5) 2) 3)
+\end{lstlisting}
+%
+Wir sollten uns noch überlegen, wenn es den Index in der Liste gar
+nicht gibt.  Die Funktion kann kein sinnvolles Ergebnis liefern, das
+zur Signatur passt~-- es muss ja ein Element der Liste herauskommen.
+Die einzig sinnvolle Möglichkeit ist, einen Fehler anzuzeigen.
+Daraus wird folgender Testfall:
+%
+\begin{lstlisting}
+(check-error (nth (list 1 2 3 4 5) 5))
+\end{lstlisting}
+%
+Das Gerüst der Funktion sieht folgendermaßen aus:
+%
+\begin{lstlisting}
+(define nth
+  (lambda (list index)
+    ...))
+\end{lstlisting}
+%
+Bei der Schablone haben wir die Wahl: Wir können entweder die
+Schablone für Listen als Eingabe benutzen oder die für natürliche
+Zahlen.  Oder beide.  Hier ist aber der Index federführend~-- wenn die
+Funktion das zweite Element einer tausendelementigen Liste extrahiert,
+ist die Länge irrelevant.  Wir halten uns also an die
+Konstruktionsanleitung für natürliche Zahlen:
+%
+\begin{lstlisting}
+(define nth
+  (lambda (list index)
+    (cond
+      ((zero? index) ...)
+      ((positive? index)
+       ... (nth (rest list) (- index 1)) ...))))
+\end{lstlisting}
+%
+Im ersten Fall ist der Index 0, also das erste Element der Liste
+gefragt.  Im zweiten Fall liefert uns der rekursive Aufruf im Rest der
+Liste das Element das Element an Stelle \lstinline{(- index 1)}.  Dies
+ist schon das \lstinline{index}-te Element in \lstinline{list}.  Die
+Funktion sieht so aus:
+%
+\begin{lstlisting}
+(define nth
+  (lambda (list index)
+    (cond
+      ((zero? index) (first list))
+      ((positive? index)
+       (nth (rest list) (- index 1))))))
+\end{lstlisting}
+%
+Tatsächlich laufen alle Testfälle bereits durch~-- und das, obwohl wir
+für den Fehlerfall gar nichts programmiert haben.
+\begin{aufgabe}
+  Werte mit dieser Definition folgenden Ausdruck aus:
+\begin{lstlisting}
+(nth (list 1 2 3 4 5) 5)
+\end{lstlisting}
+\end{aufgabe}
+%
+Die Fehlermeldung ist zwar technisch richtig, gibt aber keinen
+Aufschluss auf die Ursache des Fehlers.  Das können wir korrigieren,
+indem wir doch noch die Schablone für Listen als Eingabe ergänzen und
+\lstinline{violation} benutzen.  (Siehe Abschnitt~\ref{sec:violation} auf
+Seite~\pageref{sec:violation}.)
+%
+\begin{lstlisting}
+(define nth
+  (lambda (list index)
+    (cond
+      ((empty? list) (violation "nth: Die Liste ist nicht lang genug"))
+      ((cons? list)
+       (cond
+         ((zero? index) (first list))
+         ((positive? index)
+          (nth (rest list) (- index 1))))))))
+\end{lstlisting}
+%
+Fertig!
+
+\section{Exkurs: Potenz optimieren}
+
+FIXME
 
 \section*{Aufgaben}
 
-\begin{aufgabe}\label{aufg:power}
-  Schreiben Sie eine Funktion \texttt{power}, die für eine Basis $b$ und
-  einen Exponenten $e\in\mathbb{N}$ die Potenz $b^e$ ausrechnet.  Also:
-\begin{alltt}
-(power 5 3)
-\evalsto{} 125
-\end{alltt}
-  \end{aufgabe}
+\begin{aufgabe}
+  Die \textit{Fakultät}\index{Fakultät} einer Zahl $n$ ist definiert als:
+  %
+  \begin{displaymath}
+    n! \deq 1 \times 2 \times \cdots \times n
+  \end{displaymath}
+  %
+  Schreiben Sie eine Funktion, welche die Fakultät berechnet!
+\end{aufgabe}
+
+\begin{aufgabe}
+  Programmieren Sie folgende Funktionen auf Listen:
+  \begin{enumerate}
+  \item Programmieren Sie eine Funktion \texttt{take}, die als
+    Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
+    akzeptiert, und die ersten \texttt{n} Elemente der Liste
+    \texttt{l} zurückgibt. Beispiel:
+    \begin{alltt}
+      (take (list 1 2 3 4 5 6 7 8) 5)
+      \evalsto{} #<list 1 2 3 4 5>
+    \end{alltt}
+    %
+    Gehen Sie davon aus, dass \texttt{l} mindestens \texttt{n}
+    Elemente lang ist.
+
+  \item Programmieren Sie eine Funktion \texttt{drop}, die als
+    Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
+    akzeptiert, und die Liste \texttt{l} ohne die ersten \texttt{n}
+    Elemente zurückgibt.  Beispiel:
+    \begin{alltt}
+      (drop (list 1 2 3 4 5 6 7 8) 3)
+      \evalsto{} #<list 4 5 6 7 8>
+    \end{alltt}
+    %
+    Gehen Sie davon aus, dass \texttt{l} mindestens \texttt{n}
+    Elemente lang ist.
+    \end{enumerate}
+\end{aufgabe}
+
 
 \begin{aufgabe}\label{ex:evensodds}
   \begin{itemize}
@@ -249,81 +430,6 @@ TDB: Funktionen, die Listen erzeugen etc.
            #<record:pair 9 #<empty-list>>>>>>
 \end{alltt}
   \end{itemize}
-\end{aufgabe}
-
-\begin{aufgabe}
-  Programmieren Sie folgende Funktionen auf Listen:
-  \begin{enumerate}
-  \item Programmieren Sie eine Funktion \texttt{take}, die als
-    Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
-    akzeptiert, und die ersten \texttt{n} Elemente der Liste
-    \texttt{l} zurückgibt. Beispiel:
-    \begin{alltt}
-      (take (list 1 2 3 4 5 6 7 8) 5)
-      \evalsto{} #<list 1 2 3 4 5>
-    \end{alltt}
-    %
-    Gehen Sie davon aus, dass \texttt{l} mindestens \texttt{n}
-    Elemente lang ist.
-
-  \item Programmieren Sie eine Funktion \texttt{drop}, die als
-    Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
-    akzeptiert, und die Liste \texttt{l} ohne die ersten \texttt{n}
-    Elemente zurückgibt.  Beispiel:
-    \begin{alltt}
-      (drop (list 1 2 3 4 5 6 7 8) 3)
-      \evalsto{} #<list 4 5 6 7 8>
-    \end{alltt}
-    %
-    Gehen Sie davon aus, dass \texttt{l} mindestens \texttt{n}
-    Elemente lang ist.
-    \end{enumerate}
-\end{aufgabe}
-
-\begin{aufgabe}
-  Das folgende Zahlenmuster heißt das \textit{Pascalsche
-    Dreieck}:\index{Pascalsches Dreieck}
-  \begin{center}
-    1\\
-    1~~1\\
-    1~~2~~1\\
-    1~~3~~3~~1\\
-    1~~4~~6~~4~~1\\
-    \ldots
-  \end{center}
-  %
-  Die Zahlen an den Kanten des Dreiecks sind allesamt 1.  Eine Zahl im
-  Innern des Dreiecks ist die Summe der beiden Zahlen darüber.
-  Schreibe eine Funktion \texttt{pascal}, die als Argumente die Nummer
-  einer Zeile und die Nummer einer "<Spalte"> innerhalb des Dreiecks
-  akzeptiert, und die Zahl im Pascalschen Dreieck berechnet.  (Sowohl
-  Zeilen- als auch Spaltennummer fangen bei~1 an.)
-%
-\begin{alltt}
-(pascal 5 3)
-\evalsto{} 6
-\end{alltt}
-\end{aufgabe}
-
-\begin{aufgabe}\label{ex:coke-finances}
-  Schreiben Sie eine Funktion \texttt{drink-machine}, die das
-  Finanzmanagement eines Getränkeautomaten durchführt.
-  
-  \texttt{Drink-machine} soll drei Argumente akzeptieren: den Preis eines
-  Getränks (in Euro-Cents), eine Liste der Centbeträge der
-  Wechselgeldmünzen, die noch im Automaten sind, und den Geldbetrag,
-  den der Kunde eingeworfen hat.  (Also gibt es ein Listenelement pro
-  Münze. Falls z.B.\ mehrere Groschen im Automaten sind, finden sich
-  in der Liste mehrmals die Zahl 10.)  Herauskommen soll eine Liste
-  der Centbeträge der Münzen, welche die Maschine herausgibt oder
-  \verb|#f|, falls die Maschine nicht herausgeben kann.
-  %
-\begin{alltt}
-(drink-machine 140 (list 50 100 500 10 10) 200)
-\evalsto{} #<list 50 10>
-(drink-machine 140 (list 50 20 20 20) 200)
-\evalsto{} #<list 20 20 20>
-\end{alltt}
 \end{aufgabe}
 
 %%% Local Variables: 

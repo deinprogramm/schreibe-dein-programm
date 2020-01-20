@@ -297,6 +297,28 @@ Ergebnis sehr erfreulich; kein Platz wird verschenkt:
 
 \section*{Aufgaben}
 
+\begin{aufgabe}\label{ex:coke-finances}
+  Schreiben Sie eine Funktion \texttt{drink-machine}, die das
+  Finanzmanagement eines Getränkeautomaten durchführt.
+  
+  \texttt{Drink-machine} soll drei Argumente akzeptieren: den Preis eines
+  Getränks (in Euro-Cents), eine Liste der Centbeträge der
+  Wechselgeldmünzen, die noch im Automaten sind, und den Geldbetrag,
+  den der Kunde eingeworfen hat.  (Also gibt es ein Listenelement pro
+  Münze. Falls z.B.\ mehrere Groschen im Automaten sind, finden sich
+  in der Liste mehrmals die Zahl 10.)  Herauskommen soll eine Liste
+  der Centbeträge der Münzen, welche die Maschine herausgibt oder
+  \verb|#f|, falls die Maschine nicht herausgeben kann.
+  %
+\begin{alltt}
+(drink-machine 140 (list 50 100 500 10 10) 200)
+\evalsto{} #<list 50 10>
+(drink-machine 140 (list 50 20 20 20) 200)
+\evalsto{} #<list 20 20 20>
+\end{alltt}
+\end{aufgabe}
+
+
 \begin{aufgabe}
   Schreiben Sie eine Funktion \texttt{backlog-list}, welche die
   gleichen Eingaben wie \texttt{load-list} akzeptiert, aber die
