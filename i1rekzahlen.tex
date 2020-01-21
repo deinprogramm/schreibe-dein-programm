@@ -350,6 +350,172 @@ Seite~\pageref{sec:violation}.)
 %
 Fertig!
 
+\section{Andersrum zählen}
+
+Wir programmieren noch ein weiteres Beispiel: Zwei Zahlen bestimmen
+Unter- und Obergrenze eines Bereichs ganzer Zahlen und wir wollen die
+Liste dieser Zahlen generieren.  Die Zahlen zwischen 3 und 7 sind zum
+Beispiel 3, 4, 5, 6, 7.
+
+Hier sind Kurzbeschreibung, Signatur und ein Test:
+%
+\begin{lstlisting}
+; Liste aufeinanderfolgender ganzer Zahlen berechnen
+(: between (integer integer -> (list-of integer)))
+
+(check-expect (between 3 7) (list 3 4 5 6 7))
+\end{lstlisting}
+%
+Hier ist das Gerüst für die Funktion:
+%
+\begin{lstlisting}
+(define between
+  (lambda (from to)
+    ...))
+\end{lstlisting}
+%
+Es ist gar nicht so klar, was für eine Schablone wir anwenden sollten,
+um die Funktion zu vervollständigen: In der Signatur steht
+\lstinline{integer}, die Eingaben können also auch negative Zahlen sein,
+mithin keine natürlichen Zahlen.  Die Konstruktionsanleitung für
+natürliche Zahlen ist also nicht direkt anwendbar.  Allerdings geht es
+bei der Funktion doch augenscheinlich ums Zählen, irgendwie sind also
+doch natürliche Zahlen im Spiel.
+
+Wir können uns der Lösung nähern, indem wir zählen, wieviele Elemente
+die Ausgabe-Liste hat.  Am Testfall sind es fünf Elemente, allgemein
+ist das eins mehr als die Differenz der beiden Eingabezahlen~-- und
+das ist immer eine natürliche Zahl.
+
+Wir können die Aufgabe also leicht umformulieren: Nicht "<die Zahlen
+zwischen 3 und 7"> generieren, sondern "<die 5 Zahlen ab 3">.  Dafür
+können wir eine eigene Funktion schreiben:
+%
+\begin{lstlisting}
+; Aufeinanderfolgende Zahlen aber einer Zahl generieren
+(: count-from (integer natural -> (list-of integer)))
+
+(check-expect (between 3 5) (list 3 4 5 6 7))
+\end{lstlisting}
+%
+Das Gerüst ist wie folgt:
+%
+\begin{lstlisting}
+(define count-from
+  (lambda (from count)
+    ...))
+\end{lstlisting}
+%
+Da \lstinline{count} eine natürliche Zahl ist, können wir die
+entsprechende Schablone anwenden:
+%
+\begin{lstlisting}
+(define count-from
+  (lambda (from count)
+    (cond
+      ((zero? count) ...)
+      ((positive? count)
+       ... (count-from ... (- count 1)) ...))))
+\end{lstlisting}
+%
+Im ersten Fall sind null Elemente gefragt, da muss das Ergebnis
+\lstinline{empty} sein.  Da eine Liste herauskommt, werden wir
+wahrscheinlich im zweiten Fall \lstinline{cons} benutzen, um es zu
+konstruieren.  Außerdem ist das gewünschte erste Element gerade
+\lstinline{from}.  Wir können die Schablone also wie folgt
+weiterentwickeln:
+%
+\begin{lstlisting}
+(define count-from
+  (lambda (from count)
+    (cond
+      ((zero? count) empty)
+      ((positive? count)
+       (cons from
+             ... (count-from ... (- count 1)) ...)))))
+\end{lstlisting}
+%
+Für den Rest der Ausgabe-Liste brauchen wir eine Liste, die mit der
+nächsten Zahl anfängt, also mit \lstinline{(+ from 1)}.  Wenn wir das
+als erstes Argument des rekursiven Aufrufs benutzen, ist dieser schon
+genau die benötigte Rest-Liste:
+%
+\begin{lstlisting}
+(define count-from
+  (lambda (from count)
+    (cond
+      ((zero? count) empty)
+      ((positive? count)
+       (cons from
+             (count-from (+ from 1) (- count 1)))))))
+\end{lstlisting}
+%
+Nun ist \lstinline{count-from} fertig, aber unsere eigentliche Funktion
+\lstinline{between} noch nicht.  Wir können aber \lstinline{count-from}
+benutzen, um \lstinline{between} zu realisieren:
+%
+\begin{lstlisting}
+(define between
+  (lambda (from to)
+    (count-from from (+ (- to from) 1))))
+\end{lstlisting}
+%
+Fertig!
+
+Vielleicht erscheint Dir umständlich, die Aufgabe erst einmal
+umzumodeln auf eine Aufgabe über natürliche Zahlen und dann die zu
+bearbeiten.  Geht das nicht "<direkt">? Geht es.
+
+Der Schlüssel zur direkten Lösung ist die Einsicht, dass die
+natürliche Zahl in der Aufgabe gerade die Differenz zwischen
+\lstinline{from} und \lstinline{to} ist.  Wir können eine
+entsprechende Verzweigung so formulieren:
+%
+\begin{lstlisting}
+(define between
+  (lambda (from to)
+    (cond
+      ((= from to) ...)
+      ((< from to)
+       ... (sequence ... ...) ...))))
+\end{lstlisting}
+%
+Beim ersten Zweig brauchen wir eine einelementige Liste.  Im zweiten
+ist es wieder sinnvoll, zunächst das \lstinline{cons} hinzuschreiben,
+weil wir wissen, dass das erste Element \lstinline{from} ist:
+%
+\begin{lstlisting}
+(define between
+  (lambda (from to)
+    (cond
+      ((= from to) ...)
+      ((< from to)
+       (cons from (sequence ... ...))))))
+\end{lstlisting}
+%
+Nun können wir die Argumente des rekursiven Aufrufs ergänzen.  Wir
+benötigen eine Liste, die mit der nächsten Zahl anfängt und genau wie
+gehabt aufhört:
+%
+\begin{lstlisting}
+(define between
+  (lambda (from to)
+    (cond
+      ((= from to) (list from))
+      ((< from to)
+       (cons from (sequence (+ from 1) to))))))
+\end{lstlisting}
+%
+Fertig!
+
+Vielleicht fällt Dir bei dieser Aufgabe auf, dass es leicht passieren
+kann, dass die ganzen Zahlen "<um eins verrutschen">.  Man könnte zum
+Beispiel leicht auf die Idee kommen, im ersten Zweig statt
+\lstinline{(list from)} einfach \lstinline{empty} hinzuschreiben.  Das
+passiert auch erfahrener Programmiererinnen und Programmierern.  Es
+ist deswegen sinnvoll, beim Programmieren von Funktionen über
+natürliche und ganze Zahlen genau hinzuschauen, ob sie korrekt sind.
+
 \section{Exkurs: Potenz optimieren}
 
 FIXME
