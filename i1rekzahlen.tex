@@ -518,7 +518,128 @@ natürliche und ganze Zahlen genau hinzuschauen, ob sie korrekt sind.
 
 \section{Exkurs: Potenz optimieren}
 
-FIXME
+Wir kehren in diesem Abschnitt noch einmal zur Potenz zurück.  Mit
+einem Trick können wir nämlich den Rechenaufwand reduzieren: Zum
+Beispiel können wir $3^{10}$ folgendermaßen berechnen:
+%
+\begin{displaymath}
+  3^{10}   = 3^5 \times 3^5
+\end{displaymath}
+%
+Wir müssen also nicht mühsam die 3 zehnmal mit sich selbst
+multiplizieren, es reicht, $3^5$ zu berechnen und mit sich selbst zu
+multiplizieren.  Bei ungeraden Exponenten geht der Triclk auch, wir müssen aber einmal extra
+mit der Basis multiplizieren:
+%
+\begin{displaymath}
+  3^9   = 3^4 \times 3^4 \times 3
+\end{displaymath}
+%
+Diesen Trick können wir auch zu einem Programm machen.  Wir nennen die
+Funktion der Einfachheit halber \lstinline{power2}, die aber ansonsten
+genau wie \lstinline{power} funktionieren soll.  Hier ist das Gerüst:
+%
+\begin{lstlisting}
+(define power2
+  (lambda (base exponent)
+    ...))
+\end{lstlisting}
+%
+In \lstinline{power2} wird nicht mehr direkt gezählt, obwohl der
+Exponent immer noch eine natürliche Zahl ist.  Weil nicht gezählt
+wird, können wir die Schablone für natürliche Zahlen (wieder) nicht
+direkt verwenden.  Allerdings können wir eine alternative
+Datendefinition für natürliche Zahlen unterstellen, die Zahlen
+halbiert, statt sich (wie die erste Definition) auf den Vorgänger zu beziehen.
+%
+\begin{lstlisting}
+; Eine natürliche Zahl ist:
+; - 0
+; - das Doppelte einer natürlichen Zahl
+; - der Nachfolger des Doppelten einer natürlichen Zahl
+\end{lstlisting}
+%
+Da die Datendefinition diesmal drei Fälle hat, muss der Rumpf aus
+einer Verzweigung mit drei Zweigen bestehen:
+%
+\begin{lstlisting}
+(define power2
+  (lambda (base exponent)
+    (cond
+      ((zero? exponent) ...)
+      ((even? exponent) ...)
+      ((odd? exponent) ...))))
+\end{lstlisting}
+%
+Der erste Fall entspricht der ursprünglichen
+\lstinline{power}-Funktion~-- da muss eine 1 hin.  Der zweite und der
+dritte Fall enthalten jeweils einen Selbstbezug, weswegen dort
+rekursive Aufrufe stehen müssen.  Im zweiten Fall steht "<das
+Doppelte">, wir können also die natürliche Zahl des Selbstbezugs durch
+Halbierung berechnen.  Im dritten Fall müssen wir vor dem Halbieren
+noch eins abziehen.  Wir benutzen jeweils \lstinline{quotient}, weil
+wir ganzzahlig halbieren:
+%
+\begin{lstlisting}
+(define power2
+  (lambda (base exponent)
+    (cond
+      ((zero? exponent) 1)
+      ((even? exponent)
+       ... (power2 base (quotient exponent 2)) ...)
+      ((odd? exponent)
+       ... (power2 base (quotient (- exponent 1) 2)) ...))))
+\end{lstlisting}
+%
+Wir kümmern uns nun um den zweiten Fall: Wenn dort $b$ die Basis und
+$e$ der Exponent sind, dann kommt beim rekursiven Aufruf heraus:
+%
+\begin{displaymath}
+  b^{\frac{e}{2}}
+\end{displaymath}
+%
+Gesucht ist \[b^e = b^{\frac{e}{2}} \times b^{\frac{e}{2}}.\]
+Dafür müssen wir $b^{\frac{e}{2}}$ mit sich selbst
+multiplizieren. Damit diese Zahl
+nicht zweimal berechnet wird, legen wir dafür eine lokale Definition an:
+%
+\begin{lstlisting}
+(define power2
+  (lambda (base exponent)
+    (cond
+      ((zero? exponent) 1)
+      ((even? exponent)
+       (define half (power2 base (quotient exponent 2)))
+       (* half half))
+      ((odd? exponent)
+       ... (power2 base (quotient (- exponent 1) 2)) ...))))
+\end{lstlisting}
+%
+Im dritten Fall gilt:
+\begin{displaymath}
+  b^e = b^{\frac{e-1}{2}} \times b^{\frac{e-1}{2}} \times b.
+\end{displaymath}
+%
+Entsprechend können wir den letzten Zweig ausfüllen:
+%
+\begin{lstlisting}
+(define power2
+  (lambda (base exponent)
+    (cond
+      ((zero? exponent) 1)
+      ((even? exponent)
+       (define half (power2 base (quotient exponent 2)))
+       (* half half))
+      ((odd? exponent)
+       (define half (power2 base (quotient (- exponent 1) 2)))
+       (* half half base)))))
+\end{lstlisting}
+%
+Fertig!
+\begin{aufgabe}
+  Überzeuge Dich mit dem Stepper, dass \lstinline{power2} weniger
+  Multiplikationen benötigt als \lstinline{power}!
+\end{aufgabe}
 
 \section*{Aufgaben}
 

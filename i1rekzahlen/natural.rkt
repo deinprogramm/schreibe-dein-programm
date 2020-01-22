@@ -23,8 +23,6 @@
       ((positive? n)
        (- n 1)))))
 
-; copies, power, nth
-
 ; Potenz einer Zahl berechnen
 (: power (number natural -> number))
 
@@ -108,6 +106,7 @@
 ; - das Doppelte einer natürlichen Zahl
 ; - der Nachfolger des Doppelten einer natürlichen Zahl
 
+; Potenz einer Zahl berechnen
 (: power2 (number natural -> number))
 
 (check-expect (power2 5 0) 1)
