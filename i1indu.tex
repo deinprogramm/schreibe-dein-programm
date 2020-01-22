@@ -29,7 +29,7 @@ Summenformel\index{Gaußsche Summenformel}:
 \[\forall n\in\mathbb{N}: \sum_{i=0}^n i =
   \frac{n}{2}\cdot(n+1)\]
 %
-Wie lassen sich solche Aussagen beweisen?  Gauß' Argument war, daß,
+Wie lassen sich solche Aussagen beweisen?  Gauß' Argument war, dass,
 wenn er die Summe ausschreibt:
 %
 \[ 1+2+\ldots+(n-1) + n \]
@@ -62,7 +62,7 @@ setzen:
 \end{displaymath}
 %
 Wer die Paare der Summen der beiden Reihen lang genug anstarrt, sieht
-vielleicht, daß sich alle als Brüche auf den Nenner 3 kürzen lassen:
+vielleicht, dass sich alle als Brüche auf den Nenner 3 kürzen lassen:
 %
 \begin{displaymath}
   \begin{array}{crrrrrrrr}
@@ -104,14 +104,14 @@ gegenüber der Gleichung oben für $n$ jeweils $n+1$ eingesetzt wurde:
   \sum_{i=0}^{n+1} i^2 = \dfrac{(n+1)((n+1)+1)(2(n+1)+1)}{6}
 \end{displaymath}
 %
-Das läßt sich etwas vereinfachen:
+Das lässt sich etwas vereinfachen:
 %
 \begin{equation}
   \sum_{i=0}^{n+1} i^2 = \dfrac{(n+1)(n+2)(2n+3)}{6}
   \label{eq:squares-induction-consequence}
 \end{equation}
 %
-Bei der Reihe $\sum_{i=0}^{n+1} i^2$ läßt sich der letze Summand
+Bei der Reihe $\sum_{i=0}^{n+1} i^2$ lässt sich der letze Summand
 ausgliedern und die Gleichung damit folgendermaßen schreiben:
 %
 \[(\sum_{i=0}^{n}
@@ -128,7 +128,7 @@ Es bleibt:
 \[ (n+1)^2 = \dfrac{(n+1)(n+2)(2n+3)}{6} - \dfrac{n(n+1)(2n+1)}{6}\]
 %
 Wenn diese Gleichung stimmt, dann stimmt auch
-Gleichung~\ref{eq:squares-induction-consequence}.  Das läßt sich
+Gleichung~\ref{eq:squares-induction-consequence}.  Das lässt sich
 ausrechnen:
 %
 \begin{displaymath}
@@ -153,7 +153,7 @@ Es \emph{schien} so, als ob folgende Gleichung stimmen würde:
   \sum_{i=0}^n i^2 = \dfrac{n(n+1)(2n+1)}{6}
 \end{displaymath}
 %
-Es \emph{ist} so, daß folgende Gleichung stimmt:
+Es \emph{ist} so, dass folgende Gleichung stimmt:
 %
 \[ (n+1)^2 = \dfrac{(n+1)(n+2)(2n+3)}{6} - \dfrac{n(n+1)(2n+1)}{6}\]
 %
@@ -166,7 +166,7 @@ diese Gleichung:
 %
 Das ist aber die gleiche Behauptung, nur für $n+1$ statt $n$~-- mit
 anderen Worten folgt aus der Behauptung für $n$ die Behauptung für
-$n+1$.  Da oben durch Ausrechnen bereits gezeigt wurde, daß die
+$n+1$.  Da oben durch Ausrechnen bereits gezeigt wurde, dass die
 Behauptung für $1,\ldots,6$ gilt, gilt sie auch für $7$.  Da sie für
 $7$ gilt, gilt sie auch für $8$.  Undsoweiter für alle natürlichen
 Zahlen.  Es ist nicht nötig, sie einzeln auszuprobieren.  Die Vermutung
@@ -187,18 +187,18 @@ $n\in\mathbb{N}$ zu beweisen ist.  Für den Beweis werden folgende
 Zutaten benötigt:
 %
 \begin{enumerate}
-\item ein Beweis dafür, daß die Behauptung für $n=0$ stimmt und
-\item ein Beweis dafür, daß, wenn die Behauptung für ein beliebiges
+\item ein Beweis dafür, dass die Behauptung für $n=0$ stimmt und
+\item ein Beweis dafür, dass, wenn die Behauptung für ein beliebiges
   $n$ gilt, sie auch für $n+1$ gilt.
 \end{enumerate}
 %
 Die erste Zutat (der
-\textit{Induktionsanfang}\index{Induktionsanfang}) läßt sich meist
+\textit{Induktionsanfang}\index{Induktionsanfang}) lässt sich meist
 durch Einsetzen beweisen, für die zweite Zutat (den
-\textit{Induktionsschluß}\index{Induktionsschluß}) ist in der Regel Algebra
-nötig.  Da die Behauptung nach Zutat Nr.~1 für $0$ gilt, muß sie nach
+\textit{Induktionsschluss}\index{Induktionsschluss}) ist in der Regel Algebra
+nötig.  Da die Behauptung nach Zutat Nr.~1 für $0$ gilt, muss sie nach
 Zutat Nr.~2 auch für $1$ gelten, und deshalb auch für $2,\ldots$ und
-damit für alle natürlichen Zahlen.  (Es muß nicht unbedingt bei $0$
+damit für alle natürlichen Zahlen.  (Es muss nicht unbedingt bei $0$
 losgehen, sondern kann auch bei einer beliebigen Zahl $a$ losgehen~--
 dann gilt aber die Behauptung nur für alle natürlichen Zahlen ab $a$.)
 
@@ -219,16 +219,16 @@ Konstruktionsanleitung für Beweise mit vollständiger Induktion:
 \item Schreiben Sie das Wort "<Induktionsvoraussetzung:"> Schreiben
   Sie darunter die Behauptung noch einmal ab, wobei Sie das "<für
   alle $n\in\mathbb{N}$"> weglassen~-- lassen Sie das $n$ da, wo es ist.
-\item Schreiben Sie "<Induktionsschluß (zu zeigen):">.
+\item Schreiben Sie "<Induktionsschluss (zu zeigen):">.
   Schreiben Sie darunter die Behauptung noch einmal ab, wobei Sie für
   $n$ stattdessen $(n+1)$ einsetzen.  (Wieder lassen Sie das "<für alle
   $n\in\mathbb{N}$"> weg.)
-\item Beweisen Sie den Induktionsschluß unter Verwendung der
+\item Beweisen Sie den Induktionsschluss unter Verwendung der
   Induktionsvoraussetzung.  
 
-  Wenn die Behauptung eine Gleichung der Form $A = B$ ist, dann läßt
+  Wenn die Behauptung eine Gleichung der Form $A = B$ ist, dann lässt
   sich häufig die Induktionsvoraussetzung entweder direkt oder nach
-  einigen Umformungen in den Induktionsschluß einsetzen.
+  einigen Umformungen in den Induktionsschluss einsetzen.
 \end{enumerate}
 %
 Wir gehen die Anleitung anhand des obigen Beispiels durch.  Die
@@ -258,11 +258,11 @@ einmal fest, ist sie allerdings recht einfach zu beweisen:
 \begin{displaymath}
   \sum_{i=0}^n i^2 = \dfrac{n(n+1)(2n+1)}{6}
 \end{displaymath}
-\item Induktionsschluß (zu zeigen):
+\item Induktionsschluss (zu zeigen):
 \begin{displaymath}
   \sum_{i=0}^{n+1} i^2 = \dfrac{(n+1)((n+1)+1)(2(n+1)+1)}{6}
 \end{displaymath}
-\item Die Summe auf der linken Seite läßt sich aufteilen:
+\item Die Summe auf der linken Seite lässt sich aufteilen:
 %
 \begin{displaymath}
   (\sum_{i=0}^{n} i^2) + (n+1)^2  = \dfrac{(n+1)((n+1)+1)(2(n+1)+1)}{6}
@@ -318,9 +318,9 @@ nicht alle Elemente der Menge.%\footnote{Bei den ganzen Zahlen
 %  da es sich um \textit{abzählbare Mengen} handelt.  Das ist
 %  allerdings für unsere Zwecke nicht direkt relevant.}  HK: hier verwirrend...
 Die
-natürlichen Zahlen sind also etwas besonderes.  Das liegt daran, daß
+natürlichen Zahlen sind also etwas besonderes.  Das liegt daran, dass
 sich eine Art Bastelanleitung für alle Elemente von $\mathbb{N}$ angeben
-läßt:
+lässt:
 %
 \begin{itemize}
 \item $0$ ist eine natürliche Zahl.
@@ -330,13 +330,13 @@ läßt:
 %
 Diese Anleitung erreicht \emph{jede} natürliche Zahl~-- jede Zahl kann
 in der Form $0+1+\ldots+1$ geschrieben werden.  Für diese Art
-Bastelanleitung für Mengen ist charakteristisch, daß es ein oder
+Bastelanleitung für Mengen ist charakteristisch, dass es ein oder
 mehrere \textit{Basiselemente}\index{Basiselement} gibt (in diesem
 Fall die $0$) und dann ein oder mehrere Regeln, die aus beliebigeren
 "<kleineren"> Elementen "<größere"> Elemente konstruieren, in diesem
-Fall die Regel, die besagt, daß für jede natürliche Zahl auch ihr
+Fall die Regel, die besagt, dass für jede natürliche Zahl auch ihr
 \textit{Nachfolger}\index{Nachfolger} eine natürliche Zahl ist.
-Umgekehrt läßt sich die Menge der natürlichen Zahlen $\mathbb{N}$
+Umgekehrt lässt sich die Menge der natürlichen Zahlen $\mathbb{N}$
 folgendermaßen definieren:
 %
 \begin{definition}[natürliche Zahlen]
@@ -356,26 +356,26 @@ induktiven Definition immer dabei~--
 ohne sie könnte z.B.\ die Menge der reellen
 Zahlen als $\mathbb{N}$ durchgehen, weil die Klauseln davor 
 keinen Anspruch auf Vollständigkeit erheben könnten.  Diese Klausel
-heißt \textit{induktiver Abschluß}.\index{induktiver Abschluß}
+heißt \textit{induktiver Abschluss}.\index{induktiver Abschluss}
 
-Wer genau hinschaut, sieht, daß die induktive Definition genau die
+Wer genau hinschaut, sieht, dass die induktive Definition genau die
 gleiche Struktur hat wie die Definition der Induktion von
 Seite~\pageref{page:mathematical-induction}: Es gibt eine Klausel für
 die $0$ und eine Klausel für den Schritt von $n$ nach $n+1$.  Die induktive
-Definition sagt, daß es zwei verschiedene Sorten von natürlichen
+Definition sagt, dass es zwei verschiedene Sorten von natürlichen
 Zahlen gibt, nämlich das Basiselement $0$ aus der ersten Regel der
 Definition und die (positiven) Zahlen $n+1$ aus der zweiten Klausel.
 Anders gesagt sind die natürlichen Zahlen so etwas wie gemischte
 Daten.
 
-Entsprechend muß eine Behauptung über die natürlichen Zahlen für beide
+Entsprechend muss eine Behauptung über die natürlichen Zahlen für beide
 Sorten bewiesen werden: Einerseits für das Basiselement $0$ und
 andererseits für die positiven Zahlen, die keine Basiselemente sind.
 Die Klauseln für die Basiselemente heißen
 \textit{Induktionsverankerungen}\index{Induktionsverankerung}.  Da die
 zweite Klausel einen \textit{Selbstbezug}\index{Selbstbezug}
-enthält~-- es muß schon eine natürliche Zahl da sein, um eine weitere
-zu finden~-- muß dort ein Induktionsschluß bewiesen werden.
+enthält~-- es muss schon eine natürliche Zahl da sein, um eine weitere
+zu finden~-- muss dort ein Induktionsschluss bewiesen werden.
 Der Begriff des Selbstbezugs entspricht dem, der bei Listen in
 Kapitel~\ref{cha:list} eingeführt wurde.
 
@@ -417,7 +417,7 @@ Menge.  Ein weiteres Beispiel sind die \index{Folge}\index{endliche
 \end{definition}
 %
 Eine Folge entsteht also aus einer 
-bestehenden Folge dadurch, daß vorn noch ein Element angehängt wird.  
+bestehenden Folge dadurch, dass vorn noch ein Element angehängt wird.  
 Folgen über $M = \{a,b,c\}$ sind deshalb etwa
 \[ \epsilon, a\epsilon, b\epsilon, c\epsilon, aa\epsilon ,
 ab\epsilon , ac\epsilon ,\ldots, abc\epsilon,\ldots\ cbba\epsilon,
@@ -428,7 +428,7 @@ nicht mitnotiert.
 Die Definition der endlichen Folgen ist analog zur
 Definition~\ref{def:N}: Die erste Klausel ist der \textit{Basisfall},
 die zweite Klausel enthält einen \textit{Selbstbezug} und die dritte
-Klausel bildet den induktiven Abschluß.
+Klausel bildet den induktiven Abschluss.
 
 \subsection{Funktionen auf endlichen Folgen}
 \label{sec:functions-on-finite-sequences}
@@ -493,7 +493,7 @@ Funktionen auf gemischten und zusammengesetzten Daten zur Anwendung
 gekommen, lediglich übertragen von Programm-Funktionen auf
 mathematische Funktionen.
 
-Für den nächsten Schritt paßt~-- genau wie beim Programmieren~-- ein
+Für den nächsten Schritt passt~-- genau wie beim Programmieren~-- ein
 rekursiver Aufruf zum Selbstbezug. Die Funktionsdefinition verdichtet sich
 folgendermaßen:
 %
@@ -517,7 +517,7 @@ von $f = mf'$.  Es fehlt also zur Summe nur noch $m$ selbst:
   \end{cases}
 \end{displaymath}
 %
-Mit Papier und Bleistift läßt sich schnell nachvollziehen, daß die
+Mit Papier und Bleistift lässt sich schnell nachvollziehen, dass die
 Definition korrekt arbeitet:
 %
 \begin{displaymath}
@@ -559,25 +559,25 @@ erfüllt.
 \subsection{Folgeninduktion}
 \label{sec:sequence-induction}
 Das Gegenstück zur vollständigen Induktion heißt bei den Folgen
-\textit{Folgeninduktion}.  Der "<Schluß von $n$ auf $n+1$"> wird bei
-der Folgeninduktion zu je einem Schluß von $f$ auf $mf$ für alle
+\textit{Folgeninduktion}.  Der "<Schluss von $n$ auf $n+1$"> wird bei
+der Folgeninduktion zu je einem Schluss von $f$ auf $mf$ für alle
 Folgen $f$ und alle $m\in M$ . Oft kommt es dabei auf das Folgenelement $m$ gar
 nicht an.
 
 Zum
-Beweis der Behauptung, daß eine bestimmte Behauptung für alle
+Beweis der Behauptung, dass eine bestimmte Behauptung für alle
 $f\in M^\ast$ gilt, genügt es, die folgenden Beweise zu führen:
 \begin{enumerate} 
 \item Die Behauptung gilt für $f=\epsilon$ (\textit{Induktionsanfang})\index{Induktionsanfang}
 \item Wenn die Behauptung für eine Folge $f$ gilt, so gilt sie auch
   für alle Folgen $mf$ wobei $m\in{M}$.
-  (\textit{Induktionsschluß}).\index{Induktionsschluß}
+  (\textit{Induktionsschluss}).\index{Induktionsschluss}
 \end{enumerate}
 % 
 Die Folgeninduktion funktioniert, weil sie der Struktur der Definition
 der endlichen Folgen~\ref{def:finite-sequences} genauso folgt wie die
 vollständige Induktion der Struktur der natürlichen Zahlen.  Das Lemma
-läßt sich auch mit Hilfe der vollständigen Induktion beweisen~-- siehe
+lässt sich auch mit Hilfe der vollständigen Induktion beweisen~-- siehe
 Aufgabe \ref{aufgabe:folgeninduktion}.
 
 Entsprechend der vollständigen Induktion gibt es auch für die
@@ -594,18 +594,18 @@ Folgeninduktion eine Anleitung:
 \item Schreiben Sie das Wort "<Induktionsvoraussetzung:"> Schreiben
   Sie darunter die Behauptung noch einmal ab, wobei Sie das "<für
   alle $f\in M^\ast$"> weglassen~-- lassen Sie das $f$ da, wo es ist.
-\item Schreiben Sie "<Induktionsschluß (zu zeigen):">.
+\item Schreiben Sie "<Induktionsschluss (zu zeigen):">.
   Schreiben Sie darunter die Behauptung noch einmal ab, wobei Sie für
   $f$ stattdessen $mf$ einsetzen.  (Wieder lassen Sie das "<für alle
   $f\in M^\ast$"> weg.)
-\item Beweisen Sie den Induktionsschluß unter Verwendung der
+\item Beweisen Sie den Induktionsschluss unter Verwendung der
   Induktionsvoraussetzung.  Denken Sie daran, die Behauptung für
   \emph{alle} $m\in M$ zu beweisen~-- das ist meist aber nicht immer
   trivial.
 
-  Wenn die Behauptung eine Gleichung der Form $A = B$ ist, dann läßt
+  Wenn die Behauptung eine Gleichung der Form $A = B$ ist, dann lässt
   sich häufig die Induktionsvoraussetzung entweder direkt oder nach
-  einigen Umformungen in den Induktionsschluß einsetzen.
+  einigen Umformungen in den Induktionsschluss einsetzen.
 \end{enumerate}
 %
 Für ein sinnvolles Beispiel dient die Funktion cat, die Folgen
@@ -619,7 +619,7 @@ aneinanderhängt:\index{cat}
     m\;\textrm{cat}(f_1', f_2)& \textrm{ falls $f_1 = mf_1'$, $m\in M, f_1'\in M^\ast$}
   \end{cases}
 \end{displaymath}
-Es soll bewiesen werden, daß cat assoziativ ist, das heißt für alle 
+Es soll bewiesen werden, dass cat assoziativ ist, das heißt für alle 
 $u,v,w \in M^{\ast}$ gilt
 \begin{displaymath}
   {\rm cat}(u,{\rm cat}(v,w))  = {\rm cat}({\rm cat}(u,v),w).
@@ -631,7 +631,7 @@ $u,v,w \in M^{\ast}$ gilt
   Sie raten, über welche Folge die Induktion geht und gegebenenfalls
   alle Möglichkeiten durchprobieren.  Wir entscheiden uns für die
   erste Folge $u$ und benennen Sie in $f$ um, damit der Beweis auf die
-  Anleitung paßt:
+  Anleitung passt:
   %
   \begin{displaymath}
     \forall f\in M^\ast:\forall v,w\in M^\ast: {\rm cat}(f,{\rm cat}(v,w))  =  {\rm cat}({\rm cat}(f,v),w)
@@ -651,7 +651,7 @@ $u,v,w \in M^{\ast}$ gilt
   {\rm cat}(f,{\rm cat}(v,w))  = {\rm cat}({\rm cat}(f,v),w)
 \end{displaymath}
 %
-\item Induktionsschluß (zu zeigen): 
+\item Induktionsschluss (zu zeigen): 
 %
 \begin{displaymath}
   {\rm cat}(mf,{\rm cat}(v,w))  = {\rm cat}({\rm cat}(mf,v),w)
@@ -687,7 +687,7 @@ $u,v,w \in M^{\ast}$ gilt
 \section{Notation für induktive Definitionen}
 
 Induktive Mengen kommen in der Informatik enorm häufig vor~-- so
-häufig, daß sich eine Kurzschreibweise für ihre induktiven
+häufig, dass sich eine Kurzschreibweise für ihre induktiven
 Definitionen eingebürgert hat, die sogenannte \textit{kontextfreie
   Grammatik}\index{Grammatik}\index{kontextfreie Grammatik}.  In den
 meisten Informatik-Büchern geht mit dem Begriff eine langwierige
@@ -704,7 +704,7 @@ für die natürlichen Zahlen:
 In der Grammatik steht \meta{$\mathbb{N}$} für "<eine natürliche
 Zahl">.  Zu lesen ist die Grammatik so: Eine natürliche Zahl ist
 entweder die $0$ oder hat die Form $n + 1$ wobei $n$ wiederum eine
-natürliche Zahl ist.  Der obligatorische induktive Abschluß ("<Die
+natürliche Zahl ist.  Der obligatorische induktive Abschluss ("<Die
 obigen Regeln definieren \emph{alle} $n\in\mathbb{N}$.">) wird
 stillschweigend vorausgesetzt
 und darum weggelassen.  
@@ -729,7 +729,7 @@ also die ohne Selbstbezug~-- beschreiben Basisfälle.
 
 \section{Strukturelle Rekursion}
 
-In Abschnitt~\ref{sec:finite-sequences} ist zu sehen, daß die
+In Abschnitt~\ref{sec:finite-sequences} ist zu sehen, dass die
 Definition der beiden Beispielfunktionen auf Folgen ($s$ und
 $\mathrm{cat}$) jeweils der induktiven Definition der Folgen
 "<folgt">~-- die Definition beider Funktionen hat die Form:
@@ -778,7 +778,7 @@ induktive Definitionen auf natürlichen Zahlen meist so geschrieben:
 \end{displaymath}
 %
 Die Korrespondenz zwischen induktiven Definitionen und den rekursiven
-Funktionen läßt sich auch allgemein formulieren.  Angenommen, die
+Funktionen lässt sich auch allgemein formulieren.  Angenommen, die
 Menge $X$ ist durch einer Grammatik definiert, die $n$ Klauseln hat:
 %
 \begin{grammar}
@@ -809,7 +809,7 @@ Form:
   \> [ \meta{A} \& \meta{B} ]
 \end{grammar}
 %
-Dann müßte $F_i$ entsprechend so aussehen:
+Dann müsstee $F_i$ entsprechend so aussehen:
 %
 \begin{displaymath}
   x = \mathtt{[}~a~\mathtt{\&}~b~\mathtt{]}, a\in A, b\in B
@@ -988,7 +988,7 @@ illustriert die Technik:
 
 Die Behauptung hat bereits die für einen Induktionsbeweis geeignete
 Form "<für alle $e$">, wobei $e$ aus einer induktiv definierten Menge
-kommt.  Die Behauptung muß jetzt für alle möglichen Fälle von $e$
+kommt.  Die Behauptung muss jetzt für alle möglichen Fälle von $e$
 bewiesen werden~-- da die Grammatik für Ausdrücke fünf Fälle hat, sind
 auch fünf Fälle zu beweisen: $e=\top$, $e=\bot$, $e=e_1\wedge e_2$,
 $e_1\vee e_2$ und $e=\neg e'$, wobei $e_1$, $e_2$ und $e'$
@@ -1024,7 +1024,7 @@ zwei Selbstbezüge hat, gibt es auch eine zweiteilige
 Induktionsvoraussetzung~-- die Behauptung kann für $e_1$ und $e_2$
 angenommen werden: $\llbracket \overline{e_1} \rrbracket =
 n(\llbracket e_1\rrbracket)$, $\llbracket \overline{e_2} \rrbracket =
-n(\llbracket e_2\rrbracket)$.  Der Induktionsschluß dazu sieht so aus:
+n(\llbracket e_2\rrbracket)$.  Der Induktionsschluss dazu sieht so aus:
 %
 \begin{alignat*}{3}
   \llbracket e_1 \wedge e_2 \rrbracket &= a(\llbracket
@@ -1052,7 +1052,7 @@ Der Fall $e=e_1\vee e_2$ folgt analog.  Wieder gibt es zwei
 Selbstbezüge, also gilt wieder die zweiteilige Induktionsvoraussetzung
 $\llbracket \overline{e_1} \rrbracket = n(\llbracket e_1\rrbracket)$,
 $\llbracket \overline{e_2} \rrbracket = n(\llbracket e_2\rrbracket)$.
-Induktionsschluß (zu zeigen):
+Induktionsschluss (zu zeigen):
 %
 \begin{alignat*}{3}
   \llbracket e_1 \vee e_2 \rrbracket &= o(\llbracket
@@ -1075,7 +1075,7 @@ Induktionsschluß (zu zeigen):
 Schließlich fehlt noch der Fall $e = \neg e'$.  Hier gibt es nur
 einen Selbstbezug, entsprechend lautet die Induktionsvoraussetzung:
 $\llbracket \overline{e'} \rrbracket = n(\llbracket e'\rrbracket)$.
-Induktionsschluß (zu zeigen):
+Induktionsschluss (zu zeigen):
 %
 \begin{alignat*}{3}
   \llbracket \neg e' \rrbracket &= n(\llbracket e'\rrbracket)
@@ -1092,9 +1092,9 @@ Induktionsschluß (zu zeigen):
   && \qquad \text{Induktionsvoraussetzung}
 \end{alignat*}
 %
-Das Beispiel zeigt, daß strukturell induktive Beweise durchaus mehr
+Das Beispiel zeigt, dass strukturell induktive Beweise durchaus mehr
 als einen "<Induktionsanfang"> haben können~-- hier die Fälle $\top$
-und $\bot$.  Ebenso gibt es mehr als einen Induktionsschluß~-- einen
+und $\bot$.  Ebenso gibt es mehr als einen Induktionsschluss~-- einen
 für jede Klausel mit Selbstbezug, hier sind das drei Fälle.
 
 Für Beweise mit struktureller Induktion gilt also folgende Anleitung:
@@ -1120,7 +1120,7 @@ Für Beweise mit struktureller Induktion gilt also folgende Anleitung:
   $x\in X$"> weglassen und für $x$ stattdessen $x_j$ bzw.\ $x'$
   einsetzen.
 
-  Schreiben Sie darunter das Wort "<Induktionsschluß"> und beweisen
+  Schreiben Sie darunter das Wort "<Induktionsschluss"> und beweisen
   die Behauptung.  Denken Sie daran, die Induktionsvoraussetzung zu
   benutzen.
 \end{enumerate}
@@ -1145,14 +1145,14 @@ Eigenschaften, die \textit{Peano-Axiome}, gegeben:
 \end{definition}
 %
 Diese Definition ist äquivalent zu Definition~\ref{def:N} von
-Seite~\pageref{def:N}.  Wie in Definition~\ref{def:N}, läßt sich
+Seite~\pageref{def:N}.  Wie in Definition~\ref{def:N}, lässt sich
 $\mathbb{N}$ sich aus den Peano-Axiomen schrittweise konstruieren.
-Aus 1.\ und 2.\ folgt, daß es natürliche Zahlen
+Aus 1.\ und 2.\ folgt, dass es natürliche Zahlen
 \begin{quote}
   $0, 0', 0'', 0''', 0'''',\ldots$
 \end{quote}
 gibt.  Ohne die $0$ am Anfang entsteht die Darstellung der natürlichen Zahlen
-durch Striche.  Die Axiome 3 und 4 besagen, daß jede Zahl nur eine Strichdarstellung 
+durch Striche.  Die Axiome 3 und 4 besagen, dass jede Zahl nur eine Strichdarstellung 
 besitzt: jedes Anfügen eines Striches "<$\,'\,$"> erzeugt eine
 völlig neue Zahl.
 
@@ -1162,12 +1162,12 @@ weist aber auch interessante Unterschiede auf:
 \begin{itemize}
 \item Für "<$n'$"> ist im täglichen Umgang natürlich die Bezeichnung
   "<$n+1$"> gebräuchlich.
-\item Die dritte und vierte Bedingung zusammen besagen, daß die
+\item Die dritte und vierte Bedingung zusammen besagen, dass die
   Nachfolgerfunktion injektiv ist, das heißt durch fortgesetzte Anwendung
   der Nachfolgerfunktion entstehen immer neue Elemente.
 \item Schließlich beschreibt die fünfte Bedingung den
-  \textit{induktiven Abschluß\index{induktiver Abschluß}}, der
-  festlegt, daß außer den solchermaßen erzeugten Elementen keine
+  \textit{induktiven Abschluss\index{induktiver Abschluss}}, der
+  festlegt, dass außer den solchermaßen erzeugten Elementen keine
   weiteren existieren.  Axiom 5 wird auch \emph{Induktionsaxiom}
   \index{Induktionsaxiom} genannt.  In Definition~\ref{def:N} hat das
   Induktionsaxiom die üblichere Form "<Die obigen Regeln definieren
@@ -1203,7 +1203,7 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweisen Sie, daß folgende Gleichung für alle $n\in\enn$ gilt:
+  Beweisen Sie, dass folgende Gleichung für alle $n\in\enn$ gilt:
   \begin{displaymath}
     \sum_{i=0}^n i^3 = \left(\sum_{i=0}^n i\right)^2
   \end{displaymath}
@@ -1218,7 +1218,7 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
     \textbf{Induktionsanfang} Für eine leere Menge von Pferden gilt die
     Behauptung trivialerweise.
     
-    \textbf{Induktionsschluß} Gegeben sei eine Menge von $n+1$ Pferden.
+    \textbf{Induktionsschluss} Gegeben sei eine Menge von $n+1$ Pferden.
     Nimm ein Pferd aus der Menge heraus~-- die restlichen Pferde haben per
     Induktionsannahme die gleiche Farbe.  Nimm ein anderes Pferd aus
     der Menge heraus~-- wieder haben die restlichen Pferde per
@@ -1229,7 +1229,7 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweise mittels Induktion, daß über Folgen für 
+  Beweise mittels Induktion, dass über Folgen für 
   $u,v\in M^{\ast}$ gilt:
   %
   \begin{displaymath}
@@ -1262,7 +1262,7 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
   Abschnitt~\ref{sec:sequence-induction} (Seite~\pageref{sec:sequence-induction}) mit
   Hilfe der vollständigen Induktion.  Beschreiben Sie dazu, wie sich
   eine Aussage über alle Folgen in eine Aussage über die Längen der
-  Folgen umwandeln läßt.  Setzen Sie dann die Klauseln der
+  Folgen umwandeln lässt.  Setzen Sie dann die Klauseln der
   vollständigen Induktion mit den entsprechenden Klauseln der
   Folgeninduktion in Beziehung.
 \end{aufgabe}
@@ -1294,17 +1294,17 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
       \end{array}\right.
     \end{displaymath}
 %
-    Beweise, daß $\mathit{fib}(n)$ die ganze Zahl ist, die am nächsten
+    Beweise, dass $\mathit{fib}(n)$ die ganze Zahl ist, die am nächsten
     zu $\Phi^n/\sqrt{5}$ liegt, wobei $\Phi = (1+\sqrt{5})/2$.
     
-    Anleitung: Zeige, daß $\mathit{fib}(n) = (\Phi^n -
+    Anleitung: Zeige, dass $\mathit{fib}(n) = (\Phi^n -
     \Psi^n)/\sqrt{5}$, wobei $\Psi = (1-\sqrt{5})/2$.
 \end{aufgabe}
 
 \begin{aufgabe}
 Eine partielle Ordnung $\preccurlyeq$ auf einer Menge $M$ heißt
 \textit{wohlfundiert}\index{Ordnung!wohlfundiert} oder \textit{noethersch\index{Ordnung!noethersch}\index{noethersche Ordnung}}, wenn es keine
-unendlichen Folgen $(x_i)_{i\in \enn}$ gibt, so daß für alle $i\in\enn$ gilt
+unendlichen Folgen $(x_i)_{i\in \enn}$ gibt, so dass für alle $i\in\enn$ gilt
 %
 \begin{displaymath}
   x_{i+1} \preccurlyeq x_{i} \text{ und } x_{i+1} \neq x_{i}
@@ -1320,8 +1320,8 @@ auch geschrieben als:
 Das Beweisprinzip der \textit{wohlfundierten}\index{wohlfundierte Induktion}\index{Induktion!wohlfundiert} oder \textit{noetherschen Induktion}\index{noethersche
   Induktion}\index{Induktion!noethersch} ist dafür zuständig, die
 Gültigkeit eines Prädikats $P$ auf $M$ zu beweisen, wenn es eine
-wohlfundierte Ordnung $\preccurlyeq$ auf auf $M$ gibt.  Es besagt, daß
-es ausreicht, $P(z)$ unter der Voraussetzung nachzuweisen, daß $P(y)$
+wohlfundierte Ordnung $\preccurlyeq$ auf auf $M$ gibt.  Es besagt, dass
+es ausreicht, $P(z)$ unter der Voraussetzung nachzuweisen, dass $P(y)$
 für alle Vorgänger $y$ von $z$ gilt.  Anders gesagt:
 %
 \begin{displaymath}
