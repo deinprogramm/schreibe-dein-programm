@@ -25,13 +25,31 @@ wie das geht.
 
 In der Mathematik gibt es viele kuriose Aussagen über natürliche
 Zahlen.  Legendenstatus hat z.B.\ die Gaußsche
-Summenformel\index{Gaußsche Summenformel}:
+Summenformel\index{Gaußsche Summenformel}.  Diese besagt, dass für
+eine natürliche Zahl $n$ die Summer aller Zahlen von 1 bis $n$ mit der
+Formel
+\[\frac{n\times (n+1)}{2}\]
+berechnet werden kann: Man muss also gar nicht mühsam die Zahlen
+einzeln addieren.  Mathematiker lieben spezielle Schreibweisen und
+könnten Gauß' Behauptung folgendermaßen aufschreiben:
 %
 \[\forall n\in\mathbb{N}: \sum_{i=0}^n i =
   \frac{n\times (n+1)}{2}\]
 %
-Wie lassen sich solche Aussagen beweisen?  Gauß' Argument war, dass,
-wenn er die Summe ausschreibt:
+Das $\forall$ heißt "<für alle">, das $\in$ heißt "<Element von">
+$\mathbb{N}$ ist das Kürzel für die Menge der natürlichen Zahlen.
+Am Anfang steht also "<für alle $n$, die Element von $\mathbb{N}$
+sind"> oder ganz lapidar "<für alle natürlichen Zahlen $n$">.
+
+Das $\sum$ ist ein griechisches Sigma und steht für "<Summe">.  Das
+$i=0$ untendrunter und das $n$ obendrüber bedeuten, dass eine neue
+Variable $i$ eingeführt wird, und die nacheinander die Werte $0, 1, 2,
+\ldots n$ annimmt, und für jeden Wert in die Formel rechts vom $\sum$
+eingesetzt wird.  In der Gaußschen Summenformel steht rechts nur 
+$i$, das heißt die Summe ist $0 + 1 + 2 + \cdot \ + n$.
+
+Wie können wir die Gaußsche Summenformel beweisen?  Gauß' Argument war, dass,
+wenn er die Summe ausschreibt (wir lassen die 0 weg):
 %
 \[ 1+2+\ldots+(n-1) + n \]
 %
@@ -62,8 +80,8 @@ setzen:
   \end{array}
 \end{displaymath}
 %
-Wer die Paare der Summen der beiden Reihen lang genug anstarrt, sieht
-vielleicht, dass sich alle als Brüche auf den Nenner 3 kürzen lassen:
+Wenn Du die Paare der Summen der beiden Reihen lang genug anstarrt, siehst
+Du vielleicht, dass sich alle als Brüche auf den Nenner 3 kürzen lassen:
 %
 \begin{displaymath}
   \begin{array}{crrrrrrrr}
@@ -90,8 +108,8 @@ Antwort für die ursprüngliche Frage zu ergeben:
 \end{equation}
 %
 Schöne Formel~-- aber stimmt sie auch für alle $n\in\mathbb{N}$?  (Für
-den unklaren Fall $0$ stimmt sie.)  Wer
-mag, kann sie noch für weitere $n$~-- $7, 8, \ldots$~-- ausprobieren,
+den unklaren Fall $0$ stimmt sie.)  Falls Du
+magst, kannst Du sie noch für weitere $n$, zum Beispiel $7, 8, \ldots$~-- ausprobieren,
 und tatsächlich zeigen sich zunächst keine Gegenbeispiele.  Aber das
 ist langweilig und würde immer noch nicht reichen, um die Behauptung
 für \emph{alle} $n\in\mathbb{N}$ zu beweisen.
@@ -105,14 +123,14 @@ gegenüber der Gleichung oben für $n$ jeweils $n+1$ eingesetzt wurde:
   \sum_{i=0}^{n+1} i^2 = \dfrac{(n+1)((n+1)+1)(2(n+1)+1)}{6}
 \end{displaymath}
 %
-Das lässt sich etwas vereinfachen:
+Das können wir etwas vereinfachen:
 %
 \begin{equation}
   \sum_{i=0}^{n+1} i^2 = \dfrac{(n+1)(n+2)(2n+3)}{6}
   \label{eq:squares-induction-consequence}
 \end{equation}
 %
-Bei der Reihe $\sum_{i=0}^{n+1} i^2$ lässt sich der letze Summand
+Bei der Reihe $\sum_{i=0}^{n+1} i^2$ können wir den letzen Summand
 ausgliedern und die Gleichung damit folgendermaßen schreiben:
 %
 \[(\sum_{i=0}^{n}
@@ -158,8 +176,8 @@ Es \emph{ist} so, dass folgende Gleichung stimmt:
 %
 \[ (n+1)^2 = \dfrac{(n+1)(n+2)(2n+3)}{6} - \dfrac{n(n+1)(2n+1)}{6}\]
 %
-Wenn also die Gleichung stimmte, die so scheint, dann folgte daraus
-diese Gleichung:
+Wenn also die Gleichung, die so scheint, stimmen würde, dann folgte
+daraus diese Gleichung:
 %
 \begin{displaymath}
   \sum_{i=0}^{n+1} i^2 = \dfrac{(n+1)(n+2)(2n+3)}{6}
@@ -167,11 +185,11 @@ diese Gleichung:
 %
 Das ist aber die gleiche Behauptung, nur für $n+1$ statt $n$~-- mit
 anderen Worten folgt aus der Behauptung für $n$ die Behauptung für
-$n+1$.  Da oben durch Ausrechnen bereits gezeigt wurde, dass die
+$n+1$.  Da wir oben durch Ausrechnen bereits gezeigt haben, dass die
 Behauptung für $1,\ldots,6$ gilt, gilt sie auch für $7$.  Da sie für
 $7$ gilt, gilt sie auch für $8$.  Undsoweiter für alle natürlichen
-Zahlen.  Es ist nicht nötig, sie einzeln auszuprobieren.  Die Vermutung
-von oben ist also bewiesen.
+Zahlen.  Wir müssen das nicht für jede Zahl einzeln auszuprobieren.  Die Vermutung
+von oben ist deshalb bewiesen.
 
 \section{Induktive Beweise führen}
 \label{sec:nat-induction-ka}
@@ -204,9 +222,9 @@ losgehen, sondern kann auch bei einer beliebigen Zahl $a$ losgehen~--
 dann gilt aber die Behauptung nur für alle natürlichen Zahlen ab $a$.)
 
 Wenn die Behauptung erst einmal formuliert ist, sind induktive Beweise
-oft einfach zu führen, da sie meist dem o.g.\ Schema folgen.  Das
+oft einfach zu führen, da sie meist dem obigen Schema folgen.  Das
 wichtigste dabei ist, das Schema auch tatsächlich einzuhalten.  Darum
-empfiehlt es sich, folgende Anleitung zu befolgen~-- eine Art
+empfiehlt es sich, dass Du folgende Anleitung befolgst~-- eine Art
 Konstruktionsanleitung für Beweise mit vollständiger Induktion:
 %
 \begin{enumerate}
@@ -263,7 +281,7 @@ einmal fest, ist sie allerdings recht einfach zu beweisen:
 \begin{displaymath}
   \sum_{i=0}^{n+1} i^2 = \dfrac{(n+1)((n+1)+1)(2(n+1)+1)}{6}
 \end{displaymath}
-\item Die Summe auf der linken Seite lässt sich aufteilen:
+\item Die Summe auf der linken Seite können wir aufteilen:
 %
 \begin{displaymath}
   (\sum_{i=0}^{n} i^2) + (n+1)^2  = \dfrac{(n+1)((n+1)+1)(2(n+1)+1)}{6}
@@ -304,9 +322,9 @@ Die rechte Seite können wir folgendermaßen vereinfachen:
   \dfrac{(n+1)(2n^2 + 7n + 6)}{6}
 \end{split}
 \end{displaymath}
+\end{enumerate}
 Damit ist bei der linken und der rechten Seite jeweils das gleiche
 herausgekommen und die Behauptung ist bewiesen.
-\end{enumerate}
 
 \section{Struktur der natürlichen Zahlen}
 
@@ -319,26 +337,30 @@ nicht alle Elemente der Menge.%\footnote{Bei den ganzen Zahlen
 %  da es sich um \textit{abzählbare Mengen} handelt.  Das ist
 %  allerdings für unsere Zwecke nicht direkt relevant.}  HK: hier verwirrend...
 Die
-natürlichen Zahlen sind also etwas besonderes.  Das liegt daran, dass
-sich eine Art Bastelanleitung für alle Elemente von $\mathbb{N}$ angeben
-lässt:
+natürlichen Zahlen sind also etwas besonderes.  Das haben wir schon in
+Kapitel~\ref{cha:recursion-numbers} gesehen: es sind Zahlen, die zählen,
+und auf Seite~\pageref{page:datendefinition-N} steht eine
+Datendefinition:
 %
-\begin{itemize}
-\item $0$ ist eine natürliche Zahl.
-\item Für eine bekannte natürliche Zahl $n$ ist auch
-  $n+1$ eine natürliche Zahl.
-\end{itemize}
+\begin{lstlisting}
+; Eine natürliche Zahl ist eine der folgenden:
+; - 0
+; - der Nachfolger einer natürlichen Zahl
+\end{lstlisting}
 %
-Diese Anleitung erreicht \emph{jede} natürliche Zahl~-- jede Zahl kann
+Diese Datendefinition können wir als Bastelanleitung für die Menge der
+natürlichen Zahlen auffassen:
+Diese Datendefinition erreicht \emph{jede} natürliche Zahl~-- jede Zahl kann
 in der Form $0+1+\ldots+1$ geschrieben werden.  Für diese Art
 Bastelanleitung für Mengen ist charakteristisch, dass es ein oder
 mehrere \textit{Basiselemente}\index{Basiselement} gibt (in diesem
 Fall die $0$) und dann ein oder mehrere Regeln, die aus beliebigeren
-"<kleineren"> Elementen "<größere"> Elemente konstruieren, in diesem
+"<kleineren"> Elementen "<größere"> Elemente mit Hilfe eines Selbstbezug konstruieren, in diesem
 Fall die Regel, die besagt, dass für jede natürliche Zahl auch ihr
-\textit{Nachfolger}\index{Nachfolger} eine natürliche Zahl ist.
-Umgekehrt lässt sich die Menge der natürlichen Zahlen $\mathbb{N}$
-folgendermaßen definieren:
+Nachfolger eine natürliche Zahl ist.
+
+Das mathematische Pendant für die Datendefinition der natürlichen
+Zahlen sieht so aus:
 %
 \begin{definition}[natürliche Zahlen]
   \label{def:N}
@@ -354,20 +376,21 @@ Eine solche Definition heißt auch \textit{induktive
   Definition}\index{induktive Definition}, die eine \textit{induktive
   Menge}\index{induktive Menge} definiert.  Die letzte Klausel ist bei
 induktiven Definition immer dabei~--
-ohne sie könnte z.B.\ die Menge der reellen
+ohne sie könnte zum Beispiel die Menge der reellen
 Zahlen als $\mathbb{N}$ durchgehen, weil die Klauseln davor 
 keinen Anspruch auf Vollständigkeit erheben könnten.  Diese Klausel
 heißt \textit{induktiver Abschluss}.\index{induktiver Abschluss}
 
-Wer genau hinschaut, sieht, dass die induktive Definition genau die
+Wenn Du genau hinschaust, siehst Du, dass die induktive Definition genau die
 gleiche Struktur hat wie die Definition der Induktion von
 Seite~\pageref{page:mathematical-induction}: Es gibt eine Klausel für
 die $0$ und eine Klausel für den Schritt von $n$ nach $n+1$.  Die induktive
 Definition sagt, dass es zwei verschiedene Sorten von natürlichen
 Zahlen gibt, nämlich das Basiselement $0$ aus der ersten Regel der
 Definition und die (positiven) Zahlen $n+1$ aus der zweiten Klausel.
-Anders gesagt sind die natürlichen Zahlen so etwas wie gemischte
-Daten.
+Diese Struktur entspricht außerdem der Datendefinition und der Schablone aus
+Konstruktionsanleitung~\ref{ka:nats-eingabe-schablone} auf
+Seite~\pageref{ka:nats-eingabe-schablone}.
 
 Entsprechend muss eine Behauptung über die natürlichen Zahlen für beide
 Sorten bewiesen werden: Einerseits für das Basiselement $0$ und
@@ -377,15 +400,12 @@ Die Klauseln für die Basiselemente heißen
 zweite Klausel einen \textit{Selbstbezug}\index{Selbstbezug}
 enthält~-- es muss schon eine natürliche Zahl da sein, um eine weitere
 zu finden~-- muss dort ein Induktionsschluss bewiesen werden.
-Der Begriff des Selbstbezugs entspricht dem, der bei Listen in
-Kapitel~\ref{cha:list} eingeführt wurde.
 
 Die natürlichen Zahlen haben nur ein Basiselement und es gibt nur eine
-Klausel mit Selbstbezug: Das ist nicht bei allen induktiven
-Definitionen so~-- allgemein kann eine induktive Definition beliebig
-viele Basiselemente (mindestens eins) und beliebig viele Klauseln mit
-Selbstbezug haben.  Dafür wird es in diesem Buch noch mehrere
-Beispiele geben.
+Klausel mit Selbstbezug.  In Abschnitt~\ref{sec:financial-contracts} auf
+Seite~\ref{sec:financial-contracts} ging es um Finanzverträge~-- da
+gab es mehr als eine Klausel mit Selbstbezug, und auch in diesem
+Kapitel werden wir noch ein solches Beispiel sehen.
 
 \section{Endliche Folgen}
 \label{sec:finite-sequences}
@@ -518,7 +538,7 @@ von $f = mf'$.  Es fehlt also zur Summe nur noch $m$ selbst:
   \end{cases}
 \end{displaymath}
 %
-Mit Papier und Bleistift lässt sich schnell nachvollziehen, dass die
+Mit Papier und Bleistift können wir schnell nachvollziehen, dass die
 Definition korrekt arbeitet:
 %
 \begin{displaymath}
@@ -541,10 +561,10 @@ Die Definition von $s$ ruft sich also an der Stelle selbst auf,
 an der die induktive Definition der endlichen Folgen den Selbstbezug
 "<$f' \in M^\ast$ eine Folge"> enthält.  
 
-Mathematisch geneigte Leser werden die Definition von $s$ mit Skepsis
-betrachten, taucht doch $s$ sowohl auf der linken als auch auf der rechten
-Seite auf~-- es sieht so aus, als sei $s$ "<durch sich selbst
-definiert">.  Tatsächlich ist dies jedoch kein Problem, da:
+Vielleicht begegnest Du der Definition von $s$ mit Skepsis, taucht
+doch $s$ sowohl auf der linken als auch auf der rechten Seite auf.  Es
+sieht so aus, als sei $s$ "<durch sich selbst definiert">.
+Tatsächlich ist dies jedoch kein Problem, da:
 %
 \begin{itemize}
 \item sich $s(f)$ stets selbst auf einer \emph{kürzeren} Folge
@@ -620,7 +640,7 @@ aneinanderhängt:\index{cat}
     m\;\textrm{cat}(f_1', f_2)& \textrm{ falls $f_1 = mf_1'$, $m\in M, f_1'\in M^\ast$}
   \end{cases}
 \end{displaymath}
-Es soll bewiesen werden, dass cat assoziativ ist, das heißt für alle 
+Es soll bewiesen werden, dass cat assoziativ\label{Assoziativität} ist, das heißt für alle 
 $u,v,w \in M^{\ast}$ gilt
 \begin{displaymath}
   {\rm cat}(u,{\rm cat}(v,w))  = {\rm cat}({\rm cat}(u,v),w).
@@ -692,8 +712,8 @@ häufig, dass sich eine Kurzschreibweise für ihre induktiven
 Definitionen eingebürgert hat, die sogenannte \textit{kontextfreie
   Grammatik}\index{Grammatik}\index{kontextfreie Grammatik}.  In den
 meisten Informatik-Büchern geht mit dem Begriff eine langwierige
-mathematische Definition einher, die für dieses Buch nicht in aller
-Ausführlichkeit benötigt wird.  Hier dient die kontextfreie Grammatik
+mathematische Definition einher, die wir für dieses Buch nicht in aller
+Ausführlichkeit benötigen.  Wir benutzen die kontextfreie Grammatik
 (ab hier einfach nur "<Grammatik">) informell als Abkürzung für
 eine länger ausgeschriebene induktive Definition.  Hier die Grammatik
 für die natürlichen Zahlen:
@@ -703,7 +723,7 @@ für die natürlichen Zahlen:
 \end{grammar}
 %
 In der Grammatik steht \meta{$\mathbb{N}$} für "<eine natürliche
-Zahl">.  Zu lesen ist die Grammatik so: Eine natürliche Zahl ist
+Zahl">.  Lesen kannst Du die Grammatik so: Eine natürliche Zahl ist
 entweder die $0$ oder hat die Form $n + 1$ wobei $n$ wiederum eine
 natürliche Zahl ist.  Der obligatorische induktive Abschluss ("<Die
 obigen Regeln definieren \emph{alle} $n\in\mathbb{N}$.">) wird
@@ -774,7 +794,7 @@ induktive Definitionen auf natürlichen Zahlen meist so geschrieben:
   b^n \deq
   \begin{cases}
     1 & \textrm{falls } n = 0\\
-    b b^{n-1} & \textrm{falls } n\in\enn, n > 0
+    b b^{n-1} & \textrm{falls } n > 0
   \end{cases}
 \end{displaymath}
 %
@@ -810,7 +830,7 @@ Form:
   \> [ \meta{A} \& \meta{B} ]
 \end{grammar}
 %
-Dann müsstee $F_i$ entsprechend so aussehen:
+Dann müsste $F_i$ entsprechend so aussehen:
 %
 \begin{displaymath}
   x = \mathtt{[}~a~\mathtt{\&}~b~\mathtt{]}, a\in A, b\in B
@@ -876,7 +896,7 @@ diesen Wahrheitswert errechnen.  Diese Funktion "<heißt"> $\llbracket
 \underline{~}\rrbracket$\index{*@$\llbracket\underline{~}\rrbracket$}~--
 für einen Ausdruck $e$ liefert $\llbracket e\rrbracket$ den Wert $1$,
 falls der Ausdruck "<wahr"> ist und $1$, falls "<falsch">.  Die
-doppelten eckigen Klammern heißen in der Fachsprache "<Semantikklammern">
+doppelten eckigen Klammern heißen in der Fachsprache "<Semantikklammern">\index{Semantikklammern}
 und werden oft benutzt, um Funktionen auf Mengen zu schreiben, die
 durch eine Grammatik definiert sind.
 
@@ -899,7 +919,8 @@ aufweist:
   \end{cases}
 \end{displaymath}
 %
-In den Zweigen für $\wedge$, $\vee$ und $\neg$ sind rekursive Aufrufe erlaubt:
+In den Zweigen für $\wedge$, $\vee$ und $\neg$ sind rekursive Aufrufe
+angezeigt, weil in der Grammatik dort Selbstbezüge stehen:
 %
 \begin{displaymath}
   \llbracket e \rrbracket \deq
@@ -942,7 +963,7 @@ weiteren Fälle werden folgende Hilfsfunktionen definiert:
     0 & \textrm{falls } t = 1
   \end{cases}
 \end{displaymath}
-
+%
 Die Funktion $a$ liefert nur dann 1, wenn $t_1$ \emph{und} $t_2$ 1
 sind (sonst $0$).  Die Funktion $o$ liefert dann 1, wenn $t_1$
 \emph{oder} $t_2$ 1 sind (sonst $0$).  Die Funktion $n$ liefert dann
@@ -986,7 +1007,7 @@ illustriert die Technik:
     \llbracket \overline{e}\rrbracket = n(\llbracket e\rrbracket)
   \end{displaymath}
 \end{satz}
-
+%
 Die Behauptung hat bereits die für einen Induktionsbeweis geeignete
 Form "<für alle $e$">, wobei $e$ aus einer induktiv definierten Menge
 kommt.  Die Behauptung muss jetzt für alle möglichen Fälle von $e$
@@ -1014,7 +1035,7 @@ Hier sind die Beweise für die Fälle $e=\top$, $e=\bot$:
 \end{split}
 \end{array}
 \end{displaymath}
-
+%
 Als nächstes ist der Fall $e=e_1\wedge e_2$ an der Reihe.  Da die
 Klausel 
 \begin{grammar}
@@ -1330,11 +1351,8 @@ für alle Vorgänger $y$ von $z$ gilt.  Anders gesagt:
   \Rightarrow \forall x \in M:~P(x)
 \end{displaymath}
 %
-\begin{enumerate}
-\item Beweise die Gültigkeit des Prinzips.
-\item Leite die vollständige und die strukturelle Induktion als
-  Spezialfälle der wohlfundierten Induktion her.
-\end{enumerate}
+Leite die vollständige und die strukturelle Induktion als Spezialfälle
+der wohlfundierten Induktion her.
 \end{aufgabe}
 
 
