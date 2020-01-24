@@ -6,18 +6,19 @@
 \chapter{Exkurs: Induktive Beweise und Definitionen}
 \label{cha:indu}
 
-Die Mathematik beschäftigt sich zentral mit \textit{Beweisen} von
-formalen Aussagen.  Diese sind auch in der Informatik wichtig, um die
-Korrektheit von Programmen sicherzustellen.  Dabei geht es häufig um
-Aussagen der Form "<für alle $x\in X$">, wobei $X$ eine unendliche
-Menge ist~-- zum Beispiel die Menge der natürlichen Zahlen oder die
-Menge der Listen.  In der Informatik haben viele der in der Praxis
-vorkommenden Mengen~-- insbesondere alle gemischten Daten mit
-Selbstbezug wie die Listen~-- eine besondere Eigenschaft: Sie sind
-\textit{induktiv definiert}.  Die induktive Definition erlaubt, eine
-besondere Beweistechnik anzuwenden, die \textit{Induktion}.  Um
-induktiv definierte Mengen, Funktionen darauf und Beweise darüber geht
-es in diesem Kapitel.
+In den vergangenen Kapiteln haben wir uns oft mit Selbstbezügen in
+Datendefinitionen beschäftigt und den rekursiven Funktionen, die sie
+konsumieren.  Dieses Kapitel beschäftigt sich mit der mathematischen
+Seite solcher Funktionen.  Es ist für Dich als Lektüre sinnvoll, wenn
+Du Dich besonders für Mathematik interessierst oder studiumshalber
+dafür interessieren musst.  Für das Verständnis der folgenden Kapitel
+kannst Du es aber auch weglassen.
+
+Die Mathematik bildet Daten mit Selbstbezug als sogenannte
+\textit{induktiv definierte} Mengen ab.  Dies ermöglicht uns, dass wir
+uns von der Korrektheit einer Funktion mit Hilfe eines sogenannten
+induktiven Beweises überzeugen.  Dieses Kapitel zeigt, was das ist und
+wie das geht.
 
 \section{Aussagen über natürliche Zahlen}
 \label{sec:mathematical-induction}
