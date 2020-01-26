@@ -172,9 +172,9 @@ für Tiere.  Zum Beispiel wollen wir eine Funktion schreiben, die für jedes
 Tier das Gewicht ermittelt.  Diese Funktion könnte folgende Signatur haben:
 %
 \begin{lstlisting}
-(: animal-weight (\textbf{animal} -> natural))
+(: animal-weight (animal -> natural))
 \end{lstlisting}
-%
+%%% HK: das \textbf war wohl ein Irrtum?
 Wir brauchen also eine Definition für die Signatur \lstinline{animal}.
 Diese sieht folgendermaßen aus:
 %
@@ -237,16 +237,17 @@ Record-Definitionen um ein neues Element, das \textit{Prädikat}\index{Prädikat
 Die Prädikate werden uns erlauben, die Bedingungen zu
 schreiben.  Die Record-Definitionen sehen dann so aus:
 %
+%%HK: Das math escape \( .. \) funktioniert im lstlisting environment nicht!
 \begin{lstlisting}
 (define-record-functions dillo
   make-dillo
-  dillo? ; \(\Longleftarrow\) Prädikat
+  dillo? ; (Prädikat)
   (dillo-weight natural)
   (dillo-alive? boolean))
 
 (define-record-functions parrot
   make-parrot
-  parrot? ; \(\Longleftarrow\) Prädikat
+  parrot? ; (Prädikat)
   (parrot-weight   natural)
   (parrot-sentence string))
 \end{lstlisting}
