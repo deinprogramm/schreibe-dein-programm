@@ -240,13 +240,13 @@ schreiben.  Die Record-Definitionen sehen dann so aus:
 \begin{lstlisting}
 (define-record-functions dillo
   make-dillo
-  dillo? ; \(\Longleftarrow\) Prädikat
+  dillo? ; |\(\Longleftarrow\)| Prädikat
   (dillo-weight natural)
   (dillo-alive? boolean))
 
 (define-record-functions parrot
   make-parrot
-  parrot? ; \(\Longleftarrow\) Prädikat
+  parrot? ; |\(\Longleftarrow\)| Prädikat
   (parrot-weight   natural)
   (parrot-sentence string))
 \end{lstlisting}
@@ -310,12 +310,12 @@ Eine \texttt{define"=record"=functions}"=Form\index{define-record-functions@\tex
 hat folgende allgemeine Gestalt:
 %
 \begin{lstlisting}
-(define-record-functions \(t\)
-  \(c\)
-  \(p\)
-  (\(\mathit{sel}\sb{1}\) \(\mathit{sig}\sb{1}\))
-  \(\ldots\)
-  (\(\mathit{sel}\sb{n}\) \(\mathit{sig}\sb{n}\)))
+(define-record-functions |\(t\)|
+  |\(c\)|
+  |\(p\)|
+  (|\(\mathit{sel}\sb{1}\)| |\(\mathit{sig}\sb{1}\)|)
+  |\(\ldots\)|
+  (|\(\mathit{sel}\sb{n}\)| |\(\mathit{sig}\sb{n}\)|))
 \end{lstlisting}
 %
 Diese Form definiert einen Record-Typ mit $n$ Feldern.
@@ -328,7 +328,7 @@ Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, 
   folgender Signatur:
 %  
 \begin{lstlisting}
-(: \(c\) (\(\mathit{sig}\sb{1}\) \(\ldots\) \(\mathit{sig}\sb{n}\) -> \(t\)))
+(: |\(c\)| (|\(\mathit{sig}\sb{1}\)| |\(\ldots\)| |\(\mathit{sig}\sb{n}\)| -> |\(t\)|))
 \end{lstlisting}
 \item $p$ ist der Name des Prädikats, der Records diesen Typs von
   anderen Werten unterscheidet.  Das Prädikat kann auch weggelassen
@@ -336,13 +336,13 @@ Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, 
 
     Das Prädikat hat folgende Signatur:
 \begin{lstlisting}
-(: \(p\) (any -> boolean))
+(: |\(p\)| (any -> boolean))
 \end{lstlisting}
 \item $\mathit{Sel}_1, \ldots, \mathit{sel}_n$ sind die Namen der Selektoren für die Felder
   des Record-Typs.  Der Selektor $\mathit{sel}_i$ hat folgende Signatur:
 % 
 \begin{lstlisting}
-(: \(\mathit{sel}\sb{i}\) (\(t\) -> \(\mathit{sig}\sb{i}\)))
+(: |\(\mathit{sel}\sb{i}\)| (|\(t\)| -> |\(\mathit{sig}\sb{i}\)|))
 \end{lstlisting}
 \end{itemize}
 %
@@ -364,9 +364,9 @@ gemischte Daten.  Zunächst die Datenanalyse:
   Datendefinition:
 %
 \begin{lstlisting}
-(define \(\mathit{sig}\)
+(define |\(\mathit{sig}\)|
   (signature
-    (mixed \(\mathit{sig}\sb{1}\) \(\mathit{sig}\sb{2}\) \(\ldots\) \(\mathit{sig}\sb{n}\))))
+    (mixed |\(\mathit{sig}\sb{1}\)| |\(\mathit{sig}\sb{2}\)| |\(\ldots\)| |\(\mathit{sig}\sb{n}\)|)))
 \end{lstlisting}
 $\mathit{Sig}$ ist die Signatur für die neue Datensorte; $\mathit{sig}_1$ bis $\textit{sig}_n$
 sind die Signaturen, aus denen die neue
