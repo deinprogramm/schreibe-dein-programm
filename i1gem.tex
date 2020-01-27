@@ -267,17 +267,17 @@ beziehungsweise Papageien von anderen Werten:
 %
 \begin{lstlisting}
 (dillo? dillo1)
-\evalsto #t
+|\evalsto| #t
 (dillo? parrot1)
-\evalsto #f
+|\evalsto| #f
 (parrot? dillo1)
-\evalsto #f
+|\evalsto| #f
 (parrot? parrot1)
-\evalsto #t
+|\evalsto| #t
 (dillo? 5)
-\evalsto #f
+|\evalsto| #f
 (parrot? "foo")
-\evalsto #f
+|\evalsto| #f
 \end{lstlisting}
 %
 Die Prädikate können wir benutzen, um die Bedingungen aus der
@@ -750,7 +750,8 @@ Wir müssen Fruktose- und den Glukose-Anteil addieren und die Summe
 dann ebenfalls entsprechend der Tabelle vom Anfang in eine Ampelfarbe
 umwandeln.  Aber halt!~-- Genau für das Umwandeln der Zahl aus der
 Tabelle in eine Ampelfarbe haben wir ja gerade die Hilfsfunktion
-\lstinline{sugar"=weight->traffic"=light} geschrieben, und diese können wir
+\lstinline{sugar"=weight->traffic"=light} geschrieben, und diese
+können wir %%HK 2020-01-27: "= funktioniert im lstinline nicht!
 erneut zum Einsatz bringen:
 %
 \begin{lstlisting}
@@ -788,7 +789,7 @@ Fertig!
 \label{sec:maybe}
 
 Dieser Abschnitt beschreibt eine weitere häufig vorkommende Anwendung
-für gemischte Daten.  Es geht um Situationen, wo Du eine Funktion
+für gemischte Daten.  Es geht um Situationen, wo eine Funktion
 keine sinnvolle Antwort weiß.
 
 Als Beispiel schreiben wir eine Funktion, welche die Steigung einer

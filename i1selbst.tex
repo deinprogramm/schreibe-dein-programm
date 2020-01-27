@@ -592,7 +592,7 @@ Wir können daraus eine einfache Datendefinition machen:
 %
 An der Formulierung "<hat folgende Eigenschaften"> sehen wir sofort,
 dass es sich um zusammengesetzte Daten handelt.  Daraus folgt direkt
-diese Reocrd-Definition:
+diese Record-Definition:
 %
 \begin{lstlisting}
 (define-record-functions zero-bond
@@ -619,7 +619,7 @@ ständig neue Verträge ausdenken.
 Wer aber genug solche Verträge studiert, bemerkt, dass diese aus
 Bausteinen bestehen, die immer wiederkehren.  Das suggeriert einen
 anderen Ansatz, nämlich diese Bausteine zu identifizieren und dafür
-die Datenanalyse durchzuführen.  Wir vollziehen stattdessen der
+die Datenanalyse durchzuführen.  Wir vollziehen stattdessen die
 Arbeit der Autoren des Papers~\cite{FinancialContracts} nach.  Die haben
 (über mehrere Monate) einen Satz bestechend einfacher Bausteine
 zusammengestellt, indem sie bekannte Verträge in möglichst kleine und
@@ -668,7 +668,7 @@ Um die richtige Daten-Definition zu finden, versuchen wir, die
 %
 Wir könnten den Euro einfach als die Zeichenkette \lstinline{"EUR"}
 abbilden.  Das wäre sinnvoll, wenn der Euro Teil einer Aufzählung ist.
-Dies ist allerdins hier nicht der Fall, andere Vertragsbausteine haben
+Dies ist allerdings hier nicht der Fall, andere Vertragsbausteine haben
 durchaus Eigenschaften.  (Siehe dazu auch
 Aufgabe~\ref{aufgabe:aufzaehlung-vs-nullstellig} auf
 Seite~\pageref{aufgabe:aufzaehlung-vs-nullstellig}.)  Wir nehmen die
@@ -794,9 +794,9 @@ sofort:
 Mit Hilfe der Funktion aus der Aufgabe können wir leicht auch
 \EUR{200} definieren:
 %
-\begin{lstinline}
+\begin{lstlisting}
 (define euro200 (make-euros 200)) ; 200 Euros
-\end{lstinline}
+\end{lstlisting}
 
 \paragraph{Verzögerungen}
 Für die Zero-Bonds benötigen wir noch die Möglichkeit,
@@ -872,7 +872,7 @@ Die Definition von \texttt{date} liegt zum Glück recht nahe:
 \end{lstlisting}
   %
   Mit diesem Prädikat können wir eine Signatur definieren, die genau
-  dann passt, wenn das Prädikat \lstinline{#t} liefert.  Dazu benutzen
+  dann passt, wenn das Prädikat \lstinline{#t} liefert.  Dazu benutzen wir
   einen neues Konstruktor für Signaturen, \lstinline{predicate}\index{predicate@\texttt{predicate}}:
 \begin{lstlisting}
 (define month (signature (predicate month?)))
@@ -1027,7 +1027,9 @@ aber noch gar nichts damit gemacht.  Es fehlen noch ein paar saftige
 Funktionen!
 
 Wenn wir einen Vertrag haben, wollen wir vielleicht wissen, wieviel
-Geld wir eigentlich jetzt bekommen.  Das nehmen wir uns als erste
+Geld wir eigentlich insgesamt bekommen.  Das nehmen wir uns als erste
+%% HK 2020-01-27: "jetzt" würde heissen "jetzt", also zu "diesem"
+%% Zeitpunkt, das ist sicher nicht gemeint
 Aufgabe vor.  Wir fangen an mit folgender Kurzbeschreibung:
 %
 \begin{lstlisting}
@@ -1253,18 +1255,18 @@ Kommen wir zu einigen Testfällen: Die Verträge \lstinline{euro100} und
 \lstinline{euro200} werden sofort ausgezahlt, da bleibt also nichts
 mehr übrig:
 %
-\begin{lstinline}
+\begin{lstlisting}
 (check-expect (contract-rest euro100 date1) (make-nothing))
 (check-expect (contract-rest euro200 date1) (make-nothing))
-\end{lstinline}
+\end{lstlisting}
 %
 Das Beispiel \lstinline{later1} kommt zum Datum \lstinline{date1} zur
 Auszahlung (der 26.~Juli 2019), ab diesem Datum ist also nichts mehr
 übrig:
 %
-\begin{lstinline}
+\begin{lstlisting}
 (check-expect (contract-rest later1 date1) (make-nothing))
-\end{lstinline}
+\end{lstlisting}
 %
 Der Beispielvertrag \lstinline{later2} hingegen wird erst zu
 \lstinline{date2} ausgezahlt, das ist Weihnachten 2019.\footnote{Als
@@ -1272,9 +1274,9 @@ Der Beispielvertrag \lstinline{later2} hingegen wird erst zu
 \lstinline{date1} passiert deswegen noch nichts, der Vertrag
 kommt also unverändert zurück:
 %
-\begin{lstinline}
+\begin{lstlisting}
 (check-expect (contract-rest later2 date1) later2)
-\end{lstinline}
+\end{lstlisting}
 %
 Interesant wird es bei den \lstinline{both}-Verträgen.  Bei
 \lstinline{both1} passiert der eine Teil sofort, der andere wird
