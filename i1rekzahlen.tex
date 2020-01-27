@@ -121,7 +121,7 @@ Als nächtes ist das Gerüst dran:
 \end{lstlisting}
 %
 Für den Rumpf können wir eine Schablone aus der Datendefinition
-ableiten für \lstinline{exponent} ableiten, das ist ja die natürliche
+für \lstinline{exponent} ableiten, das ist ja die natürliche
 Zahl.  Die Datendefinition für natürliche Zahlen ist eine
 Fallunterscheidung mit zwei Fällen, dementsprechend brauchen wir eine
 Verzweigung mit zwei Zweigen:
@@ -198,7 +198,7 @@ folgendermaßen aus:
       ((zero? |\(\mathit{n}\)|) |\ldots|)
       ((positive? |\(\mathit{n}\)|)
        |\ldots|
-       (|\(f\)| (- |\(\mathit{list}\)| 1))
+       (|\(f\)| (- |\(\mathit{n}\)| 1))
        |\ldots|
        ))))
 \end{lstlisting}
@@ -272,7 +272,7 @@ und liefert das Element:
 (check-expect (nth (list 1 2 3 4 5) 2) 3)
 \end{lstlisting}
 %
-Wir sollten uns noch überlegen, wenn es den Index in der Liste gar
+Wir sollten uns noch überlegen, was passieren soll, wenn es den Index in der Liste gar
 nicht gibt.  Die Funktion kann kein sinnvolles Ergebnis liefern, das
 zur Signatur passt~-- es muss ja ein Element der Liste herauskommen.
 Die einzig sinnvolle Möglichkeit ist, einen Fehler anzuzeigen.
@@ -528,7 +528,7 @@ Beispiel können wir $3^{10}$ folgendermaßen berechnen:
 %
 Wir müssen also nicht mühsam die 3 zehnmal mit sich selbst
 multiplizieren, es reicht, $3^5$ zu berechnen und mit sich selbst zu
-multiplizieren.  Bei ungeraden Exponenten geht der Triclk auch, wir müssen aber einmal extra
+multiplizieren.  Bei ungeraden Exponenten geht der Trick auch, wir müssen aber einmal extra
 mit der Basis multiplizieren:
 %
 \begin{displaymath}
@@ -688,7 +688,7 @@ Fertig!
   \item
     Die eingebaute Funktion \texttt{even?}\index{even?@\texttt{even?}}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
-    gerade ist und \verb|#f| sonst.
+    gerade ist und \verb|#f| wenn nicht
     Schreiben Sie mit Hilfe von \texttt{even?}
     eine Funktion namens \texttt{evens}, welche für zwei
     Zahlen $a$ und $b$ eine Liste der geraden Zahlen zwischen $a$ und
@@ -704,7 +704,7 @@ Fertig!
   \item
     Die eingebaute Funktion \texttt{odd?}\index{odd?@\texttt{odd?}}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
-    ungerade ist und \verb|#f| sonst.
+    ungerade ist und \verb|#f| wenn nicht.
     Schreiben Sie mit Hilfe von \texttt{odd?} eine Funktion \texttt{odds}, welche für zwei
     Zahlen $a$ und $b$ eine Liste der ungeraden Zahlen zwischen $a$ und $b$
     zurückgibt:
