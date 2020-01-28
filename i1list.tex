@@ -1523,7 +1523,7 @@ Schreibe folgende Funktionen auf Listen:
     Stunden es dauert, bis das Ladegerät den Akku aufgeladen hat.
 
   \item Schreibe eine Funktion \lstinline{charge-cell}, die eine
-    Zelle und eine Zeit in Stunden konsumiert und die Zelle
+    Zelle und eine Zeit in Stunden akzeptiert und die Zelle
     zurückgibt, die mit dem in der vorherigen Teilaufgabe genannten
     Ladegerät für die übergebene Zeit geladen wurde.  Die Ladung darf
     aber nicht über die maximale Ladung steigen!  Die restliche Zeit
@@ -1540,17 +1540,17 @@ Schreibe folgende Funktionen auf Listen:
     hat einen Verbrauchswert, angegeben in mA.  Anschaulich betrachtet
     heißt das, dass das Gerät pro Zeit eine gewissen Strom verbraucht.
     Schreibe eine Funktion \lstinline{time-to-fully-discharge-cell},
-    die eine Zelle und einen Verbrauch pro Stunde konsumiert und
+    die eine Zelle und einen Verbrauch pro Stunde akzeptiert und
     ausrechnet, wie lange es dauert, bis die Zelle entladen ist.
 
   \item Schreibe eine Funktion
     \lstinline{time-to-fully-discharge-battery}, die einen Akku und einen
-    Verbrauch pro Stunde konsumiert, und ausrechnet, wie lange es
+    Verbrauch pro Stunde akzeptiert, und ausrechnet, wie lange es
     dauert, bis der Akku entladen ist.
 
   \item Schreibe eine Funktion \lstinline{discharge-cell}, die eine
     Zelle, einen Verbrauch pro Stunde und die Dauer (in Stunden)
-    konsumiert, für die der Verbraucher den Strom der Zelle
+    akzeptiert, für die der Verbraucher den Strom der Zelle
     verbraucht.  Die Funktion soll eine Zelle zurückgeben, die für die
     Dauer den Verbraucher mit Strom versorgt hat.  Die Ladung darf
     aber nicht unter die minimale Ladung fallen! Die restliche Zeit
@@ -1559,7 +1559,7 @@ Schreibe folgende Funktionen auf Listen:
 
   \item Schreibe eine Funktion \lstinline{discharge-battery}, die
     eine Batterie, einen Verbrauch pro Stunde und die Dauer (in
-    Stunden) konsumiert.  Die Funktion soll eine Batterie,
+    Stunden) akzeptiert.  Die Funktion soll eine Batterie,
     zurückgeben, die für die Dauer den Verbraucher mit Strom versorgt
     hat.  Ist die Ladung einer Zelle verbraucht, wird die Ladung der
     nächsten Zelle für die verbleibende Zeit verbraucht.  Sind alle

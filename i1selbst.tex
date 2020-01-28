@@ -399,12 +399,12 @@ selbst, einen sogenannten \textit{rekursiven Aufruf\index{rekursiver
 die Datendefinition von \lstinline{river} Selbstbezüge enthält.
 
 Das ist kein Zufall: Nahezu alle Funktionen, die Daten mit
-Selbstbezügen konsumieren, enthalten an den Stellen der Selbstbezüge
+Selbstbezügen akzeptieren, enthalten an den Stellen der Selbstbezüge
 rekursive Aufrufe.  Daraus machen wir eine Schablone:
 %
 \begin{konstruktionsanleitung}{Selbstbezüge als Eingabe: Schablone}
   \label{ka:selbstbezug-schablone}
-  Wenn Du eine Funktion schreibst, die Daten konsumiert, in denen
+  Wenn Du eine Funktion schreibst, die Daten akzeptiert, in denen
   Selbstbezüge enthalten sind, dann schreibe an die Stellen der
   Selbstbezüge jeweils einen rekursiven Aufruf.
 \end{konstruktionsanleitung}

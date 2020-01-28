@@ -939,13 +939,13 @@ Daten, das lohnt aber hier kaum.
   \item Führe eine Datenanalyse durch und erstelle Daten- und 
     Record-Definitionen.
   \item Schreibe eine Funktion \lstinline{stückpreis}, die eine Warenklasse
-    konsumiert und den Stückpreis zurückgibt.
+    akzeptiert und den Stückpreis zurückgibt.
   \item Schreibe eine Funktion \lstinline{buchen}, die eine Warenklasse und die Anzahl der
-    abzubuchenden Exemplare konsumiert, den Bestand der Warenklasse reduziert und die
+    abzubuchenden Exemplare akzeptiert, den Bestand der Warenklasse reduziert und die
     Warenklasse zurückgibt. Falls mehr Exemplare gefordert werden, als in der Warenklasse
     vorhanden sind, soll der Bestand auf 0 gesetzt werden.
   \item Schreibe eine Funktion \lstinline{haltbar?}, die eine
-    Warenklasse und ein Datum konsumiert und \lstinline{#t} zurückgibt, falls das
+    Warenklasse und ein Datum akzeptiert und \lstinline{#t} zurückgibt, falls das
     Mindesthaltbarkeitsdatum (MHD) nicht überschritten wurde. Falls kein MHD bekannt ist,
     soll \lstinline{#t} zurückgeben werden.
   \end{enumerate}
@@ -1089,23 +1089,23 @@ Daten, das lohnt aber hier kaum.
     Tatbestände.  Gib alle Signaturen an!
 
   \item Schreibe eine Funktion, die einen
-    beliebigen Tatbestand konsumiert und die Anzahl der anfallenden
+    beliebigen Tatbestand akzeptiert und die Anzahl der anfallenden
     Punkte zurückliefert.
   \end{enumerate}
 
-  Schreibe nun Funktionen, die Verstöße konsumieren und die
+  Schreibe nun Funktionen, die Verstöße akzeptieren und die
   Tatbestände berechnen:
 
   \begin{enumerate} \setcounter{enumii}{5}
   \item Schreibe eine Funktion, die Falschparken
-    konsumiert und ein einfaches Vergehen mit 20~Euro Bußgeld zurückgibt.
+    akzeptiert und ein einfaches Vergehen mit 20~Euro Bußgeld zurückgibt.
     Wenn das Falschparken eine Gefährdung des Straßenverkehrs
     darstellt (z.B.  bei Behinderung von Rettungsfahrzeugen),
     soll die Funktion eine Ordnungswidrigkeit mit 40~Euro Bußgeld,
     einem Punkt und keinem Fahrverbot zurückgeben.
 
   \item Schreibe eine Funktion, die Überfahren
-    einer roten Ampel konsumiert und eine Ordnungswidrigkeit
+    einer roten Ampel akzeptiert und eine Ordnungswidrigkeit
     zurückgibt.  Dabei gilt:
     \begin{itemize}
     \item wenn die Ampel kürzer als eine Sekunde rot war und keine
@@ -1115,7 +1115,7 @@ Daten, das lohnt aber hier kaum.
     \end{itemize}
 
   \item Schreibe eine Funktion, die überhöhte
-    Geschwindigkeit konsumiert und den Tatbestand zurückgibt.  Dabei
+    Geschwindigkeit akzeptiert und den Tatbestand zurückgibt.  Dabei
     gilt:
     \begin{itemize}
     \item Geschwindigkeitsübertretung weniger als 20 km/h ohne Gefährdung:
@@ -1134,7 +1134,7 @@ Daten, das lohnt aber hier kaum.
     \end{itemize}
 
   \item Schreibe eine Funktion, die einen
-    Verstoß konsumiert und dessen Folge zurückgibt.  Benutze die
+    Verstoß akzeptiert und dessen Folge zurückgibt.  Benutze die
     Funktionen aus den vorherigen Teilaufgaben.
   \end{enumerate}
 \end{aufgabe}
