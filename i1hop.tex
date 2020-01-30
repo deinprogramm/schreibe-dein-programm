@@ -286,7 +286,7 @@ Das funktioniert tatsächlich:
 \end{alltt}
 %
 Das Abstrahieren über Funktionen funktioniert also genauso wie die
-Abstraktion über andere Werte.  Die Signatur für die Funktion muß
+Abstraktion über andere Werte.  Die Signatur für die Funktion muss
 natürlich berücksichtigen, dass \texttt{p?} eine Funktion ist.  Die Funktion
 \texttt{plays-nürnberg?}, die für \texttt{p?}  verwendet wird, hat die
 Signatur
@@ -404,10 +404,10 @@ identisch zu \texttt{list-sum}:\index{list-product@\texttt{list-product}}
        ... (list-product (rest lis)) ...))))
 \end{alltt}
 %
-Die erste Ellipse muß das Produkt der leeren Liste sein, also das
+Die erste Ellipse muss das Produkt der leeren Liste sein, also das
 neutrale Element $1$ der Multiplikation.\footnote{0 funktioniert
   hier nicht~-- es würde dafür sorgen,
-  daß \emph{jede} Liste 0 als Produkt hat.} 
+  dass \emph{jede} Liste 0 als Produkt hat.} 
 Aus dem ersten Element und dem Produkt der
 Restliste wird das Produkt der Gesamtliste durch
 Multiplikation gebildet.\index{list-product@\texttt{list-product}}
@@ -427,7 +427,7 @@ unterscheiden sich, bis auf den Namen, nur an zwei Stellen: beim ersten
 Zweig, wo das jeweilige neutrale Element steht, und bei der Funktion,
 die benutzt wird, um das erste Element mit dem Ergebnis des rekursiven
 Aufrufs zu kombinieren.  Die abstrahierte Funktion heißt
-\texttt{list-fold} und sieht folgendermaßen aus (die Signatur muß noch
+\texttt{list-fold} und sieht folgendermaßen aus (die Signatur muss noch
 einen Moment warten):\index{list-fold@\texttt{list-fold}}
 %
 \begin{alltt}
@@ -481,14 +481,14 @@ Liste von Werten.  Es gilt folgende Gleichung:
   = \texttt{($o$ $a_1$ ($o$ $a_2$ ($\ldots$ ($o$ $a_n$ $u$)$ \ldots$)))}
 \end{displaymath}
 %
-Die Funktionsweise von \texttt{list-fold} läßt sich daran
-veranschaulichen, daß sich die ursprüngliche Liste auch als
+Die Funktionsweise von \texttt{list-fold} lässt sich daran
+veranschaulichen, dass sich die ursprüngliche Liste auch als
 %
 \begin{displaymath}
 \texttt{(cons $a_1$ (cons $a_2$ ($\ldots$ (cons $a_n$ empty)$ \ldots$)))}
 \end{displaymath}
 %
-schreiben läßt.  Das heißt, an die Stelle von \texttt{cons} tritt
+schreiben lässt.  Das heißt, an die Stelle von \texttt{cons} tritt
 $o$ und an die Stelle von \texttt{empty} tritt $u$.
 
 Eine andere, praktische Darstellung von 
@@ -507,7 +507,7 @@ eingefügt.
 In jedem Fall wird die Liste "<eingefaltet">~-- daher der Name.
 
 Die Definition von \texttt{concatenate} aus
-Abschnitt~\ref{sec:more-lists} paßt ebenfalls auf das abstrahierte
+Abschnitt~\ref{sec:more-lists} passt ebenfalls auf das abstrahierte
 Muster von \texttt{list-fold}:
 %
 \begin{alltt}
@@ -515,7 +515,7 @@ Muster von \texttt{list-fold}:
 \evalsto{} #<list 1 2 3 4 5 6>
 \end{alltt}
 %
-Diese Applikation paßt aber nicht mehr auf den obigen Signaturversuch von
+Diese Applikation passt aber nicht mehr auf den obigen Signaturversuch von
 \texttt{list-fold}, da \texttt{make"=pair} nicht die Signatur
 %
 \begin{alltt}
@@ -594,7 +594,7 @@ auf, aber es ist natürlich möglich, Funktionen außerhalb einer
 Definition zu verwenden, ohne ihnen einen Namen zu geben.  Dafür gab
 es schon in Kapitel~\ref{cha:whats-programming} Beispiele. Mit Hilfe
 solcher "<anonymer Funktionen\index{anonyme
-  Funktion}\index{Funktion!anonym}"> läßt sich auch \texttt{list-filter}
+  Funktion}\index{Funktion!anonym}"> lässt sich auch \texttt{list-filter}
 durch \texttt{list-fold} definieren:
 %
 \begin{alltt}
@@ -639,12 +639,12 @@ nicht mit separaten Hilfsfunktionen schreiben.  Für
 %
 In \drscheme{} erscheint bei dieser Definition eine Fehlermeldung 
 "<\texttt{unbound variable}"> und \texttt{p?} wird rosa markiert.  Das
-liegt daran, daß \texttt{p?} weiter außen im \texttt{lambda} von
+liegt daran, dass \texttt{p?} weiter außen im \texttt{lambda} von
 \texttt{filter} gebunden ist.  Dieses \texttt{p?} ist aber nach den
 Regeln der lexikalischen Bindung\index{lexikalische Bindung} (siehe
 Abschnitt~\ref{sec:lexical-binding}) nur im Rumpf des äußeren
 \texttt{lambda} in der Definition von \texttt{filter} sichtbar.  Darum
-muß der Lambda-Ausdruck der Hilfsfunktion ebenfalls in diesem
+muss der Lambda-Ausdruck der Hilfsfunktion ebenfalls in diesem
 Rumpf stehen.
 
 FIXME: Hier auch noch \texttt{map} einführen? Das Unterrichtsbeispiel tat
@@ -662,7 +662,7 @@ Funktionen.  Dann ist $f\circ g$ folgendermaßen definiert:
   (f \circ g)(x) \deq{} f(g(x))
 \end{displaymath}
 %
-$\circ$ läßt sich direkt als Funktion
+$\circ$ lässt sich direkt als Funktion
 programmieren:\index{compose@\texttt{compose}}
 \label{page:compose}
 %
@@ -697,7 +697,7 @@ mit einem Parameter sein:
 eine Funktion zurück, die abhängig von \texttt{f} und \texttt{g}
 konstruiert wird.
 
-\texttt{Compose} läßt sich benutzen, um eine weitere praktische
+\texttt{Compose} lässt sich benutzen, um eine weitere praktische
 Higher-Order-Funktion namens
 \texttt{repeat} zu definieren:\index{repeat@\texttt{repeat}}
 \label{page:repeat}
@@ -762,7 +762,7 @@ als \texttt{(+ $a$ $b$)} lassen sich auch als \texttt{((make-add $a$)
   $b$)} schreiben.  Diese Transformation von einer Funktion mit zwei
 Parametern in eine Funktion mit nur einem Parameter, die eine Funktion
 mit einem weiteren Parameter zurückgibt, die dann schließlich den "<Wert">
-liefert, läßt sich auch auf andere Funktionen anwenden:\index{make-mult@\texttt{make-mult}}\index{make-prepend@\texttt{make-prepend}}
+liefert, lässt sich auch auf andere Funktionen anwenden:\index{make-mult@\texttt{make-mult}}\index{make-prepend@\texttt{make-prepend}}
 %
 \begin{alltt}
 ; Funktion erzeugen, die mit einer Konstante multipliziert
@@ -781,7 +781,7 @@ liefert, läßt sich auch auf andere Funktionen anwenden:\index{make-mult@\textt
 \end{alltt}
 %
 Erneut folgt eine ganze Familie von Funktionen einem gemeinsamen
-Muster, und erneut läßt sich dieses Muster als Funktion höherer
+Muster, und erneut lässt sich dieses Muster als Funktion höherer
 Ordnung formulieren.  Die Funktion \texttt{curry\index{curry@\texttt{curry}}} akzeptiert
 eine Funktion mit zwei Parametern und liefert eine entsprechend
 transformierte Funktion zurück:
@@ -812,7 +812,7 @@ englischsprachigen Raum heißt das Verb dazu darum  \textit{currify}, im deutsch
 oder \textit{curryfizieren\index{curryfizieren}}.
 % Warum heißt dann die Funktion dann curry und nicht currify?
 
-Die Schönfinkel-Transformation läßt sich auch umdrehen:\index{curry@\texttt{curry}}
+Die Schönfinkel-Transformation lässt sich auch umdrehen:\index{curry@\texttt{curry}}
 %
 \begin{alltt}
 ; Funktion zu einer Funktion mit zwei Parametern entstaffeln
@@ -847,7 +847,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   wendet diese Funktion auf alle Elemente der Liste an und produziert
   eine Liste der Rückgabewerte.
 
-  \texttt{List-map} läßt sich beispielsweise folgendermaßen anwenden:
+  \texttt{List-map} lässt sich beispielsweise folgendermaßen anwenden:
   % 
   \begin{alltt}
     (list-map even? (list 1 2 3 4 5))
@@ -980,7 +980,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \begin{aufgabe}
   \texttt{List-fold} sammelt die Elemente von hinten nach vorn bzw.
   von rechts nach links auf, entsprechend der "<natürlichen">
-  Rekursionsstruktur über Listen.  Das gleiche Spiel läßt sich auch in
+  Rekursionsstruktur über Listen.  Das gleiche Spiel lässt sich auch in
   der anderen Richtung durchführen.  Heraus kommt eine Funktion
   \texttt{list-fold-left}, die folgende Gleichung (in
   Infix-Schreibweise) erfüllt:
@@ -1261,7 +1261,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
                  (lambda () (from (+ n 1))))))
   \end{alltt}
   % 
-  (Dabei ist angenommen, daß der Konstruktor der Record-Definition
+  (Dabei ist angenommen, dass der Konstruktor der Record-Definition
   \texttt{make-stream} heißt.)
   Zur Betrachtung von Streams ist folgende Funktion nützlich, welche
   die ersten $n$ Elemente eines Streams als Liste extrahiert:
@@ -1278,9 +1278,9 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
                                 ((stream-rest-proc stream)))))))
    \end{alltt}
    % 
-   (Dabei ist angenommen, daß die Selektoren für Streams
+   (Dabei ist angenommen, dass die Selektoren für Streams
    \texttt{stream-first} und \texttt{stream"=rest"=proc} heißen.)
-   \texttt{Stream-take} läßt sich z.B.\ auf das Ergebnis von
+   \texttt{Stream-take} lässt sich z.B.\ auf das Ergebnis von
    \texttt{from} anwenden:
    % 
    \begin{alltt}
