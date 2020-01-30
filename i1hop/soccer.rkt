@@ -1,6 +1,6 @@
 ;; Die ersten drei Zeilen dieser Datei wurden von DrRacket eingefügt. Sie enthalten Metadaten
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
-#reader(lib "DMdA-vanilla-reader.ss" "deinprogramm")((modname soccer) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
+#reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname soccer) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
 ; Ein Spiel hat:
 ; - Spieltag (natural)
 ; - Gastgeber-Team (string)
@@ -8,11 +8,16 @@
 ; - Gast-Team (string)
 ; - Gast-Tore (natural)
 
-(define-record-procedures game
+(define-record-functions game
   make-game game?
-  (game-matchday 
-   game-home-team game-home-goals game-guest-team game-guest-goals))
+  (game-matchday natural)
+  (game-home-team string)
+  (game-home-goals natural)
+  (game-guest-team string)
+  (game-guest-goals natural))
+
 (: make-game (natural string natural string natural -> game))
+
 (: game? (any -> boolean))
 (: game-home-team (game -> string))
 (: game-home-goals (game -> natural))
@@ -471,12 +476,12 @@
   (lambda (lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
-       (let ((f (first lis))
-             (r (games-draw (rest lis))))
-         (if (game-draw? f)
-             (make-pair f r)
-             r))))))       
+      ((cons? lis)
+       (define f (first lis))
+       (define r (games-draw (rest lis)))
+       (if (game-draw? f)
+           (cons f r)
+           r)))))      
 
 ; Spielt Team bei Spiel?
 (: plays-game? (string game -> boolean))
@@ -500,12 +505,12 @@
   (lambda (t lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
-       (let ((f (first lis))
-             (r (games-playing t (rest lis))))
-         (if (plays-game? t f)
-             (make-pair f r)
-             r))))))
+      ((cons? lis)
+       (define f (first lis))
+       (define r (games-playing t (rest lis)))
+       (if (plays-game? t f)
+           (cons f r)
+           r)))))
 
 ; Beobachtung der Unterschiede bzw. Gemeinsamkeiten führt wieder zum Ausklammern:
 
@@ -535,12 +540,12 @@
   (lambda (p lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
-       (let ((f (first lis))
-             (r (filter-games p (rest lis))))
-         (if (p (first lis))
-             (make-pair f r)
-             r))))))
+      ((cons? lis)
+       (define f (first lis))
+       (define r (filter-games p (rest lis)))
+       (if (p (first lis))
+           (cons f r)
+           r)))))
 
 ; Das hat alles eigentlich überhaupt nicht unbedingt mit
 ; Fußballspielen zu tun; die allgemeinere Aufgabe heißt:
@@ -558,12 +563,12 @@
   (lambda (p lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
-       (let ((f (first lis))
-             (r (list-filter p (rest lis))))
-         (if (p (first lis))
-             (make-pair f r)
-             r))))))
+      ((cons? lis)
+       (define f (first lis))
+       (define r (list-filter p (rest lis)))
+       (if (p (first lis))
+           (cons f r)
+           r)))))
 
 ; Punkte eines Teams aus Spiel berechnen
 (: team-points (string game -> points))
@@ -596,13 +601,13 @@
   (lambda (t lis)
     (cond
       ((empty? lis) 0)
-      ((pair? lis)
+      ((cons? lis)
        (+ (team-points t (first lis))
           (team-points-sum-helper t (rest lis)))))))
 
 ; Eine hanebüchene Frage:
 ; Hat der SC Freiburg in der Saison 2009/10 gegen 1. FC Bayern München gewonnen?
-(check-expect (pair?
+(check-expect (cons?
                (list-filter (lambda (g)
                               (and (plays-game? "Freiburg" g)
                                    (plays-game? "Bayern" g)
@@ -610,7 +615,7 @@
                             season-2009/2010))
               #f)
 ; und wie sieht es aus mit Dortmund gegen Bayer 04?
-(check-expect (pair?
+(check-expect (cons?
                (list-filter (lambda (g)
                               (and (plays-game? "Dortmund" g)
                                    (plays-game? "Bayer 04" g)
@@ -638,7 +643,7 @@
   (lambda (lis)
     (cond
       ((empty? lis) 0)
-      ((pair? lis)
+      ((cons? lis)
        (+ (total-goals (first lis))
           (list-total-goals (rest lis)))))))
 
@@ -666,7 +671,7 @@
 (check-expect (list-fold empty
                          (lambda (g lis)
                            (if (plays-game? "Hamburg" g)
-                               (make-pair g lis)
+                               (cons g lis)
                                lis))
                          day1)
               (list g9))
@@ -677,7 +682,7 @@
   (lambda (start combine lis)
     (cond
       ((empty? lis) start)
-      ((pair? lis) 
+      ((cons? lis) 
        (combine (first lis)
                 (list-fold start combine (rest lis)))))))
 
@@ -708,9 +713,9 @@
   (lambda (t lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
-       (make-pair (team-goals t (first lis))
-                  (list-team-goals t (rest lis)))))))
+      ((cons? lis)
+       (cons (team-goals t (first lis))
+             (list-team-goals t (rest lis)))))))
 
 ; Auch das geht allgemeiner: Eine Funktion (%a -> %b) "fortsetzen" zu einer
 ; Funktion ((list-of %a) -> (list-of %b)):
@@ -728,9 +733,9 @@
   (lambda (f lis)
     (cond
       ((empty? lis) empty)
-      ((pair? lis)
-       (make-pair (f (first lis))
-                  (list-map f (rest lis)))))))
+      ((cons? lis)
+       (cons (f (first lis))
+             (list-map f (rest lis)))))))
 
 ; jetzt können wir noch von "Hamburg" abstrahieren:
 
