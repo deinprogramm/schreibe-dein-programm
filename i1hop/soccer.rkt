@@ -1,28 +1,23 @@
 ;; Die ersten drei Zeilen dieser Datei wurden von DrRacket eingefügt. Sie enthalten Metadaten
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname soccer) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
-; Ein Spiel hat:
-; - Spieltag (natural)
-; - Gastgeber-Team (string)
-; - Gastgeber-Tore (natural)
-; - Gast-Team (string)
-; - Gast-Tore (natural)
 
+; Ein Team ist durch seinen Namen identifiziert.
+(define team (signature string))
+
+; Ein Spiel hat folgende Eigenschaften:
+; - Spieltag
+; - Gastgeber-Team
+; - Gastgeber-Tore
+; - Gast-Team
+; - Gast-Tore
 (define-record-functions game
   make-game game?
   (game-matchday natural)
-  (game-home-team string)
+  (game-home-team team)
   (game-home-goals natural)
-  (game-guest-team string)
+  (game-guest-team team)
   (game-guest-goals natural))
-
-(: make-game (natural string natural string natural -> game))
-
-(: game? (any -> boolean))
-(: game-home-team (game -> string))
-(: game-home-goals (game -> natural))
-(: game-guest-team (game -> string))
-(: game-guest-goals (game -> natural))
 
 ; Spielzeit 2009/2010
 
@@ -397,13 +392,13 @@
 
 ; erste Version
 (define home-points
-    (lambda (game)
-      (let ((goals1 (game-home-goals game))
-            (goals2 (game-guest-goals game)))
-        (cond
-          ((> goals1 goals2) 3)
-          ((< goals1 goals2) 0)
-          ((= goals1 goals2) 1)))))
+  (lambda (game)
+    (define goals1 (game-home-goals game))
+    (define goals2 (game-guest-goals game))
+    (cond
+      ((> goals1 goals2) 3)
+      ((< goals1 goals2) 0)
+      ((= goals1 goals2) 1))))
 
 
 ; Punktzahl für Gast-Team berechnen
@@ -415,46 +410,58 @@
 (check-expect (guest-points game4) 3)
 
 (define guest-points
-    (lambda (g)
-      (let ((goals1 (game-guest-goals g))
-            (goals2 (game-home-goals g)))
-        (cond
-          ((> goals1 goals2) 3)
-          ((< goals1 goals2) 0)
-          ((= goals1 goals2) 1)))))
-
-; Beobachtung: die beiden Funktionen unterscheiden sich nur in der Rolle von
-; game-home-goals und game-guest-goals
-; Konsequenz:  AUSKLAMMERN!  (vornehm: refactoring)
+  (lambda (game)
+    (define goals1 (game-guest-goals game))
+    (define goals2 (game-home-goals game))
+    (cond
+      ((> goals1 goals2) 3)
+      ((< goals1 goals2) 0)
+      ((= goals1 goals2) 1))))
 
 ; Punktzahl bestimmen
-(: compute-points ((game -> natural) (game -> natural) -> (game -> points)))
-; Eine Funktion "höherer Ordnung": Sie nimmt zwei Funktionen als Argumente
-; und liefert eine Funktion als Resultat.
-; Das ist ein Phänomen, das sich nur bei *funktionalen Programmiersprachen* finden lässt
-
+(: compute-points ((game -> natural) (game -> natural) game -> points))
 
 (define compute-points
+  (lambda (get-goals-1 get-goals-2 game)
+    (define goals1 (get-goals-1 game))
+    (define goals2 (get-goals-2 game))
+    (cond
+      ((> goals1 goals2) 3)
+      ((< goals1 goals2) 0)
+      ((= goals1 goals2) 1))))
+
+(define home-points2
+  (lambda (game)
+    (compute-points game-home-goals game-guest-goals game)))
+
+(define guest-points2
+  (lambda (game)
+    (compute-points game-guest-goals game-home-goals game)))
+
+; Punktzahl-Bestimmungsfunktion erzeugen
+(: make-compute-points ((game -> natural) (game -> natural) -> (game -> points)))
+
+(define make-compute-points
   (lambda (get-goals-1 get-goals-2)
     (lambda (game)
-      (let ((goals1 (get-goals-1 game))
-            (goals2 (get-goals-2 game)))
-        (cond
-          ((> goals1 goals2) 3)
-          ((< goals1 goals2) 0)
-          ((= goals1 goals2) 1))))))
+      (define goals1 (get-goals-1 game))
+      (define goals2 (get-goals-2 game))
+      (cond
+        ((> goals1 goals2) 3)
+        ((< goals1 goals2) 0)
+        ((= goals1 goals2) 1)))))
 
+(define home-points3
+  (lambda (game)
+    ((make-compute-points game-home-goals game-guest-goals) game)))
 
-; Mit dieser Funktion können wir nun home-points und guest-points flüssiger definieren:
+(define guest-points3
+  (lambda (game)
+    ((make-compute-points game-guest-goals game-home-goals) game)))
 
-;(define home-points (compute-points game-home-goals game-guest-goals))
-;(define guest-points (compute-points game-guest-goals game-home-goals))
+(define home-points4 (make-compute-points game-home-goals game-guest-goals))
 
-; Mantra 9: Wenn mehrere Prozeduren im
-;  Programm bis auf wenige Stellen gleich aussehen, schreibe
-;  eine allgemeinere Prozedur, die darüber abstrahiert, was an diesen
-;  Stellen steht.  Ersetze dann die ursprünglichen Prozeduren durch
-;  Anwendungen der neuen, allgemeinen Prozedur.
+(define guest-points4 (make-compute-points game-guest-goals game-home-goals))
 
 ; Ist Spiel unentschieden?
 (: game-draw? (game -> boolean))
@@ -484,7 +491,7 @@
            draw-rest)))))
 
 ; Spielt Team bei Spiel?
-(: plays-game? (string game -> boolean))
+(: plays-game? (team game -> boolean))
 
 (check-expect (plays-game? "Wolfsburg" game1) #t)
 (check-expect (plays-game? "Stuttgart" game1) #t)
@@ -496,7 +503,7 @@
         (string=? team (game-guest-team game)))))
 
 ; Alle Spiele mit einem Team herausfiltern
-(: games-playing (string (list-of game) -> (list-of game)))
+(: games-playing (team (list-of game) -> (list-of game)))
 
 (check-expect (games-playing "Nürnberg" day1) (list game5))
 (check-expect (length (games-playing "Nürnberg" season-2009/2010)) 34)
@@ -571,7 +578,7 @@
            filtered-rest)))))
 
 ; Punkte eines Teams aus Spiel berechnen
-(: team-points (string game -> points))
+(: team-points (team game -> points))
 
 (check-expect (team-points "Freiburg" game9) 1)
 (check-expect (team-points "Dortmund" game6) 3)
@@ -584,7 +591,7 @@
       ((string=? team (game-guest-team game)) (guest-points game)))))
 
 ; Punkte eines Teams aus einer Liste von Spielen berechnen
-(: team-points-sum (string (list-of game) -> natural))
+(: team-points-sum (team (list-of game) -> natural))
 
 (check-expect (team-points-sum "Hamburg" season-2009/2010) 52)
 (check-expect (team-points-sum "Nürnberg" season-2009/2010) 31)
@@ -596,7 +603,7 @@
                                            (plays-game? team game))
                                          list))))
 
-(: team-points-sum-helper (string (list-of game) -> natural))
+(: team-points-sum-helper (team (list-of game) -> natural))
 (define team-points-sum-helper
   (lambda (team list)
     (cond
@@ -688,7 +695,7 @@
 
 
 ; Tore eines Teams aus einem Spiel berechnen
-(: team-goals (string game -> natural))
+(: team-goals (team game -> natural))
 
 (check-expect (team-goals "Wolfsburg" game1) 2)
 (check-expect (team-goals "Stuttgart" game1) 0)
@@ -701,7 +708,7 @@
       ((string=? team (game-guest-team game)) (game-guest-goals game)))))
 
 ; Tore eines Teams aus einer Liste von Spielen auflisten
-(: list-team-goals (string (list-of game) -> (list-of natural)))
+(: list-team-goals (team (list-of game) -> (list-of natural)))
 
 (check-expect (list-team-goals "Hamburg"
                                (list-filter (lambda (game)
@@ -739,13 +746,13 @@
 
 ; jetzt können wir noch von "Hamburg" abstrahieren:
 
-(: make-specific-team-goals (string -> (game -> natural)))
+(: make-specific-team-goals (team -> (game -> natural)))
 (define make-specific-team-goals
   (lambda (team)
     (lambda (game)
       (team-goals team game))))
 
-(: make-specific-plays-game? (string -> (game -> boolean)))
+(: make-specific-plays-game? (team -> (game -> boolean)))
 (define make-specific-plays-game?
   (lambda (team)
     (lambda (game)

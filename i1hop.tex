@@ -6,177 +6,413 @@
 \chapter{Higher-Order-Programmierung}
 \label{cha:higher-order}
 
+Der renommierte Informatiker Paul Hudak wurde einst gefragt, was die
+drei wichtigsten Dinge beim Programmieren seien.  Er antwortete:
+"<Abstraktion, Abstraktion, Abstraktion">.  Entsprechend ist das
+Mantra~\ref{mantra:abstraktion} auf Seite~\pageref{mantra:abstraktion}
+auch eins der wichtigsten:
 
-TBD
+\mantraabstraktion*
 
-\section{Higher-Order-Funktionen auf Listen}
+\noindent In diesem Kapitel werden wir dieses Mantra konsequent anwenden.  Dabei
+kommt oft eine besondere Art Funktion heraus: Funktionen, die andere
+Funktionen als Eingabe akzeptieren oder als Ausgabe liefern.  Solche
+Funktionen heißen auch \textit{Funktionen höherer
+  Ordnung}\index{Funktion!höherer Ordnung} oder
+\textit{Higher-Order-Funktion}.\index{Higher-Order-Funktion}  Um die
+resultierende Art der Programmierung~-- die
+\textit{Higher-Order-Programmierung}~-- geht es in diesem Kapitel.
+
+\section{Fußball-Fakten ermitteln}
 
 Eine nahezu unerschöpfliche Quelle für Diskussionen stellen die
 Fußballergebnisse dar.  Hier stellen sich so bedeutsame Fragen wie:
 \begin{itemize}
-\item Wann hat Bayern München zuletzt den 1.~FC Kaiserslautern in einem
-  Auswärtsspiel geschlagen?
-\item Wie viele Tore sind in dieser Saison schon gefallen?
+\item Wie hat diese Saison Bayern München gegen 1.~FC Kaiserslautern
+  auswärts gespielt?\footnote{Wir wissen, das ist schon eine Weile her.}
+\item Wie viele Tore sind in dieser Saison gefallen?
 \item Welche Mannschaft ist abstiegsgefährdet?
 \end{itemize}
-In letzter Konsequenz läuft die Beantwortung solcher und ähnlicher Fragen auf
-eine Datenbank hinaus; es geht aber auch schon wesentlich einfacher:
-
-\begin{verbatim}
-; Ein Spiel hat:
-; - Spieltag (natural)
-; - Gastgeber-Team (string)
-; - Gastgeber-Tore (natural)
-; - Gast-Team (string)
-; - Gast-Tore (natural)
-
-(define-record-procedures game
+%
+All diese Informationen speisen sich aus Ergebnissen der Spiele einer
+Saison.  Ein Spiel können wir folgendermaßen charakterisieren:
+%
+\begin{lstlisting}
+; Ein Spiel hat folgende Eigenschaften:
+; - Spieltag
+; - Gastgeber-Team
+; - Gastgeber-Tore
+; - Gast-Team
+; - Gast-Tore
+\end{lstlisting}
+%
+Es handelt sich sichtlich um zusammengesetzte Daten.  Wir müssen uns
+überlegen, welche Signaturen zu den einzelnen Bestandteilen passen.
+Spieltag und Tore sind allesamt natürliche Zahlen.  Ein Team können
+wir durch seinen Namen als Zeichenkette repräsentieren.   Das ergibt
+folgende Record-Definition:
+%$
+\begin{lstlisting}
+(define-record-functions game
   make-game game?
-  (game-matchday 
-   game-home-team game-home-goals game-guest-team game-guest-goals))
-(: make-game (natural string natural string natural -> game))
-(: game? (any -> boolean))
-(: game-matchday (game -> natural))
-(: game-home-team (game -> string))
-(: game-home-goals (game -> natural))
-(: game-guest-team (game -> string))
-(: game-guest-goals (game -> natural))
-\end{verbatim}
-
+  (game-matchday natural)
+  (game-home-team string)
+  (game-home-goals natural)
+  (game-guest-team string)
+  (game-guest-goals natural))
+\end{lstlisting}
+%
 Es folgen hier beispielhaft die Ergebnisse des ersten Spieltags der Bundesliga-Saison
-2009/2010\footnote{Die kompletten Ergebnisse dieser Saison lassen sich unter dem Namen
-\texttt{soccer.rkt} von der Webseite des Buchs -- \texttt{deinprogramm.de} --
-herunterladen.}:
-\begin{verbatim}
-(define g1 (make-game 1 "Wolfsburg" 2 "Stuttgart" 0))
-(define g2 (make-game 1 "Mainz" 2 "Bayer 04" 2))
-(define g3 (make-game 1 "Hertha" 1 "Hannover" 0))
-(define g4 (make-game 1 "Bremen" 2 "Frankfurt" 3))
-(define g5 (make-game 1 "Nürnberg" 1 "Schalke" 2))
-(define g6 (make-game 1 "Dortmund" 1 "1. FC Köln" 0))
-(define g7 (make-game 1 "Hoffenheim" 1 "Bayern" 1))
-(define g8 (make-game 1 "Bochum" 3 "Gladbach" 3))
-(define g9 (make-game 1 "Freiburg" 1 "Hamburg" 1))
+2009/2010:
+\begin{lstlisting}
+(define game1 (make-game 1 "Wolfsburg" 2 "Stuttgart" 0))
+(define game2 (make-game 1 "Mainz" 2 "Bayer 04" 2))
+(define game3 (make-game 1 "Hertha" 1 "Hannover" 0))
+(define game4 (make-game 1 "Bremen" 2 "Frankfurt" 3))
+(define game5 (make-game 1 "Nürnberg" 1 "Schalke" 2))
+(define game6 (make-game 1 "Dortmund" 1 "1. FC Köln" 0))
+(define game7 (make-game 1 "Hoffenheim" 1 "Bayern" 1))
+(define game8 (make-game 1 "Bochum" 3 "Gladbach" 3))
+(define game9 (make-game 1 "Freiburg" 1 "Hamburg" 1))
 
 (define day1
-  (list g1 g2 g3 g4 g5 g6 g7 g8 g9))
-\end{verbatim}
+  (list game1 game2 game3 game4 game5 game6 game7 game8 game9))
+\end{lstlisting}
+%
+Die kompletten Ergebnisse dieser Saison lassen sich unter dem Namen
+\texttt{soccer.rkt} von der Webseite des Buchs~--
+\url{https://www.deinprogramm.de/}~-- herunterladen.
 
 Eine recht einfache Frage ist die Bestimmung der Punktzahl, welche die
-Gastgebermannschaft in einem bestimmten Spiel erzielt hat. Eine Funktion, die
-das leistet, hat Beschreibung und Signatur wie
-folgt:\index{home-points@\texttt{home-points}}
-
-\begin{verbatim}
+Gastgebermannschaft in einem bestimmten Spiel erzielt hat.  Die
+Punktzahl ist zwar eine natürliche Zahl, es gibt aber nur drei
+Möglichkeiten: 0, 1 und 3.  Wir können also eine präzisere Signatur
+als \lstinline{points} definieren:
+%
+\begin{lstlisting}
 ; Punktzahl in Spiel
 (define points
   (signature (enum 0 1 3)))
-
+\end{lstlisting}
+%
+Unsere Funktion für die Bestimmung der Punktzahl hat Kurzbeschreibung,
+Signatur, Tests und Gerüst wie folgt:\index{home-points@\texttt{home-points}}
+%
+\begin{lstlisting}
 ; Punktzahl für Gastgeber-Team berechnen
 (: home-points (game -> points))
-\end{verbatim}
-Die Punktzahl des Gastgeberteams errechnet sich auf einfache Weise durch
-Vergleich der erzielten Tore:
 
-FIXME: let
+(check-expect (home-points game1) 3)
+(check-expect (home-points game2) 1)
+(check-expect (home-points game3) 3)
+(check-expect (home-points game4) 0)
 
-\begin{verbatim}
 (define home-points
-    (lambda (g)
-      (let ((g1 (game-home-goals g))
-            (g2 (game-guest-goals g)))
-        (cond
-          ((> g1 g2) 3)
-          ((< g1 g2) 0)
-          ((= g1 g2) 1)))))
-\end{verbatim}
-Aber auch das Gästeteam soll die ihm zustehenden Punkte bekommen. Das führt zu
-folgender Funktion:
-\begin{verbatim}
+  (lambda (game)
+    ...))
+\end{lstlisting}
+% 
+Entsprechend der Signatur der Ausgabe fallen die Spiele in drei
+unterschiedliche Klassen, das heißt wir brauchen eine Verzweigung mit
+drei Zweigen entsprechend den drei möglichen Punktzahlen:
+%
+\begin{lstlisting}
+(define home-points
+  (lambda (game)
+    (cond
+      (... 3)
+      (... 0)
+      (... 1))))
+\end{lstlisting}
+%
+Die Bedingungen der drei Zweige kommen aus den Fußballregeln~-- wir
+müssen die Tore von Heim- und Gastmannschaft vergleichen:
+%
+\begin{lstlisting}
+(define home-points
+  (lambda (game)
+    (define goals1 )
+    (define goals2 )
+    (cond
+      ((> (game-home-goals game) (game-guest-goals game)) 3)
+      ((< (game-home-goals game) (game-guest-goals game)) 0)
+      ((= (game-home-goals game) (game-guest-goals game)) 1))))
+\end{lstlisting}
+%
+Das funktioniert schon korrekt, ist aber noch unelegant.
+Das \lstinline{(game-home-goals game)} ist dreimal wiederholt~-- wir
+sollten eine lokale Definition einführen, damit es nur einmal
+dasteht.  Ebenso für den Aufruf von \lstinline{game-guest-goals}.  Das
+sieht dann so aus:
+%
+\begin{lstlisting}
+(define home-points
+  (lambda (game)
+    (define goals1 (game-home-goals game))
+    (define goals2 (game-guest-goals game))
+    (cond
+      ((> goals1 goals2) 3)
+      ((< goals1 goals2) 0)
+      ((= goals1 goals2) 1))))
+\end{lstlisting}
+%
+Du könntest berechtigterweise fragen, warum die lokalen Variablen
+\lstinline{goals1} und \lstinline{goals2} heißen, und nicht
+\lstinline{home-goals} und \lstinline{guest-goals} heißen.  Das wird
+bei der nächsten Funktion (hoffentlich) klar, welche die Punkte
+ausrechnet, die dem Gästeteam zustehen:
+%
+\begin{lstlisting}
 ; Punktzahl für Gast-Team berechnen
 (: guest-points (game -> points))
 
 (define guest-points
-    (lambda (g)
-      (let ((g1 (game-guest-goals g))
-            (g2 (game-home-goals g)))
-        (cond
-          ((> g1 g2) 3)
-          ((< g1 g2) 0)
-          ((= g1 g2) 1)))))
-\end{verbatim}
-Wie nicht anders zu erwarten, sind diese beiden Funktionen fast zu hundert
-Prozent identisch, der einzige Unterschied ist die Definition der lokalen
-Variablen \texttt{g1} und \texttt{g2}. Eine solche Duplizierung von Code ist
-immer schlecht, vor allem vor dem Gesichtspunkt der Wartbarkeit von
-Programmen. Wenn etwa der Deutsche Fußballbund die Regeln für die Vergabe von
-Punkten ändern sollte, müssten hier beide Funktionen in gleicher Weise
-angepasst werden.  Die Lösung für das Problem zeigt sich dadurch, dass der
-gemeinsame Code aus den beiden Funktionen "<ausfaktorisiert"> wird. 
-
-Musterbildung\index{Musterbildung} ist eine der wichtigsten Abstraktionstechniken, und deshalb gibt
-es ein eigenes Mantra:
-
-\mantraabstraktion*
-
-Anwendung dieser Abstraktion könnte zu einer Funktion \texttt{compute-points}
-führen, die dann wie folgt für die Definition von \texttt{home-points} und
-\texttt{guest-points} verwendet werden könnte:
-
-\begin{verbatim}
-(define home-points (compute-points game-home-goals game-guest-goals))
-(define guest-points (compute-points game-guest-goals game-home-goals))
-\end{verbatim}
+  (lambda (game)
+    (define goals1 (game-guest-goals game))
+    (define goals2 (game-home-goals game))
+    (cond
+      ((> goals1 goals2) 3)
+      ((< goals1 goals2) 0)
+      ((= goals1 goals2) 1))))
+\end{lstlisting}
 %
+Diese beiden Funktionen sind weitgehend identisch, der einzige
+Unterschied ist die Definition der lokalen Variablen
+\lstinline{goals1} und \lstinline{goals2}. Eine solche Duplizierung
+von Code ist immer schlecht, vor allem, wenn sich etwas
+ändert. Theoretisch könnte der Fußballbund die Regeln für die Vergabe
+von Punkten ändern sollte, und dann müssten wir beide Funktionen in
+gleicher Weise anpassen.  Die Lösung für das Problem zeigt sich
+dadurch, dass wir aus dem gemeinsamen Code der beiden Funktionen
+eine neue Funktion machen, entsprechend dem Abstraktions-Mantra.
+
+Zu diesem Zweck kopieren wir eine der beiden Funktionsdefinitionen und
+geben ihr einen neuen Namen, in diesem Fall \lstinline{compute-points}:
+%
+\begin{lstlisting}
+(define compute-points
+  (lambda (game)
+    (define goals1 (game-guest-goals game))
+    (define goals2 (game-home-goals game))
+    (cond
+      ((> goals1 goals2) 3)
+      ((< goals1 goals2) 0)
+      ((= goals1 goals2) 1))))
+\end{lstlisting}
+%
+Nun identifizieren wir in der kopierten Funktion die Stellen, die sich
+bei den beiden ursprünglichen Funktionen unterscheiden und ersetzen
+diese Stellen durch neue Namen.  Hier sind das gerade
+\lstinline{game-guest-goals} und \lstinline{game-home-goals}, wir
+ersetzen sie durch die Namen \lstinline{get-goals-1} und
+\lstinline{get-goals-2}:
+%
+\begin{lstlisting}
+(define compute-points
+  (lambda (game)
+    (define goals1 (get-goals-1 game))
+    (define goals2 (get-goals-2 game))
+    (cond
+      ((> goals1 goals2) 3)
+      ((< goals1 goals2) 0)
+      ((= goals1 goals2) 1))))
+\end{lstlisting}
+%
+Diese neuen Variablen sind noch ungebunden, wir müssen sie deshalb
+noch im \lstinline{lambda} unterbringen:
+%
+\begin{lstlisting}
+(define compute-points
+  (lambda (get-goals-1 get-goals-2 game)
+    (define goals1 (get-goals-1 game))
+    (define goals2 (get-goals-2 game))
+    (cond
+      ((> goals1 goals2) 3)
+      ((< goals1 goals2) 0)
+      ((= goals1 goals2) 1))))
+\end{lstlisting}
+%
+Damit können wir die bisherigen Definitionen von
+\lstinline{home-points} und \lstinline{guest-points} ersetzen durch
+die folgenden:
+%
+\begin{lstlisting}
+(define home-points
+  (lambda (game)
+    (compute-points game-home-goals game-guest-goals game)))
+
+(define guest-points
+  (lambda (game)
+    (compute-points game-guest-goals game-home-goals game)))
+\end{lstlisting}
+%
+Diese neuen Definitionen lassen die Gemeinsamkeiten und Unterschiede
+beider Funktionen klar erkennen und vermeiden die doppelte Definition
+der Fußball-Punkteregeln.
+
 \textbf{Wichtig:} Diese beiden Definitionen müssen \emph{nach} der
 Definition von \texttt{compute-points} stehen, da davor
 \texttt{compute-points} noch nicht definiert ist.
 
-Die Signatur von \texttt{compute-points} müsste dann wie folgt sein:
-\begin{verbatim}
-(: compute-points ((game -> natural) (game -> natural) -> (game -> points)))
-\end{verbatim}
-Das verdient eine kurze Betrachtung: Hier liegt eine Funktion vor, die zwei
-Funktionen als Argument akzeptiert und eine weitere Funktion als Ergebnis
-liefert. Solche Funktionen heißen \textit{Funktionen höherer Ordnung\index{Funktion!höherer
+Der neuen Funktion fehlt noch eine Signatur.  Die Funktion akzeptiert
+drei Argumente.  Das letzte hat die Signatur \lstinline{game}.  Die
+ersten beiden werden aus den Funktionen \lstinline{game-home-goals}
+und \lstinline{game-guest-goals} bestückt, die jeweils die Signatur
+\lstinline{(game -> natural)} haben.  Daraus können wir die Signatur
+für \lstinline{compute-points} zusammensetzen:
+%
+\begin{lstlisting}
+(: compute-points ((game -> natural) (game -> natural) game -> points))
+\end{lstlisting}
+%
+In der Signatur tauchen mehrere Pfeile auf, weil die Funktion
+\lstinline{compute-points} ihrerseits zwei Funktionen als Argumente
+akzeptiert.  Solche Funktionen mit mehreren Pfeilen in der Signatur
+heißen \textit{Funktionen höherer Ordnung\index{Funktion!höherer
     Ordnung}} oder
-\textit{Higher-Order-Funktionen\index{Higher-Order-Funktion}}. 
+\textit{Higher-Order-Funktionen\index{Higher-Order-Funktion}}.
 
-Die Definition von \texttt{compute-points} ergibt sich recht leicht aus den
-beiden schon vorgestellten Funktionen:
-\begin{verbatim}
-(define compute-points
-  (lambda (goals-1 goals-2)
-    (lambda (g)
-      (let ((g1 (goals-1 g))
-            (g2 (goals-2 g)))
-        (cond
-          ((> g1 g2) 3)
-          ((< g1 g2) 0)
-          ((= g1 g2) 1))))))
-\end{verbatim}
+Die Abstraktion bei der Entwicklung von \lstinline{compute-points}
+hätten wir auch etwas anders anstellen können: Wir haben bei
+\lstinline{compute-points} die beiden Parameter
+\lstinline{get-goals-1} und \lstinline{get-goals-2} zu dem schon
+bestehenden \lstinline{lambda} hinzugefügt.  Wir können stattdessen
+auch ein neues \lstinline{lambda} einfügen.  (Bei Definitionen, in
+denen noch kein \lstinline{lambda} steht, müssten wir das sowieso.)
+Das sieht dann so aus:
+%
+\begin{lstlisting}
+(define make-compute-points
+  (lambda (get-goals-1 get-goals-2)
+    (lambda (game)
+      (define goals1 (get-goals-1 game))
+      (define goals2 (get-goals-2 game))
+      (cond
+        ((> goals1 goals2) 3)
+        ((< goals1 goals2) 0)
+        ((= goals1 goals2) 1)))))
+\end{lstlisting}
+%
+Die Signatur dieser Funktion unterscheidet sich leicht von der
+Signatur von \lstinline{compute-points}.  Sie akzeptiert nicht mehr drei
+Argumente sondern nur zwei, aber liefert dafür eine Funktion, die von
+einem Spiel die Punkte liefert:
+%
+\begin{lstinline}
+(: make-compute-points ((game -> natural) (game -> natural) 
+                         -> (game -> points)))
+\end{lstinline}
+%
+Auch mit dieser Funktion können wir alternative Definitionen von
+\lstinline{make-compute-points} schreiben.  Auf den ersten Blick ist
+das umständlich, wenn wir das genauso machen wie mit
+\lstinline{compute-points}, da wir noch mehr Klammern brauchen:
+%
+\begin{lstlisting}
+(define home-points
+  (lambda (game)
+    ((make-compute-points game-home-goals game-guest-goals) game)))
+
+(define guest-points
+  (lambda (game)
+    ((make-compute-points game-guest-goals game-home-goals) game)))
+\end{lstlisting}
+%
+Vielleicht fällt Dir aber das Muster auf, das diese beiden
+Definitionen gemeinsam haben:
+%
+\begin{lstlisting}
+(define f
+  (lambda (x)
+    (g x)))
+\end{lstlisting}
+%
+Das heißt, wenn das Programm \lstinline{f} aufruft, ruft diese
+Funktion direkt \lstinline{g} auf, mit der gleichen Eingabe:
+\lstinline{f} und \lstinline{g} sind also äquivalent, und wir könnten
+genauso gut schreiben:
+%
+\begin{lstlisting}
+(define f g)
+\end{lstlisting}
+%
+Das gleiche Prinzip können wir auch auf \lstinline{home-points} und
+\lstinline{guest-points} anwenden:
+%
+\begin{lstlisting}
+(define home-points
+  (make-compute-points game-home-goals game-guest-goals))
+
+(define guest-points
+  (make-compute-points game-guest-goals game-home-goals))
+\end{lstlisting}
+%
+Man kann auch schön an der Signatur von
+\lstinline{make-compute-points} sehen, dass diese als Resultat eine
+Funktion mit Signatur \lstinline{(game -> points)} liefert, das ist
+gerade die gewünschte Signatur von \lstinline{home-points} und
+\lstinline{guest-points}.
+
+Vielleicht hast Du Dich über den Namen \lstinline{make-compute-points}
+gewundert: Während die Funktion \lstinline{compute-points} direkt eine Punktzahl
+berechnet, macht \lstinline{make-compute-points} eine Funktion, welche
+die Punktzahl berechnet: Darum der Präfix \lstinline{make-}.  Es
+handelt sich also um eine Art "<Funktionsfabrik">.
+
+\begin{aufgabeinline}
+  Wir hätten das neue \lstinline{lambda} auch unterhalb des alten
+  \lstinline{lambda} einfügen können statt oberhalb.  Welche Signatur
+  hätte die Funktion \lstinline{make-compute-points} dann?  Warum ist
+  das keine so gute Idee?
+\end{aufgabeinline}
+
+Die Abstraktionstechnik, die wir für die Konstruktion von
+\lstinline{compute-points} und \lstinline{make-compute-points}
+verwendet haben, wenden wir in diesem Buch noch öfter an.  Sie
+verdient deshalb eine eigene Konstruktionsanleitung:
+
+\begin{konstruktionsanleitung}{Abstraktion}
+  \label{ka:abstraktion}
+  Wenn Du zwei Definitionen geschrieben hast, die inhaltlich verwandt
+  sind und viele Ähnlichkeiten aufweisen, abstrahiere wie folgt:
+  %
+  \begin{enumerate}
+  \item Kopiere eine der beiden Definitionen und gib ihr einen neuen
+    Namen.
+  \item Ersetze die Stellen, bei denen sich die beiden Definitionen
+    unterscheiden, jeweils durch eine neue Variable.
+  \item Füge die neuen Variablen als Parameter zum \lstinline{lambda}
+    der Definition hinzu oder füge ein neues \lstinline{lambda} mit
+    diesen Parametern ein.
+  \item Schreibe eine Signatur für die neue Funktion.
+  \item Ersetze die beiden alten Definitionen durch Aufrufe der neuen
+    Definition.
+  \end{enumerate}
+\end{konstruktionsanleitung}
+
+\section{Higher-Order-Funktionen auf Listen}
 
 Eine weitere interessante Aufgabe ist es, aus einer Liste von Spielen die
 unentschieden ausgegangenen Spiele herauszusuchen. Dazu ist zunächst eine
 Funktion notwendig, die feststellt, ob ein bestimmtes Spiel unentschieden war:
-\begin{verbatim}
+\begin{lstlisting}
 ; Ist Spiel unentschieden?
 (: game-draw? (game -> boolean))
 
 (define game-draw?
   (lambda (g)
     (= 1 (home-points g))))
-\end{verbatim}
+\end{lstlisting}
 Die jetzt gesuchte Funktion muss Kurzbeschreibung und Signatur wie folgt haben:
-\begin{verbatim}
+\begin{lstlisting}
 ; Unentschiedene Spiele heraussuchen
 (: games-draw ((list-of game) -> (list-of game)))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Definition folgt der Konstruktionsanleitung für Funktionen auf Listen.
 Hier ist die Schablone:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define games-draw
   (lambda (lis)
     (cond
@@ -184,14 +420,14 @@ Hier ist die Schablone:
       ((cons? lis)
        ... (first lis) ...
        ... (games-draw (rest lis)) ...))))
-\end{alltt}
+\end{lstlisting}
 %
 Der erste Fall ist klar: wo keine Spiele sind, sind auch keine
 unentschiedenen.  Der zweite Fall betrachtet das erste Element \texttt{(first
   lis)}.  Dabei ist entscheidend, ob es sich dabei um ein unentschiedenes Spiel
 handelt oder nicht:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define games-draw
   (lambda (lis)
     (cond
@@ -199,12 +435,12 @@ handelt oder nicht:
       ((cons? lis)
        ... (game-draw? (first lis)) ...
        ... (games-draw (rest lis)) ...))))
-\end{alltt}
+\end{lstlisting}
 %
 Die Fallunterscheidung bestimmt, ob ein Spiel in die Ergebnisliste kommt oder
 nicht:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define games-draw
   (lambda (lis)
     (cond
@@ -215,7 +451,7 @@ nicht:
        (if (game-draw? f)
            (cons f r)
            r)))))))
-\end{alltt}
+\end{lstlisting}
 %
 Fertig!
 
@@ -223,7 +459,7 @@ Eine ganz ähnliche Funktion sortiert aus einer Liste von Spielen diejenigen
 aus, an denen eine bestimmte Mannschaft teilgenommen hat:
 \index{games-playing@\texttt{games-playing}}
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Spielt Team bei Spiel?
 (: plays-game? (string game -> boolean))
 
@@ -245,7 +481,7 @@ aus, an denen eine bestimmte Mannschaft teilgenommen hat:
          (if (plays-game? t f)
              (cons f r)
              r))))))
-\end{alltt}
+\end{lstlisting}
 %
 Die Funktionen \texttt{games-draw} und \texttt{games-playing} unterscheiden
 sich, abgesehen vom Namen und der Tatsache, dass \texttt{games-playing} noch
@@ -262,7 +498,7 @@ direkt aus den Definitionen von \texttt{games-draw} und
 \texttt{games-playing} ergibt, sieht so aus (erst einmal ohne
 Signatur, die nachgeliefert wird):\index{filter-games@\texttt{filter-games}}
 %
-\begin{alltt}
+\begin{lstlisting}
 (define filter-games
   (lambda (p? lis)
     (cond
@@ -272,18 +508,18 @@ Signatur, die nachgeliefert wird):\index{filter-games@\texttt{filter-games}}
            (cons (first lis)
                       (filter-games p? (rest lis)))
            (filter-games p? (rest lis)))))))
-\end{alltt}
+\end{lstlisting}
 %
 Das funktioniert tatsächlich:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define plays-nürnberg?
    (lambda (g)
       (plays-game? "Nürnberg" g)))
 
 (filter-games plays-nürnberg? day1)
 \evalsto{} #<list #<record:game 1 "Nürnberg" 1 "Schalke" 2>>
-\end{alltt}
+\end{lstlisting}
 %
 Das Abstrahieren über Funktionen funktioniert also genauso wie die
 Abstraktion über andere Werte.  Die Signatur für die Funktion muss
@@ -291,15 +527,15 @@ natürlich berücksichtigen, dass \texttt{p?} eine Funktion ist.  Die Funktion
 \texttt{plays-nürnberg?}, die für \texttt{p?}  verwendet wird, hat die
 Signatur
 %
-\begin{alltt}
+\begin{lstlisting}
 (: plays-nürnberg? (game -> boolean))
-\end{alltt}
+\end{lstlisting}
 %
 und deshalb hat \texttt{filter-games} folgende Signatur:
 %
-\begin{alltt}
+\begin{lstlisting}
 (: filter-games ((game -> boolean) (list-of game) -> (list-of game)))
-\end{alltt}
+\end{lstlisting}
 %
 Tatsächlich steht aber in \texttt{filter-games} außer dem Namen dieser Funktion
 jetzt nichts mehr, das
@@ -307,12 +543,12 @@ jetzt nichts mehr, das
 \texttt{game}-Records handelt.  % Tatsächlich funktioniert die Funktion
 % auch auf Listen von Zahlen:
 % %
-% \begin{alltt}
+% \begin{lstlisting}
 % (filter-games even? (list 1 2 3 4))
 % \evalsto{} #<list 2 4>
 % (filter-games odd? (list 1 2 3 4))
 % \evalsto{} #<list 1 3>
-% \end{alltt}
+% \end{lstlisting}
 % So nicht, das gibt eine Signaturverletzung, denn \texttt{even?} hat nicht die
 % Signatur \texttt{(game -> boolean)}!
 % %
@@ -320,7 +556,7 @@ Damit kann das Wort \texttt{games} ganz aus der Funktiondefinition
 verschwinden, und es entsteht eine vielseitig verwendbare Funktion
 namens \texttt{list-filter}:\index{filter@\texttt{list-filter}}
 %
-\begin{alltt}
+\begin{lstlisting}
 ; aus einer Liste eine Liste der Elemente bilden,
 ; die eine bestimmte Eigenschaft haben
 (: list-filter ((%a -> boolean) (list-of %a) -> (list-of %a)))
@@ -333,7 +569,7 @@ namens \texttt{list-filter}:\index{filter@\texttt{list-filter}}
            (cons (first lis)
                       (list-filter p? (rest lis)))
            (filter p? (rest lis)))))))
-\end{alltt}
+\end{lstlisting}
 
 
 Die Entstehung von \texttt{list-filter} aus \texttt{games-draw} und
@@ -352,7 +588,7 @@ Damit diese Vorteile zur Geltung kommen, müssen die "<alten">
 Abstraktionsvorlagen gelöscht und durch Anwendungen der Abstraktion
 ersetzt werden:
 %
-\begin{alltt}
+\begin{lstlisting}
 ; aus einer Spieleliste eine Liste der unentschiedenen Spiele bilden
 (: games-draw ((list-of game) -> (list-of game)))
 (define games-draw
@@ -364,7 +600,7 @@ ersetzt werden:
 (define games-playing
   (lambda (t lis)
     (list-filter (lambda (g) (plays-game? t g)) lis)))
-\end{alltt}
+\end{lstlisting}
 %
 In der Definition von \texttt{games-playing} bekam die Funktion
 \texttt{list-filter} statt des Namens eines Prädikats direkt eine
@@ -376,7 +612,7 @@ Funktiondefinition.  Hier handelt es sich also technisch um eine \emph{anonyme
 Aus Abschnitt~\ref{sec:lists} ist die Funktion \texttt{list-sum}
 bekannt, welche die Summe einer Liste von Zahlen bildet:
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Liste aufsummieren
 (: list-sum ((list-of number) -> number))
 (define list-sum
@@ -386,13 +622,13 @@ bekannt, welche die Summe einer Liste von Zahlen bildet:
       ((cons? lis) 
        (+ (first lis)
           (list-sum (rest lis)))))))
-\end{alltt}
+\end{lstlisting}
 %
 Eine eng verwandte Funktion würde die Elemente einer Liste nicht
 aufsummieren, sondern aufmultiplizieren.   Signatur und Schablone sind
 identisch zu \texttt{list-sum}:\index{list-product@\texttt{list-product}}
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Liste aufmultiplizieren
 (: list-product ((list-of number) -> number))
 (define list-product
@@ -402,7 +638,7 @@ identisch zu \texttt{list-sum}:\index{list-product@\texttt{list-product}}
       ((cons? lis) 
        ... (first lis) ...
        ... (list-product (rest lis)) ...))))
-\end{alltt}
+\end{lstlisting}
 %
 Die erste Ellipse muss das Produkt der leeren Liste sein, also das
 neutrale Element $1$ der Multiplikation.\footnote{0 funktioniert
@@ -412,7 +648,7 @@ Aus dem ersten Element und dem Produkt der
 Restliste wird das Produkt der Gesamtliste durch
 Multiplikation gebildet.\index{list-product@\texttt{list-product}}
 %
-\begin{alltt}
+\begin{lstlisting}
 (define list-product
   (lambda (lis)
     (cond
@@ -420,7 +656,7 @@ Multiplikation gebildet.\index{list-product@\texttt{list-product}}
       ((cons? lis) 
        (* (first lis)
           (list-product (rest lis)))))))
-\end{alltt}
+\end{lstlisting}
 %
 Die Definitionen von \texttt{list-sum} und \texttt{list-product}
 unterscheiden sich, bis auf den Namen, nur an zwei Stellen: beim ersten
@@ -430,7 +666,7 @@ Aufrufs zu kombinieren.  Die abstrahierte Funktion heißt
 \texttt{list-fold} und sieht folgendermaßen aus (die Signatur muss noch
 einen Moment warten):\index{list-fold@\texttt{list-fold}}
 %
-\begin{alltt}
+\begin{lstlisting}
 ; die Elemente einer Liste kombinieren
 (define list-fold
   (lambda (unit combine lis)
@@ -439,21 +675,21 @@ einen Moment warten):\index{list-fold@\texttt{list-fold}}
       ((cons? lis) 
        (combine (first lis)
                 (list-fold unit combine (rest lis)))))))
-\end{alltt}
+\end{lstlisting}
 %
 Listen lassen sich damit folgendermaßen summieren:
 %
-\begin{alltt}
+\begin{lstlisting}
 (list-fold 0 + (list 1 2 3 4))
 \evalsto{} 10
-\end{alltt}
+\end{lstlisting}
 %
 und so aufmultiplizieren:
 %
-\begin{alltt}
+\begin{lstlisting}
 (list-fold 1 * (list 1 2 3 4))
 \evalsto{} 24
-\end{alltt}
+\end{lstlisting}
 %
 Die Signatur für \texttt{list-fold} ist nicht auf den ersten Blick
 ersichtlich.  Hier ein erster Anlauf:
@@ -461,9 +697,9 @@ ersichtlich.  Hier ein erster Anlauf:
 FIXME: Wie kommt man darauf?
 
 %
-\begin{alltt}
+\begin{lstlisting}
 (: list-fold (%a (%a %a -> %a) (list-of %a) -> %a))
-\end{alltt}
+\end{lstlisting}
 %
 Wie sich weiter unten herausstellen wird, kann
 diese Signatur aber
@@ -510,34 +746,34 @@ Die Definition von \texttt{concatenate} aus
 Abschnitt~\ref{sec:more-lists} passt ebenfalls auf das abstrahierte
 Muster von \texttt{list-fold}:
 %
-\begin{alltt}
+\begin{lstlisting}
 (list-fold (list 4 5 6) cons (list 1 2 3))
 \evalsto{} #<list 1 2 3 4 5 6>
-\end{alltt}
+\end{lstlisting}
 %
 Diese Applikation passt aber nicht mehr auf den obigen Signaturversuch von
 \texttt{list-fold}, da \texttt{make"=pair} nicht die Signatur
 %
-\begin{alltt}
+\begin{lstlisting}
 %a %a -> %a
-\end{alltt}
+\end{lstlisting}
 %
 sondern
 %
-\begin{alltt}
+\begin{lstlisting}
 %a (list-of %a) -> (list-of %a)
-\end{alltt}
+\end{lstlisting}
 %
 und deshalb
 %
-\begin{alltt}
+\begin{lstlisting}
 %a %b -> %b
-\end{alltt}
+\end{lstlisting}
 besitzt.  \texttt{List-fold} hat also folgende Signatur:
 %
-\begin{alltt}
+\begin{lstlisting}
 (: list-fold (%b (%a %b -> %b) (list-of %a) -> %b)))
-\end{alltt}
+\end{lstlisting}
 %
 
 \section{Anonyme Funktionen}\label{sec:anonymous-procedures}
@@ -547,7 +783,7 @@ auszurechnen.  Ganz so einfach wie bei den vorigen Beispielen ist das
 nicht, da \texttt{list-length} aus
 Abschnitt~\ref{sec:more-lists} nicht direkt dem Muster entspricht:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define list-length
   (lambda (lis)
     (cond
@@ -555,7 +791,7 @@ Abschnitt~\ref{sec:more-lists} nicht direkt dem Muster entspricht:
       ((cons? lis) 
        (+ 1 
           (list-length (rest lis)))))))
-\end{alltt}
+\end{lstlisting}
 %
 Für das \texttt{combine}-Argument von \texttt{list-fold}
 würde hier eine Funktion benötigt, die ihr erstes
@@ -565,29 +801,29 @@ Hilfsfunktion sieht so aus:\index{add-1-for-length@\texttt{add-1-for-length}}
 %
 FIXME: warum nicht \texttt{\%a}?  Warum heißt das \texttt{ignore}?
 
-\begin{alltt}
+\begin{lstlisting}
 (: add-1-for-length (any natural -> natural))
 (define add-1-for-length
   (lambda (ignore n)
     (+ n 1)))
-\end{alltt}
+\end{lstlisting}
 %
 Damit funktioniert es:
 %
-\begin{alltt}
+\begin{lstlisting}
 (list-fold 0 add-1-for-length (list 1 2 3 4 5))
 \evalsto{} 5
-\end{alltt}
+\end{lstlisting}
 %
 Für solche Mini-Funktionen lohnt es sich oft kaum, eine eigene
 Definition anzugeben und einen sinnstiftenden Namen zu finden.  Das
 ist auch nicht notwendig: die rechte Seite der Definition, also der
 Lambda-Ausdruck, kann auch direkt eingesetzt werden:
 %
-\begin{alltt}
+\begin{lstlisting}
 (list-fold 0 (lambda (ignore n) (+ n 1)) (list 1 2 3 4 5))
 \evalsto{} 5
-\end{alltt}
+\end{lstlisting}
 %
 Meist tauchen Lambda-Ausdrücke zwar als Teil von Funktiondefinition
 auf, aber es ist natürlich möglich, Funktionen außerhalb einer
@@ -597,7 +833,7 @@ solcher "<anonymer Funktionen\index{anonyme
   Funktion}\index{Funktion!anonym}"> lässt sich auch \texttt{list-filter}
 durch \texttt{list-fold} definieren:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define list-filter
   (lambda (p? lis)
     (list-fold empty
@@ -606,14 +842,14 @@ durch \texttt{list-fold} definieren:
                      (cons first result)
                      result))
                lis)))
-\end{alltt}
+\end{lstlisting}
 %
 Ein weiteres Beispiel~-- die Funktion
 \texttt{every?}\index{every?@\texttt{every?}} findet heraus, ob ein
 übergebenes Prädikat auf alle Elemente einer Liste zutrifft:
 \label{page:every}
 %
-\begin{alltt}
+\begin{lstlisting}
 ; prüfen, ob Prädikat auf alle Elemente einer Liste zutrifft
 (: every? ((%a -> boolean) (list-of %a) -> boolean))
 (define every?
@@ -623,19 +859,19 @@ Ein weiteres Beispiel~-- die Funktion
                  (and result
                       (p? first)))
                lis)))
-\end{alltt}
+\end{lstlisting}
 %
 Anders als \texttt{list-length} lassen sich diese Definitionen
 nicht mit separaten Hilfsfunktionen schreiben.  Für
 \texttt{list-filter} würde ein Versuch zwar so aussehen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define list-filter-helper
   (lambda (first result)
     (if (p? first)
         (cons first result)
         result)))
-\end{alltt}
+\end{lstlisting}
 %
 In \drscheme{} erscheint bei dieser Definition eine Fehlermeldung 
 "<\texttt{unbound variable}"> und \texttt{p?} wird rosa markiert.  Das
@@ -666,19 +902,19 @@ $\circ$ lässt sich direkt als Funktion
 programmieren:\index{compose@\texttt{compose}}
 \label{page:compose}
 %
-\begin{alltt}
+\begin{lstlisting}
 ; zwei Funktionen komponieren
 (: compose ((%b -> %c) (%a -> %b) -> (%a -> %c)))
 (define compose
   (lambda (f g)
     (lambda (x)
       (f (g x)))))
-\end{alltt}
+\end{lstlisting}
 %
 Die beiden Argumente für \texttt{f} und \texttt{g} müssen Funktionen
 mit einem Parameter sein:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define add-5
   (lambda (x)
     (+ x 5)))
@@ -690,7 +926,7 @@ mit einem Parameter sein:
 \evalsto{} 31
 ((compose (lambda (x) (* x 2)) add-1) 5)
 \evalsto{} 12
-\end{alltt}
+\end{lstlisting}
 %
 \texttt{Compose} ist eine
 \textit{Funktionfabrik\index{Funktionfabrik}}~-- sie liefert selbst
@@ -702,7 +938,7 @@ Higher-Order-Funktion namens
 \texttt{repeat} zu definieren:\index{repeat@\texttt{repeat}}
 \label{page:repeat}
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Funktion wiederholt anwenden
 (: repeat (natural (%a -> %a) -> (%a -> %a)))
 (define repeat
@@ -710,15 +946,15 @@ Higher-Order-Funktion namens
     (if (= n 0)
         (lambda (x) x)
         (compose proc (repeat (- n 1) proc)))))
-\end{alltt}
+\end{lstlisting}
 %
 \texttt{Repeat} ist das Pendant zur Potenzierung\index{Potenzierung} von
 Funktionen in der Mathematik, siehe Definition~\ref{def:power_fun}:
 %
-\begin{alltt}
+\begin{lstlisting}
 ((repeat 5 (lambda (n) (* n 2))) 1)
 \evalsto{} 32
-\end{alltt}
+\end{lstlisting}
 
 \section{Der Schönfinkel-Isomorphismus}
 \label{sec:currying}
@@ -726,34 +962,34 @@ Funktionen in der Mathematik, siehe Definition~\ref{def:power_fun}:
 Hier ist eine Funktionfabrik, die Funktionen erzeugt, die auf eine
 Zahl eine Konstante addieren:\index{make-add@\texttt{make-add}}
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Funktion erzeugen, die eine Konstante addiert
 (: make-add (number -> (number -> number)))
 (define make-add
   (lambda (a)
     (lambda (b)
       (+ a b))))
-\end{alltt}
+\end{lstlisting}
 %
 Angewendet werden kann sie folgendermaßen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define add-1 (make-add 1))
 (add-1 15)
 \evalsto{} 16
 (define add-7 (make-add 7))
 (add-7 15)
 \evalsto{} 22
-\end{alltt}
+\end{lstlisting}
 %
 Das geht auch ohne Zwischendefinitionen:
 %
-\begin{alltt}
+\begin{lstlisting}
 ((make-add 7) 15)
 \evalsto{} 22
 ((make-add 13) 42)
 \evalsto{} 55
-\end{alltt}
+\end{lstlisting}
 %
 \texttt{Make-add} ist eine andere Version von \texttt{+}, nämlich
 eine, die zwei Argumente nicht "<auf einmal"> akzeptiert, sondern
@@ -764,7 +1000,7 @@ Parametern in eine Funktion mit nur einem Parameter, die eine Funktion
 mit einem weiteren Parameter zurückgibt, die dann schließlich den "<Wert">
 liefert, lässt sich auch auf andere Funktionen anwenden:\index{make-mult@\texttt{make-mult}}\index{make-prepend@\texttt{make-prepend}}
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Funktion erzeugen, die mit einer Konstante multipliziert
 (: make-mult (number -> (number -> number)))
 (define make-mult
@@ -778,7 +1014,7 @@ liefert, lässt sich auch auf andere Funktionen anwenden:\index{make-mult@\textt
   (lambda (a)
     (lambda (b)
       (cons a b))))
-\end{alltt}
+\end{lstlisting}
 %
 Erneut folgt eine ganze Familie von Funktionen einem gemeinsamen
 Muster, und erneut lässt sich dieses Muster als Funktion höherer
@@ -786,7 +1022,7 @@ Ordnung formulieren.  Die Funktion \texttt{curry\index{curry@\texttt{curry}}} ak
 eine Funktion mit zwei Parametern und liefert eine entsprechend
 transformierte Funktion zurück:
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Funktion mit zwei Parametern staffeln
 (: curry ((%a %b -> %c) -> (%a -> (%b -> %c))))
 (define curry
@@ -794,16 +1030,16 @@ transformierte Funktion zurück:
     (lambda (a)
       (lambda (b)
         (proc a b)))))
-\end{alltt}
+\end{lstlisting}
 %
 Nun lassen sich die \texttt{make-$x$}-Funktionen von oben mit Hilfe
 von \texttt{curry} definieren:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define make-add (curry +))
 (define make-mult (curry *))
 (define make-prepend (curry cons))
-\end{alltt}
+\end{lstlisting}
 %
 Die \texttt{curry}-Transformation wurde unabhängig voneinander von den
 Mathematikern \textsc{Moses Schönfinkel} und \textsc{Haskell Curry} entdeckt.  Im
@@ -814,14 +1050,14 @@ oder \textit{curryfizieren\index{curryfizieren}}.
 
 Die Schönfinkel-Transformation lässt sich auch umdrehen:\index{curry@\texttt{curry}}
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Funktion zu einer Funktion mit zwei Parametern entstaffeln
 (: uncurry ((%a -> (%b -> %c)) -> (%a %b -> %c)))
 (define uncurry 
   (lambda (proc)
     (lambda (a b)
       ((proc a) b))))
-\end{alltt}
+\end{lstlisting}
 %
 Damit ist die Transformation ein \textit{Isomorphismus\index{Isomorphismus}}; es gilt
 folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isomorphismus}
@@ -849,10 +1085,10 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 
   \texttt{List-map} lässt sich beispielsweise folgendermaßen anwenden:
   % 
-  \begin{alltt}
+  \begin{lstlisting}
     (list-map even? (list 1 2 3 4 5))
     \evalsto{} #<list #f #t #f #t #f>
-  \end{alltt}
+  \end{lstlisting}
   % 
   Programmiere \texttt{list-map}, indem sie die Signatur schreiben,
   das Gerüst der Funktion erstellen, Testfälle entwerfen und dann das
@@ -883,14 +1119,14 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   von \texttt{p} für diejenigen Elemente von \texttt{l} zurückgeben,
   für die \texttt{p} nicht \texttt{\#f} zurückgibt. Beispiel:
 
-\begin{alltt}
+\begin{lstlisting}
 (filter-map (lambda (x)
                (if (even? x)
                   (+ x 1)
                   #f))
             (list 1 2 5 17 24 13))
 \evalsto{} #<list 3 25>
-\end{alltt}
+\end{lstlisting}
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1018,7 +1254,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 
   Betrachte das folgende Programm:
 
-\begin{verbatim}
+\begin{lstlisting}
 (define x 2)          ;  --> zwei
 (define y -1)         ;  --> minuseins
 (define z -3)         ;  --> minusdrei
@@ -1028,7 +1264,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     (+ (* x x) z y)))
 
 (f 4 -2)
-\end{verbatim}
+\end{lstlisting}
   %
   Benenne die Variablen \verb"x", \verb"y" und \verb"z", die in
   den ersten drei Zeilen des Programms definiert werden, im kompletten
@@ -1046,7 +1282,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 
   Betrachte das folgende Programm:
 
-\begin{verbatim}
+\begin{lstlisting}
 (define x 2)                    ; --> zwei
 (define y 4)                    ; --> vier
 
@@ -1055,7 +1291,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     (+ x (z y))))
 
 (z y x (lambda (z) (+ x z)))
-\end{verbatim}
+\end{lstlisting}
 %
   Benenne die Variablen \verb"x", \verb"y" und \verb"z", die in
   den ersten drei Zeilen des Programms definiert werden, im kompletten
@@ -1074,7 +1310,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \begin{aufgabe}
   Betrachte folgendes Programm:
 
-\begin{verbatim}
+\begin{lstlisting}
 (define x 1)
 (define y 3)
 (define z 5)
@@ -1088,7 +1324,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
       (+ x y))))
 
 (f y)
-\end{verbatim}
+\end{lstlisting}
 
   Benenne hier alle lokalen Variablen, die innerhalb der Funktion
   \verb"f" gebunden werden, um. Verändere nicht den Namen der
@@ -1219,9 +1455,9 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \item Schreibe eine Funktion, die eine Liste nach einem beliebigen
   Kriterium sortiert.  Die Funktion sollte folgende Signatur haben:
 
-\begin{verbatim}
+\begin{lstlisting}
 (: list-sort ((%a %a -> boolean) (list-of %a) -> (list-of %a)))
-\end{verbatim}
+\end{lstlisting}
 
   Das erste Argument ist eine Funktion, die eine \textit{Halbordnung}
   realisiert, also zwei Elemente vergleicht, und \verb|#t|
@@ -1252,21 +1488,21 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   Hier ist eine Funktion, die einen Stream aus natürlichen Zahlen,
   angefangen bei einer Zahl $n$, liefert:
   % 
-  \begin{alltt}
+  \begin{lstlisting}
 ; Stream mit Zahlen ab n erzeugen
 (: from (natural -> stream))
 (define from
   (lambda (n)
     (make-stream n
                  (lambda () (from (+ n 1))))))
-  \end{alltt}
+  \end{lstlisting}
   % 
   (Dabei ist angenommen, dass der Konstruktor der Record-Definition
   \texttt{make-stream} heißt.)
   Zur Betrachtung von Streams ist folgende Funktion nützlich, welche
   die ersten $n$ Elemente eines Streams als Liste extrahiert:
   % 
-  \begin{alltt}
+  \begin{lstlisting}
 ; erste Elemente eines Streams in eine Liste extrahieren
 (: stream-take (natural stream -> (list-of %a)))
 (define stream-take
@@ -1276,17 +1512,17 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
         (cons (stream-first stream)
                    (stream-take (- n 1)
                                 ((stream-rest-proc stream)))))))
-   \end{alltt}
+   \end{lstlisting}
    % 
    (Dabei ist angenommen, dass die Selektoren für Streams
    \texttt{stream-first} und \texttt{stream"=rest"=proc} heißen.)
    \texttt{Stream-take} lässt sich z.B.\ auf das Ergebnis von
    \texttt{from} anwenden:
    % 
-   \begin{alltt}
+   \begin{lstlisting}
 (stream-take 17 (from 4))
 \evalsto{} #<list 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20>
-   \end{alltt}
+   \end{lstlisting}
    % 
    Programmiere einige intellektuelle Herausforderungen mit Streams!
    \begin{enumerate}
@@ -1294,66 +1530,66 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
      natürliche Zahl $n$ und einen Stream akzeptiert, und einen neuen
      Stream liefert, der aus dem alten durch Weglassen der ersten $n$
      Elemente entsteht:
-     \begin{alltt}
+     \begin{lstlisting}
 (stream-take 17 (stream-drop 3 (from 4)))
 \evalsto{} #<list 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23>
-     \end{alltt}
+     \end{lstlisting}
    \item Programmiere eine Funktion \texttt{stream-filter} analog zu
      \texttt{filter}:
      % 
-     \begin{alltt}
+     \begin{lstlisting}
 (stream-take 10 (stream-filter odd? (from 1)))
 \evalsto{} #<list 1 3 5 7 9 11 13 15 17 19>
-     \end{alltt}
+     \end{lstlisting}
    \item Programmiere eine Funktion \texttt{drop-multiples}, die 
      eine Zahl $n$ und einen Stream von Zahlen $s$ akzeptiert.
      \texttt{Drop-multiples} soll einen Stream liefern, in dem
      gegenüber $s$  alle Vielfachen von $n$ entfernt wurden:
      % 
-     \begin{alltt}
+     \begin{lstlisting}
 (stream-take 10 (drop-multiples 3 (from 1)))
 \evalsto{} #<list 1 2 4 5 7 8 10 11 13 14>
-     \end{alltt}
+     \end{lstlisting}
    \item Schreibe eine Funktion \texttt{sieve}, die aus einem Stream
      von Zahlen all diejenigen Zahlen entfernt, die Vielfache von
      Vorgängern im Stream sind:
-     \begin{alltt}
+     \begin{lstlisting}
 (stream-take 10 (sieve (from 2)))
 \evalsto{} #<list 2 3 5 7 11 13 17 19 23 29>
-     \end{alltt}
+     \end{lstlisting}
      Um was für Zahlen handelt es sich in dem Beispielaufruf und
      warum?
    \item Schreibe eine Funktion \texttt{powers}, die für eine Zahl
      $n$ einen Stream ihrer Potenzen liefert:
      % 
-     \begin{alltt}
+     \begin{lstlisting}
 (stream-take 10 (powers 2))
 \evalsto{} #<list 2 4 8 16 32 64 128 256 512 1024>
-     \end{alltt}
+     \end{lstlisting}
    \item Schreibe eine Funktion \texttt{stream-map} analog zu
      \texttt{list-map}:
-     \begin{alltt}
+     \begin{lstlisting}
 (stream-take 10 (stream-map (lambda (x) (+ x 1)) (from 1)))
 \evalsto{} #<list 2 3 4 5 6 7 8 9 10 11>
-     \end{alltt}
+     \end{lstlisting}
    \item Schreibe eine Funktion \texttt{merge}, die zwei
      aufsteigende Streams von Zahlen zu einem aufsteigenden Stream
      der Elemente beider Streams vereinigt:
-     \begin{alltt}
+     \begin{lstlisting}
 (stream-take 10 (merge (powers 2) (powers 3)))
 \evalsto{} #<list 2 3 4 8 9 16 27 32 64 81>
-     \end{alltt}
+     \end{lstlisting}
    \item Schreibe eine Definition für einen Stream aufsteigend
      sortierter Potenzen von Primzahlen:
-     \begin{alltt}
+     \begin{lstlisting}
 (stream-take 10 prime-powers)
 \evalsto{} #<list 2 3 4 5 7 8 9 11 13 16>
-     \end{alltt}
+     \end{lstlisting}
      Definiere dazu zunächst einen Stream aus Streams von Potenzen
      % 
-     \begin{alltt}
+     \begin{lstlisting}
 (define prime-powers-stream (stream-map powers (sieve (from 2))))
-     \end{alltt}
+     \end{lstlisting}
      % 
      Definiere eine Funktion \texttt{merge-streams}, welche
      diesen Stream akzeptiert und die Elemente der Streams
@@ -1364,7 +1600,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 
  \begin{aufgabe}
   Betrachte folgende mysteriöse Funktion:
-\begin{verbatim}
+\begin{lstlisting}
 (: // ((%a -> (%b -> %b)) (list-of %a) -> (%b -> %b)))
 
 (define //
@@ -1378,7 +1614,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
          ((proc (first lis))
           ((// proc (rest lis))
            y)))))))
-\end{verbatim}
+\end{lstlisting}
   % 
   \textbf{Hinweise:} Beachte die Signaturen! In mehreren
   Teilaufgaben gibt es Gelegenheiten, \texttt{curry} bzw.\
@@ -1414,7 +1650,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \begin{aufgabe}
   Betrachte folgendes mysteriöse Programm:
   % 
-  \begin{alltt}
+  \begin{lstlisting}
 (define y
   (lambda (f)
     ((lambda (x)
@@ -1429,7 +1665,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
        (if (= x 1)
            1
            (* x (f (- x 1))))))))
-   \end{alltt}
+   \end{lstlisting}
   %
    Was macht \texttt{m}?  \texttt{Y} wird auch
    \textit{Fixpunktkombinator} genannt.  Erkläre einem Anfänger, der
@@ -1458,12 +1694,12 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 
   Zeige, dass folgende Funktion idempotent ist:
 
-  \begin{alltt}
+  \begin{lstlisting}
     (define abs
       (lambda (x)
          (if (negative? x)
              (- x)
-             x)))  \end{alltt}
+             x)))  \end{lstlisting}
 
   Welche anderen idempotente Funktionen kennst Du?
 \end{aufgabe}
@@ -1482,14 +1718,14 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \begin{aufgabe}
   Betrachte folgende Funktion:
 
-  \begin{alltt}
+  \begin{lstlisting}
 (define mystery
   (lambda (l)
     (list-fold empty append
                (map (lambda (x)
                       (cons x empty))
                     l))))
-  \end{alltt}
+  \end{lstlisting}
 
   \begin{enumerate}
   \item Was macht \texttt{mystery}?
