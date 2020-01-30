@@ -833,11 +833,11 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  Schreiben Sie eine Funktion \texttt{any?} analog zu 
+  Schreibe eine Funktion \texttt{any?} analog zu 
   \texttt{every?}, die dann \verb|#t| zurückgibt, wenn mindestens ein 
-  Element der Liste das Prädikat erfüllt, sonst \verb|#f|.  Schreiben Sie 
-  zunächst eine Fassung nach dem Muster von \texttt{every?}.  Schreiben 
-  Sie eine zweite Fassung, die einfach \texttt{every?} aufruft und selbst keine
+  Element der Liste das Prädikat erfüllt, sonst \verb|#f|.  Schreibe 
+  zunächst eine Fassung nach dem Muster von \texttt{every?}.  Schreibe
+  eine zweite Fassung, die einfach \texttt{every?} aufruft und selbst keine
   Rekursion benutzt.
 \end{aufgabe}
 
@@ -854,7 +854,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     \evalsto{} #<list #f #t #f #t #f>
   \end{alltt}
   % 
-  Programmieren Sie \texttt{list-map}, indem sie die Signatur schreiben,
+  Programmiere \texttt{list-map}, indem sie die Signatur schreiben,
   das Gerüst der Funktion erstellen, Testfälle entwerfen und dann das
   Gerüst vervollständigen!
 
@@ -862,7 +862,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie folgende Funktionen unter der  
+  Schreibe folgende Funktionen unter der  
   Verwendung von \texttt{filter}!
   \begin{itemize}
     \item Schreiben sie eine Funktion \texttt{evens}, die die ungeraden Zahlen aus 
@@ -876,7 +876,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{aufgabe}
 
 \begin{aufgabe}
-  Programmieren Sie eine Funktion
+  Programmiere eine Funktion
   \texttt{filter-map}, die als Argumente eine Funktion \texttt{p} mit
   einem Argument sowie eine Liste \texttt{l} akzeptiert.
   \texttt{Filter-map} soll als Ergebnis die Liste der Rückgabewerte
@@ -894,27 +894,27 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{aufgabe}
 
 \begin{aufgabe}
-  Verwenden Sie die Funktion \texttt{list-fold} um folgende 
+  Verwende die Funktion \texttt{list-fold} um folgende 
   Funktionen zu schreiben:
   \begin{enumerate}
-  \item Schreiben Sie eine Funktion \texttt{list-map}, die eine Funktion auf jedes
+  \item Schreibe eine Funktion \texttt{list-map}, die eine Funktion auf jedes
     Element einer Liste anwendet.
-  \item Schreiben Sie eine Funktion \texttt{list-or}, die ein Prädikat auf alle
+  \item Schreibe eine Funktion \texttt{list-or}, die ein Prädikat auf alle
     Elemente einer Liste anwendet und die Resultate mit \texttt{or}
     verknüpft.
-  \item Schreiben Sie eine Funktion \texttt{count-predicate}, die ein Prädikat auf
+  \item Schreibe eine Funktion \texttt{count-predicate}, die ein Prädikat auf
     alle Elemente einer Liste anwendet und zählt, wie häufig \verb|#t|
     zurückgegeben wird.
-  \item Schreiben Sie eine Funktion \texttt{contains?}, die feststellt, ob ein
+  \item Schreibe eine Funktion \texttt{contains?}, die feststellt, ob ein
     Element in einer Liste enthalten ist.
-  \item Schreiben Sie eine Funktion \texttt{remove-duplicates}, die alle doppelten
+  \item Schreibe eine Funktion \texttt{remove-duplicates}, die alle doppelten
     Elemente aus einer Liste filtert.
   \end{enumerate}
 \end{aufgabe}
 
 \begin{aufgabe}
   Fußballreporter zitieren gern obskure Fakten über
-  vergangene Spiele, wenn Sie zum Spielverlauf wenig zu sagen haben.
+  vergangene Spiele, wenn sie zum Spielverlauf wenig zu sagen haben.
 
   Hier ein Beispiel:
   % 
@@ -924,7 +924,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   \end{quote}
   %
 \begin{enumerate}
-\item Stellen Sie dem Fußballreporter Hilfsfunktionen zur Verfügung,
+\item Stelle dem Fußballreporter Hilfsfunktionen zur Verfügung,
   die ihm erlauben, eine Antwort auf solch eine Frage zu
   finden:
   %
@@ -933,36 +933,36 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     Tordifferenz kleiner als 3?}
   \end{quote}
   %
-  Schreiben Sie mit Hilfe dieser Funktionen einen Ausdruck, der
+  Schreibe mit Hilfe dieser Funktionen einen Ausdruck, der
   testet, ob die am Anfang dieser Aufgabe zitierte Aussage über die
   Tordifferenzen in der Saison 2009/2010 stimmt!
 
   \begin{enumerate}
-  \item Schreiben Sie eine Funktion, die aus einer Liste die Dubletten
+  \item Schreibe eine Funktion, die aus einer Liste die Dubletten
     entfernt.  Diese Funktion akzeptiert eine Liste sowie eine
     Funktion, die zwei Elemente der Liste akzeptiert und
     zurückliefert, ob diese gleich sind.  (Also zum Beispiel
     \texttt{=} bei Listen von Zahlen.)  Sie liefert dann eine Liste,
     in der jedes Element "<nur einmal vorkommt">, also kein anderes,
     das dazu gleich ist.
-  \item Schreiben Sie eine Funktion, die aus der Liste aller Spiele
+  \item Schreibe eine Funktion, die aus der Liste aller Spiele
     eine Liste aller Spielplannummern extrahiert.
-  \item Schreiben Sie eine Funktion, die aus der Liste aller Spiele
+  \item Schreibe eine Funktion, die aus der Liste aller Spiele
     eine Liste von Listen aller Spiele macht~-- so dass in jeder
     Teilliste alle Spiele eines Spieltags zusammengefasst sind.
-  \item Schreiben Sie eine Funktion, welche die Tordifferenz eines
+  \item Schreibe eine Funktion, welche die Tordifferenz eines
     Spiels zurückliefert.
-  \item Schreiben Sie eine Funktion, welche das maximale Element einer
+  \item Schreibe eine Funktion, welche das maximale Element einer
     Liste berechnet.  Die Funktion sollte neben der Liste eine
     Funktion akzeptieren, die berechnet, ob ein Element "<kleiner oder
     gleich"> einem anderen ist.
-  \item Schreiben Sie schließlich einen Ausdruck, der die Anzahl der
+  \item Schreibe schließlich einen Ausdruck, der die Anzahl der
     Spieltage der Saison 2009/2010 liefert, bei denen die größte
     Tordifferenz kleiner als 3 war.
   \end{enumerate}
 
-  \item Schreiben Sie Ausdrücke, die folgende Fragen beantworten~--
-  entwickeln Sie dazu, falls nötig, weitere Hilfsfunktionen:
+  \item Schreibe Ausdrücke, die folgende Fragen beantworten~--
+  entwickele dazu, falls nötig, weitere Hilfsfunktionen:
   \begin{itemize}
     \item An welchem Spieltag gab es die meisten Heimsiege?
     \item An welchem Spieltag fielen die meisten Tore?
@@ -970,8 +970,8 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
       geraden?
     \end{itemize}
     
-  \item Finden Sie eine besonders
-    kreativ-obskure Frage und schreiben Sie den Ausdruck, der sie
+  \item Finde eine besonders
+    kreativ-obskure Frage und schreibe den Ausdruck, der sie
     beantwortet.
 \end{enumerate} 
 
@@ -990,27 +990,27 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     = (\ldots((u\odot a_1)\odot a_2)\ldots\odot a_n)
   \end{displaymath}
   % 
-  Programmieren Sie \texttt{list-fold-left}!
+  Programmiere \texttt{list-fold-left}!
 \end{aufgabe}
 
 
 \begin{aufgabe}
-  Schreiben Sie ein Programm, das Berechnungen
+  Schreibe ein Programm, das Berechnungen
   mit unendlichen Werten durchführen kann:
   
   \begin{enumerate}
-  \item Definieren Sie den gemischten Typ \texttt{number*}, der den
+  \item Definiere den gemischten Typ \texttt{number*}, der den
     Datentyp \texttt{number} um $\infty$ (\texttt{infty}) und $- \infty$
     (\texttt{-infty}) erweitert.
-  \item Definieren Sie auf der Menge \texttt{number*} die
+  \item Definiere auf der Menge \texttt{number*} die
     Rechenoperationen $+$, $-$, $*$, und $/$.  Geben Sie den Funktionen
     die Namen \texttt{plus*}, \texttt{minus*}, \texttt{mult*} und
     \texttt{div*}.
-  \item Definieren Sie $\leq$, also eine Funktion mit dem
+  \item Definiere $\leq$, also eine Funktion mit dem
     Namen \texttt{<=*}, die die Ordnung auf \texttt{number*} darstellt.
-  \item Definieren Sie die Funktionen \texttt{list-max*} und
+  \item Definiere die Funktionen \texttt{list-max*} und
     \texttt{list-min*}, die das Maximum bzw. das Minimum einer Liste 
-    aus \texttt{numbers*} berechnet!  Verwenden Sie hierzu die Funktion \texttt{list-fold}.
+    aus \texttt{numbers*} berechnet!  Verwende hierzu die Funktion \texttt{list-fold}.
   \end{enumerate}
 \end{aufgabe}
 
@@ -1066,7 +1066,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 
   Berechne, nachdem Du die Umbenennung durchgeführt haben, von
   Hand mit dem Substitutionsmodell \verb"(z y x"
-  \verb"(lambda (z) (+ x z))))" und halte Sie die Zwischenschritte
+  \verb"(lambda (z) (+ x z))))" und halte die Zwischenschritte
   fest.
 
 \end{aufgabe}
@@ -1118,19 +1118,19 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   werden.
 
   \begin{enumerate}
-  \item Definieren Sie zunächst eine Signatur
+  \item Definiere zunächst eine Signatur
     \verb"phonebook-result" für das Ergebnis des Nachschlagens in einem
     Telefonbuch. Das Ergebnis ist entweder die Telefonnummer oder
     \verb|#f|. Die Telefonnummern sind Zeichenketten.
     Die Signatur des Telefonbuchs ist  \verb"string -> phonebook-result".
-  \item Definieren Sie einen Wert \verb"empty-phonebook", der das leere
+  \item Definiere einen Wert \verb"empty-phonebook", der das leere
     Telefonbuch repräsentiert.
-  \item Definieren Sie eine Funktion namens
+  \item Definiere eine Funktion namens
     \verb"add-to-phonebook", welche ein Telefonbuch, einen Namen
     und eine Telefonnummer erwartet und das um den neuen Eintrag
     erweiterte
     Telefonbuch zurückliefert.
-  \item Schreiben Sie eine Funktion namens \verb"lookup-in-phonebook",
+  \item Schreibe eine Funktion namens \verb"lookup-in-phonebook",
     welche ein Telefonbuch und einen Namen einer Person erwartet und die
     Nummer der Person im Telefonbuch nachschlägt und zurückliefert.
     Beispiele:
@@ -1161,12 +1161,12 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   $a_n$ bestimmt.
 
   \begin{enumerate}
-   \item Schreiben Sie die Datendefinition für Polynome.
-   \item Programmieren Sie eine Funktion \texttt{polynomial+}, die
-     zwei Polynome addiert.  Schreiben Sie ggf.\ zutreffende Eigenschaften auf
-     und überprüfen Sie diese!
+   \item Schreibe die Datendefinition für Polynome.
+   \item Programmiere eine Funktion \texttt{polynomial+}, die
+     zwei Polynome addiert.  Schreibe ggf.\ zutreffende Eigenschaften auf
+     und überprüfe diese!
      
-   \item Programmieren Sie eine Funktion \texttt{polynomial*}, die zwei Polynome 
+   \item Programmiere eine Funktion \texttt{polynomial*}, die zwei Polynome 
      multipliziert. 
      Beispielsweise werden die Polynome $a_0+a_1 x$ und $b_0+b_1 x$ nach folgendem Schema multipliziert:
      \begin{eqnarray*}
@@ -1174,8 +1174,8 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
      &+&a_1 x \cdot (b_0+b_1 x) \\ 
      &=&a_0b_0+a_0b_1 x + a_1b_0x + a_1b_1x^2
      \end{eqnarray*}	
-     Schreiben Sie ggf.\ zutreffende Eigenschaften auf und überprüfen Sie diese!
-   \item Schreiben Sie eine Funktion \texttt{polynomial-function}, die
+     Schreibe ggf.\ zutreffende Eigenschaften auf und überprüfe diese!
+   \item Schreibe eine Funktion \texttt{polynomial-function}, die
      ein Polynom akzeptiert und eine Funktion liefert, die ein Polynom
      an einer bestimmten Stelle auswertet, also gerade der Funktion
      $p$ aus der Definition entspricht. 
@@ -1184,7 +1184,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
        p'(x) = a_1 + 2\cdot a_2 \cdot x + 3\cdot a_3\cdot x^2 + \ldots
        + n \cdot a_n \cdot x^{n-1}
      \end{displaymath}
-     gegeben. Schreiben Sie die Funktion
+     gegeben. Schreibe die Funktion
      \texttt{polynomial-derivative}, die von einem gegebenen Polynom das abgeleitete Polynom
      berechnet.
    \item Das Newton-Verfahren dient zur nährungsweisen
@@ -1194,13 +1194,13 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
        x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
      \end{displaymath}
      immer näher an eine Nullstelle an.
-     Programmieren Sie das Newton-Verfahren!
+     Programmiere das Newton-Verfahren!
 
      Hinweis: Die Lösung soll gut genug sein, wenn der Funktionswert nahe
      bei 0 liegt, also kleiner als eine Toleranz ist. 
      Da das
-     Newton-Verfahren nicht immer eine Lösung liefert, programmieren
-     Sie Ihre Funktion so, dass Sie nach einer gewissen Anzahl von Schritten
+     Newton-Verfahren nicht immer eine Lösung liefert, programmiere
+     Deine Funktion so, dass sie nach einer gewissen Anzahl von Schritten
      automatisch abbricht und \verb|#f| zurück gibt.
  \end{enumerate}
 \end{aufgabe}
@@ -1216,7 +1216,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   stehen soll.
 
 \begin{enumerate}
-\item Schreiben Sie eine Funktion, die eine Liste nach einem beliebigen
+\item Schreibe eine Funktion, die eine Liste nach einem beliebigen
   Kriterium sortiert.  Die Funktion sollte folgende Signatur haben:
 
 \begin{verbatim}
@@ -1228,7 +1228,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   zurückliefert, falls sie schon in der richtigen Reihenfolge sind und
   \verb|#f|, falls nicht.  Zum Beispiel können \verb|<=| oder \verb|>=|
   für das Sortieren von Listen von Zahlen verwendet werden.
-\item Benutzen Sie diese Funktion, um eine Liste von
+\item Benutze diese Funktion, um eine Liste von
   Fußballspielen nach den folgenden Kriterien zu sortieren:
   \begin{itemize}
   \item Gesamtanzahl der Tore,
@@ -1247,7 +1247,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   eine Funktion ohne Parameter, die, wenn sie angewendet wird, eine Folge mit
   den restlichen Elementen ohne das erste liefert.
   Solche unendlichen Folgen heißen \textit{Streams}.
-  Schreiben Sie Daten- und Record-Definition für Streams!
+  Schreibe Daten- und Record-Definition für Streams!
 
   Hier ist eine Funktion, die einen Stream aus natürlichen Zahlen,
   angefangen bei einer Zahl $n$, liefert:
@@ -1288,9 +1288,9 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \evalsto{} #<list 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20>
    \end{alltt}
    % 
-   Programmieren Sie einige intellektuelle Herausforderungen mit Streams!
+   Programmiere einige intellektuelle Herausforderungen mit Streams!
    \begin{enumerate}
-   \item Programmieren Sie eine Funktion \texttt{stream-drop}, die eine
+   \item Programmiere eine Funktion \texttt{stream-drop}, die eine
      natürliche Zahl $n$ und einen Stream akzeptiert, und einen neuen
      Stream liefert, der aus dem alten durch Weglassen der ersten $n$
      Elemente entsteht:
@@ -1298,14 +1298,14 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 (stream-take 17 (stream-drop 3 (from 4)))
 \evalsto{} #<list 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23>
      \end{alltt}
-   \item Programmieren Sie eine Funktion \texttt{stream-filter} analog zu
+   \item Programmiere eine Funktion \texttt{stream-filter} analog zu
      \texttt{filter}:
      % 
      \begin{alltt}
 (stream-take 10 (stream-filter odd? (from 1)))
 \evalsto{} #<list 1 3 5 7 9 11 13 15 17 19>
      \end{alltt}
-   \item Programmieren Sie eine Funktion \texttt{drop-multiples}, die 
+   \item Programmiere eine Funktion \texttt{drop-multiples}, die 
      eine Zahl $n$ und einen Stream von Zahlen $s$ akzeptiert.
      \texttt{Drop-multiples} soll einen Stream liefern, in dem
      gegenüber $s$  alle Vielfachen von $n$ entfernt wurden:
@@ -1314,7 +1314,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 (stream-take 10 (drop-multiples 3 (from 1)))
 \evalsto{} #<list 1 2 4 5 7 8 10 11 13 14>
      \end{alltt}
-   \item Schreiben Sie eine Funktion \texttt{sieve}, die aus einem Stream
+   \item Schreibe eine Funktion \texttt{sieve}, die aus einem Stream
      von Zahlen all diejenigen Zahlen entfernt, die Vielfache von
      Vorgängern im Stream sind:
      \begin{alltt}
@@ -1323,39 +1323,39 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
      \end{alltt}
      Um was für Zahlen handelt es sich in dem Beispielaufruf und
      warum?
-   \item Schreiben Sie eine Funktion \texttt{powers}, die für eine Zahl
+   \item Schreibe eine Funktion \texttt{powers}, die für eine Zahl
      $n$ einen Stream ihrer Potenzen liefert:
      % 
      \begin{alltt}
 (stream-take 10 (powers 2))
 \evalsto{} #<list 2 4 8 16 32 64 128 256 512 1024>
      \end{alltt}
-   \item Schreiben Sie eine Funktion \texttt{stream-map} analog zu
+   \item Schreibe eine Funktion \texttt{stream-map} analog zu
      \texttt{list-map}:
      \begin{alltt}
 (stream-take 10 (stream-map (lambda (x) (+ x 1)) (from 1)))
 \evalsto{} #<list 2 3 4 5 6 7 8 9 10 11>
      \end{alltt}
-   \item Schreiben Sie eine Funktion \texttt{merge}, die zwei
+   \item Schreibe eine Funktion \texttt{merge}, die zwei
      aufsteigende Streams von Zahlen zu einem aufsteigenden Stream
      der Elemente beider Streams vereinigt:
      \begin{alltt}
 (stream-take 10 (merge (powers 2) (powers 3)))
 \evalsto{} #<list 2 3 4 8 9 16 27 32 64 81>
      \end{alltt}
-   \item Schreiben Sie eine Definition für einen Stream aufsteigend
+   \item Schreibe eine Definition für einen Stream aufsteigend
      sortierter Potenzen von Primzahlen:
      \begin{alltt}
 (stream-take 10 prime-powers)
 \evalsto{} #<list 2 3 4 5 7 8 9 11 13 16>
      \end{alltt}
-     Definieren Sie dazu zunächst einen Stream aus Streams von Potenzen
+     Definiere dazu zunächst einen Stream aus Streams von Potenzen
      % 
      \begin{alltt}
 (define prime-powers-stream (stream-map powers (sieve (from 2))))
      \end{alltt}
      % 
-     Definieren Sie eine Funktion \texttt{merge-streams}, welche
+     Definiere eine Funktion \texttt{merge-streams}, welche
      diesen Stream akzeptiert und die Elemente der Streams
      aus \texttt{prime-powers-stream} mit Hilfe von \texttt{merge}
      aufsteigend sortiert.
@@ -1363,7 +1363,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
  \end{aufgabe}
 
  \begin{aufgabe}
-  Betrachten Sie folgende mysteriöse Funktion:
+  Betrachte folgende mysteriöse Funktion:
 \begin{verbatim}
 (: // ((%a -> (%b -> %b)) (list-of %a) -> (%b -> %b)))
 
@@ -1380,30 +1380,30 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
            y)))))))
 \end{verbatim}
   % 
-  \textbf{Hinweise:} Beachten Sie die Signaturen! In mehreren
+  \textbf{Hinweise:} Beachte die Signaturen! In mehreren
   Teilaufgaben gibt es Gelegenheiten, \texttt{curry} bzw.\
   \texttt{uncurry} zu benutzen.
 
   \begin{itemize}
-  \item Vergleichen Sie die Funktion mit \texttt{list-fold} und
-    beschreiben Sie, wie \texttt{//} und \texttt{list-fold} zueinander
-    in Beziehung stehen.  Schreiben Sie, falls möglich, eine
+  \item Vergleiche die Funktion mit \texttt{list-fold} und
+    beschreibe, wie \texttt{//} und \texttt{list-fold} zueinander
+    in Beziehung stehen.  Schreibe, falls möglich, eine
     Definition von \texttt{//}, die \texttt{list-fold} benutzt und
     umgekehrt.
-  \item Schreiben Sie mit Hilfe von \texttt{//} eine Funktion
+  \item Schreibe mit Hilfe von \texttt{//} eine Funktion
     \texttt{list-sum}, welche die Elemente einer Liste addiert.
-  \item Schreiben Sie eine Funktion \texttt{insert}, die eine reelle
+  \item Schreibe eine Funktion \texttt{insert}, die eine reelle
     Zahl $n$ konsumiert und eine Funktion zurückliefert, die eine
     aufsteigend sortierte Liste von reellen Zahlen konsumiert und
     eine Liste zurückliefert, in der $n$ an die entsprechende
     Stelle der Liste einsortiert wurde.
-  \item Schreiben Sie mit Hilfe von \texttt{//} eine Funktion, die
+  \item Schreibe mit Hilfe von \texttt{//} eine Funktion, die
     eine Liste von reellen Zahlen aufsteigend sortiert.
   \end{itemize}
 \end{aufgabe}
 
 \begin{aufgabe}
-  Programmieren Sie eine Version von
+  Programmiere eine Version von
   \texttt{list-fold-left}, nämlich die Funktion
   \texttt{list-fold-left-bonus}, die \texttt{list-fold} benutzt aber
   selbst keine Rekursion enthält und auch keine rekursiven
@@ -1412,7 +1412,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 
 
 \begin{aufgabe}
-  Betrachten Sie folgendes mysteriöse Programm:
+  Betrachte folgendes mysteriöse Programm:
   % 
   \begin{alltt}
 (define y
@@ -1432,14 +1432,14 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
    \end{alltt}
   %
    Was macht \texttt{m}?  \texttt{Y} wird auch
-   \textit{Fixpunktkombinator} genannt.  Erklären Sie einem Anfänger, der
+   \textit{Fixpunktkombinator} genannt.  Erkläre einem Anfänger, der
    gerade drei Informatik-Stunden hinter sich hat, diesen Begriff~--
    außerdem was
    \texttt{y} bewirkt und warum.
  \end{aufgabe}
 
 \begin{aufgabe}
-  Beweisen Sie, dass für Funktionen $p_1$ mit einem Parameter, die
+  Beweise, dass für Funktionen $p_1$ mit einem Parameter, die
   einparametrige Funktionen zurückgeben, und Funktionen $p_2$ mit zwei
   Parametern gilt:
   %
@@ -1456,7 +1456,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     \texttt{(compose $f$ $f$) $\equiv$ $f$}
   \end{center}
 
-  Zeigen Sie, dass folgende Funktion idempotent ist:
+  Zeige, dass folgende Funktion idempotent ist:
 
   \begin{alltt}
     (define abs
@@ -1465,7 +1465,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
              (- x)
              x)))  \end{alltt}
 
-  Welche anderen idempotente Funktionen kennen Sie?
+  Welche anderen idempotente Funktionen kennst Du?
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1476,11 +1476,11 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     \texttt{(compose $f$ $g$) $\equiv$ id} und \texttt{(compose $g$ $f$) $\equiv$ id}
   \end{center}
 
-  Zeigen Sie, dass \texttt{curry} und \texttt{uncurry} invers zueinander sind.
+  Zeige, dass \texttt{curry} und \texttt{uncurry} invers zueinander sind.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Betrachten Sie folgende Funktion:
+  Betrachte folgende Funktion:
 
   \begin{alltt}
 (define mystery
@@ -1494,15 +1494,15 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   \begin{enumerate}
   \item Was macht \texttt{mystery}?
 
-  \item Schreiben Sie eine Signatur für \texttt{mystery}.
+  \item Schreibe eine Signatur für \texttt{mystery}.
 
-  \item Beweisen Sie, dass \texttt{mystery} tatsächlich das macht, was
+  \item Beweise, dass \texttt{mystery} tatsächlich das macht, was
     Sie vermuten.
   \end{enumerate}
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweisen Sie: $\forall n \in \mathbb{N}$ gilt
+  Beweise: $\forall n \in \mathbb{N}$ gilt
   \texttt{(repeat $n$ id) $=$ id}, wobei \texttt{id} die
   Identitätsfunktion ist.
 \end{aufgabe}
