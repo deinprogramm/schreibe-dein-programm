@@ -475,21 +475,76 @@
     (= 1 (home-points game))))
 
 ; Unentschiedene Spiele rausfiltern
-(: games-draw ((list-of game) -> (list-of game)))
+(: drawn-games ((list-of game) -> (list-of game)))
 
-(check-expect (games-draw day1) (list game2 game7 game8 game9))
+(check-expect (drawn-games day1) (list game2 game7 game8 game9))
 
-(define games-draw
+(define drawn-games
   (lambda (list)
     (cond
       ((empty? list) empty)
       ((cons? list)
-       (define first-game (first list))
-       (define draw-rest (games-draw (rest list)))
-       (if (game-draw? first-game)
-           (cons first-game draw-rest)
-           draw-rest)))))
+       (if (game-draw? (first list))
+           (cons (first list) (drawn-games (rest list)))
+           (drawn-games (rest list)))))))
 
+; Hat die Heimmannschaft gewonnen?
+(: home-won? (game -> boolean))
+
+(check-expect (home-won? game1) #t)
+(check-expect (home-won? game2) #f)
+(check-expect (home-won? game4) #f)
+
+(define home-won?
+  (lambda (game)
+    (= 3 (home-points game))))
+
+; Spiele herausfiltern, bei denen die Heimmannschaft gewann
+(: home-won-games ((list-of game) -> (list-of game)))
+
+(check-expect (home-won-games day1) (list game1 game3 game6))
+
+(define home-won-games
+  (lambda (list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (if (home-won? (first list))
+           (cons (first list)
+                 (home-won-games (rest list)))
+           (home-won-games (rest list)))))))
+
+(: extract-games ((game -> boolean) (list-of game) -> (list-of game)))
+
+(check-expect (extract-games game-draw? day1) (list game2 game7 game8 game9))
+(check-expect (extract-games home-won? day1) (list game1 game3 game6))
+
+(define extract-games
+  (lambda (f? list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (if (f? (first list))
+           (cons (first list)
+                 (extract-games f? (rest list)))
+           (extract-games f? (rest list)))))))
+    
+(: extract-list ((%a -> boolean) (list-of %a) -> (list-of %a)))
+
+(check-expect (extract-games game-draw? day1) (list game2 game7 game8 game9))
+(check-expect (extract-games home-won? day1) (list game1 game3 game6))
+
+(define extract-list
+  (lambda (f? list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (if (f? (first list))
+           (cons (first list)
+                 (extract-list f? (rest list)))
+           (extract-list f? (rest list)))))))
+
+                   
 ; Spielt Team bei Spiel?
 (: plays-game? (team game -> boolean))
 
@@ -502,6 +557,16 @@
     (or (string=? team (game-home-team game))
         (string=? team (game-guest-team game)))))
 
+; Spielt Nürnberg mit?
+(: plays-nürnberg? (game -> boolean))
+
+(check-expect (plays-nürnberg? game1) #f)
+(check-expect (plays-nürnberg? game5) #t)
+
+(define plays-nürnberg?
+  (lambda (game)
+    (plays-game? "Nürnberg" game)))
+
 ; Alle Spiele mit einem Team herausfiltern
 (: games-playing (team (list-of game) -> (list-of game)))
 
@@ -510,72 +575,7 @@
 
 (define games-playing
   (lambda (team list)
-    (cond
-      ((empty? list) empty)
-      ((cons? list)
-       (define first-game (first list))
-       (define playing-rest (games-playing team (rest list)))
-       (if (plays-game? team first-game)
-           (cons first-game playing-rest)
-           playing-rest)))))
-
-; Beobachtung der Unterschiede bzw. Gemeinsamkeiten führt wieder zum Ausklammern:
-
-; Spiele aus Liste filtern
-(: filter-games ((game -> boolean) (list-of game) -> (list-of game)))
-
-(check-expect (filter-games game-draw? day1)
-              (list game2 game7 game8 game9))
-
-(define plays-hamburg?
-  (lambda (game)
-    (plays-game? "Hamburg" game)))
-
-(check-expect (filter-games plays-hamburg? day1)
-              (list game9))
-
-; Es erscheint umständlich, extra eine Funktion plays-hamburg? definieren zu müssen,
-; nur um die Spiele herauszufinden, in denen Hamburg gespielt hat.
-; Wir können auch "anonyme Funktionen" für den Zweck verwenden:
-(check-expect (filter-games (lambda (game)
-                              (plays-game? "Nürnberg" game))
-                            day1)
-              (list game5))
-; Auch solche anonymen Funktionen sind ein Wesensmerkmal funktionaler Programmiersprachen
-
-(define filter-games
-  (lambda (predicate list)
-    (cond
-      ((empty? list) empty)
-      ((cons? list)
-       (define first-game (first list))
-       (define filtered-games (filter-games predicate (rest list)))
-       (if (predicate (first list))
-           (cons first-game filtered-games)
-           filtered-games)))))
-
-; Das hat alles eigentlich überhaupt nicht unbedingt mit
-; Fußballspielen zu tun; die allgemeinere Aufgabe heißt:
-; Elemente aus einer Liste filtern
-(: list-filter ((%a -> boolean) (list-of %a) -> (list-of %a)))
-
-(check-expect (list-filter game-draw? day1)
-              (list game2 game7 game8 game9))
-(check-expect (list-filter (lambda (g)
-                             (plays-game? "Nürnberg" g))
-                           day1)
-              (list game5))
-
-(define list-filter
-  (lambda (predicate list)
-    (cond
-      ((empty? list) empty)
-      ((cons? list)
-       (define first-element (first list))
-       (define filtered-rest (list-filter predicate (rest list)))
-       (if (predicate (first list))
-           (cons first-element filtered-rest)
-           filtered-rest)))))
+    (extract-list (lambda (game) (plays-game? team game)) list)))
 
 ; Punkte eines Teams aus Spiel berechnen
 (: team-points (team game -> points))
@@ -599,9 +599,9 @@
 (define team-points-sum
   (lambda (team list)
     (team-points-sum-helper team
-                            (list-filter (lambda (game)
-                                           (plays-game? team game))
-                                         list))))
+                            (filter (lambda (game)
+                                      (plays-game? team game))
+                                    list))))
 
 (: team-points-sum-helper (team (list-of game) -> natural))
 (define team-points-sum-helper
@@ -615,19 +615,19 @@
 ; Eine hanebüchene Frage:
 ; Hat der SC Freiburg in der Saison 2009/10 gegen 1. FC Bayern München gewonnen?
 (check-expect (cons?
-               (list-filter (lambda (game)
-                              (and (plays-game? "Freiburg" game)
-                                   (plays-game? "Bayern" game)
-                                   (= (team-points "Freiburg" game) 3)))
-                            season-2009/2010))
+               (filter (lambda (game)
+                         (and (plays-game? "Freiburg" game)
+                              (plays-game? "Bayern" game)
+                              (= (team-points "Freiburg" game) 3)))
+                       season-2009/2010))
               #f)
 ; und wie sieht es aus mit Dortmund gegen Bayer 04?
 (check-expect (cons?
-               (list-filter (lambda (g)
-                              (and (plays-game? "Dortmund" g)
-                                   (plays-game? "Bayer 04" g)
-                                   (= (team-points "Dortmund" g) 3)))
-                            season-2009/2010))
+               (filter (lambda (g)
+                         (and (plays-game? "Dortmund" g)
+                              (plays-game? "Bayer 04" g)
+                              (= (team-points "Dortmund" g) 3)))
+                       season-2009/2010))
               #t)
 
 ; Gesamttore eines Spiels berechnen
@@ -711,7 +711,7 @@
 (: list-team-goals (team (list-of game) -> (list-of natural)))
 
 (check-expect (list-team-goals "Hamburg"
-                               (list-filter (lambda (game)
+                               (filter (lambda (game)
                                               (plays-game? "Hamburg" game))
                                             season-2009/2010))
               (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
@@ -731,7 +731,7 @@
 
 (check-expect (list-map (lambda (game)
                           (team-goals "Hamburg" game))
-                        (list-filter (lambda (game)
+                        (filter (lambda (game)
                                        (plays-game? "Hamburg" game))
                                      season-2009/2010))
               (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
@@ -759,7 +759,7 @@
       (plays-game? team game))))
 
 (check-expect (list-map (make-specific-team-goals "Hamburg")
-                        (list-filter (make-specific-plays-game? "Hamburg")
+                        (filter (make-specific-plays-game? "Hamburg")
                                      season-2009/2010))
               (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
 
@@ -772,7 +772,7 @@
 (: curry ((%a %b -> %c) -> (%a -> (%b -> %c))))
 
 (check-expect (list-map ((curry team-goals) "Hamburg")
-                        (list-filter ((curry plays-game?) "Hamburg")
+                        (filter ((curry plays-game?) "Hamburg")
                                      season-2009/2010))
               (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
 

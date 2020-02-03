@@ -383,7 +383,8 @@ verdient deshalb eine eigene Konstruktionsanleitung:
     unterscheiden, jeweils durch eine neue Variable.
   \item Füge die neuen Variablen als Parameter zum \lstinline{lambda}
     der Definition hinzu oder füge ein neues \lstinline{lambda} mit
-    diesen Parametern ein.
+    diesen Parametern ein.  Du muss gegebenenfalls rekursive Aufrufe
+    der Funktion anpassen.
   \item Schreibe eine Signatur für die neue Funktion.
   \item Ersetze die beiden alten Definitionen durch Aufrufe der neuen
     Definition.
@@ -392,9 +393,10 @@ verdient deshalb eine eigene Konstruktionsanleitung:
 
 \section{Higher-Order-Funktionen auf Listen}
 
-Eine weitere interessante Aufgabe ist es, aus einer Liste von Spielen die
-unentschieden ausgegangenen Spiele herauszusuchen. Dazu ist zunächst eine
-Funktion notwendig, die feststellt, ob ein bestimmtes Spiel unentschieden war:
+Als nächstes wollen wir herausbekommen, welche Spiele einer Saison
+unentschieden ausgingen.  Dazu ist zunächst eine Funktion notwendig,
+die feststellt, ob \emph{ein} bestimmtes Spiel unentschieden war:
+%
 \begin{lstlisting}
 ; Ist Spiel unentschieden?
 (: game-draw? (game -> boolean))
@@ -403,209 +405,345 @@ Funktion notwendig, die feststellt, ob ein bestimmtes Spiel unentschieden war:
   (lambda (g)
     (= 1 (home-points g))))
 \end{lstlisting}
-Die jetzt gesuchte Funktion muss Kurzbeschreibung und Signatur wie folgt haben:
+%
+Die Spiele der Saison liegen in der einer Liste, wir schreiben also eine
+Funktion, die aus einer Liste von Spielen die
+unentschiedenen herausholt.  Kurzbeschreibung, Signatur und Gerüst
+sehen so aus:
+%
 \begin{lstlisting}
-; Unentschiedene Spiele heraussuchen
-(: games-draw ((list-of game) -> (list-of game)))
+
 \end{lstlisting}
 %
 Die Definition folgt der Konstruktionsanleitung für Funktionen auf Listen.
-Hier ist die Schablone:
+Hier ist die Schablone:\index{drawn-games@\texttt{drawn-games}}
 %
 \begin{lstlisting}
-(define games-draw
-  (lambda (lis)
-    (cond
-      ((empty? lis) ...)
-      ((cons? lis)
-       ... (first lis) ...
-       ... (games-draw (rest lis)) ...))))
+; Unentschiedene Spiele rausfiltern
+(: drawn-games ((list-of game) -> (list-of game)))
+
+(check-expect (drawn-games day1) (list game2 game7 game8 game9))
+
+(define drawn-games
+  (lambda (list)
+    ...))
 \end{lstlisting}
 %
-Der erste Fall ist klar: wo keine Spiele sind, sind auch keine
-unentschiedenen.  Der zweite Fall betrachtet das erste Element \texttt{(first
-  lis)}.  Dabei ist entscheidend, ob es sich dabei um ein unentschiedenes Spiel
-handelt oder nicht:
+Die Funktion hat eine Liste als Eingabe, es kommt also die
+entsprechende Schablone zur Anwendung:
 %
 \begin{lstlisting}
-(define games-draw
-  (lambda (lis)
+(define drawn-games
+  (lambda (list)
     (cond
-      ((empty? lis) empty)
-      ((cons? lis)
-       ... (game-draw? (first lis)) ...
-       ... (games-draw (rest lis)) ...))))
+      ((empty? list) ...)
+      ((cons? list)
+       ... (first list) ...
+       ... (drawn-games (rest list)) ...))))
 \end{lstlisting}
 %
-Die Fallunterscheidung bestimmt, ob ein Spiel in die Ergebnisliste kommt oder
-nicht:
+Der rekursive Aufruf liefert die unentschiedenen Spiele des Rests, wir
+müssen also nur noch beim ersten Spiel entscheiden, ob es
+unentschieden ausging:
 %
 \begin{lstlisting}
-(define games-draw
-  (lambda (lis)
+(define drawn-games
+  (lambda (list)
     (cond
-      ((empty? lis) empty)
-      ((cons? lis)
-       (let ((f (first lis))
-             (r (games-draw (rest lis))))
-       (if (game-draw? f)
-           (cons f r)
-           r)))))))
+      ((empty? list) ...)
+      ((cons? list)
+       ... (game-draw? (first list)) ...
+       ... (drawn-games (rest list)) ...))))
+\end{lstlisting}
+%
+Die Funktion \lstinline{game-draw?} liefert einen booleschen Wert
+liefert, den können wir eigentlich nur in eine binäre Verzweigung stecken:
+%
+\begin{lstlisting}
+(define drawn-games
+  (lambda (list)
+    (cond
+      ((empty? list) ...)
+      ((cons? list)
+       (if (game-draw? (first list))
+           ...
+           ...)
+       ... (drawn-games (rest list)) ...))))
+\end{lstlisting}
+%
+Abhängig davon, ob das Spiel unentschieden ist oder nicht, bringen wir
+es im Ergebnis unter:
+%
+\begin{lstlisting}
+(define drawn-games
+  (lambda (list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (if (game-draw? (first list))
+           (cons (first list) (drawn-games (rest list)))
+           (drawn-games (rest list)))))))
 \end{lstlisting}
 %
 Fertig!
 
-Eine ganz ähnliche Funktion sortiert aus einer Liste von Spielen diejenigen
-aus, an denen eine bestimmte Mannschaft teilgenommen hat:
-\index{games-playing@\texttt{games-playing}}
+Analog zu \lstinline{drawn-games} schreiben wir als nächstes eine
+Funktion, die alle Spiele aus einer extrahiert, die die Heimmannschaft
+gewonnen hat.  Dazu brauchen wir erst einmal eine Funktion analog zu
+\lstinline{game-draw?}:
+%
+\begin{lstlisting}
+; Hat die Heimmannschaft gewonnen?
+(: home-won? (game -> boolean))
+
+(check-expect (home-won? game1) #t)
+(check-expect (home-won? game2) #f)
+(check-expect (home-won? game4) #f)
+
+(define home-won?
+  (lambda (game)
+    (= 3 (home-points game))))
+\end{lstlisting}
+%
+Die Funktion \lstinline{home-won-games} entsteht genau analog zu
+\lstinline{drawn-games}.  Am Ende kommt folgendes heraus:
+%
+\begin{lstlisting}
+; Spiele herausfiltern, bei denen die Heimmannschaft gewann
+(: home-won-games ((list-of game) -> (list-of game)))
+
+(check-expect (home-won-games day1) (list game1 game3 game6))
+
+(define home-won-games
+  (lambda (list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (if (home-won? (first list))
+           (cons (first list)
+                 (home-won-games (rest list)))
+           (home-won-games (rest list)))))))
+\end{lstlisting}
+%
+Die beiden Funktionen \lstinline{drawn-games} und
+\lstinline{home-won-games} sind bis auf den Namen fast identisch.  Der
+einzige Unterschied ist, dass an der Stelle von \lstinline{game-draw?}
+in der zweiten Funktion \lstinline{home-won?} steht.  Darüber können
+wir nach Konstruktionsanleitung~\ref{ka:abstraktion} auf
+Seite~\pageref{ka:astraktion} abstrahieren.  Dazu kopieren wir die
+letzte Funktion und denken uns einen neuen Namen aus~-- da es in
+beiden Fällen ums "<extrahieren"> geht, nehmen wir
+\lstinline{extract-games}:
+%
+\begin{lstlisting}
+(define extract-games
+  (lambda (list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (if (home-won? (first list))
+           (cons (first list)
+                 (extract-games (rest list)))
+                 (extract-games (rest list)))))))
+\end{lstlisting}
+%
+Als nächstes müssen wir die Stelle, die sich bei beiden Definitionen
+unterscheidet (\lstinline{game-draw?} beziehungsweise
+\lstinline{home-won?}), durch eine neue Variable.  Die nennen wir
+\lstinline{f?}:
+%
+\begin{lstlisting}
+(define extract-games
+  (lambda (list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (if (f? (first list))
+           (cons (first list)
+                 (extract-games (rest list)))
+                 (extract-games (rest list)))))))
+\end{lstlisting}
+%
+Als nächstes müssen wir die neue Variable als Parameter zum
+\lstinline{lambda} hinzufügen.  Aufpassen: Die beiden rekursiven
+Aufrufe müssen ebenfalls um den Parameter erweitert werden:
+%
+\begin{lstlisting}
+(define extract-games
+  (lambda (f? list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (if (f? (first list))
+           (cons (first list)
+                 (extract-games f? (rest list)))
+                 (extract-games f? (rest list)))))))
+\end{lstlisting}
+%
+(Es ist Geschmackssache, ober der neue Parameter vor oder hinter die
+alten kommt.)
+
+Die Funktionsdefinition ist damit fertig, aber wir müssen noch eine
+Signatur schreiben.  Wir fangen mit der Signatur von
+\lstinline{home-won-games} an und erweitern um den zusätzlichen
+Parameter:
+%
+\begin{lstinline}
+(: extract-games (... (list-of game) -> (list-of game)))
+\end{lstinline}
+%
+Der zusätzliche Parameter ist \lstinline{f?}, den wir für
+\lstinline{game-draw?} und \lstinline{home-won?} eingesetzt haben.
+Diese beiden Funktionen haben die Signatur
+\lstinline{(game -> boolean)}, das können wir also für die Ellipse
+einsetzen:
+%
+\begin{lstinline}
+(: extract-games ((game -> boolean) (list-of game) -> (list-of game)))
+\end{lstinline}
+%
+Nun können wir Aufrufe der alten Funktionen durch Aufrufe der neuen
+ersetzen.  Wir tun das, indem wir die Testfälle für
+\lstinline{drawn-games} und \lstinline{home-won-games} anpassen:
+%
+\begin{lstlisting}
+(check-expect (extract-games game-draw? day1) (list game2 game7 game8 game9))
+(check-expect (extract-games home-won? day1) (list game1 game3 game6))
+\end{lstlisting}
+%
+Fertig!
+
+Vielleicht hast Du das Gefühl, das Muster der Funktion
+\lstinline{extract-games} schon gesehen zu haben.  In der Tat sieht
+die Funktion~\lstinline{page:live-dillos} auf
+Seite~\ref{page:live-dillos} ebenfalls den Funktionen
+\lstinline{drawn-games} und \lstinline{home-won-games} sehr ähnlich.
+Hier ist sie noch einmal zur Erinnerung:
+%
+\begin{lstlisting}
+(: live-dillos ((list-of dillo) -> (list-of dillo)))
+
+(define live-dillos
+  (lambda (dillos)
+    (cond
+      ((empty? dillos) empty)
+      ((cons? dillos)
+       (if (dillo-alive? (first dillos))
+           (cons (first dillos)
+                 (live-dillos (rest dillos)))
+           (live-dillos (rest dillos)))))))
+\end{lstlisting}
+%
+Und tatsächlich~-- wenn wir \lstinline{dillos} in \lstinline{list}
+umbenennen und den gleichen Abstraktionsprozess wie bei
+\lstinline{drawn-games} und \lstinline{home-won-games} durchlaufen,
+dann entsteht die identische Funktionsdefinition zu
+\lstinline{extract-games}.  Allerdings gibt es dann immer noch einen
+Unterschied: Die Funktion \lstinline{extract-games} kann nur Listen von Spielen
+verarbeiten, während \lstinline{live-dillos} eine Liste von
+Gürteltieren akzeptiert.  Können auch darüber~-- einmal
+\lstinline{game}, das andere Mal \lstinline{dillo}~-- abstrahieren?
+
+Können wir! Dazu sollten wir die Funktion noch umbenennen, wir wählen
+\lstinline{extract-list} statt \lstinline{extract-games}.  Vor allem
+aber müssen wir die Signatur ändern, die bisher auf \lstinline{game}
+abonniert ist.  Auf Signaturebene abstrahieren wir durch
+Signaturvariablen und ersetzen einfach mal probehalber jedes
+\lstinline{game} durch \lstinline{%a}:
+%
+\begin{lstlisting}
+(: extract-list ((%a -> boolean) (list-of %a) -> (list-of %a)))
+\end{lstlisting}
+%
+Diese Funktion können wir nun versuchen zu verstehen: Sie akzeptiert
+eine Liste von \lstinline{%a}s und eine Funktion, die \lstinline{%a}s
+akzeptiert.  Man kann daran fast schon sehen, was die Funktion macht:
+Das einzige, was sie mit der Funktion anfangen kann, ist sie auf die
+Elemente der Liste anzuwenden~-- sonst gibt es ja weit und breit keine
+anderen \lstinline{%a}s.  Dass die Funktion einen booleschen Wert
+produziert, suggeriert schon, dass anhand dieses Werts unterschieden
+wird.  Die Signatur liefert also wertvolle Informationen darüber, was
+die Funktion macht~-- wenn auch nicht alle.
+%
+\begin{aufgabeinline}
+  Schreibe eine andere sinnvolle Funktionen mit der gleichen Signatur
+  wie \lstinline{extract-list}!
+\end{aufgabeinline}
+%
+Wir betrachten noch eine weitere Anwendung von
+\lstinline{extract-list}: Wir wollen aus einer Liste von Spielen die
+Spiele extrahieren, an denen eine bestimmte Mannschaft teilgenommen
+hat.  Auch dazu definieren wir eine Hilfsfunktion, die feststellt, ob
+ein Team bei einem Spiel die Heim- oder die Gastmannschaft ist:
 %
 \begin{lstlisting}
 ; Spielt Team bei Spiel?
-(: plays-game? (string game -> boolean))
+(: plays-game? (team game -> boolean))
+
+(check-expect (plays-game? "Wolfsburg" game1) #t)
+(check-expect (plays-game? "Stuttgart" game1) #t)
+(check-expect (plays-game? "Hannover" game1) #f)
 
 (define plays-game?
-  (lambda (t g)
-    (or (string=? t (game-home-team g))
-        (string=? t (game-guest-team g)))))
-
-; Alle Spiele mit einem Team herausfiltern
-(: games-playing (string (list-of game) -> (list-of game)))
-
-(define games-playing
-  (lambda (t lis)
-    (cond
-      ((empty? lis) empty)
-      ((cons? lis)
-       (let ((f (first lis))
-             (r (games-playing t (rest lis))))
-         (if (plays-game? t f)
-             (cons f r)
-             r))))))
+  (lambda (team game)
+    (or (string=? team (game-home-team game))
+        (string=? team (game-guest-team game)))))
 \end{lstlisting}
 %
-Die Funktionen \texttt{games-draw} und \texttt{games-playing} unterscheiden
-sich, abgesehen vom Namen und der Tatsache, dass \texttt{games-playing} noch
-den Namen eines Teams als zusätzlichen Parameter hat, nur an
-einer Stelle: \texttt{games-draw} verwendet
-\texttt{game-draw?} an der Stelle, wo \texttt{games"=playing} 
-\texttt{plays-game?} verwendet.  Eine einzelne Funktion könnte die
-Aufgaben sowohl von \texttt{games-draw} als auch von \texttt{games-playing}
-lösen, indem sie an der Stelle, an der \texttt{game-draw?}
-bzw.\ \texttt{plays-game?} steht, verallgemeinert.  Das geht mit
-Abstraktion: für das konkrete Prädikat wird ein
-Parameter eingeführt.  Das Ergebnis, das sich ansonsten
-direkt aus den Definitionen von \texttt{games-draw} und
-\texttt{games-playing} ergibt, sieht so aus (erst einmal ohne
-Signatur, die nachgeliefert wird):\index{filter-games@\texttt{filter-games}}
+Nehmen wir an, wir wollen alle Spiele mit Beteiligung von Nürnberg
+extrahieren, indem wir \lstinline{extract-list} verwenden.  Um
+\lstinline{extract-list} zu verwenden, brauchen wir eine Funktion mit
+Signatur~\lstinline{(game -> boolean)}.  Die können wir folgendermaßen
+definieren:
 %
 \begin{lstlisting}
-(define filter-games
-  (lambda (p? lis)
-    (cond
-      ((empty? lis) empty)
-      ((cons? lis)
-       (if (p? (first lis))
-           (cons (first lis)
-                      (filter-games p? (rest lis)))
-           (filter-games p? (rest lis)))))))
-\end{lstlisting}
-%
-Das funktioniert tatsächlich:
-%
-\begin{lstlisting}
-(define plays-nürnberg?
-   (lambda (g)
-      (plays-game? "Nürnberg" g)))
-
-(filter-games plays-nürnberg? day1)
-|\evalsto| #<list #<record:game 1 "Nürnberg" 1 "Schalke" 2>>
-\end{lstlisting}
-%
-Das Abstrahieren über Funktionen funktioniert also genauso wie die
-Abstraktion über andere Werte.  Die Signatur für die Funktion muss
-natürlich berücksichtigen, dass \texttt{p?} eine Funktion ist.  Die Funktion
-\texttt{plays-nürnberg?}, die für \texttt{p?}  verwendet wird, hat die
-Signatur
-%
-\begin{lstlisting}
+; Spielt Nürnberg mit?
 (: plays-nürnberg? (game -> boolean))
+
+(check-expect (plays-nürnberg? game1) #f)
+(check-expect (plays-nürnberg? game5) #t)
+
+(define plays-nürnberg?
+  (lambda (game)
+    (plays-game? "Nürnberg" game)))
 \end{lstlisting}
 %
-und deshalb hat \texttt{filter-games} folgende Signatur:
+Damit können wir zum Beispiel alle Nürnberg-Spiele aus der Saison
+extrahieren:
 %
 \begin{lstlisting}
-(: filter-games ((game -> boolean) (list-of game) -> (list-of game)))
+(extract-list plays-nürnberg? season-2009/2010)
 \end{lstlisting}
 %
-Tatsächlich steht aber in \texttt{filter-games} außer dem Namen dieser Funktion
-jetzt nichts mehr, das
-überhaupt Bezug darauf nimmt, dass es sich bei den Listenelementen um
-\texttt{game}-Records handelt.  % Tatsächlich funktioniert die Funktion
-% auch auf Listen von Zahlen:
-% %
-% \begin{lstlisting}
-% (filter-games even? (list 1 2 3 4))
-% |\evalsto| #<list 2 4>
-% (filter-games odd? (list 1 2 3 4))
-% |\evalsto| #<list 1 3>
-% \end{lstlisting}
-% So nicht, das gibt eine Signaturverletzung, denn \texttt{even?} hat nicht die
-% Signatur \texttt{(game -> boolean)}!
-% %
-Damit kann das Wort \texttt{games} ganz aus der Funktiondefinition
-verschwinden, und es entsteht eine vielseitig verwendbare Funktion
-namens \texttt{list-filter}:\index{filter@\texttt{list-filter}}
+Soweit so gut.  Aber was, wenn wir auch die Spiele des HSV extrahieren
+wollen?  Wir könnten eine Funktion \lstinline{plays-hamburg?}
+definieren, aber wenn wir viele solcher Anfragen stellen, wird es auf
+Dauer umständlich, für jeden Verein extra eine Definiton zu schreiben.
+
+Einfacher ist es, stattdessen die Funktion, die wir an
+\lstinline{extract-list} übergeben, "<ad hoc"> mit einem
+\lstinline{lambda} zu konstruieren:
 %
 \begin{lstlisting}
-; aus einer Liste eine Liste der Elemente bilden,
-; die eine bestimmte Eigenschaft haben
-(: list-filter ((%a -> boolean) (list-of %a) -> (list-of %a)))
-(define list-filter
-  (lambda (p? lis)
-    (cond
-      ((empty? lis) empty)
-      ((cons? lis)
-       (if (p? (first lis))
-           (cons (first lis)
-                      (list-filter p? (rest lis)))
-           (filter p? (rest lis)))))))
-\end{lstlisting}
-
-
-Die Entstehung von \texttt{list-filter} aus \texttt{games-draw} und
-\texttt{games-playing} ist ein Paradebeispiel für die Abstraktion mit
-Hilfe von Mustern.  Die Anwendung dieser Technik bringt eine Reihe von
-Vorteilen:
-%
-\begin{itemize}
-\item Das Programm wird kürzer.
-\item Das Programm wird leichter zu lesen.
-\item Wenn die Funktion korrekt ist, sind auch alle ihre Anwendungen
-  korrekt.
-\end{itemize}
-%
-Damit diese Vorteile zur Geltung kommen, müssen die "<alten">
-Abstraktionsvorlagen gelöscht und durch Anwendungen der Abstraktion
-ersetzt werden:
-%
-\begin{lstlisting}
-; aus einer Spieleliste eine Liste der unentschiedenen Spiele bilden
-(: games-draw ((list-of game) -> (list-of game)))
-(define games-draw
-  (lambda (lis)
-    (list-filter game-draw? lis)))
-
-; aus einer Spieleliste eine Liste der Spiele einer Mannschaft t bilden
-(: games-playing (string (list-of game) -> (list-of game)))
-(define games-playing
-  (lambda (t lis)
-    (list-filter (lambda (g) (plays-game? t g)) lis)))
+(extract-list (lambda (game) (plays-game? "Nürnberg" game)) season-2009/2010)
+(extract-list (lambda (game) (plays-game? "Hamburg" game)) season-2009/2010)
 \end{lstlisting}
 %
-In der Definition von \texttt{games-playing} bekam die Funktion
-\texttt{list-filter} statt des Namens eines Prädikats direkt eine
-Funktiondefinition.  Hier handelt es sich also technisch um eine \emph{anonyme
-  Funktion}; dies wird in Abschnitt~\ref{sec:anonymous-procedures} noch weiter ausgeführt.
+Wir sind von der Signatur her vorgegangen: \lstinline{extract-list}
+erwartet eine Funktion mit einem Parameter der Signatur
+\lstinline{game}, also schreiben wir ein \lstinline{lambda} mit einem
+entsprechenden Parameter.  Wir wollen alle Spiele extrahieren, bei
+denen Nürnberg beziehungsweise Hamburg dabei ist, also schreiben wir
+den entsprechenden Ausdruck in den Rumpf.
+%
+\begin{aufgabe}
+  Schreibe eine Funktion \lstinline{games-playing}, die alle Spiele
+  aus einer Liste extrahiert, bei denen ein bestimmtes Team dabei war.
+\end{aufgabe}
+%
+Die Funktion \lstinline{extract-list} ist so praktisch, dass sie unter
+dem Namen \lstinline{filter}\index{filter@\texttt{filter}} fest
+eingebaut ist.
 
 \section{Listen zusammenfalten}
 
