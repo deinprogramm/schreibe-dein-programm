@@ -386,7 +386,7 @@ verdient deshalb eine eigene Konstruktionsanleitung:
     unterscheiden, jeweils durch eine neue Variable.
   \item Füge die neuen Variablen als Parameter zum \lstinline{lambda}
     der Definition hinzu oder füge ein neues \lstinline{lambda} mit
-    diesen Parametern ein.  Du muss gegebenenfalls rekursive Aufrufe
+    diesen Parametern ein.  Du musst gegebenenfalls rekursive Aufrufe
     der Funktion anpassen.
   \item Schreibe eine Signatur für die neue Funktion.
   \item Ersetze die beiden alten Definitionen durch Aufrufe der neuen
@@ -764,86 +764,177 @@ Seite~\pageref{sec:list-sum} die Funktionen \lstinline{list-sum} und
 Zahlen bildet:
 %
 \begin{lstlisting}
-; Liste aufsummieren
+; Summe der Elemente einer Liste von Zahlen berechnen
 (: list-sum ((list-of number) -> number))
-(define list-sum
-  (lambda (lis)
-    (cond
-      ((empty? lis) 0)
-      ((cons? lis) 
-       (+ (first lis)
-          (list-sum (rest lis)))))))
-\end{lstlisting}
-%
 
-%
-Die erste Ellipse muss das Produkt der leeren Liste sein, also das
-neutrale Element $1$ der Multiplikation.\footnote{0 funktioniert
-  hier nicht~-- es würde dafür sorgen,
-  dass \emph{jede} Liste 0 als Produkt hat.} 
-Aus dem ersten Element und dem Produkt der
-Restliste wird das Produkt der Gesamtliste durch
-Multiplikation gebildet.\index{list-product@\texttt{list-product}}
-%
-\begin{lstlisting}
-(define list-product
-  (lambda (lis)
+(define list-sum
+  (lambda (list)
     (cond
-      ((empty? lis) 1)
-      ((cons? lis) 
-       (* (first lis)
-          (list-product (rest lis)))))))
+      ((empty? list) 0)
+      ((cons? list)
+       (+ (first list) (list-sum (rest list)))))))
+
+; Produkt der Elemente einer Liste von Zahlen berechnen
+(: list-product (list-of-numbers -> number))
+
+(define list-product
+  (lambda (list)
+    (cond
+      ((empty? list) 1)
+      ((cons? list)
+       (* (first list) (list-product (rest list)))))))
 \end{lstlisting}
 %
 Die Definitionen von \lstinline{list-sum} und \lstinline{list-product}
-unterscheiden sich, bis auf den Namen, nur an zwei Stellen: beim ersten
-Zweig, wo das jeweilige neutrale Element steht, und bei der Funktion,
-die benutzt wird, um das erste Element mit dem Ergebnis des rekursiven
-Aufrufs zu kombinieren.  Die abstrahierte Funktion heißt
-\lstinline{list-fold} und sieht folgendermaßen aus (die Signatur muss noch
-einen Moment warten):\index{list-fold@\texttt{list-fold}}
+unterscheiden sich, bis auf den Namen, nur an zwei Stellen: im Zweig
+für \lstinline{empty}, wo das jeweilige neutrale Element steht, und im
+Zweig für \lstinline{cons}, wo die Funktion steht, die benutzt wird,
+um das erste Element mit dem Ergebnis des rekursiven Aufrufs zu
+kombinieren.  Es ist also eine gute Idee zu abstrahieren!
+
+Wir gehen wieder nach Konstruktionsanleitung~\ref{ka:abstraktion} auf
+Seite~\pageref{ka:abstraktion} vor.  Uns ist beim ersten Mal, als wir
+das gemacht haben, kein guter Name eingefallen.  Das ist keine
+Schande: Wir fangen deshalb mit \lstinline{xxx} an in der Hoffnung,
+dass uns später ein besserer Name einfällt:
 %
 \begin{lstlisting}
-; die Elemente einer Liste kombinieren
-(define list-fold
-  (lambda (unit combine lis)
+(define xxx
+  (lambda (list)
     (cond
-      ((empty? lis) unit)
-      ((cons? lis) 
-       (combine (first lis)
-                (list-fold unit combine (rest lis)))))))
+      ((empty? list) 1)
+      ((cons? list)
+       (* (first list) (xxx (rest list)))))))
 \end{lstlisting}
 %
-Listen lassen sich damit folgendermaßen summieren:
+Als nächstes müssen wir die Unterschiede zwischen den beiden
+Funktionen durch neue Variablen ersetzen, das sind hier gerade
+\lstinline{1} und \lstinline{*}.  Die neuen Variablen nennen wir
+\lstinline{for-empty} und \lstinline{for-cons}, weil sie in den
+Zweigen für \lstinline{empty} respektive \lstinline{cons} stehen:
 %
 \begin{lstlisting}
-(list-fold 0 + (list 1 2 3 4))
+(define xxx
+  (lambda (list)
+    (cond
+      ((empty? list) for-empty)
+      ((cons? list)
+       (for-cons (first list) (xxx (rest list)))))))
+\end{lstlisting}
+%
+Für den nächsten Schritt fügen wir die neuen Variablen zum bestehenden
+\lstinline{lambda} hinzu.  Wir müssen wieder darauf achten, die
+Variablen auch zum rekursiven Aufruf hinzuzufügen:
+%
+\begin{lstlisting}
+(define xxx
+  (lambda (for-empty for-cons list)
+    (cond
+      ((empty? list) for-empty)
+      ((cons? list)
+       (for-cons (first list)
+                 (xxx for-empty for-cons (rest list)))))))
+\end{lstlisting}
+%
+Diese Funktion kann sowohl die Aufgabe von \lstinline{list-sum} als
+auch die von \lstinline{list-product} erledigen:
+%
+\begin{lstlisting}
+(xxx 0 + (list 1 2 3 4))
 |\evalsto| 10
 \end{lstlisting}
 %
 und so aufmultiplizieren:
 %
 \begin{lstlisting}
-(list-fold 1 * (list 1 2 3 4))
+(xxx 1 * (list 1 2 3 4))
 |\evalsto| 24
 \end{lstlisting}
 %
-Die Signatur für \lstinline{list-fold} ist nicht auf den ersten Blick
-ersichtlich.  Hier ein erster Anlauf:
-
-FIXME: Wie kommt man darauf?
-
+Als nächstes steht nach Konstruktionsanleitung die Signatur für die
+neue Funktion an.  Es liegt nahe, die Signatur von
+\lstinline{list-sum} beziehungsweise \lstinline{list-product} zu
+verallgemeinern.  Für den neuen Parameter \lstinline{for-empty}
+verwenden wir die Signatur von \lstinline{0} und \lstinline{1}, also
+\lstinline{number}.  Für \lstinline{for-cons} verwenden wir die
+Signatur von \lstinline{+} und \lstinline{*}, also
+\lstinline{(number number -> number)}:
 %
 \begin{lstlisting}
-(: list-fold (%a (%a %a -> %a) (list-of %a) -> %a))
+(: xxx (number (number number -> number) (list-of number) -> number))
 \end{lstlisting}
 %
-Wie sich weiter unten herausstellen wird, kann
-diese Signatur aber
-noch verallgemeinert werden.  Erst kommen allerdings noch einige
-Erläuterungen zur Funktionsweise.
+Bei näherer Betrachtung steht aber in der Definition von
+\lstinline{xxx} allerdings nichts "<zahlenspezifisches">, wir könnten
+also versuchen, \lstinline{number} durch eine Signaturvariable zu
+ersetzen, wie wir es auch bei \lstinline{list-map} im vorigen
+Abschnitt gemacht haben:
+%
+\begin{lstlisting}
+(: xxx (%a (%a %a -> %a) (list-of %a) -> %a))
+\end{lstlisting}
+%
+Das heißt, wir könnten versuchen, \lstinline{xxx} mit etwas
+aufzurufen, das keine Liste von Zahlen ist.  Wir brauchen dafür ein
+passendes zweites Argument, also eine
+Funktion, deren Signatur die Form \lstinline{(%a %a -> %a)} hat.  Ein
+Beispiel ist die Funktion \lstinline{append}, die zwei Listen
+aneinanderhängt und folgende Signatur hat:
+%
+\begin{lstlisting}
+((list-of %element) (list-of %element) -> (list-of %element))
+\end{lstlisting}
+% 
+Weil wir \lstinline{(list-of %element)} für \lstinline{%a} einsetzen,
+brauchen wir als weitere Argumente für \lstinline{xxx} noch eine
+Liste als erstes Argument und eine Liste von Listen als drittes
+Argument.  Das könnte so aussehen:
+%
+\begin{lstlisting}
+(xxx empty append (list (list 1 2 3) (list 4 5 6) (list 7 8 9)))
+|\evalsto| #<list 1 2 3 4 5 6 7 8 9>
+\end{lstlisting}
+%
+Wir können also \lstinline{xxx} benutzen, um eine Liste von Listen
+"<flachzuklopfen">.
 
-FIXME: zuviele Funktionen
+Aber ist das schon die beste Signatur für \lstinline{xxx}?  Wir können
+wie bei \lstinline{list-map} untersuchen, ob die \lstinline{%a}s
+tatsächlich alle gleich sein müssen.  Um das herauszubekommen, könnten
+wir mal annehmen, sie seien alle verschieden:
+  %
+\begin{lstlisting}
+(: xxx (%a (%b %c -> %d) (list-of %e) -> %f))
+\end{lstlisting}
+%
+Wenn wir aber die Definition von \lstinline{xxx} genau anschauen, dann
+sehen wir, dass jeweils einige Signaturvariablen gleich sein müssen:
+%
+\begin{itemize}
+\item Die Signatur \lstinline{%a} von \lstinline{for-empty} muss die
+  gleiche sein wie \lstinline{%f}, weil \lstinline{for-empty} als
+  Ergebnis von \lstinline{xxx} verwendet wird.
+\item Die Signatur \lstinline{%b} des ersten Arguments von
+    \lstinline{for-cons} muss die gleiche sein wie die der
+    Listenelemente \lstinline{%a}, weil als erstes Argument
+      \lstinline{(first list)} verwendet wird.
+\item Die Signatur \lstinline{%c} des Arguments von
+    \lstinline{for-cons} muss die gleiche sein wie \lstinline{%f},
+     weil das Ergebnis von \lstinline{xxx} dort verwendet wird.
+\item Die Signatur \lstinline{%d} des Ergebnisses von
+    \lstinline{for-cons} muss ebenfalls die gleiche sein wie
+    \lstinline{%f}, weil der Aufruf von \lstinline{for-cons} als
+    Ergebnis von \lstinline{xxx} verwendet wird.
+\end{itemize}
+%
+Aber immerhin müssen \lstinline{%a} und \lstinline{%b} nicht gleich
+sein.  Es bleibt:
+%
+\begin{lstlisting}
+(: xxx (%a (%b %a -> %a) (list-of %b) -> %a))
+\end{lstlisting}
+%
+FIXME ab hier
 
 \lstinline{List-fold} funktioniert wie folgt: Die Funktion hat als
 Parameter eine Funktion mit zwei Parametern, einen Wert und eine
@@ -875,41 +966,6 @@ Infix-Schreibweise also:
 Nach dieser Sichtweise wird $\odot$ zwischen die Elemente der Liste
 eingefügt.
 
-In jedem Fall wird die Liste "<eingefaltet">~-- daher der Name.
-
-Die Definition von \lstinline{concatenate} aus
-Abschnitt~\ref{sec:more-lists} passt ebenfalls auf das abstrahierte
-Muster von \lstinline{list-fold}:
-%
-\begin{lstlisting}
-(list-fold (list 4 5 6) cons (list 1 2 3))
-|\evalsto| #<list 1 2 3 4 5 6>
-\end{lstlisting}
-%
-Diese Applikation passt aber nicht mehr auf den obigen Signaturversuch von
-\lstinline{list-fold}, da \lstinline{make-pair} nicht die Signatur
-%
-\begin{lstlisting}
-%a %a -> %a
-\end{lstlisting}
-%
-sondern
-%
-\begin{lstlisting}
-%a (list-of %a) -> (list-of %a)
-\end{lstlisting}
-%
-und deshalb
-%
-\begin{lstlisting}
-%a %b -> %b
-\end{lstlisting}
-besitzt.  \lstinline{List-fold} hat also folgende Signatur:
-%
-\begin{lstlisting}
-(: list-fold (%b (%a %b -> %b) (list-of %a) -> %b)))
-\end{lstlisting}
-%
 
 \section{Anonyme Funktionen}\label{sec:anonymous-procedures}
 
