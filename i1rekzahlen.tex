@@ -340,7 +340,8 @@ Seite~\pageref{sec:violation}.)
 (define nth
   (lambda (list index)
     (cond
-      ((empty? list) (violation "nth: Die Liste ist nicht lang genug"))
+      ((empty? list)
+       (violation "nth: Die Liste ist nicht lang genug"))
       ((cons? list)
        (cond
          ((zero? index) (first list))

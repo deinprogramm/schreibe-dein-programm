@@ -750,8 +750,8 @@ Wir müssen Fruktose- und den Glukose-Anteil addieren und die Summe
 dann ebenfalls entsprechend der Tabelle vom Anfang in eine Ampelfarbe
 umwandeln.  Aber halt!~-- Genau für das Umwandeln der Zahl aus der
 Tabelle in eine Ampelfarbe haben wir ja gerade die Hilfsfunktion
-\lstinline{sugar"=weight->traffic"=light} geschrieben, und diese
-können wir %%HK 2020-01-27: "= funktioniert im lstinline nicht!
+\lstinline{sugar-weight->traffic-light} geschrieben, und diese
+können wir
 erneut zum Einsatz bringen:
 %
 \begin{lstlisting}
@@ -761,8 +761,9 @@ erneut zum Einsatz bringen:
       ((rational? sugar-content)
        (sugar-weight->traffic-light sugar-content))
       ((sugars? sugar-content)
-       (sugar-weight->traffic-light (+ (sugars-fructose-g sugar-content)
-                                       (sugars-glucose-g sugar-content))))
+       (sugar-weight->traffic-light
+         (+ (sugars-fructose-g sugar-content)
+            (sugars-glucose-g sugar-content))))
       ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
@@ -777,8 +778,9 @@ zurückgeben:
       ((rational? sugar-content)
        (sugar-weight->traffic-light sugar-content))
       ((sugars? sugar-content)
-       (sugar-weight->traffic-light (+ (sugars-fructose-g sugar-content)
-                                       (sugars-glucose-g sugar-content))))
+       (sugar-weight->traffic-light 
+         (+ (sugars-fructose-g sugar-content)
+            (sugars-glucose-g sugar-content))))
       ((string? sugar-content) sugar-content))))
 \end{lstlisting}         
 %
