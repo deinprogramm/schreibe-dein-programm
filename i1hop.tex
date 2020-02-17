@@ -254,8 +254,8 @@ beider Funktionen klar erkennen und vermeiden die doppelte Definition
 der Fußball-Punkteregeln.
 
 \textbf{Wichtig:} Diese beiden Definitionen müssen \emph{nach} der
-Definition von \texttt{compute-points} stehen, da davor
-\texttt{compute-points} noch nicht definiert ist.
+Definition von \lstinline{compute-points} stehen, da davor
+\lstinline{compute-points} noch nicht definiert ist.
 
 Der neuen Funktion fehlt noch eine Signatur.  Die Funktion akzeptiert
 drei Argumente.  Das letzte hat die Signatur \lstinline{game}.  Die
@@ -618,7 +618,8 @@ Fertig!
 
 Vielleicht hast Du das Gefühl, das Muster der Funktion
 \lstinline{extract-games} schon gesehen zu haben.  In der Tat sieht
-die Funktion~\lstinline{page:live-dillos} auf
+die Funktion~\lstinline{live-dillos} in
+Abschnitt~\ref{page:live-dillos} auf
 Seite~\ref{page:live-dillos} ebenfalls den Funktionen
 \lstinline{drawn-games} und \lstinline{home-won-games} sehr ähnlich.
 Hier ist sie noch einmal zur Erinnerung:
@@ -753,8 +754,10 @@ eingebaut ist.
 
 \section{Listen zusammenfalten}
 
-Aus Abschnitt~\ref{sec:lists} ist die Funktion \texttt{list-sum}
-bekannt, welche die Summe einer Liste von Zahlen bildet:
+In Abschnitt~\ref{sec:list-sum} haben wir auf
+Seite~\pageref{sec:list-sum} die Funktionen \lstinline{list-sum} und
+\lstinline{list-product} geschrieben, welche die Summe einer Liste von
+Zahlen bildet:
 %
 \begin{lstlisting}
 ; Liste aufsummieren
@@ -768,21 +771,7 @@ bekannt, welche die Summe einer Liste von Zahlen bildet:
           (list-sum (rest lis)))))))
 \end{lstlisting}
 %
-Eine eng verwandte Funktion würde die Elemente einer Liste nicht
-aufsummieren, sondern aufmultiplizieren.   Signatur und Schablone sind
-identisch zu \texttt{list-sum}:\index{list-product@\texttt{list-product}}
-%
-\begin{lstlisting}
-; Liste aufmultiplizieren
-(: list-product ((list-of number) -> number))
-(define list-product
-  (lambda (lis)
-    (cond
-      ((empty? lis) ...)
-      ((cons? lis) 
-       ... (first lis) ...
-       ... (list-product (rest lis)) ...))))
-\end{lstlisting}
+
 %
 Die erste Ellipse muss das Produkt der leeren Liste sein, also das
 neutrale Element $1$ der Multiplikation.\footnote{0 funktioniert
@@ -802,12 +791,12 @@ Multiplikation gebildet.\index{list-product@\texttt{list-product}}
           (list-product (rest lis)))))))
 \end{lstlisting}
 %
-Die Definitionen von \texttt{list-sum} und \texttt{list-product}
+Die Definitionen von \lstinline{list-sum} und \lstinline{list-product}
 unterscheiden sich, bis auf den Namen, nur an zwei Stellen: beim ersten
 Zweig, wo das jeweilige neutrale Element steht, und bei der Funktion,
 die benutzt wird, um das erste Element mit dem Ergebnis des rekursiven
 Aufrufs zu kombinieren.  Die abstrahierte Funktion heißt
-\texttt{list-fold} und sieht folgendermaßen aus (die Signatur muss noch
+\lstinline{list-fold} und sieht folgendermaßen aus (die Signatur muss noch
 einen Moment warten):\index{list-fold@\texttt{list-fold}}
 %
 \begin{lstlisting}
@@ -835,7 +824,7 @@ und so aufmultiplizieren:
 |\evalsto| 24
 \end{lstlisting}
 %
-Die Signatur für \texttt{list-fold} ist nicht auf den ersten Blick
+Die Signatur für \lstinline{list-fold} ist nicht auf den ersten Blick
 ersichtlich.  Hier ein erster Anlauf:
 
 FIXME: Wie kommt man darauf?
@@ -852,43 +841,41 @@ Erläuterungen zur Funktionsweise.
 
 FIXME: zuviele Funktionen
 
-\texttt{List-fold} funktioniert wie folgt: Die Funktion hat als
+\lstinline{List-fold} funktioniert wie folgt: Die Funktion hat als
 Parameter eine Funktion mit zwei Parametern, einen Wert und eine
 Liste von Werten.  Es gilt folgende Gleichung:
 %
-\begin{displaymath}
-  \texttt{(list-fold}~u~o~\verb|#<list |a_1~\ldots~a_n\verb|>|\texttt{)}
-  = \texttt{($o$ $a_1$ ($o$ $a_2$ ($\ldots$ ($o$ $a_n$ $u$)$ \ldots$)))}
-\end{displaymath}
+\begin{lstlisting}
+(list-fold |\(u\)| |\(o\)| #<list |\(a_1\)| |\(\ldots\)| |\(a_n\)| >) = (|\(o\)| |\(a_1\)| (|\(o\)| |\(a_2\)| (|\(\ldots\)| (|\(o\)| |\(a_n\)| |\(u\)|) |\(\ldots\)|)))
+\end{lstlisting}
 %
-Die Funktionsweise von \texttt{list-fold} lässt sich daran
+Die Funktionsweise von \lstinline{list-fold} lässt sich daran
 veranschaulichen, dass sich die ursprüngliche Liste auch als
 %
-\begin{displaymath}
-\texttt{(cons $a_1$ (cons $a_2$ ($\ldots$ (cons $a_n$ empty)$ \ldots$)))}
-\end{displaymath}
+\begin{lstlisting}
+(cons |\(a_1\)| (cons |\(a_2\)| (|\(\ldots\)| (cons |\(a_n\)| empty |\(\ldots\)|)))
+\end{lstlisting}
 %
-schreiben lässt.  Das heißt, an die Stelle von \texttt{cons} tritt
-$o$ und an die Stelle von \texttt{empty} tritt $u$.
+schreiben lässt.  Das heißt, an die Stelle von \lstinline{cons} tritt
+$o$ und an die Stelle von \lstinline{empty} tritt $u$.
 
 Eine andere, praktische Darstellung von 
-\texttt{list-fold} ist, die Gleichung mit dem Operator
+\lstinline{list-fold} ist, die Gleichung mit dem Operator
 \emph{zwischen} den Operanden zu schreiben (und nicht davor), in
 Infix-Schreibweise also:
 %
-\begin{displaymath}
-  \texttt{(list-fold}~u~\odot~\verb|#<list |a_1~\ldots~a_n\verb|>|\texttt{)}
-  = a_1 \odot (a_2 \odot (\ldots (a_n \odot u)\ldots ))
-\end{displaymath}
+\begin{lstlisting}
+  (list-fold |\(u\)| |\(\odot\)| #<list |\(a_1\)| |\(\ldots\)| |\(a_n\)| >) = |\(a_1 \odot (a_2 \odot (\ldots (a_n \odot u)\ldots ))\)|
+\end{lstlisting}
 %
 Nach dieser Sichtweise wird $\odot$ zwischen die Elemente der Liste
 eingefügt.
 
 In jedem Fall wird die Liste "<eingefaltet">~-- daher der Name.
 
-Die Definition von \texttt{concatenate} aus
+Die Definition von \lstinline{concatenate} aus
 Abschnitt~\ref{sec:more-lists} passt ebenfalls auf das abstrahierte
-Muster von \texttt{list-fold}:
+Muster von \lstinline{list-fold}:
 %
 \begin{lstlisting}
 (list-fold (list 4 5 6) cons (list 1 2 3))
@@ -896,7 +883,7 @@ Muster von \texttt{list-fold}:
 \end{lstlisting}
 %
 Diese Applikation passt aber nicht mehr auf den obigen Signaturversuch von
-\texttt{list-fold}, da \texttt{make"=pair} nicht die Signatur
+\lstinline{list-fold}, da \lstinline{make-pair} nicht die Signatur
 %
 \begin{lstlisting}
 %a %a -> %a
@@ -913,7 +900,7 @@ und deshalb
 \begin{lstlisting}
 %a %b -> %b
 \end{lstlisting}
-besitzt.  \texttt{List-fold} hat also folgende Signatur:
+besitzt.  \lstinline{List-fold} hat also folgende Signatur:
 %
 \begin{lstlisting}
 (: list-fold (%b (%a %b -> %b) (list-of %a) -> %b)))
@@ -922,9 +909,9 @@ besitzt.  \texttt{List-fold} hat also folgende Signatur:
 
 \section{Anonyme Funktionen}\label{sec:anonymous-procedures}
 
-\texttt{List-fold} kann auch benutzt werden, um die Länge einer Liste
+\lstinline{List-fold} kann auch benutzt werden, um die Länge einer Liste
 auszurechnen.  Ganz so einfach wie bei den vorigen Beispielen ist das
-nicht, da \texttt{list-length} aus
+nicht, da \lstinline{list-length} aus
 Abschnitt~\ref{sec:more-lists} nicht direkt dem Muster entspricht:
 %
 \begin{lstlisting}
@@ -937,13 +924,13 @@ Abschnitt~\ref{sec:more-lists} nicht direkt dem Muster entspricht:
           (list-length (rest lis)))))))
 \end{lstlisting}
 %
-Für das \texttt{combine}-Argument von \texttt{list-fold}
+Für das \lstinline{combine}-Argument von \lstinline{list-fold}
 würde hier eine Funktion benötigt, die ihr erstes
-Argument \texttt{(first lis)} ignoriert (es spielt ja für die Listenlänge
+Argument \lstinline{(first lis)} ignoriert (es spielt ja für die Listenlänge
 keine Rolle) und auf das zweite Argument eins addiert.  Diese
 Hilfsfunktion sieht so aus:\index{add-1-for-length@\texttt{add-1-for-length}}
 %
-FIXME: warum nicht \texttt{\%a}?  Warum heißt das \texttt{ignore}?
+FIXME: warum nicht \lstinline{\%a}?  Warum heißt das \lstinline{ignore}?
 
 \begin{lstlisting}
 (: add-1-for-length (any natural -> natural))
@@ -974,8 +961,8 @@ auf, aber es ist natürlich möglich, Funktionen außerhalb einer
 Definition zu verwenden, ohne ihnen einen Namen zu geben.  Dafür gab
 es schon in Kapitel~\ref{cha:whats-programming} Beispiele. Mit Hilfe
 solcher "<anonymer Funktionen\index{anonyme
-  Funktion}\index{Funktion!anonym}"> lässt sich auch \texttt{list-filter}
-durch \texttt{list-fold} definieren:
+  Funktion}\index{Funktion!anonym}"> lässt sich auch \lstinline{list-filter}
+durch \lstinline{list-fold} definieren:
 %
 \begin{lstlisting}
 (define list-filter
@@ -989,7 +976,7 @@ durch \texttt{list-fold} definieren:
 \end{lstlisting}
 %
 Ein weiteres Beispiel~-- die Funktion
-\texttt{every?}\index{every?@\texttt{every?}} findet heraus, ob ein
+\lstinline{every?}\index{every?@\texttt{every?}} findet heraus, ob ein
 übergebenes Prädikat auf alle Elemente einer Liste zutrifft:
 \label{page:every}
 %
@@ -1005,9 +992,9 @@ Ein weiteres Beispiel~-- die Funktion
                lis)))
 \end{lstlisting}
 %
-Anders als \texttt{list-length} lassen sich diese Definitionen
+Anders als \lstinline{list-length} lassen sich diese Definitionen
 nicht mit separaten Hilfsfunktionen schreiben.  Für
-\texttt{list-filter} würde ein Versuch zwar so aussehen:
+\lstinline{list-filter} würde ein Versuch zwar so aussehen:
 %
 \begin{lstlisting}
 (define list-filter-helper
@@ -1018,16 +1005,16 @@ nicht mit separaten Hilfsfunktionen schreiben.  Für
 \end{lstlisting}
 %
 In \drscheme{} erscheint bei dieser Definition eine Fehlermeldung 
-"<\texttt{unbound variable}"> und \texttt{p?} wird rosa markiert.  Das
-liegt daran, dass \texttt{p?} weiter außen im \texttt{lambda} von
-\texttt{filter} gebunden ist.  Dieses \texttt{p?} ist aber nach den
+"<\texttt{unbound variable}"> und \lstinline{p?} wird rosa markiert.  Das
+liegt daran, dass \lstinline{p?} weiter außen im \lstinline{lambda} von
+\lstinline{filter} gebunden ist.  Dieses \lstinline{p?} ist aber nach den
 Regeln der lexikalischen Bindung\index{lexikalische Bindung} (siehe
 Abschnitt~\ref{sec:lexical-binding}) nur im Rumpf des äußeren
-\texttt{lambda} in der Definition von \texttt{filter} sichtbar.  Darum
+\lstinline{lambda} in der Definition von \lstinline{filter} sichtbar.  Darum
 muss der Lambda-Ausdruck der Hilfsfunktion ebenfalls in diesem
 Rumpf stehen.
 
-FIXME: Hier auch noch \texttt{map} einführen? Das Unterrichtsbeispiel tat
+FIXME: Hier auch noch \lstinline{map} einführen? Das Unterrichtsbeispiel tat
 es\ldots
 
 \section{Funktionfabriken}
@@ -1055,7 +1042,7 @@ programmieren:\index{compose@\texttt{compose}}
       (f (g x)))))
 \end{lstlisting}
 %
-Die beiden Argumente für \texttt{f} und \texttt{g} müssen Funktionen
+Die beiden Argumente für \lstinline{f} und \lstinline{g} müssen Funktionen
 mit einem Parameter sein:
 %
 \begin{lstlisting}
@@ -1072,14 +1059,14 @@ mit einem Parameter sein:
 |\evalsto| 12
 \end{lstlisting}
 %
-\texttt{Compose} ist eine
+\lstinline{Compose} ist eine
 \textit{Funktionfabrik\index{Funktionfabrik}}~-- sie liefert selbst
-eine Funktion zurück, die abhängig von \texttt{f} und \texttt{g}
+eine Funktion zurück, die abhängig von \lstinline{f} und \lstinline{g}
 konstruiert wird.
 
-\texttt{Compose} lässt sich benutzen, um eine weitere praktische
+\lstinline{Compose} lässt sich benutzen, um eine weitere praktische
 Higher-Order-Funktion namens
-\texttt{repeat} zu definieren:\index{repeat@\texttt{repeat}}
+\lstinline{repeat} zu definieren:\index{repeat@\texttt{repeat}}
 \label{page:repeat}
 %
 \begin{lstlisting}
@@ -1092,7 +1079,7 @@ Higher-Order-Funktion namens
         (compose proc (repeat (- n 1) proc)))))
 \end{lstlisting}
 %
-\texttt{Repeat} ist das Pendant zur Potenzierung\index{Potenzierung} von
+\lstinline{Repeat} ist das Pendant zur Potenzierung\index{Potenzierung} von
 Funktionen in der Mathematik, siehe Definition~\ref{def:power_fun}:
 %
 \begin{lstlisting}
@@ -1135,7 +1122,7 @@ Das geht auch ohne Zwischendefinitionen:
 |\evalsto| 55
 \end{lstlisting}
 %
-\texttt{Make-add} ist eine andere Version von \texttt{+}, nämlich
+\lstinline{Make-add} ist eine andere Version von \lstinline{+}, nämlich
 eine, die zwei Argumente nicht "<auf einmal"> akzeptiert, sondern
 "<nacheinander">.  Summen von zwei Zahlen, normalerweise geschrieben
 als \texttt{(+ $a$ $b$)} lassen sich auch als \texttt{((make-add $a$)
@@ -1162,7 +1149,7 @@ liefert, lässt sich auch auf andere Funktionen anwenden:\index{make-mult@\textt
 %
 Erneut folgt eine ganze Familie von Funktionen einem gemeinsamen
 Muster, und erneut lässt sich dieses Muster als Funktion höherer
-Ordnung formulieren.  Die Funktion \texttt{curry\index{curry@\texttt{curry}}} akzeptiert
+Ordnung formulieren.  Die Funktion \lstinline{curry}\index{curry@\texttt{curry}} akzeptiert
 eine Funktion mit zwei Parametern und liefert eine entsprechend
 transformierte Funktion zurück:
 %
@@ -1176,8 +1163,8 @@ transformierte Funktion zurück:
         (proc a b)))))
 \end{lstlisting}
 %
-Nun lassen sich die \texttt{make-$x$}-Funktionen von oben mit Hilfe
-von \texttt{curry} definieren:
+Nun lassen sich die \lstinline{make-}$x$-Funktionen von oben mit Hilfe
+von \lstinline{curry} definieren:
 %
 \begin{lstlisting}
 (define make-add (curry +))
@@ -1185,7 +1172,7 @@ von \texttt{curry} definieren:
 (define make-prepend (curry cons))
 \end{lstlisting}
 %
-Die \texttt{curry}-Transformation wurde unabhängig voneinander von den
+Die \lstinline{curry}-Transformation wurde unabhängig voneinander von den
 Mathematikern \textsc{Moses Schönfinkel} und \textsc{Haskell Curry} entdeckt.  Im
 englischsprachigen Raum heißt das Verb dazu darum  \textit{currify}, im deutschsprachigen Raum
 \textit{schönfinkeln\index{schönfinkeln}}
@@ -1207,49 +1194,49 @@ Damit ist die Transformation ein \textit{Isomorphismus\index{Isomorphismus}}; es
 folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isomorphismus}
 %
 \begin{center}
-  \texttt{(uncurry (curry \(p\))) \(\equiv\) \(p\)}
+  \lstinline{(uncurry (curry} \(p\)\lstinline{))} \(\equiv\) \(p\)
 \end{center}
 
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  Schreibe eine Funktion \texttt{any?} analog zu 
-  \texttt{every?}, die dann \verb|#t| zurückgibt, wenn mindestens ein 
-  Element der Liste das Prädikat erfüllt, sonst \verb|#f|.  Schreibe 
-  zunächst eine Fassung nach dem Muster von \texttt{every?}.  Schreibe
-  eine zweite Fassung, die einfach \texttt{every?} aufruft und selbst keine
+  Schreibe eine Funktion \lstinline{any?} analog zu 
+  \lstinline{every?}, die dann \lstinline{#t} zurückgibt, wenn mindestens ein 
+  Element der Liste das Prädikat erfüllt, sonst \lstinline{#f}.  Schreibe 
+  zunächst eine Fassung nach dem Muster von \lstinline{every?}.  Schreibe
+  eine zweite Fassung, die einfach \lstinline{every?} aufruft und selbst keine
   Rekursion benutzt.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Eine klassische Higher-Order-Funktion ist \texttt{list-map}, eine Funktion, die 
-  eine Funktion und eine Liste akzeptiert.  \texttt{List-map}
+  Eine klassische Higher-Order-Funktion ist \lstinline{list-map}, eine Funktion, die 
+  eine Funktion und eine Liste akzeptiert.  \lstinline{List-map}
   wendet diese Funktion auf alle Elemente der Liste an und produziert
   eine Liste der Rückgabewerte.
 
-  \texttt{List-map} lässt sich beispielsweise folgendermaßen anwenden:
+  \lstinline{List-map} lässt sich beispielsweise folgendermaßen anwenden:
   % 
   \begin{lstlisting}
     (list-map even? (list 1 2 3 4 5))
     |\evalsto| #<list #f #t #f #t #f>
   \end{lstlisting}
   % 
-  Programmiere \texttt{list-map}, indem sie die Signatur schreiben,
+  Programmiere \lstinline{list-map}, indem sie die Signatur schreiben,
   das Gerüst der Funktion erstellen, Testfälle entwerfen und dann das
   Gerüst vervollständigen!
 
-  \textbf{Hinweis:} \texttt{List-map} ist unter dem Namen \texttt{map} eingebaut.
+  \textbf{Hinweis:} \lstinline{List-map} ist unter dem Namen \lstinline{map} eingebaut.
 \end{aufgabe}
 
 \begin{aufgabe}
   Schreibe folgende Funktionen unter der  
-  Verwendung von \texttt{filter}!
+  Verwendung von \lstinline{filter}!
   \begin{itemize}
-    \item Schreiben sie eine Funktion \texttt{evens}, die die ungeraden Zahlen aus 
+    \item Schreiben sie eine Funktion \lstinline{evens}, die die ungeraden Zahlen aus 
       einer Liste entfernt,
-  \item eine Funktion \texttt{count-zeroes}, die in einer Liste von
+  \item eine Funktion \lstinline{count-zeroes}, die in einer Liste von
     Zahlen die Nullen zählt,
-  \item und eine Funktion \texttt{multiples}, die eine Zahl $n$ und
+  \item und eine Funktion \lstinline{multiples}, die eine Zahl $n$ und
     eine Liste von Zahlen akzeptiert, und eine Liste alle Vielfachen
     der Zahl $n$ liefert.
   \end{itemize}
@@ -1257,11 +1244,11 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 
 \begin{aufgabe}
   Programmiere eine Funktion
-  \texttt{filter-map}, die als Argumente eine Funktion \texttt{p} mit
-  einem Argument sowie eine Liste \texttt{l} akzeptiert.
-  \texttt{Filter-map} soll als Ergebnis die Liste der Rückgabewerte
-  von \texttt{p} für diejenigen Elemente von \texttt{l} zurückgeben,
-  für die \texttt{p} nicht \texttt{\#f} zurückgibt. Beispiel:
+  \lstinline{filter-map}, die als Argumente eine Funktion \lstinline{p} mit
+  einem Argument sowie eine Liste \lstinline{l} akzeptiert.
+  \lstinline{Filter-map} soll als Ergebnis die Liste der Rückgabewerte
+  von \lstinline{p} für diejenigen Elemente von \lstinline{l} zurückgeben,
+  für die \lstinline{p} nicht \lstinline{\#f} zurückgibt. Beispiel:
 
 \begin{lstlisting}
 (filter-map (lambda (x)
@@ -1274,20 +1261,20 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{aufgabe}
 
 \begin{aufgabe}
-  Verwende die Funktion \texttt{list-fold} um folgende 
+  Verwende die Funktion \lstinline{list-fold} um folgende 
   Funktionen zu schreiben:
   \begin{enumerate}
-  \item Schreibe eine Funktion \texttt{list-map}, die eine Funktion auf jedes
+  \item Schreibe eine Funktion \lstinline{list-map}, die eine Funktion auf jedes
     Element einer Liste anwendet.
-  \item Schreibe eine Funktion \texttt{list-or}, die ein Prädikat auf alle
-    Elemente einer Liste anwendet und die Resultate mit \texttt{or}
+  \item Schreibe eine Funktion \lstinline{list-or}, die ein Prädikat auf alle
+    Elemente einer Liste anwendet und die Resultate mit \lstinline{or}
     verknüpft.
-  \item Schreibe eine Funktion \texttt{count-predicate}, die ein Prädikat auf
-    alle Elemente einer Liste anwendet und zählt, wie häufig \verb|#t|
+  \item Schreibe eine Funktion \lstinline{count-predicate}, die ein Prädikat auf
+    alle Elemente einer Liste anwendet und zählt, wie häufig \lstinline{#t}
     zurückgegeben wird.
-  \item Schreibe eine Funktion \texttt{contains?}, die feststellt, ob ein
+  \item Schreibe eine Funktion \lstinline{contains?}, die feststellt, ob ein
     Element in einer Liste enthalten ist.
-  \item Schreibe eine Funktion \texttt{remove-duplicates}, die alle doppelten
+  \item Schreibe eine Funktion \lstinline{remove-duplicates}, die alle doppelten
     Elemente aus einer Liste filtert.
   \end{enumerate}
 \end{aufgabe}
@@ -1322,7 +1309,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     entfernt.  Diese Funktion akzeptiert eine Liste sowie eine
     Funktion, die zwei Elemente der Liste akzeptiert und
     zurückliefert, ob diese gleich sind.  (Also zum Beispiel
-    \texttt{=} bei Listen von Zahlen.)  Sie liefert dann eine Liste,
+    \lstinline{=} bei Listen von Zahlen.)  Sie liefert dann eine Liste,
     in der jedes Element "<nur einmal vorkommt">, also kein anderes,
     das dazu gleich ist.
   \item Schreibe eine Funktion, die aus der Liste aller Spiele
@@ -1358,19 +1345,18 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{aufgabe}
 
 \begin{aufgabe}
-  \texttt{List-fold} sammelt die Elemente von hinten nach vorn bzw.
+  \lstinline{List-fold} sammelt die Elemente von hinten nach vorn bzw.
   von rechts nach links auf, entsprechend der "<natürlichen">
   Rekursionsstruktur über Listen.  Das gleiche Spiel lässt sich auch in
   der anderen Richtung durchführen.  Heraus kommt eine Funktion
-  \texttt{list-fold-left}, die folgende Gleichung (in
+  \lstinline{list-fold-left}, die folgende Gleichung (in
   Infix-Schreibweise) erfüllt:
   % 
-  \begin{displaymath}
-    \texttt{(list-fold-left}~u~\odot~(a_1~\ldots~a_n)\texttt{)}
-    = (\ldots((u\odot a_1)\odot a_2)\ldots\odot a_n)
-  \end{displaymath}
+\begin{lstlisting}
+(list-fold-left |\(u\)| |\(\odot\)| (|\(a_1\)| |\(\ldots\)| |\(a_n\)|)) = |\((\ldots((u\odot a_1)\odot a_2)\ldots\odot a_n)\)|
+\end{lstlisting}
   % 
-  Programmiere \texttt{list-fold-left}!
+  Programmiere \lstinline{list-fold-left}!
 \end{aufgabe}
 
 
@@ -1379,18 +1365,18 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   mit unendlichen Werten durchführen kann:
   
   \begin{enumerate}
-  \item Definiere den gemischten Typ \texttt{number*}, der den
-    Datentyp \texttt{number} um $\infty$ (\texttt{infty}) und $- \infty$
-    (\texttt{-infty}) erweitert.
-  \item Definiere auf der Menge \texttt{number*} die
+  \item Definiere den gemischten Typ \lstinline{number*}, der den
+    Datentyp \lstinline{number} um $\infty$ (\lstinline{infty}) und $- \infty$
+    (\lstinline{-infty}) erweitert.
+  \item Definiere auf der Menge \lstinline{number*} die
     Rechenoperationen $+$, $-$, $*$, und $/$.  Gib den Funktionen
-    die Namen \texttt{plus*}, \texttt{minus*}, \texttt{mult*} und
-    \texttt{div*}.
+    die Namen \lstinline{plus*}, \lstinline{minus*}, \lstinline{mult*} und
+    \lstinline{div*}.
   \item Definiere $\leq$, also eine Funktion mit dem
-    Namen \texttt{<=*}, die die Ordnung auf \texttt{number*} darstellt.
-  \item Definiere die Funktionen \texttt{list-max*} und
-    \texttt{list-min*}, die das Maximum bzw. das Minimum einer Liste 
-    aus \texttt{numbers*} berechnet!  Verwende hierzu die Funktion \texttt{list-fold}.
+    Namen \lstinline{<=*}, die die Ordnung auf \lstinline{number*} darstellt.
+  \item Definiere die Funktionen \lstinline{list-max*} und
+    \lstinline{list-min*}, die das Maximum bzw. das Minimum einer Liste 
+    aus \lstinline{numbers*} berechnet!  Verwende hierzu die Funktion \lstinline{list-fold}.
   \end{enumerate}
 \end{aufgabe}
 
@@ -1410,15 +1396,15 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 (f 4 -2)
 \end{lstlisting}
   %
-  Benenne die Variablen \verb"x", \verb"y" und \verb"z", die in
+  Benenne die Variablen \lstinline{x}, \lstinline{y} und \lstinline{z}, die in
   den ersten drei Zeilen des Programms definiert werden, im kompletten
-  Programm um, und zwar \verb|x| in \verb|zwei|, \verb|y| in
-  \verb|minuseins| und \verb|z| in \verb|minusdrei|. Achte bei
+  Programm um, und zwar \lstinline{x} in \lstinline{zwei}, \lstinline{y} in
+  \lstinline{minuseins} und \lstinline{z} in \lstinline{minusdrei}. Achte bei
   der Umbenennung auf die lexikalische Bindung.  Benenne keine
-  Parameter der Funktion \verb"f" um.
+  Parameter der Funktion \lstinline{f} um.
 
   Nachdem Du die Umbenennung durchgeführt hast, welches Ergebnis liefert
-  der Ausdruck \verb"(f 4 -2)"? Berechne das Ergebnis von Hand mit Hilfe
+  der Ausdruck \lstinline{(f 4 -2)}? Berechne das Ergebnis von Hand mit Hilfe
   des Substitutionsmodells und halte die Zwischenschritte fest.
 \end{aufgabe}
 
@@ -1437,16 +1423,16 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 (z y x (lambda (z) (+ x z)))
 \end{lstlisting}
 %
-  Benenne die Variablen \verb"x", \verb"y" und \verb"z", die in
+  Benenne die Variablen \lstinline{x}, \lstinline{y} und \lstinline{z}, die in
   den ersten drei Zeilen des Programms definiert werden, im kompletten
   Programm um. Der neue Name der Variable steht als Kommentar im
-  Programm hinter dem Pfeil (\verb"-->").  Achte bei der
+  Programm hinter dem Pfeil (\lstinline{-->}).  Achte bei der
   Umbenennung auf die lexikalische Bindung.  Benenne keine
-  Parameter der Funktion \verb"z" um.
+  Parameter der Funktion \lstinline{z} um.
 
   Berechne, nachdem Du die Umbenennung durchgeführt haben, von
-  Hand mit dem Substitutionsmodell \verb"(z y x"
-  \verb"(lambda (z) (+ x z))))" und halte die Zwischenschritte
+  Hand mit dem Substitutionsmodell \lstinline{(z y x}
+  \lstinline{(lambda (z) (+ x z))))} und halte die Zwischenschritte
   fest.
 
 \end{aufgabe}
@@ -1471,12 +1457,12 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{lstlisting}
 
   Benenne hier alle lokalen Variablen, die innerhalb der Funktion
-  \verb"f" gebunden werden, um. Verändere nicht den Namen der
-  Variablen \verb"x", \verb"y" und \verb"z" aus den ersten drei Zeilen
+  \lstinline{f} gebunden werden, um. Verändere nicht den Namen der
+  Variablen \lstinline{x}, \lstinline{y} und \lstinline{z} aus den ersten drei Zeilen
   des Programms.
 
   Nachdem Du die Umbenennung durchgeführt haben, welches Ergebnis liefert
-  der Ausdruck \verb"(f y)"? Berechne das Ergebnis von Hand mit Hilfe
+  der Ausdruck \lstinline{(f y)}? Berechne das Ergebnis von Hand mit Hilfe
   des Substitutionsmodells und halte die Zwischenschritte fest.
 
   \noindent \emph{Hinweis:} In diesen Aufgaben findest keine
@@ -1494,37 +1480,37 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   um ein einfaches Telefonbuch zu implementieren: Ein Telefonbuch ist
   als Funktion repräsentiert, die den Namen einer Person akzeptiert
   und die Telefonnummer der Person zurückliefert. Falls die Person
-  nicht im Telefonbuch verzeichnet ist, soll \verb|#f| zurückgeliefert
+  nicht im Telefonbuch verzeichnet ist, soll \lstinline{#f} zurückgeliefert
   werden.
 
   \begin{enumerate}
   \item Definiere zunächst eine Signatur
-    \verb"phonebook-result" für das Ergebnis des Nachschlagens in einem
+    \lstinline{phonebook-result} für das Ergebnis des Nachschlagens in einem
     Telefonbuch. Das Ergebnis ist entweder die Telefonnummer oder
-    \verb|#f|. Die Telefonnummern sind Zeichenketten.
-    Die Signatur des Telefonbuchs ist  \verb"string -> phonebook-result".
-  \item Definiere einen Wert \verb"empty-phonebook", der das leere
+    \lstinline{#f}. Die Telefonnummern sind Zeichenketten.
+    Die Signatur des Telefonbuchs ist  \lstinline{string -> phonebook-result}.
+  \item Definiere einen Wert \lstinline{empty-phonebook}, der das leere
     Telefonbuch repräsentiert.
   \item Definiere eine Funktion namens
-    \verb"add-to-phonebook", welche ein Telefonbuch, einen Namen
+    \lstinline{add-to-phonebook}, welche ein Telefonbuch, einen Namen
     und eine Telefonnummer erwartet und das um den neuen Eintrag
     erweiterte
     Telefonbuch zurückliefert.
-  \item Schreibe eine Funktion namens \verb"lookup-in-phonebook",
+  \item Schreibe eine Funktion namens \lstinline{lookup-in-phonebook},
     welche ein Telefonbuch und einen Namen einer Person erwartet und die
     Nummer der Person im Telefonbuch nachschlägt und zurückliefert.
     Beispiele:
     \begin{itemize}
-    \item \verb|(lookup-in-phonebook empty-phonebook "Hans")| liefert
-      \verb|#f|.
-    \item \verb|(lookup-in-phonebook| \\
-      \verb|    (add-to-phonebook empty-phonebook "Hans" "754829")|\\
-      \verb|    "Hans")| \\
-      liefert \verb|"754829"|.
-    \item \verb|(lookup-in-phonebook|\\
-      \verb|    (add-to-phonebook empty-phonebook "Hans" "754829")|\\
-      \verb|    "Lea")|\\
-      liefert \verb|#f|.
+    \item \lstinline{(lookup-in-phonebook empty-phonebook "Hans")} liefert
+      \lstinline{#f}.
+    \item \lstinline{(lookup-in-phonebook} \\
+      \lstinline{    (add-to-phonebook empty-phonebook "Hans" "754829")}\\
+      \lstinline{    "Hans")} \\
+      liefert \lstinline{"754829"}.
+    \item \lstinline{(lookup-in-phonebook}\\
+      \lstinline{    (add-to-phonebook empty-phonebook "Hans" "754829")}\\
+      \lstinline{    "Lea")}\\
+      liefert \lstinline{#f}.
     \end{itemize}
   \end{enumerate}
 \end{aufgabe}
@@ -1542,11 +1528,11 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 
   \begin{enumerate}
    \item Schreibe die Datendefinition für Polynome.
-   \item Programmiere eine Funktion \texttt{polynomial+}, die
+   \item Programmiere eine Funktion \lstinline{polynomial+}, die
      zwei Polynome addiert.  Schreibe ggf.\ zutreffende Eigenschaften auf
      und überprüfe diese!
      
-   \item Programmiere eine Funktion \texttt{polynomial*}, die zwei Polynome 
+   \item Programmiere eine Funktion \lstinline{polynomial*}, die zwei Polynome 
      multipliziert. 
      Beispielsweise werden die Polynome $a_0+a_1 x$ und $b_0+b_1 x$ nach folgendem Schema multipliziert:
      \begin{eqnarray*}
@@ -1555,7 +1541,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
      &=&a_0b_0+a_0b_1 x + a_1b_0x + a_1b_1x^2
      \end{eqnarray*}	
      Schreibe ggf.\ zutreffende Eigenschaften auf und überprüfe diese!
-   \item Schreibe eine Funktion \texttt{polynomial-function}, die
+   \item Schreibe eine Funktion \lstinline{polynomial-function}, die
      ein Polynom akzeptiert und eine Funktion liefert, die ein Polynom
      an einer bestimmten Stelle auswertet, also gerade der Funktion
      $p$ aus der Definition entspricht. 
@@ -1565,7 +1551,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
        + n \cdot a_n \cdot x^{n-1}
      \end{displaymath}
      gegeben. Schreibe die Funktion
-     \texttt{polynomial-derivative}, die von einem gegebenen Polynom das abgeleitete Polynom
+     \lstinline{polynomial-derivative}, die von einem gegebenen Polynom das abgeleitete Polynom
      berechnet.
    \item Das Newton-Verfahren dient zur nährungsweisen
      Berechnung von Nullstellen. Für ein gegebenen Startwert nähert sich die
@@ -1581,7 +1567,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
      Da das
      Newton-Verfahren nicht immer eine Lösung liefert, programmiere
      Deine Funktion so, dass sie nach einer gewissen Anzahl von Schritten
-     automatisch abbricht und \verb|#f| zurück gibt.
+     automatisch abbricht und \lstinline{#f} zurück gibt.
  \end{enumerate}
 \end{aufgabe}
 
@@ -1604,9 +1590,9 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{lstlisting}
 
   Das erste Argument ist eine Funktion, die eine \textit{Halbordnung}
-  realisiert, also zwei Elemente vergleicht, und \verb|#t|
+  realisiert, also zwei Elemente vergleicht, und \lstinline{#t}
   zurückliefert, falls sie schon in der richtigen Reihenfolge sind und
-  \verb|#f|, falls nicht.  Zum Beispiel können \verb|<=| oder \verb|>=|
+  \lstinline{#f}, falls nicht.  Zum Beispiel können \lstinline{<=} oder \lstinline{>=}
   für das Sortieren von Listen von Zahlen verwendet werden.
 \item Benutze diese Funktion, um eine Liste von
   Fußballspielen nach den folgenden Kriterien zu sortieren:
@@ -1642,7 +1628,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   \end{lstlisting}
   % 
   (Dabei ist angenommen, dass der Konstruktor der Record-Definition
-  \texttt{make-stream} heißt.)
+  \lstinline{make-stream} heißt.)
   Zur Betrachtung von Streams ist folgende Funktion nützlich, welche
   die ersten $n$ Elemente eines Streams als Liste extrahiert:
   % 
@@ -1659,9 +1645,9 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
    \end{lstlisting}
    % 
    (Dabei ist angenommen, dass die Selektoren für Streams
-   \texttt{stream-first} und \texttt{stream"=rest"=proc} heißen.)
-   \texttt{Stream-take} lässt sich z.B.\ auf das Ergebnis von
-   \texttt{from} anwenden:
+   \lstinline{stream-first} und \lstinline{stream-rest-proc} heißen.)
+   \lstinline{Stream-take} lässt sich z.B.\ auf das Ergebnis von
+   \lstinline{from} anwenden:
    % 
    \begin{lstlisting}
 (stream-take 17 (from 4))
@@ -1670,7 +1656,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
    % 
    Programmiere einige intellektuelle Herausforderungen mit Streams!
    \begin{enumerate}
-   \item Programmiere eine Funktion \texttt{stream-drop}, die eine
+   \item Programmiere eine Funktion \lstinline{stream-drop}, die eine
      natürliche Zahl $n$ und einen Stream akzeptiert, und einen neuen
      Stream liefert, der aus dem alten durch Weglassen der ersten $n$
      Elemente entsteht:
@@ -1678,23 +1664,23 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 (stream-take 17 (stream-drop 3 (from 4)))
 |\evalsto| #<list 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23>
      \end{lstlisting}
-   \item Programmiere eine Funktion \texttt{stream-filter} analog zu
-     \texttt{filter}:
+   \item Programmiere eine Funktion \lstinline{stream-filter} analog zu
+     \lstinline{filter}:
      % 
      \begin{lstlisting}
 (stream-take 10 (stream-filter odd? (from 1)))
 |\evalsto| #<list 1 3 5 7 9 11 13 15 17 19>
      \end{lstlisting}
-   \item Programmiere eine Funktion \texttt{drop-multiples}, die 
+   \item Programmiere eine Funktion \lstinline{drop-multiples}, die 
      eine Zahl $n$ und einen Stream von Zahlen $s$ akzeptiert.
-     \texttt{Drop-multiples} soll einen Stream liefern, in dem
+     \lstinline{Drop-multiples} soll einen Stream liefern, in dem
      gegenüber $s$  alle Vielfachen von $n$ entfernt wurden:
      % 
      \begin{lstlisting}
 (stream-take 10 (drop-multiples 3 (from 1)))
 |\evalsto| #<list 1 2 4 5 7 8 10 11 13 14>
      \end{lstlisting}
-   \item Schreibe eine Funktion \texttt{sieve}, die aus einem Stream
+   \item Schreibe eine Funktion \lstinline{sieve}, die aus einem Stream
      von Zahlen all diejenigen Zahlen entfernt, die Vielfache von
      Vorgängern im Stream sind:
      \begin{lstlisting}
@@ -1703,20 +1689,20 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
      \end{lstlisting}
      Um was für Zahlen handelt es sich in dem Beispielaufruf und
      warum?
-   \item Schreibe eine Funktion \texttt{powers}, die für eine Zahl
+   \item Schreibe eine Funktion \lstinline{powers}, die für eine Zahl
      $n$ einen Stream ihrer Potenzen liefert:
      % 
      \begin{lstlisting}
 (stream-take 10 (powers 2))
 |\evalsto| #<list 2 4 8 16 32 64 128 256 512 1024>
      \end{lstlisting}
-   \item Schreibe eine Funktion \texttt{stream-map} analog zu
-     \texttt{list-map}:
+   \item Schreibe eine Funktion \lstinline{stream-map} analog zu
+     \lstinline{list-map}:
      \begin{lstlisting}
 (stream-take 10 (stream-map (lambda (x) (+ x 1)) (from 1)))
 |\evalsto| #<list 2 3 4 5 6 7 8 9 10 11>
      \end{lstlisting}
-   \item Schreibe eine Funktion \texttt{merge}, die zwei
+   \item Schreibe eine Funktion \lstinline{merge}, die zwei
      aufsteigende Streams von Zahlen zu einem aufsteigenden Stream
      der Elemente beider Streams vereinigt:
      \begin{lstlisting}
@@ -1735,9 +1721,9 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 (define prime-powers-stream (stream-map powers (sieve (from 2))))
      \end{lstlisting}
      % 
-     Definiere eine Funktion \texttt{merge-streams}, welche
+     Definiere eine Funktion \lstinline{merge-streams}, welche
      diesen Stream akzeptiert und die Elemente der Streams
-     aus \texttt{prime-powers-stream} mit Hilfe von \texttt{merge}
+     aus \lstinline{prime-powers-stream} mit Hilfe von \lstinline{merge}
      aufsteigend sortiert.
    \end{enumerate}
  \end{aufgabe}
@@ -1761,31 +1747,31 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{lstlisting}
   % 
   \textbf{Hinweise:} Beachte die Signaturen! In mehreren
-  Teilaufgaben gibt es Gelegenheiten, \texttt{curry} bzw.\
-  \texttt{uncurry} zu benutzen.
+  Teilaufgaben gibt es Gelegenheiten, \lstinline{curry} bzw.\
+  \lstinline{uncurry} zu benutzen.
 
   \begin{itemize}
-  \item Vergleiche die Funktion mit \texttt{list-fold} und
-    beschreibe, wie \texttt{//} und \texttt{list-fold} zueinander
+  \item Vergleiche die Funktion mit \lstinline{list-fold} und
+    beschreibe, wie \lstinline{//} und \lstinline{list-fold} zueinander
     in Beziehung stehen.  Schreibe, falls möglich, eine
-    Definition von \texttt{//}, die \texttt{list-fold} benutzt und
+    Definition von \lstinline{//}, die \lstinline{list-fold} benutzt und
     umgekehrt.
-  \item Schreibe mit Hilfe von \texttt{//} eine Funktion
-    \texttt{list-sum}, welche die Elemente einer Liste addiert.
-  \item Schreibe eine Funktion \texttt{insert}, die eine reelle
+  \item Schreibe mit Hilfe von \lstinline{//} eine Funktion
+    \lstinline{list-sum}, welche die Elemente einer Liste addiert.
+  \item Schreibe eine Funktion \lstinline{insert}, die eine reelle
     Zahl $n$ akzeptiert und eine Funktion zurückliefert, die eine
     aufsteigend sortierte Liste von reellen Zahlen konsumiert und
     eine Liste zurückliefert, in der $n$ an die entsprechende
     Stelle der Liste einsortiert wurde.
-  \item Schreibe mit Hilfe von \texttt{//} eine Funktion, die
+  \item Schreibe mit Hilfe von \lstinline{//} eine Funktion, die
     eine Liste von reellen Zahlen aufsteigend sortiert.
   \end{itemize}
 \end{aufgabe}
 
 \begin{aufgabe}
   Programmiere eine Version von
-  \texttt{list-fold-left}, nämlich die Funktion
-  \texttt{list-fold-left-bonus}, die \texttt{list-fold} benutzt aber
+  \lstinline{list-fold-left}, nämlich die Funktion
+  \lstinline{list-fold-left-bonus}, die \lstinline{list-fold} benutzt aber
   selbst keine Rekursion enthält und auch keine rekursiven
   Hilfsfunktionen aufruft.
 \end{aufgabe}
@@ -1811,11 +1797,11 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
            (* x (f (- x 1))))))))
    \end{lstlisting}
   %
-   Was macht \texttt{m}?  \texttt{Y} wird auch
+   Was macht \lstinline{m}?  \lstinline{Y} wird auch
    \textit{Fixpunktkombinator} genannt.  Erkläre einem Anfänger, der
    gerade drei Informatik-Stunden hinter sich hat, diesen Begriff~--
    außerdem was
-   \texttt{y} bewirkt und warum.
+   \lstinline{y} bewirkt und warum.
  \end{aufgabe}
 
 \begin{aufgabe}
@@ -1824,8 +1810,8 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   Parametern gilt:
   %
   \begin{center}
-    \texttt{(curry (uncurry $p_1$))} $\equiv$ $p_1$\\
-    \texttt{(uncurry (curry $p_2$))} $\equiv$ $p_2$
+    \lstinline{(curry (uncurry $p_1$))} $\equiv$ $p_1$\\
+    \lstinline{(uncurry (curry $p_2$))} $\equiv$ $p_2$
   \end{center}
  \end{aufgabe}
 
@@ -1833,7 +1819,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   Eine Funktion $f$ ist idempotent, wenn gilt:
 
   \begin{center}
-    \texttt{(compose $f$ $f$) $\equiv$ $f$}
+    \lstinline{(compose $f$ $f$) $\equiv$ $f$}
   \end{center}
 
   Zeige, dass folgende Funktion idempotent ist:
@@ -1853,10 +1839,10 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   zueinander, wenn gilt:
 
   \begin{center}
-    \texttt{(compose $f$ $g$) $\equiv$ id} und \texttt{(compose $g$ $f$) $\equiv$ id}
+    \lstinline{(compose $f$ $g$) $\equiv$ id} und \lstinline{(compose $g$ $f$) $\equiv$ id}
   \end{center}
 
-  Zeige, dass \texttt{curry} und \texttt{uncurry} invers zueinander sind.
+  Zeige, dass \lstinline{curry} und \lstinline{uncurry} invers zueinander sind.
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1872,18 +1858,18 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   \end{lstlisting}
 
   \begin{enumerate}
-  \item Was macht \texttt{mystery}?
+  \item Was macht \lstinline{mystery}?
 
-  \item Schreibe eine Signatur für \texttt{mystery}.
+  \item Schreibe eine Signatur für \lstinline{mystery}.
 
-  \item Beweise, dass \texttt{mystery} tatsächlich das macht, was
+  \item Beweise, dass \lstinline{mystery} tatsächlich das macht, was
     Du vermutest.
   \end{enumerate}
 \end{aufgabe}
 
 \begin{aufgabe}
   Beweise: $\forall n \in \mathbb{N}$ gilt
-  \texttt{(repeat $n$ id) $=$ id}, wobei \texttt{id} die
+  \lstinline{(repeat $n$ id) $=$ id}, wobei \lstinline{id} die
   Identitätsfunktion ist.
 \end{aufgabe}
 
