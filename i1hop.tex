@@ -184,9 +184,11 @@ von Code ist immer schlecht, vor allem, wenn sich etwas
 von Punkten ändern sollte, und dann müssten wir beide Funktionen in
 gleicher Weise anpassen.  Die Lösung für das Problem zeigt sich
 dadurch, dass wir aus dem gemeinsamen Code der beiden Funktionen
-eine neue Funktion machen, entsprechend dem Abstraktions-Mantra.
+eine neue Funktion machen, entsprechend dem Abstraktions-Mantra:
 
-Zu diesem Zweck kopieren wir eine der beiden Funktionsdefinitionen und
+\mantraabstraktion*
+
+\noindent Um zu abstrahieren, kopieren wir eine der beiden Funktionsdefinitionen und
 geben ihr einen neuen Namen, in diesem Fall \lstinline{compute-points}:
 %
 \begin{lstlisting}
