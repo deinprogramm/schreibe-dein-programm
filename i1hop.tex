@@ -40,15 +40,15 @@ Saison.  Ein Spiel können wir folgendermaßen charakterisieren:
 \begin{lstlisting}
 ; Ein Spiel hat folgende Eigenschaften:
 ; - Spieltag
-; - Gastgeber-Team
-; - Gastgeber-Tore
-; - Gast-Team
-; - Gast-Tore
+; - Heimmannschaft
+; - Heimmannschaft-Tore
+; - Gastmannschaft
+; - Gastmannschaft-Tore
 \end{lstlisting}
 %
 Es handelt sich sichtlich um zusammengesetzte Daten.  Wir müssen uns
 überlegen, welche Signaturen zu den einzelnen Bestandteilen passen.
-Spieltag und Tore sind allesamt natürliche Zahlen.  Ein Team können
+Spieltag und Tore sind allesamt natürliche Zahlen.  Eine Mannschaft können
 wir durch seinen Namen als Zeichenkette repräsentieren.   Das ergibt
 folgende Record-Definition:
 %$
@@ -100,7 +100,7 @@ Unsere Funktion für die Bestimmung der Punktzahl hat Kurzbeschreibung,
 Signatur, Tests und Gerüst wie folgt:\index{home-points@\texttt{home-points}}
 %
 \begin{lstlisting}
-; Punktzahl für Gastgeber-Team berechnen
+; Punktzahl für Heimmannschaft berechnen
 (: home-points (game -> points))
 
 (check-expect (home-points game1) 3)
@@ -164,7 +164,7 @@ bei der nächsten Funktion (hoffentlich) klar, welche die Punkte
 ausrechnet, die dem Gästeteam zustehen:
 %
 \begin{lstlisting}
-; Punktzahl für Gast-Team berechnen
+; Punktzahl für Gastmannschaft berechnen
 (: guest-points (game -> points))
 
 (define guest-points
@@ -301,10 +301,10 @@ Signatur von \lstinline{compute-points}.  Sie akzeptiert nicht mehr drei
 Argumente sondern nur zwei, aber liefert dafür eine Funktion, die von
 einem Spiel die Punkte liefert:
 %
-\begin{lstinline}
+\begin{lstlisting}
 (: make-compute-points ((game -> natural) (game -> natural) 
                          -> (game -> points)))
-\end{lstinline}
+\end{lstlisting}
 %
 Auch mit dieser Funktion können wir alternative Definitionen von
 \lstinline{make-compute-points} schreiben.  Auf den ersten Blick ist
@@ -533,7 +533,7 @@ Die beiden Funktionen \lstinline{drawn-games} und
 einzige Unterschied ist, dass an der Stelle von \lstinline{game-draw?}
 in der zweiten Funktion \lstinline{home-won?} steht.  Darüber können
 wir nach Konstruktionsanleitung~\ref{ka:abstraktion} auf
-Seite~\pageref{ka:astraktion} abstrahieren.  Dazu kopieren wir die
+Seite~\pageref{ka:abstraktion} abstrahieren.  Dazu kopieren wir die
 letzte Funktion und denken uns einen neuen Namen aus~-- da es in
 beiden Fällen ums "<extrahieren"> geht, nehmen wir
 \lstinline{extract-games}:
@@ -591,9 +591,9 @@ Signatur schreiben.  Wir fangen mit der Signatur von
 \lstinline{home-won-games} an und erweitern um den zusätzlichen
 Parameter:
 %
-\begin{lstinline}
+\begin{lstlisting}
 (: extract-games (... (list-of game) -> (list-of game)))
-\end{lstinline}
+\end{lstlisting}
 %
 Der zusätzliche Parameter ist \lstinline{f?}, den wir für
 \lstinline{game-draw?} und \lstinline{home-won?} eingesetzt haben.
@@ -601,9 +601,9 @@ Diese beiden Funktionen haben die Signatur
 \lstinline{(game -> boolean)}, das können wir also für die Ellipse
 einsetzen:
 %
-\begin{lstinline}
+\begin{lstlisting}
 (: extract-games ((game -> boolean) (list-of game) -> (list-of game)))
-\end{lstinline}
+\end{lstlisting}
 %
 Nun können wir Aufrufe der alten Funktionen durch Aufrufe der neuen
 ersetzen.  Wir tun das, indem wir die Testfälle für
@@ -679,10 +679,10 @@ Wir betrachten noch eine weitere Anwendung von
 \lstinline{extract-list}: Wir wollen aus einer Liste von Spielen die
 Spiele extrahieren, an denen eine bestimmte Mannschaft teilgenommen
 hat.  Auch dazu definieren wir eine Hilfsfunktion, die feststellt, ob
-ein Team bei einem Spiel die Heim- oder die Gastmannschaft ist:
+eine Mannschaft bei einem Spiel die Heim- oder die Gastmannschaft ist:
 %
 \begin{lstlisting}
-; Spielt Team bei Spiel?
+; Spielt Mannschaft bei Spiel?
 (: plays-game? (team game -> boolean))
 
 (check-expect (plays-game? "Wolfsburg" game1) #t)
@@ -727,7 +727,7 @@ Dauer umständlich, für jeden Verein extra eine Definiton zu schreiben.
 
 Einfacher ist es, stattdessen die Funktion, die wir an
 \lstinline{extract-list} übergeben, "<ad hoc"> mit einem
-\lstinline{lambda} zu konstruieren:
+\lstinline{lambda} zu konstruieren:\label{code:extract-list-plays-game}
 %
 \begin{lstlisting}
 (extract-list (lambda (game) (plays-game? "Nürnberg" game)) 
@@ -743,10 +743,10 @@ entsprechenden Parameter.  Wir wollen alle Spiele extrahieren, bei
 denen Nürnberg beziehungsweise Hamburg dabei ist, also schreiben wir
 den entsprechenden Ausdruck in den Rumpf.
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Schreibe eine Funktion \lstinline{games-playing}, die alle Spiele
-  aus einer Liste extrahiert, bei denen ein bestimmtes Team dabei war.
-\end{aufgabe}
+  aus einer Liste extrahiert, bei denen eine bestimmte Mannschaft dabei war.
+\end{aufgabeinline}
 %
 Die Funktion \lstinline{extract-list} ist so praktisch, dass sie unter
 dem Namen \lstinline{filter}\index{filter@\texttt{filter}} fest
@@ -754,7 +754,317 @@ eingebaut ist.
 
 \section{Listen umwandeln}
 
-FIXME: map
+Bestimmte Fußballstatistiken beschäftigen sich damit, wieviele Tore in
+einem Spiel, an einem Spieltag oder in einer ganzen Saison geschossen
+wurden.  Grundlage dafür ist die Anzahl Tore eines einzelnen Spiels.
+Hier sind Kurzbeschreibung, Signatur, Tests und Gerüst dafür:
+%
+\begin{lstlisting}
+; Gesamttore eines Spiels berechnen
+(: total-goals (game -> natural))
+
+(check-expect (total-goals game1) 2)
+(check-expect (total-goals game2) 4)
+
+(define total-goals
+  (lambda (game)
+    ...))
+\end{lstlisting}
+%
+Als Schablone machen wir davon Gebrauch, dass die Eingabe
+zusammensetze Daten sind:
+%
+\begin{lstlisting}
+(define total-goals
+  (lambda (game)
+    ... (game-matchday game) ...
+    ... (game-home-team game) ...
+    ... (game-home-goals game) ...
+    ... (game-guest-team game) ...
+    ... (game-guest-goals game) ...))
+\end{lstlisting}
+%
+Für die Gesamt-Torzahl benötigen wir nur
+\lstinline{(game-home-goals game)}
+und
+\lstinline{(game-guest-goals game)}, die addiert werden:
+%
+\begin{lstlisting}
+(define total-goals
+  (lambda (game)
+    (+ (game-home-goals game)
+       (game-guest-goals game))))
+\end{lstlisting}
+%
+Als nächstes wollen wir die Gesamttore jeweils aller Spiele eines
+Spieltags herausbekommen.  Dazu wollen wir aus einer Liste der Spiele
+eine Liste der zugehörigen Gesamttore machen:
+%
+\begin{lstlisting}
+; Gesamttore in einer Liste von Spielen berechnen
+(: list-total-goals ((list-of game) -> (list-of natural)))
+\end{lstlisting}
+%
+Das erste Element des Ergebnisses soll die Toranzahl des ersten Spiels
+der Eingabeliste sein, das zweite Element die Toranzahl des zweiten
+Spiels undsoweiter.  Dieser Test illustriert die Funktionsweise:
+%
+\begin{lstlisting}
+(check-expect (list-total-goals day1)
+              (list 2 4 1 5 3 1 2 6 2))
+\end{lstlisting}
+%
+Es folgt das Gerüst mit der obligatorischen Schablone für Funktionen
+auf Listen:
+%
+\begin{lstlisting}
+(define list-total-goals
+  (lambda (list)
+    (cond
+      ((empty? list) ...)
+      ((cons? list)
+       ... (first list)
+       ... (list-total-goals (rest list)) ...))))
+\end{lstlisting}
+%
+Falls die Eingabe eine leere Liste ist, so kann auch die Ausgabe nur
+leer sein.  Im anderen Zweig steht in der Schablone das erste Spiel:
+von dem muss die Funktion die Toranzahl ermitteln, für den Rest ist
+das schon passiert.  Die beiden Ergebnisse kombinieren wir mit
+\lstinline{cons}:
+%
+\begin{lstlisting}
+(define list-total-goals
+  (lambda (list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (cons (total-goals (first list))
+             (list-total-goals (rest list)))))))
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Benutze die Funktion \lstinline{list-sum} aus
+  Abschnitt~\ref{sec:list-sum} auf Seite~\pageref{sec:list-sum}, um
+  eine Funktion zu schreiben, welche die durchschnittliche Toranzahl
+  einer Liste von Spielen berechnet.
+\end{aufgabeinline}
+%
+Fans sind vielleicht weniger an Gesamttoren interessiert als an den
+Toren ihrer Mannschaft.  Damit wir uns da einen Überblick verschaffen
+können, benötigen wir wieder erst einmal eine Funktion, welche für ein
+einzelnes Spiel die Anzahl der Tore einer bestimmten Mannschaft berechnet:
+%
+\begin{lstlisting}
+; Tore einer Mannschaft aus einem Spiel berechnen
+(: team-goals (team game -> natural))
+
+(check-expect (team-goals "Wolfsburg" game1) 2)
+(check-expect (team-goals "Stuttgart" game1) 0)
+\end{lstlisting}
+%
+Was soll passieren, wenn die gewünschte Mannschaft bei dem Spiel gar nicht
+dabei war?  Das sollte zu einem Fehler führen:
+%
+\begin{lstlisting}
+(check-error (team-goals "Hannover" game1))
+\end{lstlisting}
+%
+Gerüst und Schablone machen zunächst wieder davon Gebrauch, dass es
+sich bei \lstinline{game} zum zusammengesetzte Daten handelt:
+%
+\begin{lstlisting}
+(define team-goals
+  (lambda (team game)
+    ... (game-matchday game) ...
+    ... (game-home-team game) ...
+    ... (game-home-goals game) ...
+    ... (game-guest-team game) ...
+    ... (game-guest-goals game) ...))
+\end{lstlisting}
+%
+Außerdem gibt es eine Fallunterscheidung in den Daten, je nachdem, ob
+die gesuchte Mannschaft die Heim- oder die Gastmannschaft ist, was zu
+einer Verzweigung mit zwei Zweigen führt:
+%
+\begin{lstlisting}
+(define team-goals
+  (lambda (team game)
+    (cond
+      ((string=? team (game-home-team game))
+       (game-home-goals game))
+      ((string=? team (game-guest-team game))
+       (game-guest-goals game)))))
+\end{lstlisting}
+%
+Jetzt wollen wir auch diese Funktion benutzen, um eine ganze Liste von
+Spielen, bei denen eine bestimmte Mannschaft mitspielt, in die Liste
+der Tore dieser Mannschaft verwandelt.  Signatur und Kurzbeschreibung
+sehen so aus:
+%
+\begin{lstlisting}
+; Tore einer Mannschaft aus einer Liste von Spielen auflisten
+(: list-team-goals (team (list-of game) -> (list-of natural)))
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Schreibe einen Testfall, der eine Liste der Tore von Hamburg in
+  einer Saison berechnet.  Benutze dazu \lstinline{filter}! 
+\end{aufgabeinline}
+%
+Gerüst und Schablone sehen so aus:
+%
+\begin{lstlisting}
+(define list-team-goals
+  (lambda (team list)
+    (cond
+      ((empty? list) ...)
+      ((cons? list)
+      ... (first list) ...
+      ... (list-team-goals team (rest list)) ...))))
+\end{lstlisting}
+%
+Und wieder kommt bei einer leeren Liste als Eingabe eine leere Liste
+heraus, und wir wenden im \lstinline{cons}-Fall die zuvor geschriebene
+Hilfsfunktion auf das erste Element an und bauen mit \lstinline{cons}
+die Ergebnis-Liste:
+%
+\begin{lstlisting}
+(define list-team-goals
+  (lambda (team list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (cons (team-goals team (first list))
+             (list-team-goals team (rest list)))))))
+\end{lstlisting}
+%
+Fertig!
+
+Allerdings ruft mal wieder das Abstraktions-Mantra: Die Funktionen
+\lstinline{list-total-goals} und \lstinline{list-team-goals} ähneln
+sich stark.  Sie unterscheiden sich nur darin, dass bei der ersten
+\lstinline{total-goals} auf dem ersten Element der Liste auferufen wird
+und beim zweiten \lstinline{team-goals}. 
+
+Um zu abstrahieren, gehen wir wieder nach
+Konstruktionsanleitung~\ref{ka:abstraktion} auf
+Seite~\pageref{ka:abstraktion} vor.  Wir kopieren eine der beiden
+Funktionen (wir nehmen die erste) und geben ihr einen neuen Namen:
+%
+\begin{lstlisting}
+(define list-apply
+  (lambda (list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (cons (total-goals (first list))
+             (list-apply (rest list)))))))
+\end{lstlisting}
+%
+Die Funktion heißt \lstinline{list-apply}, weil sie eine Funktion auf
+alle Elemente einer Liste anwendet.
+
+Als nächstes müssen wir eine Variable dort einführen, wo die beiden
+Funktionen sich unterscheiden, nämlich bei \lstinline{total-goals}.
+Wir nennen die Funktion einfach \lstinline{f}:
+%
+\begin{lstlisting}
+(define list-apply
+  (lambda (list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (cons (f (first list))
+             (list-apply (rest list)))))))  
+\end{lstlisting}
+%
+Nun müssen wir die neue Variable noch im \lstinline{lambda}
+unterbringen, ohne zu vergessen, sie auch im rekursiven Aufruf
+aufzuführen:
+%
+\begin{lstlisting}
+(define list-apply
+  (lambda (f list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (cons (f (first list))
+             (list-apply f (rest list)))))))
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Ändere die Definition von \lstinline{list-total-goals} so, dass sie
+  \lstinline{list-apply} benutzt.
+\end{aufgabeinline}
+%
+Wir brauchen noch eine Signatur für die neue Funktion.  Wir versuchen
+sie mal, "<von null"> zu konstruieren, indem wir aufschreiben, was wir
+wissen.  Wir wissen, dass \lstinline{list-apply} zwei Argumente hat,
+von denen das erste eine einstellige Funktion und das zweite eine
+Liste ist.  Außerdem produziert die Funktion auch eine Liste als
+Ergebnis.  Das sieht schriftlich so aus:
+%
+\begin{lstlisting}
+(: list-apply ((... -> ...) (list-of ...) -> (list-of ...)))
+\end{lstlisting}
+%
+Wir haben zwar über zwei Funktionen abstrahiert, die sich mit Spielen
+beschäftigt.  Aber \lstinline{list-apply} hat nichts
+Fußball-spezifisches mehr an sich.  Wir wissen also nichts über die
+Signatur der Elemente der Eingabeliste.  Wir schreiben dort also eine
+Signaturvariable hin:
+%
+\begin{lstlisting}
+(: list-apply ((... -> ...) (list-of %element) -> (list-of ...)))
+\end{lstlisting}
+%
+Nun wissen wir, dass die Elemente der Eingabeliste als Eingabe für die
+Funktion \lstinline{f} verwendet werden, wir können also auch dort
+\lstinline{%element} hinschreiben:
+%
+\begin{lstlisting}
+(: list-apply ((%element -> ...) (list-of %element) -> (list-of ...)))
+\end{lstlisting}
+%
+Die Definition von \lstinline{list-apply} legt auch für das Ergebnis
+von  \lstinline{f} keine Signatur fest.  Wir schreiben also auch da
+eine Signaturvariable hin:
+%
+\begin{lstlisting}
+(: list-apply ((%element -> %result) (list-of %element) -> (list-of ...)))
+\end{lstlisting}
+%
+Es fehlt nur noch die Signatur für die Elemente der Ergebnisliste.
+Dafür müssen wir den Aufruf von \lstinline{cons} betrachten, dessen
+erstes Argument gerade das Ergebnis des Aufrufs von \lstinline{f}
+ist.  Dort muss deshalb auch \lstinline{%result} hin:
+%
+\begin{lstlisting}
+(: list-apply ((%element -> %result) (list-of %element) -> (list-of %result)))
+\end{lstlisting}
+%
+Bei solchen Signaturen, in denen überhaupt nichts über die
+Signaturvariablen bekannt ist, ist es üblich, kürzere Namen für die
+Signaturvariablen zu wählen, zum Beispiel so:
+%
+\begin{lstlisting}
+(: list-apply ((%a -> %b) (list-of %a) -> (list-of %b)))
+\end{lstlisting}
+%
+Fertig!
+%
+\begin{aufgabeinline}
+  Schreibe auch \lstinline{list-team-goals} so um, dass es
+  \lstinline{list-apply} verwendet.  Du musst einen ähnlichen Trick
+  verwenden wie bei der Kombination von \lstinline{extract-list} und
+  \lstinline{plays-game?} im vorigen Abschnitt auf
+  Seite~\pageref{code:extract-list-plays-game}.
+\end{aufgabeinline}
+%
+Die Funktion \lstinline{list-apply} ist ähnlich praktisch wie
+\lstinline{filter} aus dem vorigen Abschnitt und ist darum unter dem
+Namen \lstinline{map} fest eingebaut.\index{map@\texttt{map}}
 
 \section{Listen zusammenfalten}
 
@@ -966,9 +1276,9 @@ Infix-Schreibweise also:
 Nach dieser Sichtweise wird $\odot$ zwischen die Elemente der Liste
 eingefügt.
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   FIXME: empty und cons
-\end{aufgabe}
+\end{aufgabeinline}
 
 FIXME: allgmeines Rekursionsmuster
 
@@ -1641,8 +1951,8 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   sortieren: zum Beispiel aufsteigend, absteigend, oder abhängig von
   einem Feld der Elemente.  So kann eine Liste von Fußballspielen nach
   der Gesamtanzahl der Tore, der Anzahl der Tore des Heimteams oder
-  der Anzahl der Tore des Gästeteams oder der Anzahl der Tore des
-  gewinnenden Teams sortiert werden.  Die genaue Anordnung wird durch
+  der Anzahl der Tore des Gästeteams oder der Anzahl der Tore der
+  gewinnenden Mannschaft sortiert werden.  Die genaue Anordnung wird durch
   eine Operation festgelegt, die bestimmt, ob ein Elemente vor einem anderen
   stehen soll.
 
@@ -1663,10 +1973,10 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   Fußballspielen nach den folgenden Kriterien zu sortieren:
   \begin{itemize}
   \item Gesamtanzahl der Tore,
-  \item Anzahl der Tore des Heimteams,
-  \item Anzahl der Tore des Gästeteams oder
-  \item Anzahl der Tore des
-    gewinnenden Teams
+  \item Anzahl der Tore der Heimmannschaft,
+  \item Anzahl der Tore des Gastmannschaft oder
+  \item Anzahl der Tore der
+    gewinnenden Mannschaft
   \end{itemize}
 \end{enumerate}
 \end{aufgabe}

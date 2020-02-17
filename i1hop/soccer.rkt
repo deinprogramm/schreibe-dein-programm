@@ -2,15 +2,15 @@
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname soccer) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
 
-; Ein Team ist durch seinen Namen identifiziert.
+; Eine Mannschaft ist durch seinen Namen identifiziert.
 (define team (signature string))
 
 ; Ein Spiel hat folgende Eigenschaften:
 ; - Spieltag
-; - Gastgeber-Team
-; - Gastgeber-Tore
-; - Gast-Team
-; - Gast-Tore
+; - Heimmannschaft
+; - Heimmannschaft-Tore
+; - Gastmannschaft
+; - Gastmannschaft-Tore
 (define-record-functions game
   make-game game?
   (game-matchday natural)
@@ -382,7 +382,7 @@
 (define points
   (signature (enum 0 1 3)))
 
-; Punktzahl für Gastgeber-Team berechnen
+; Punktzahl für Heimmannschaft berechnen
 (: home-points (game -> points))
 
 (check-expect (home-points game1) 3)
@@ -401,7 +401,7 @@
       ((= goals1 goals2) 1))))
 
 
-; Punktzahl für Gast-Team berechnen
+; Punktzahl für Gastmannschaft berechnen
 (: guest-points (game -> points))
 
 (check-expect (guest-points game1) 0)
@@ -545,7 +545,7 @@
            (extract-list f? (rest list)))))))
 
                    
-; Spielt Team bei Spiel?
+; Spielt Mannschaft bei Spiel?
 (: plays-game? (team game -> boolean))
 
 (check-expect (plays-game? "Wolfsburg" game1) #t)
@@ -567,51 +567,6 @@
   (lambda (game)
     (plays-game? "Nürnberg" game)))
 
-; Alle Spiele mit einem Team herausfiltern
-(: games-playing (team (list-of game) -> (list-of game)))
-
-(check-expect (games-playing "Nürnberg" day1) (list game5))
-(check-expect (length (games-playing "Nürnberg" season-2009/2010)) 34)
-
-(define games-playing
-  (lambda (team list)
-    (extract-list (lambda (game) (plays-game? team game)) list)))
-
-; Punkte eines Teams aus Spiel berechnen
-(: team-points (team game -> points))
-
-(check-expect (team-points "Freiburg" game9) 1)
-(check-expect (team-points "Dortmund" game6) 3)
-(check-error (team-points "Hannover" game1))
-
-(define team-points
-  (lambda (team game)
-    (cond
-      ((string=? team (game-home-team game)) (home-points game))
-      ((string=? team (game-guest-team game)) (guest-points game)))))
-
-; Punkte eines Teams aus einer Liste von Spielen berechnen
-(: team-points-sum (team (list-of game) -> natural))
-
-(check-expect (team-points-sum "Hamburg" season-2009/2010) 52)
-(check-expect (team-points-sum "Nürnberg" season-2009/2010) 31)
-
-(define team-points-sum
-  (lambda (team list)
-    (team-points-sum-helper team
-                            (filter (lambda (game)
-                                      (plays-game? team game))
-                                    list))))
-
-(: team-points-sum-helper (team (list-of game) -> natural))
-(define team-points-sum-helper
-  (lambda (team list)
-    (cond
-      ((empty? list) 0)
-      ((cons? list)
-       (+ (team-points team (first list))
-          (team-points-sum-helper team (rest list)))))))
-
 ; Eine hanebüchene Frage:
 ; Hat der SC Freiburg in der Saison 2009/10 gegen 1. FC Bayern München gewonnen?
 (check-expect (cons?
@@ -630,6 +585,19 @@
                        season-2009/2010))
               #t)
 
+; Punkte einer Mannschaft aus Spiel berechnen
+(: team-points (team game -> points))
+
+(check-expect (team-points "Freiburg" game9) 1)
+(check-expect (team-points "Dortmund" game6) 3)
+(check-error (team-points "Hannover" game1))
+
+(define team-points
+  (lambda (team game)
+    (cond
+      ((string=? team (game-home-team game)) (home-points game))
+      ((string=? team (game-guest-team game)) (guest-points game)))))
+
 ; Gesamttore eines Spiels berechnen
 (: total-goals (game -> natural))
 
@@ -642,59 +610,20 @@
        (game-guest-goals game))))
 
 ; Gesamttore in einer Liste von Spielen berechnen
-(: list-total-goals ((list-of game) -> natural))
+(: list-total-goals ((list-of game) -> (list-of natural)))
 
-(check-expect (list-total-goals day1) 26)
+(check-expect (list-total-goals day1)
+              (list 2 4 1 5 3 1 2 6 2))
 
 (define list-total-goals
   (lambda (list)
     (cond
-      ((empty? list) 0)
+      ((empty? list) empty)
       ((cons? list)
-       (+ (total-goals (first list))
-          (list-total-goals (rest list)))))))
+       (cons (total-goals (first list))
+             (list-total-goals (rest list)))))))
 
-; Das geht auch allgemeiner: Eine Liste "zusammenfalten" zu einem Ergebnis:
-; - Ein Element von der Sorte %b als Ergebnis für die leere Liste
-; - Eine Funktion (%a %b -> %b) für das Kombinieren von Ergebnissen
-; - Eine Liste von der Sorte (list-of %a)
-; - ... ergeben ein Ergebnis von der Sorte %b
-
-(: list-fold (%b (%a %b -> %b) (list-of %a) -> %b))
-
-; ein einfaches Beispiel
-(check-expect (list-fold 0 + (list 1 2 3)) 6)
-; die Funktion list-total-goals hätten wir mit list-fold so schreiben können:
-(check-expect (list-fold 0
-                         (lambda (game rest-goals)
-                           (+ (+ (game-home-goals game)
-                                 (game-guest-goals game))
-                              rest-goals))
-                         day1)
-              26)
-; Eine Liste von Spielen zusammengefaltet zu einer Zahl:
-; %a und %b verschieden!
-
-(check-expect (list-fold empty
-                         (lambda (game rest-games)
-                           (if (plays-game? "Hamburg" game)
-                               (cons game rest-games)
-                               rest-games))
-                         day1)
-              (list game9))
-; Eine Liste von Spielen zusammengefaltet zu einer anderen Liste:
-; %a und %b gleich!
-
-(define list-fold
-  (lambda (start combine list)
-    (cond
-      ((empty? list) start)
-      ((cons? list) 
-       (combine (first list)
-                (list-fold start combine (rest list)))))))
-
-
-; Tore eines Teams aus einem Spiel berechnen
+; Tore einer Mannschaft aus einem Spiel berechnen
 (: team-goals (team game -> natural))
 
 (check-expect (team-goals "Wolfsburg" game1) 2)
@@ -707,14 +636,8 @@
       ((string=? team (game-home-team game)) (game-home-goals game))
       ((string=? team (game-guest-team game)) (game-guest-goals game)))))
 
-; Tore eines Teams aus einer Liste von Spielen auflisten
+; Tore einer Mannschaft aus einer Liste von Spielen auflisten
 (: list-team-goals (team (list-of game) -> (list-of natural)))
-
-(check-expect (list-team-goals "Hamburg"
-                               (filter (lambda (game)
-                                              (plays-game? "Hamburg" game))
-                                            season-2009/2010))
-              (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
 
 (define list-team-goals
   (lambda (team list)
@@ -727,22 +650,46 @@
 ; Auch das geht allgemeiner: Eine Funktion (%a -> %b) "fortsetzen" zu einer
 ; Funktion ((list-of %a) -> (list-of %b)):
 
-(: list-map ((%a -> %b) (list-of %a) -> (list-of %b)))
+(: list-apply ((%a -> %b) (list-of %a) -> (list-of %b)))
 
-(check-expect (list-map (lambda (game)
-                          (team-goals "Hamburg" game))
-                        (filter (lambda (game)
-                                       (plays-game? "Hamburg" game))
-                                     season-2009/2010))
+(check-expect (list-apply (lambda (game)
+                            (team-goals "Hamburg" game))
+                          (filter (lambda (game)
+                                    (plays-game? "Hamburg" game))
+                                  season-2009/2010))
               (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
 
-(define list-map
-  (lambda (function list)
+#;(define list-apply
+  (lambda (list)
     (cond
       ((empty? list) empty)
       ((cons? list)
-       (cons (function (first list))
-             (list-map function (rest list)))))))
+       (cons (total-goals (first list))
+             (list-apply (rest list)))))))
+
+#;(define list-apply
+  (lambda (list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (cons (f (first list))
+             (list-apply (rest list)))))))
+
+(define list-apply
+  (lambda (f list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (cons (f (first list))
+             (list-apply f (rest list)))))))
+
+(define list-apply
+  (lambda (f list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (cons (f (first list))
+             (list-apply f (rest list)))))))
 
 ; jetzt können wir noch von "Hamburg" abstrahieren:
 
@@ -758,7 +705,7 @@
     (lambda (game)
       (plays-game? team game))))
 
-(check-expect (list-map (make-specific-team-goals "Hamburg")
+(check-expect (list-apply (make-specific-team-goals "Hamburg")
                         (filter (make-specific-plays-game? "Hamburg")
                                      season-2009/2010))
               (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
@@ -771,7 +718,7 @@
 ; Prozedur schönfinkeln
 (: curry ((%a %b -> %c) -> (%a -> (%b -> %c))))
 
-(check-expect (list-map ((curry team-goals) "Hamburg")
+(check-expect (list-apply ((curry team-goals) "Hamburg")
                         (filter ((curry plays-game?) "Hamburg")
                                      season-2009/2010))
               (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
