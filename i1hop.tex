@@ -641,7 +641,8 @@ umbenennen und den gleichen Abstraktionsprozess wie bei
 \lstinline{drawn-games} und \lstinline{home-won-games} durchlaufen,
 dann entsteht die identische Funktionsdefinition zu
 \lstinline{extract-games}.  Allerdings gibt es dann immer noch einen
-Unterschied: Die Funktion \lstinline{extract-games} kann nur Listen von Spielen
+Unterschied~-- die Signaturen sind unterschiedlich.
+Die Funktion \lstinline{extract-games} kann nur Listen von Spielen
 verarbeiten, während \lstinline{live-dillos} eine Liste von
 Gürteltieren akzeptiert.  Können auch darüber~-- einmal
 \lstinline{game}, das andere Mal \lstinline{dillo}~-- abstrahieren?
@@ -668,7 +669,7 @@ wird.  Die Signatur liefert also wertvolle Informationen darüber, was
 die Funktion macht~-- wenn auch nicht alle.
 %
 \begin{aufgabeinline}
-  Schreibe eine andere sinnvolle Funktionen mit der gleichen Signatur
+  Schreibe eine andere sinnvolle Funktion mit der gleichen Signatur
   wie \lstinline{extract-list}!
 \end{aufgabeinline}
 %
@@ -727,8 +728,10 @@ Einfacher ist es, stattdessen die Funktion, die wir an
 \lstinline{lambda} zu konstruieren:
 %
 \begin{lstlisting}
-(extract-list (lambda (game) (plays-game? "Nürnberg" game)) season-2009/2010)
-(extract-list (lambda (game) (plays-game? "Hamburg" game)) season-2009/2010)
+(extract-list (lambda (game) (plays-game? "Nürnberg" game)) 
+              season-2009/2010)
+(extract-list (lambda (game) (plays-game? "Hamburg" game)) 
+              season-2009/2010)
 \end{lstlisting}
 %
 Wir sind von der Signatur her vorgegangen: \lstinline{extract-list}
