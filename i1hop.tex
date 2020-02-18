@@ -1584,23 +1584,11 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{aufgabe}
 
 \begin{aufgabe}
-  Eine klassische Higher-Order-Funktion ist \lstinline{list-map}, eine Funktion, die 
-  eine Funktion und eine Liste akzeptiert.  \lstinline{List-map}
-  wendet diese Funktion auf alle Elemente der Liste an und produziert
-  eine Liste der Rückgabewerte.
-
-  \lstinline{List-map} lässt sich beispielsweise folgendermaßen anwenden:
-  % 
-  \begin{lstlisting}
-    (list-map even? (list 1 2 3 4 5))
-    |\evalsto| #<list #f #t #f #t #f>
-  \end{lstlisting}
-  % 
-  Programmiere \lstinline{list-map}, indem sie die Signatur schreiben,
-  das Gerüst der Funktion erstellen, Testfälle entwerfen und dann das
-  Gerüst vervollständigen!
-
-  \textbf{Hinweis:} \lstinline{List-map} ist unter dem Namen \lstinline{map} eingebaut.
+  Schreibe Funktionen \lstinline{feed-animals} und
+  \lstinline{run-over-animals} die mit Hilfe der Funktionen in
+  Abschnitt~\ref{sec:feed-animal} auf Seite~\pageref{sec:feed-animal}
+  alle Tiere auf dem Highway (die sich in einer Liste befinden)
+  füttert respektive überfährt.
 \end{aufgabe}
 
 \begin{aufgabe}
