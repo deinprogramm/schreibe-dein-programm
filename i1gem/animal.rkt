@@ -69,17 +69,6 @@
 (define parrot1 (make-parrot 10000 "Der Gärtner war's.")) ; 10kg, Miss Marple
 (define parrot2 (make-parrot 5000 "Ich liebe Dich.")) ; 5kg, Romantiker 
 
-; Papagei mit 50 g Futter füttern
-(: feed-parrot (parrot -> parrot))
-
-(check-expect (feed-parrot parrot1) (make-parrot 10050 "Der Gärtner war's."))
-(check-expect (feed-parrot parrot2) (make-parrot 5050 "Ich liebe Dich."))
-
-(define feed-parrot
-  (lambda (parrot)
-    (make-parrot (+ (parrot-weight parrot) 50)
-                 (parrot-sentence parrot))))
-
 ; Ein Tier ist eins der folgenden:
 ; - Gürteltier
 ; - Papagei
@@ -100,3 +89,31 @@
     (cond
       ((dillo? animal) (dillo-weight animal))
       ((parrot? animal) (parrot-weight animal)))))
+
+
+; Papagei mit 50 g Futter füttern
+(: feed-parrot (parrot -> parrot))
+
+(check-expect (feed-parrot parrot1) (make-parrot 10050 "Der Gärtner war's."))
+(check-expect (feed-parrot parrot2) (make-parrot 5050 "Ich liebe Dich."))
+
+(define feed-parrot
+  (lambda (parrot)
+    (make-parrot (+ (parrot-weight parrot) 50)
+                 (parrot-sentence parrot))))
+
+; Tier füttern
+(: feed-animal (animal -> animal))
+
+(check-expect (feed-animal parrot1) (feed-parrot parrot1))
+(check-expect (feed-animal parrot2) (feed-parrot parrot2))
+(check-expect (feed-animal dillo1) (feed-dillo dillo1))
+(check-expect (feed-animal dillo2) (feed-dillo dillo2))
+
+(define feed-animal
+  (lambda (animal)
+    (cond
+      ((dillo? animal) (feed-dillo animal))
+      ((parrot? animal) (feed-parrot animal)))))
+
+   

@@ -73,55 +73,6 @@ zwischen Daten und Information beschreiben:
 (define parrot2 (make-parrot 5000 "Ich liebe Dich.")) ; 5kg, Romantiker 
 \end{lstlisting}
 %
-Wir können einen Papagei ähnlich wie ein Gürteltier füttern~-- nur die
-Portion ist kleiner, wir nehmen 50~g an.  Kurzbeschreibung und Signatur:\index{feed-parrot@\texttt{feed-parrot}}
-%
-\begin{lstlisting}
-; Papagei mit 50 g Futter füttern
-(: feed-parrot (parrot -> parrot))
-\end{lstlisting}
-%
-Testfälle:
-%
-\begin{lstlisting}
-(check-expect (feed-parrot parrot1) (make-parrot 10050 "Der Gärtner war's."))
-(check-expect (feed-parrot parrot2) (make-parrot 5050 "Ich liebe Dich."))
-\end{lstlisting}
-%
-Gerüst:
-%
-\begin{lstlisting}
-(define feed-parrot
-  (lambda (parrot)
-    ...))
-\end{lstlisting}
-%
-Die Schablone entsteht aus der Kombination der Schablonen für
-zusammengesetzte Daten
-als Einage (Konstruktionsanleitung~\ref{ka:zusammengesetzt-eingabe-schablone} auf
-Seite \pageref{ka:zusammengesetzt-eingabe-schablone}) und als Ausgabe
-(Konstruktionsanleitung~\ref{ka:zusammengesetzt-ausgabe-schablone} auf
-Seite \pageref{ka:zusammengesetzt-ausgabe-schablone}):
-%
-\begin{lstlisting}
-(define feed-parrot
-  (lambda (parrot)
-    (make-parrot ... ...)
-    ... (parrot-weight parrot) ...
-    ... (parrot-sentence parrot) ...))
-\end{lstlisting}
-%
-\ldots{} und schließlich der vollständige Rumpf:
-%
-\begin{lstlisting}
-(define feed-parrot
-  (lambda (parrot)
-    (make-parrot (+ (parrot-weight parrot) 50)
-                 (parrot-sentence parrot))))
-\end{lstlisting}
-%
-Fertig!
-
 Du kannst Dir vielleicht vorstellen, dass Papageien und
 Gürteltiere sich in einem Programm begegnen, also \emph{gemischt}
 vorkommen.  Papageien und Gürteltiere gehören zum gemeinsamen
@@ -409,7 +360,7 @@ Beachte den Unterschied zwischen \lstinline{enum} und
 für "<einer der folgenden \emph{Werte}">, während \lstinline{mixed} für
 "<gehörend zu einer der folgenden \emph{Signaturen}"> steht.
 
-\begin{aufgabe}
+\begin{aufgabeinline}
   Denk Dir sinnvolle Datendefinitionen für Frühstück, Mittagessen und
   Abendessen aus (ein \ldots{}essen besteht aus \ldots), so dass es
   Sinn ergibt, für jede Sorte Essen die Frage "<Was für ein Gemüse ist
@@ -418,7 +369,116 @@ für "<einer der folgenden \emph{Werte}">, während \lstinline{mixed} für
   eine Datendefinition für den Oberbegriff "<Essen">; ein Essen kann
   ein Frühstück, ein Mittagessen oder ein Abendessen sein.  Schreibe
   eine Funktion, welche das enthaltene Gemüse für ein Essen liefert.
+\end{aufgabeinline}
+
+\section{Gemischte Daten als Ausgabe}
+\label{sec:feed-animal}
+
+Wir können einen Papagei ähnlich wie ein Gürteltier füttern~-- nur die
+Portion ist kleiner, wir nehmen 50~g an.  Kurzbeschreibung und Signatur:\index{feed-parrot@\texttt{feed-parrot}}
+%
+\begin{lstlisting}
+; Papagei mit 50 g Futter füttern
+(: feed-parrot (parrot -> parrot))
+\end{lstlisting}
+%
+Testfälle:
+%
+\begin{lstlisting}
+(check-expect (feed-parrot parrot1) (make-parrot 10050 "Der Gärtner war's."))
+(check-expect (feed-parrot parrot2) (make-parrot 5050 "Ich liebe Dich."))
+\end{lstlisting}
+%
+Gerüst:
+%
+\begin{lstlisting}
+(define feed-parrot
+  (lambda (parrot)
+    ...))
+\end{lstlisting}
+%
+Die Schablone entsteht aus der Kombination der Schablonen für
+zusammengesetzte Daten
+als Einage (Konstruktionsanleitung~\ref{ka:zusammengesetzt-eingabe-schablone} auf
+Seite \pageref{ka:zusammengesetzt-eingabe-schablone}) und als Ausgabe
+(Konstruktionsanleitung~\ref{ka:zusammengesetzt-ausgabe-schablone} auf
+Seite \pageref{ka:zusammengesetzt-ausgabe-schablone}):
+%
+\begin{lstlisting}
+(define feed-parrot
+  (lambda (parrot)
+    (make-parrot ... ...)
+    ... (parrot-weight parrot) ...
+    ... (parrot-sentence parrot) ...))
+\end{lstlisting}
+%
+\ldots{} und schließlich der vollständige Rumpf:
+%
+\begin{lstlisting}
+(define feed-parrot
+  (lambda (parrot)
+    (make-parrot (+ (parrot-weight parrot) 50)
+                 (parrot-sentence parrot))))
+\end{lstlisting}
+%
+Nun können wir eine Funktion schreiben, die ein beliebiges Tier
+akzeptiert und es füttert.  Hier Kurzbeschreibung und Signatur:
+%
+\begin{aufgabe}
+; Tier füttern
+(: feed-animal (animal -> animal))
 \end{aufgabe}
+%
+Die Funktion soll sich genauso verhalten wie \lstinline{feed-dillo}
+beziehungsweise \lstinline{feed-parrot}.  Das können wir direkt als
+Tests ausdrücken:
+%
+\begin{lstlisting}
+(check-expect (feed-animal parrot1) (feed-parrot parrot1))
+(check-expect (feed-animal parrot2) (feed-parrot parrot2))
+(check-expect (feed-animal dillo1) (feed-dillo dillo1))
+(check-expect (feed-animal dillo2) (feed-dillo dillo2))
+\end{lstlisting}
+%
+Das Gerüst sieht so aus:
+%
+\begin{lstlisting}
+(define feed-animal
+  (lambda (animal)
+    ...))
+\end{lstlisting}
+%
+Da die Eingabe gemischt ist, brauchen wir eine Verzweigung mit soviel
+Zweigen wie \lstinline{animal} Fälle hat, also zwei, die wir gleich
+mit den passenden Bedingungen versehen:
+%
+\begin{lstlisting}
+(define feed-animal
+  (lambda (animal)
+    (cond
+      ((dillo? animal) ...)
+      ((parrot? animal) ...))))
+\end{lstlisting}
+%
+Schließlich müssen wir noch die Antworten ergänzen, für die wir die
+Funktionen benutzen, die wir schon geschrieben haben:
+%
+\begin{lstlisting}
+(define feed-animal
+  (lambda (animal)
+    (cond
+      ((dillo? animal) (feed-dillo animal))
+      ((parrot? animal) (feed-parrot animal)))))
+\end{lstlisting}
+%
+Das Beispiel zeigt, dass wir keine spezielle Konstruktionsanleitung
+für gemischte Daten als Ausgabe brauchen: Wir müssen nur darauf
+achten, den jeweils richtigen Fall zu liefern.
+%
+\begin{aufgabeinline}
+  Schreibe eine Funktion \lstinline{run-over-animal}, die ein Tier
+  überfährt!
+\end{aufgabeinline}
 
 \section{Die Lebensmittelampel}
 
