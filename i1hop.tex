@@ -1244,17 +1244,27 @@ sein.  Es bleibt:
 (: xxx (%a (%b %a -> %a) (list-of %b) -> %a))
 \end{lstlisting}
 %
-FIXME ab hier
-
-\lstinline{List-fold} funktioniert wie folgt: Die Funktion hat als
-Parameter eine Funktion mit zwei Parametern, einen Wert und eine
-Liste von Werten.  Es gilt folgende Gleichung:
+\begin{aufgabeinline}
+  Verfolge die Auswertung von
+\begin{lstlisting}
+(xxx 0 + (list 1 2 3))
+\end{lstlisting}
+  im Stepper!
+\end{aufgabeinline}
+%
+Im Stepper kannst Du sehen, dass \lstinline{xxx} folgendermaßen arbeitet:
 %
 \begin{lstlisting}
-(list-fold |\(u\)| |\(o\)| #<list |\(a_1\)| |\(\ldots\)| |\(a_n\)| >) = (|\(o\)| |\(a_1\)| (|\(o\)| |\(a_2\)| (|\(\ldots\)| (|\(o\)| |\(a_n\)| |\(u\)|) |\(\ldots\)|)))
+(list-fold $e$ $c$ #<list $a_1$ $\ldots$ $a_n$ >)
+|\evalsto|$\ldots$|\evalsto|
+($c$ $a_1$ ($c$ $a_2$ ($\ldots$ ($c$ $a_n$ $u$) $\ldots$)))
 \end{lstlisting}
 %
-Die Funktionsweise von \lstinline{list-fold} lässt sich daran
+Im Fall von \lstinline{0} und \lstinline{+} wird die Liste dann zu
+einem einzelnen Wert reduziert oder "<zusammengefaltet">, weswegen wir
+die Funktion \lstinline{list-fold} nennen.
+
+Die Funktionsweise von \lstinline{list-fold} können wir daran
 veranschaulichen, dass sich die ursprüngliche Liste auch als
 %
 \begin{lstlisting}
@@ -1262,135 +1272,109 @@ veranschaulichen, dass sich die ursprüngliche Liste auch als
 \end{lstlisting}
 %
 schreiben lässt.  Das heißt, an die Stelle von \lstinline{cons} tritt
-$o$ und an die Stelle von \lstinline{empty} tritt $u$.
-
-Eine andere, praktische Darstellung von 
-\lstinline{list-fold} ist, die Gleichung mit dem Operator
-\emph{zwischen} den Operanden zu schreiben (und nicht davor), in
-Infix-Schreibweise also:
-%
-\begin{lstlisting}
-  (list-fold |\(u\)| |\(\odot\)| #<list |\(a_1\)| |\(\ldots\)| |\(a_n\)| >) = |\(a_1 \odot (a_2 \odot (\ldots (a_n \odot u)\ldots ))\)|
-\end{lstlisting}
-%
-Nach dieser Sichtweise wird $\odot$ zwischen die Elemente der Liste
-eingefügt.
+$c$ und an die Stelle von \lstinline{empty} tritt $e$.
 
 \begin{aufgabeinline}
-  FIXME: empty und cons
+  Kannst Du daraus ableiten, was hierbei herauskommt, ohne DrRacket zu
+  benutzen?
+  %
+\begin{lstlisting}
+(list-fold empty cons (list 1 2 3))
+\end{lstlisting}
 \end{aufgabeinline}
-
-FIXME: allgmeines Rekursionsmuster
-
-\section{Anonyme Funktionen}\label{sec:anonymous-procedures}
-
-\lstinline{List-fold} kann auch benutzt werden, um die Länge einer Liste
-auszurechnen.  Ganz so einfach wie bei den vorigen Beispielen ist das
-nicht, da \lstinline{list-length} aus
-Abschnitt~\ref{sec:more-lists} nicht direkt dem Muster entspricht:
+%
+Eine andere, praktische Darstellung von 
+\lstinline{list-fold} ist, die Gleichung mit dem Operator
+\emph{zwischen} den Operanden zu schreiben (und nicht davor). Um das
+deutlich zu machen, schreiben wir für \lstinline{for-cons} nicht $c$
+sondern $\odot$:
 %
 \begin{lstlisting}
-(define list-length
-  (lambda (lis)
+(list-fold |\(c\)| |\(\odot\)| #<list |\(a_1\)| |\(\ldots\)| |\(a_n\)|>) 
+|\evalsto|$\ldots$|\evalsto|
+|\(a_1 \odot (a_2 \odot (\ldots (a_n \odot e)\ldots ))\)|
+\end{lstlisting}
+%
+Die Funktion \lstinline{list-fold} ist erstaunlich vielseitig und kann
+die Aufgaben vieler anderer Funktionen auf Listen erledigen.  Zum
+Beispiel können wir uns \lstinline{list-apply} noch einmal vorknöpfen
+und versuchen, die Definition mit \lstinline{list-fold} zu
+schreiben.  Hier zur Erinnerung die bisherige Fassung:
+%
+\begin{lstlisting}
+(define list-apply
+  (lambda (f list)
     (cond
-      ((empty? lis) 0)
-      ((cons? lis) 
-       (+ 1 
-          (list-length (rest lis)))))))
+      ((empty? list) empty)
+      ((cons? list)
+       (cons (f (first list))
+             (list-apply f (rest list)))))))
 \end{lstlisting}
 %
-Für das \lstinline{combine}-Argument von \lstinline{list-fold}
-würde hier eine Funktion benötigt, die ihr erstes
-Argument \lstinline{(first lis)} ignoriert (es spielt ja für die Listenlänge
-keine Rolle) und auf das zweite Argument eins addiert.  Diese
-Hilfsfunktion sieht so aus:\index{add-1-for-length@\texttt{add-1-for-length}}
+Wir wollen \lstinline{list-apply} in folgende Form umschreiben:
 %
-FIXME: warum nicht \lstinline{\%a}?  Warum heißt das \lstinline{ignore}?
+\begin{lstlisting}
+(define list-apply
+  (lambda (f list)
+    (list-fold ...
+               ...
+               list)))
+\end{lstlisting}
+%
+Wir müssen passende Werte für die beiden Parameter von
+\lstinline{list-fold} finden,, \lstinline{for-empty} und
+\lstinline{for-cons}.  In \lstinline{list-apply} steht im
+\lstinline{empty}-Zweig \lstinline{empty}.
 
-\begin{lstlisting}
-(: add-1-for-length (any natural -> natural))
-(define add-1-for-length
-  (lambda (ignore n)
-    (+ n 1)))
-\end{lstlisting}
-%
-Damit funktioniert es:
+Bei \lstinline{for-cons} ist es nicht so offensichtlich.  Wir können
+uns aber an der Signatur orientieren.  Gefragt ist eine Funktion mit
+zwei Argumenten: das erste ist das erste Listenelement, das zweite das
+Resultat des rekursiven Aufrufs.  Wir können also so anfangen:
 %
 \begin{lstlisting}
-(list-fold 0 add-1-for-length (list 1 2 3 4 5))
-|\evalsto| 5
+(define list-apply
+  (lambda (f list)
+    (list-fold empt
+               (lambda (first-list result)
+                 ...)
+               list)))
 \end{lstlisting}
 %
-Für solche Mini-Funktionen lohnt es sich oft kaum, eine eigene
-Definition anzugeben und einen sinnstiftenden Namen zu finden.  Das
-ist auch nicht notwendig: die rechte Seite der Definition, also der
-Lambda-Ausdruck, kann auch direkt eingesetzt werden:
+Im Rumpf des neuen \lstinline{lambda} müssen wir nun Code
+hinschreiben, der dem Code aus \lstinline{list-apply} im
+\lstinline{cons}-Zweig entspricht, also:
 %
 \begin{lstlisting}
-(list-fold 0 (lambda (ignore n) (+ n 1)) (list 1 2 3 4 5))
-|\evalsto| 5
+       (cons (f (first list))
+             (list-apply f (rest list)))
 \end{lstlisting}
 %
-Meist tauchen Lambda-Ausdrücke zwar als Teil von Funktiondefinition
-auf, aber es ist natürlich möglich, Funktionen außerhalb einer
-Definition zu verwenden, ohne ihnen einen Namen zu geben.  Dafür gab
-es schon in Kapitel~\ref{cha:whats-programming} Beispiele. Mit Hilfe
-solcher "<anonymer Funktionen\index{anonyme
-  Funktion}\index{Funktion!anonym}"> lässt sich auch \lstinline{list-filter}
-durch \lstinline{list-fold} definieren:
+Allerdings müssen wir die Parameter aus dem \lstinline{lambda}
+benutzen, also \lstinline{first-list} und \lstinline{result}:
+\lstinline{first-list} ist gerade der Wert von
+\lstinline{(first-lits)}, \lstinline{result} das Resultat des
+rekursiven Aufrufs.  Wir ersetzen also "<rückwärts">:
 %
 \begin{lstlisting}
-(define list-filter
-  (lambda (p? lis)
-    (list-fold empty
-               (lambda (first result)
-                 (if (p? first)
-                     (cons first result)
-                     result))
-               lis)))
+(define list-apply
+  (lambda (f list)
+    (list-fold empt
+               (lambda (first-list result)
+                 (cons (f first-list)
+                       result))
+               list)))
 \end{lstlisting}
 %
-Ein weiteres Beispiel~-- die Funktion
-\lstinline{every?}\index{every?@\texttt{every?}} findet heraus, ob ein
-übergebenes Prädikat auf alle Elemente einer Liste zutrifft:
-\label{page:every}
-%
-\begin{lstlisting}
-; prüfen, ob Prädikat auf alle Elemente einer Liste zutrifft
-(: every? ((%a -> boolean) (list-of %a) -> boolean))
-(define every?
-  (lambda (p? lis)
-    (list-fold #t
-               (lambda (first result)
-                 (and result
-                      (p? first)))
-               lis)))
-\end{lstlisting}
-%
-Anders als \lstinline{list-length} lassen sich diese Definitionen
-nicht mit separaten Hilfsfunktionen schreiben.  Für
-\lstinline{list-filter} würde ein Versuch zwar so aussehen:
-%
-\begin{lstlisting}
-(define list-filter-helper
-  (lambda (first result)
-    (if (p? first)
-        (cons first result)
-        result)))
-\end{lstlisting}
-%
-In \drscheme{} erscheint bei dieser Definition eine Fehlermeldung 
-"<\texttt{unbound variable}"> und \lstinline{p?} wird rosa markiert.  Das
-liegt daran, dass \lstinline{p?} weiter außen im \lstinline{lambda} von
-\lstinline{filter} gebunden ist.  Dieses \lstinline{p?} ist aber nach den
-Regeln der lexikalischen Bindung\index{lexikalische Bindung} (siehe
-Abschnitt~\ref{sec:lexical-binding}) nur im Rumpf des äußeren
-\lstinline{lambda} in der Definition von \lstinline{filter} sichtbar.  Darum
-muss der Lambda-Ausdruck der Hilfsfunktion ebenfalls in diesem
-Rumpf stehen.
+Fertig!
 
-FIXME: Hier auch noch \lstinline{map} einführen? Das Unterrichtsbeispiel tat
-es\ldots
+\begin{aufgabeinline}
+  Schreibe auf die gleiche Weise \lstinline{extract-list} mit Hilfe
+  von \lstinline{list-fold} um!
+\end{aufgabeinline}
+%
+Die Funktion \lstinline{list-fold} ist so praktisch, dass auch sie
+fest eingebaut ist, und zwar unter dem Namen
+\lstinline{fold}.\index{fold@\texttt{fold}}
 
 \section{Funktionfabriken}
 
