@@ -703,6 +703,50 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
   endrekursive Definitionen an.
 \end{aufgabe}
 
+\begin{aufgabe}
+  \lstinline{List-fold} sammelt die Elemente von hinten nach vorn bzw.
+  von rechts nach links auf, entsprechend der "<natürlichen">
+  Rekursionsstruktur über Listen.  Das gleiche Spiel lässt sich auch in
+  der anderen Richtung durchführen.  Heraus kommt eine Funktion
+  \lstinline{list-fold-left}, die folgende Gleichung (in
+  Infix-Schreibweise) erfüllt:
+  % 
+\begin{lstlisting}
+(list-fold-left |\(u\)| |\(\odot\)| (|\(a_1\)| |\(\ldots\)| |\(a_n\)|)) = |\((\ldots((u\odot a_1)\odot a_2)\ldots\odot a_n)\)|
+\end{lstlisting}
+  % 
+  Programmiere \lstinline{list-fold-left}!
+\end{aufgabe}
+
+\begin{aufgabe}
+  Programmiere eine Version von
+  \lstinline{list-fold-left}, nämlich die Funktion
+  \lstinline{list-fold-left-bonus}, die \lstinline{list-fold} benutzt aber
+  selbst keine Rekursion enthält und auch keine rekursiven
+  Hilfsfunktionen aufruft.
+\end{aufgabe}
+
+
+\begin{aufgabe}
+  Das Newton-Verfahren dient zur nährungsweisen
+  Berechnung von Nullstellen. Für ein gegebenen Startwert nähert sich die
+  Iteration 
+  \begin{displaymath}
+    x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
+  \end{displaymath}
+  immer näher an eine Nullstelle an.
+
+  Programmiere das Newton-Verfahren!
+  
+  Hinweis: Die Lösung soll gut genug sein, wenn der Funktionswert nahe
+  bei 0 liegt, also kleiner als eine Toleranz ist. 
+  Da das
+  Newton-Verfahren nicht immer eine Lösung liefert, programmiere
+  Deine Funktion so, dass sie nach einer gewissen Anzahl von Schritten
+  automatisch abbricht und \lstinline{#f} zurück gibt.
+\end{aufgabe}
+
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "i1"

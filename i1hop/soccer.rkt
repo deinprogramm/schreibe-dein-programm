@@ -585,6 +585,12 @@
                        season-2009/2010))
               #t)
 
+(: plays-game?/team (team -> (game -> boolean)))
+
+(define plays-game?/team
+  (lambda (team)
+    (lambda (game) (plays-game? team game))))
+
 ; Punkte einer Mannschaft aus Spiel berechnen
 (: team-points (team game -> points))
 
@@ -683,31 +689,17 @@
        (cons (f (first list))
              (list-apply f (rest list)))))))
 
-(define list-apply
-  (lambda (f list)
-    (cond
-      ((empty? list) empty)
-      ((cons? list)
-       (cons (f (first list))
-             (list-apply f (rest list)))))))
-
 ; jetzt können wir noch von "Hamburg" abstrahieren:
 
-(: make-specific-team-goals (team -> (game -> natural)))
-(define make-specific-team-goals
+(: team-goals/team (team -> (game -> natural)))
+(define team-goals/team
   (lambda (team)
     (lambda (game)
       (team-goals team game))))
 
-(: make-specific-plays-game? (team -> (game -> boolean)))
-(define make-specific-plays-game?
-  (lambda (team)
-    (lambda (game)
-      (plays-game? team game))))
-
-(check-expect (list-apply (make-specific-team-goals "Hamburg")
-                        (filter (make-specific-plays-game? "Hamburg")
-                                     season-2009/2010))
+(check-expect (list-apply (team-goals/team "Hamburg")
+                          (filter (plays-game?/team "Hamburg")
+                                  season-2009/2010))
               (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
 
 ; list-map hat nicht genau die Signatur, die wir "versprochen" hatten:
@@ -715,26 +707,45 @@
 ; geliefert haben wir ((%a -> %b) (list-of %a) -> (list-of %b))
 ; Da hilft der Schönfinkel-Isomorphismus, der im englischen Sprachraum Curry-Isomorphismus heißt:
 
-; Prozedur schönfinkeln
+#;(define xxx
+  (lambda (team)
+    (lambda (game)
+      (f team game))))
+
+#;(define xxx
+    (lambda (f)
+      (lambda (team)
+        (lambda (game)
+          (f team game)))))
+
+(: xxx ((%a %b -> %c) -> (%a -> (%b -> %c))))
+
+(define xxx
+  (lambda (f)
+    (lambda (a)
+      (lambda (b)
+        (f a b)))))
+
+; Funktion schönfinkeln
 (: curry ((%a %b -> %c) -> (%a -> (%b -> %c))))
 
 (check-expect (list-apply ((curry team-goals) "Hamburg")
-                        (filter ((curry plays-game?) "Hamburg")
-                                     season-2009/2010))
+                          (filter ((curry plays-game?) "Hamburg")
+                                  season-2009/2010))
               (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
 
 (define curry
-  (lambda (function)
+  (lambda (f)
     (lambda (a)
       (lambda (b)
-        (function a b)))))
+        (f a b)))))
 
-; Prozedur entschönfinkeln
+; Funktion entschönfinkeln
 (: uncurry ((%a -> (%b -> %c)) -> (%a %b -> %c)))
 
 (check-expect ((uncurry (curry +)) 3 4) 7)
 
 (define uncurry
-  (lambda (function)
+  (lambda (f)
     (lambda (a b)
-      ((function a) b))))
+      ((f a) b))))

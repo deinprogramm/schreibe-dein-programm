@@ -679,7 +679,7 @@ Wir betrachten noch eine weitere Anwendung von
 \lstinline{extract-list}: Wir wollen aus einer Liste von Spielen die
 Spiele extrahieren, an denen eine bestimmte Mannschaft teilgenommen
 hat.  Auch dazu definieren wir eine Hilfsfunktion, die feststellt, ob
-eine Mannschaft bei einem Spiel die Heim- oder die Gastmannschaft ist:
+eine Mannschaft bei einem Spiel die Heim- oder die Gastmannschaft ist:\label{func:plays-game}
 %
 \begin{lstlisting}
 ; Spielt Mannschaft bei Spiel?
@@ -1322,7 +1322,7 @@ Wir wollen \lstinline{list-apply} in folgende Form umschreiben:
 \end{lstlisting}
 %
 Wir müssen passende Werte für die beiden Parameter von
-\lstinline{list-fold} finden,, \lstinline{for-empty} und
+\lstinline{list-fold} finden, \lstinline{for-empty} und
 \lstinline{for-cons}.  In \lstinline{list-apply} steht im
 \lstinline{empty}-Zweig \lstinline{empty}.
 
@@ -1358,7 +1358,7 @@ rekursiven Aufrufs.  Wir ersetzen also "<rückwärts">:
 \begin{lstlisting}
 (define list-apply
   (lambda (f list)
-    (list-fold empt
+    (list-fold empty
                (lambda (first-list result)
                  (cons (f first-list)
                        result))
@@ -1376,185 +1376,257 @@ Die Funktion \lstinline{list-fold} ist so praktisch, dass auch sie
 fest eingebaut ist, und zwar unter dem Namen
 \lstinline{fold}.\index{fold@\texttt{fold}}
 
-\section{Funktionfabriken}
-
-Ein nützlicheres Beispiel für eine Higher-Order-Funktion in der
-Mathematik ist die
-Komposition\index{Komposition}\index{*@$\circ$}
-$\circ$.  Seien $f: B\rightarrow C$ und $g: A\rightarrow B$
-Funktionen.  Dann ist $f\circ g$ folgendermaßen definiert:
-%
-\begin{displaymath}
-  (f \circ g)(x) \deq{} f(g(x))
-\end{displaymath}
-%
-$\circ$ lässt sich direkt als Funktion
-programmieren:\index{compose@\texttt{compose}}
-\label{page:compose}
-%
-\begin{lstlisting}
-; zwei Funktionen komponieren
-(: compose ((%b -> %c) (%a -> %b) -> (%a -> %c)))
-(define compose
-  (lambda (f g)
-    (lambda (x)
-      (f (g x)))))
-\end{lstlisting}
-%
-Die beiden Argumente für \lstinline{f} und \lstinline{g} müssen Funktionen
-mit einem Parameter sein:
-%
-\begin{lstlisting}
-(define add-5
-  (lambda (x)
-    (+ x 5)))
-(define add-23
-  (lambda (x)
-    (+ 23 x)))
-(define add-28 (compose add-5 add-23))
-(add-28 3)
-|\evalsto| 31
-((compose (lambda (x) (* x 2)) add-1) 5)
-|\evalsto| 12
-\end{lstlisting}
-%
-\lstinline{Compose} ist eine
-\textit{Funktionfabrik\index{Funktionfabrik}}~-- sie liefert selbst
-eine Funktion zurück, die abhängig von \lstinline{f} und \lstinline{g}
-konstruiert wird.
-
-\lstinline{Compose} lässt sich benutzen, um eine weitere praktische
-Higher-Order-Funktion namens
-\lstinline{repeat} zu definieren:\index{repeat@\texttt{repeat}}
-\label{page:repeat}
-%
-\begin{lstlisting}
-; Funktion wiederholt anwenden
-(: repeat (natural (%a -> %a) -> (%a -> %a)))
-(define repeat
-  (lambda (n proc)
-    (if (= n 0)
-        (lambda (x) x)
-        (compose proc (repeat (- n 1) proc)))))
-\end{lstlisting}
-%
-\lstinline{Repeat} ist das Pendant zur Potenzierung\index{Potenzierung} von
-Funktionen in der Mathematik, siehe Definition~\ref{def:power_fun}:
-%
-\begin{lstlisting}
-((repeat 5 (lambda (n) (* n 2))) 1)
-|\evalsto| 32
-\end{lstlisting}
-
-\section{Der Schönfinkel-Isomorphismus}
+\section{Schönfinkeln}
 \label{sec:currying}
-\index{Schönfinkel-Isomorphismus}
-Hier ist eine Funktionfabrik, die Funktionen erzeugt, die auf eine
-Zahl eine Konstante addieren:\index{make-add@\texttt{make-add}}
-%
-\begin{lstlisting}
-; Funktion erzeugen, die eine Konstante addiert
-(: make-add (number -> (number -> number)))
-(define make-add
-  (lambda (a)
-    (lambda (b)
-      (+ a b))))
-\end{lstlisting}
-%
-Angewendet werden kann sie folgendermaßen:
-%
-\begin{lstlisting}
-(define add-1 (make-add 1))
-(add-1 15)
-|\evalsto| 16
-(define add-7 (make-add 7))
-(add-7 15)
-|\evalsto| 22
-\end{lstlisting}
-%
-Das geht auch ohne Zwischendefinitionen:
-%
-\begin{lstlisting}
-((make-add 7) 15)
-|\evalsto| 22
-((make-add 13) 42)
-|\evalsto| 55
-\end{lstlisting}
-%
-\lstinline{Make-add} ist eine andere Version von \lstinline{+}, nämlich
-eine, die zwei Argumente nicht "<auf einmal"> akzeptiert, sondern
-"<nacheinander">.  Summen von zwei Zahlen, normalerweise geschrieben
-als \texttt{(+ $a$ $b$)} lassen sich auch als \texttt{((make-add $a$)
-  $b$)} schreiben.  Diese Transformation von einer Funktion mit zwei
-Parametern in eine Funktion mit nur einem Parameter, die eine Funktion
-mit einem weiteren Parameter zurückgibt, die dann schließlich den "<Wert">
-liefert, lässt sich auch auf andere Funktionen anwenden:\index{make-mult@\texttt{make-mult}}\index{make-prepend@\texttt{make-prepend}}
-%
-\begin{lstlisting}
-; Funktion erzeugen, die mit einer Konstante multipliziert
-(: make-mult (number -> (number -> number)))
-(define make-mult
-  (lambda (a)
-    (lambda (b)
-      (* a b))))
+\index{schönfinkeln}
 
-; Funktion erzeugen, die an eine Liste ein Element vorn anhängt
-(: make-prepend (a -> ((list-of a) -> (list-of a))))
-(define make-prepend
-  (lambda (a)
-    (lambda (b)
-      (cons a b))))
-\end{lstlisting}
-%
-Erneut folgt eine ganze Familie von Funktionen einem gemeinsamen
-Muster, und erneut lässt sich dieses Muster als Funktion höherer
-Ordnung formulieren.  Die Funktion \lstinline{curry}\index{curry@\texttt{curry}} akzeptiert
-eine Funktion mit zwei Parametern und liefert eine entsprechend
-transformierte Funktion zurück:
+Vielleicht erinnerst Du Dich an die Funktion~\lstinline{plays-game?}
+auf Seite~\pageref{func:plays-game}.  Wir haben sie geschrieben, um
+mit Hilfe von \lstinline{extract-list} Spiele zu extrahieren, bei
+denen eine bestimmte Mannschaft mitspielt.  Allerdings konnten wir
+\lstinline{plays-game?} nicht direkt mit \lstinline{extract-list}
+verwenden, weil \lstinline{extract-list} eine einstellige Funktion
+akzeptiert, \lstinline{plays-game?} aber zweistellig ist.  Wir mussten
+\lstinline{lambda} verwenden, um eine passende Funktion zu
+konstruieren.  Zur Erinnerung, das sah so aus:
 %
 \begin{lstlisting}
-; Funktion mit zwei Parametern staffeln
-(: curry ((%a %b -> %c) -> (%a -> (%b -> %c))))
-(define curry
-  (lambda (proc)
+(extract-list (lambda (game) (plays-game? "Nürnberg" game)) 
+              season-2009/2010)
+(extract-list (lambda (game) (plays-game? "Hamburg" game)) 
+              season-2009/2010)
+\end{lstlisting}
+%
+Die beiden \lstinline{lambda}s sind bis auf den Namen der Mannschaft
+fast identisch, das schreit mal wieder nach Abstraktion!  Dafür brauchen
+wir eine Funktion, die solche \lstinline{lambda}s wie oben erzeugt.
+Wenn wir eins davon kopieren und gerade die unterschiedliche Stelle
+durch eine Variable ersetzen, sieht das so aus:
+%
+\begin{lstlisting}
+(lambda (game) (plays-game? team game))
+\end{lstlisting}
+%
+Jetzt müssen wir noch \lstinline{team} irgendwo binden.  Es ist nicht
+sinnvoll, es zum existierenden \lstinline{lambda} hinzuzufügen~-- dann
+hätten wir wieder eine zweistellige Funktion.  Stattdessen machen wir
+ein \lstinline{lambda} drumherum und geben dem ganzen einen Namen:
+%
+\begin{lstlisting}
+(define plays-game?/team
+  (lambda (team)
+    (lambda (game) (plays-game? team game))))
+\end{lstlisting}
+%
+(Der Schrägstrich gehört ganz normal zum Namen.)
+
+Diese Funktion akzeptiert eine Mannschaft und liefert wieder eine
+Funktion, die für für Spiel einen booleschen Wert liefert.  Sie hat
+also folgende Signatur:
+%
+\begin{lstlisting}
+(: plays-game?/team (team -> (game -> boolean)))
+\end{lstlisting}
+%
+Jetzt können wir die obigen Aufrufe von \lstinline{extract-list} mit
+Hilfe von \lstinline{plays-game?/team} umschreiben:
+%
+\begin{lstlisting}
+(extract-list (plays-game?/team "Nürnberg")
+              season-2009/2010)
+(extract-list (plays-game?/team "Hamburg")
+              season-2009/2010)
+\end{lstlisting}
+%
+Eine ähnliche Konstruktion können wir für \lstinline{team-goals}
+durchführen, um es zum Beispiel einfacher mit \lstinline{list-apply}
+zu verwenden.  Dabei kommt folgende Definition heraus:
+%
+\begin{lstlisting}
+(: team-goals/team (team -> (game -> natural)))
+(define team-goals/team
+  (lambda (team)
+    (lambda (game)
+      (team-goals team game))))
+\end{lstlisting}
+%
+Wenn Du genau hinschaust, kannst Du sehen, dass wir schon wieder
+abstrahieren können, nämlich über \lstinline{plays-game?/team} und
+\lstinline{team-goals/team}~-- die sind nämlich identisch bis auf die Funktion,
+die am Ende aufgerufen wird.  Wir kopieren also wieder und ersetzen
+diese Funktion durch die neue Variable \lstinline{f}.  Weil wir noch
+nicht absehen können, wo die Reise hingeht, nennen wir die Funktion
+erstmal wieder \lstinline{xxx}:
+%
+\begin{lstlisting}
+(define xxx
+  (lambda (team)
+    (lambda (game)
+      (f team game)))
+\end{lstlisting}
+%
+Für den neuen Namen machen wir wieder ein neues \lstinline{lambda}:
+%
+\begin{lstlisting}
+(define xxx
+  (lambda (f)
+    (lambda (team)
+      (lambda (game)
+        (f team game))))
+\end{lstlisting}
+%
+Wir brauchen eine Signatur.  Da drei \lstinline{lambda}s involviert
+sind, brauchen wir auch drei Pfeile:
+%
+\begin{lstlisting}
+(: xxx (... -> (... -> (... -> ...))))
+\end{lstlisting}
+%
+Außerdem ist das erste Argument für \lstinline{f} eine Funktion, die
+zwei Argumente akzeptiert:
+%
+\begin{lstlisting}
+(: xxx ((... ... -> ...) -> (... -> (... -> ...))))
+\end{lstlisting}
+%
+Viele Pfeile~-- lass Dich nicht aus der Ruhe bringen!
+
+Wir abstrahieren zwar über zwei Funktionen, die sich mit Fußball
+beschäftigen, aber \emph{schon wieder} ist es so, dass die entstandene
+Funktion nichts fußball-spezifisches hat.  Wir versuchen es deshalb
+erst einmal wieder mit Typvariablen und fangen mit der Signatur von
+\lstinline{f} an.  Wir nehmen einfach mal drei verschiedene
+Variablen~-- gegebenenfalls finden wir später heraus, dass einige
+davon gleich sein müssen:
+%
+\begin{lstlisting}
+(: xxx ((%a %b -> %c) -> (... -> (... -> ...))))
+\end{lstlisting}
+%
+Innerhalb von \lstinline{xxx} wird \lstinline{f} aufgerufen mit
+\lstinline{team} und \lstinline{game}, die zu den Signaturen
+\lstinline{%a} respektive \lstinline{%b} gehören.  Die weitere Analyse
+wird darum vereinfacht, wenn wir \lstinline{team} in \lstinline{a} und
+\lstinline{game} in \lstinline{b} umbenennen:
+%
+\begin{lstlisting}
+(define xxx
+  (lambda (f)
     (lambda (a)
       (lambda (b)
-        (proc a b)))))
+        (f a b)))))
 \end{lstlisting}
 %
-Nun lassen sich die \lstinline{make-}$x$-Funktionen von oben mit Hilfe
-von \lstinline{curry} definieren:
+Mit diesen Namen wir den Rest der Signatur ablesen:
 %
 \begin{lstlisting}
-(define make-add (curry +))
-(define make-mult (curry *))
-(define make-prepend (curry cons))
+(: xxx ((%a %b -> %c) -> (%a -> (%b -> %c))))
 \end{lstlisting}
 %
-Die \lstinline{curry}-Transformation wurde unabhängig voneinander von den
-Mathematikern \textsc{Moses Schönfinkel} und \textsc{Haskell Curry} entdeckt.  Im
-englischsprachigen Raum heißt das Verb dazu darum  \textit{currify}, im deutschsprachigen Raum
-\textit{schönfinkeln\index{schönfinkeln}}
-oder \textit{curryfizieren\index{curryfizieren}}.
-% Warum heißt dann die Funktion dann curry und nicht currify?
+Wie sollte die Funktion heißen?  Tatsächlich ist sie berühmt und geht
+auf Arbeiten der Mathematiker \textsc{Moses Schönfinkel} und
+\textsc{Haskell Curry} zurück.  Im englischsprachigen Raum heißt das
+Verb dazu darum \textit{curry}, im deutschsprachigen Raum
+\textit{schönfinkeln\index{schönfinkeln}} oder
+\textit{curryfizieren\index{curryfizieren}}.  Hier also die finale
+Version:
+%
+\begin{lstlisting}
+; Funktion schönfinkeln
+(: curry ((%a %b -> %c) -> (%a -> (%b -> %c))))
 
-Die Schönfinkel-Transformation lässt sich auch umdrehen:\index{curry@\texttt{curry}}
-%
-\begin{lstlisting}
-; Funktion zu einer Funktion mit zwei Parametern entstaffeln
-(: uncurry ((%a -> (%b -> %c)) -> (%a %b -> %c)))
-(define uncurry 
-  (lambda (proc)
-    (lambda (a b)
-      ((proc a) b))))
+(define curry
+  (lambda (f)
+    (lambda (a)
+      (lambda (b)
+        (f a b)))))
 \end{lstlisting}
 %
+Hier ist ein Testfall, der \lstinline{curry} zusammen mit
+\lstinline{plays-game?} verwendet:
+%
+\begin{lstlisting}
+(check-expect (list-apply ((curry team-goals) "Hamburg")
+                          (filter ((curry plays-game?) "Hamburg")
+                                  season-2009/2010))
+              (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Schreibe ein Beispiel, das \lstinline{curry} zusammen mit
+  \lstinline{team-goals} verwendet!
+\end{aufgabeinline}
+%
+Die \lstinline{curry}-Funktion macht aus einer zweistelligen eine
+einstellige Funktion, die aber im Prinzip das gleiche macht. Um die
+zweistellige Funktion aufzurufen, muss das Programm beide Argumente
+auf einmal liefern, im anderen Fall kommen sie nacheinander~-- aber
+das Ergebnis ist am Ende das gleiche.
+
+Wenn wir aus einer zweistelligen Funktion eine einstellige machen
+können (also eine einstellige Funktion, die eine einstellige Funktion
+liefert), geht das auch umgekehrt?  Na klar!  Dazu drehen wir die
+Signatur gegenüber \lstinline{curry} um, indem wir die Teile vor und
+hinter dem Pfeil in der Mitte vertauschen:
+%
+\begin{lstlisting}
+; Funktion entschönfinkeln
+(: uncurry ((%a -> (%b -> %c)) -> (%a %b -> %c)))
+\end{lstlisting}
+%
+Als Test lassen wir \lstinline{uncurry} auf das Resultat von
+\lstinline{curry} los:
+\begin{lstlisting}
+(check-expect ((uncurry (curry +)) 3 4) 7)
+\end{lstlisting}
+%
+Für die Konstruktion orientieren wir uns wie bei \lstinline{curry} an
+der Signatur: \lstinline{curry} akzeptiert eine Funktion und liefert
+eine zweistellige Funktion.  Wir fangen deshalb folgendermaßen an:
+%
+\begin{lstlisting}
+(define uncurry
+  (lambda (f)
+    (lambda (a b)
+      ...)))
+\end{lstlisting}
+%
+Die innere Funktion soll einen Wert mit Signatur \lstinline{%c}
+produzieren.  Um den zu bekommen, müssen wir zunächst \lstinline{f}
+mit einem Wert der Signatur \lstinline{%a} aufrufen~-- den haben wir
+mit \lstinline{a}:
+%
+\begin{lstlisting}
+(define uncurry
+  (lambda (f)
+    (lambda (a b)
+      ... (f a) ...))
+\end{lstlisting}
+%
+Der Aufruf \lstinline{(f a)} liefert wiederum eine Funktion mit
+Signatur \lstinline{(%b -> %c)}, wir müssen also noch einmal Klammern
+drummachen und ein \lstinline{%b} liefern~-- das ist in diesem Fall
+\lstinline{b}:
+%
+\begin{lstlisting}
+(define uncurry
+  (lambda (f)
+    (lambda (a b)
+      ((f a) b))))
+\end{lstlisting}
+%
+Fertig!
+
 Damit ist die Transformation ein \textit{Isomorphismus\index{Isomorphismus}}; es gilt
-folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isomorphismus}
+folgende Gleichung für Funktionen $f$ mit zwei Parametern:
 %
 \begin{center}
-  \lstinline{(uncurry (curry} \(p\)\lstinline{))} \(\equiv\) \(p\)
+  \lstinline{(uncurry (curry} \(f\)\lstinline{))} \(=\) \(f\)
 \end{center}
+
+\section{Lexikalische Bindung}
+
+FIXME
 
 \section*{Aufgaben}
 
@@ -1581,7 +1653,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   Schreibe folgende Funktionen unter der  
   Verwendung von \lstinline{filter}!
   \begin{itemize}
-    \item Schreiben sie eine Funktion \lstinline{evens}, die die ungeraden Zahlen aus 
+    \item Schreibe eine Funktion \lstinline{evens}, welche die ungeraden Zahlen aus 
       einer Liste entfernt,
   \item eine Funktion \lstinline{count-zeroes}, die in einer Liste von
     Zahlen die Nullen zählt,
@@ -1685,48 +1757,8 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     \item Gab es mehr Siege für die Heimmanschaften an ungeraden Spieltagen als an
       geraden?
     \end{itemize}
-    
-  \item Finde eine besonders
-    kreativ-obskure Frage und schreibe den Ausdruck, der sie
-    beantwortet.
 \end{enumerate} 
 
-\end{aufgabe}
-
-\begin{aufgabe}
-  \lstinline{List-fold} sammelt die Elemente von hinten nach vorn bzw.
-  von rechts nach links auf, entsprechend der "<natürlichen">
-  Rekursionsstruktur über Listen.  Das gleiche Spiel lässt sich auch in
-  der anderen Richtung durchführen.  Heraus kommt eine Funktion
-  \lstinline{list-fold-left}, die folgende Gleichung (in
-  Infix-Schreibweise) erfüllt:
-  % 
-\begin{lstlisting}
-(list-fold-left |\(u\)| |\(\odot\)| (|\(a_1\)| |\(\ldots\)| |\(a_n\)|)) = |\((\ldots((u\odot a_1)\odot a_2)\ldots\odot a_n)\)|
-\end{lstlisting}
-  % 
-  Programmiere \lstinline{list-fold-left}!
-\end{aufgabe}
-
-
-\begin{aufgabe}
-  Schreibe ein Programm, das Berechnungen
-  mit unendlichen Werten durchführen kann:
-  
-  \begin{enumerate}
-  \item Definiere den gemischten Typ \lstinline{number*}, der den
-    Datentyp \lstinline{number} um $\infty$ (\lstinline{infty}) und $- \infty$
-    (\lstinline{-infty}) erweitert.
-  \item Definiere auf der Menge \lstinline{number*} die
-    Rechenoperationen $+$, $-$, $*$, und $/$.  Gib den Funktionen
-    die Namen \lstinline{plus*}, \lstinline{minus*}, \lstinline{mult*} und
-    \lstinline{div*}.
-  \item Definiere $\leq$, also eine Funktion mit dem
-    Namen \lstinline{<=*}, die die Ordnung auf \lstinline{number*} darstellt.
-  \item Definiere die Funktionen \lstinline{list-max*} und
-    \lstinline{list-min*}, die das Maximum bzw. das Minimum einer Liste 
-    aus \lstinline{numbers*} berechnet!  Verwende hierzu die Funktion \lstinline{list-fold}.
-  \end{enumerate}
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1780,7 +1812,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   Parameter der Funktion \lstinline{z} um.
 
   Berechne, nachdem Du die Umbenennung durchgeführt haben, von
-  Hand mit dem Substitutionsmodell \lstinline{(z y x}
+  Hand \lstinline{(z y x}
   \lstinline{(lambda (z) (+ x z))))} und halte die Zwischenschritte
   fest.
 
@@ -1835,9 +1867,9 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   \begin{enumerate}
   \item Definiere zunächst eine Signatur
     \lstinline{phonebook-result} für das Ergebnis des Nachschlagens in einem
-    Telefonbuch. Das Ergebnis ist entweder die Telefonnummer oder
-    \lstinline{#f}. Die Telefonnummern sind Zeichenketten.
-    Die Signatur des Telefonbuchs ist  \lstinline{string -> phonebook-result}.
+    Telefonbuch. Ein solches Ergebnis ist entweder eine Telefonnummer
+    oder ein Wert, der "<nicht gefunden"> darstellt,
+    Die Signatur des Telefonbuchs ist  \lstinline{(string -> phonebook-result)}.
   \item Definiere einen Wert \lstinline{empty-phonebook}, der das leere
     Telefonbuch repräsentiert.
   \item Definiere eine Funktion namens
@@ -1851,20 +1883,23 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
     Beispiele:
     \begin{itemize}
     \item \lstinline{(lookup-in-phonebook empty-phonebook "Hans")} liefert
-      \lstinline{#f}.
+      "<nicht gefunden">.
     \item \lstinline{(lookup-in-phonebook} \\
       \lstinline{    (add-to-phonebook empty-phonebook "Hans" "754829")}\\
       \lstinline{    "Hans")} \\
-      liefert \lstinline{"754829"}.
+      liefert die Nummer 754829.
     \item \lstinline{(lookup-in-phonebook}\\
       \lstinline{    (add-to-phonebook empty-phonebook "Hans" "754829")}\\
       \lstinline{    "Lea")}\\
-      liefert \lstinline{#f}.
+      liefert "<nicht gefunden">.
     \end{itemize}
   \end{enumerate}
 \end{aufgabe}
 
 \begin{aufgabe}
+  Diese Aufgabe ist für Dich geeignet, falls Du das entsprechende
+  Wissen aus der Mathematik besitzt:
+
   Ein Polynom ist eine Funktion von $\mathbb{R}$ nach $\mathbb{R}$ und
   hat folgende Form:
   \begin{displaymath}
@@ -1902,21 +1937,6 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
      gegeben. Schreibe die Funktion
      \lstinline{polynomial-derivative}, die von einem gegebenen Polynom das abgeleitete Polynom
      berechnet.
-   \item Das Newton-Verfahren dient zur nährungsweisen
-     Berechnung von Nullstellen. Für ein gegebenen Startwert nähert sich die
-     Iteration 
-     \begin{displaymath}
-       x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
-     \end{displaymath}
-     immer näher an eine Nullstelle an.
-     Programmiere das Newton-Verfahren!
-
-     Hinweis: Die Lösung soll gut genug sein, wenn der Funktionswert nahe
-     bei 0 liegt, also kleiner als eine Toleranz ist. 
-     Da das
-     Newton-Verfahren nicht immer eine Lösung liefert, programmiere
-     Deine Funktion so, dass sie nach einer gewissen Anzahl von Schritten
-     automatisch abbricht und \lstinline{#f} zurück gibt.
  \end{enumerate}
 \end{aufgabe}
 
@@ -1938,7 +1958,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 (: list-sort ((%a %a -> boolean) (list-of %a) -> (list-of %a)))
 \end{lstlisting}
 
-  Das erste Argument ist eine Funktion, die eine \textit{Halbordnung}
+  Das erste Argument ist eine Funktion, die eine \textit{Ordnung}
   realisiert, also zwei Elemente vergleicht, und \lstinline{#t}
   zurückliefert, falls sie schon in der richtigen Reihenfolge sind und
   \lstinline{#f}, falls nicht.  Zum Beispiel können \lstinline{<=} oder \lstinline{>=}
@@ -1956,7 +1976,7 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
 \end{aufgabe}
 
 \begin{aufgabe}
-  Folgen mit potentiell unendlicher Länge lassen sich als
+  Folgen mit unendlicher Länge lassen sich als
   zusammengesetzte Daten mit zwei Komponenten repräsentieren: Dabei
   ist die erste Komponente das erste Element der Folge und die zweite
   eine Funktion ohne Parameter, die, wenn sie angewendet wird, eine Folge mit
@@ -2117,14 +2137,6 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   \end{itemize}
 \end{aufgabe}
 
-\begin{aufgabe}
-  Programmiere eine Version von
-  \lstinline{list-fold-left}, nämlich die Funktion
-  \lstinline{list-fold-left-bonus}, die \lstinline{list-fold} benutzt aber
-  selbst keine Rekursion enthält und auch keine rekursiven
-  Hilfsfunktionen aufruft.
-\end{aufgabe}
-
 
 \begin{aufgabe}
   Betrachte folgendes mysteriöse Programm:
@@ -2141,16 +2153,17 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   (y
    (lambda (f)
      (lambda (x)
-       (if (= x 1)
-           1
-           (* x (f (- x 1))))))))
+       (cond
+         ((= x 1)
+          1)
+         ((> x 1)
+          (* x (f (- x 1)))))))))
    \end{lstlisting}
   %
-   Was macht \lstinline{m}?  \lstinline{Y} wird auch
-   \textit{Fixpunktkombinator} genannt.  Erkläre einem Anfänger, der
-   gerade drei Informatik-Stunden hinter sich hat, diesen Begriff~--
-   außerdem was
-   \lstinline{y} bewirkt und warum.
+  Probiere \lstinline{m} aus~-- was macht die Funktion?  \lstinline{Y}
+  wird auch \textit{Fixpunktkombinator}\index{Fixpunktkombinator}
+  genannt.  Das Thema kommt in Abschnitt~\ref{sec:fixpunkt} auf
+  Seite~\pageref{sec:fixpunkt} noch einmal ausführlich:
  \end{aufgabe}
 
 \begin{aufgabe}
@@ -2159,16 +2172,16 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
   Parametern gilt:
   %
   \begin{center}
-    \lstinline{(curry (uncurry $p_1$))} $\equiv$ $p_1$\\
-    \lstinline{(uncurry (curry $p_2$))} $\equiv$ $p_2$
+    \lstinline{(curry (uncurry $p_1$))} $=$ $p_1$\\
+    \lstinline{(uncurry (curry $p_2$))} $=$ $p_2$
   \end{center}
  \end{aufgabe}
 
 \begin{aufgabe}
-  Eine Funktion $f$ ist idempotent, wenn gilt:
+  Eine Funktion $f$ ist \textit{idempotent}\index{idempotent}, wenn gilt:
 
   \begin{center}
-    \lstinline{(compose $f$ $f$) $\equiv$ $f$}
+    \lstinline{(compose $f$ $f$) $=$ $f$}
   \end{center}
 
   Zeige, dass folgende Funktion idempotent ist:
@@ -2181,45 +2194,6 @@ folgende Gleichung für Funktionen $p$ mit zwei Parametern:\label{sec:curry-isom
              x)))  \end{lstlisting}
 
   Welche anderen idempotente Funktionen kennst Du?
-\end{aufgabe}
-
-\begin{aufgabe}
-  Zwei Funktionen $f$ und $g$ sind invers
-  zueinander, wenn gilt:
-
-  \begin{center}
-    \lstinline{(compose $f$ $g$) $\equiv$ id} und \lstinline{(compose $g$ $f$) $\equiv$ id}
-  \end{center}
-
-  Zeige, dass \lstinline{curry} und \lstinline{uncurry} invers zueinander sind.
-\end{aufgabe}
-
-\begin{aufgabe}
-  Betrachte folgende Funktion:
-
-  \begin{lstlisting}
-(define mystery
-  (lambda (l)
-    (list-fold empty append
-               (map (lambda (x)
-                      (cons x empty))
-                    l))))
-  \end{lstlisting}
-
-  \begin{enumerate}
-  \item Was macht \lstinline{mystery}?
-
-  \item Schreibe eine Signatur für \lstinline{mystery}.
-
-  \item Beweise, dass \lstinline{mystery} tatsächlich das macht, was
-    Du vermutest.
-  \end{enumerate}
-\end{aufgabe}
-
-\begin{aufgabe}
-  Beweise: $\forall n \in \mathbb{N}$ gilt
-  \lstinline{(repeat $n$ id) $=$ id}, wobei \lstinline{id} die
-  Identitätsfunktion ist.
 \end{aufgabe}
 
 %%% Local Variables: 
