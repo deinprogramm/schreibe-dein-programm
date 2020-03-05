@@ -132,8 +132,6 @@ müssen die Tore von Heim- und Gastmannschaft vergleichen:
 \begin{lstlisting}
 (define home-points
   (lambda (game)
-    (define goals1 )
-    (define goals2 )
     (cond
       ((> (game-home-goals game) (game-guest-goals game)) 3)
       ((< (game-home-goals game) (game-guest-goals game)) 0)
@@ -144,7 +142,7 @@ Das funktioniert schon korrekt, ist aber noch unelegant.
 Das \lstinline{(game-home-goals game)} ist dreimal wiederholt~-- wir
 sollten eine lokale Definition einführen, damit es nur einmal
 dasteht.  Ebenso für den Aufruf von \lstinline{game-guest-goals}.  Das
-sieht dann so aus:
+sieht dann so aus:\label{func:home-points}
 %
 \begin{lstlisting}
 (define home-points
@@ -1626,7 +1624,195 @@ folgende Gleichung für Funktionen $f$ mit zwei Parametern:
 
 \section{Lexikalische Bindung}
 
-FIXME
+% FIXME: https://htdp.org/2019-02-24/i3-4.html
+
+In diesem Abschnitt schreiben wir ausnahmsweise keine neuen
+Funktionen, sondern untersuchen einen subtilen Aspekt des Verhaltens
+von Funktionen: den Umgang mit Variablen.  Dir ist sicher schon
+aufgefallen, dass wir in unterschiedlichen Funktionen oft die gleichen
+Namen verwenden, zum Beispiel hier:
+%
+\begin{lstlisting}
+(define feed-dillo
+  (lambda (dillo)
+    ...))
+
+(define run-over-dillo
+  (lambda (dillo)
+    ...))
+\end{lstlisting}
+%
+Obwohl der Parameter in beiden Funktionen \lstinline{dillo} heißt,
+haben die beiden Parameter in Wirklichkeit nichts miteinander zu tun.
+Das kannst Du im Stepper nachvollziehen, wenn Du bei der Auswertung
+zusiehst.  Du kannst es aber auch einfach am Programm sehen.  Um der
+Sache auf den Grund zu gehen, betrachten wir folgendes Programm:
+%
+\begin{lstlisting}
+(define pi 3.14159265)
+
+; Fläche eines Kreises ausrechnen
+(: circle-area (real -> real))
+
+(check-expect (circle-area 5) 78.53981625)
+
+(define circle-area
+  (lambda (radius)
+    (* pi radius radius)))
+\end{lstlisting}
+%
+In dem Programm interessieren uns die Variablen \lstinline{pi} und
+\lstinline{radius}, die mehrmals auftauchen~-- man spricht darum auch
+von unterschiedlichen \textit{Vorkommen}\index{Vorkommen} dieser
+Variablen.
+
+Die Auswertung des Tests führt dazu, dass im Rumpf des
+\lstinline{lambda} von \lstinline{circle-area} die Variable
+\lstinline{radius} ersetzt wird.  Dieser Vorgang heißt auch
+\textit{Bindung}\index{Bindung} und das ist so, weil
+\lstinline{radius} als Parameter im \lstinline{lambda} steht.  Dieses
+Vorkommen als Parameter heißt auch \textit{Bindung}\index{Bindung} der Variable.  Die beiden
+Vorkommen von \lstinline{radius} im Rumpf
+\lstinline{(* pi radius radius)}, die ersetzt werden,
+heißen \textit{gebundene
+  Vorkommen}\index{gebundenes Vorkommen}.  Auch das \lstinline{pi} im
+Rumpf von \lstinline{circle-area} wird ersetzt und ist darum ein
+gebundenes Vorkommen.  Das dazugehörige bindende Vorkommen steht im
+\lstinline{define} obendrüber.
+
+Je nachdem, ob die Bindung mit \lstinline{define} oder
+\lstinline{lambda} passiert, verhält sie sich unterschiedlich.  Das
+kannst Du sehen, wenn Du das obige Programm laufen lässt und in der
+REPL \lstinline{radius} und \lstinline{pi} auswertest:
+%
+\begin{alltt}
+> radius
+{\color{red}radius: Variable ist nicht definiert}
+> pi
+{\color{blue}3.14159265}
+\end{alltt}
+%
+Das heißt, \lstinline{pi} können wir überall benutzen: Man sagt auch,
+dass \lstinline{pi} überall im Programm
+\textit{sichtbar}\index{Sichtbarkeit} ist.  Es handelt sich bei
+\lstinline{pi} um eine \textit{globale Variable}\index{globale
+  Variable}\index{Variable!global}.  Globale Variablen werden auch von
+\lstinline{define-record-functions} gebunden.
+
+Im Gegensatz dazu ist \lstinline{radius} nur im Rumpf des
+\lstinline{lambda} sichtbar, dessen Parameter es ist~-- es ist eine
+sogenannte \textit{lokale Variable}\index{lokale
+  Variable}\index{Variable!lokal}.
+
+Lokale Variablen entstehen außerdem durch lokale Definitionen wie zum
+Beispiel bei der Funktion \lstinline{home-points} in
+Abschnitt~\ref{func:home-points} auf Seite~\pageref{func:home-points}.
+Wenn eine lokale Definition am Anfang eines \lstinline{lambda}-Rumpfes
+steht, ist sie in dem Rumpf sichtbar.  Wenn sie im Zweig eines
+\lstinline{cond} steht, ist sie nur in diesem Zweig sichtbar.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.5\textwidth]{i1hop/binding}
+  \caption{Anzeige von Bindung nach Syntaxprüfung}
+  \label{fig:binding}
+\end{figure}
+
+Die Beziehung zwischen den Bindung und gebundenen Vorkommen kannst
+Du in DrRacket visualisieren, indem Du auf den Knopf
+\texttt{Syntaxprüfung} (beziehungsweise \texttt{Check Syntax})
+drückst und dann mit dem Mauszeiger über Variablenvorkommen
+streichst.  Abbildung~\ref{fig:binding} zeigt exemplarisch, wie das aussieht.
+
+\begin{aufgabeinline}
+  Probiere die \texttt{Syntaxprüfung} auf dem Fußball-Code aus und
+  untersuche zum Beispiel die Variablen in der Funktion
+  \lstinline{home-points}.
+\end{aufgabeinline}
+
+Eine dritte Kategorie von Bindung gibt es auch noch, nämlich die
+"<eingebauten"> Variablen wie \texttt{string-append} und
+\lstinline{+}, die ähnlich global sichtbar sind wie die globalen
+Variablen.  Wenn Du über sie nach \texttt{Syntaxprüfung} streichst,
+wird \texttt{importiert aus} angezeigt.
+
+Damit könnte man meinen, es sei alles zur Bindung gesagt: Globale und
+eingebaute Variablen sind überall sichtbar; eine lokale Variable ist
+innerhalb ihres \lstinline{lambda}-Rumpfes beziehungsweise
+\lstinline{cond}-Zweiges sichtbar.  Aber was ist mit der folgenden
+Funktion?
+%
+\begin{lstlisting}
+(define f
+  (lambda (x)
+    (define y (+ x 1))
+    (lambda (x)
+      (+ x y))))
+\end{lstlisting}
+%
+Die ist zugegeben künstlich konstruiert.  Aber wie verhält sie sich?
+%
+\begin{aufgabeinline}
+  Was liefert die Auswertung von \lstinline{((f 1) 2)}?
+\end{aufgabeinline}
+%
+In dieser Funktion gibt es \emph{zwei} Variablen namens \lstinline{x}:
+Zwei Bindungen als Parameter und auch zwei gebundende Vorkommen.
+Welche gebundenen Vorkommen gehören zu welchen Bindungen?  Hier gilt
+die Regel der sogenannten \textit{lexikalischen Bindung}:}
+%
+\begin{definition}[Lexikalische Bindung]\index{lexikalische Bindung}\index{Bindung!lexikalisch}
+  Du findest die zu einem gebundenen Vorkommen zugehörige Bindung,
+  indem Du von innen nach außen in der Klammerstruktur der Funktion
+  suchst: Die erste Bindung als Parameter oder lokale Definition, die
+  Du so findest, gehört zu dem gebundenden Vorkommen.
+
+  Wenn Du auf diese Art und Weise keine Bindung findest, halte
+  Ausschau nach einer globalen Definition.  Wenn Du keine globale
+  Definition findest, muss es sich um eine eingebaute beziehungsweise
+  importierte Definition handeln.
+\end{definition}
+%
+Die lexikalische Bindung ordnet einer Bindung ihre gebundenden
+Vorkommen zu.  Das bedeutet, dass Du, wenn Du eine Bindung und all
+ihre gebundenen Vorkommen unbenennst, das Verhalten des Programms
+nicht änderst.  Entsprechend sind also Variablen, die zu
+unterschiedlichen Bindungen gehören, unterschiedliche Variablen.  Wenn
+Du nach einer Syntaxprüfung über einer Variable das Kontextmenü
+("<rechte Maustaste">) aufrufst, gibt es dort einen Punkt
+\texttt{umbenennen}, der das Umbenennen automatisiert.
+
+Der Begriff "<lexikalische Bindung"> suggeriert, dass es noch andere
+Formen der Bindung gibt: Tatsächlich funktioniert Bindung in einigen
+anderen, vornehmlich älteren Sprachen, nach anderen Prinzipien, oft
+unter dem Begriff \textit{dynamische Bindung}\index{dynamische
+  Bindung}\index{Bindung!dynamisch} zusammengefasst.  Lexikalische
+Bindung wird oft auch \textit{statische Bindung}\index{statische
+  Bindung}\index{Bindung!statisch} genannt.  "<Statisch"> bedeutet
+im Kontext der Programmierung "<bevor das Programm läuft"> und
+statische Bindung bedeutet, dass Du die Beziehung zwischen Bindungen
+und gebundenen Vorkommen am Programmtext ablesen kannst.  Bei
+dynamischer Bindung ergibt sich diese Beziehung erst, wenn das
+Programm läuft.
+
+Die Definition von \lstinline{f} kommt Dir vielleicht esoterisch vor.
+Tatsächlich haben wir aber schon oft Programme geschrieben, bei denen
+mehrere Variablen gleichen Namens auftauchen, wie zum Beispiel \lstinline{home-points}:
+
+\begin{lstlisting}
+(: home-points (game -> points))
+...
+(define home-points
+  (lambda (game)
+    ...))
+\end{lstlisting}
+%
+Hier gibt es zwei Variablen namens \lstinline{game}: In der
+Signaturdeklaration ist das die Signatur \lstinline{game} aus der
+gleichnamigen Record-Definition.  In der Funktion ist es der Parameter
+\lstinline{game}.  Dieser erfüllt die Signatur \lstinline{game}~--
+darum haben die Signatur und der Parameter ja gerade den gleichen
+Namen, um diese Beziehung deutlich zu machen.
 
 \section*{Aufgaben}
 
