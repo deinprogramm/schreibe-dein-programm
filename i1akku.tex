@@ -8,15 +8,15 @@
 
 Bei den rekursiven Funktionen der vergangenen Kapitel war der Wert
 eines rekursiven Aufrufs stets unabhängig vom Kontext: Die Fakultät
-von 4 "<wußte nicht">, daß sie später noch mit 5 multipliziert wird,
-die Summe der Zahlen von 1 bis 4 "<wußte nicht">, daß später noch 5
-dazuaddiert wird, etc.  Manche Probleme sind aber so formuliert, daß
+von 4 "<wusste nicht">, dass sie später noch mit 5 multipliziert wird,
+die Summe der Zahlen von 1 bis 4 "<wusste nicht">, dass später noch 5
+dazuaddiert wird, etc.  Manche Probleme sind aber so formuliert, dass
 bei der Berechnung ein Zwischenergebnis mitgeführt und aktualisiert
 wird.  Die Konstruktionsanleitungen für Funktionen, die Listen oder
 natürliche Zahlen verarbeiten, führen aber bei direkter Anwendung zu
 Funktionen, die kein Zwischenergebnisses mitführen können: Solche
 Probleme erfordern deshalb eine neue Programmiertechnik, das
-Programmieren mit \textit{Akkumulatoren}, und entsprechend angepaßte
+Programmieren mit \textit{Akkumulatoren}, und entsprechend angepasste
 Konstruktionsanleitungen.
 
 
@@ -60,7 +60,7 @@ angenommen, die hinten an eine Liste ein Element anhängt:
 (: append-element ((list-of %a) %a -> (list-of %a)))
 \end{verbatim}
 %
-Mit Hilfe von \texttt{append-element} läßt sich \texttt{invert} leicht
+Mit Hilfe von \texttt{append-element} lässt sich \texttt{invert} leicht
 vervollständigen:
 %
 \begin{verbatim}
@@ -94,7 +94,7 @@ Gerüst und Schablone:
        ... (append-element (rest lis) el) ...))))
 \end{verbatim}
 %
-Die Schablone läßt sich leicht vervollständigen:
+Die Schablone lässt sich leicht vervollständigen:
 %
 \begin{verbatim}
 (define append-element
@@ -119,13 +119,13 @@ einfach erscheint, dauert schon das Invertieren von Listen der Länge
   Drucklegung dieses Buchs auf handelsüblichen Computern.  Ggf.\
   müssen es auf moderneren Rechnern Listen der Länge 10000 sein, um
   das Problem deutlich zu machen.}  
-Tatsächlich ist es so, daß z.B.\
+Tatsächlich ist es so, dass z.B.\
 das Invertieren einer Liste der Länge 400 \emph{mehr} als doppelt so
 lang wie das Invertieren einer Liste der Länge 200 benötigt.  Das
-liegt daran, daß \texttt{invert} bei jedem rekursiven Aufruf
+liegt daran, dass \texttt{invert} bei jedem rekursiven Aufruf
 \texttt{append-element} aufruft, und \texttt{append-element} selbst
 macht soviele rekursive Aufrufe wie die Liste lang ist.  Das wiederum
-heißt aber, daß die Gesamtanzahl der Funktionaufrufe für das
+heißt aber, dass die Gesamtanzahl der Funktionaufrufe für das
 Invertieren einer Liste der Länge $n$ so steigt wie in
 der Kurve in Abbildung~\ref{fig:invert-calls} gezeigt, also offenbar
 stärker als linear: Das erklärt das überproportionale Ansteigen der
@@ -163,10 +163,10 @@ ist es der Funktion aus der normalen Konstruktionsanleitung unmöglich,
 die obige Folge von Zwischenergebnissen nachzuvollziehen, da von einem
 Zwischenergebnis zum nächsten gerade \texttt{(first lis)} vorn
 angehängt wird.  Für diesen speziellen Fall~-- wenn eine Berechnung das
-Mitführen von Zwischenergebnissen erfordert~-- muß die normale
-Konstruktionsanleitung deshalb angepaßt werden.
+Mitführen von Zwischenergebnissen erfordert~-- muss die normale
+Konstruktionsanleitung deshalb angepasst werden.
 
-Dieses Problem läßt sich durch Mitführen des Zwischenergebnisses in
+Dieses Problem lässt sich durch Mitführen des Zwischenergebnisses in
 einem separaten Parameter lösen, dem sogenannten
 \textit{Akkumulator\index{Akkumulator}}.  Dazu wird eine
 Hilfsfunktion \texttt{invert-helper} definiert, die neben der Eingabeliste
@@ -210,9 +210,9 @@ verarbeitet und das Zwischenergebnis ist das Endergebnis:
        ... (invert-helper (rest lis) ...) ...))))
 \end{verbatim}
 %
-Für den rekursiven Aufruf muß noch ein neuer Wert für \texttt{acc}
+Für den rekursiven Aufruf muss noch ein neuer Wert für \texttt{acc}
 übergeben werden.  Dieser entsteht, wie im Beispiel zu sehen ist,
-dadurch, daß an den Akkumulator das erste Element der Liste vorn
+dadurch, dass an den Akkumulator das erste Element der Liste vorn
 angehängt wird:
 %
 \begin{verbatim}
@@ -238,8 +238,8 @@ Endergebnis zurückgegeben wird, ist damit die Funktion auch schon fertig:
                       (cons (first lis) acc))))))
 \end{verbatim}
 %
-Die neue Hilfsfunktion \texttt{invert-helper} paßt nicht auf die Signatur
-von \texttt{invert}; \texttt{invert} muß also separat definiert werden
+Die neue Hilfsfunktion \texttt{invert-helper} passt nicht auf die Signatur
+von \texttt{invert}; \texttt{invert} muss also separat definiert werden
 und den passenden Anfangswert für \texttt{acc} übergeben:
 %
 \begin{verbatim}
@@ -257,7 +257,7 @@ und den passenden Anfangswert für \texttt{acc} übergeben:
 Die neue Version von \texttt{invert} kommt ohne
 \texttt{append-element} aus.  Der Beispielaufruf von oben führt zu
 folgender Auswertung im Substitutionsmodell, die sich auch im Stepper
-gut nachvollziehen läßt:
+gut nachvollziehen lässt:
 %
 \begin{alltt}\small
 (invert \underline{(list 1 2 3 4)})
@@ -364,7 +364,7 @@ mit \texttt{n} multipliziert wird:
         ... (!-helper (- n 1) (* n acc)) ...))))
 \end{verbatim}
 %
-Wie schon bei \texttt{invert} ist es nicht notwendig, daß für die
+Wie schon bei \texttt{invert} ist es nicht notwendig, dass für die
 noch verbleibenden Ellipsen etwas eingesetzt wird; das Programm ist
 bereits fertig:
 %
@@ -382,7 +382,7 @@ bereits fertig:
 \end{verbatim}
 %
 Tatsächlich ist es bei Funktionen mit Akkumulator grundsätzlich nicht
-notwendig, für die Ellipsen am Schluß etwas einzusetzen. Bei der
+notwendig, für die Ellipsen am Schluss etwas einzusetzen. Bei der
 normalen Schablone für Funktionen, die Listen bzw.\ natürliche Zahlen
 verarbeiten, wird für diese Ellipsen Code eingesetzt, was das erste
 Element der Liste mit dem Ergebnis des rekursiven Ausdrucks 
@@ -451,9 +451,9 @@ FIXME
 \label{sec:iteration}
 
 Ein Vergleich der beiden Versionen der Fakultätsfunktion von
-S.~\pageref{page:factorial} und S.~\pageref{page:factorial-tail} zeigt, daß
+S.~\pageref{page:factorial} und S.~\pageref{page:factorial-tail} zeigt, dass
 Formulierungen mit und ohne Akkumulator
-unterschiedliche Berechnungsprozesse erzeugen.  Hier ein Prozeß mit
+unterschiedliche Berechnungsprozesse erzeugen.  Hier ein Prozess mit
 Akkumulator:
 %
 \begin{alltt}
@@ -480,7 +480,7 @@ Akkumulator:
 \(\Longrightarrow\) 24
 \end{alltt}
 %
-Demgegenüber hier der Prozeß ohne Akkumulator:
+Demgegenüber hier der Prozess ohne Akkumulator:
 %
 \begin{alltt}
 (! 4)
@@ -507,9 +507,9 @@ Demgegenüber hier der Prozeß ohne Akkumulator:
 \(\Longrightarrow\) 24
 \end{alltt}
 %
-Es ist deutlich sichtbar, daß die Version ohne Akkumulator alle
-Multiplikationen bis zum Schluß "<aufstaut">.  Das heißt aber auch,
-daß im Laufe des Berechnungsprozesses Ausdrücke auftauchen, die desto
+Es ist deutlich sichtbar, dass die Version ohne Akkumulator alle
+Multiplikationen bis zum Schluss "<aufstaut">.  Das heißt aber auch,
+dass im Laufe des Berechnungsprozesses Ausdrücke auftauchen, die desto
 größer werden je größer das Argument von \texttt{!} ist: Bei
 \texttt{(!  100)} werden zum Beispiel 100 Multiplikationen aufgestaut.
 
@@ -530,7 +530,7 @@ Bei \texttt{!} ist der vollständige Ausdruck \texttt{(* n (! (- n
   \(\circ\))}, wobei $\circ$ markiert, wo der Aufruf entfernt
 wurde.  Tatsächlich wird in der Literatur diese Markierung
 \textit{Loch\index{Loch}} genannt und \texttt{[]} geschrieben.  Der
-Kontext \texttt{(* n [])} macht deutlich, daß mit Ergebnis eines
+Kontext \texttt{(* n [])} macht deutlich, dass mit Ergebnis eines
 Aufrufs, der später für \texttt{[]} eingesetzt wird, noch \texttt{n}
 multipliziert wird.  Dementsprechend stauen sich in der
 Reduktionsfolge die Multiplikationen mit den verschiedenen Werten von
@@ -554,7 +554,7 @@ werden, heißen auch \textit{iterative\index{Iteration}} Prozesse.
 
 Die beiden Varianten der Fakultäts-Funktion berechnen zwar beide 
 stets das gleiche Ergebnis.  Die beiden Reduktionsfolgen für
-\texttt{(! 4)} aus dem vorigen Abschnitt zeigen allerdings, daß die
+\texttt{(! 4)} aus dem vorigen Abschnitt zeigen allerdings, dass die
 beiden Funktionen bei der Berechnung unterschiedlich vorgehen:
 Während die Variante ohne Akkumulator "<von rechts"> multipliziert,
 also folgendermaßen auswertet:
