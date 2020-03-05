@@ -1759,7 +1759,7 @@ Die ist zugegeben künstlich konstruiert.  Aber wie verhält sie sich?
 In dieser Funktion gibt es \emph{zwei} Variablen namens \lstinline{x}:
 Zwei Bindungen als Parameter und auch zwei gebundende Vorkommen.
 Welche gebundenen Vorkommen gehören zu welchen Bindungen?  Hier gilt
-die Regel der sogenannten \textit{lexikalischen Bindung}:}
+die Regel der sogenannten \textit{lexikalischen Bindung}:
 %
 \begin{definition}[Lexikalische Bindung]\index{lexikalische Bindung}\index{Bindung!lexikalisch}
   Du findest die zu einem gebundenen Vorkommen zugehörige Bindung,
@@ -1813,6 +1813,30 @@ gleichnamigen Record-Definition.  In der Funktion ist es der Parameter
 \lstinline{game}.  Dieser erfüllt die Signatur \lstinline{game}~--
 darum haben die Signatur und der Parameter ja gerade den gleichen
 Namen, um diese Beziehung deutlich zu machen.
+
+Man könnte meinen, \emph{jetzt} wäre alles gesagt zur Bindung.  Aber
+es gibt noch eine weitere Besonderheit, nämlich wenn in einer
+Definition (gleich ob lokal oder global) die Variable, die definiert
+wird, auch gleich wieder auftaucht.  Auch davon haben wir schon
+ständig Gebrauch gemacht, nämlich in rekursiven Funktionen, wo für den
+rekursiven Aufruf genau die Variable benutzt wird, in deren Definition
+sie sich befindet.
+
+\begin{aufgabeinline}
+  Zu welchen Bindungen gehören die gebundenden Vorkommen von
+  \lstinline{x} in folgendem Programm?
+\begin{lstlisting}
+(define g
+  (lambda (x)
+    (define x (+ x 1))
+    (define y (+ x 1))
+    (lambda (x)
+      (+ x y))))
+\end{lstlisting}
+  Kannst Du vorhersagen~-- ohne es in der REPL auszuprobieren~-- was
+  \lstinline{((g 1) 2)} liefert?
+\end{aufgabeinline}
+
 
 \section*{Aufgaben}
 
