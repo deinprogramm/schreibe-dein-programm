@@ -6,390 +6,368 @@
 \chapter{Programmieren mit Akkumulatoren}
 \label{cha:accu}
 
-Bei den rekursiven Funktionen der vergangenen Kapitel war der Wert
-eines rekursiven Aufrufs stets unabhängig vom Kontext: Die Fakultät
-von 4 "<wusste nicht">, dass sie später noch mit 5 multipliziert wird,
-die Summe der Zahlen von 1 bis 4 "<wusste nicht">, dass später noch 5
-dazuaddiert wird, etc.  Manche Probleme sind aber so formuliert, dass
-bei der Berechnung ein Zwischenergebnis mitgeführt und aktualisiert
-wird.  Die Konstruktionsanleitungen für Funktionen, die Listen oder
-natürliche Zahlen verarbeiten, führen aber bei direkter Anwendung zu
-Funktionen, die kein Zwischenergebnisses mitführen können: Solche
-Probleme erfordern deshalb eine neue Programmiertechnik, das
-Programmieren mit \textit{Akkumulatoren}, und entsprechend angepasste
-Konstruktionsanleitungen.
-
+Manche Berechnungen funktionieren am einfachsten, wenn sie ein
+Zwischenergebnis mitführen und aktualisieren.  Die bisherigen
+Konstruktionsanleitungen für Funktionen, die Listen oder natürliche
+Zahlen verarbeiten, können das aber nicht.  Wir brauchen dafür eine
+neue Programmiertechnik, das das Programmieren mit
+\textit{Akkumulatoren}, und entsprechend angepasste
+Konstruktionsanleitungen.  Beides gibt es in diesem Kapitel.
 
 \section{Zwischenergebnisse mitführen}
 \label{sec:intermediate-results}
 
-Gefragt ist eine Funktion, welche eine Liste invertiert, also die
-Reihenfolge ihrer Elemente umdreht:\index{invert@\texttt{invert}}\label{sec:invert}
+Wir fangen mit einer scheinbar einfachen Funktion an: Gefragt ist eine
+Funktion, die eine Liste invertiert, also die Reihenfolge ihrer
+Elemente umdreht:\index{invert@\texttt{invert}}\label{sec:invert}
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Liste umdrehen
 (: invert ((list-of %a) -> (list-of %a)))
 
 (check-expect (invert empty) empty)
 (check-expect (invert (list 1 2 3 4)) (list 4 3 2 1))
-\end{verbatim}
+\end{lstlisting}
 %
 Gerüst und Schablone sehen wie folgt aus:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define invert
-  (lambda (lis)
+  (lambda (list)
     (cond
-      ((empty? lis) ...)
-      ((cons? lis)
-       ... (first lis) ...
-       ... (invert (rest lis)) ...))))
-\end{verbatim}
+      ((empty? list) ...)
+      ((cons? list)
+      ... (invert (rest list)) ...
+      ... (first list) ...))))
+\end{lstlisting}
 %
-Der Ausdruck \texttt{(invert (rest lis))} liefert den Rest der Liste
-in umgekehrter Reihenfolge.  Falls \texttt{lis}, wie im zweiten
-Testfall, also die Liste \verb|#<list 1 2 3 4>| ist, so ist der
-invertierte Rest \verb|#<list 4 3 2>|.  Das gewünschte Ergebnis
-\verb|#<list 4 3 2 1>| entsteht durch das Anhängen des ersten Elements
-\emph{hinten} an die Liste.  Durch Wunschdenken wird eine Funktion
-\texttt{append-element}\index{append-element@\texttt{append-element}}
-angenommen, die hinten an eine Liste ein Element anhängt:
+Um den Rumpf zu vervollständigen, können wir uns an dem zweiten
+Testfall orientieren~-- da ist \lstinline{list} die Liste mit den
+Elementen 1 2 3 4.  Entsprechend ist \lstinline{(first list)} die
+Zahl 1, \lstinline{(rest list)} die Liste mit den Elementen 2 3 4, das
+heiß der rekursive Aufruf liefert die Liste mit den Elementen 4 3 2.
+Um das gewünschte Ergebnis mit den Elementen 4 3 2 1 zu bekommen,
+müssen wir deshalb \lstinline{(first list)} hinten an das Ergebnis des
+rekursiven Aufrufs anhängen.
+
+Um ein Element \emph{hinten} an eine Liste zu hängen, haben wir bisher
+noch keine fertige Funktion~-- die müssen wir erst noch schreiben.
+Wir könnten die Arbeit jetzt unterbrechen, um das zu tun.  Wir machen
+erstmal nur eine Notiz, dass wir das später machen~-- in Form einer
+Kurzbeschreibung und einer Signatur:0
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Element an Liste anhängen
 (: append-element ((list-of %a) %a -> (list-of %a)))
-\end{verbatim}
+\end{lstlisting}
 %
-Mit Hilfe von \texttt{append-element} lässt sich \texttt{invert} leicht
-vervollständigen:
+Wenn wir diese Funktion voraussetzen, können wir \lstinline{invert}
+recht einfach fertigschreiben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define invert
-  (lambda (lis)
+  (lambda (list)
     (cond
-      ((empty? lis) empty)
-      ((cons? lis)
-       (append-element (invert (rest lis))
-                       (first lis))))))
-\end{verbatim}
+      ((empty? list) empty)
+      ((cons? list)
+       (append-element (invert (rest list))
+                       (first list))))))
+\end{lstlisting}
 %
-Die Funktion \texttt{append-element} ist ganz ähnlich der Funktion
-\texttt{concatenate} aus Abschnitt~\ref{sec:more-lists}.  Zunächst
+Die Funktion \lstinline{append-element} ist ganz ähnlich der Funktion
+\lstinline{concatenate} aus Abschnitt~\ref{sec:more-lists}.  Zunächst
 Testfälle:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (append-element (list 1 2 3) 4) (list 1 2 3 4))
 (check-expect (append-element empty 4) (list 4))
-\end{verbatim}
+\end{lstlisting}
 %
 Gerüst und Schablone:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define append-element
-  (lambda (lis el)
+  (lambda (list element)
     (cond
-      ((empty? lis) ...)
-      ((cons? lis)
-       ... (first lis) ...
-       ... (append-element (rest lis) el) ...))))
-\end{verbatim}
+      ((empty? list) ...)
+      ((cons? list)
+       ... (first list) ...
+       ... (append-element (rest list) element) ...))))
+\end{lstlisting}
 %
-Die Schablone lässt sich leicht vervollständigen:
+Im \lstinline{cons}-Fall können wir auch hier die Lösung anhand eines
+Beispiels finden: Im Testfall hat \lstinline{list} die Elemente 1 2 3,
+der rekursive Aufruf liefert also 2 3 4.  Wir müssen
+\lstinline{(first list)}, also die 1, nur noch vorne dranhängen, mit
+\lstinline{cons}. Im \lstinline{empty}-Fall hängen wir
+\lstinline{element} hinten an eine leere Liste~-- wir brauchen deshalb
+eine einelementige Liste mit \lstinline{element} drin, das könnten wir
+mit der eingebauten \lstinline{list} machen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define append-element
-  (lambda (lis el)
+  (lambda (list element)
     (cond
-      ((empty? lis) (list el))
-      ((cons? lis)
-       (cons (first lis)
-                  (append-element (rest lis) el))))))
-\end{verbatim}
+      ((empty? list) (list element))
+      ((cons? list)
+       (cons (first list)
+             (append-element (rest list) element))))))
+\end{lstlisting}
+%
+Hier wollten wir gern "<Fertig!"> wir sonst auch schreiben, aber die
+Funktion funktioniert nicht: DrRacket beschwert sich, dass nach der
+öffnenden Klammer von \lstinline{(list element)} keine Funktion steht
+sondern \lstinline{#<empty-list>}.  Wups!  Das liegt daran, dass wir
+den Namen \lstinline{list} auch für den Parameter gleichen Namens
+verwendet haben.  Und nach den Regeln der lexikalischen Bindung aus
+Abschnitt~\ref{sec:lexikalische-bindung} auf
+Seite~\pageref{sec:lexikalische-bindung} überdeckt der Parameter die
+eingebaute Funktion.
+
+Wir können das Problem auf zwei Arten lösen~-- wir benennen den
+Parameter um oder wir konstruieren die einelementige Liste "<von
+Hand">.  Wir haben uns für letzteres entschieden:
+%
+\begin{lstlisting}
+(define append-element
+  (lambda (list element)
+    (cond
+      ((empty? list) (cons element empty))
+      ((cons? list)
+       (cons (first list)
+             (append-element (rest list) element))))))
+\end{lstlisting}
+
+Doch zurück zu \lstinline{invert}.  Obwohl die zu erledigende Aufgabe
+einfach erscheint, dauert schon das Invertieren von Listen der Länge
+1000 eine ganze Weile.  Du kannst das zum Beispiel ausprobieren, indem
+Du die Funktion \lstinline{copies} aus Abschnitt~\ref{func:copies} auf
+Seite~\pageref{func:copies} verwendest und
+%
+\begin{lstlisting}
+(invert (copies 1000 42))
+\end{lstlisting}
+%
+Das dauert 2020 auf dem kaum ein Jahr alten Computer von Michael
+Sperber immerhin ein
+paar Sekunden: Das wäre vielleicht in den 70er Jahren noch akzeptabel
+gewesen.  Tatsächlich ist es so, dass zum Beispiel
+das Invertieren einer Liste der Länge 400 \emph{mehr} als doppelt so
+lang wie das Invertieren einer Liste der Länge 200 benötigt.  Das
+liegt daran, dass \lstinline{invert} bei jedem rekursiven Aufruf
+\lstinline{append-element} aufruft, und \lstinline{append-element} selbst
+macht soviele rekursive Aufrufe wie die Liste lang ist. Das sind für
+eine Liste der Länge 20 für den ersten Aufruf von
+\lstinline{append-element} 19 Aufrufe, für den zweiten 18 Aufrufe
+undsoweiter.
+
+Das sind also $19+18+17+\ldots+1$ rekursive Aufrufe.  Vielleicht
+erinnerst Du Dich~-- das ist ein Beispiel für die Gaußsche
+Summenformel, die wir in Abschnitt~\ref{sec:gausssche-summenformel}
+auf Seite~\pageref{sec:gausssche-summenformel} bewiesen haben:
+%
+\[\forall n\in\mathbb{N}: \sum_{i=0}^n i =
+  \frac{n\times (n+1)}{2}\]
 %
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=0.5\textwidth]{invert-calls}
-  \caption{Funktionaufrufe bei \texttt{invert}}
+\begin{tikzpicture}
+  \begin{axis}[
+    title={Anzahl der rekursiven Aufrufe},
+    xlabel={Anzahl $n$ der Listenelemente},
+    ylabel={$\frac{n\times (n+1)}{2}$}
+    ]
+    \addplot [
+    blue,
+    domain=0:10,
+    samples=10,
+    ]
+    {x*(x+1)/2};
+  \end{axis}
+\end{tikzpicture}
+  \caption{Funktionaufrufe bei \lstinline{invert}}
   \label{fig:invert-calls}
 \end{figure}
+
+\noindent Wenn Du diese Formel für immer größer werdende $n$ ausrechnest, wird
+die Zahl schwindelerregend schnell größer, wie
+Abbildung~\ref{fig:invert-calls} zeigt.  Woran liegt das?
+
+Wenn Du die rechte Seite ausmultiplizierst, steht da:
+\[ \frac{n\times (n+1)}{2} = \frac{n^2 + n}{2} \]
 %
-Doch zurück zu \texttt{invert}.  Obwohl die zu erledigende Aufgabe
-einfach erscheint, dauert schon das Invertieren von Listen der Länge
-1000 eine ganze Weile.\footnote{So war es zumindest zur Zeit der
-  Drucklegung dieses Buchs auf handelsüblichen Computern.  Ggf.\
-  müssen es auf moderneren Rechnern Listen der Länge 10000 sein, um
-  das Problem deutlich zu machen.}  
-Tatsächlich ist es so, dass z.B.\
-das Invertieren einer Liste der Länge 400 \emph{mehr} als doppelt so
-lang wie das Invertieren einer Liste der Länge 200 benötigt.  Das
-liegt daran, dass \texttt{invert} bei jedem rekursiven Aufruf
-\texttt{append-element} aufruft, und \texttt{append-element} selbst
-macht soviele rekursive Aufrufe wie die Liste lang ist.  Das wiederum
-heißt aber, dass die Gesamtanzahl der Funktionaufrufe für das
-Invertieren einer Liste der Länge $n$ so steigt wie in
-der Kurve in Abbildung~\ref{fig:invert-calls} gezeigt, also offenbar
-stärker als linear: Das erklärt das überproportionale Ansteigen der
-Rechenzeit.  (Dafür ist auch Aufgabe~\ref{ref:o-of-invert} relevant.)
-Dies ist für so eine einfache Aufgabe
-inakzeptabel: Listen der Länge 10000 sind nichts ungewöhnliches, und
-das Invertieren sollte dem Computer leichtfallen.
+In der Formel bestimmt das $n^2$ das schnelle Wachstum, auch
+\textit{quadratisch} genannt.\index{quadratisches Wachstum}.  
 
 Tatsächlich gibt es eine bessere Methode, eine Liste umzudrehen: Die
-obige \texttt{invert}"=Funktion konstruiert die Ergebnisliste, indem
+obige \lstinline{invert}"=Funktion konstruiert die Ergebnisliste, indem
 stets Elemente \emph{hinten} angehängt werden.  Das entspricht 
 nicht der "<natürlichen"> Konstruktion von Listen mit
-\texttt{cons}, das ein Element \emph{vorn} anhängt.  
+\lstinline{cons}, das ein Element \emph{vorn} anhängt.  
 Das Ergebnis ließe sich aber durch Anhängen vorn ganz einfach
 konstruieren, und zwar, indem in folgender Reihenfolge
 Zwischenergebnisse\index{Zwischenergebnis} berechnet werden, wie in folgendem Beispiel für den
-Testfall \texttt{(invert (list 1 2 3 4))}:
+Testfall \lstinline{(invert (list 1 2 3 4))}:
 %
-\begin{verbatim}
+\begin{lstlisting}
 #<empty-list>
 #<list 1>
 #<list 2 1>
 #<list 3 2 1>
 #<list 4 3 2 1>
-\end{verbatim}
+\end{lstlisting}
 %
 Jedes Zwischenergebnis entsteht aus dem vorhergehenden, indem ein
 Element vorn an die Liste darüber angehängt wird.  Dies geschieht in
 der Reihenfolge, in der die Elemente in der ursprünglichen Liste
 auftreten: scheinbar einfach.  Allerdings erlaubt die normale
 Konstruktionsanleitung für Listen nicht, dieses Zwischenergebnis
-mitzuführen: Das Ergebnis des rekursiven Aufrufs \texttt{(invert (rest
-  lis))} ist unabhängig vom Wert von \texttt{(first lis)}.  Damit aber
+mitzuführen: Das Ergebnis des rekursiven Aufrufs
+\lstinline{(invert (rest lis))} ist unabhängig vom Wert von
+\lstinline{(first lis)}.  Damit aber
 ist es der Funktion aus der normalen Konstruktionsanleitung unmöglich,
 die obige Folge von Zwischenergebnissen nachzuvollziehen, da von einem
-Zwischenergebnis zum nächsten gerade \texttt{(first lis)} vorn
-angehängt wird.  Für diesen speziellen Fall~-- wenn eine Berechnung das
-Mitführen von Zwischenergebnissen erfordert~-- muss die normale
-Konstruktionsanleitung deshalb angepasst werden.
+Zwischenergebnis zum nächsten gerade \lstinline{(first lis)} vorn
+angehängt wird.  Wir müssen also etwas anders an das Problem herangehen.
 
-Dieses Problem lässt sich durch Mitführen des Zwischenergebnisses in
-einem separaten Parameter lösen, dem sogenannten
-\textit{Akkumulator\index{Akkumulator}}.  Dazu wird eine
-Hilfsfunktion \texttt{invert-helper} definiert, die neben der Eingabeliste
-diesen Akkumulator akzeptiert:
+Um das Zwischenergebnis mitzuführen, 
+benutzen wir einen separaten Parameter, einen sogenannten
+\textit{Akkumulator\index{Akkumulator}}.  Dieser sammelt die
+invertierte Liste der bisher schon "<gesehenen"> Elemente auf.  Hier
+ist die Signatur der neuen Funktion \lstinline{invert-helper}:
 %
-\begin{verbatim}
+\begin{lstlisting}
+; Hilfsfunktion zum Umdrehen einer Liste
 (: invert-helper ((list-of %a) (list-of %a) -> (list-of %a)))
-
-(define invert-helper
-  (lambda (lis acc)
-    ...))
-\end{verbatim}
+\end{lstlisting}
 %
-Die Liste \texttt{lis} ist nach wie vor die bestimmende Eingabe, es
-greifen also die entsprechenden Konstruktionsanleitungen für gemischte
-und zusammengesetzte Daten:
+Der folgende Testfall soll illustrieren, wie die Funktion arbeitet:
+\begin{lstlisting}
+(check-expect (invert-helper (list 4 5 6) (list 3 2 1))
+              (list 6 5 4 3 2 1))
+\end{lstlisting}
 %
-\begin{verbatim}
+Die zweite Liste~-- der Akkumulator~-- enthält die "<bereits
+invertierten"> Elemente.  Die erste Liste ist noch nicht verarbeitet;
+die Elemente werden nacheinander an den Akkumulator vorn drangehängt.
+Für die Definition der Funktion setzen wir erst einmal die bereits
+bekannte Schablone ein für Funktionen, die eine Liste akzeptieren:
+%
+\begin{lstlisting}
 (define invert-helper
-  (lambda (lis acc)
+  (lambda (list inverted)
     (cond
-      ((empty? lis) ...)
-      ((cons? lis)
-       ... (first lis) ...
-       ... (invert-helper (rest lis) ...) ...))))
-\end{verbatim}
+      ((empty? list) ...)
+      ((cons? list)
+       ... (first list) ...
+       ... (invert-helper (rest list) ...) ...))))
+\end{lstlisting}
 %
-Wenn \texttt{invert-helper} aufgerufen wird, sind die noch zu
-verarbeitenden Elemente der ursprünglichen Liste in \texttt{lis}, und
-das Zwischenergebnis, was aus den Elementen davor berechnet wurde, ist
-in \texttt{acc}.  Wenn \texttt{lis} leer ist, sind alle Elemente
-verarbeitet und das Zwischenergebnis ist das Endergebnis:
+Ziemlich viele Lücken noch!  Füllen wir erstmal die einfachste, im
+\lstinline{empty}-Fall: Dann nämlich hat die Funktion schon "<alle
+Elemente gesehen"> und diese in den Akkumulator \lstinline{inverted}
+"<hineinakkumuliert">~-- der enthält dann die invertierte
+Eingabeliste:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define invert-helper
-  (lambda (lis acc)
+  (lambda (list inverted)
     (cond
-      ((empty? lis) acc)
-      ((cons? lis)
-       ... (first lis) ...
-       ... (invert-helper (rest lis) ...) ...))))
-\end{verbatim}
+      ((empty? list) inverted)
+      ((cons? list)
+       ... (first list) ...
+       ... (invert-helper (rest list) ...) ...))))
+\end{lstlisting}
 %
-Für den rekursiven Aufruf muss noch ein neuer Wert für \texttt{acc}
-übergeben werden.  Dieser entsteht, wie im Beispiel zu sehen ist,
-dadurch, dass an den Akkumulator das erste Element der Liste vorn
-angehängt wird:
+Im \lstinline{cons}-Fall müssen wir insbesondere das Argument zum zweiten
+Parameter von \lstinline{invert-helper} ergänzen: Wir sind natürlich
+versucht, da einfach \lstinline{inverted} hinzuschreiben wie bei
+vielen anderen rekursiven Funktionen vorher.  Aber wir müssen doch die
+Elemente von \lstinline{list} da noch "<hineinakkumulieren"> und aus
+dem vorigen Zwischenergebnis das nächste machen.  Für das
+"<Hineinakkumulieren"> nehmen wir das erste Elemente und hängen es
+vorn an, so wie wir es in der Beispielrechnung auch gemacht haben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define invert-helper
-  (lambda (lis acc)
+  (lambda (list inverted)
     (cond
-      ((empty? lis) acc)
-      ((cons? lis)
-       ... (invert-helper (rest lis)
-                          (cons (first lis) acc)) ...))))
-\end{verbatim}
+      ((empty? list) inverted)
+      ((cons? list)
+       ...
+       (invert-helper (rest list)
+                      (cons (first list) inverted))
+       ...))))
+\end{lstlisting}
 %
-Da der rekursive Aufrufs von \texttt{invert-helper} schließlich direkt das
-Endergebnis zurückgegeben wird, ist damit die Funktion auch schon fertig:
+Was müssen wir noch dazuschreiben?  Die Funktion arbeitet schon die
+Eingabeliste ab und akkumuliert ihre Elemente in \lstinline{inverted}
+hinein: Sie ist bereits fertig, wir müssen nur die Ellipsen wegmachen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define invert-helper
-  (lambda (lis acc)
+  (lambda (list inverted)
     (cond
-      ((empty? lis) acc)
-      ((cons? lis)
-       (invert-helper (rest lis)
-                      (cons (first lis) acc))))))
-\end{verbatim}
+      ((empty? list) inverted)
+      ((cons? list)
+       (invert-helper (rest list)
+                      (cons (first list) inverted))))))
+\end{lstlisting}
 %
-Die neue Hilfsfunktion \texttt{invert-helper} passt nicht auf die Signatur
-von \texttt{invert}; \texttt{invert} muss also separat definiert werden
-und den passenden Anfangswert für \texttt{acc} übergeben:
+Die Funktion kann schon was, ist aber natürlich nicht identisch zur
+ursprünglichen \lstinline{invert}-Funktion, die ja nur eine Eingabe
+hat.  Um "<einfach nur eine Liste umzudrehen">, können wir
+\lstinline{invert-helper} mit einem leeren Akkumulator aufrufen, wie
+in diesem Testfall:
 %
-\begin{verbatim}
-(define invert
-  (lambda (lis)
-    (invert-helper lis empty)))
-\end{verbatim}
+\begin{lstlisting}
+(check-expect (invert-helper (list 1 2 3) empty)
+              (list 3 2 1))
+\end{lstlisting}
 %
-% Da \texttt{invert-helper} ausschließlich als Hilfsfunktion zu
-% \texttt{invert} benutzt wird und ohne \texttt{invert} keinen Nutzen
-% hat, ist es nicht notwendig, eine separate Signatur für
-% \texttt{invert-helper} anzugeben. HK: Wir haben aber schon eine Signatur
-% dafür angegeben! ;-)
-
-Die neue Version von \texttt{invert} kommt ohne
-\texttt{append-element} aus.  Der Beispielaufruf von oben führt zu
-folgender Auswertung im Substitutionsmodell, die sich auch im Stepper
-gut nachvollziehen lässt:
+\begin{aufgabeinline}
+  Definiere \lstinline{invert} um, so dass es
+  \lstinline{invert-helper} benutzt!
+\end{aufgabeinline}
+%
+Die neue Version von \lstinline{invert} funktioniert nicht nur
+korrekt, sondern auch schnell: Sie benutzt keine Hilfsfunktion und
+macht soviele rekursive Aufrufe wie die Eingabeliste Elemente hat, ihre
+Laufzeit wächst also \textit{linear}.\index{lineares Wachstum}
+Dass das so ist, kannst Du sehen, wenn Du die Auswertung eines Aufrufs
+von \lstinline{invert} nachvollziehst:
 %
 \begin{alltt}\small
 (invert \underline{(list 1 2 3 4)})
-\(\Longrightarrow\ldots\Longrightarrow\) (\underline{invert-helper} #<list 1 2 3 4> empty)
-\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 1 2 3 4>) ...) ((cons? #<list 1 2 3 4>) ...))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 1 2 3 4>) (cons (first #<list 1 2 3 4>) empty))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 2 3 4> (cons 1 empty))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 2 3 4> #<list 1>)
-\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 2 3 4>) ...) ((cons? #<list 2 3 4>) ...))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 2 3 4>) (cons (first #<list 2 3 4>) #<list 1>))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 3 4> (cons 2 #<list 1>))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 3 4> #<list 2 1>)
-\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 3 4>) ...) ((cons? #<list 3 4>) ...))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 3 4>) (cons (first #<list 3 4>) #<list 2 1>))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 4> (cons 3 #<list 2 1>))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<list 4> #<list 3 2 1>)
-\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<list 4>) ...) ((cons? #<list 4>) ...))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper (rest #<list 4>) (cons (first #<list 4>) empty))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<empty-list> (cons 4 #<list 3 2 1>))
-\(\Longrightarrow\ldots\Longrightarrow\) (invert-helper #<empty-list> #<list 4 3 2 1>)
-\(\Longrightarrow\ldots\Longrightarrow\) (cond ((empty? #<empty-list>) #<list 4 3 2 1>) ((cons? #<empty-list>) ...))
-\(\Longrightarrow\) #<list 4 3 2 1>
+\(\ldots\evalsto\) (\underline{invert-helper} #<list 1 2 3 4> empty)
+\(\ldots\evalsto\) (cond ((empty? #<list 1 2 3 4>) ...) ((cons? #<list 1 2 3 4>) ...))
+\(\ldots\evalsto\) (invert-helper (rest #<list 1 2 3 4>) (cons (first #<list 1 2 3 4>) empty))
+\(\ldots\evalsto\) (invert-helper #<list 2 3 4> (cons 1 empty))
+\(\ldots\evalsto\) (invert-helper #<list 2 3 4> #<list 1>)
+\(\ldots\evalsto\) (cond ((empty? #<list 2 3 4>) ...) ((cons? #<list 2 3 4>) ...))
+\(\ldots\evalsto\) (invert-helper (rest #<list 2 3 4>) (cons (first #<list 2 3 4>) #<list 1>))
+\(\ldots\evalsto\) (invert-helper #<list 3 4> (cons 2 #<list 1>))
+\(\ldots\evalsto\) (invert-helper #<list 3 4> #<list 2 1>)
+\(\ldots\evalsto\) (cond ((empty? #<list 3 4>) ...) ((cons? #<list 3 4>) ...))
+\(\ldots\evalsto\) (invert-helper (rest #<list 3 4>) (cons (first #<list 3 4>) #<list 2 1>))
+\(\ldots\evalsto\) (invert-helper #<list 4> (cons 3 #<list 2 1>))
+\(\ldots\evalsto\) (invert-helper #<list 4> #<list 3 2 1>)
+\(\ldots\evalsto\) (cond ((empty? #<list 4>) ...) ((cons? #<list 4>) ...))
+\(\ldots\evalsto\) (invert-helper (rest #<list 4>) (cons (first #<list 4>) empty))
+\(\ldots\evalsto\) (invert-helper #<empty-list> (cons 4 #<list 3 2 1>))
+\(\ldots\evalsto\) (invert-helper #<empty-list> #<list 4 3 2 1>)
+\(\ldots\evalsto\) (cond ((empty? #<empty-list>) #<list 4 3 2 1>) ((cons? #<empty-list>) ...))
+\(\evalsto\) #<list 4 3 2 1>
 \end{alltt}
 %
-Tatsächlich arbeitet die neue Funktion auch effizienter: Da
-\texttt{invert-helper} nicht bei jedem Aufruf selbst wieder eine Funktion
-aufruft, die eine komplette Liste verarbeitet, steigt die Rechenzeit
-nur noch proportional zur Länge der Liste.
+Die höherere Effizienz hat allerdings auch ihren Preis.  Du merkst
+vielleicht, dass auffällig viele der Erläuterungen hier in
+Anführungszeichen stehen.  Das liegt daran, dass wir gar nicht so
+einfach erklären können, wie wir die neue Funktion konstruiert haben.
 
-Da die Funktion \texttt{invert} generell nützlich ist, ist sie unter
-dem Namen \texttt{reverse\index{reverse@\texttt{reverse}}} fest eingebaut.
-
-\begin{feature}{\texttt{letrec}}{scheme:letrec}
-Die \texttt{letrec}-Form bindet lokale Variablen, ähnlich wie \texttt{let}.
-Ihre Syntax ist mit der von \texttt{let} identisch.  Während bei \texttt{let}
-die Variablen, die an die Werte der Ausdrücke gebunden werden,
-in den Ausdrücken selbst nicht sichtbar sind, sind bei \texttt{letrec}\index{letrec@\texttt{letrec}}
-die Bindungen sichtbar.  
-\end{feature}
-
-Die Funktion \texttt{invert-helper} wird nur an einer einzigen Stelle
-aufgerufen, und zwar innerhalb von \texttt{invert}. Es würde auch kaum einen
-Sinn ergeben, \texttt{invert-helper} von einer anderen Stelle aus
-aufzurufen. Deshalb bietet es sich an, für \texttt{invert-helper} eine lokale
-Definition zu verwenden, die nur innerhalb von \texttt{invert} sichtbar
-ist. Dazu gibt es im Prinzip die \texttt{let}-Form, die allerdings für
-diesen Zweck nicht verwendbar ist (Abb.~\ref{scheme:letrec}). Die dort
-vorgestellte \texttt{letrec}-Form löst das Problem.
-
-Akkumulatoren, die Zwischenergebnisse verwalten, sind bei der Lösung
-einer Reihe von Problemen nützlich.  Zum Beispiel könnte eine
-Funktion, welche die Fakultät $n!$ einer Zahl $n$ berechnet,
-vorgehen, indem sie das Produkt $n \cdot \ldots \cdot 1$ schrittweise von
-links her ausrechnet:
-%
-\begin{displaymath}
-  \xymatrix@R=10pt@C=2pt{
-      &       &   & & 1\ar@{-->}[dllll]\\
-    1 & \cdot & 4 &=& 4\ar@{-->}[dllll]\\
-    4 & \cdot & 3 &=& 12\ar@{-->}[dllll]\\
-    12 & \cdot & 2 &=& 24\ar@{-->}[dllll]\\
-    24 & \cdot & 1 &=& 24\ar@{-->}[dllll]\\
-    24
-    }
-\end{displaymath}
-%
-Der Anfangswert für das Zwischenergebnis ist 1, also gerade die
-Fakultät von 0.
-
-Für die Konstruktion wird die Schablone für Funktionen, die natürliche
-Zahlen verarbeiten, um einen Akkumulator erweitert:
-\label{page:factorial-tail}
-%
-\begin{verbatim}
-; Fakultät berechnen
-
-(: ! (natural -> natural))
-
-(check-expect (! 0) 1)
-(check-expect (! 3) 6)
-(check-expect (! 5) 120)
-
-(define !
-  (lambda (n)
-    (letrec
-        ((!-helper
-          (lambda (n acc)
-             (if (= n 0)
-                acc
-                ... ))))
-      (!-helper n 1))))
-\end{verbatim}
-%
-Wie aus der Beispielrechnung ersichtlich ist, wird aus dem "<alten">
-Zwischenergebnis das "<neue"> Zwischenergebnis, indem jeweils
-mit \texttt{n} multipliziert wird:
-%
-\begin{verbatim}
-    (letrec
-        ((!-helper
-          (lambda (n acc)
-             (if (= n 0)
-                acc
-        ... (!-helper (- n 1) (* n acc)) ...))))
-\end{verbatim}
-%
-Wie schon bei \texttt{invert} ist es nicht notwendig, dass für die
-noch verbleibenden Ellipsen etwas eingesetzt wird; das Programm ist
-bereits fertig:
-%
-\begin{verbatim}
-(: ! (natural -> natural))
-(define !
-  (lambda (n)
-    (letrec
-        ((!-helper
-          (lambda (n acc)
-             (if (= n 0)
-                acc
-                (!-helper (- n 1) (* n acc)) ...))))
-      (!-helper n 1))))
-\end{verbatim}
-%
-Tatsächlich ist es bei Funktionen mit Akkumulator grundsätzlich nicht
-notwendig, für die Ellipsen am Schluss etwas einzusetzen. Bei der
-normalen Schablone für Funktionen, die Listen bzw.\ natürliche Zahlen
-verarbeiten, wird für diese Ellipsen Code eingesetzt, was das erste
-Element der Liste mit dem Ergebnis des rekursiven Ausdrucks 
-zum Rückgabewert kombiniert.  Dies ist beim Einsatz eines Akkumulators
-aber nicht notwendig, da das erste Element der Liste bereits in die
-Berechnung des nächsten Zwischenergebnisses eingeht und dieses
-Zwischenergebnis beim letzten Aufruf bereits das Endergebnis ist.
+Übrigens: Da die Funktion \lstinline{invert} generell nützlich ist,
+ist sie unter dem Namen
+\lstinline{reverse}\index{reverse@\texttt{reverse}} fest eingebaut.
 
 \section{Schablonen für Funktionen mit Akkumulator}
 
@@ -442,13 +420,16 @@ Wieder ist \texttt{z} der Ausdruck für das initiale Zwischenergebnis
 und für \texttt{(... acc ...)} ist ein Ausdruck einzusetzen, der aus
 dem alten Zwischenergebnis \texttt{acc} ein neues macht.
 
-\section{Minimum mit Akkumulator berechnen}
-\label{sec:min-akku}
+\section{Dreieckszahlen}
 
 FIXME
 
+\section{Aktienkurse analysieren}
+
 \section{Kontext und Endrekursion}
 \label{sec:iteration}
+
+FIXME
 
 Ein Vergleich der beiden Versionen der Fakultätsfunktion von
 S.~\pageref{page:factorial} und S.~\pageref{page:factorial-tail} zeigt, dass
@@ -576,7 +557,7 @@ gegeben~-- insbesondere nicht bei Funktionen, die Listen zurückgeben.
 Hier zum Beispiel eine Funktion, die eine Zahl $n$ akzeptiert und eine
 absteigende Liste der Zahlen von $n$ bis $1$ zurückliefert:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Liste der Zahlen von n bis 1 generieren
 (: build-list (natural -> (list-of natural)))
 
@@ -588,11 +569,11 @@ absteigende Liste der Zahlen von $n$ bis $1$ zurückliefert:
     (if (= n 0)
         empty
         (cons n (build-list (- n 1))))))
-\end{verbatim}
+\end{lstlisting}
 %
 Die direkte Übersetzung in eine Variante mit Akkumulator liefert:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define build-list
   (lambda (n)
     (letrec
@@ -602,7 +583,7 @@ Die direkte Übersetzung in eine Variante mit Akkumulator liefert:
               acc
               (build-list-helper (- n 1) (cons n acc))))))
     (build-list-helper n empty))))
-\end{verbatim}
+\end{lstlisting}
 %
 Diese Variante ist inkorrekt: Sie liefert z.B.\ für
 \texttt{(build-list 3)} das Ergebnis \verb|#<list 1 2 3>|, die
@@ -613,16 +594,24 @@ erwarten, und ist ein generelles Phänomen bei der Berechnung von
 Listen-Ausgaben mit Akkumulator.  Das Problem kann durch das Umdrehen
 der Ergebnisliste gelöst werden:
 %
-\begin{verbatim}
+\begin{lstlisting}
     (letrec
       ((build-list-helper
         (lambda (n acc)
           (if (= n 0)
               (reverse acc)
               (build-list-helper (- n 1) (cons n acc))))))
-\end{verbatim}
+\end{lstlisting}
 %
 
+\section{Vertraute Funktionen endrekursiv}
+
+FIXME
+
+\subsection{Minimum}
+\label{sec:min-akku}
+
+FIXME
 
 \section*{Anmerkungen}
 
@@ -671,7 +660,7 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
   Identifiziere die Kontexte der Aufrufe der Funktionen namens
   \texttt{p} in folgenden Ausdrücken:
   
-\begin{verbatim}
+\begin{lstlisting}
 (+ (p (- n 1)) 1)
 (p (- n 1) acc)
 (* (p (rest lis)) b)
@@ -681,7 +670,7 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 (+ (f (p n)) 5)
 (p (f (- n 1)) (* n (h n))) 
 (+ (f (p n)) (h n))
-\end{verbatim}
+\end{lstlisting}
   %
   Welche Aufrufe sind endrekursiv bzw.\ \textit{tail calls}?
 \end{aufgabe}

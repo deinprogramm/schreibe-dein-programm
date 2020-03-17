@@ -18,4 +18,10 @@
     (lambda (x)
       (+ x y))))
 
-    
+(define g
+  (lambda (x)
+    (define x (+ x 1))
+    (define y (+ x 1))
+    (lambda (x)
+      (+ x y))))
+
