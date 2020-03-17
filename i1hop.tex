@@ -180,7 +180,7 @@ Unterschied ist die Definition der lokalen Variablen
 \lstinline{goals1} und \lstinline{goals2}. Eine solche Duplizierung
 von Code ist immer schlecht, vor allem, wenn sich etwas
 ändert. Theoretisch könnte der Fußballbund die Regeln für die Vergabe
-von Punkten ändern sollte, und dann müssten wir beide Funktionen in
+von Punkten ändern, und dann müssten wir beide Funktionen in
 gleicher Weise anpassen.  Die Lösung für das Problem zeigt sich
 dadurch, dass wir aus dem gemeinsamen Code der beiden Funktionen
 eine neue Funktion machen, entsprechend dem Abstraktions-Mantra:
@@ -407,16 +407,18 @@ die feststellt, ob \emph{ein} bestimmtes Spiel unentschieden war:
     (= 1 (home-points g))))
 \end{lstlisting}
 %
-Die Spiele der Saison liegen in der einer Liste, wir schreiben also eine
+Die Spiele der Saison liegen in einer Liste, wir schreiben also eine
 Funktion, die aus einer Liste von Spielen die
 unentschiedenen herausholt.  Kurzbeschreibung, Signatur und Gerüst
-sehen so aus:
+%% HK ich denke mal, das ist so gemeint
+%sehen so aus:
 %
-\begin{lstlisting}
-
-\end{lstlisting}
+%\begin{lstlisting}
 %
-Die Definition folgt der Konstruktionsanleitung für Funktionen auf Listen.
+%\end{lstlisting}
+%
+%Die Definition folgt
+folgen der Konstruktionsanleitung für Funktionen auf Listen.
 Hier ist die Schablone:\index{drawn-games@\texttt{drawn-games}}
 %
 \begin{lstlisting}
@@ -489,7 +491,7 @@ es im Ergebnis unter:
 Fertig!
 
 Analog zu \lstinline{drawn-games} schreiben wir als nächstes eine
-Funktion, die alle Spiele aus einer extrahiert, die die Heimmannschaft
+Funktion, die alle Spiele aus einer Liste extrahiert, die die Heimmannschaft
 gewonnen hat.  Dazu brauchen wir erst einmal eine Funktion analog zu
 \lstinline{game-draw?}:
 %
@@ -550,7 +552,7 @@ beiden Fällen ums "<extrahieren"> geht, nehmen wir
 %
 Als nächstes müssen wir die Stelle, die sich bei beiden Definitionen
 unterscheidet (\lstinline{game-draw?} beziehungsweise
-\lstinline{home-won?}), durch eine neue Variable.  Die nennen wir
+\lstinline{home-won?}), durch eine neue Variable bezeichnen.  Die nennen wir
 \lstinline{f?}:
 %
 \begin{lstlisting}
@@ -770,7 +772,7 @@ Hier sind Kurzbeschreibung, Signatur, Tests und Gerüst dafür:
 \end{lstlisting}
 %
 Als Schablone machen wir davon Gebrauch, dass die Eingabe
-zusammensetze Daten sind:
+zusammensetzte Daten sind:
 %
 \begin{lstlisting}
 (define total-goals
@@ -1250,10 +1252,13 @@ sein.  Es bleibt:
   im Stepper!
 \end{aufgabeinline}
 %
-Im Stepper kannst Du sehen, dass \lstinline{xxx} folgendermaßen arbeitet:
+Im Stepper kannst Du sehen, dass \lstinline{xxx} folgendermaßen
+arbeitet:
+%%HK Ich denke, der Name list-fold kommt erst ein paar Zeilen später
+%%an der richtigen Stelle
 %
 \begin{lstlisting}
-(list-fold $e$ $c$ #<list $a_1$ $\ldots$ $a_n$ >)
+(xxx $e$ $c$ #<list $a_1$ $\ldots$ $a_n$ >)
 |\evalsto|$\ldots$|\evalsto|
 ($c$ $a_1$ ($c$ $a_2$ ($\ldots$ ($c$ $a_n$ $u$) $\ldots$)))
 \end{lstlisting}
@@ -2057,7 +2062,7 @@ sie sich befindet.
   der Ausdruck \lstinline{(f y)}? Berechne das Ergebnis von Hand mit Hilfe
   des Substitutionsmodells und halte die Zwischenschritte fest.
 
-  \noindent \emph{Hinweis:} In diesen Aufgaben findest keine
+  \noindent \emph{Hinweis:} In diesen Aufgaben findest Du keine
   Kommentare und Signaturen zu den Funktionen. Hier kannst Du an einem
   Beispiel sehen, dass es sehr wichtig ist, diese Informationen
   anderen Programmierern immer zur Verfügung zu stellen. Denn es kann
