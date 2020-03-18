@@ -603,7 +603,7 @@ für \texttt{a} und \texttt{b} einsetzen wollen:
    (beside b a)))
 \end{verbatim}
 %
-Die \texttt{lambda}\index{lambda@\texttt{lambda}} ist eine Art Zauberwort, es sagt soviel wie: "<Für
+Das \texttt{lambda}\index{lambda@\texttt{lambda}} ist eine Art Zauberwort, es sagt soviel wie: "<Für
 die Variablen \texttt{a} und \texttt{b} möchte ich später (und
 vielleicht mehrmals) Werte einsetzen.">  Wenn Du das Programm jetzt
 startest, geht die Fehlermeldung weg und in der REPL erscheint:
@@ -1680,11 +1680,10 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
   folgende Teilprobleme lösen:
 
   \begin{enumerate}
-  \item Schreibe zunächst eine Funktion \texttt{speed-ratio}, die
-    das Verhältnis der Strömungsgeschwindigkeit des Flusses
-    $v_{\text{Fluss}}$ zur Geschwindigkeit des Bootes
-    $v_{\text{Boot}}$ berechnet.
-
+  \item Schreibe eine Funktion \lstinline{crossing-time}, welche die
+    Zeit berechnet, die für das Überqueren des Flusses benötigt wird:
+    %
+    \[t = \frac{a}{v_{\text{Boot}}}\]
   \item Schreibe dann eine Funktion \texttt{other-shore-offset},
     die die Länge der Strecke berechnet, die das Boot abgetrieben wird
     (also den Versatz am anderen Ufer, im Schaubild die Strecke $b$).
