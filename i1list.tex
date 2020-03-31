@@ -503,12 +503,15 @@ wir \lstinline{(list-of element)} da hinschreiben, wo vorher
   (rest  (list-of element)))
 \end{lstlisting}
 %
-Das erledigt die Hälfte der Signaturverletzungen.  Die andere Hälfte
-steckte in den Signatur"=Deklarationen für \lstinline{cons},
-\lstinline{first} und \lstinline{rest}.  Für die Signaturen brauchen
-wir ein neues Konstrukt um auszudrücken, dass potenziell bei jedem
-Aufruf von \lstinline{cons}, \lstinline{first} und \lstinline{rest}
-eine andere Elementsignatur verwendet wird.  Das sieht so aus:
+Das erledigt die Signaturverletzungen.
+
+Bei dieser neuen Form von \lstinline{define-record-functions} ist
+nicht mehr offensichtlich, wie die Signaturen des Konstruktors und der
+beiden Selektoren aussehen sollen, wenn wir sie ausschreiben.  Wir
+brauchen dafür ein neues Konstrukt, um auszudrücken, dass potenziell
+bei jedem Aufruf von \lstinline{cons}, \lstinline{first} und
+\lstinline{rest} eine andere Elementsignatur verwendet wird.  Das
+sieht so aus:
 %
 \begin{lstlisting}
 (: cons (%element (list-of %element) -> (cons-list %element)))
