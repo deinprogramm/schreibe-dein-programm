@@ -188,10 +188,12 @@ wir auch in der Schablone direkt \lstinline{(- ... 1)} statt
 
 \begin{konstruktionsanleitung}{Natürliche Zahlen als Eingabe: Schablone}
   \label{ka:nats-eingabe-schablone}
-  Eine Schablone für eine Funktion, die eine natürliche Zahl akzeptiert, sieht
+  Die Schablone für eine Funktion, die eine natürliche Zahl akzeptiert, sieht
 folgendermaßen aus:
 %
 \begin{lstlisting}
+(: |\(f\)| (... natural ... -> ...))
+
 (define |\(f\)|
   (lambda (|\ldots| |\(\mathit{n}\)| |\ldots|)
     (cond

@@ -614,10 +614,12 @@ Konstruktionsanleitung mit der enstandenen Schablonenkombination zu widmen:
 
 \begin{konstruktionsanleitung}{Listen als Eingabe: Schablone}
   \label{ka:listen-eingabe-schablone}
-Eine Schablone für eine Funktion, die eine Liste akzeptiert, sieht
+Die Schablone für eine Funktion, die eine Liste akzeptiert, sieht
 folgendermaßen aus:
 %
 \begin{lstlisting}
+(: |\(f\)| (... (list-of |\(\mathit{elem}\)|) ... -> ...))
+
 (define |\(f\)|
   (lambda (|\ldots| |\(\mathit{list}\)| |\ldots|)
     (cond
@@ -625,7 +627,8 @@ folgendermaßen aus:
       ((cons? |\(\mathit{list}\)|)
        |\ldots|
        (first |\(\mathit{list}\)|)
-       (|\(f\)| (first |\(\mathit{list}\)|))
+       |\ldots|
+       (|\(f\)| |\ldots| (rest |\(\mathit{list}\)|) |\ldots|)
        |\ldots|
        ))))
 \end{lstlisting}
