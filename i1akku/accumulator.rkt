@@ -46,3 +46,50 @@
       ((cons? list)
        (invert-helper (rest list)
                       (cons (first list) inverted))))))
+
+; Summe der Elemente einer Liste von Zahlen berechnen
+(: list-sum ((list-of number) -> number))
+
+(check-expect (list-sum (list 2 3 5 7)) 17)
+
+#;(define list-sum
+  (lambda (list0)
+    (list-sum-helper list0 0)))
+
+;; sum ist die Summe der Zahlen in list0 vor list
+#;(define list-sum-helper
+  ;; sum ist die Summer aller Elemente in list0 vor list
+  (lambda (list sum)
+    (cond
+      ((empty? list) sum)
+      ((cons? list)
+       (list-sum-helper (rest list) (+ (first list) sum))))))
+
+(define list-sum
+  (lambda (list0)
+    (define accumulate
+      ;; sum ist die Summer aller Elemente in list0 vor list
+      (lambda (list sum)
+        (cond
+          ((empty? list) sum)
+          ((cons? list)
+           (accumulate (rest list) (+ (first list) sum))))))
+    (accumulate list0 0)))
+
+(: factorial (natural -> natural))
+
+(check-expect (factorial 5) 120)
+
+(define factorial
+  (lambda (n0)    
+    (define accumulate
+      ;; acc ist das Produkt aller Zahlen von (+ n 1) bis n0
+      (lambda (n acc)
+        (cond
+          ((zero? n) acc)
+          ((positive? n)
+           (accumulate (- n 1) (* n acc))))))
+    (accumulate n0 1)))
+           
+        
+        

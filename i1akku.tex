@@ -371,33 +371,298 @@ ist sie unter dem Namen
 
 \section{Schablonen für Funktionen mit Akkumulator}
 
-Aus den beiden Beispielen des vorgehenden Abschnitts ergeben sich
-direkt Schablonen für Funktionen mit Akkumulator.  Zunächst die
-Schablone für Funktionen mit Akkumulator, die Listen akzeptieren:
-%
-\begin{alltt}
-(: proc ((list-of elem) -> ...))
+Auch für Funktionen mit Akkumulator wollen wir eine
+Konstruktionsanleitung entwickeln.  Vorher wollen wir aber noch einmal
+anhand eines weiteren Beispiels Revue passieren lassen, wie der
+Konstruktionsprozess bei solchen Funktionen eigentlich genau aussieht.
 
-(define proc
-  (lambda (lis)
-    (letrec
-       ((proc-helper
-         (lambda (lis acc)
-            (cond
-              ((empty? lis) acc)
-              ((cons? lis)
-                 (proc-helper (rest lis)
-                    (... (first lis) ... acc ...)))))))
-    (proc-helper lis z))))
-\end{alltt}
+Wir nehmen uns eine Funktion vor, die wir eigentlich schon kennen,
+nämlich aus Abschnitt~\ref{sec:list-sum} auf Seite
+\pageref{sec:list-sum}:
 %
-Hier ist \texttt{proc} der Name der zu definierenden Funktion
-und \texttt{proc-helper} der Name der Hilfsfunktion mit
-Akkumulator.  Der Anfangswert für den Akkumulator~-- also das initiale
-Zwischenergebnis~-- ist der Wert von \texttt{z}.  Der
-Ausdruck, der für \texttt{(... (first lis) ... acc ...)} einzusetzen
-ist, macht aus dem alten Zwischenergebnis \texttt{acc} das neue
-Zwischenergebnis.
+\begin{lstlisting}
+; Summe der Elemente einer Liste von Zahlen berechnen
+(: list-sum ((list-of number) -> number))
+\end{lstlisting}
+%
+Wir nehmen uns allerdings diesmal vor, mit Akkumulator zu arbeiten.
+Dazu müssen wir uns erst einmal überlegen, was für Information der
+Akkumulator eigentlich akkumulieren soll.  Das sollte ein
+\textit{Zwischenergebnis}\index{Zwischenergebnis} sein, das ist oft
+eine vorläufige Version des gewünschten Endergebnisses.  Da es 
+hier das Endergebnis die Summe aller Listenelemente ist, nehmen wir
+als Zwischenergebnis die Summer aller Listenelemente, die unsere
+Funktion schon "<gesehen"> hat.  Wir nennen deshalb den
+Akkumulator \lstinline{sum} und schreiben folgende Schablone:
+%
+\begin{lstlisting}
+(define list-sum-helper
+  (lambda (list sum)
+    (cond
+      ((empty? list) ... sum ...)
+      ((cons? list)
+       (list-sum-helper (rest list) (... (first list) ... sum ...))))))
+\end{lstlisting}
+%
+Warum sieht sie gerade so aus beziehungsweise: Was ist der Unterschied
+zur ganz normalen Schablone für Listen als Eingabe aus
+Konstruktionsanleitung~\ref{ka:listen-eingabe-schablone} auf
+Seite~\pageref{ka:listen-eingabe-schablone}?   Hier ist sie zur
+Erinnerung noch einmal:
+%
+\begin{lstlisting}
+(define |\(f\)|
+  (lambda (|\ldots| |\(\mathit{list}\)| |\ldots|)
+    (cond
+      ((empty? |\(\mathit{list}\)|) |\ldots|)
+      ((cons? |\(\mathit{list}\)|)
+       |\ldots|
+       (first |\(\mathit{list}\)|)
+       (|\(f\)| (first |\(\mathit{list}\)|))
+       |\ldots|
+       ))))
+\end{lstlisting}
+%
+Im \lstinline{empty}-Zweig steht der Akkumulator \lstinline{sum}, in
+der Schablone aus
+Konstruktionsanleitung~\ref{ka:listen-eingabe-schablone} gar nichts
+steht: Hier ist die Liste am Ende und es ist Zeit, das Endergebnis
+auszurechnen: das soll im \lstinline{empty}-Zweig herauskommen.   Weil
+der Akkumulator ein Zwischenergebnis ist, muss er eine Rolle bei der
+Berechnung des Endergebnisses spielen.  (Wir werden noch sehen, dass
+das Endergebnis am Ende fast immer das letzte Zwischenergebnis
+\emph{ist} beziehungsweise eine leichte Variation davon.)
+
+Im \lstinline{cons}-Fall steht ein rekursiver Aufruf mit
+\lstinline{(rest list)} als Listen-Argument~-- wie in
+Konstruktionsanleitung~\ref{ka:listen-eingabe-schablone} auch.
+Außerdem steht dort eine Hilfestellung für die Berechnung des
+Akkumulator"=Arguments, also des nächsten Zwischenergebnisses.  Da
+sollte das letzte Zwischenergebnis~-- hier \lstinline{sum}~-- und das
+nächste Listenelement \lstinline{(first list)} eingehen. Darum stehen
+sie in der Schablone.  Dieser Teil der Schablone ist also nur eine
+Erweiterung der ursprünglichen Schablone.
+
+Außerdem fällt Dir vielleicht auf, dass um den rekursiven Aufruf herum
+keine Ellipsen \lstinline{...}: Du solltest da nichts drumherum
+schreiben.  Das liegt daran, dass der letzte rekursive Aufruf von
+\lstinline{list-sum-helper} am Ende der Liste das Ergebnis
+produziert~-- das muss die Funktion einfach unverändert zurückliefern,
+und darum steht da nichts drumherum.
+
+Um die Funktion zu vervollständigen, müssen wir noch klarer als bisher
+formulieren, was genau der Akkumulator \lstinline{sum} repräsentiert.
+Oben haben wir etwas salopp geschrieben, dass es sich um die Summe
+aller Listenelemente handelt, welche die Funktion schon "<gesehen">
+hat.  Die sind aber für \lstinline{list-sum-helper} gar nicht mehr
+sichtbar.  Wir können sie sichtbar machen, indem wir die Funktion
+\lstinline{list-sum} einbeziehen, die \lstinline{list-sum-helper}
+aufruft.  Hier ist ihre Schablone dafür:
+%
+\begin{lstlisting}
+(define list-sum
+  (lambda (list0)
+    (list-sum-helper list0 ...)))
+\end{lstlisting}
+%
+Wir haben bewusst den Namen \lstinline{list0} gewählt, damit wir ihn
+nicht mit dem \lstinline{list} aus \lstinline{list-sum-helper}
+durcheinanderbringen.  (Anders als noch bei \lstinline{reverse}~-- wir
+versuchen es besser zu machen.)
+
+\begin{figure}[tb]
+  \centering
+  \begin{tikzpicture}
+    \node (cell1) at (0,0) [draw,thick,minimum width=1cm,minimum height=1cm] {};
+    \node (cell2) at (1,0) [draw,thick,minimum width=1cm,minimum height=1cm] {};
+    \node (cell3) at (2,0) [draw,thick,minimum width=1cm,minimum height=1cm] {};
+    \node (cell4) at (3,0) [draw,thick,minimum width=1cm,minimum height=1cm] {};
+    \node (cell5) at (4,0) [draw,thick,minimum width=1cm,minimum height=1cm] {};
+    \node (cell6) at (5,0) [draw,thick,minimum width=1cm,minimum height=1cm] {};
+    \node (cell7) at (6,0) [draw,thick,minimum width=1cm,minimum height=1cm] {};
+    \node (cell8) at (7,0) [draw,thick,minimum width=1cm,minimum height=1cm] {};
+    \node (cell9) at (8,0) [draw,thick,minimum width=1cm,minimum height=1cm] {};
+    \draw [
+    thick,
+    decoration={
+        brace,
+        amplitude=0.3cm,
+        mirror,
+        raise=0.5cm
+    },
+    decorate
+    ] (cell4.west) -- (cell9.east) 
+    node [midway,yshift=-0.9cm] {\lstinline{list}};
+    \draw [
+    thick,
+    decoration={
+        brace,
+        amplitude=1.3cm,
+        mirror,
+        raise=0.5cm
+    },
+    decorate
+    ] (cell1.west) -- (cell9.east) 
+    node [midway,yshift=-2cm] {\lstinline{list0}};
+
+    \draw [
+    thick,
+    decoration={
+        brace,
+        amplitude=0.3cm,
+        mirror,
+        raise=0.5cm
+    },
+    decorate
+    ] (cell1.west) -- (cell3.east) 
+    node [midway,xshift=0.1cm,yshift=-0.9cm] {"<gesehen">};
+  \end{tikzpicture}
+  
+  \caption{Gesehene Elemente einer Liste in einer Funktion mit Akkumulator}
+  \label{fig:list0-list}
+\end{figure}
+
+Abbildung~\ref{fig:list0-list} zeigt die Beziehung zwischen
+\lstinline{list0} und \lstinline{list}: \lstinline{list0} ist die
+Liste \emph{aller} Elemente, \lstinline{list} markiert die Stelle, an
+der sich \lstinline{list-sum-helper} gerade befindet, besteht also aus
+noch nicht gesehenen Elementen.
+
+Bevor wir nun die Schablone ausfüllen (auch wenn es Dir in den Fingern
+juckt), sollten wir überlegen, in welchem Verhältnis
+\lstinline{list0}, \lstinline{list} und \lstinline{sum} stehen.  Hier
+ist das nämlich noch einfach, aber bei machen Funktionen mit
+Akkumulator werden wir sehen, dass es schwieriger ist.  In diesem Fall
+könnte das so aussehen:
+%
+\begin{center}
+  \textit{Sum} ist die Summer aller Elemente in \lstinline{list0} vor
+  \lstinline{list}.
+\end{center}
+%
+Diese Aussage sollten wir als Kommentar in die Funktion schreiben,
+denn daraus ergibt sich alles weitere.  Weil sie so wichtig ist, hat
+sie einen eigenen Namen: \textit{Invariante}\index{Invariante}.
+
+Um die Funktion fertigzustellen, fangen wir damit an, die Lücke in
+\lstinline{list-sum} zu schließen, die \lstinline{list-sum-helper} mit
+\lstinline{list0} aufruf.  \lstinline{List0} und \lstinline{list} sind
+also gleich~-- es gibt keine Elemente "<vor \lstinline{list}">.  Die
+Summe dieser leeren Liste und damit das Argument im Aufruf
+von \lstinline{list-sum-helper} ist entsprechend 0:
+%
+\begin{lstlisting}
+(define list-sum
+  (lambda (list0)
+    (list-sum-helper list0 0)))
+\end{lstlisting}
+%
+Als nächstes ist der \lstinline{empty}-Zweig dran.  Hier ist
+\lstinline{sum} die Summe aller Elemente vor \lstinline{list}, und,
+weil \lstinline{list} leer ist, sind das \emph{alle} Elemente von
+\lstinline{list0}.  Deswegen ist \lstinline{sum} das gewünschte
+Endergebnis.  Zwischenstand:
+%
+\begin{lstlisting}
+(define list-sum-helper
+  ;; sum ist die Summer aller Elemente in list0 vor list
+  (lambda (list sum)
+    (cond
+      ((empty? list) sum)
+      ((cons? list)
+       (list-sum-helper (rest list) (... (first list) ... sum ...))))))
+\end{lstlisting}
+%
+Es bleibt der rekursive Aufruf.  Hier muss der \emph{neue} Wert von
+\lstinline{sum} berechnet werden, also die Summe aller Elemente vor
+\lstinline{(rest list)}.  Dazu müssen wir auf die bisherige Summe
+\lstinline{(first list)} addieren:
+%
+\begin{lstlisting}
+(define list-sum-helper
+  ;; sum ist die Summer aller Elemente in list0 vor list
+e  (lambda (list sum)
+    (cond
+      ((empty? list) sum)
+      ((cons? list)
+       (list-sum-helper (rest list) (+ (first list) sum))))))
+\end{lstlisting}
+%
+Fertig!
+
+Also na ja~-- es nervt etwas, immer zwei Funktionen schreiben zu müssen
+und immer \lstinline{-helper} dranzuhängen.  Wir können die Funktion
+etwas übersichtlicher machen, indem wir \lstinline{list-sum-helper} zu einer
+lokalen Definition innerhalb von \lstinline{list-sum} machen:
+%
+\begin{lstlisting}
+(define list-sum
+  (lambda (list0)
+    (define list-sum-helper
+      ;; sum ist die Summer aller Elemente in list0 vor list
+      (lambda (list sum)
+        (cond
+          ((empty? list) sum)
+          ((cons? list)
+           (list-sum-helper (rest list) (+ (first list) sum))))))
+    (list-sum-helper list0 0)))
+\end{lstlisting}
+%
+Außerdem kannst Du, wenn Dich das \lstinline{helper} nervt, einen
+knackigeren Namen wählen, der Dir besser gefällt.  Wir nehmen
+\lstinline{accumulate}:
+%
+\begin{lstlisting}
+(define list-sum
+  (lambda (list0)
+    (define accumulate
+      ;; sum ist die Summer aller Elemente in list0 vor list
+      (lambda (list sum)
+        (cond
+          ((empty? list) sum)
+          ((cons? list)
+           (accumulate (rest list) (+ (first list) sum))))))
+    (accumulate list0 0)))
+\end{lstlisting}
+%
+Aus diesem Beispiel ergibt sich folgende Konstruktionsanleitung:
+%
+\begin{konstruktionsanleitung}{Listen als Eingabe, mit Akkumulator: Schablone}
+  \label{ka:listen-eingabe-akkumulator-schablone}
+  Wenn Du eine Funktion schreibst, die eine Liste akzeptiert und
+  einen Akkumulator benutzen soll, gehe folgendermaßen vor:
+  \begin{enumerate}
+  \item Überlege Dir, was für Information der Akkumulator
+    repräsentieren soll. Das ist typischerweise ein
+    Zwischenergebnis~-- also ein vorläufiger Wert für das Endergebnis.
+  \item Konstruiere die Schablone wie folgt:
+\begin{lstlisting}
+(define |\(f\)|
+  (lambda (... |\(\mathit{list}\sb{0}\)| ...)
+    (define accumulate
+      (lambda (|\(\mathit{list}\)| |\(\mathit{acc}\)|)
+        (cond
+          ((empty? |\(\mathit{list}\)|) |\ldots| |\(\mathit{acc}\)| |\ldots|)
+          ((cons? |\(\mathit{list}\)|)
+           (accumulate (rest |\(\mathit{list}\)|) 
+                       (... (first |\(\mathit{list}\)|) ... |\(\mathit{acc}\)|))))))
+    (accumulate |\(\mathit{list}\sb{0}\)| ...)))
+\end{lstlisting}
+    \item Formuliere eine möglichst konkrete Invariante zwischen
+      $\mathit{list}_0$, $\mathit{list}$ und $\mathit{acc}$ und
+      schreibe sie als Kommentar zu \lstinline{accumulate}.
+    \item Fülle mit Hilfe der Invariante die Ellipsen in der Funktion aus.
+  \end{enumerate}
+\end{konstruktionsanleitung}
+%
+Die Konstruktionsanleitung zeigt auch, warum schwieriger ist, eine
+Funktion mit Akkumulator zu schreiben, als eine "<normale"> Funktion,
+die Listen akzeptiert: Du musst eine Invariante finden, und dafür gibt
+es nur wenig allgemeingültige Hilfestellung.
+
+\section{Dreieckszahlen}
+
+FIXME
 
 Die Schablone für Funktionen mit Akkumulator, die natürliche Zahlen
 akzeptieren, ist analog:
@@ -419,10 +684,6 @@ akzeptieren, ist analog:
 Wieder ist \texttt{z} der Ausdruck für das initiale Zwischenergebnis
 und für \texttt{(... acc ...)} ist ein Ausdruck einzusetzen, der aus
 dem alten Zwischenergebnis \texttt{acc} ein neues macht.
-
-\section{Dreieckszahlen}
-
-FIXME
 
 \section{Aktienkurse analysieren}
 
