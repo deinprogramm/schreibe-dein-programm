@@ -128,7 +128,7 @@ vorkommen werden:
 sonst:\index{cons@\texttt{cons}}\index{cons@\texttt{cons}}\index{cons?@\texttt{cons?}}\index{first@\texttt{first}}\index{rest@\texttt{rest}}\label{def:cons}
 Der Konstruktor heißt \lstinline{cons} statt
 \lstinline{make-cons-list}, das Prädikat nur \lstinline{cons?}  statt
-\lstinline{cons-list} und bei den Selektoren fehlt jeweils das
+\lstinline{cons-list?} und bei den Selektoren fehlt jeweils das
 \lstinline{cons-} vorn.
 
 Es fehlt noch die Definition der Signatur \lstinline{list-of-numbers}
@@ -532,7 +532,7 @@ Vielleicht ist Dir der Gedanke gekommen, dass statt
 \lstinline{%element} in den obigen Signaturen auch \lstinline{any}
 stehen könnte.  Rein technisch gesehen ist das korrekt.  Allerdings
 wären die resultierenden Signaturen weniger präzise.  Nimm einmal
-dann, dort stünde zum Beispiel das hier:
+an, dort stünde zum Beispiel das hier:
 %
 \begin{lstlisting}
 (: cons (any (list-of any) -> (cons-list any)))
@@ -1523,10 +1523,6 @@ Schreibe folgende Funktionen auf Listen:
     aufladen.  Schreibe eine Funktion \\
     \lstinline{time-to-fully-charge-cell}, die ausrechnet, wieviele
     Stunden es dauert, bis das Ladegerät die Zelle aufgeladen hat.
-
-  \item Schreibe eine Funktion
-    \lstinline{time-to-fully-charge-battery}, die ausrechnet, wieviele
-    Stunden es dauert, bis das Ladegerät den Akku aufgeladen hat.
 
   \item Schreibe eine Funktion \lstinline{charge-cell}, die eine
     Zelle und eine Zeit in Stunden akzeptiert und die Zelle
