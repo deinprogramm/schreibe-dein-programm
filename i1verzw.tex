@@ -31,22 +31,22 @@ Für die Programme dieses Kapitels benötigen wir eine neue Art von
 Daten.  Die ergeben sich, wenn wir zum Beispiel zwei Zahlen
 vergleichen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (< 0 5)
-\evalsto{} #t
-\end{alltt}
+|\evalsto| #t
+\end{lstlisting}
 %
-\texttt{(< 0 5)} ist die Schreibweise für $0 < 5$.  Das
-\verb|#t| steht für "<true\index{true}"> oder "<wahr\index{wahr}">,
+\lstinline{(< 0 5)} ist die Schreibweise für $0 < 5$.  Das
+\lstinline{#t} steht für "<true\index{true}"> oder "<wahr\index{wahr}">,
 denn die Aussage "<ist 0 kleiner als 5"> stimmt ja.
-Umgekehrt kommt natürlich nicht \verb|#t| heraus:
+Umgekehrt kommt natürlich nicht \lstinline{#t} heraus:
 %
-\begin{alltt}
+\begin{lstlisting}
 (< 5 0)
-\evalsto{} #f
-\end{alltt}
+|\evalsto| #f
+\end{lstlisting}
 %
-Das \verb|#f| steht für "<false\index{false}"> oder
+Das \lstinline{#f} steht für "<false\index{false}"> oder
 "<falsch\index{falsch}">, denn diese Aussage stimmt nicht.
 
 "<Wahr"> und "<falsch"> heißen zusammen \textit{boolesche
@@ -60,84 +60,84 @@ dem ein boolescher Wert herauskommt, heißt dementsprechend auch
 
 Wir werden boolesche Ausdrücke oft
 \textit{Bedingungen\index{Bedingung}} nennen.  Wenn eine Bedingung
-\verb|#t| liefert, werden wir auch die Sprachregelung benutzen, dass
+\lstinline{#t} liefert, werden wir auch die Sprachregelung benutzen, dass
 die Bedingung \textit{gilt}~-- beziehungsweise, dass, wenn sie
-\verb|#f| liefert, sie \textit{nicht gilt}.
+\lstinline{#f} liefert, sie \textit{nicht gilt}.
 
-\texttt{<}\index{<@\texttt{<}} ist eine eingebaute Funktion, die
+\lstinline{<}\index{<@\texttt{<}} ist eine eingebaute Funktion, die
 auf "<kleiner als"> testet, also dem mathematischen Operator $<$
-entspricht.  Ebenso gibt es auch \texttt{>}\index{>@\texttt{>}} für
-"<größer als"> (Mathematik: $>$), \texttt{=}\index{=@\texttt{=}} für
-"<gleich"> (Mathematik: $=$), \texttt{<=}\index{<@\texttt{<=}} für "<kleiner oder
-gleich"> (Mathematik: $\leq$) und \texttt{>=}\index{>=@\texttt{>=}}
+entspricht.  Ebenso gibt es auch \lstinline{>}\index{>@\texttt{>}} für
+"<größer als"> (Mathematik: $>$), \lstinline{=}\index{=@\texttt{=}} für
+"<gleich"> (Mathematik: $=$), \lstinline{<=}\index{<@\texttt{<=}} für "<kleiner oder
+gleich"> (Mathematik: $\leq$) und \lstinline{>=}\index{>=@\texttt{>=}}
 für "<größer oder gleich"> (Mathematik: $\geq$).
 
-Analog zu \texttt{=} für Zahlen können Zeichenketten mit
-\texttt{string=?}\index{string=?@\texttt{string=?}} verglichen werden:
-\begin{alltt}
+Analog zu \lstinline{=} für Zahlen können Zeichenketten mit
+\lstinline{string=?}\index{string=?@\texttt{string=?}} verglichen werden:
+\begin{lstlisting}
 (string=? "Mike" "Mike")
-\evalsto{} #t
+|\evalsto| #t
 (string=? "Herbert" "Mike")
-\evalsto{} #f
-\end{alltt}
+|\evalsto| #f
+\end{lstlisting}
 %
-\verb|#t| und \verb|#f| sind wie Zahlen Literale, können also
+\lstinline{#t} und \lstinline{#f} sind wie Zahlen Literale, können also
 auch in Programmen stehen:
 %
-\begin{alltt}
+\begin{lstlisting}
 #t
-\evalsto{} #t
+|\evalsto| #t
 #f
-\evalsto{} #f
-\end{alltt}
+|\evalsto| #f
+\end{lstlisting}
 %
 Programme können mit booleschen Werten auch rechnen.  Ein Ausdruck der
 Form\index{and@\texttt{and}}
 %
-\begin{alltt}
-(and \(e\sb{1}\) \(e\sb{2}\) \(\ldots\) \(e\sb{n}\))
-\end{alltt}
+\begin{lstlisting}
+(and |\(e\sb{1}\)| |\(e\sb{2}\)| |\(\ldots\)| |\(e\sb{n}\)|)
+\end{lstlisting}
 %
-ergibt immer dann \verb|#t|, wenn alle $e_i$ \verb|#t| ergeben, sonst
-\verb|#f|.  Bei zwei Operanden $e_1$ und $e_2$ ergibt \texttt{(and
-  $e_1$ $e_2$)} immer dann \verb|#t|, wenn $e_1$ \emph{und} $e_2$
-\verb|#t| ergeben:\label{page:and}
+ergibt immer dann \lstinline{#t}, wenn alle $e_i$ \lstinline{#t} ergeben, sonst
+\lstinline{#f}.  Bei zwei Operanden $e_1$ und $e_2$ ergibt
+\lstinline{(and $e_1$ $e_2$)} immer dann \lstinline{#t}, wenn $e_1$ \emph{und} $e_2$
+\lstinline{#t} ergeben:\label{page:and}
 %
-\begin{alltt}
+\begin{lstlisting}
 (and #t #t)
-\evalsto{} #t
+|\evalsto| #t
 (and #f #t)
-\evalsto{} #f
+|\evalsto| #f
 (and #t #f)
-\evalsto{} #f
+|\evalsto| #f
 (and #f #f)
-\evalsto{} #f
-\end{alltt}
+|\evalsto| #f
+\end{lstlisting}
 %
 Entsprechend gibt es Ausdrücke der Form\index{or@\texttt{or}}
 %
-\begin{alltt}
-(or \(e\sb{1}\) \(e\sb{2}\) \(\ldots\) \(e\sb{n}\))
-\end{alltt}
+\begin{lstlisting}
+(or |\(e\sb{1}\)| |\(e\sb{2}\)| |\(\ldots\)| |\(e\sb{n}\)|)
+\end{lstlisting}
 %
-die immer dann \verb|#t| ergeben, wenn \emph{einer} der $e_i$ \verb|#t| ergibt, sonst
-\verb|#f|.  Bei zwei Operanden $e_1$ und $e_2$ ergibt \texttt{(or
-  $e_1$ $e_2$)} immer dann \verb|#t|, wenn $e_1$ \emph{oder} $e_2$
-\verb|#t| ergeben:
+die immer dann \lstinline{#t} ergeben, wenn \emph{einer} der $e_i$ \lstinline{#t} ergibt, sonst
+\lstinline{#f}.  Bei zwei Operanden $e_1$ und $e_2$ ergibt
+\lstinline{(or $e_1$ $e_2$)} immer dann \lstinline{#t}, wenn $e_1$ \emph{oder} $e_2$
+\lstinline{#t} ergeben:
 %
-\begin{alltt}
+\begin{lstlisting}
 (or #t #t)
-\evalsto{} #t
+|\evalsto| #t
 (or #f #t)
-\evalsto{} #t
+|\evalsto| #t
 (or #t #f)
-\evalsto{} #t
+|\evalsto| #t
 (or #f #f)
-\evalsto{} #f
-\end{alltt}
+|\evalsto| #f
+\end{lstlisting}
 %
-Das \texttt{or} berechnet also ein \textit{inklusives}
-Oder\index{inklusives Oder}: \texttt{(or $e_1$ $e_2$)} bedeutet "<$e_1$ oder
+Das \lstinline{or} berechnet also ein \textit{inklusives}
+Oder\index{inklusives Oder}: \lstinline{(or $e_1$ $e_2$)} bedeutet "<$e_1$ oder
 $e_2$ oder beides">, im Gegensatz zum \textit{exklusiven}
 Oder\index{exklusives Oder} "<entweder $e_1$ oder
 $e_2$">.\footnote{In der Informatik ist mit "<oder"> ohne Zusatz fast
@@ -145,19 +145,19 @@ $e_2$">.\footnote{In der Informatik ist mit "<oder"> ohne Zusatz fast
   auch "<exklusives Oder">.}
 
 Des weiteren gibt es noch eine eingebaute Funktion
-\texttt{not}\index{not@\texttt{not}}, die einen booleschen Wert
+\lstinline{not}\index{not@\texttt{not}}, die einen booleschen Wert
 umdreht beziehungsweise dessen \textit{Negation}\index{Negation}
 berechnet, sich also folgendermaßen verhält:
 %
-\begin{alltt}
+\begin{lstlisting}
 (not #f)
-\evalsto{} #t
+|\evalsto| #t
 (not #t)
-\evalsto{} #f
-\end{alltt}
+|\evalsto| #f
+\end{lstlisting}
 %
 Für boolesche Werte gibt es die Signatur
-\texttt{boolean}\index{boolean@\texttt{boolean}}.
+\lstinline{boolean}\index{boolean@\texttt{boolean}}.
 
 \begin{aufgabeinline}
   Schreibe eine Funktion, die von zwei booleschen Werten das exklusive
@@ -170,26 +170,26 @@ Um Fallunterscheidungen zu demonstrieren, nehmen wir uns folgende
 Beispielaufgabe vor: Wir schreiben eine Funktion, die eine Zahl (auf
 Englisch) "<aufsagen"> soll.  Sie soll sich so verhalten:
 %
-\begin{alltt}
+\begin{lstlisting}
 (say-number 0)
-\evalsto{} "zero"
+|\evalsto| "zero"
 (say-number 1)
-\evalsto{} "one"
-\end{alltt}
+|\evalsto| "one"
+\end{lstlisting}
 %
 Der Einfachheit halber beschränken wir uns vorläufig auf die Zahlen
 von Null bis Drei.  Die Funktion hat folgende Kurzbeschreibung:
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Zahl zu Text machen
-\end{alltt}
+\end{lstlisting}
 %
 Die Funktion macht aus einer natürlichen Zahl eine Zeichenkette und
 hat folgende Signatur:\index{say-number@\texttt{say-number}}
 %
-\begin{alltt}
+\begin{lstlisting}
 (: say-number (natural -> string))
-\end{alltt}
+\end{lstlisting}
 %
 Die Signatur sagt leider nichts darüber aus, dass die Funktion nur bis
 Drei funktioniert~-- später werden wir noch beschreiben, wie die
@@ -197,18 +197,18 @@ Signatur präziser werden kann.  Hier wollten wir uns jedoch erst
 einmal auf die Funktionsdefinition konzentrieren.  Vorher machen wir
 aber die obigen Beispiele zu Testfällen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (check-expect (say-number 0) "zero")
 (check-expect (say-number 1) "one")
-\end{alltt}
+\end{lstlisting}
 %
 Das Gerüst ergibt sich direkt aus der Signatur:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define say-number
   (lambda (n)
-    \ldots))
-\end{alltt}
+    |\ldots|))
+\end{lstlisting}
 %
 Aber wie kommen wir jetzt weiter?  Die Eingabe zerfällt ja in vier
 Fälle~-- 0, 1, 2 und 3~-- sie bildet somit eine
@@ -216,45 +216,45 @@ Fälle~-- 0, 1, 2 und 3~-- sie bildet somit eine
 Fallunterscheidung in der Eingabe einer Funktion verarbeiten zu können,
 benötigen wir ein neues Programmelement, die
 \textit{Verzweigung\index{Verzweigung}}.  Verzweigungen beginnen mit
-dem Wort \texttt{cond} und gehören zu den kompliziertesten
+dem Wort \lstinline{cond} und gehören zu den kompliziertesten
 Programmelementen, die wir in diesem Buch benutzen.  Aber keine Sorge,
 so schlimm wird es nicht.  Um eine Verzweigung zu schreiben, müssen
 wir wissen, \emph{wie viele} Fälle es gibt.  In diesem Fall sind das
 vier.  Die Verzweigung dafür hat folgende Form:
 %
 
-\begin{alltt}
+\begin{lstlisting}
 (define say-number
   (lambda (n)
     (cond
-      (\ldots{} \ldots)
-      (\ldots{} \ldots)
-      (\ldots{} \ldots)
-      (\ldots{} \ldots))))
-\end{alltt}
+      (|\ldots| |\ldots|)
+      (|\ldots| |\ldots|)
+      (|\ldots| |\ldots|)
+      (|\ldots| |\ldots|))))
+\end{lstlisting}
 %
-Jedes der Programmstücke \texttt{(\ldots\ \ldots)} ist ein sogenannter
+Jedes der Programmstücke \lstinline{(... ...)} ist ein sogenannter
 \textit{Zweig\index{Zweig}}.  Der erste Teil eines Zweigs ist immer
-eine Bedingung, der für den entsprechenden Fall \verb|#t| liefern
-sollte und für die anderen Fälle \verb|#f|.  In diesem Fall muss die
+eine Bedingung, der für den entsprechenden Fall \lstinline{#t} liefern
+sollte und für die anderen Fälle \lstinline{#f}.  In diesem Fall muss die
 Bedingung jedes Zweiges jeweils eine der Zahlen von Null bis Drei
 identifizieren:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define say-number
   (lambda (n)
     (cond
-      ((= n 0) \ldots)
-      ((= n 1) \ldots)
-      ((= n 2) \ldots)
-      ((= n 3) \ldots))))
-\end{alltt}
+      ((= n 0) |\ldots|)
+      ((= n 1) |\ldots|)
+      ((= n 2) |\ldots|)
+      ((= n 3) |\ldots|))))
+\end{lstlisting}
 %
 Der jeweils zweite Teil des Zweiges ist das gewünschte Ergebnis für
 den entsprechenden Fall.  Wenn wir das ausfüllen, sieht das Resultat
 so aus:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define say-number
   (lambda (n)
     (cond
@@ -262,7 +262,7 @@ so aus:
       ((= n 1) "one")
       ((= n 2) "two")
       ((= n 3) "three"))))
-\end{alltt}
+\end{lstlisting}
 %
 Fertig!
 \begin{aufgabeinline}
@@ -281,7 +281,7 @@ Fertig!
   \label{fig:coverage}
 \end{figure}
 
-Vielleicht ist Dir bei der \texttt{say-number}-Funktion aus dem
+Vielleicht ist Dir bei der \lstinline{say-number}-Funktion aus dem
 vorigen Abschnitt aufgefallen, dass bei dem Programm unmittelbar, nachdem
 es gelaufen hat, zwei Zeilen farbig
 hinterlegt sind, wie in Abbildung~\ref{fig:coverage} zu sehen.  Das liegt
@@ -292,10 +292,10 @@ stecken, und die Tests würden es nicht bemerken.
 
 Wenn Du folgende Testfälle hinzufügst, geht die farbige Hinterlegung weg:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (say-number 2) "two")
 (check-expect (say-number 3) "three")
-\end{verbatim}
+\end{lstlisting}
 %
 Probier es aus~-- am besten erst nur den einen, dann den anderen!
 
@@ -317,12 +317,12 @@ verschiedene Haustiere: Katzen, Hunde und Pythons.  Haustiere
 könnten wir in einem Kommentar im Programm so beschreiben:
 %
 \label{sec:datendefinition}
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Haustier ist eins der folgenden:
 ; - Katze
 ; - Hund
 ; - Schlange
-\end{verbatim}
+\end{lstlisting}
 %
 Solch ein kurzer Kommentar, der die Daten beschreibt, die in unserer
 Aufgabe vorkommen, heißt
@@ -337,8 +337,8 @@ wir uns zunächst überlegen, wie wir Haustiere im Programm
 repräsentieren: Für die Zwecke dieser Aufgabe reicht es zu wissen, mit
 \emph{welcher} der drei Möglichkeiten wir es zu tun haben.  Wir
 benutzen die einfachste Möglichkeit, Zeichenketten mit dem
-entsprechenden Text, also \verb|"Katze"|, \verb|"Hund"| und
-\verb|"Schlange"|.
+entsprechenden Text, also \lstinline{"Katze"}, \lstinline{"Hund"} und
+\lstinline{"Schlange"}.
 
 Eine solche Auflistung von Werten bildet eine sogenannte
 \textit{Aufzählung\index{Aufzählung}}~-- ein Spezialfall einer
@@ -350,43 +350,43 @@ die müssen wir noch definieren.  Die
 aus:\index{pet@\texttt{pet}}
 \label{sec:pet}\label{page:signature}
 %
-\begin{alltt}
+\begin{lstlisting}
 (define pet
   (signature (enum "Katze" "Hund" "Schlange")))
-\end{alltt}
+\end{lstlisting}
 %
 Da sind gleich zwei neue Programmelemente drin:
 %
 \begin{itemize}
-\item \texttt{Signature\index{signature@\texttt{signature}}} müssen wir immer schreiben, wenn wir eine
+\item \lstinline{Signature}\index{signature@\texttt{signature}} müssen wir immer schreiben, wenn wir eine
   neue Signatur erzeugen.
-\item \texttt{enum\index{enum@\texttt{enum}}} (das funktioniert
-  nur innerhalb eines \texttt{signature}-Ausdrucks) ist für
-  Aufzählungen zuständig.  In einem \texttt{enum}-Ausdruck stehen
+\item \lstinline{enum}\index{enum@\texttt{enum}} (das funktioniert
+  nur innerhalb eines \lstinline{signature}-Ausdrucks) ist für
+  Aufzählungen zuständig.  In einem \lstinline{enum}-Ausdruck stehen
   die Werte, die zur Aufzählung gehören.
 \end{itemize}
 %
 \begin{aufgabeinline}
-  Die Funktion \texttt{say-number} aus dem vorigen Abschnitt hat ja als
+  Die Funktion \lstinline{say-number} aus dem vorigen Abschnitt hat ja als
   Signatur-Deklaration die folgende:
-\begin{alltt}
+\begin{lstlisting}
 (: say-number (natural -> string))
-\end{alltt}
+\end{lstlisting}
   % 
   Mach die Signatur präziser mit Hilfe von Datendefinitionen und
-  Signatur-Definitionen!  Ersetze dafür \texttt{natural} und
-  \texttt{string} durch Aufzählungen.
+  Signatur-Definitionen!  Ersetze dafür \lstinline{natural} und
+  \lstinline{string} durch Aufzählungen.
 \end{aufgabeinline}
 %
 Zurück zu unserer Funktion zur Niedlichkeitsanalyse.  Die definierte
-Signatur \texttt{pet} können wir nun in der Signatur-Deklaration
+Signatur \lstinline{pet} können wir nun in der Signatur-Deklaration
 unserer Funktion benutzen.  Zusammen mit der Kurzbeschreibung sieht
 das so aus:
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Ist Haustier niedlich?
 (: cute? (pet -> boolean))
-\end{alltt}
+\end{lstlisting}
 %
 Das Fragezeichen gehört zum Namen der Funktion und ist eine
 Konvention, die wir für die Namen von Funktionen verwenden, die einen
@@ -396,69 +396,69 @@ Ja-/Nein-Frage beantworten.
 Da es nur drei Möglichkeiten für die Eingabe gibt, können wir für alle
 drei jeweils einen Test schreiben:
 %
-\begin{alltt}
+\begin{lstlisting}
 (check-expect (cute? "Katze") #t)
 (check-expect (cute? "Hund") #t)
 (check-expect (cute? "Schlange") #f)
-\end{alltt}
+\end{lstlisting}
 %
 Kommen wir zur Funktion selbst.  Zunächst einmal das Gerüst:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define cute?
   (lambda (p)
-    \ldots))
-\end{alltt}
+    |\ldots|))
+\end{lstlisting}
 %
 Da es sich bei der Eingabe um eine Aufzählung, also eine
 Fallunterscheidung handel, brauchen wir eine Verzweigung im Rumpf.  Da
 es drei Fälle in der Aufzählung gibt, braucht die Verzweigung
 ebenfalls drei Zweige:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define cute?
   (lambda (p)
     (cond
-      (\ldots{} \ldots)
-      (\ldots{} \ldots)
-      (\ldots{} \ldots))))
-\end{alltt}
+      (|\ldots| |\ldots|)
+      (|\ldots| |\ldots|)
+      (|\ldots| |\ldots|))))
+\end{lstlisting}
 %
 Als nächstes müssen wir die Bedingungen schreiben, und die sollten
-\texttt{p} jeweils mit \verb|"Katze"|, \verb|"Hund"| und
-\verb|"Schlange"| vergleichen.  Dabei könnte man leicht auf die Idee
-kommen, \verb|(= p "Katze")| etc.\ zu schreiben.  Dann kommt
+\lstinline{p} jeweils mit \lstinline{"Katze"}, \lstinline{"Hund"} und
+\lstinline{"Schlange"} vergleichen.  Dabei könnte man leicht auf die Idee
+kommen, \lstinline{(= p "Katze")} etc.\ zu schreiben.  Dann kommt
 allerdings eine Fehlermeldung etwa so:
 %
-\begin{verbatim}
+\begin{lstlisting}
 =: Zahl als erstes Argument erwartet, "Katze" bekommen
-\end{verbatim}
+\end{lstlisting}
 %
-Die Funktion \texttt{=} fühlt sich also nur für Zahlen zuständig, für
+Die Funktion \lstinline{=} fühlt sich also nur für Zahlen zuständig, für
 Zeichenketten müssen wir die Funktion
-\texttt{string=?\index{string=?@\texttt{string=?}}} verwenden:
+\lstinline{string=?}\index{string=?@\texttt{string=?}} verwenden:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define cute?
   (lambda (p)
     (cond
-      ((string=? p "Katze") \ldots)
-      ((string=? p "Hund") \ldots)
-      ((string=? p "Schlange") \ldots))))
-\end{alltt}
+      ((string=? p "Katze") |\ldots|)
+      ((string=? p "Hund") |\ldots|)
+      ((string=? p "Schlange") |\ldots|))))
+\end{lstlisting}
 %
-Bisher ergibt sich alles rein aus der Definition von \texttt{pet}.
+Bisher ergibt sich alles rein aus der Definition von \lstinline{pet}.
 Schließlich müssen wir noch die Antworten ergänzen.  Katze und Hunde
 sind niedlich, Schlangen nicht:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define cute?
   (lambda (p)
     (cond
       ((string=? p "Katze") #t)
       ((string=? p "Hund") #t)
       ((string=? p "Schlange") #f))))
-\end{alltt}
+\end{lstlisting}
 %
 Fertig!
 
@@ -475,7 +475,7 @@ Das heißt, wir fügen einer bestimmten Menge Wasser bei einer
 bestimmten Temperatur eine bestimmte Menge Wärme zu.  Wir wollen
 berechnen, wie warm das Wasser danach ist.  Der Einfachheit halber
 messen wir die zugefügte Wärme~- genau wie die Temperatur~-- in Grad
-Celsius (°C).\footnote{Wir vereinfachen schon sehr stark, aber 
+Celsius (\si{\degree}C).\footnote{Wir vereinfachen schon sehr stark, aber 
   Temperaturerhöhung und Wärme sind über die Wärmekapazität verwandt.}
 Wir schreiben dazu drei Versionen der
 Funktion:
@@ -483,11 +483,11 @@ Funktion:
 \begin{itemize}
 \item Die erste, naive Version addiert einfach auf die
   Anfangstemperatur die hinzugefügte Wärme.
-\item Die zweite Version berücksichtigt, dass Wasser bei 100°C siedet
+\item Die zweite Version berücksichtigt, dass Wasser bei 100\si{\degree}C siedet
   und nicht heißer werden kann.
 \item Die dritte Version berücksichtigt zusätzlich, dass gefrorenem
-  Wasser von 0°C eine Wärme von 80°C hinzugefügt werden muss, damit es
-  schmilzt und dann immer noch erst bei 0°C ist.
+  Wasser von 0\si{\degree}C eine Wärme von 80\si{\degree}C hinzugefügt werden muss, damit es
+  schmilzt und dann immer noch erst bei 0\si{\degree}C ist.
 \end{itemize}
 %
 Wir berücksichtigen also schrittweise, dass die innere Energie des
@@ -497,130 +497,130 @@ Wassers~-- die Wärme~-- nicht dasselbe ist wie dessen Temperatur.
 Konstruktionsanleitungen vor.  Zuerst kommt also eine
 Kurzbeschreibung:
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Wassertemperatur nach Erhitzen berechnen, naiv
-\end{alltt}
+\end{lstlisting}
 %
 Als nächstes kommt die Signatur-Deklaration.  Die Anfangstemperatur
 und die hinzugefügte Wärme sind die Eingaben; sie stellen wir als
 reelle Zahlen dar.  Heraus kommt die Endtemperatur, auch eine reelle
 Zahl.  Da wir schon wissen, dass diese Version etwas einfach ist,
-hängen wir eine \texttt{-0} an den Namen:
+hängen wir eine \lstinline{-0} an den Namen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (: heat-water-0 (real real -> real))
-\end{alltt}                
+\end{lstlisting}                
 %
 Nun schreiben wir einige einfache Beispiele als Testfälle hin:
 %
-\begin{alltt}
+\begin{lstlisting}
 (check-expect (heat-water-0 -10 20) 10)
 (check-expect (heat-water-0 10 20) 30)
 (check-expect (heat-water-0 90 20) 110)
-\end{alltt}
+\end{lstlisting}
 %
 Als nächstes kommt das Gerüst an die Reihe:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water-0
   (lambda (temp heat)
-    \ldots))
-\end{alltt}
+    |\ldots|))
+\end{lstlisting}
 %
 Der Rumpf ist jetzt kein Hexenwerk, die beiden Eingaben werden
 einfach addiert:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water-0
   (lambda (temp heat)
     (+ temp heat)))
-\end{alltt}
+\end{lstlisting}
 %
 Noch die Tests laufen lassen und fertig!
 
 \paragraph{Siedendes Wasser} Als nächstes wollten wir berücksichtigen,
-dass Wasser nicht über 100°C heiß werden kann.  Die Kurzbeschreibung
+dass Wasser nicht über 100\si{\degree}C heiß werden kann.  Die Kurzbeschreibung
 passen wir nur leicht an; die Signatur bleibt ebenfalls fast
 unverändert~-- wir ändern nur den Namen und machen aus der 0 eine 1:
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Wassertemperatur nach Erhitzen berechnen, Sieden berücksichtigen
 (: heat-water-1 (real real -> real))
-\end{alltt}
+\end{lstlisting}
 %
-Bei den Tests können wir natürlich die Tests von \texttt{heat-water-0}
+Bei den Tests können wir natürlich die Tests von \lstinline{heat-water-0}
 kopieren, aber den letzten müssen wir anpassen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (check-expect (heat-water-1 -10 20) 10)
 (check-expect (heat-water-1 10 20) 30)
 (check-expect (heat-water-1 90 20) 100)
-\end{alltt}
+\end{lstlisting}
 %
 Beim Testen ist es immer sinnvoll, auch Grenzfälle zu testen~--
 schaltet die Funktion wirklich um, wenn die 100 erreicht sind. %%Nicht rum!
                               
 Dazu dienen folgende zwei Testfälle:
 %
-\begin{alltt}
+\begin{lstlisting}
 (check-expect (heat-water-1 99 1) 100)
 (check-expect (heat-water-1 99 2) 100)
-\end{alltt}
+\end{lstlisting}
 %
 Da die Signatur die gleiche ist, ist auch das Gerüst identisch:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water-1
   (lambda (temp heat)
-    \ldots))
-\end{alltt}
+    |\ldots|))
+\end{lstlisting}
 %
-Ab 100°C muss die Funktion ihr Ergebnis also anders berechnen.  Oder,
+Ab 100\si{\degree}C muss die Funktion ihr Ergebnis also anders berechnen.  Oder,
 anders gesagt, die Eingaben fallen in zwei verschiedene Klassen: die,
 bei denen die Summe unter 100 liegt und die, bei denen sie darüber
 liegt.
-Wir benötigen also ein \texttt{cond} mit zwei
+Wir benötigen also ein \lstinline{cond} mit zwei
 Zweigen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water-1
   (lambda (temp heat)
     (cond
-      (\ldots \ldots)
-      (\ldots \ldots))))
-\end{alltt}
+      (|\ldots| |\ldots|)
+      (|\ldots| |\ldots|))))
+\end{lstlisting}
 %
 Wir brauchen nun eine Bedingung, die feststellt, ob die Summe aus
-\texttt{temp} und \texttt{heat} unterhalb von 100 liegt (genauer:
+\lstinline{temp} und \lstinline{heat} unterhalb von 100 liegt (genauer:
 kleiner \emph{oder gleich}, weil 100 gerade so erreichbar ist) und
 eine dafür, dass die Summe darüber liegt.  Die könnten so aussehen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (<= (+ temp heat) 100)
 (> (+ temp heat) 100)
-\end{alltt}
+\end{lstlisting}
 %
 Wenn wir diese beiden Bedingungen an die entsprechenden Stellen im
 Rumpf setzen, sieht das so aus:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water-1
   (lambda (temp heat)
     (cond
-      ((<= (+ temp heat) 100) \ldots)
-      ((> (+ temp heat) 100) \ldots))))
-\end{alltt}
+      ((<= (+ temp heat) 100) |\ldots|)
+      ((> (+ temp heat) 100) |\ldots|))))
+\end{lstlisting}
 %
 An die Stellen nach den Bedingungen müssen wir Ausdrücke setzen, die
 das Ergebnis liefern, das im jeweiligen Fall richtig ist.  Das wäre dann:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water-1
   (lambda (temp heat)
     (cond
       ((<= (+ temp heat) 100) (+ temp heat))
       ((> (+ temp heat) 100) 100))))
-\end{alltt}
+\end{lstlisting}
 %
 Fertig!
 %
@@ -628,72 +628,72 @@ Fertig!
 
 %
 \begin{aufgabeinline}
-  Müssen es bei den beiden Bedingungen unbedingt \verb|<=| und
-  \verb|>| sein?  Was passiert, wenn Du \verb|<=| durch \verb|<|
+  Müssen es bei den beiden Bedingungen unbedingt \lstinline{<=} und
+  \lstinline{>} sein?  Was passiert, wenn Du \lstinline{<=} durch \lstinline{<}
   ersetzt und das Programm dann laufen lässt?  Was passiert, wenn Du
-  dann auch das \verb|>| ersetzt~-- durch \verb|>=|?  Warum
+  dann auch das \lstinline{>} ersetzt~-- durch \lstinline{>=}?  Warum
   funktioniert das Programm dann immer noch?
 \end{aufgabeinline}
 %
 \paragraph{Siendendes Wasser und Eis} Kommen wir zur "<Vollversion">.
 Zur Erinnerung: Da müssen wir noch berücksichtigen, dass gefrorenem
-Wasser von 0°C eine Wärme von 80°C hinzugefügt werden muss, damit es
-schmilzt und dann immer noch 0°C hat.  
+Wasser von 0\si{\degree}C eine Wärme von 80\si{\degree}C hinzugefügt werden muss, damit es
+schmilzt und dann immer noch 0\si{\degree}C hat.  
 
 Wir fangen wieder mit der Kurzbeschreibung an:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Wassertemperatur nach Erhitzen berechnen, mit Eis & Sieden
-\end{verbatim}
+\end{lstlisting}
 %
 Da diese Version die letzte ist, hat sie keine Nummer mehr.  Ansonsten
 ist die Signatur unverändert:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (: heat-water (real real -> real))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Tests können wir nicht unverändert übernehmen.  Gleich der erste
 funktioniert nicht mehr:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (heat-water -10 20) 10)
-\end{verbatim}
+\end{lstlisting}
 %
-Das Aufwärmen des Wassers von -10°C auf 0°C erfordert nur 10°C
-Wärmezufuhr, dann aber müssen erst einmal 80° weitere Wärme zugeführt
+Das Aufwärmen des Wassers von -10\si{\degree}C auf 0\si{\degree}C erfordert nur 10\si{\degree}C
+Wärmezufuhr, dann aber müssen erst einmal 80\si{\degree} weitere Wärme zugeführt
 werden, damit es weiter geht.  Den Testfall müssen wir also ändern:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (heat-water -10 20) 0)
-\end{verbatim}
+\end{lstlisting}
 %
-Die anderen Testfälle \texttt{heat-water-1} können so bleiben:
+Die anderen Testfälle \lstinline{heat-water-1} können so bleiben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (heat-water 10 20) 30)
 (check-expect (heat-water 90 20) 100)
 (check-expect (heat-water 99 1) 100)
 (check-expect (heat-water 99 2) 100)
-\end{verbatim}
+\end{lstlisting}
 %
 Ein paar weitere Tests sollten aber noch genau klären, was um den
 Nullpunkt herum so passiert und wo genau er überschritten wird:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (heat-water -10 5) -5)
 (check-expect (heat-water -5 60) 0)
 (check-expect (heat-water -5 90) 5)
 (check-expect (heat-water -1 81) 0)
 (check-expect (heat-water -1 82) 1)
-\end{verbatim}
+\end{lstlisting}
 %
 Wieder sollten wir darüber nachdenken, in welche Fälle unsere
 Eingaben zerfallen.  Da gibt es drei naheliegende Fälle:
 %
 \begin{enumerate}
-\item Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
-\item Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+\item Die Anfangstemperatur ist unter 0\si{\degree}C, es wird also Eis erwärmt.
+\item Die Erwärmung würde die Wassertemperatur auf über 100\si{\degree}C erhöhen.
 \item Alles andere~-- das Wasser fängt flüssig an und bleibt durch die
   Erwärmung flüssig.
 \end{enumerate}
@@ -701,9 +701,9 @@ Eingaben zerfallen.  Da gibt es drei naheliegende Fälle:
 Der erste Fall hat außerdem noch drei "<Unterfälle">:
 %
 \begin{itemize}
-\item Die Erwärmumg bleibt unter 0°C.
-\item Die Erwärmung bleibt bei  0°C "<stecken">
-\item Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
+\item Die Erwärmumg bleibt unter 0\si{\degree}C.
+\item Die Erwärmung bleibt bei  0\si{\degree}C "<stecken">
+\item Erwärmung erhöht Temperatur über den Nullpunkt hinaus.
 \end{itemize}
 %
 So komplizierte Fallunterscheidungen sind relativ selten. Wenn sie
@@ -712,59 +712,59 @@ exerzieren wir das hier als Beispiel durch.
 
 Fangen wir wieder mit dem Gerüst für die Funktion an:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
-    \ldots))
-\end{alltt}
+    |\ldots|))
+\end{lstlisting}
 %
 Wir wissen schon aus der Analyse der Fälle, dass es drei Fälle gibt.
-Deshalb brauchen wir auch wieder ein \texttt{cond} mit drei Zweigen.
+Deshalb brauchen wir auch wieder ein \lstinline{cond} mit drei Zweigen.
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
     (cond
-      (\ldots{} \ldots)
-      (\ldots{} \ldots)
-      (\ldots{} \ldots))))
-\end{alltt}
+      (|\ldots| |\ldots|)
+      (|\ldots| |\ldots|)
+      (|\ldots| |\ldots|))))
+\end{lstlisting}
 %
 Jetzt ergänzen wir Bedingungen, die den drei Fällen entsprechen.  Um
 in diesem komplizierten Fall Leserinnen zu erleichtern, die
 Bedingungen den Fällen zuzuordnen, stehen diese jeweils als Kommentar darüber:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
     (cond
-      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
-      ((< temp 0) \ldots)
-      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
-      ((>= (+ temp heat) 100) \ldots)
-      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
-      ((and (>= temp 0) (< (+ temp heat) 100)) \ldots))))
-\end{alltt}
+      ; Die Anfangstemperatur ist unter 0|\si{\degree}|C, es wird also Eis erwärmt.
+      ((< temp 0) |\ldots|)
+      ; Erwärmung würde Wassertemperatur auf über 100|\si{\degree}|C erhöhen.
+      ((>= (+ temp heat) 100) |\ldots|)
+      ; Wasser fängt flüssig an und bleibt durch Erwärmung flüssig.
+      ((and (>= temp 0) (< (+ temp heat) 100)) |\ldots|))))
+\end{lstlisting}
 %
 Jetzt können wir uns daran machen, die Zweige auszufüllen.  Da der
 erste Zweig (das Eis) komplizierter ist, schieben wir den erstmal vor
-uns her, denn beim zweiten Zweig kommt einfach 100°C raus.  Ebenso
+uns her, denn beim zweiten Zweig kommt einfach 100\si{\degree}C raus.  Ebenso
 einfach ist der dritte Zweig, bei dem das Wasser flüssig bleibt~-- die
-Antwort ist dort \texttt{(+ temp heat)}.  Der Zwischenstand sieht so
+Antwort ist dort \lstinline{(+ temp heat)}.  Der Zwischenstand sieht so
 aus:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
     (cond
-      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
-      ((< temp 0) \ldots)
-      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+      ; Die Anfangstemperatur ist unter 0|\si{\degree}|C, es wird also Eis erwärmt.
+      ((< temp 0) |\ldots|)
+      ; Erwärmung würde Wassertemperatur auf über 100|\si{\degree}|C erhöhen.
       ((>= (+ temp heat) 100) 100)
-      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      ; Wasser fängt flüssig an und bleibt durch Erwärmung flüssig.
       ((and (>= temp 0) (< (+ temp heat) 100))
        (+ temp heat)))))
-\end{alltt}
+\end{lstlisting}
 %
 Dass wir die leichten Fälle zuerst bearbeitet haben, mag wie Faulheit
 aussehen.  Ist es auch~-- aber es ist auch sinnvolle Strategie, die
@@ -774,94 +774,94 @@ sich aus Mantra~\ref{mantra:schreib} ergibt:
 %
 \noindent Auch über den ersten Zweig wissen wir etwas, nämlich dass er selbst
 eine Fallunterscheidung ist mit drei Fällen.  Wir können also das
-\texttt{cond} (wieder einmal) schon hinschreiben:
+\lstinline{cond} (wieder einmal) schon hinschreiben:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
     (cond
-      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+x      ; Anfangstemperatur ist unter 0|\si{\degree}|C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
-         (\ldots{} \ldots)
-         (\ldots{} \ldots)
-         (\ldots{} \ldots)))
-      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+         (|\ldots| |\ldots|)
+         (|\ldots| |\ldots|)
+         (|\ldots| |\ldots|)))
+      ; Die Erwärmung würde die Wassertemperatur auf über 100||\si{\degree}|C erhöhen.
       ((>= (+ temp heat) 100) 100)
-      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      ; Wasser fängt flüssig an und bleibt durch Erwärmung flüssig.
       ((and (>= temp 0) (< (+ temp heat) 100))
        (+ temp heat)))))
-\end{alltt}
+\end{lstlisting}
 %
 Auch hier ist es sinnvoll, die Beschreibungen der Fälle über die
 Zweige zu schreiben.  Danach ergänzen wir die Bedingungen mit
 folgendem Ergebnis:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
     (cond
-      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+      ; Anfangstemperatur ist unter 0|\si{\degree}|C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
-         ; Die Erwärmumg bleibt unter 0°C.
-         ((< (+ temp heat) 0) \ldots)
-         ; Die Erwärmung bleibt bei  0°C "stecken"
+         ; Erwärmumg bleibt unter 0|\si{\degree}|C.
+         ((< (+ temp heat) 0) |\ldots|)
+         ; Erwärmung bleibt bei  0|\si{\degree}|C "stecken".
          ((and (>= (+ temp heat) 0)
                (< (+ temp heat) 80))
-          \ldots)
-         ; Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
+          |\ldots|)
+         ; Erwärmung erhöht Temperatur über den Nullpunkt hinaus.
          ((and (>= (+ temp heat) 0)
                (>= (+ temp heat) 80))
-          \ldots)))
-      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+          |\ldots|)))
+      ; Erwärmung würde Wassertemperatur auf über 100|\si{\degree}|C erhöhen.
       ((>= (+ temp heat) 100) 100)
-      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      ; Wasser fängt flüssig an und bleibt durch Erwärmung flüssig.
       ((and (>= temp 0) (< (+ temp heat) 100))
        (+ temp heat)))))
-\end{alltt}
+\end{lstlisting}
 %
 Die Bedingungen sind jetzt noch komplizierter, aber erschließen sich
 hoffentlich durch genauere Betrachtungen:
 %
 \begin{itemize}
-\item "<Die Erwärmumg bleibt unter 0°C.">\\
+\item "<Die Erwärmumg bleibt unter 0\si{\degree}C.">\\
   Das heißt, die Summe von
-  Anfangstemperatur und Erwärmung ist kleiner als 0°C.
-\item "<Die Erwärmung bleibt bei  0°C stecken.">\\
-  Das heißt, die Summe von Temperatur und Erwärmung muss zwischen 0°C
-  und 80°C liegen.
-\item "<Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.">\\
-  Das Summe von Temperatur und Erwärmung geht nicht nur über 0°C
-  sondern auch über 80°C hinaus.
+  Anfangstemperatur und Erwärmung ist kleiner als 0\si{\degree}C.
+\item "<Die Erwärmung bleibt bei  0\si{\degree}C stecken.">\\
+  Das heißt, die Summe von Temperatur und Erwärmung muss zwischen 0\si{\degree}C
+  und 80\si{\degree}C liegen.
+\item "<Erwärmung erhöht Temperatur über den Nullpunkt hinaus.">\\
+  Das Summe von Temperatur und Erwärmung geht nicht nur über 0\si{\degree}C
+  sondern auch über 80\si{\degree}C hinaus.
 \end{itemize}
 %
 Die Antworten unter diesen Bedingungen sind vergleichweise einfach zu
 ergänzen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
     (cond
-      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+      ; Anfangstemperatur ist unter 0|\si{\degree}|C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
-         ; Die Erwärmumg bleibt unter 0°C.
+         ; Erwärmumg bleibt unter 0|\si{\degree}|C.
          ((< (+ temp heat) 0) (+ temp heat))
-         ; Die Erwärmung bleibt bei  0°C "stecken"
+         ; Erwärmung bleibt bei  0|\si{\degree}|C "stecken".
          ((and (>= (+ temp heat) 0)
                (< (+ temp heat) 80))
           0)
-         ; Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
+         ; Erwärmung erhöht Temperatur über den Nullpunkt hinaus.
          ((and (>= (+ temp heat) 0)
                (>= (+ temp heat) 80))
           (- (+ temp heat) 80))))
-      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+      ; Erwärmung würde Wassertemperatur auf über 100|\si{\degree}|C erhöhen.
       ((>= (+ temp heat) 100) 100)
-      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      ; Wasser fängt flüssig an und bleibt durch Erwärmung flüssig.
       ((and (>= temp 0) (< (+ temp heat) 100))
        (+ temp heat)))))
-\end{alltt}
+\end{lstlisting}
 %
 Fertig!\footnote{Allerdings noch nicht ganz richtig: Vielleicht siehst Du,
   dass da noch etwas nicht ganz stimmt.  Wir kommen später darauf zurück.}
@@ -872,76 +872,76 @@ Also \emph{fast} fertig.  Wenn wir das Programm näher betrachten,
 fällt etwas Verbesserungspotenzial auf.  Fangen wir an mit der
 Bedingung:
 %
-\begin{verbatim}
+\begin{lstlisting}
           (and (>= (+ temp heat) 0)
                (>= (+ temp heat) 80))
-\end{verbatim}
+\end{lstlisting}
 %
-Das ist übertrieben: Eine Temperatur über 80°C liegt auch über 0°C.
+Das ist übertrieben: Eine Temperatur über 80\si{\degree}C liegt auch über 0\si{\degree}C.
 Wir können das also vereinfachen auf:
 %
-\begin{verbatim}
+\begin{lstlisting}
           (>= (+ temp heat) 80)
-\end{verbatim}
+\end{lstlisting}
 %
 Das ist mathematisch einleuchtend, zur Sicherheit sollten wir aber die
 Tests nochmals laufen lassen: Aber sie laufen alle noch erfolgreich
 durch.
 
 Bevor wir die Funktion noch weiter vereinfachen, ist es sinnvoll, die
-Funktionsweise der Auswertung von \texttt{cond}-Ausdrücken zu ergründen:
+Funktionsweise der Auswertung von \lstinline{cond}-Ausdrücken zu ergründen:
 %
 \begin{aufgabeinline}
-  Lasse die \texttt{heat-water}-Funktion im Stepper laufen und
+  Lasse die \lstinline{heat-water}-Funktion im Stepper laufen und
   beobachte, wie~-- vor allem in welcher Reihenfolge~-- die Bedindungen
-  in einem \texttt{cond}-Ausdruck ausgewertet werden.
+  in einem \lstinline{cond}-Ausdruck ausgewertet werden.
 \end{aufgabeinline}
 %
 Wenn Du diese Aufgabe erledigt hast, wirst Du beobachtet haben, dass Racket
-die Bedingungen in einem \texttt{cond}-Ausdruck nacheinander
-auswertet.  Sobald eine davon \verb|#t| ergibt, macht Racket mit dem
+die Bedingungen in einem \lstinline{cond}-Ausdruck nacheinander
+auswertet.  Sobald eine davon \lstinline{#t} ergibt, macht Racket mit dem
 Ausdruck dieses Zweiges weiter.  Die restlichen Zweige werden gar nicht
-mehr berücksichtigt, unabhängig davon, ob sie \verb|#t| ergeben
+mehr berücksichtigt, unabhängig davon, ob sie \lstinline{#t} ergeben
 könnten oder nicht.
 Das können wir ausnutzen, um die Funktion weiter zu vereinfachen.
 Dazu betrachten wir die beiden ersten Bedingungen im "<inneren">
-\texttt{cond}:
+\lstinline{cond}:
 %
-\begin{alltt}
+\begin{lstlisting}
        (cond
          ((< (+ temp heat) 0) (+ temp heat))
          ((and (>= (+ temp heat) 0)
                (< (+ temp heat) 80))
           0)
-         \ldots)
-\end{alltt}
+         |\ldots|)
+\end{lstlisting}
 %
-Wenn die erste Bedingung \verb|#f| ergeben hat, also nicht stimmt,
-dann ist \texttt{(+ temp heat)} größer oder gleich 0.  Das heißt, der
-Teilausdruck \texttt{(>= (+ temp heat) 0)} in der \emph{nächsten}
-Bedingung liefert \emph{immer} \verb|#t|.  Wir können also
+Wenn die erste Bedingung \lstinline{#f} ergeben hat, also nicht stimmt,
+dann ist \lstinline{(+ temp heat)} größer oder gleich 0.  Das heißt, der
+Teilausdruck \lstinline{(>= (+ temp heat) 0)} in der \emph{nächsten}
+Bedingung liefert \emph{immer} \lstinline{#t}.  Wir können also
 vereinfachen:
 %
-\begin{alltt}
+\begin{lstlisting}
        (cond
          ((< (+ temp heat) 0) (+ temp heat))
          ((and #t
                (< (+ temp heat) 80))
           0)
-         \ldots)
-\end{alltt}
+         |\ldots|)
+\end{lstlisting}
 %
-Ein Ausdruck \texttt{(and \#t \(e\))} liefert immer das gleiche Ergebnis
+Ein Ausdruck \lstinline{(and #t $e$)} liefert immer das gleiche Ergebnis
 wie \(e\)~-- schau nochmal auf Seite~\pageref{page:and}, um Dich davon
-zu überzeugen!  Wir können also das innere \texttt{cond} weiter
+zu überzeugen!  Wir können also das innere \lstinline{cond} weiter
 vereinfachen zu:
-%
-\begin{alltt}
+
+\begin{lstlisting}
        (cond
          ((< (+ temp heat) 0) (+ temp heat))
          ((< (+ temp heat) 80) 0)
-         \ldots)
-\end{alltt}
+         |\ldots|)
+\end{lstlisting}
 %
 \label{page:bedingungen-vereinfachen}
 Wir benutzen also Mathematik (genauer gesagt
@@ -956,126 +956,127 @@ Mantra~\ref{mantra:gleichungen} auf Seite~\pageref{mantra:gleichungen}.
 Wir sind aber mit dem Vereinfachen noch nicht fertig. Betrachten wir
 nun die drei "<äußeren"> Bedingungen:
 %
-\begin{alltt}
+\begin{lstlisting}
     (cond
-      ((< temp 0) \ldots)
-      ((>= (+ temp heat) 100) \ldots)
-      ((and (>= temp 0) (< (+ temp heat) 100)) \ldots))
-\end{alltt}
+      ((< temp 0) |\ldots|)
+      ((>= (+ temp heat) 100) |\ldots|)
+      ((and (>= temp 0) (< (+ temp heat) 100)) |\ldots|))
+\end{lstlisting}
 %
-Wenn die erste Bedingungen \verb|#f| ergibt, gilt automatisch
-\texttt{(>= temp 0)}.  Wir können die letzte Bedingung also
+Wenn die erste Bedingungen \lstinline{#f} ergibt, gilt automatisch
+\lstinline{(>= temp 0)}.  Wir können die letzte Bedingung also
 vereinfachen zu:
 %
-\begin{alltt}
+\begin{lstlisting}
 (and #t (< (+ temp heat) 100))
-\end{alltt}
+\end{lstlisting}
 %
-Wenn auch die zweite Bedingung \verb|#f| ergibt, gilt auch \texttt{(<
-  (+ temp heat) 100)}.  Wir können also vereinfachen zu \texttt{(and
-  \#t \#t)} und von da zu \verb|#t|.
+Wenn auch die zweite Bedingung \lstinline{#f} ergibt, gilt auch
+\lstinline{(< (+ temp heat) 100)}.
+Wir können also vereinfachen zu \lstinline{(and #t #t)}
+und von da zu \lstinline{#t}.
 
-Wir können die Funktion mit dieser Einsicht vereinfachen und \verb|#t|
+Wir können die Funktion mit dieser Einsicht vereinfachen und \lstinline{#t}
 als Bedingung hinschreiben.  (Probier es aus!)  Allerdings finden
-manche das hässlich: Darum ist es auch möglich, statt \verb|#t| das
-besondere Wort \texttt{else\index{else@\texttt{else}}}
+manche das hässlich: Darum ist es auch möglich, statt \lstinline{#t} das
+besondere Wort \lstinline{else}\index{else@\texttt{else}}
 ("<andernfalls"> auf Englisch) hinzuschreiben.
-Der \texttt{else}-Zweig kommt also zum Zug, wenn alle anderen
+Der \lstinline{else}-Zweig kommt also zum Zug, wenn alle anderen
 "<durchgefallen"> sind.  Das Ergebnis sieht
 dann so aus:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
     (cond
-      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+      ; Anfangstemperatur ist unter 0|\si{\degree}|C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
-         ; Die Erwärmumg bleibt unter 0°C.
+         ; Erwärmumg bleibt unter 0|\si{\degree}|C.
          ((< (+ temp heat) 0) (+ temp heat))
-         ; Die Erwärmung bleibt bei  0°C "stecken"
+         ; Erwärmung bleibt bei  0|\si{\degree}|C "stecken".
          ((< (+ temp heat) 80) 0)
-         ; Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
+         ; Erwärmung erhöht Temperatur über den Nullpunkt hinaus.
          (else (- (+ temp heat) 80))))
-      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+      ; Erwärmung würde Wassertemperatur auf über 100|\si{\degree}|C erhöhen.
       ((>= (+ temp heat) 100) 100)
-      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      ; Wasser fängt flüssig an und bleibt durch Erwärmung flüssig.
       (else
        (+ temp heat)))))
-\end{verbatim}
+\end{lstlisting}
 %
 \begin{feature}{Verzweigung}{scheme:cond}
 In den Lehrsprachen werden Verzweigungen\index{Verzweigung}\index{Verzweigung}
-mit der Spezialform \texttt{cond}\index{cond@\texttt{cond}} dargestellt.
-Ein \texttt{cond}"=Ausdruck hat die folgende Form:
+mit der Spezialform \lstinline{cond}\index{cond@\texttt{cond}} dargestellt.
+Ein \lstinline{cond}"=Ausdruck hat die folgende Form:
 %
-\begin{alltt}
+\begin{lstlisting}
 (cond
-  (\(b\sb{1}\) \(a\sb{1}\))
-  (\(b\sb{2}\) \(a\sb{2}\))
-  \(\ldots\)
-  (\(b\sb{n-1}\) \(a\sb{n-1}\))
-  (else \(a\sb{n}\))))
-\end{alltt}
+  (|\(b\sb{1}\)| |\(a\sb{1}\)|)
+  (|\(b\sb{2}\)| |\(a\sb{2}\)|)
+  |\(\ldots\)|
+  (|\(b\sb{n-1}\)| |\(a\sb{n-1}\)|)
+  (else |\(a\sb{n}\)|)))
+\end{lstlisting}
 %
 Dabei sind die $b_i$ und die $a_i$ ihrerseits Ausdrücke.  Der
-\texttt{cond}-Ausdruck wertet nacheinander alle Bedingungen $b_i$ aus;
-sobald eine Bedingung $b_k$ \texttt{\#t} ergibt, wird der
-\texttt{cond}-Ausdruck durch das entsprechende $a_k$ ersetzt.  Wenn
+\lstinline{cond}-Ausdruck wertet nacheinander alle Bedingungen $b_i$ aus;
+sobald eine Bedingung $b_k$ \lstinline{#t} ergibt, wird der
+\lstinline{cond}-Ausdruck durch das entsprechende $a_k$ ersetzt.  Wenn
 alle Bedingungen fehlschlagen, wird durch $a_n$ ersetzt.  Die Paarungen
-\texttt{($b_i$ $a_i$)} heißen \textit{Zweige\index{Zweig}} des
-\texttt{cond}-Ausdruckes, und der Zweig mit \texttt{else}  heißt
-\textit{\texttt{else}-Zweig\index{else-Zweig@\texttt{else}-Zweig}}.
-Der \texttt{else}-Zweig kann auch fehlen~-- dann sollte aber immer
-eine der Bedingungen  \texttt{\#t} ergeben.  Wenn doch einmal bei allen
-$b_i$ \verb|#f| herauskommen sollte, bricht \drscheme{} das Programm ab
+\lstinline{($b_i$ $a_i$)} heißen \textit{Zweige\index{Zweig}} des
+\lstinline{cond}-Ausdruckes, und der Zweig mit \lstinline{else}  heißt
+\textit{\lstinline{else}-Zweig\index{else-Zweig@\texttt{else}-Zweig}}.
+Der \lstinline{else}-Zweig kann auch fehlen~-- dann sollte aber immer
+eine der Bedingungen  \lstinline{#t} ergeben.  Wenn doch einmal bei allen
+$b_i$ \lstinline{#f} herauskommen sollte, bricht \drscheme{} das Programm ab
 und gibt eine Fehlermeldung aus.
 \end{feature}
 %
-Damit haben wir die komplette Funktionsweise von \texttt{cond}
+Damit haben wir die komplette Funktionsweise von \lstinline{cond}
 angewendet. Abbildung~\ref{scheme:cond} fasst sie noch einmal zusammen.
 
-Dann kannst Du auch von vornherein \texttt{else} benutzen, wenn Du Dir
+Dann kannst Du auch von vornherein \lstinline{else} benutzen, wenn Du Dir
 sicher bist, dass alle anderen Fälle schon in den vorigen Zweigen
 abgedeckt sind.  Im Zweifelsfall empfehlen wir aber immer den Weg über
 die Mathematik, damit die Funktion auch korrekt wird.
 
-A propos korrekt: Ist \texttt{heat-water} korrekt?  Hier ist ein
+A propos korrekt: Ist \lstinline{heat-water} korrekt?  Hier ist ein
 weiterer Testfall:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (heat-water -1 191) 100)
-\end{verbatim}
+\end{lstlisting}
 %
-Von den 191°C wird 1°C benötigt, um auf 0°C zu kommen, dann weitere
-80°C, um über 0°C hinauszukommen, bleiben 110°C.  Aber über 100°C geht
+Von den 191\si{\degree}C wird 1\si{\degree}C benötigt, um auf 0\si{\degree}C zu kommen, dann weitere
+80\si{\degree}C, um über 0\si{\degree}C hinauszukommen, bleiben 110\si{\degree}C.  Aber über 100\si{\degree}C geht
 es natürlich trotzdem nicht.  Leider sieht die Funktion das anders:
 %
-\begin{verbatim}
+\begin{alltt}
 Check-Fehler:
 	Der tatsächliche Wert 110 ist nicht der erwartete Wert 100.
-\end{verbatim}
+\end{alltt}
 %
 Woran liegt das?  Wenn wir die Verzweigungen im Kopf nachvollziehen,
-sehen wir, dass zunächst der erste Zweig des äußeren \texttt{cond}
-greift, weil die Bedingung \verb|(< temp 0)| als Wert \verb|#t| hat.
-Im inneren \texttt{cond} schließlich ergeben die ersten beiden
-Bedingungen jeweils \verb|#f|, es bleibt also der \texttt{else}-Zweig,
+sehen wir, dass zunächst der erste Zweig des äußeren \lstinline{cond}
+greift, weil die Bedingung \lstinline{(< temp 0)} als Wert \lstinline{#t} hat.
+Im inneren \lstinline{cond} schließlich ergeben die ersten beiden
+Bedingungen jeweils \lstinline{#f}, es bleibt also der \lstinline{else}-Zweig,
 und addiert die Wärme "<blind"> auf die Anfangstemperatur.
 
 Wir müssen also unser Programm korrigieren, weil dieser Fall noch
-nicht berücksichtigt ist: Die Anfangstemperatur ist unter 0°C, die
-Erwärmung würde die Temperatur aber über 100°C heben.  Es greift also
-der \texttt{else}-Zweig des inneren \texttt{cond} des äußeren Zweigs
-mit \texttt{(< temp 0)}, und das ist in diesem Fall falsch.  Die
-ersten beiden Zweige sind für Endtemperaturen bis 0°C zuständig, wir
-müssen also den neuen Zweig unmittelbar vor dem \texttt{else}-Zweig
+nicht berücksichtigt ist: Die Anfangstemperatur ist unter 0\si{\degree}C, die
+Erwärmung würde die Temperatur aber über 100\si{\degree}C heben.  Es greift also
+der \lstinline{else}-Zweig des inneren \lstinline{cond} des äußeren Zweigs
+mit \lstinline{(< temp 0)}, und das ist in diesem Fall falsch.  Die
+ersten beiden Zweige sind für Endtemperaturen bis 0\si{\degree}C zuständig, wir
+müssen also den neuen Zweig unmittelbar vor dem \lstinline{else}-Zweig
 einfügen.  Der sieht so aus:
 %
-\begin{verbatim}
-         ; Die Erwärmung würde die Temperatur auf über 100°C bringen
+\begin{lstlisting}
+         ; Die Erwärmung würde die Temperatur auf über 100\si{\degree}C bringen
          ((>= (- (+ temp heat) 80) 100) 100)
-\end{verbatim}
+\end{lstlisting}
 %
 Jetzt ist das Programm endlich fertig und korrekt!
 
@@ -1127,11 +1128,11 @@ mit folgender Kurzbeschreibung und Signatur:
 \end{lstlisting}
 %
 Entsprechend den Ausführungen am Anfang des Abschnitts entsprechen
-unterhalb von 0°C die Temperatur und die Wärme einander.  Bei Wärme
-zwischen 0°C und 80°C ist die Temperatur konstant 0°C. Ab 80°C Wärme
+unterhalb von 0\si{\degree}C die Temperatur und die Wärme einander.  Bei Wärme
+zwischen 0\si{\degree}C und 80\si{\degree}C ist die Temperatur konstant 0\si{\degree}C. Ab 80\si{\degree}C Wärme
 führt jedes Grad Erhöhung auch zu einer Erhöhung der Temperatur, bis
-100°C Temperatur beziehungsweise 180°C Wärme erreicht sind.  Ab da
-bleibt die Temperatur bei 100°C, auch wenn die Wärme steigt.
+100\si{\degree}C Temperatur beziehungsweise 180\si{\degree}C Wärme erreicht sind.  Ab da
+bleibt die Temperatur bei 100\si{\degree}C, auch wenn die Wärme steigt.
 
 Die Testfälle dazu könnten also so aussehen:
 %
@@ -1175,9 +1176,9 @@ Die Bedingungen und Ausdrücke ergeben sich direkt aus der Beschreibung:
 \end{lstlisting}
 %
 Wir brauchen außerdem noch eine Funktion in die andere Richtung, wir
-nennen sie \texttt{temperature->heat}. Diese Funktion ist einfacher:
-Temperaturen bis 0°C entsprechen der Wärme, Temperaturen darüber
-brauchen 80°C mehr Wärme.  Es gibt also nur zwei Fälle und damit zwei
+nennen sie \lstinline{temperature->heat}. Diese Funktion ist einfacher:
+Temperaturen bis 0\si{\degree}C entsprechen der Wärme, Temperaturen darüber
+brauchen 80\si{\degree}C mehr Wärme.  Es gibt also nur zwei Fälle und damit zwei
 Zweige:
 %
 \begin{lstlisting}
@@ -1240,12 +1241,12 @@ In Abschnitt~\ref{sec:datendefinition} auf
 Seite~\pageref{sec:datendefinition} ist zum ersten Mal eine
 \textit{Datendefinition\index{Datendefinition}} aufgetaucht:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Haustier ist eins der folgenden:
 ; - Katze
 ; - Hund
 ; - Schlange
-\end{verbatim}
+\end{lstlisting}
 %
 Diese Datendefinition ist das Ergebnis eines Nachdenkprozesses, der
 sogenannten \textit{Datenanalyse\index{Datenanalyse}}.  Dieser Begriff
@@ -1296,13 +1297,13 @@ eine Fallunterscheidung handelt.
   dann eine Auflistung aller Fälle, jeder Fall auf eine separate
   Zeile:
   
-\begin{alltt}
+\begin{lstlisting}
 ; Ein X ist eins der folgenden:
 ; - Fall 1
 ; - Fall 2
 ; - ...
 ; - Fall n
-\end{alltt}
+\end{lstlisting}
 \end{konstruktionsanleitung}
 %
 Für den Sonderfall der Aufzählung haben wir folgende Konstruktionsanleitung:
@@ -1315,9 +1316,9 @@ Für den Sonderfall der Aufzählung haben wir folgende Konstruktionsanleitung:
 
   Schreibe für jede Aufzählung eine Signaturdefinition der Form:
   % 
-\begin{alltt}
-(define \(s\) (signature (enum \ldots)))
-\end{alltt}
+\begin{lstlisting}
+(define |\(s\)| (signature (enum |\ldots|)))
+\end{lstlisting}
   %
   Achte darauf, dass die Anzahl der Fälle der Signaturdefinition der
   Anzahl der Fälle der Datendefinition entspricht.
@@ -1335,13 +1336,13 @@ Daten, \emph{nicht} darauf, was später mit ihnen gemacht wird.  (Das
 kommt später.)  Außerdem gibt sie uns Werkzeug an die Hand, wie wir
 die Erkenntnisse aus dem Lesen strukturieren und aufschreiben können.
 Insbesondere führt sie immer auch zu Elementen in unserem Programm.
-Bei der Funktion \texttt{cute?} haben wir zum Beispiel aus der
+Bei der Funktion \lstinline{cute?} haben wir zum Beispiel aus der
 Datendefinition zunächst eine Signaturdefinition abgeleitet:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define pet
   (signature (enum "Katze" "Hund" "Schlange")))
-\end{verbatim}
+\end{lstlisting}
 %
 Bei Aufzählungen gibt es nur drei Beispiele, die schon in der
 Signaturdefinition stehen: Wir müssen also keine weiteren
@@ -1350,25 +1351,25 @@ aufschreiben.
 Da die Datendefinition für "<Haustier"> drei Fälle hat, muss auch die
 Signaturdefinition drei Fälle haben.  Aus der Signaturdefinition
 ergibt sich direkt eine Verzweigung im Rumpf, die sich nur aus der
-Signatur \texttt{(pet -> boolean)} beziehungsweise der
-Signaturdefinition von \texttt{pet} als Aufzählung mit drei Fällen
+Signatur \lstinline{(pet -> boolean)} beziehungsweise der
+Signaturdefinition von \lstinline{pet} als Aufzählung mit drei Fällen
 ergibt:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define cute?
   (lambda (p)
     (cond
-      (\ldots{} \ldots)
-      (\ldots{} \ldots)
-      (\ldots{} \ldots))))
-\end{alltt}
+      (|\ldots| |\ldots|)
+      (|\ldots| |\ldots|)
+      (|\ldots| |\ldots|))))
+\end{lstlisting}
 %
-Da \texttt{cute?} eine Eingabe zur Signatur \texttt{pet} erwartet und
-\texttt{pet} eine Aufzählungssignatur mit \emph{drei} Fällen ist, \emph{muss}
+Da \lstinline{cute?} eine Eingabe zur Signatur \lstinline{pet} erwartet und
+\lstinline{pet} eine Aufzählungssignatur mit \emph{drei} Fällen ist, \emph{muss}
 im Rumpf eine Verzweigung mit ihrerseits \emph{drei} Zweigen
 auftauchen, ganz egal, was die konkrete Aufgabenstellung ist.  Wir
 betonen das Wort \emph{drei} deshalb so, weil viele Fehler dadurch
-passieren, dass die Anzahl der Zweige im \texttt{cond} einer solchen
+passieren, dass die Anzahl der Zweige im \lstinline{cond} einer solchen
 Funktion nicht der Anzahl der Fälle entspricht.
 
 So ein unfertiges Programm, in dem sich einige Elemente aus der
@@ -1401,14 +1402,14 @@ folgendermaßen aus:
   Verzweigung mit sovielen Zweigen, wie es in der Fallunterscheidung
   Fälle gibt, nach folgendem Muster:
   %
-\begin{alltt}
-(define \(f\)
-  (lambda (\(a\))
+\begin{lstlisting}
+(define |\(f\)|
+  (lambda (|\(a\)|)
     (cond
-      (\ldots{} \ldots)
-      \ldots
-      (\ldots{} \ldots))))
-\end{alltt}
+      (|\ldots| |\ldots|)
+      |\ldots|
+      (|\ldots| |\ldots|))))
+\end{lstlisting}
   Schreibe danach Bedingungen in die Zweige, welche die einzelnen
   Fälle voneinander unterscheiden.
 \end{konstruktionsanleitung}
@@ -1429,10 +1430,10 @@ In der Mathematik gibt es auch Verzweigungen.  Diese werden in der
 Regel mit einer großen geschweiften Klammer geschrieben.  In der
 Mathematik ist es allerdings üblich, alle Bedingungen
 "<auszuschreiben">, also ihre Bedeutung nicht von der Reihenfolge der
-Auswertung abhängig zu machen, wie wir es bei \texttt{heat-water}
+Auswertung abhängig zu machen, wie wir es bei \lstinline{heat-water}
 getan haben.  Die Funktion schreiben wir den mathematischen
 Gepflogenheiten entsprechend als einbuchstabige Funktion $h$ mit
-Parametern $t$ für \texttt{temp} und $h$ für \texttt{heat}:
+Parametern $t$ für \lstinline{temp} und $h$ für \lstinline{heat}:
 %
 \begin{displaymath}
   h(t, h) \deq
@@ -1458,7 +1459,7 @@ Parametern $t$ für \texttt{temp} und $h$ für \texttt{heat}:
 \index{boolesche Fallunterscheidung}\index{binäre Verzweigung}
 Bei manchen Fallunterscheidungen definiert sich die letzte Kategorie
 dadurch, dass ein Wert in keine der anderen Kategorien gehört.  Dann
-ist die Benutzung eines \texttt{else}-Zweigs im \texttt{cond}
+ist die Benutzung eines \lstinline{else}-Zweigs im \lstinline{cond}
 sinnvoll.
 
 Nehmen wir einmal an, dass Du ein Haustier (wie in
@@ -1473,84 +1474,84 @@ sonst halt nicht austauscht.
 Die Funktion könnte folgende Kurzbeschreibung und Signatur
 haben:\index{exchange-for-cute@\texttt{exchange-for-cute}}
 %
-\begin{verbatim}
+\begin{lstlisting}
 (: exchange-for-cute (pet -> pet))
-\end{verbatim}
+\end{lstlisting}
 %
 Es geht also das Haustier vor dem Umtausch als Eingabe in die Funktion
 hinein, und das nach dem Umtausch kommt heraus.  Als Testfälle bieten
 sich folgende an:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (exchange-for-cute "Katze") "Katze")
 (check-expect (exchange-for-cute "Hund") "Hund")
 (check-expect (exchange-for-cute "Schlange") "Katze")
-\end{verbatim}
+\end{lstlisting}
 %
 Das Gerüst sieht folgendermaßen aus:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define exchange-for-cute
   (lambda (p)
-    \ldots))
-\end{alltt}
+    |\ldots|))
+\end{lstlisting}
 %
 Als nächstes ist die Konstruktion der Schablone dran.  Wir könnten uns
-an der Definition von \texttt{pet} orientieren und eine
+an der Definition von \lstinline{pet} orientieren und eine
 Fallunterscheidung mit drei Fällen als Grundlage nehmen.  Allerdings
 ist recht offensichtlich, dass sich das Ergebnis von
-\texttt{exchange-for-cute} danach richtet, ob \texttt{cute?} \verb|#t|
-oder \verb|#f| liefert.   \verb|#t| und \verb|#f| bilden hier eine
+\lstinline{exchange-for-cute} danach richtet, ob \lstinline{cute?} \lstinline{#t}
+oder \lstinline{#f} liefert.   \lstinline{#t} und \lstinline{#f} bilden hier eine
 Aufzählung mit nur zwei Fällen.  Wir könnten also eine Schablone mir
 nur zwei Fällen konstruieren:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define exchange-for-cute
   (lambda (p)
     (cond
-      ((cute? p) \ldots)
-      (else \ldots"))))
-\end{alltt}
+      ((cute? p) |\ldots|)
+      (else |\ldots|"))))
+\end{lstlisting}
 %
 Die Lücken sind einfach zu füllen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define exchange-for-cute
   (lambda (p)
     (cond
       ((cute? p) p)
       (else "Katze"))))
-\end{alltt}
+\end{lstlisting}
 %
 Diese boolesche Fallunterscheidungen bildet einen häufig auftretenden
 Spezialfall: Der zweite Fall ist gerade dadurch definiert, dass er
-nicht der erste ist, der entsprechende \texttt{cond}-Ausdruck hat also
-immer einen Zweig mit Bedingung und einen mit \texttt{else}-Zweig.
+nicht der erste ist, der entsprechende \lstinline{cond}-Ausdruck hat also
+immer einen Zweig mit Bedingung und einen mit \lstinline{else}-Zweig.
 Weil solche binären Verzweigungen so häufg vorkommen, gibt es eine
-etwas kürzere Spezialform für das "<binäre \texttt{cond} mit
-\texttt{else}"> namens \texttt{if}\index{if@\texttt{if}}.  Damit
-können wir \texttt{exchange-for-cute} etwas kürzer schreiben:
+etwas kürzere Spezialform für das "<binäre \lstinline{cond} mit
+\lstinline{else}"> namens \lstinline{if}\index{if@\texttt{if}}.  Damit
+können wir \lstinline{exchange-for-cute} etwas kürzer schreiben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define exchange-for-cute
   (lambda (p)
     (if (cute? p)
         p
         "Katze")))
-\end{verbatim}
+\end{lstlisting}
 %
-Das \texttt{if} spart also ein Paar Klammern und das \texttt{else},
+Das \lstinline{if} spart also ein Paar Klammern und das \lstinline{else},
 aber dafür kann es eben nur binäre Verzweigungen.
 Abbildung~\ref{scheme:if} zeigt die allgemeine Form von
-\texttt{if}-Ausdrücken.
+\lstinline{if}-Ausdrücken.
 \begin{feature}{Binäre Verzweigung}{scheme:if}
   %
   Eine binäre Verzweigung hat die folgende Form:
-\begin{alltt}
-(if \(b\)
-    \(k\)
-    \(a\))
-\end{alltt}
+\begin{lstlisting}
+(if |\(b\)|
+    |\(k\)|
+    |\(a\)|)
+\end{lstlisting}
   %
 Dabei ist $b$ die Bedingung und $k$ und $a$ sind die
 beiden Zweige: die \textit{Konsequente\index{Konsequente}} $k$ und die
@@ -1578,165 +1579,165 @@ Konstruktionsanleitung:
   richtet, welche die Funktion mit Hilfe der Eingaben berechnen kann,
   benutze als Schablone im Rumpf eine binäre Verzweigung:
   %
-\begin{alltt}
-(define \(f\)
-  (lambda (\(e\))
-    (if \ldots ; \textrm{hier wird die boolesche Größe berechnet}
-        \ldots
-        \ldots)))
-\end{alltt}
+\begin{lstlisting}
+(define |\(f\)|
+  (lambda (|\(e\)|)
+    (if |\ldots| ; \textrm{hier wird die boolesche Größe berechnet}
+        |\ldots|
+        |\ldots|)))
+\end{lstlisting}
 \end{konstruktionsanleitung}
 
 \section{Syntaktischer Zucker}
 
-Tatsächlich ist \texttt{if} die "<primitivere"> Form als
-\texttt{cond}: jede \texttt{cond}-Form kann in eine äquivalente
-\texttt{if}-Form übersetzt werden, und zwar nach
+Tatsächlich ist \lstinline{if} die "<primitivere"> Form als
+\lstinline{cond}: jede \lstinline{cond}-Form kann in eine äquivalente
+\lstinline{if}-Form übersetzt werden, und zwar nach
 folgendem Schema:
 %
-\begin{alltt}
-(cond (\(t\sb{1}\) \(a\sb{1}\)) (\(t\sb{2}\) \(a\sb{2}\)) \(\ldots\) (\(t\sb{n-1}\) \(a\sb{n-1}\)) (else \(a\sb{n}\)))
-  \(\mapsto\) (if \(t\sb{1}\) \(a\sb{1}\) (if \(t\sb{2}\) \(a\sb{2}\) \ldots (if \(t\sb{n-1}\) \(a\sb{n-1}\) \(a\sb{n}\))\ldots))
-\end{alltt}
+\begin{lstlisting}
+(cond (|\(t\sb{1}\)| |\(a\sb{1}\)|) (|\(t\sb{2}\)| |\(a\sb{2}\)|) |\(\ldots\)| (|\(t\sb{n-1}\)| |\(a\sb{n-1}\)|) (else |\(a\sb{n}\)|))
+  |\(\mapsto\)| (if |\(t\sb{1}\)| |\(a\sb{1}\)| (if |\(t\sb{2}\)| |\(a\sb{2}\)| $\ldots$ (if |\(t\sb{n-1}\)| |\(a\sb{n-1}\)| |\(a\sb{n}\)|)$\ldots$))
+\end{lstlisting}
 %
-Die geschachtelte \texttt{if}-Form auf der rechten Seite der
-Übersetzung wertet, genau wie die \texttt{cond}-Form, nacheinander
-alle Bedingungen aus, bis eine \verb|#t| liefert.  Die rechte Seite des
-\texttt{cond}-Zweigs ist dann gerade die Konsequente des \texttt{if}s.
+Die geschachtelte \lstinline{if}-Form auf der rechten Seite der
+Übersetzung wertet, genau wie die \lstinline{cond}-Form, nacheinander
+alle Bedingungen aus, bis eine \lstinline{#t} liefert.  Die rechte Seite des
+\lstinline{cond}-Zweigs ist dann gerade die Konsequente des \lstinline{if}s.
 Erst wenn alle Bedingungen fehlschlagen ist die Alternative des letzten
-\texttt{if}-Ausdrucks dran, nämlich $a_n$ aus dem \texttt{else}-Zweig.
+\lstinline{if}-Ausdrucks dran, nämlich $a_n$ aus dem \lstinline{else}-Zweig.
 
-Da sich mit Hilfe dieser Übersetzung jede \texttt{cond}-Form durch
-geschachtelte \texttt{if}-Formen ersetzen lässt, ist \texttt{cond}
-streng genommen gar nicht notwendig.  \texttt{Cond} ist deswegen eine
+Da sich mit Hilfe dieser Übersetzung jede \lstinline{cond}-Form durch
+geschachtelte \lstinline{if}-Formen ersetzen lässt, ist \lstinline{cond}
+streng genommen gar nicht notwendig.  \lstinline{Cond} ist deswegen eine
 sogenannte \textit{abgeleitete Form\index{abgeleitete
-    Form}}\index{Form!abgeleitet}.  Da \texttt{cond} und andere
+    Form}}\index{Form!abgeleitet}.  Da \lstinline{cond} und andere
 abgeleitete Formen trotzdem praktisch und angenehm zu verwenden sind
 und damit dem Programmierer die Arbeit versüßen,
 heißen abgeleitete Formen auch \textit{syntaktischer
   Zucker\index{syntaktischer Zucker}\index{Zucker, syntaktischer}}.
 
 \begin{aufgabeinline}
-  Schreibe die Funktion \texttt{cute?} aus Abschnitt~\ref{sec:pet} so
-  um, dass sie \texttt{if} statt  \texttt{cond} verwendet.
+  Schreibe die Funktion \lstinline{cute?} aus Abschnitt~\ref{sec:pet} so
+  um, dass sie \lstinline{if} statt  \lstinline{cond} verwendet.
 \end{aufgabeinline}
 %
-Auch \texttt{and} und \texttt{or} sind eigentlich syntaktischer Zucker:
-Es ist immer möglich, einen \texttt{and}-Ausdruck in \texttt{if}s
+Auch \lstinline{and} und \lstinline{or} sind eigentlich syntaktischer Zucker:
+Es ist immer möglich, einen \lstinline{and}-Ausdruck in \lstinline{if}s
 zu übersetzen.  Es gelten folgende Übersetzungsregeln:
 %
-\begin{alltt}
-(and \(e\)) \(\mapsto\) \(e\)
-(and \(e\sb{1}\) \(e\sb{2}\) \(\ldots\)) \(\mapsto\) (if \(e\sb{1}\) (and \(e\sb{2}\) \(\ldots\)) #f)
-\end{alltt}
+\begin{lstlisting}
+(and |\(e\)|) |\(\mapsto\)| |\(e\)|
+(and |\(e\sb{1}\)| |\(e\sb{2}\)| |\(\ldots\)|) |\(\mapsto\)| (if |\(e\sb{1}\)| (and |\(e\sb{2}\)| |\(\ldots\)|) #f)
+\end{lstlisting}
 %
-Ein \texttt{and}-Ausdruck mit mehreren Operanden wird so schrittweise
-in eine Kaskade von \texttt{if}-Ausdrücken übersetzt:
+Ein \lstinline{and}-Ausdruck mit mehreren Operanden wird so schrittweise
+in eine Kaskade von \lstinline{if}-Ausdrücken übersetzt:
 %
-\begin{alltt}
+\begin{lstlisting}
 (and a b c)
-\(\mapsto{}\) (if a (and b c) #f)
-\(\mapsto{}\) (if a (if b (and c) #f))
-\(\mapsto{}\) (if a (if b c #f))
-\end{alltt}
+|\(\mapsto{}\)| (if a (and b c) #f)
+|\(\mapsto{}\)| (if a (if b (and c) #f))
+|\(\mapsto{}\)| (if a (if b c #f))
+\end{lstlisting}
 %
-Ebenso lassen sich \texttt{or}-Ausdrücke immer in
-\texttt{if}-Ausdrücke übersetzen:
+Ebenso lassen sich \lstinline{or}-Ausdrücke immer in
+\lstinline{if}-Ausdrücke übersetzen:
 %
-\begin{alltt}
-(or \(e\)) \(\mapsto\) \(e\)
-(or \(e\sb{1}\) \(e\sb{2}\) \(\ldots\)) \(\mapsto\) (if \(e\sb{1}\) #t (or \(e\sb{2}\) \(\ldots\)))
-\end{alltt}
+\begin{lstlisting}
+(or |\(e\)|) |\(\mapsto\)| |\(e\)|
+(or |\(e\sb{1}\)| |\(e\sb{2}\)| |\(\ldots\)|) |\(\mapsto\)| (if |\(e\sb{1}\)| #t (or |\(e\sb{2}\)| |\(\ldots\)|))
+\end{lstlisting}
 %
 Beispiel:
 %
-\begin{alltt}
+\begin{lstlisting}
 (or a b c)
-\(\mapsto{}\) (if a #t (or b c))
-\(\mapsto{}\) (if a #t (if b #t (or c)))
-\(\mapsto{}\) (if a #t (if b #t c))
-\end{alltt}
+|\(\mapsto{}\)| (if a #t (or b c))
+|\(\mapsto{}\)| (if a #t (if b #t (or c)))
+|\(\mapsto{}\)| (if a #t (if b #t c))
+\end{lstlisting}
 %
 \begin{aufgabeinline}
-  Beim syntaktischen Zucker für \texttt{and} und \texttt{or} könnten
-  wir auch definieren, in was \texttt{(and)} und \texttt{(or)} (also
+  Beim syntaktischen Zucker für \lstinline{and} und \lstinline{or} könnten
+  wir auch definieren, in was \lstinline{(and)} und \lstinline{(or)} (also
   jeweils ohne Operanden) übersetzt wird.  Was wäre jeweils die
   korrekte Übersetzung?  (Achtung: Die korrekte Übersetzung überrascht
-  Dich vielleicht.)  Übersetze \texttt{(and a b c)} und \texttt{(or a
-    b c)} jeweils mit Hilfe Deiner neuen Regeln so, als ob die Regeln
-  \texttt{(and \(e\))} und \texttt{(or \(e\))} nicht da wären.
+  Dich vielleicht.)  Übersetze \lstinline{(and $a$ $b$ $c$)} und
+  \lstinline{(or $a$ $b$ $c$)} jeweils mit Hilfe Deiner neuen Regeln so, als ob die Regeln
+  \lstinline{(and $e$)} und \lstinline{(or $e$)} nicht da wären.
 \end{aufgabeinline}
 
 \section{Unsinnige Daten abfangen}
 \label{sec:nonsensical-data}
 
-Noch einmal zurück zur Funktion \texttt{heat-water} in
+Noch einmal zurück zur Funktion \lstinline{heat-water} in
 Abschnitt~\ref{sec:heat-water}: Die hat schon ziemlich viele Zweige.
 Genau genommen decken die aber immer noch nicht alles ab.  %Zum
-Bei Anfangstemperaturen über 100°C verhält sich die Funktion merkwürdig:
+Bei Anfangstemperaturen über 100\si{\degree}C verhält sich die Funktion merkwürdig:
 %
-\begin{alltt}
+\begin{lstlisting}
 (heat-water 150 0)
-\evalsto{} 100
-\end{alltt}
+|\evalsto| 100
+\end{lstlisting}
 %
 Das liegt daran, dass es gar kein vernünftiges Ergebnis gibt, wenn die
-Anfangstemperatur über 100°C liegt.  Die Funktion berechnet aber
+Anfangstemperatur über 100\si{\degree}C liegt.  Die Funktion berechnet aber
 trotzdem munter eines.  Es wäre gut, wenn wir dem Benutzer sagen
 könnten, dass die Funktion unsinnige Eingaben bekommen hat.
 
 Dazu erweitern wir erst einmal die Verzweigung, gleich am Anfang:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
     (cond
-      ; Die Anfangstemperatur ist über 100°C, also unzulässig
-      ((> temp 100) \ldots)
-      \ldots)))
-\end{alltt}
+      ; Anfangstemperatur ist über 100|\si{\degree}|C, also unzulässig
+      ((> temp 100) |\ldots|)
+      |\ldots|)))
+\end{lstlisting}
 %
 Nur~-- was tun im Fehlerfall?  Dazu gibt eine eingebaute Funktion
-\texttt{violation},\label{sec:violation} die eine Fehlermeldung als Zeichenkette akzeptiert
+\lstinline{violation},\label{sec:violation} die eine Fehlermeldung als Zeichenkette akzeptiert
 und, wenn sie aufgerufen wird, das Programm abbricht und die
 Fehlermeldung ausdruckt.  Die vollständige fertige Funktion sieht
 dann so aus:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
     (cond
-      ; Die Anfangstemperatur ist über 100°C, also unzulässig
+      ; Anfangstemperatur ist über 100|\si{\degree}|C, also unzulässig
       ((> temp 100)
-       (violation "Anfangstemperatür über 100°C"))
-      ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
+       (violation "Anfangstemperatür über 100|\si{\degree}|C"))
+      ; Anfangstemperatur ist unter 0|\si{\degree}|C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
-         ; Die Erwärmumg bleibt unter 0°C.
+         ; Erwärmumg bleibt unter 0|\si{\degree}|C.
          ((< (+ temp heat) 0) (+ temp heat))
-         ; Die Erwärmung bleibt bei  0°C "stecken"
+         ; Erwärmung bleibt bei  0|\si{\degree}|C "stecken".
          ((< (+ temp heat) 80) 0)
-         ; Die Erwärmung würde die Temperatur auf über 100°C bringen
+         ; Die Erwärmung würde die Temperatur auf über 100|\si{\degree}|C bringen
          ((>= (- (+ temp heat) 80) 100) 100)
-         ; Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
+         ; Erwärmung erhöht Temperatur über Nullpunkt hinaus.
          (else
           (- (+ temp heat) 80))))
-      ; Die Erwärmung würde die Wassertemperatur auf über 100°C erhöhen.
+      ; Erwärmung würde Wassertemperatur auf über 100|\si{\degree}|C erhöhen.
       ((>= (+ temp heat) 100) 100)
-      ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
+      ; Wasser fängt flüssig an und bleibt durch Erwärmung flüssig.
       (else
        (+ temp heat)))))
-\end{alltt}
+\end{lstlisting}
 %
 Natürlich sollten wir auch den Fehlerfall testen~-- das geht nicht mit
-\texttt{check-expect}, das ja erwartet, dass ein Testausdruck einen
+\lstinline{check-expect}, das ja erwartet, dass ein Testausdruck einen
 ordnungsgemäßen Wert liefert.  Für Fehlerfälle gibt es
-\texttt{check-error}\index{check-error@\texttt{check-error}}, das Testfälle erzeugt, die dann bestanden sind,
+\lstinline{check-error}\index{check-error@\texttt{check-error}}, das Testfälle erzeugt, die dann bestanden sind,
 wenn die Auswertung einen Fehler liefert:
 %
-\begin{verbatim}
-(check-error (heat-water 150 0)) ; Anfangstemperatur über 100°C
-\end{verbatim}
+\begin{lstlisting}
+(check-error (heat-water 150 0)) ; Anfangstemperatur über 100|\si{\degree}|C
+\end{lstlisting}
 %
 Die einfachere Funktion \lstinline{heat-water-2} besteht diesen Test
 übrigens auch, ganz ohne Verwendung von \lstinline{violation}.  Warum ist das so?
@@ -1747,7 +1748,7 @@ Hier ist die Fehlermeldung:
 \end{alltt}
 %
 Außerdem markiert DrRacket die Funktion \lstinline{temperature->heat}
-als Übeltäter.  Deren Bedingungen schließen Temperaturen über 100°C
+als Übeltäter.  Deren Bedingungen schließen Temperaturen über 100\si{\degree}C
 explizit aus.  Auch hier ist also die einfachere Version klar im
 Vorteil, bei
 
@@ -1779,7 +1780,7 @@ folgende Konsequenz berechnet!
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreibe eine Funktion \texttt{card-type}, die den Umsatz einer
+  Schreibe eine Funktion \lstinline{card-type}, die den Umsatz einer
   Kreditkarte akzeptiert und die eine entsprechende Kategorie als
   Zeichenkette zurückgibt.  Verwende die Konstruktionsanleitungen:
   Schreibe die Kurzbeschreibung auf, führe eine
@@ -1801,16 +1802,16 @@ folgende Konsequenz berechnet!
 
   \begin{enumerate}
 
-  \item Schreibe eine Funktion \texttt{min-2}, die als Argumente zwei
+  \item Schreibe eine Funktion \lstinline{min-2}, die als Argumente zwei
     Zahlen nimmt und die kleinere der beiden Zahlen zurückgibt.  Schreibe
-    außerdem eine Funktion \texttt{min-3}, die als Argumente drei
+    außerdem eine Funktion \lstinline{min-3}, die als Argumente drei
     Zahlen nimmt und die kleinste der drei Zahlen zurückgibt.  Verwende
     die Konstruktionsanleitung: Schreibe
     explizit Kurzbeschreibung und Signatur auf, erstelle dann das
     Gerüst und die Testfälle.  Vervollständige danach den Rumpf der
     Funktion und vergewissere Dich, dass die Tests erfolgreich laufen.
     
-  \item Schreibe analog eine Funktion \texttt{max-2} und \texttt{max-3}.
+  \item Schreibe analog eine Funktion \lstinline{max-2} und \lstinline{max-3}.
     
   \end{enumerate}
 \end{aufgabe}
@@ -1818,17 +1819,17 @@ folgende Konsequenz berechnet!
 \begin{aufgabe}
   Schreibe die folgenden Funktionen:
   \begin{enumerate}
-  \item \texttt{min-of-two}, welche die kleinere von zwei
+  \item \lstinline{min-of-two}, welche die kleinere von zwei
     gegebenen Zahlen ausgibt
-  \item \texttt{min-of-three}, welche die kleinste von drei
+  \item \lstinline{min-of-three}, welche die kleinste von drei
     gegebenen Zahlen ausgibt
-  \item \texttt{is-min-of-three?}, die überprüft ob die erste
+  \item \lstinline{is-min-of-three?}, die überprüft ob die erste
     von drei gegebenen Zahlen das Minimum ist
-  \item \texttt{valid-value?}, die überprüft ob die erste von
+  \item \lstinline{valid-value?}, die überprüft ob die erste von
     drei gegebenen Zahlen zwischen den beiden anderen liegt; gehe
-    davon aus, dass der Aufruf immer \texttt{(valid-value? value min max)}
+    davon aus, dass der Aufruf immer \lstinline{(valid-value? value min max)}
     lautet 
-  \item \texttt{clamp}, die wie folgt definiert ist:
+  \item \lstinline{clamp}, die wie folgt definiert ist:
     
     \[\mathit{clamp}(x,\ \mathit{min},\ \mathit{max})=
     \begin{cases} 
@@ -1855,13 +1856,13 @@ folgende Konsequenz berechnet!
   \end{itemize}
   %
   Schreibe zunächst eine Datendefinition für Positionen und dann eine
-  passende Signaturdefinition mit dem Namen \texttt{position}.
+  passende Signaturdefinition mit dem Namen \lstinline{position}.
   
   Schreibe nun eine Funktion mit folgender Signatur:
   %
-\begin{verbatim}
+\begin{lstlisting}
  (: nummer->position (natural -> position))
-\end{verbatim}
+\end{lstlisting}
   %
   Die Funktion soll dabei zu einer gegebenen Rückennummer die
   zugehörige Position berechnen.
@@ -1869,7 +1870,7 @@ folgende Konsequenz berechnet!
   Verwende beim Schreiben der Funktion die
   Konstruktionsanleitungen für Funktionen und für
   Fallunterscheidungen.  Teste die Funktion
-  \texttt{nummer->position} mit mindestens sechs Testfällen, so dass
+  \lstinline{nummer->position} mit mindestens sechs Testfällen, so dass
   alle Fälle abgedeckt sind.
 \end{aufgabe}
 
@@ -1879,7 +1880,7 @@ folgende Konsequenz berechnet!
   automatisch bestimmt werden.
   
   \begin{enumerate}
-  \item Programmiere eine Funktion \texttt{zu-langes-parken}
+  \item Programmiere eine Funktion \lstinline{zu-langes-parken}
     für die Bewertung von zu langem Parken auf einem kostenpflichtigen
     Parkplatz. Diese bekommt eine Zeitspanne übergeben und gibt das 
     entsprechende Verwarngeld zurück.
@@ -1899,9 +1900,9 @@ folgende Konsequenz berechnet!
     
   \item Das Überfahren einer roten Ampel kostet je nach
     Gefährdungslage mehr, gibt Punkte und Fahrverbote. Schreibe
-    zwei Funktionen, eine für das Bußgeld \texttt{rote-ampel-bußgeld}, 
-    eine für die Punkte in Flensburg \texttt{rote"=ampel"=punkte} 
-    und eine für das Fahrverbot \texttt{rote"=ampel"=fahrverbot}, 
+    zwei Funktionen, eine für das Bußgeld \lstinline{rote-ampel-bußgeld}, 
+    eine für die Punkte in Flensburg \lstinline{rote"=ampel"=punkte} 
+    und eine für das Fahrverbot \lstinline{rote"=ampel"=fahrverbot}, 
     welche ausgibt, ob ein Fahrverbot erteilt wird. Übergib
     den Funktionen, wie lange die Ampel schon rot war und ob eine
     Gefährdung oder Sachbeschädigung vorlag.
