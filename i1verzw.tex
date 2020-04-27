@@ -470,23 +470,28 @@ Eine weitere häufig vorkommende Art der Fallunterscheidung gibt es bei
 Zahlenbereichen.
 
 Um das zu demonstrieren, nehmen wir uns folgende Aufgabe vor: Wir
-schreiben eine Funktion, die "<Wasser erhitzt">, das heißt aus einer
-Wasser-Anfangstemperatur und der Temperatur, die wir an Hitze hinzufügen, die
-resultierende Temperatur bestimmt.  Wir schreiben dazu drei Versionen der
+schreiben eine Funktion, die "<Wasser erhitzt">.
+Das heißt, wir fügen einer bestimmten Menge Wasser bei einer
+bestimmten Temperatur eine bestimmte Menge Wärme zu.  Wir wollen
+berechnen, wie warm das Wasser danach ist.  Der Einfachheit halber
+messen wir die zugefügte Wärme~- genau wie die Temperatur~-- in Grad
+Celsius (°C).\footnote{Wir vereinfachen schon sehr stark, aber 
+  Temperaturerhöhung und Wärme sind über die Wärmekapazität verwandt.}
+Wir schreiben dazu drei Versionen der
 Funktion:
 %
 \begin{itemize}
 \item Die erste, naive Version addiert einfach auf die
-  Anfangstemperatur die hinzugefügte Hitze.
+  Anfangstemperatur die hinzugefügte Wärme.
 \item Die zweite Version berücksichtigt, dass Wasser bei 100°C siedet
   und nicht heißer werden kann.
 \item Die dritte Version berücksichtigt zusätzlich, dass gefrorenem
-  Wasser von 0°C eine Hitze von 80°C hinzugefügt werden muss, damit es
+  Wasser von 0°C eine Wärme von 80°C hinzugefügt werden muss, damit es
   schmilzt und dann immer noch erst bei 0°C ist.
 \end{itemize}
 %
-(Physikalisch ist das natürlich Umfug, aber es geht
-um ein möglichst einfaches Programmier-Beispiel.)
+Wir berücksichtigen also schrittweise, dass die innere Energie des
+Wassers~-- die Wärme~-- nicht dasselbe ist wie dessen Temperatur.
 
 \paragraph{Naive Version} Wir fangen mit der naiven Version an und gehen nach dem Ablauf der
 Konstruktionsanleitungen vor.  Zuerst kommt also eine
@@ -497,7 +502,7 @@ Kurzbeschreibung:
 \end{alltt}
 %
 Als nächstes kommt die Signatur-Deklaration.  Die Anfangstemperatur
-und die hinzugefügte Hitze sind die Eingaben; sie stellen wir als
+und die hinzugefügte Wärme sind die Eingaben; sie stellen wir als
 reelle Zahlen dar.  Heraus kommt die Endtemperatur, auch eine reelle
 Zahl.  Da wir schon wissen, dass diese Version etwas einfach ist,
 hängen wir eine \texttt{-0} an den Namen:
@@ -632,7 +637,7 @@ Fertig!
 %
 \paragraph{Siendendes Wasser und Eis} Kommen wir zur "<Vollversion">.
 Zur Erinnerung: Da müssen wir noch berücksichtigen, dass gefrorenem
-Wasser von 0°C eine Hitze von 80°C hinzugefügt werden muss, damit es
+Wasser von 0°C eine Wärme von 80°C hinzugefügt werden muss, damit es
 schmilzt und dann immer noch 0°C hat.  
 
 Wir fangen wieder mit der Kurzbeschreibung an:
@@ -895,7 +900,7 @@ Funktionsweise der Auswertung von \texttt{cond}-Ausdrücken zu ergründen:
 Wenn Du diese Aufgabe erledigt hast, wirst Du beobachtet haben, dass Racket
 die Bedingungen in einem \texttt{cond}-Ausdruck nacheinander
 auswertet.  Sobald eine davon \verb|#t| ergibt, macht Racket mit dem
-Ausdruck des Zweiges weiter.  Die restlichen Zweige werden gar nicht
+Ausdruck dieses Zweiges weiter.  Die restlichen Zweige werden gar nicht
 mehr berücksichtigt, unabhängig davon, ob sie \verb|#t| ergeben
 könnten oder nicht.
 Das können wir ausnutzen, um die Funktion weiter zu vereinfachen.
@@ -1087,6 +1092,146 @@ Seite~\pageref{mantra:komplexitaet} erinnern:
 
 \noindent Bei komplizierten Fallunterscheidungen, teste deshalb gründlich und
 gehe davon aus, dass Du Zweige vergessen hast.
+
+\paragraph{Einfacher Wasser erhitzen}
+
+Aus Mantra~\ref{mantra:komplexitaet} kann man auch noch eine und
+bessere Schlussfolgerung ziehen, als einfach nur sorgfältig zu prüfen
+und zu testen.  Wenn nämlich die Fallunterscheidungen so kompliziert
+sind, dann solltest Du gründlich prüfen, ob es nicht auch einfacher
+geht.
+
+Wir haben dieses Prinzip beim Schreiben dieses Buches leider
+vernachlässigt.  Glücklicherweise hat Nicolas Neuß von der Universität
+Erlangen eine Vorabversion dieses Buches gelesen.  Ihm stieß die
+Komplexität der Funktion ebenfalls auf, und er machte folgenden
+Vorschlag:
+%
+\begin{quote}
+  Das Ganze wird meiner Meinung nach viel hübscher, wenn man das
+  physikalischer angeht.  Wenn man daher Konversionsroutinen
+  \verb|E->T| und \verb|T->E| schreibt (\texttt{E} steht für innere
+  Energie, also die Wärme, und \texttt{T} für Temperatur), so sieht
+  man erstens die Problematik und zweitens kann man die
+  Temperaturerhöhung einfach berechnen.
+\end{quote}
+%
+Wir versuchen mal, Dr.\ Neuß' Idee nachzuvollziehen.  Wir fangen mit
+der von ihm erwähnten Funktion \verb|E->T| an.  In unserer
+Terminologie könnte die Funktion \lstinline{heat->temperature} heißen,
+mit folgender Kurzbeschreibung und Signatur:
+%
+\begin{lstlisting}
+; Aus Wärme Temperatur berechnen
+(: heat->temperature (real -> real))
+\end{lstlisting}
+%
+Entsprechend den Ausführungen am Anfang des Abschnitts entsprechen
+unterhalb von 0°C die Temperatur und die Wärme einander.  Bei Wärme
+zwischen 0°C und 80°C ist die Temperatur konstant 0°C. Ab 80°C Wärme
+führt jedes Grad Erhöhung auch zu einer Erhöhung der Temperatur, bis
+100°C Temperatur beziehungsweise 180°C Wärme erreicht sind.  Ab da
+bleibt die Temperatur bei 100°C, auch wenn die Wärme steigt.
+
+Die Testfälle dazu könnten also so aussehen:
+%
+\begin{lstlisting}
+(check-expect (heat->temperature -50) -50)
+(check-expect (heat->temperature 0) 0)
+(check-expect (heat->temperature 20) 0)
+(check-expect (heat->temperature 80) 0)
+(check-expect (heat->temperature 81) 1)
+(check-expect (heat->temperature 180) 100)
+(check-expect (heat->temperature 200) 100)                                            
+\end{lstlisting}
+%
+Die Eingabe-Wärme zerfällt entsprechend der Beschreibung oben in vier
+Fälle, die wir als vier Zweige eines \lstinline{cond} schreiben:
+%
+\begin{lstlisting}
+(define heat->temperature
+  (lambda (heat)
+    (cond
+      (... ...)
+      (... ...)
+      (... ...)
+      (... ...))))
+\end{lstlisting}
+%
+Die Bedingungen und Ausdrücke ergeben sich direkt aus der Beschreibung:
+%
+\begin{lstlisting}
+(define heat->temperature
+  (lambda (heat)
+    (cond
+      ((<= heat 0) heat)
+      ((and (< 0 heat)
+            (<= heat 80))
+       0)
+      ((and (< 80 heat)
+            (<= heat 180))
+       (- heat 80))
+      ((< 180 heat) 100))))
+\end{lstlisting}
+%
+Wir brauchen außerdem noch eine Funktion in die andere Richtung, wir
+nennen sie \texttt{temperature->heat}. Diese Funktion ist einfacher:
+Temperaturen bis 0°C entsprechen der Wärme, Temperaturen darüber
+brauchen 80°C mehr Wärme.  Es gibt also nur zwei Fälle und damit zwei
+Zweige:
+%
+\begin{lstlisting}
+; Aus Temperatur Wärme berechnen
+(: temperature->heat (real -> real))
+
+(check-expect (temperature->heat -20) -20)
+(check-expect (temperature->heat -1) -1)
+(check-expect (temperature->heat 1) 81)
+(check-expect (temperature->heat 100) 180)
+
+(define temperature->heat
+  (lambda (temp)
+    (cond
+      ((< temp 0) temp)
+      ((and (> temp 0)
+            (<= temp 100))
+       (+ temp 80)))))
+\end{lstlisting}
+%
+Dr.\ Neuß schlug vor, diese beiden Funktionen dazu zu benutzen, um den
+Rumpf von \lstinline{heat-water} zu schreiben.  Wir versuchen das mal
+und schreiben sicherheitshalber eine neue Funktion
+\lstinline{heat-water-2}, bevor wir die alte wegwerfen:
+%
+\begin{lstlisting}
+; Wassertemperatur nach Erhitzen berechnen, mit Eis & Sieden
+(: heat-water-2 (real real -> real))
+
+(define heat-water-2
+  (lambda (temp heat)
+    ...))
+\end{lstlisting}
+%
+(Wir nehmen die gleichen Testfälle wie bei \lstinline{heat-water}.)
+Wie können wir \lstinline{heat->temperature} und
+\lstinline{temperature->heat} einbringen?  Nun, wir können für
+\lstinline{temp} die zugehörige Wärme berechnen, \lstinline{heat}
+addieren, und das ganze wieder zurück in eine Temperatur wandeln:
+%
+\begin{lstlisting}
+(define heat-water-2
+  (lambda (temp heat)
+    (heat->temperature
+     (+ (temperature->heat temp) heat))))
+\end{lstlisting}
+%
+Und Tatsache, die Funktion besteht alle Testfälle!  Besser noch, die
+beiden Funktionen \lstinline{heat->temperature} und
+\lstinline{temperature->heat} sind viel einfacher zu verstehen als der
+Moloch \lstinline{heat-water}.
+
+Bei komplizierten Verzweigungen~-- generell bei allen komplizierten
+Programmen~-- ist es wert zu untersuchen, ob es auch einfacher geht.
 
 \section{Datenanalyse und Schablonen}
 \label{sec:datenanalyse}
@@ -1592,6 +1737,25 @@ wenn die Auswertung einen Fehler liefert:
 \begin{verbatim}
 (check-error (heat-water 150 0)) ; Anfangstemperatur über 100°C
 \end{verbatim}
+%
+Die einfachere Funktion \lstinline{heat-water-2} besteht diesen Test
+übrigens auch, ganz ohne Verwendung von \lstinline{violation}.  Warum ist das so?
+Hier ist die Fehlermeldung:
+%
+\begin{alltt}
+{\color{red}cond: alle Bedingungen ergaben #f}
+\end{alltt}
+%
+Außerdem markiert DrRacket die Funktion \lstinline{temperature->heat}
+als Übeltäter.  Deren Bedingungen schließen Temperaturen über 100°C
+explizit aus.  Auch hier ist also die einfachere Version klar im
+Vorteil, bei
+
+\begin{aufgabeinline}
+  Probiere die Ausdrücke \lstinline{(heat-water 0 0)} und
+  \lstinline{(heat-water-2 0 0)} aus.  Sie liefern unterschiedliche
+  Ergebnisse.  Warum?  Welche Version hat recht?
+\end{aufgabeinline}
 
 \section*{Aufgaben}
 

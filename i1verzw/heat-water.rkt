@@ -149,3 +149,63 @@
       ; Das Wasser fängt flüssig an und bleibt durch die Erwärmung flüssig.
       (else
        (+ temp heat)))))
+
+; Aus Wärme Temperatur berechnen
+(: heat->temperature (real -> real))
+
+(check-expect (heat->temperature -50) -50)
+(check-expect (heat->temperature 0) 0)
+(check-expect (heat->temperature 20) 0)
+(check-expect (heat->temperature 80) 0)
+(check-expect (heat->temperature 81) 1)
+(check-expect (heat->temperature 180) 100)
+(check-expect (heat->temperature 200) 100)                                            
+
+(define heat->temperature
+  (lambda (heat)
+    (cond
+      ((<= heat 0) heat)
+      ((and (< 0 heat)
+            (<= heat 80))
+       0)
+      ((and (< 80 heat)
+            (<= heat 180))
+       (- heat 80))
+      ((< 180 heat) 100))))
+
+; Aus Temperatur Wärme berechnen
+(: temperature->heat (real -> real))
+
+(check-expect (temperature->heat -20) -20)
+(check-expect (temperature->heat -1) -1)
+(check-expect (temperature->heat 1) 81)
+(check-expect (temperature->heat 100) 180)
+
+(define temperature->heat
+  (lambda (temp)
+    (cond
+      ((< temp 0) temp)
+      ((and (> temp 0)
+            (<= temp 100))
+       (+ temp 80)))))
+
+; Wassertemperatur nach Erhitzen berechnen, mit Eis & Sieden
+(: heat-water-2 (real real -> real))
+
+(check-expect (heat-water-2 -10 20) 0)
+(check-expect (heat-water-2 10 20) 30)
+(check-expect (heat-water-2 90 20) 100)
+(check-expect (heat-water-2 99 1) 100)
+(check-expect (heat-water-2 99 2) 100)
+(check-expect (heat-water-2 -10 5) -5)
+(check-expect (heat-water-2 -5 60) 0)
+(check-expect (heat-water-2 -5 90) 5)
+(check-expect (heat-water-2 -1 81) 0)
+(check-expect (heat-water-2 -1 82) 1)
+(check-expect (heat-water-2 -1 191) 100)
+(check-error (heat-water-2 150 0))
+
+(define heat-water-2
+  (lambda (temp heat)
+    (heat->temperature
+     (+ (temperature->heat temp) heat))))
