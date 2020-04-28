@@ -22,7 +22,7 @@
   columns=fullflexible,
   % backquote, and allow breaking at hyphens, then umlauts
   % https://tex.stackexchange.com/questions/463693/listings-does-not-break-at-pure-hyphen-lines/464309
-  literate={`}{{`}}{1} {-}{{-\allowbreak}}{1} {ä}{{\"a}}1 {ö}{{\"o}}1 {ü}{{\"u}}1 {Ä}{{\"A}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1 {ß}{{\ss}}1,
+  literate=({{(\penalty10000}}1 {`}{{`}}1 {-}{{\penalty10000-\allowbreak}}1 {ä}{{\"a}}1 {ö}{{\"o}}1 {ü}{{\"u}}1 {Ä}{{\"A}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1 {ß}{{\ss}}1,
   escapechar=\|,
   mathescape=true
 }
