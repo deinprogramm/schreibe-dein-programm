@@ -16,7 +16,7 @@
 ; - britisches Pfund
 ; - Schweizer Franke
 (define currency
-  (signature (one-of "EUR" "GPB" "CHF")))
+  (signature (enum "EUR" "GPB" "CHF")))
 
 (define contract
   (signature

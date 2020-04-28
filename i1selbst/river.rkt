@@ -40,27 +40,27 @@
 ; zweiter Zusammenfluss des Neckar:
 (define neckar-2 (make-confluence "Epfendorf" neckar-1 schlichem))
 
-; Fließt Fluss durch den angegebenen Ort?
-(: flows-through? (river string -> boolean))
+; Fließt Wasser von einem Ort in Fluss?
+(: flows-from? (string river -> boolean))
 
-(check-expect (flows-through? eschach "Heimliswald") #t)
-(check-expect (flows-through? eschach "Tübingen") #f)
-(check-expect (flows-through? neckar-2 "Heimliswald") #t)
-(check-expect (flows-through? neckar-2 "Rottweil") #t)
-(check-expect (flows-through? neckar-2 "Berlin") #f)
+(check-expect (flows-from? "Heimliswald" eschach) #t)
+(check-expect (flows-from? "Tübingen" eschach) #f)
+(check-expect (flows-from? "Heimliswald" neckar-2) #t)
+(check-expect (flows-from? "Rottweil" neckar-2) #t)
+(check-expect (flows-from? "Berlin" neckar-2) #f)
 
-#;(define flows-through?
-  (lambda (river location)
+#;(define flows-from?
+  (lambda (location river)
     ...))
 
-#;(define flows-through?
-  (lambda (river location)
+#;(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river) ...)
       ((confluence? river) ...))))
 
-#;(define flows-through?
-  (lambda (river location)
+#;(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        (if (string=? (creek-origin river) location)
@@ -69,8 +69,8 @@
       ((confluence? river)
        ...))))
 
-#;(define flows-through?
-  (lambda (river location)
+#;(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        (string=? (creek-origin river) location))
@@ -81,8 +81,8 @@
        (confluence-tributary river)
        ...))))
 
-#;(define flows-through?
-  (lambda (river location)
+#;(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        (string=? (creek-origin river) location))
@@ -94,8 +94,8 @@
            (confluence-tributary river)
            ...)))))
 
-#;(define flows-through?
-  (lambda (river location)
+#;(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        (string=? (creek-origin river) location))
@@ -103,12 +103,12 @@
        (if (string=? (confluence-location river) location)
            #t
            ...
-           (flows-through? (confluence-main-stem river) location)
-           (flows-through? (confluence-tributary river) location)
+           (flows-from? location (confluence-main-stem river))
+           (flows-from? location (confluence-tributary river))
            ...)))))
 
-#;(define flows-through?
-  (lambda (river location)
+#;(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        (string=? (creek-origin river) location))
@@ -116,15 +116,15 @@
        (if (string=? (confluence-location river) location)
            #t
            (or
-            (flows-through? (confluence-main-stem river) location)
-            (flows-through? (confluence-tributary river) location)))))))
+            (flows-from? location (confluence-main-stem river))
+            (flows-from? location (confluence-tributary river))))))))
 
-(define flows-through?
-  (lambda (river location)
+(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        (string=? (creek-origin river) location))
       ((confluence? river)
        (or (string=? (confluence-location river) location)
-           (flows-through? (confluence-main-stem river) location)
-           (flows-through? (confluence-tributary river) location))))))
+           (flows-from? location (confluence-main-stem river))
+           (flows-from? location (confluence-tributary river)))))))

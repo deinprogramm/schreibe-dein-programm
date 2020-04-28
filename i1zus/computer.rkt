@@ -39,7 +39,7 @@
 ; - Gamer-Modell
 (define model
   (signature
-   (one-of "cheap" "professional" "gamer")))
+   (enum "cheap" "professional" "gamer")))
 
 ; Standard-Computer zusammenstellen
 (: standard-computer (model -> computer))

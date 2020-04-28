@@ -199,11 +199,11 @@ An diesen Beispielen sieht man sehr schön, dass
 sich um einen \textit{Kombinator}\index{Kombinator}.
 
 Wir hatten angekündigt, eine Funktion zu schreiben, die feststellt, ob
-ein Fluss durch einen bestimmten Ort fließt.  Wir machen das wieder
-nach Vorschrift, also zuerst die Kurzbeschreibung:
+Wasser von einem bestimmten Ort in einen Fluss fließt.  Wir machen das
+wieder nach Vorschrift, also zuerst die Kurzbeschreibung:
 %
 \begin{lstlisting}
-; Fließt Fluss durch den angegebenen Ort?
+; Fließt Wasser von einem Ort in Fluss?
 \end{lstlisting}
 %
 In der Kurzbeschreibung sind schon die Substantive "<Fluss"> und
@@ -212,7 +212,7 @@ Da die Funktion eine Ja-/Nein-Frage beantwortet, liefert sie einen
 booleschen Wert und hat ein Fragezeichen hinten am Namen:
 %
 \begin{lstlisting}
-(: flows-through? (river string -> boolean))
+(: flows-from? (string river -> boolean))
 \end{lstlisting}
 %
 Bei den Tests achten wir darauf, dass wir sowohl Bäche als auch Flüsse
@@ -220,18 +220,18 @@ testen, und sowohl Fälle, bei denen \lstinline{#t} als auch solche,
 bei denen \lstinline{#f} herauskommt:
 %
 \begin{lstlisting}
-(check-expect (flows-through? eschach "Heimliswald") #t)
-(check-expect (flows-through? eschach "Tübingen") #f)
-(check-expect (flows-through? neckar-2 "Heimliswald") #t)
-(check-expect (flows-through? neckar-2 "Rottweil") #t)
-(check-expect (flows-through? neckar-2 "Berlin") #f)
+(check-expect (flows-from? "Heimliswald" eschach) #t)
+(check-expect (flows-from? "Tübingen" eschach) #f)
+(check-expect (flows-from? "Heimliswald" neckar-2) #t)
+(check-expect (flows-from? "Rottweil" neckar-2) #t)
+(check-expect (flows-from? "Berlin" neckar-2) #f)
 \end{lstlisting}
 %
 Das Gerüst ergibt sich wie immer direkt aus der Signatur:
 %
 \begin{lstlisting}
-(define flows-through?
-  (lambda (river location)
+(define flows-from?
+  (lambda (location river)
     ...))
 \end{lstlisting}
 %
@@ -242,8 +242,8 @@ Bedingungen sind Aufrufe der jeweiligen Prädikate für
 \lstinline{creek} und \lstinline{confluence}:
 %
 \begin{lstlisting}
-(define flows-through?
-  (lambda (river location)
+(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river) ...)
       ((confluence? river) ...))))
@@ -255,8 +255,8 @@ Daten handelt (mit nur einem Bestandteil), sollte der Aufruf des
 Selektors im Rumpf vorkommen:
 %
 \begin{lstlisting}
-(define flows-through?
-  (lambda (river location)
+(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        ... (creek-origin river) ...
@@ -270,8 +270,8 @@ nicht.  Im ersten Fall sollte \lstinline{#t} herauskommen, im zweiten
 \lstinline{#f}.  Das sieht so aus:
 %
 \begin{lstlisting}
-(define flows-through?
-  (lambda (river location)
+(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        (if (string=? (creek-origin river) location)
@@ -281,12 +281,12 @@ nicht.  Im ersten Fall sollte \lstinline{#t} herauskommen, im zweiten
        ...))))
 \end{lstlisting}
 %
-Dieser Code kann noch etwas vereinfacht werden: Der
+Dieser Code kann noch etwas vereinfacht werden: Der<
 \lstinline{if}-Ausdruck sagt ja salopp formuliert:
 %
 \begin{quote}
   Wenn \lstinline{(string=? (creek-origin river) location)} als
-  Resultat \lstinline{#t} liefert, dann \lstinline{#f}, und wenn es
+  Resultat \lstinline{#t} liefert, dann \lstinline{#t}, und wenn es
   \lstinline{#f} liefert, dann \lstinline{#f}.
 \end{quote}
 %
@@ -303,8 +303,8 @@ zusammengesetzte Daten, wir können also schon einmal die
 Selektoraufrufe hinschreiben:
 %
 \begin{lstlisting}
-(define flows-through?
-  (lambda (river location)
+(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        (string=? (creek-origin river) location))
@@ -321,12 +321,12 @@ Aufgabe machen.
 
 Als erstes steht da \lstinline{(confluence-main-stem river)} der Ort
 des Zusammenflusses.  Wenn es sich dabei um den gesuchten Ort handelt,
-können wir die Frage, ob der Fluss durch diesen Ort fließt, bereits
+können wir die Frage, ob der Wasser von diesem Ort in den Fluss fließt, bereits
 mit "<ja"> beziehungsweise \lstinline{#t} beantworten:
 %
 \begin{lstlisting}
-(define flows-through?
-  (lambda (river location)
+(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        (string=? (creek-origin river) location))
@@ -341,22 +341,22 @@ mit "<ja"> beziehungsweise \lstinline{#t} beantworten:
 %
 Aber was wenn nicht?  Dann müssen wir uns an die beiden anderen
 Selektor-Aufrufe halten, die uns den Haupt- und den Nebenfluss des
-Zusammenflusses liefern.  Wenn der eine oder der andere durch den
-gesuchten Ort fließt, dann könnten wir die Frage unserer Funktion
+Zusammenflusses liefern.  Wenn der eine oder der andere Wasser aus dem
+gesuchten Ort enthält, dann könnten wir die Frage unserer Funktion
 ebenfalls mit "<ja"> beantworten.  Dazu müssten wir also feststellen:
 %
 \begin{enumerate}
-\item Fließt der Hauptfluss durch den Ort \lstinline{origin}?
-\item Fließt der Nebenfluss durch den Ort \lstinline{origin}?
+\item Fließt Wasser vom Ort \lstinline{origin} in den Hauptfluss?
+\item Fließt Wasser vom Ort \lstinline{origin} in den Nebenfluss?
 \end{enumerate}
 %
-Nun, wir schreiben ja gerade eine Funktion, die feststellt, ob ein
-Fluss durch einen bestimmten Ort fließt.  Können wir die benutzen?
-Wir schreiben das mal hin:
+Nun, wir schreiben ja gerade eine Funktion, die feststellt, ob Wasser
+von einem bestimmten Ort in einen bestimmten Fluss fließt.  Können wir
+die benutzen?  Wir schreiben das mal hin:
 %
 \begin{lstlisting}
-(define flows-through?
-  (lambda (river location)
+(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        (string=? (creek-origin river) location))
@@ -364,21 +364,21 @@ Wir schreiben das mal hin:
        (if (string=? (confluence-location river) location)
            #t
            ...
-           (flows-through? (confluence-main-stem river) location)
-           (flows-through? (confluence-tributary river) location)
+           (flows-from? location (confluence-main-stem river))
+           (flows-from? location (confluence-tributary river))
            ...)))))
 \end{lstlisting}
 %
-Die beiden Aufrufe von \lstinline{flows-through?} entsprechen gerade
+Die beiden Aufrufe von \lstinline{flows-from?} entsprechen gerade
 den beiden Fragen von oben.  Wir können ihre Ergebnisse kombinieren,
-um unsere Antwort zu errechnen: Wenn der Hauptfluss durch
-\lstinline{location} fließt \emph{oder} der Nebenfluss durch
-\lstinline{location} fließt, so fließt auch der "<Gesamtfluss"> durch
-\lstinline{location}.  So sieht das aus:
+um unsere Antwort zu errechnen: Wenn Wasser aus \lstinline{location}
+durch den Hauptfluss fließt \emph{oder} der Wasser aus
+\lstinline{location} in den Nebenfluss fließt, so fließt auch Wasser
+von \lstinline{location} in den "<Gesamtfluss">.  So sieht das aus:
 %
 \begin{lstlisting}
-(define flows-through?
-  (lambda (river location)
+(define flows-from?
+  (lambda (location river)
     (cond
       ((creek? river)
        (string=? (creek-origin river) location))
@@ -386,8 +386,8 @@ um unsere Antwort zu errechnen: Wenn der Hauptfluss durch
        (if (string=? (confluence-location river) location)
            #t
            (or
-            (flows-through? (confluence-main-stem river) location)
-            (flows-through? (confluence-tributary river) location)))))))
+            (flows-from? location (confluence-main-stem river))
+            (flows-from? location (confluence-tributary river))))))))
 \end{lstlisting}
 %
 Fertig!
@@ -410,7 +410,7 @@ rekursive Aufrufe.  Daraus machen wir eine Schablone:
 \end{konstruktionsanleitung}
 %
 Ein Nachtrag noch: Der \lstinline{if}-Ausdruck in der
-\lstinline{flows-through?}-Funktion passt \emph{fast} auf das Muster
+\lstinline{flows-from?}-Funktion passt \emph{fast} auf das Muster
 aus Aufgabe~\ref{aufgabe:iftruefalse}.  Der einzige Unterschied ist,
 dass in der Alternative der Verzweigung nicht \lstinline{#f} steht.
 Allgemein wir ein solcher \lstinline{if}-Ausdruck folgendermaßen
@@ -430,14 +430,14 @@ Das können wir mit dem Verhalten von \lstinline{or} vergleichen:
 |\evalsto| |$a$|  ; falls |$b$| |\evalsto| #f
 \end{lstlisting}
 %
-Wir können den \lstinline{if}-Ausdruck aus \lstinline{flows-through?}
+Wir können den \lstinline{if}-Ausdruck aus \lstinline{flows-from?}
 also durch ein \lstinline{or} ersetzen:
 %
 \begin{lstlisting}
          (or (string=? (confluence-location river) location)
              (or
-              (flows-through? (confluence-main-stem river) location)
-              (flows-through? (confluence-tributary river) location)))
+              (flows-from? location (confluence-main-stem river))
+              (flows-from? location (confluence-tributary river))))
 \end{lstlisting}
 %
 Das können wir sogar noch weiter vereinfachen, weil \lstinline{or}
@@ -445,28 +445,27 @@ auch mit drei Operanden funktioniert:
 %
 \begin{lstlisting}
          (or (string=? (confluence-location river) location)
-             (flows-through? (confluence-main-stem river) location)
-             (flows-through? (confluence-tributary river) location))
+             (flows-from? location (confluence-main-stem river))
+             (flows-from? location (confluence-tributary river)))
 \end{lstlisting}
 %
 Wenn wir das Resultat auf seine Bedeutung hin lesen, steht da folgendes:
 %
 \begin{quote}
-  Der Zusammenfluss \lstinline{river} fließt durch
-  \lstinline{location}, wenn
+  Wasser fließt aus \lstinline{location} in den Zusammenfluss \lstinline{river}, wenn
 
   \begin{itemize}
   \item der Zusammenfluss gerade bei \lstinline{location} stattfindet
 
     \centerline{\textbf{oder}}
-  \item der Hauptfluss durch \lstinline{location} fließt
+  \item Wasser von \lstinline{location} in den Hauptfluss fließt
 
     \centerline{\textbf{oder}}
-  \item der Nebenfluss durch \lstinline{location} fließt.
+  \item Wasser von \lstinline{location} in den Nebenfluss fließt.
   \end{itemize}
 \end{quote}
 %
-So erzählt ist die Funktionsweise von \lstinline{flows-through?}
+So erzählt ist die Funktionsweise von \lstinline{flows-from?}
 (hoffentlich) direkt verständlich.
 
 Wir können so aus diesem Beispiel und
@@ -894,8 +893,10 @@ Mit Hilfe dieser Definitionen können wir auch endlich zwei Beispiele
 für \lstinline{later} angeben:
 %
 \begin{lstlisting}
-(define later1 (make-later date1 euro100)) ; Ich bekomme Neujahr 2020 100|\EUR{}|.
-(define later2 (make-later date2 euro200)) ; Ich bekomme am 27.7.2019 200|\EUR{}|.
+(define later1
+  (make-later date1 euro100)) ; Ich bekomme am 26.7.2019 100|\EUR{}|.
+(define later2
+  (make-later date2 euro200)) ; Ich bekomme Weihnachten 2019 200|\EUR{}|.
 \end{lstlisting}
 %
 Außerdem können wir den Zero-Bond vom Anfang dieses Abschnitts

@@ -672,11 +672,16 @@ Damit können wir den Rumpf vervollständigen:
 \evalsto{} #<record:wallclock-time 6 30>
 (make-wallclock-time-12h 6 30 "PM")
 \evalsto{} #<record:wallclock-time 18 30>
-(make-wallclock-time-12h 12 30 "AM")
-\evalsto{} #<record:wallclock-time 0 30>
+(make-wallclock-time-12h 12 00 "PM")
+\evalsto{} #<record:wallclock-time 12 0>
+(make-wallclock-time-12h 12 00 "AM")
+\evalsto{} #<record:wallclock-time 0 0>
 (make-wallclock-time-12h 12 30 "PM")
-\evalsto{} #<record:wallclock-time 12  30>
+\evalsto{} #<record:wallclock-time 12 30>
 \end{alltt}
+  %
+  (Für die beiden Fälle 12:00AM und 12:00PM gibt es keine eindeutige
+  Zuordnung, wir haben das willkürlich festgelegt.)
 \end{aufgabeinline}
 
 \section{Konstruktionsanleitungen für zusammengesetzte Daten}
@@ -765,7 +770,7 @@ Konstruktionsanleitung auswählen.
 (wallclock-time-hour wt)
 \end{verbatim}
 \item Vervollständige die Schablone, indem Du einen Ausdruck
-  konstruieren, in dem die Selektor"=Anwendungen vorkommen.
+  konstruierst, in dem die Selektor"=Anwendungen vorkommen.
 \item Es ist möglich, dass nicht alle Selektor-Anwendungen im Rumpf
   verwendet werden: In diesem Fall lösche die Selektor-Anwendung
   wieder.
@@ -781,7 +786,7 @@ Seite~\pageref{mantra:schreib}:
 
 \mantraschreib*
 
-Funktionen, die zusammengesetzte Daten als Ausgabe haben, müssen einen
+\noindent Funktionen, die zusammengesetzte Daten als Ausgabe haben, müssen einen
 entsprechenden Record konstruieren und deshalb den Konstruktor
 aufrufen.  Die Schablone ergibt sich folgendermaßen:
 %
@@ -892,7 +897,7 @@ Hier das Gerüst der Funktion:
 \end{verbatim}
 %
 Für den Namen des Parameters verwenden wir auch \texttt{dillo}, nicht
-zu verwechseln mit der Signatur, die ebenfalls \texttt{dillo}. Das
+zu verwechseln mit der Signatur, die ebenfalls \texttt{dillo} heißt. Das
 \texttt{lambda} sorgt dafür, dass \texttt{dillo} innherhalb seines
 Rumpfes sich auf den Parameter bezieht, nicht auf die weiter außen
 stehende Signatur.
@@ -1127,7 +1132,7 @@ vorher, also entsprechend dem Ergebnis von \texttt{dillo-alive?}:
 \end{alltt}
 %
 Diese Version ist genauso korrekt wie die erste, und keine ist
-offensichtlich "<besser"> als die andere. \footnote{Erfahrene
+offensichtlich "<besser"> als die andere.\footnote{Erfahrene
 Entwicklerinnen können hier anmerken, dass die erste Version im Fall
   "<totes Gürteltier"> vermeidet, ein neues Gürteltier zu erzeugen.
   Dafür ist die zweite Version kürzer.}

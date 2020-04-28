@@ -20,13 +20,13 @@
 ; Eine Cons-Liste besteht aus:
 ; - dem ersten Element
 ; - einer Liste mit den restlichen Elementen
-(define-record-functions (cons-list element)
+(define-record-functions (cons-list-of element)
   cons
   cons?
   (first element)
   (rest  (list-of element)))
 
-(: cons-list (signature -> signature))
+(: cons-list-of (signature -> signature))
 
 ; Eine Liste ist eins der folgenden:
 ; - die leere Liste
@@ -40,14 +40,14 @@
   (lambda (element)
     (signature
      (mixed empty-list
-            (cons-list element)))))
+            (cons-list-of element)))))
 
 (define list-of-numbers (signature (list-of number)))
 
-(: cons (%element (list-of %element) -> (cons-list %element)))
+(: cons (%element (list-of %element) -> (cons-list-of %element)))
 (: cons? (any -> boolean))
-(: first ((cons-list %element) -> %element))
-(: rest ((cons-list %element) -> (list-of %element)))
+(: first ((cons-list-of %element) -> %element))
+(: rest ((cons-list-of %element) -> (list-of %element)))
 
 ; leere Liste
 (define list0 empty)

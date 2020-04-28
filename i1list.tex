@@ -442,14 +442,14 @@ prominentesten in der Record-Definition von \lstinline{cons-list}.
 Wenn wir dort auch Zeichenketten verwenden wollen, ohne Listen aus
 Zahlen zu verbieten, müssen wir über
 \lstinline{number} und \lstinline{string} abstrahieren.  Bei der
-Record-Definition geht das, indem wir aus \lstinline{cons} stattdessen
-\lstinline{(cons-list element)} machen.
+Record-Definition geht das, indem wir aus \lstinline{cons-list} stattdessen
+\lstinline{(cons-list-of element)} machen.
 Das wirkt wie ein
 \lstinline{lambda} und wir können dann \lstinline{element} innerhalb
 der Record-Definition benutzen:
 %
 \begin{lstlisting}
-(define-record-functions (cons-list element)
+(define-record-functions (cons-list-of element)
   cons
   cons?
   (first element)
@@ -462,16 +462,16 @@ Signatur zurückliefert, nämlich die der Cons-Listen mit der gegebenen
 Signatur für die Elemente.  Die Signatur können wir auch hinschreiben:
 %
 \begin{lstlisting}
-(: cons-list (signature -> signature))
+(: cons-list-of (signature -> signature))
 \end{lstlisting}
 %
 Da \lstinline{cons-list} eine Signatur konstruiert, nennen wir diese
 Funktion auch \textit{Signatur-Konstruktor}.\index{Signatur-Konstruktor}
 Das \lstinline{element} ist ein \textit{Signatur-Parameter}\index{Signatur-Parameter}.
 Wir müssen also immer da, wo wir vorher \lstinline{cons-list} stand,
-\lstinline{(cons-list ...)} schreiben und eine Signatur für die
-Elemente angeben, also zum Beispiel \lstinline{(cons-list number)}
-oder \lstinline{(cons-list string)}
+\lstinline{(cons-list-of ...)} schreiben und eine Signatur für die
+Elemente angeben, also zum Beispiel \lstinline{(cons-list-of number)}
+oder \lstinline{(cons-list-of string)}
 
 Die Signatur von \lstinline{rest} war vorher
 \lstinline{list-of-numbers}, die müssen wir also auch ändern.  Wie
@@ -486,7 +486,7 @@ abstrahieren:
   (lambda (element)
     (signature
      (mixed empty-list
-            (cons-list element)))))
+            (cons-list-of element)))))
 \end{lstlisting}
 %
 Wir können mit dieser Definition statt \lstinline{list-of-numbers} also
@@ -496,7 +496,7 @@ wir \lstinline{(list-of element)} da hinschreiben, wo vorher
 \lstinline{list-of-numbers} stand:
 %
 \begin{lstlisting}
-(define-record-functions (cons-list element)
+(define-record-functions (cons-list-of element)
   cons
   cons?
   (first element)
@@ -514,9 +514,9 @@ bei jedem Aufruf von \lstinline{cons}, \lstinline{first} und
 sieht so aus:
 %
 \begin{lstlisting}
-(: cons (%element (list-of %element) -> (cons-list %element)))
-(: first ((cons-list %element) -> %element))
-(: rest ((cons-list %element) -> (list-of %element)))
+(: cons (%element (list-of %element) -> (cons-list-of %element)))
+(: first ((cons-list-of %element) -> %element))
+(: rest ((cons-list-of %element) -> (list-of %element)))
 \end{lstlisting}
 %
 Das \verb|%| kennzeichnet
@@ -535,7 +535,7 @@ wären die resultierenden Signaturen weniger präzise.  Nimm einmal
 an, dort stünde zum Beispiel das hier:
 %
 \begin{lstlisting}
-(: cons (any (list-of any) -> (cons-list any)))
+(: cons (any (list-of any) -> (cons-list-of any)))
 \end{lstlisting}
 %
 Diese Signatur sagt "<\lstinline{cons} akzeptiert irgendeinen Wert und
@@ -543,7 +543,7 @@ irgendeine Liste und produziert wieder irgendeine Liste">.  Zum
 Vergleich sagt die Signatur
 %
 \begin{lstlisting}
-(: cons (%element (list-of %element) -> (cons-list %element)))
+(: cons (%element (list-of %element) -> (cons-list-of %element)))
 \end{lstlisting}
 %
 aus, dass das neue Element, das \lstinline{cons} akzeptiert, die
@@ -893,7 +893,7 @@ produzieren soll, benutzen wir an der entsprechenden Stelle
 \lstinline{cons}, bringen also die Schablone für Funktionen zum
 Einsatz, die zusammengesetzte Daten produzieren.
 
-\subsection{Gürteltiere sortieren}
+\subsection{Gürteltiere extrahieren}
 
 Wir nehmen uns noch eine weitere Übung vor, bei der Listen produziert
 werden: Aus einer Liste von Gürteltieren wollen wir alle (noch)
@@ -941,7 +941,7 @@ was die beiden Bestandteile bedeuten, die in der Schablone stehen:
 \end{itemize}
 %
 Da die Gesamtaufgabe ist, die lebendigen Gürteltiere
-herauszusortieren, sollten wir beim ersten Gürteltier feststellen, ob
+zu extrahieren, sollten wir beim ersten Gürteltier feststellen, ob
 es (noch) lebt.  Da steht dann folgender Zwischenstand
 %
 \begin{lstlisting}

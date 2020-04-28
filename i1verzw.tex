@@ -1,7 +1,7 @@
 % Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
 % Das Buch ist lizensiert unter der Creative-Commons-Lizenz
-% "Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International (CC BY-SA 4.0)"
-% https://creativecommons.org/licenses/by-sa/4.0/deed.de
+% "Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International (CC BY-SA 4.https)"
+% 0://creativecommons.org/licenses/by-sa/4.0/deed.de
 
 \chapter{Fallunterscheidungen und Verzweigungen}
 \label{cha:conditionals}
@@ -358,7 +358,8 @@ aus:\index{pet@\texttt{pet}}
 Da sind gleich zwei neue Programmelemente drin:
 %
 \begin{itemize}
-\item \lstinline{Signature}\index{signature@\texttt{signature}} müssen wir immer schreiben, wenn wir eine
+\item Wir schreiben
+  \lstinline{signature}\index{signature@\texttt{signature}} immer, wenn wir eine
   neue Signatur erzeugen.
 \item \lstinline{enum}\index{enum@\texttt{enum}} (das funktioniert
   nur innerhalb eines \lstinline{signature}-Ausdrucks) ist für
@@ -780,13 +781,13 @@ eine Fallunterscheidung ist mit drei Fällen.  Wir können also das
 (define heat-water
   (lambda (temp heat)
     (cond
-x      ; Anfangstemperatur ist unter 0|\si{\degree}|C, es wird also Eis erwärmt.
+      ; Anfangstemperatur ist unter 0|\si{\degree}|C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
          (|\ldots| |\ldots|)
          (|\ldots| |\ldots|)
          (|\ldots| |\ldots|)))
-      ; Die Erwärmung würde die Wassertemperatur auf über 100||\si{\degree}|C erhöhen.
+      ; Die Erwärmung würde die Wassertemperatur auf über 100|\si{\degree}|C erhöhen.
       ((>= (+ temp heat) 100) 100)
       ; Wasser fängt flüssig an und bleibt durch Erwärmung flüssig.
       ((and (>= temp 0) (< (+ temp heat) 100))
@@ -1660,9 +1661,11 @@ Beispiel:
 %
 \begin{aufgabeinline}
   Beim syntaktischen Zucker für \lstinline{and} und \lstinline{or} könnten
-  wir auch definieren, in was \lstinline{(and)} und \lstinline{(or)} (also
-  jeweils ohne Operanden) übersetzt wird.  Was wäre jeweils die
-  korrekte Übersetzung?  (Achtung: Die korrekte Übersetzung überrascht
+  wir zusätzlich auch definieren, in was \lstinline{(and)} und \lstinline{(or)} (also
+  jeweils ohne Operanden) übersetzt wird.  Wir könnten dann die Regeln
+  für \lstinline{(and $e$)} und \lstinline{(or $e$)} weglassen. Was wäre jeweils die
+  korrekte Übersetzung?  Du solltest einige Beispiele durchspielen, um
+  dies herauszufinden.  (Achtung: Die korrekte Übersetzung überrascht
   Dich vielleicht.)  Übersetze \lstinline{(and $a$ $b$ $c$)} und
   \lstinline{(or $a$ $b$ $c$)} jeweils mit Hilfe Deiner neuen Regeln so, als ob die Regeln
   \lstinline{(and $e$)} und \lstinline{(or $e$)} nicht da wären.

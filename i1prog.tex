@@ -1166,7 +1166,7 @@ hinterlegt ist.  (Außerdem Teile der Signatur von
 Programmteile sind noch nie gelaufen und wurden ergo auch noch nicht
 getestet.  Es fehlen also noch Tests.  In Zukunft achten wir also
 darauf, dass, nachdem das Programm gelaufen ist, nichts blaues
-übrigbleibt~-- andernfalls müssen wir mehr Tests schreiben kann.  Wir
+übrigbleibt~-- andernfalls müssen wir mehr Tests schreiben.  Wir
 kommen in Abschnitt~\ref{sec:testabdeckung} auf dieses Thema zurück.
 
 Bei Programmen, die Bilder erzeugen, ist es in der Regel nicht
@@ -1193,7 +1193,7 @@ Test machen:
 \begin{aufgabeinline}
   Schreibe für \texttt{tile} zwei Tests!
 \end{aufgabeinline}
-
+%
 Übrigens ist eine Signatur-Deklaration auch so eine Art Testfall.
 Das sehen wir, wenn wir absichtlich einen Fehler wie diesen hier
 machen:
@@ -1498,7 +1498,7 @@ sind auch beides rationale Zahlen, das sieht also so aus:
 Außerdem sollten wir Tests formulieren.  Diese können wir aus den
 Tests für \texttt{billig-strom} und \texttt{watt-für-wenig} gewinnen.
 Wir müssen nur jeweils zu den Argumenten noch die Grundgebühr
-beziehungsweise den pro-kWh-Preis hinzufügen:
+beziehungsweise den Preis pro kWh hinzufügen:
 %
 \begin{verbatim}
 (check-expect (stromtarif-rechnungsbetrag 4.90 0.19 10) 6.8)  ; Billig-Strom

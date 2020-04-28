@@ -23,7 +23,7 @@
 ; - grün
 (define traffic-light
   (signature
-   (one-of "red" "yellow" "green")))
+   (enum "red" "yellow" "green")))
 
 ; Ein Zuckergehalt ist eins der folgenden:
 ; - Gewicht in Gramm

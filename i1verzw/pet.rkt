@@ -6,7 +6,7 @@
 ; - Hund
 ; - Schlange
 (define pet
-  (signature (one-of "Katze" "Hund" "Schlange")))
+  (signature (enum "Katze" "Hund" "Schlange")))
 
 ; Ist Haustier niedlich?
 (: cute? (pet -> boolean))
