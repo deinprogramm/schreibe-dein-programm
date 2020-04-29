@@ -297,7 +297,7 @@ Da reicht es auch, \lstinline{(string=? (creek-origin river) location)} hinzusch
   verallgemeinern und als Gleichung schreiben?
 \end{aufgabeinline}
 %
-Als nächstes können wir uns um den anderen Fall kümmern,
+Als Nächstes können wir uns um den anderen Fall kümmern,
 \lstinline{confluence}.  Auch dort handelt es sich um
 zusammengesetzte Daten, wir können also schon einmal die
 Selektoraufrufe hinschreiben:
@@ -681,7 +681,7 @@ folgende Record-Definition:
   one-euro?)
 \end{lstlisting}
 %
-Wir fügen als nächstes \lstinline{one-euro} zur Daten- und zur
+Wir fügen als Nächstes \lstinline{one-euro} zur Daten- und zur
 Signaturdefinition von \lstinline{contract} hinzu:
 %
 \begin{lstlisting}
@@ -693,7 +693,7 @@ Signaturdefinition von \lstinline{contract} hinzu:
 \end{lstlisting}
 %
 \paragraph{Beliebige Beträge}
-Als nächstes bilden wir die Möglichkeit ab, einen Betrag zu wählen.
+Als Nächstes bilden wir die Möglichkeit ab, einen Betrag zu wählen.
 Eine naheliegende erste Idee wäre, die Idee "<$n$ Euros"> abzubilden,
 etwa so:
 %
@@ -1166,7 +1166,7 @@ ausgezahlt:
       |\ldots|)))
 \end{lstlisting}
 %
-Wir nehmen uns als nächstes den \lstinline{multiple}-Fall vor: Da
+Wir nehmen uns als Nächstes den \lstinline{multiple}-Fall vor: Da
 stehen in der Schablone schon:
 \begin{itemize}
 \item\lstinline{(multiple-number contract)}, also die \emph{Anzahl}
@@ -1324,7 +1324,7 @@ wieder die Schablone für gemischte Daten verwenden:
       ((both? contract) |\ldots|))))
 \end{lstlisting}
 %
-Wir ergänzen als nächstes die Schablonen für die einzelnen Fälle, bei
+Wir ergänzen als Nächstes die Schablonen für die einzelnen Fälle, bei
 denen es sich ja jeweils um zusammengesetzte Daten handelt:
 %
 \begin{lstlisting}
@@ -1406,7 +1406,7 @@ Wir fangen wieder mit den einfachen Fällen an.  Bei
   schreibe einen!
 \end{aufgabeinline}
 %
-Als nächstes ist \lstinline{multiple} an der Reihe.  Der rekursive
+Als Nächstes ist \lstinline{multiple} an der Reihe.  Der rekursive
 Aufruf aus der Schablone beantwortet die folgende Frage: "<Wieviel ist
 von \emph{einem} Vertrag nach dem Datum noch übrig?"> Wenn wir mit $n$
 das Ergebnis von \lstinline{(multiple-number contract)} bezeichnen,
@@ -1428,7 +1428,7 @@ multiplizieren:
       |\ldots|)))
 \end{lstlisting}
 %
-Als nächstes ist der \lstinline{later}-Fall dran.  Der rekursive
+Als Nächstes ist der \lstinline{later}-Fall dran.  Der rekursive
 Aufruf beantwortet die Frage, was von dem Vertrag übrigbleibt, falls
 das Datum \lstinline{date} schon vorbei beziehungsweise gerade heute
 ist.  Wenn \lstinline{date} noch in der Zukunft liegt, passiert gar
@@ -1643,7 +1643,7 @@ benennen zunächst den Konstruktor um:
   (both-contract-2 contract))  
 \end{lstlisting}
 %
-Als nächstes definieren wir einen neuen Konstruktor selber:
+Als Nächstes definieren wir einen neuen Konstruktor selber:
 %
 \begin{lstlisting}
 ; Kombinationsvertrag konstruieren, dabei vereinfachen

@@ -182,7 +182,7 @@ also eine Verzweigung mit zwei Zweigen:
       (... ...))))
 \end{lstlisting}
 %
-Wir brauchen als nächstes zwei Bedingungen~-- eine, die Gürteltiere
+Wir brauchen als Nächstes zwei Bedingungen~-- eine, die Gürteltiere
 und eine, die Papageien identifiziert.  Dafür erweitern wir die
 Record-Definitionen um ein neues Element, das \textit{Prädikat}\index{Prädikat}.
 Die Prädikate werden uns erlauben, die Bedingungen zu
@@ -628,7 +628,7 @@ Zuckergehalt abzudecken sowie die Eckfälle der Tabelle von oben.
 (check-expect (sugar-traffic-light "red") "red")
 \end{lstlisting}
 %
-Als nächstes ist, wie immer, das Gerüst dran:
+Als Nächstes ist, wie immer, das Gerüst dran:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
@@ -636,7 +636,7 @@ Als nächstes ist, wie immer, das Gerüst dran:
     ...))
 \end{lstlisting}         
 %
-Als nächstes wenden wir die Schablone für Funktionen an, die gemischte
+Als Nächstes wenden wir die Schablone für Funktionen an, die gemischte
 Daten akzeptieren.  Wir brauchen eine Verzweigung mit sovielen Zweigen
 wie \lstinline{sugar-content} Fälle hat, also drei:
 %
@@ -649,7 +649,7 @@ wie \lstinline{sugar-content} Fälle hat, also drei:
       (... ...))))
 \end{lstlisting}         
 %
-Als nächstes brauchen wir Tests für die drei Fälle.  Für den zweiten
+Als Nächstes brauchen wir Tests für die drei Fälle.  Für den zweiten
 Fall ist das einfach, da es sich um \lstinline{sugars}-Records handelt:
 da gibt es das Prädikat \lstinline{sugars?}.  Beim ersten Fall handelt es
 sich aber um eine rationale Zahl, beim dritten um eine Zeichenkette~--
@@ -699,7 +699,7 @@ der Tabelle vom Anfang:
       ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
-Als nächstes ergänzen wir Tests entsprechend der Tabelle:
+Als Nächstes ergänzen wir Tests entsprechend der Tabelle:
 %
 \begin{lstlisting}
 (define sugar-traffic-light

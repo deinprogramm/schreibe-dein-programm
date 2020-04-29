@@ -84,7 +84,7 @@
 ; Aufeinanderfolgende Zahlen aber einer Zahl generieren
 (: count-from (integer natural -> (list-of integer)))
 
-(check-expect (between 3 5) (list 3 4 5 6 7))
+(check-expect (count-from 3 5) (list 3 4 5 6 7))
 
 (define count-from
   (lambda (from count)

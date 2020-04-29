@@ -766,7 +766,7 @@ Termen unterschieden werden können, wird ein Prädikat benötigt:
 (define base (signature (predicate base?)))
 \end{verbatim}
 %
-Als nächstes sind Primitive gefragt: Am obigen Beispiel ist zu
+Als Nächstes sind Primitive gefragt: Am obigen Beispiel ist zu
 erkennen, daß z.B.\ \texttt{+} ein Primitiv sein sollte.  Die
 Datendefinition für eine kleine beispielhafte Menge von Primitiven ist
 wie folgt:
@@ -1068,7 +1068,7 @@ Umgebung, folgt der Konstruktionsanleitung:
            (lookup-environment (rest e) v))))))
 \end{verbatim}
 %
-Damit sind die Operationen auf Umgebungen abgeschlossen.  Als nächstes
+Damit sind die Operationen auf Umgebungen abgeschlossen.  Als Nächstes
 sind Dumps an der Reihe: $D$ ist als Folge von Tupeln $S\times E\times
 C$ definiert, auch genannt \textit{Frames\index{Frame}}.  Hier sind
 Daten- und Record-Definition:
@@ -1487,7 +1487,7 @@ durchführt, aber eine endrekursive Applikation signalisiert:
   &&\cup \{ \mathtt{tailap} \}
 \end{eqnarray*}
 %
-Als nächstes muß die Übersetzungsfunktion von Termen in Maschinencode
+Als Nächstes muß die Übersetzungsfunktion von Termen in Maschinencode
 geändert werden:  Applikationen, die Kontext um sich herum haben,
 sollen mit $\mathtt{ap}$ übersetzt werden, solche ohne Kontext mit
 $\mathtt{tailap}$.  Da der Applikation allein der Kontext nicht
@@ -1963,7 +1963,7 @@ werden:
          (not (primitive? (first t))))))
 \end{verbatim}
 %
-Als nächstes wird die zusätzliche $\mathtt{:=}$-Instruktion
+Als Nächstes wird die zusätzliche $\mathtt{:=}$-Instruktion
 repräsentiert.  Hier sind Daten- und Record-Definition:
 %
 \begin{verbatim}
@@ -2106,7 +2106,7 @@ Es fehlt noch die Hilfsfunktion \texttt{remove-cell}:
                       (remove-cell a (rest c))))))))
 \end{verbatim}
 %
-Als nächstes ist die Operation an der Reihe, die den Wert, der an einer
+Als Nächstes ist die Operation an der Reihe, die den Wert, der an einer
 Adresse im Heap gespeichert ist.  Die Funktion \texttt{heap-lookup} benutzt
 eine Hilfsfunktion \texttt{cells-lookup}, um in der Liste von Zellen
 nach der richtigen zu suchen:

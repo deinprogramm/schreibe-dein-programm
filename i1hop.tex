@@ -394,7 +394,7 @@ verdient deshalb eine eigene Konstruktionsanleitung:
 
 \section{Higher-Order-Funktionen auf Listen}
 
-Als nächstes wollen wir herausbekommen, welche Spiele einer Saison
+Als Nächstes wollen wir herausbekommen, welche Spiele einer Saison
 unentschieden ausgingen.  Dazu ist zunächst eine Funktion notwendig,
 die feststellt, ob \emph{ein} bestimmtes Spiel unentschieden war:
 %
@@ -451,8 +451,8 @@ unentschieden ausging:
        ... (drawn-games (rest list)) ...))))
 \end{lstlisting}
 %
-Die Funktion \lstinline{game-draw?} liefert einen booleschen Wert
-liefert, den können wir eigentlich nur in eine binäre Verzweigung stecken:
+Die Funktion \lstinline{game-draw?} liefert einen booleschen Wert,
+den können wir eigentlich nur in eine binäre Verzweigung stecken:
 %
 \begin{lstlisting}
 (define drawn-games
@@ -482,7 +482,7 @@ es im Ergebnis unter:
 %
 Fertig!
 
-Analog zu \lstinline{drawn-games} schreiben wir als nächstes eine
+Analog zu \lstinline{drawn-games} schreiben wir als Nächstes eine
 Funktion, die alle Spiele aus einer Liste extrahiert, die die Heimmannschaft
 gewonnen hat.  Dazu brauchen wir erst einmal eine Funktion analog zu
 \lstinline{game-draw?}:
@@ -542,7 +542,7 @@ beiden Fällen ums "<extrahieren"> geht, nehmen wir
                  (extract-games (rest list)))))))
 \end{lstlisting}
 %
-Als nächstes müssen wir die Stelle, die sich bei beiden Definitionen
+Als Nächstes müssen wir die Stelle, die sich bei beiden Definitionen
 unterscheidet (\lstinline{game-draw?} beziehungsweise
 \lstinline{home-won?}), durch eine neue Variable bezeichnen.  Die nennen wir
 \lstinline{f?}:
@@ -559,7 +559,7 @@ unterscheidet (\lstinline{game-draw?} beziehungsweise
                  (extract-games (rest list)))))))
 \end{lstlisting}
 %
-Als nächstes müssen wir die neue Variable als Parameter zum
+Als Nächstes müssen wir die neue Variable als Parameter zum
 \lstinline{lambda} hinzufügen.  Aufpassen: Die beiden rekursiven
 Aufrufe müssen ebenfalls um den Parameter erweitert werden:
 %
@@ -788,7 +788,7 @@ und
        (game-guest-goals game))))
 \end{lstlisting}
 %
-Als nächstes wollen wir die Gesamttore jeweils aller Spiele eines
+Als Nächstes wollen wir die Gesamttore jeweils aller Spiele eines
 Spieltags herausbekommen.  Dazu wollen wir aus einer Liste der Spiele
 eine Liste der zugehörigen Gesamttore machen:
 %
@@ -957,7 +957,7 @@ Funktionen (wir nehmen die erste) und geben ihr einen neuen Namen:
 Die Funktion heißt \lstinline{list-apply}, weil sie eine Funktion auf
 alle Elemente einer Liste anwendet.
 
-Als nächstes müssen wir eine Variable dort einführen, wo die beiden
+Als Nächstes müssen wir eine Variable dort einführen, wo die beiden
 Funktionen sich unterscheiden, nämlich bei \lstinline{total-goals}.
 Wir nennen die Funktion einfach \lstinline{f}:
 %
@@ -1109,7 +1109,7 @@ dass uns später ein besserer Name einfällt:
        (* (first list) (xxx (rest list)))))))
 \end{lstlisting}
 %
-Als nächstes müssen wir die Unterschiede zwischen den beiden
+Als Nächstes müssen wir die Unterschiede zwischen den beiden
 Funktionen durch neue Variablen ersetzen, das sind hier gerade
 \lstinline{1} und \lstinline{*}.  Die neuen Variablen nennen wir
 \lstinline{for-empty} und \lstinline{for-cons}, weil sie in den
@@ -1153,7 +1153,7 @@ und so aufmultiplizieren:
 |\evalsto| 24
 \end{lstlisting}
 %
-Als nächstes steht nach Konstruktionsanleitung die Signatur für die
+Als Nächstes steht nach Konstruktionsanleitung die Signatur für die
 neue Funktion an.  Es liegt nahe, die Signatur von
 \lstinline{list-sum} beziehungsweise \lstinline{list-product} zu
 verallgemeinern.  Für den neuen Parameter \lstinline{for-empty}

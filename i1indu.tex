@@ -50,7 +50,7 @@ eingesetzt wird.  In der Gaußschen Summenformel steht rechts nur
 $i$, das heißt die Summe ist $0 + 1 + 2 + \cdot \ + n$.
 
 Wie können wir die Gaußsche Summenformel beweisen?  Gauß' Argument war, dass,
-wenn er die Summe ausschreibt (wir lassen die 0 weg):
+wenn er die Summe ausschreibt (wir lassen die $0$ weg):
 %
 \[ 1+2+\ldots+(n-1) + n \]
 %
@@ -82,7 +82,7 @@ setzen:
 \end{displaymath}
 %
 Wenn Du die Paare der Summen der beiden Reihen lang genug anstarrt, siehst
-Du vielleicht, dass sich alle als Brüche auf den Nenner 3 kürzen lassen:
+Du vielleicht, dass sich alle als Brüche auf den Nenner $3$ kürzen lassen:
 %
 \begin{displaymath}
   \begin{array}{crrrrrrrr}
@@ -977,10 +977,10 @@ vervollständigen nun die Definition von $\llbracket \underline{~}
   \begin{cases}
     1 & \textrm{falls } e = \top\\
     0 & \textrm{falls } e = \bot\\
-    a(\llbracket e_1 \rrbracket, \llbracket e_1 \rrbracket) & 
+    a(\llbracket e_1 \rrbracket, \llbracket e_2 \rrbracket) & 
     \textrm{falls } e =
     e_1\wedge e_2\\
-    o(\llbracket e_1 \rrbracket, \llbracket e_1 \rrbracket) & 
+    o(\llbracket e_1 \rrbracket, \llbracket e_2 \rrbracket) & 
     \textrm{falls } e =
     e_1\vee e_2\\
     n(\llbracket e' \rrbracket) & \textrm{falls } e = \neg e'
@@ -1037,7 +1037,7 @@ Hier sind die Beweise für die Fälle $e=\top$, $e=\bot$:
 \end{array}
 \end{displaymath}
 %
-Als nächstes ist der Fall $e=e_1\wedge e_2$ an der Reihe.  Da die
+Als Nächstes ist der Fall $e=e_1\wedge e_2$ an der Reihe.  Da die
 Klausel 
 \begin{grammar}
   \meta{E} \: $\ldots$ \| \meta{E} $\wedge$ \meta{E}
