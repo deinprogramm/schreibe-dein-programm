@@ -188,12 +188,10 @@ wir auch in der Schablone direkt \lstinline{(- ... 1)} statt
 
 \begin{konstruktionsanleitung}{Natürliche Zahlen als Eingabe: Schablone}
   \label{ka:nats-eingabe-schablone}
-  Die Schablone für eine Funktion, die eine natürliche Zahl akzeptiert, sieht
+  Eine Schablone für eine Funktion, die eine natürliche Zahl akzeptiert, sieht
 folgendermaßen aus:
 %
 \begin{lstlisting}
-(: |\(f\)| (... natural ... -> ...))
-
 (define |\(f\)|
   (lambda (|\ldots| |\(\mathit{n}\)| |\ldots|)
     (cond
@@ -395,7 +393,7 @@ zwischen 3 und 7"> generieren, sondern "<die 5 Zahlen ab 3">.  Dafür
 können wir eine eigene Funktion schreiben:
 %
 \begin{lstlisting}
-; Aufeinanderfolgende Zahlen aber einer Zahl generieren
+; Aufeinanderfolgende Zahlen ab einer Zahl generieren
 (: count-from (integer natural -> (list-of integer)))
 
 (check-expect (count-from 3 5) (list 3 4 5 6 7))
@@ -423,7 +421,7 @@ entsprechende Schablone anwenden:
 %
 Im ersten Fall sind null Elemente gefragt, da muss das Ergebnis
 \lstinline{empty} sein.  Da eine Liste herauskommt, werden wir
-wahrscheinlich im zweiten Fall \lstinline{cons} benutzen, um es zu
+wahrscheinlich im zweiten Fall \lstinline{cons} benutzen, um diese zu
 konstruieren.  Außerdem ist das gewünschte erste Element gerade
 \lstinline{from}.  Wir können die Schablone also wie folgt
 weiterentwickeln:
@@ -467,7 +465,7 @@ Fertig!
 
 Vielleicht erscheint Dir umständlich, die Aufgabe erst einmal
 umzumodeln auf eine Aufgabe über natürliche Zahlen und dann die zu
-bearbeiten.  Geht das nicht "<direkt">? Geht es.
+bearbeiten.  Geht das nicht "<direkt">? Es geht.
 
 Der Schlüssel zur direkten Lösung ist die Einsicht, dass die
 natürliche Zahl in der Aufgabe gerade die Differenz zwischen
@@ -475,7 +473,7 @@ natürliche Zahl in der Aufgabe gerade die Differenz zwischen
 entsprechende Verzweigung so formulieren:
 %
 \begin{lstlisting}
-(define between
+(define sequence
   (lambda (from to)
     (cond
       ((= from to) ...)
@@ -488,7 +486,7 @@ ist es wieder sinnvoll, zunächst das \lstinline{cons} hinzuschreiben,
 weil wir wissen, dass das erste Element \lstinline{from} ist:
 %
 \begin{lstlisting}
-(define between
+(define sequence
   (lambda (from to)
     (cond
       ((= from to) ...)
@@ -501,7 +499,7 @@ benötigen eine Liste, die mit der nächsten Zahl anfängt und genau wie
 gehabt aufhört:
 %
 \begin{lstlisting}
-(define between
+(define sequence
   (lambda (from to)
     (cond
       ((= from to) (list from))
