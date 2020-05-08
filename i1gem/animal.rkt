@@ -30,7 +30,7 @@
     (if (dillo-alive? dillo)
         (make-dillo (+ (dillo-weight dillo) 500)
                     #t)
-        d)))
+        dillo)))
 
 (define feed-dillo
   (lambda (dillo)
