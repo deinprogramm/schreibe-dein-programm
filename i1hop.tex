@@ -49,7 +49,7 @@ Saison.  Ein Spiel können wir folgendermaßen charakterisieren:
 Es handelt sich sichtlich um zusammengesetzte Daten.  Wir müssen uns
 überlegen, welche Signaturen zu den einzelnen Bestandteilen passen.
 Spieltag und Tore sind allesamt natürliche Zahlen.  Eine Mannschaft können
-wir durch seinen Namen als Zeichenkette repräsentieren.   Das ergibt
+wir durch ihren Namen als Zeichenkette repräsentieren.   Das ergibt
 folgende Record-Definition:
 %$
 \begin{lstlisting}
@@ -556,7 +556,7 @@ unterscheidet (\lstinline{game-draw?} beziehungsweise
        (if (f? (first list))
            (cons (first list)
                  (extract-games (rest list)))
-                 (extract-games (rest list)))))))
+           (extract-games (rest list)))))))
 \end{lstlisting}
 %
 Als Nächstes müssen wir die neue Variable als Parameter zum
@@ -1169,7 +1169,7 @@ Signatur von \lstinline{+} und \lstinline{*}, also
 Bei näherer Betrachtung steht aber in der Definition von
 \lstinline{xxx} allerdings nichts "<zahlenspezifisches">, wir könnten
 also versuchen, \lstinline{number} durch eine Signaturvariable zu
-ersetzen, wie wir es auch bei \lstinline{list-map} im vorigen
+ersetzen, wie wir es auch bei \lstinline{list-apply} bzw. \lstinline{map} im vorigen
 Abschnitt gemacht haben:
 %
 \begin{lstlisting}
@@ -1457,7 +1457,7 @@ erstmal wieder \lstinline{xxx}:
 (define xxx
   (lambda (team)
     (lambda (game)
-      (f team game)))
+      (f team game))))
 \end{lstlisting}
 %
 Für den neuen Namen machen wir wieder ein neues \lstinline{lambda}:
@@ -1467,7 +1467,7 @@ Für den neuen Namen machen wir wieder ein neues \lstinline{lambda}:
   (lambda (f)
     (lambda (team)
       (lambda (game)
-        (f team game))))
+        (f team game)))))
 \end{lstlisting}
 %
 Wir brauchen eine Signatur.  Da drei \lstinline{lambda}s involviert
