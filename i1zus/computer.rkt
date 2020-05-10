@@ -5,7 +5,7 @@
 ; - Prozessor
 ; - Hauptspeicher-Kapazität in Gbyte
 ; - Festplatten-Kapazität in Gbyte
-(define-record-functions computer
+(define-record computer
   make-computer
   (computer-processor  string)
   (computer-ram        natural)

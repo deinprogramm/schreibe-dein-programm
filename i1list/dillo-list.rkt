@@ -4,7 +4,7 @@
 ; Ein Gürteltier hat folgende Eigenschaften:
 ; - Gewicht (in g)
 ; - lebendig oder tot
-(define-record-functions dillo
+(define-record dillo
   make-dillo
   (dillo-weight natural)
   (dillo-alive? boolean))

@@ -2,7 +2,7 @@
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname list-min) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
 ; Kein Resultat
-(define-record-functions no-result
+(define-record no-result
   make-no-result
   no-result?)
 

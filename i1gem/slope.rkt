@@ -2,7 +2,7 @@
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "beginner-reader.rkt" "deinprogramm" "sdp")((modname slope) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
 ; Es gibt keine Steigung
-(define-record-functions no-slope
+(define-record no-slope
   make-no-slope
   no-slope?)
 

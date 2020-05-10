@@ -4,7 +4,7 @@
 ; Ein Gürteltier hat folgende Eigenschaften:
 ; - Gewicht (in g)
 ; - lebendig oder tot
-(define-record-functions dillo
+(define-record dillo
   make-dillo
   dillo?
   (dillo-weight natural)
@@ -55,7 +55,7 @@
 ; Ein Papagei hat folgende Eigenschaften:
 ; - Gewicht in Gramm
 ; - Satz, den er sagt
-(define-record-functions parrot
+(define-record parrot
   make-parrot
   parrot?
   (parrot-weight   natural)

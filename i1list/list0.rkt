@@ -2,7 +2,7 @@
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "beginner-reader.rkt" "deinprogramm" "sdp")((modname list0) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
 ; leere Liste
-(define-record-functions empty-list
+(define-record empty-list
   make-empty-list
   empty?)
 
@@ -11,7 +11,7 @@
 ; Eine Cons-Liste besteht aus:
 ; - dem ersten Element
 ; - einer Liste aus Zahlen mit den restlichen Elementen
-#;(define-record-functions cons-list
+#;(define-record cons-list
   cons
   cons?
   (first number)
@@ -20,7 +20,7 @@
 ; Eine Cons-Liste besteht aus:
 ; - dem ersten Element
 ; - einer Liste mit den restlichen Elementen
-(define-record-functions (cons-list-of element)
+(define-record (cons-list-of element)
   cons
   cons?
   (first element)

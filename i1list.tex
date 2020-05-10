@@ -68,7 +68,7 @@ benutzen deshalb eine leere Record-Definition:
 %
 \begin{lstlisting}
 ; leere Liste
-(define-record-functions empty-list
+(define-record empty-list
   make-empty-list
   empty?)
 \end{lstlisting}
@@ -115,7 +115,7 @@ Dafür nehmen wir an, dass die Signatur für Listen von Zahlen
 definieren:
 %
 \begin{lstlisting}
-(define-record-functions cons-list
+(define-record cons-list
   cons
   cons?
   (first number)
@@ -449,7 +449,7 @@ Das wirkt wie ein
 der Record-Definition benutzen:
 %
 \begin{lstlisting}
-(define-record-functions (cons-list-of element)
+(define-record (cons-list-of element)
   cons
   cons?
   (first element)
@@ -496,7 +496,7 @@ wir \lstinline{(list-of element)} da hinschreiben, wo vorher
 \lstinline{list-of-numbers} stand:
 %
 \begin{lstlisting}
-(define-record-functions (cons-list-of element)
+(define-record (cons-list-of element)
   cons
   cons?
   (first element)
@@ -505,7 +505,7 @@ wir \lstinline{(list-of element)} da hinschreiben, wo vorher
 %
 Das erledigt die Signaturverletzungen.
 
-Bei dieser neuen Form von \lstinline{define-record-functions} ist
+Bei dieser neuen Form von \lstinline{define-record} ist
 nicht mehr offensichtlich, wie die Signaturen des Konstruktors und der
 beiden Selektoren aussehen sollen, wenn wir sie ausschreiben.  Wir
 brauchen dafür ein neues Konstrukt, um auszudrücken, dass potenziell
@@ -569,12 +569,12 @@ dazuschreiben:
 Diese Definition muss vor den Definitionen von \lstinline{list-sum}
 und \lstinline{list-product} stehen, damit sie dort bekannt ist.
 
-\begin{feature}{\texttt{define-record-functions} mit Signatur-Parametern}{scheme:define-record-functions-parameters}
-Eine \texttt{define"=record"=functions}"=Form\index{define-record-functions@\texttt{define-record-functions}}
-mit Signatur-Parametern hat folgende allgemeine Gestalt:\label{def:define-record-functions-parameters}
+\begin{feature}{\texttt{define-record} mit Signatur-Parametern}{scheme:define-record-parameters}
+Eine \texttt{define"=record"=functions}"=Form\index{define-record@\texttt{define-record}}
+mit Signatur-Parametern hat folgende allgemeine Gestalt:\label{def:define-record-parameters}
 %
 \begin{alltt}
-(define-record-functions (\(t\) \(\mathit{sp}\sb{1}\) \(\ldots\) \(\mathit{sp}\sb{k}\))
+(define-record (\(t\) \(\mathit{sp}\sb{1}\) \(\ldots\) \(\mathit{sp}\sb{k}\))
   \(c\)
   \(p\)
   (\(\mathit{sel}\sb{1}\) \(\mathit{sig}\sb{1}\))
@@ -598,8 +598,8 @@ können in den Signaturen
 %
 \end{feature}
 
-Abbildung~\ref{scheme:define-record-functions-parameters} fasst die
-neue Form von \lstinline{define-record-functions} mit
+Abbildung~\ref{scheme:define-record-parameters} fasst die
+neue Form von \lstinline{define-record} mit
 Signatur-Parametern zusammen.
 
 \section{Konstruktionsanleitung}
@@ -1167,7 +1167,7 @@ ein:
 %
 \begin{lstlisting}
 ; Kein Resultat
-(define-record-functions no-result
+(define-record no-result
   make-no-result
   no-result?)
 \end{lstlisting}

@@ -11,7 +11,7 @@
 ; - Heimmannschaft-Tore
 ; - Gastmannschaft
 ; - Gastmannschaft-Tore
-(define-record-functions game
+(define-record game
   make-game game?
   (game-matchday natural)
   (game-home-team team)

@@ -51,7 +51,7 @@ einzelnen Satz sagen können.  Hier die Datendefinition:
 Hier die dazu passende Record-Definition:
 %
 \begin{lstlisting}
-(define-record-functions parrot
+(define-record parrot
   make-parrot
   (parrot-weight   natural)
   (parrot-sentence string))
@@ -189,13 +189,13 @@ Die Prädikate werden uns erlauben, die Bedingungen zu
 schreiben.  Die Record-Definitionen sehen dann so aus:
 %
 \begin{lstlisting}
-(define-record-functions dillo
+(define-record dillo
   make-dillo
   dillo? ; |\(\Longleftarrow\)| Prädikat
   (dillo-weight natural)
   (dillo-alive? boolean))
 
-(define-record-functions parrot
+(define-record parrot
   make-parrot
   parrot? ; |\(\Longleftarrow\)| Prädikat
   (parrot-weight   natural)
@@ -256,12 +256,12 @@ Papageien~-- ist \lstinline{parrot-weight} zuständig:
 % 
 Fertig!
 
-\begin{feature}{\texttt{define-record-functions} (mit Prädikaten)}{scheme:define-record-functions-predicates}
-Eine \texttt{define"=record"=functions}"=Form\index{define-record-functions@\texttt{define-record-functions}}
+\begin{feature}{\texttt{define-record} (mit Prädikaten)}{scheme:define-record-predicates}
+Eine \texttt{define"=record"=functions}"=Form\index{define-record@\texttt{define-record}}
 hat folgende allgemeine Gestalt:
 %
 \begin{lstlisting}
-(define-record-functions |\(t\)|
+(define-record |\(t\)|
   |\(c\)|
   |\(p\)|
   (|\(\mathit{sel}\sb{1}\)| |\(\mathit{sig}\sb{1}\)|)
@@ -271,7 +271,7 @@ hat folgende allgemeine Gestalt:
 %
 Diese Form definiert einen Record-Typ mit $n$ Feldern.
 Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, für die
-\lstinline{define-record-functions} Definitionen anlegt:
+\lstinline{define-record} Definitionen anlegt:
 %
 \begin{itemize}
 \item $t$ ist der Name der Record-Signatur.
@@ -299,9 +299,9 @@ Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, 
 %
 \end{feature}
 %
-Abbildung~\ref{scheme:define-record-functions-predicates} ist eine
+Abbildung~\ref{scheme:define-record-predicates} ist eine
 aktualisierte Beschreibung der Form von
-\lstinline{define-record-functions}, bei der auch Prädikate
+\lstinline{define-record}, bei der auch Prädikate
 berücksichtigt sind
 
 Aus diesem Beispiel ergibt sich eine Konstruktionsanleitung für
@@ -532,7 +532,7 @@ Daraus ergibt sich direkt die Record-Definition mit zwei Komponenten,
 jeweils rationale Zahlen:
 %
 \begin{lstlisting}
-(define-record-functions sugars
+(define-record sugars
   make-sugars
   sugars?
   (sugars-fructose-g rational)
@@ -935,7 +935,7 @@ definieren, und zwar so:
 %
 \begin{lstlisting}
 ; Es gibt keine Steigung
-(define-record-functions no-slope
+(define-record no-slope
   make-no-slope
   no-slope?)
 \end{lstlisting}

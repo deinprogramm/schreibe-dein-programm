@@ -4,7 +4,7 @@
 ; Zuckeranteile bestehen aus:
 ; - Fruktose-Menge (in g)
 ; - Glukose-Menge (in g)
-(define-record-functions sugars
+(define-record sugars
   make-sugars
   sugars?
   (sugars-fructose-g rational)

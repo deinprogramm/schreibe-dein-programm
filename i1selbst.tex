@@ -118,7 +118,7 @@ Entsprechend ist es auch sinnvoll, dafür eine Record-Definition zu
 schreiben:
 %
 \begin{lstlisting}
-(define-record-functions creek
+(define-record creek
   make-creek
   creek?
   (creek-origin string))
@@ -168,7 +168,7 @@ Die Datendefinition für "<Fluss"> benutzt selbst den Begriff
 passende Record-Definition erstellen:
 %
 \begin{lstlisting}
-(define-record-functions confluence
+(define-record confluence
   make-confluence
   confluence?
   (confluence-location  string)
@@ -594,7 +594,7 @@ dass es sich um zusammengesetzte Daten handelt.  Daraus folgt direkt
 diese Record-Definition:
 %
 \begin{lstlisting}
-(define-record-functions zero-bond
+(define-record zero-bond
   make-zero-bond
   (zero-bond-date     date)
   (zero-bond-amount   rational)
@@ -676,7 +676,7 @@ und bilden den Euro als zusammengesetzte Daten ab.  Dann wird daraus
 folgende Record-Definition:
 %
 \begin{lstlisting}
-(define-record-functions one-euro
+(define-record one-euro
   make-one-euro
   one-euro?)
 \end{lstlisting}
@@ -700,7 +700,7 @@ etwa so:
 \begin{lstlisting}
 ; Euros haben folgende Eigenschaft:
 ; - wieviele
-(define-record-functions euros
+(define-record euros
   make-euros
   euros?
   (euros-amount rational))
@@ -722,7 +722,7 @@ Aber die richtige Form für zusammengesetzte Daten hat das schon
 einmal.  Es reicht für eine erste Skizze einer Record-Definition:
 %
 \begin{lstlisting}
-(define-record-functions multiple
+(define-record multiple
   make-multiple
   multiple?
   (multiple-number |\ldots|)
@@ -755,7 +755,7 @@ deshalb als Signatur von \lstinline{multiple-of} einfach
 ; Ein Vielfaches besteht aus:
 ; - Anzahl
 ; - Vertrag 
-(define-record-functions multiple
+(define-record multiple
     make-multiple
     multiple?
     (multiple-number rational)
@@ -818,7 +818,7 @@ Diese Datendefinition beschreibt wieder zusammengesetzte Daten.  Die
 dazugehörige Record-Definition sieht so aus:
 %
 \begin{lstlisting}
-(define-record-functions later
+(define-record later
   make-later
   later?
   (later-date     date)
@@ -838,7 +838,7 @@ Signatur \lstinline{date} verwendet, die noch gar nicht definiert ist.
 Die Definition von \texttt{date} liegt zum Glück recht nahe:
 %
 \begin{lstlisting}
-(define-record-functions date
+(define-record date
   make-date
   date?
   (date-year  natural)
@@ -962,7 +962,7 @@ So könnte dies gehen:
 Das sind wieder zusammengesetzte Daten mit zwei Selbstbezügen:
 %
 \begin{lstlisting}
-(define-record-functions both
+(define-record both
   make-both
   both?
   (both-contract-1 contract)
@@ -1005,7 +1005,7 @@ können:
 %
 \begin{lstlisting}
 ; Ein Nichts-Vertrag hat keine Eigenschaften
-(define-record-functions nothing
+(define-record nothing
   make-nothing
   nothing?)
 \end{lstlisting}
@@ -1575,12 +1575,12 @@ der auf einen \lstinline{nothing}-Vertrag angewendet wird, muss das
 Ergebnis auch wieder ein \lstinline{nothing}-Vertrag sein.  Um das zu
 erreichen, müssen wir \lstinline{make-multiple} umdefinieren.  Da die
 Definition von \lstinline{make-multiple} von
-\lstinline{define-record-functions} erledigt wird, wenden wir einen
+\lstinline{define-record} erledigt wird, wenden wir einen
 Trick an und benennen den Konstruktor erst einmal um, in dem wir die
 Record-Definition ändern:
 %
 \begin{lstlisting}
-(define-record-functions multiple
+(define-record multiple
   really-make-multiple
   multiple?
   (multiple-number   rational)
@@ -1636,7 +1636,7 @@ Nichts und nochmal nichts ist eben nichts, aber der Konstruktor von
 benennen zunächst den Konstruktor um:
 %
 \begin{lstlisting}
-(define-record-functions both
+(define-record both
   really-make-both
   both?
   (both-contract-1 contract)

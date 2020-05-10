@@ -2,7 +2,7 @@
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "beginner-reader.rkt" "deinprogramm" "sdp")((modname wallclock-time) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
 ; Eine Uhrzeit besteht aus Stunde und Minute.
-(define-record-functions wallclock-time
+(define-record wallclock-time
   make-wallclock-time
   (wallclock-time-hour   natural)
   (wallclock-time-minute natural))

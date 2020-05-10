@@ -14,7 +14,7 @@
 
 ; Ein Bach hat folgende Eigenschaften:
 ; - Ursprungsort
-(define-record-functions creek
+(define-record creek
   make-creek
   creek?
   (creek-origin string))
@@ -23,7 +23,7 @@
 ; - Ort
 ; - Hauptfluss
 ; - Nebenfluss
-(define-record-functions confluence
+(define-record confluence
   make-confluence
   confluence?
   (confluence-location  string)

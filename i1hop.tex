@@ -53,7 +53,7 @@ wir durch ihren Namen als Zeichenkette repräsentieren.   Das ergibt
 folgende Record-Definition:
 %$
 \begin{lstlisting}
-(define-record-functions game
+(define-record game
   make-game game?
   (game-matchday natural)
   (game-home-team string)
@@ -1695,7 +1695,7 @@ dass \lstinline{pi} überall im Programm
 \textit{sichtbar}\index{Sichtbarkeit} ist.  Es handelt sich bei
 \lstinline{pi} um eine \textit{globale Variable}\index{globale
   Variable}\index{Variable!global}.  Globale Variablen werden auch von
-\lstinline{define-record-functions} gebunden.
+\lstinline{define-record} gebunden.
 
 Im Gegensatz dazu ist \lstinline{radius} nur im Rumpf des
 \lstinline{lambda} sichtbar, dessen Parameter es ist~-- es ist eine

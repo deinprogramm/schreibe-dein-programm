@@ -5,7 +5,7 @@
 ; - Datum
 ; - Betrag
 ; - Währung
-#;(define-record-functions zero-bond
+#;(define-record zero-bond
   make-zero-bond
   (zero-bond-date     date)
   (zero-bond-amount   rational)
@@ -23,16 +23,16 @@
    (mixed one-euro multiple later both nothing)))
 
 ; Ein Nichts-Vertrag hat keine Eigenschaften
-(define-record-functions nothing
+(define-record nothing
   make-nothing
   nothing?)
 
 ; Ein Euro hat keine Eigenschaften
-(define-record-functions one-euro
+(define-record one-euro
   make-one-euro
   one-euro?)
 
-(define-record-functions one
+(define-record one
   make-one
   one?
   (one-currency currency))
@@ -57,7 +57,7 @@
 ; - Jahr
 ; - Monat
 ; - Tag
-(define-record-functions date
+(define-record date
   make-date
   date?
   (date-year  natural)
@@ -123,13 +123,13 @@
 ; Ein Vielfaches besteht aus:
 ; - Anzahl
 ; - Vertrag
-#;(define-record-functions multiple
+#;(define-record multiple
     make-multiple
     multiple?
     (multiple-number rational)
     (multiple-of     contract))
 
-(define-record-functions multiple
+(define-record multiple
   really-make-multiple
   multiple?
   (multiple-number   rational)
@@ -149,13 +149,13 @@
 ; Eine Verzögerung besteht aus:
 ; - Datum
 ; - Vertrag, der zu dem Datum gültig wird
-#;(define-record-functions later
+#;(define-record later
   make-later
   later?
   (later-date     date)
   (later-contract contract))
 
-(define-record-functions later
+(define-record later
   really-make-later
   later?
   (later-date     date)
@@ -173,13 +173,13 @@
 ; Eine Kombinationsvertrag besteht aus:
 ; - Vertrag Nr. 1
 ; - Vertrag Nr. 2
-#;(define-record-functions both
+#;(define-record both
   make-both
   both?
   (both-contract-1 contract)
   (both-contract-2 contract))
 
-(define-record-functions both
+(define-record both
   really-make-both
   both?
   (both-contract-1 contract)
