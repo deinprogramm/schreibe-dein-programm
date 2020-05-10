@@ -473,12 +473,12 @@ natürliche Zahl in der Aufgabe gerade die Differenz zwischen
 entsprechende Verzweigung so formulieren:
 %
 \begin{lstlisting}
-(define sequence
+(define between
   (lambda (from to)
     (cond
       ((= from to) ...)
       ((< from to)
-       ... (sequence ... ...) ...))))
+       ... (between ... ...) ...))))
 \end{lstlisting}
 %
 Beim ersten Zweig brauchen wir eine einelementige Liste.  Im zweiten
@@ -486,12 +486,12 @@ ist es wieder sinnvoll, zunächst das \lstinline{cons} hinzuschreiben,
 weil wir wissen, dass das erste Element \lstinline{from} ist:
 %
 \begin{lstlisting}
-(define sequence
+(define between
   (lambda (from to)
     (cond
       ((= from to) ...)
       ((< from to)
-       (cons from (sequence ... ...))))))
+       (cons from (between ... ...))))))
 \end{lstlisting}
 %
 Nun können wir die Argumente des rekursiven Aufrufs ergänzen.  Wir
@@ -499,12 +499,12 @@ benötigen eine Liste, die mit der nächsten Zahl anfängt und genau wie
 gehabt aufhört:
 %
 \begin{lstlisting}
-(define sequence
+(define between
   (lambda (from to)
     (cond
       ((= from to) (list from))
       ((< from to)
-       (cons from (sequence (+ from 1) to))))))
+       (cons from (between (+ from 1) to))))))
 \end{lstlisting}
 %
 Fertig!

@@ -99,7 +99,7 @@
     (cond
       ((= from to) (list from))
       ((< from to)
-       (cons from (sequence (+ from 1) to))))))
+       (cons from (between (+ from 1) to))))))
 
 ; Eine natürliche Zahl ist:
 ; - 0
