@@ -1327,6 +1327,102 @@ durch die neue Variable
 %
 Fertig!
 
+Das heißt~\ldots ein kleines bißchen verbessern können wir sie noch:
+Der \lstinline{if}-Ausdruck am Ende berechnet das Minimum von
+\lstinline{(first list)} und \lstinline{rest-min}.  Für die Berechnung
+des Minimums zweier Zahlen gibt es schon eine eingebaute Funktion
+namens \lstinline{min}, die wir verwenden können:
+%
+\begin{lstlisting}
+(define list-min
+  (lambda (list)
+    (cond
+      ((empty? list) (make-no-result))
+      ((cons? list)
+       (define rest-min (list-min (rest list)))
+       (if (no-result? rest-min)
+           (first list)
+           (min (first list) rest-min))))))
+\end{lstlisting}
+%
+Jetzt aber fertig!
+
+\section{Funktionen auf nichtleeren Listen}
+
+Das \lstinline{list-min}-Beispiel war nützlich, um zu demonstrieren,
+wie wir "`es gibt kein Ergebnis"' repräsentieren können.  Es gibt aber
+noch eine andere Möglichkeit, mit dem Problem der leeren Liste bei
+\lstinline{list-min} fertigzuwerden: Wir verbieten sie einfach!  Dann
+brauchen wir \lstinline{no-result} gar nicht mehr.
+
+Wir definieren also eine alternative Version von \lstinline{list-min}
+mit Kurzbeschreibung und Signatur wie folgt:
+%
+\begin{lstlisting}
+; Minimum einer nichtleeren Liste von Zahlen berechnen
+(: list-min-nonempty ((nonempty-list-of real) -> real))
+\end{lstlisting}
+%
+Der Signaturkonstruktor \lstinline{nonempty-list-of} ist eingebaut und
+macht das, was er sagt: Er beschreibt nicht-leere Listen und
+funktioniert ansonsten genauso wie \lstinline{list-of}.
+
+Wir benutzen die gleichen Testfälle wie vorhin:
+%
+\begin{lstlisting}
+(check-expect (list-min-nonempty (list 5 3 1 4)) 1)
+(check-expect (list-min-nonempty (list 5 3 1 4 -4 3)) -4)
+\end{lstlisting}
+%
+Die Schablone müssen wir gegenüber der für \lstinline{list-of}
+allerdings etwas anpassen.  Schließlich liefert für eine nichtleere
+Liste die Bedingung \lstinline{(empty? list)} \emph{immer}
+\lstinline{#f} und \lstinline{(empty? list)} \emph{immer}
+\lstinline{#t}, die Verzweigung damit wäre also sinnlos.  Es ist
+stattdessen \lstinline{(rest list)}, das entweder leer oder nichtleer
+sein kann.  Das sieht dann so aus:
+%
+\begin{lstlisting}
+(define list-min-nonempty
+  (lambda (list)
+    (cond
+      ((empty? (rest list)) ...)
+      ((cons? (rest list))
+       ... (first list) ...
+       ... (list-min-nonempty (rest list)) ...))))
+\end{lstlisting}
+%
+Im ersten Zweig hat die Liste also genau ein Element, im zweiten Zweig
+hat sie mindestens zwei Elemente.  Das Minimum einer Liste mit einem
+Element ist einfach dieses eine Element.  Im zweiten Fall können wir,
+genau wie bei \lstinline{list-min}, das Minimum von
+\lstinline{(first list)} und dem Minimum des Rests der Liste
+berechnen:
+%
+\begin{lstlisting}
+(define list-min-nonempty
+  (lambda (list)
+    (cond
+      ((empty? (rest list))
+       (first list))
+      ((cons? (rest list))
+       (min (first list)
+            (list-min-nonempty (rest list)))))))
+\end{lstlisting}
+%
+Fertig!
+
+\begin{aufgabeinline}
+  Kannst Du vorhersagen, was genau passiert, wenn Du
+  \lstinline{list-min-nonempty} trotzdem auf eine leere Liste
+  anwendest?  Probiere es aus!
+\end{aufgabeinline}
+
+\begin{aufgabeinline}
+  Schreibe eine spezielle Konstruktionsanleitung für Funktionen, die
+  nichtleere Listen akzeptieren!
+\end{aufgabeinline}
+
 \section*{Anmerkungen}
 
 Listen sind, was Datenstrukturen betrifft, eine Art Alleskleber:
