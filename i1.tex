@@ -26,7 +26,7 @@
 \usepackage{siunitx} % °C
 \usepackage{prooftree} % für Regeln im Kalkül...
 \usepackage{mdframed}
-\usepackage{theorem}
+\usepackage{ntheorem}
 \theoremstyle{plain}
 \usepackage{thmtools,thm-restate}
 \usepackage{amsmath}
@@ -96,6 +96,24 @@
 \theoremheaderfont{\normalfont\sffamily\scshape}
 
 \newtheorem{mantra}{Mantra}%[chapter]
+
+% allow line break in theorem header
+% https://tex.stackexchange.com/questions/79145/line-break-in-theorem-header
+\makeatletter
+\let\nobreakitem\item
+\let\@nobreakitem\@item
+\patchcmd{\nobreakitem}{\@item}{\@nobreakitem}{}{}
+\patchcmd{\nobreakitem}{\@item}{\@nobreakitem}{}{}
+\patchcmd{\@nobreakitem}{\@itempenalty}{\@M}{}{}
+\patchcmd{\@xthm}{\ignorespaces}{\nobreak\ignorespaces}{}{}
+\patchcmd{\@ythm}{\ignorespaces}{\nobreak\ignorespaces}{}{}
+
+\renewtheoremstyle{break}%
+  {\item{\theorem@headerfont
+          ##1\ ##2\theorem@separator}\hskip\labelsep\relax\nobreakitem}%
+  {\item{\theorem@headerfont
+          ##1\ ##2\ (##3)\theorem@separator}\hskip\labelsep\relax\nobreakitem}
+\makeatother
 
 \theoremstyle{break}
 \newtheorem{xkonstruktionsanleitung}{Konstruktionsanleitung}%[chapter]
