@@ -33,10 +33,7 @@
        (define rest-min (list-min (rest list)))
        (if (no-result? rest-min)
            (first list)
-           (if (< (first list)
-                  rest-min)
-               (first list)
-               rest-min))))))
+           (min (first list) rest-min))))))
 
 ; Minimum einer nichtleeren Liste von Zahlen berechnen
 (: list-min-nonempty ((nonempty-list-of real) -> real))
@@ -51,5 +48,5 @@
       ((empty? (rest list))
        (first list))
       ((cons? (rest list))
-       (min (list-min-nonempty (rest list))
-            (first list))))))
+       (min (first list)
+            (list-min-nonempty (rest list)))))))
