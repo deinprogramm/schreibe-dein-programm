@@ -51,7 +51,7 @@ müssen wir deshalb \lstinline{(first list)} hinten an das Ergebnis des
 rekursiven Aufrufs anhängen.
 
 Um ein Element \emph{hinten} an eine Liste zu hängen, haben wir bisher
-noch keine fertige Funktion~-- die müssen wir erst noch schreiben.
+noch keine fertige Funktion~-- die müsen wir erst noch schreiben.
 Wir könnten die Arbeit jetzt unterbrechen, um das zu tun.  Wir machen
 erstmal nur eine Notiz, dass wir das später machen~-- in Form einer
 Kurzbeschreibung und einer Signatur:0
@@ -388,7 +388,7 @@ nämlich aus Abschnitt~\ref{sec:list-sum} auf Seite
 Wir nehmen uns allerdings diesmal vor, mit Akkumulator zu arbeiten.
 Dazu müssen wir uns erst einmal überlegen, was für Information der
 Akkumulator eigentlich akkumulieren soll.  Das sollte ein
-\textit{Zwischenergebnis}\index{Zwischenergebnis} sein, das ist oft
+\textit{Zwischenergebnis}\index{Zwischenergebnis} sein, das ist 
 eine vorläufige Version des gewünschten Endergebnisses.  Da es 
 hier das Endergebnis die Summe aller Listenelemente ist, nehmen wir
 als Zwischenergebnis die Summer aller Listenelemente, die unsere
@@ -401,7 +401,8 @@ Akkumulator \lstinline{sum} und schreiben folgende Schablone:
     (cond
       ((empty? list) ... sum ...)
       ((cons? list)
-       (list-sum-helper (rest list) (... (first list) ... sum ...))))))
+       (list-sum-helper (rest list)
+                        (... (first list) ... sum ...))))))
 \end{lstlisting}
 %
 Warum sieht sie gerade so aus beziehungsweise: Was ist der Unterschied
@@ -428,10 +429,9 @@ der Schablone aus
 Konstruktionsanleitung~\ref{ka:listen-eingabe-schablone} gar nichts
 steht: Hier ist die Liste am Ende und es ist Zeit, das Endergebnis
 auszurechnen: das soll im \lstinline{empty}-Zweig herauskommen.   Weil
-der Akkumulator ein Zwischenergebnis ist, muss er eine Rolle bei der
-Berechnung des Endergebnisses spielen.  (Wir werden noch sehen, dass
-das Endergebnis am Ende fast immer das letzte Zwischenergebnis
-\emph{ist} beziehungsweise eine leichte Variation davon.)
+der Akkumulator ein Zwischenergebnis ist, muss er am Schluss am
+Endergebnis zumindest nah dran sein.  Meist \emph{ist} das letzte
+Zwischenergebnis das Endergebnis.
 
 Im \lstinline{cons}-Fall steht ein rekursiver Aufruf mit
 \lstinline{(rest list)} als Listen-Argument~-- wie in
@@ -536,7 +536,7 @@ Akkumulator werden wir sehen, dass es schwieriger ist.  In diesem Fall
 könnte das so aussehen:
 %
 \begin{center}
-  \textit{Sum} ist die Summer aller Elemente in \lstinline{list0} vor
+  \lstinline{Sum} ist die Summer aller Elemente in \lstinline{list0} vor
   \lstinline{list}.
 \end{center}
 %
@@ -570,7 +570,8 @@ Endergebnis.  Zwischenstand:
     (cond
       ((empty? list) sum)
       ((cons? list)
-       (list-sum-helper (rest list) (... (first list) ... sum ...))))))
+       (list-sum-helper (rest list)
+                        (... (first list) ... sum ...))))))
 \end{lstlisting}
 %
 Es bleibt der rekursive Aufruf.  Hier muss der \emph{neue} Wert von
@@ -645,7 +646,7 @@ Aus diesem Beispiel ergibt sich folgende Konstruktionsanleitung:
           ((empty? |\(\mathit{list}\)|) |\ldots| |\(\mathit{acc}\)| |\ldots|)
           ((cons? |\(\mathit{list}\)|)
            (accumulate (rest |\(\mathit{list}\)|) 
-                       (... (first |\(\mathit{list}\)|) ... |\(\mathit{acc}\)|))))))
+                       (... (first |\(\mathit{list}\)|) ... |\(\mathit{acc}\)| ...))))))
     (accumulate |\(\mathit{list}\sb{0}\)| ...)))
 \end{lstlisting}
     \item Formuliere eine möglichst konkrete Invariante zwischen
@@ -660,35 +661,178 @@ Funktion mit Akkumulator zu schreiben, als eine "<normale"> Funktion,
 die Listen akzeptiert: Du musst eine Invariante finden, und dafür gibt
 es nur wenig allgemeingültige Hilfestellung.
 
-\section{Dreieckszahlen}
+\begin{aufgabeinline}
+  Schreibe die Funktion \lstinline{list-min-nonempty} aus
+  Abschnitt~\ref{sec:list-min-nonempty} auf
+  Seite~\pageref{sec:list-min-nonempty} noch einmal, diesmal mit
+  Akkumulator.
 
-FIXME
+  Überlege Dir, was der Akkumulator repräsentieren sollte sowie eine
+  sinnvolle Invariante!
 
-Die Schablone für Funktionen mit Akkumulator, die natürliche Zahlen
-akzeptieren, ist analog:
+  Genau wie bei \lstinline{list-min-nonempty} musst Du dafür die
+  Konstruktionsanleitung etwas variieren: Die nichtleere Liste kannst
+  Du schon vorab in erstes Element und Rest aufteilen und daraus die
+  richtigen Eingaben für \lstinline{accumulate} berechnen.
+  \lstinline{Accumulate} ist aber wie in der Schablone.
+\end{aufgabeinline}
 %
-\begin{alltt}
-(: proc (natural -> ...))
 
-(define proc
-  (lambda (n)
-    (letrec
-      ((proc-helper
-        (lambda (n acc)
-          (if (= n 0)
-              acc
-              (proc-helper (- n 1) (... acc ...))))))
-    (proc-helper n z))))
-\end{alltt}
+\section{Über natürliche Zahlen akkumulieren}
+
+Auch über natürliche Zahlen können wir Funktionen schreiben, die einen
+Akkumulator sinnvoll benutzen.  Wir zeigen das anhand der
+\lstinline{power}-Funktion, die wir schonmal "<normal"> in
+Abschnitt~\ref{function:power} auf Seite~\pageref{function:power}
+implementiert haben.
+
+Kurzbeschreibung, Signatur und Tests sind wie gehabt:
 %
-Wieder ist \texttt{z} der Ausdruck für das initiale Zwischenergebnis
-und für \texttt{(... acc ...)} ist ein Ausdruck einzusetzen, der aus
-dem alten Zwischenergebnis \texttt{acc} ein neues macht.
+\begin{lstlisting}
+; Potenz einer Zahl berechnen
+(: power (number natural -> number))
+
+(check-expect (power 5 0) 1)
+(check-expect (power 5 3) 125)
+\end{lstlisting}
+%
+Wir benutzen nun schon von vornherein die gleiche Namenskonvention wie
+in
+Konstruktionsanleitung~\ref{ka:listen-eingabe-akkumulator-schablone}
+und benennen den entscheidenen Parameter mit einer \lstinline{0} am
+Ende.
+%
+\begin{lstlisting}
+(define power
+  (lambda (base exponent0)
+    ...))
+\end{lstlisting}
+%
+Die Schablone entsteht jetzt ganz ähnlich wie bei den Listen: Wir
+schreiben eine \lstinline{accumulate}-Funktion mit Parametern
+\lstinline{exponent} und \lstinline{acc}.  \lstinline{Accumulate}
+macht genau wie in der Schablone aus
+Konstruktionsanleitung~\ref{ka:nats-eingabe-schablone} auf
+Seite~\pageref{ka:nats-eingabe-schablone} eine Verzweigung nach den
+zwei Fällen natürlicher Zahlen.  Der rekursive Aufruf bei
+\lstinline{positive?} muss genau wie dort \lstinline{(- exponent 1)}
+übergeben:
+%
+\begin{lstlisting}
+(define power
+  (lambda (base exponent0)
+    (define accumulate
+      (lambda (exponent acc)
+        (cond
+          ((zero? exponent)
+           ... acc ...)
+          ((positive? exponent)
+           (accumulate (- exponent 1) ... acc ...)))))
+    (accumulate exponent0 ...)))
+\end{lstlisting}
+%
+Jetzt müssen wir uns noch überlegen, was \lstinline{acc} eigentlich
+sein soll.  Da die Potenz ein wiederholtes Produkt von \lstinline{base}
+ist, bietet sich an, dort ebenfalls ein Produkt unterzubringen.
+Während \lstinline{accumulate} jedesmal \lstinline{exponent} um eins
+herunterzählt, könnten wir den Akkumulator bei jeder Runde ein
+weiteres Mal mit \lstinline{base} multiplizieren~-- ähnlich, wie wir
+es vielleicht auch auf einem Zettel machen würden.  Der Akkumulator
+ist also eine "<Zwischenpotenz"> und wir nennen ihn deshalb einfach
+\lstinline{power}.
+
+Wir sollten noch eine Invariante formulieren, damit auch alles richtig
+läuft.  Dafür müssen wir klären, \emph{welche} Zwischenpotenz
+\lstinline{power} eigentlich ist.  Da \lstinline{exponent} immer
+kleiner wird, bietet sich die Differenz zwischen \lstinline{exponent0}
+und \lstinline{exponent} an~-- die fängt bei 0 an und wird immer größer:
+%
+\begin{lstlisting}
+(define power
+  (lambda (base exponent0)
+    (define accumulate
+      ;; power ist base^(exponent0 - exponent)
+      (lambda (exponent power)
+        (cond
+          ((zero? exponent) ...)
+          ((positive? exponent)
+           (accumulate (- exponent 1) ...)))))
+    (accumulate exponent0 1)))
+\end{lstlisting}
+%
+Das Hütchen \lstinline{^} heißt hier "<hoch">.
+
+Mit der Invariante können wir jetzt die Lücken füllen: Im ersten Zweig
+ist \lstinline{exponent} 0.  Das bedeutet, dass \lstinline{power}
+gerade "<\lstinline{base} hoch \lstinline{exponent0}"> ist~-- das
+gewünschte Endergebnis.  Im zweiten Zweig müssen wir entsprechend dem
+reduzierten \lstinline{exponent} einmal \lstinline{base} an das
+Zwischenergebnis dranmultiplizieren.  Es fehlt nur noch der Wert
+für \lstinline{power} im ersten Aufruf von \lstinline{accumulate}.  Da
+$b^0 = 1$ ist, müssen wir da 1 einsetzen:
+%
+\begin{lstlisting}
+(define power
+  (lambda (base exponent0)
+    (define accumulate
+      ;; power ist base^(exponent0 - exponent)
+      (lambda (exponent power)
+        (cond
+          ((zero? exponent)
+           power)
+          ((positive? exponent)
+           (accumulate (- exponent 1) (* power base))))))
+    (accumulate exponent0 1)))
+\end{lstlisting}
+%
+Fertig!
+
+Auch für solche Funktionen mit Akkumulator, die natürliche Zahlen
+konsumieren, können wir eine Schablone formulieren:
+
+\begin{konstruktionsanleitung}{Natürliche Zahlen als Eingabe, mit Akkumulator: Schablone}
+  \label{ka:natzahlen-eingabe-akkumulator-schablone}
+  Wenn Du eine Funktion schreibst, die eine natürliche akzeptiert und
+  einen Akkumulator benutzen soll, gehe folgendermaßen vor:
+  \begin{enumerate}
+  \item Überlege Dir, was für Information der Akkumulator
+    repräsentieren soll. Das ist typischerweise ein
+    Zwischenergebnis~-- also ein vorläufiger Wert für das Endergebnis.
+  \item Konstruiere die Schablone wie folgt:
+\begin{lstlisting}
+(define |\(f\)|
+  (lambda (... |\(\mathit{n}\sb{0}\)| ...)
+    (define accumulate
+      (lambda (|\(\mathit{n}\)| |\(\mathit{acc}\)|)
+        (cond
+          ((zero? |\(\mathit{n}\)|) |\ldots| |\(\mathit{acc}\)| |\ldots|)
+          ((positive? |\(\mathit{n}\)|)
+           (accumulate (- |\(\mathit{n}\)| 1) 
+                       (... |\(\mathit{acc}\)| ...))))))
+    (accumulate |\(\mathit{n}\sb{0}\)| ...)))
+\end{lstlisting}
+    \item Formuliere eine möglichst konkrete Invariante zwischen
+      $\mathit{n}_0$, $\mathit{n}$ und $\mathit{acc}$ und
+      schreibe sie als Kommentar zu \lstinline{accumulate}.
+    \item Fülle mit Hilfe der Invariante die Ellipsen in der Funktion aus.
+  \end{enumerate}
+\end{konstruktionsanleitung}
+
+\begin{aufgabeinline}
+  Programmiere eine Funktion, welche die
+  \textit{Fakultät}\index{Fakultät} einer Zahl berechnet (auf englisch
+  "<factorial">). Für eine Zahl $n$ ist deren Fakultät $n!$ das
+  Produkt \[1\times 2\times \cdots \times (n-1)\times n\].
+\end{aufgabeinline}
+
 
 \section{Aktienkurse analysieren}
 
 \section{Kontext und Endrekursion}
 \label{sec:iteration}
+
+FIXME: "`strukturell rekursiv"'
+
 
 FIXME
 
@@ -869,10 +1013,8 @@ der Ergebnisliste gelöst werden:
 
 FIXME
 
-\subsection{Minimum}
-\label{sec:min-akku}
+fold-left
 
-FIXME
 
 \section*{Anmerkungen}
 
@@ -903,18 +1045,13 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreibe eine Funktion, die als Eingabe eine Liste von Kursen
-  einer Aktie (als Zahlen) eines Tages akzeptiert (nach Tageszeit
-  aufsteigend sortiert), und als Rückgabewert den höchstmöglichen
-  Gewinn liefert, die durch den Kauf und folgenden Verkauf der Aktie
-  an diesem Tag erreicht werden kann.
-
-  Hinweis: Diese Funktion benötigt zwei Akkumulatoren.
-\end{aufgabe}
-
-\begin{aufgabe}
-  Schreibe zu der Funktion \texttt{power} aus Aufgabe~\ref{aufg:power} eine
-  endrekursive Variante.
+  Von \lstinline{power} hatten wir ja in
+  Abschnitt~\ref{function:power2} auf Seite~\pageref{function:power2}
+  eine Variante \lstinline{power2} programmiert, die durch eine
+  alternative Sichtweise auf die natürlichen Zahlen viel schneller
+  funktioniert.  Schreibe auch davon eine Version mit Akkumulator.
+  Hinweis: Du kannst die gleiche Invariante wie bei \lstinline{power}
+  verwenden.
 \end{aufgabe}
 
 \begin{aufgabe}

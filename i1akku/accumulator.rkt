@@ -76,6 +76,48 @@
            (accumulate (rest list) (+ (first list) sum))))))
     (accumulate list0 0)))
 
+; Potenz einer Zahl berechnen
+(: power (number natural -> number))
+
+(check-expect (power 5 0) 1)
+(check-expect (power 5 3) 125)
+
+(define power
+  (lambda (base exponent0)
+    (define accumulate
+      ;; power ist base^(exponent0 - exponent)
+      (lambda (exponent power)
+        (cond
+          ((zero? exponent)
+           power)
+          ((positive? exponent)
+           (accumulate (- exponent 1) (* power base))))))
+    (accumulate exponent0 1)))
+
+; Potenz einer Zahl berechnen
+(: power2 (number natural -> number))
+
+(check-expect (power2 5 0) 1)
+(check-expect (power2 5 3) 125)
+(check-expect (power2 5 5) 3125)
+
+(define power2
+  (lambda (base exponent0)
+    (define accumulate
+      ;; power ist (exponent0 - exponent)mal mit sich selbst multipliziert
+      (lambda (exponent power)
+        (cond
+          ((zero? exponent)
+           power)
+          ((even? exponent)
+           (accumulate (quotient exponent 2) (* power power)))
+          ((odd? exponent)
+           (accumulate (quotient (- exponent 1) 2) (* base (* power power)))))))
+    (accumulate exponent0 1)))
+          
+    
+
+; Fakultät berechnen
 (: factorial (natural -> natural))
 
 (check-expect (factorial 5) 120)
