@@ -48,5 +48,5 @@
 (check-expect (stromtarif-rechnungsbetrag 8.20 0.16 30) 13.0) ; Watt für wenig
 
 (define stromtarif-rechnungsbetrag
-  (lambda (grundgebuehr pro-kWh kWh)
-    (+ grundgebuehr (* pro-kWh kWh))))
+  (lambda (grundgebühr pro-kWh kWh)
+    (+ grundgebühr (* pro-kWh kWh))))

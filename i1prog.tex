@@ -1475,12 +1475,12 @@ und \texttt{watt-für-wenig} \textit{abstrahieren\index{Abstraktion}}
 könnten.  Dazu kopieren wir die Funktion ein letztes Mal und benennen
 sie um.  Außerdem ersetzen wir alle Stellen, bei denen sich die beiden
 Funktionen unterscheiden, jeweils durch eine Variable, zum Beispiel
-\texttt{grundgebuehr} und \texttt{pro-kWh}:
+\texttt{grundgebühr} und \texttt{pro-kWh}:
 %
 \begin{verbatim}
 (define stromtarif-rechnungsbetrag
   (lambda (kWh)
-    (+ grundgebuehr (* pro-kWh kWh))))
+    (+ grundgebühr (* pro-kWh kWh))))
 \end{verbatim}
 %
 Die beiden neuen Variablen sind noch nicht gebunden, wir müssen sie zu
@@ -1488,8 +1488,8 @@ den Parametern des \texttt{lambda} hinzufügen:
 %
 \begin{verbatim}
 (define stromtarif-rechnungsbetrag
-  (lambda (grundgebuehr pro-kWh kWh)
-    (+ grundgebuehr (* pro-kWh kWh))))
+  (lambda (grundgebühr pro-kWh kWh)
+    (+ grundgebühr (* pro-kWh kWh))))
 \end{verbatim}
 %
 Wir ergänzen noch Kurzbeschreibung und Signatur.  Die neuen Parameter
