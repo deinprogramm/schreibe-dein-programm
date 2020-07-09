@@ -31,7 +31,7 @@
 
 (define watt-für-wenig
   (lambda (kWh)
-    (stromtarif-rechnungsbetrag 8.20 0.16 kwH)))
+    (stromtarif-rechnungsbetrag 8.20 0.16 kWh)))
 
 ; monatlichen Rechnungsbetrag für Stromtarif berechnen
 (: stromtarif-rechnungsbetrag (rational rational rational -> rational))
