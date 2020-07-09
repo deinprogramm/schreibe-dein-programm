@@ -56,9 +56,9 @@
   (lambda (list0)
     (list-sum-helper list0 0)))
 
-;; sum ist die Summe der Zahlen in list0 vor list
+; sum ist die Summe der Zahlen in list0 vor list
 #;(define list-sum-helper
-  ;; sum ist die Summer aller Elemente in list0 vor list
+  ; sum ist die Summer aller Elemente in list0 vor list
   (lambda (list sum)
     (cond
       ((empty? list) sum)
@@ -68,7 +68,7 @@
 (define list-sum
   (lambda (list0)
     (define accumulate
-      ;; sum ist die Summer aller Elemente in list0 vor list
+      ; sum ist die Summer aller Elemente in list0 vor list
       (lambda (list sum)
         (cond
           ((empty? list) sum)
@@ -85,7 +85,7 @@
 (define power
   (lambda (base exponent0)
     (define accumulate
-      ;; power ist base^(exponent0 - exponent)
+      ; power ist base^(exponent0 - exponent)
       (lambda (exponent power)
         (cond
           ((zero? exponent)
@@ -104,7 +104,7 @@
 (define power2
   (lambda (base exponent0)
     (define accumulate
-      ;; power ist (exponent0 - exponent)mal mit sich selbst multipliziert
+      ; power ist base^(exponent0 - exponent)
       (lambda (exponent power)
         (cond
           ((zero? exponent)
@@ -125,7 +125,7 @@
 (define factorial
   (lambda (n0)    
     (define accumulate
-      ;; acc ist das Produkt aller Zahlen von (+ n 1) bis n0
+      ; acc ist das Produkt aller Zahlen von (+ n 1) bis n0
       (lambda (n acc)
         (cond
           ((zero? n) acc)

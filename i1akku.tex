@@ -371,8 +371,8 @@ ist sie unter dem Namen
 
 \section{Schablonen für Funktionen mit Akkumulator}
 
-Auch für Funktionen mit Akkumulator wollen wir eine
-Konstruktionsanleitung entwickeln.  Vorher wollen wir aber noch einmal
+Auch für Funktionen mit Akkumulator entwickeln wir eine
+Konstruktionsanleitung.  Vorher wollen wir aber noch einmal
 anhand eines weiteren Beispiels Revue passieren lassen, wie der
 Konstruktionsprozess bei solchen Funktionen eigentlich genau aussieht.
 
@@ -536,7 +536,7 @@ Akkumulator werden wir sehen, dass es schwieriger ist.  In diesem Fall
 könnte das so aussehen:
 %
 \begin{center}
-  \lstinline{Sum} ist die Summer aller Elemente in \lstinline{list0} vor
+  \lstinline{sum} ist die Summer aller Elemente in \lstinline{list0} vor
   \lstinline{list}.
 \end{center}
 %
@@ -565,7 +565,7 @@ Endergebnis.  Zwischenstand:
 %
 \begin{lstlisting}
 (define list-sum-helper
-  ;; sum ist die Summer aller Elemente in list0 vor list
+  ; sum ist die Summer aller Elemente in list0 vor list
   (lambda (list sum)
     (cond
       ((empty? list) sum)
@@ -581,8 +581,8 @@ Es bleibt der rekursive Aufruf.  Hier muss der \emph{neue} Wert von
 %
 \begin{lstlisting}
 (define list-sum-helper
-  ;; sum ist die Summer aller Elemente in list0 vor list
-e  (lambda (list sum)
+  ; sum ist die Summer aller Elemente in list0 vor list
+  (lambda (list sum)
     (cond
       ((empty? list) sum)
       ((cons? list)
@@ -600,7 +600,7 @@ lokalen Definition innerhalb von \lstinline{list-sum} machen:
 (define list-sum
   (lambda (list0)
     (define list-sum-helper
-      ;; sum ist die Summer aller Elemente in list0 vor list
+      ; sum ist die Summer aller Elemente in list0 vor list
       (lambda (list sum)
         (cond
           ((empty? list) sum)
@@ -617,7 +617,7 @@ knackigeren Namen wählen, der Dir besser gefällt.  Wir nehmen
 (define list-sum
   (lambda (list0)
     (define accumulate
-      ;; sum ist die Summer aller Elemente in list0 vor list
+      ; sum ist die Summer aller Elemente in list0 vor list
       (lambda (list sum)
         (cond
           ((empty? list) sum)
@@ -661,7 +661,7 @@ Funktion mit Akkumulator zu schreiben, als eine "<normale"> Funktion,
 die Listen akzeptiert: Du musst eine Invariante finden, und dafür gibt
 es nur wenig allgemeingültige Hilfestellung.
 
-\begin{aufgabeinline}
+\begin{aufgabeinline}\label{aufgabe:list-min-nonemepty-acc}
   Schreibe die Funktion \lstinline{list-min-nonempty} aus
   Abschnitt~\ref{sec:list-min-nonempty} auf
   Seite~\pageref{sec:list-min-nonempty} noch einmal, diesmal mit
@@ -751,7 +751,7 @@ und \lstinline{exponent} an~-- die fängt bei 0 an und wird immer größer:
 (define power
   (lambda (base exponent0)
     (define accumulate
-      ;; power ist base^(exponent0 - exponent)
+      ; power ist base^(exponent0 - exponent)
       (lambda (exponent power)
         (cond
           ((zero? exponent) ...)
@@ -775,7 +775,7 @@ $b^0 = 1$ ist, müssen wir da 1 einsetzen:
 (define power
   (lambda (base exponent0)
     (define accumulate
-      ;; power ist base^(exponent0 - exponent)
+      ; power ist base^(exponent0 - exponent)
       (lambda (exponent power)
         (cond
           ((zero? exponent)
@@ -825,8 +825,191 @@ konsumieren, können wir eine Schablone formulieren:
   Produkt \[1\times 2\times \cdots \times (n-1)\times n\].
 \end{aufgabeinline}
 
-
 \section{Aktienkurse analysieren}
+
+Es gibt durchaus Funktionen, bei denen mehrere Zwischenergebnisse
+nötig sind.  Um das zu demonstrieren, schreiben wir eine Funktion, die
+den maximalen Gewinn aus einer Reihe von Aktienkursen berechnet.
+
+Diese Reihe von aufeinanderfolgenden Kursen repräsentieren wir als
+Liste von Zahlen.  Entsprechend sehen Kurzbeschreibung und Signatur so
+aus:
+%
+\begin{lstlisting}
+; Bestmöglichen Gewinn durch Kauf und Verkauf ermitteln
+(: max-profit ((nonempty-list-of real) -> real))
+\end{lstlisting}
+%
+Gewinn erzielt man hier, indem die Aktie zunächst gekauft und dann
+wieder verkauft wird~-- und nicht umgekehrt.  Die Differenz zwischen
+Verkaufs- und Kaufpreis ist dann der Gewinn.  Der folgende Testfall
+illustriert dies:
+%
+\begin{lstlisting}
+(check-expect (max-profit (list 5 2 7 3 9 5 1)) 7)
+\end{lstlisting}
+%
+Hier hätte man den maximalen Gewinn erzielt durch Kauf zum Kurs 2 und
+Verkauf zum Kurs 9.
+
+Das Gerüst sieht so aus:
+%
+\begin{lstlisting}
+(define max-profit
+  (lambda (spots)
+    ...)))
+\end{lstlisting}
+%
+("<Spot"> ist ein englisches Wort für "<Kurs">.)
+
+Aber wie geht es weiter?
+
+Die einfache Strategie, einfach die Differenz zwischen Maximum und
+Minimum der Liste als maximalen Gewinn auszuweisen, funktioniert
+leider nicht: Das Minimum ist 1, liegt aber leider hinter dem Maximum
+von 9.
+
+Ebensowenig eignet sich dieses Problem für eine naive, "<normale">
+rekursive Funktion.  Die Schablone wäre diese hier:
+%
+\begin{lstlisting}
+(define max-profit
+  (lambda (spots)
+    (cond
+      ((empty? spots) ...)
+      ((cons? spots)
+       ... (first spots) ...
+       ... (max-profit (rest spots) ...)))))
+\end{lstlisting}
+%
+Das Problem ist, dass der Profit des Rests der Liste nicht ausreicht,
+um daraus und dem ersten Element den Profit der Gesamtliste
+auszurechnen.  Wir müssten dafür auch noch den dazugehörigen
+Verkaufskurs wissen.
+
+Wir versuchen es also mal mit Zwischenergebnissen.  Dafür sieht die
+Schablone so aus:
+%
+\begin{lstlisting}
+(define max-profit
+  (lambda (spots0)
+    (define accumulate
+      (lambda (spots acc)
+        (cond
+          ((empty? spots) acc)
+          ((cons? spots)
+           (accumulate (rest spots)
+                       ... (first spots) ... acc ...)))))
+    (accumulate spots0 ...)))
+\end{lstlisting}
+%
+Da die Funktion im ganzen den maximalen Gewinn ausrechnen soll, bietet
+es sich an, als Zwischenergebnis den maximalen Gewinn der bisher
+gesehenen Kurse zwischen \lstinline{spots0} und \lstinline{spots} als
+Zwischenergebnis mitzuführen:
+%
+\begin{lstlisting}
+(define max-profit
+  (lambda (spots0)
+    (define accumulate
+      ; max-profit ist der maximale Gewinn zwischen
+      ; spots0 und spots
+      (lambda (spots max-profit)
+        (cond
+          ((empty? spots) max-profit)
+          ((cons? spots)
+           (accumulate (rest spots)
+                       ... (first spots) ... acc ...)))))
+    (accumulate spots0 0)))
+\end{lstlisting}
+%
+Das dumme ist, dass wir auch hier nicht genug Daten haben, um beim
+rekursiven Aufruf von \lstinline{accumulate} einen neuen Wert für
+\lstinline{max-profit} zu berechnen.  Grundsätzlich gibt es aber nur
+zwei Möglichkeiten:
+%
+\begin{itemize}
+\item \lstinline{Max-profit} bleibt, wie es ist.
+\item \lstinline{Max-profit} wird aktualisiert, weil es besser ist,
+  zum Kurs \lstinline{(first spots)} zu verkaufen, als zum bisher
+  besten Verkaufskurs.
+\end{itemize}
+%
+Wir müssen also herausbekommen, wie hoch der Gewinn wäre, wenn wir zum
+Kurs \lstinline{(first spots)} verkaufen würden.  Das könnten wir,
+wenn wir den bestmöglichen \emph{Kaufkurs} wüssten.  Etwas Überlegung
+ergibt, dass dieser Kaufkurs der minimale Kurs unter den vergangenen
+Kursen ist: Dieses Minimum führen wir als weiteres Zwischenergebnis
+mit.  Aktualisiert wird dieses Minimum mit der eingebauten Funktion
+\lstinline{min}:
+%
+\begin{lstlisting}
+(define max-profit
+  (lambda (spots0)
+    (define accumulate
+      ; min-spot ist das Minimum der Elemente zwischen
+      ; spots0 und spots
+      ; max-profit ist der maximale Gewinn zwischen
+      ; spots0 und spots
+      (lambda (spots min-spot max-profit)
+        (cond
+          ((empty? spots) max-profit)
+          ((cons? spots)
+           (accumulate (rest spots)
+                       (min (first spots) min-spot)
+                       ...)))))
+    (accumulate spots0 ... 0)))
+\end{lstlisting}
+%
+Es fehlt noch der richtige Anfangswert für \lstinline{min-spot} beim
+ersten Aufruf von \lstinline{accumulate}.  Hier machen wir Gebrauch
+von der Tatsache, dass \lstinline{spots0} eine nicht-leere Liste ist:
+Wir können sie in erstes Element und Rest aufteilen wie schon bei
+\lstinline{list-min} in Abschnitt~\ref{sec:list-min-nonempty} auf
+Seite~\pageref{sec:list-min-nonempty} sowie in
+Aufgabe~\ref{aufgabe:list-min-nonemepty-acc} auf
+Seite~\pageref{aufgabe:list-min-nonemepty-acc}.  Das erste Element ist
+dann das erste Minimum:
+%
+\begin{lstlisting}
+    (accumulate (rest spots0) (first spots0) 0)))
+\end{lstlisting}
+%
+Es fehlt nur noch der aktualisierte Wert für \lstinline{max-profit}:
+Der ist das Maximum aus dem bisherigen \lstinline{max-profit} und dem
+möglichen Gewinn aus dem Verkauf zum Kurs \lstinline{(first spots)}.
+Hier das Ergebnis:
+%
+\begin{lstlisting}
+(define max-profit
+  (lambda (spots0)
+    (define accumulate
+      ; min-spot ist das Minimum der Elemente zwischen
+      ; spots0 und spots
+      ; max-profit ist der maximale Gewinn zwischen
+      ; spots0 und spots
+      (lambda (spots min-spot max-profit)
+        (cond
+          ((empty? spots) max-profit)
+          ((cons? spots)
+           (accumulate (rest spots)
+                       (min (first spots) min-spot)
+                       (max (- (first spots) min-spot)
+                            max-profit))))))
+    (accumulate (rest spots0) (first spots0) 0)))
+\end{lstlisting}
+%
+Fertig!
+
+\begin{aufgabeinline}\index{Fibonacci-Folge}
+  Die \textit{Fibonacci-Folge} ist eine Folge natürlicher Zahlen, die
+  mit 0 und 1 anfängt.  Jede weitere Zahl ist die Summer der beiden
+  Zahlen davor.
+
+  Schreibe eine Funktion, welche für eine Zahl $n$ die $n$-te Zahl aus
+  der Fibonacci-Zahl berechnet.  Schreibe dafür eine Funktion
+  mit zwei Akkumulatoren.
+\end{aufgabeinline}
 
 \section{Kontext und Endrekursion}
 \label{sec:iteration}
