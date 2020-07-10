@@ -334,36 +334,6 @@ Die neue Version von \lstinline{invert} funktioniert nicht nur
 korrekt, sondern auch schnell: Sie benutzt keine Hilfsfunktion und
 macht soviele rekursive Aufrufe wie die Eingabeliste Elemente hat, ihre
 Laufzeit wächst also \textit{linear}.\index{lineares Wachstum}
-Dass das so ist, kannst Du sehen, wenn Du die Auswertung eines Aufrufs
-von \lstinline{invert} nachvollziehst:
-%
-\begin{alltt}\small
-(invert \underline{(list 1 2 3 4)})
-\(\ldots\evalsto\) (\underline{invert-helper} #<list 1 2 3 4> empty)
-\(\ldots\evalsto\) (cond ((empty? #<list 1 2 3 4>) ...) ((cons? #<list 1 2 3 4>) ...))
-\(\ldots\evalsto\) (invert-helper (rest #<list 1 2 3 4>) (cons (first #<list 1 2 3 4>) empty))
-\(\ldots\evalsto\) (invert-helper #<list 2 3 4> (cons 1 empty))
-\(\ldots\evalsto\) (invert-helper #<list 2 3 4> #<list 1>)
-\(\ldots\evalsto\) (cond ((empty? #<list 2 3 4>) ...) ((cons? #<list 2 3 4>) ...))
-\(\ldots\evalsto\) (invert-helper (rest #<list 2 3 4>) (cons (first #<list 2 3 4>) #<list 1>))
-\(\ldots\evalsto\) (invert-helper #<list 3 4> (cons 2 #<list 1>))
-\(\ldots\evalsto\) (invert-helper #<list 3 4> #<list 2 1>)
-\(\ldots\evalsto\) (cond ((empty? #<list 3 4>) ...) ((cons? #<list 3 4>) ...))
-\(\ldots\evalsto\) (invert-helper (rest #<list 3 4>) (cons (first #<list 3 4>) #<list 2 1>))
-\(\ldots\evalsto\) (invert-helper #<list 4> (cons 3 #<list 2 1>))
-\(\ldots\evalsto\) (invert-helper #<list 4> #<list 3 2 1>)
-\(\ldots\evalsto\) (cond ((empty? #<list 4>) ...) ((cons? #<list 4>) ...))
-\(\ldots\evalsto\) (invert-helper (rest #<list 4>) (cons (first #<list 4>) empty))
-\(\ldots\evalsto\) (invert-helper #<empty-list> (cons 4 #<list 3 2 1>))
-\(\ldots\evalsto\) (invert-helper #<empty-list> #<list 4 3 2 1>)
-\(\ldots\evalsto\) (cond ((empty? #<empty-list>) #<list 4 3 2 1>) ((cons? #<empty-list>) ...))
-\(\evalsto\) #<list 4 3 2 1>
-\end{alltt}
-%
-Die höherere Effizienz hat allerdings auch ihren Preis.  Du merkst
-vielleicht, dass auffällig viele der Erläuterungen hier in
-Anführungszeichen stehen.  Das liegt daran, dass wir gar nicht so
-einfach erklären können, wie wir die neue Funktion konstruiert haben.
 
 Übrigens: Da die Funktion \lstinline{invert} generell nützlich ist,
 ist sie unter dem Namen
@@ -378,7 +348,7 @@ Konstruktionsprozess bei solchen Funktionen eigentlich genau aussieht.
 
 Wir nehmen uns eine Funktion vor, die wir eigentlich schon kennen,
 nämlich aus Abschnitt~\ref{sec:list-sum} auf Seite
-\pageref{sec:list-sum}:
+\pageref{sec:list-sum}:\label{function:list-sum-acc}
 %
 \begin{lstlisting}
 ; Summe der Elemente einer Liste von Zahlen berechnen
@@ -557,7 +527,7 @@ von \lstinline{list-sum-helper} ist entsprechend 0:
     (list-sum-helper list0 0)))
 \end{lstlisting}
 %
-Als Nächstes ist der \lstinline{empty}-Zweig dran.  Hier ist
+Als nächstes ist der \lstinline{empty}-Zweig dran.  Hier ist
 \lstinline{sum} die Summe aller Elemente vor \lstinline{list}, und,
 weil \lstinline{list} leer ist, sind das \emph{alle} Elemente von
 \lstinline{list0}.  Deswegen ist \lstinline{sum} das gewünschte
@@ -1014,110 +984,107 @@ Fertig!
 \section{Kontext und Endrekursion}
 \label{sec:iteration}
 
-FIXME: "`strukturell rekursiv"'
+In diesem Abschnitt werfen wir einen Blick darauf, was eigentlich im
+Rechner abläuft bei der Auswertung rekursiver Funktionsaufrufe.  Dabei
+wird ein wichtiger Unterschied zwischen den Funktionen mit Akkumulator
+und den "<normalen"> Funktionen davor sichtbar.
 
-
-FIXME
-
-Ein Vergleich der beiden Versionen der Fakultätsfunktion von
-S.~\pageref{page:factorial} und S.~\pageref{page:factorial-tail} zeigt, dass
-Formulierungen mit und ohne Akkumulator
-unterschiedliche Berechnungsprozesse erzeugen.  Hier ein Prozess mit
-Akkumulator:
+Als Beispiel betrachten wir ein weiteres Mal \lstinline{list-sum},
+zunächst in der Version mit Akkumulator aus
+Abschnitt~\ref{function:list-sum-acc} auf
+Seite~\pageref{function:list-sum-acc}.  Am besten ist, wenn Du Dir
+selbst im Stepper die Auswertung von
+\begin{lstlisting}
+(list-sum (list 1 2 3 4))
+\end{lstlisting}
 %
-\begin{alltt}
-(! 4)
-\(\Longrightarrow\) (!-helper 4 1)
-\(\Longrightarrow\) (if (= 4 0) 1 (!-helper (- 4 1) (* 1 4)))
-\(\Longrightarrow\) (if #f 1 (!-helper (- 4 1) (* 1 4)))
-\(\Longrightarrow\) (!-helper (- 4 1) (* 1 4))
-\(\Longrightarrow\) (!-helper 3 4)
-\(\Longrightarrow\) (if (= 3 0) 4 (!-helper (- 3 1) (* 4 3)))
-\(\Longrightarrow\) (if #f 4 (!-helper (- 3 1) (* 4 3)))
-\(\Longrightarrow\) (!-helper (- 3 1) (* 4 3))
-\(\Longrightarrow\) (!-helper 2 12)
-\(\Longrightarrow\) (if (= 2 0) 12 (!-helper (- 2 1) (* 12 2)))
-\(\Longrightarrow\) (if #f 12 (!-helper (- 2 1) (* 12 2)))
-\(\Longrightarrow\) (!-helper (- 2 1) (* 12 2))
-\(\Longrightarrow\) (!-helper 1 24)
-\(\Longrightarrow\) (if (= 1 0) 24 (!-helper (- 1 1) (* 24 1)))
-\(\Longrightarrow\) (if #f 24 (!-helper (- 1 1) (* 24 1)))
-\(\Longrightarrow\) (!-helper (- 1 1) (* 1 24))
-\(\Longrightarrow\) (!-helper 0 24)
-\(\Longrightarrow\) (if (= 0 0) 24 (!-helper (- 0 1) (* 24 0)))
-\(\Longrightarrow\) (if #t 24 (!-helper (- 0 1) (* 24 0)))
-\(\Longrightarrow\) 24
-\end{alltt}
+anschaust.  Hier sind die wichtigsten Schritte bei der Auswertung:
 %
-Demgegenüber hier der Prozess ohne Akkumulator:
+\begin{lstlisting}
+(list-sum #<list 1 2 3 4>)
+|\evalsto| (accumulate #<list 1 2 3 4> 0)
+|\evalsto| (accumulate (rest #<list 1 2 3 4>) (+ (first #<list 1 2 3 4>) 0))
+|\evalsto| (accumulate #<list 2 3 4>   1)
+|\evalsto| (accumulate #<list 3 4>     3)
+|\evalsto| (accumulate #<list 4>       6)
+|\evalsto| (accumulate #<empty-list>  10)
+|\evalsto| 10
+\end{lstlisting}
 %
-\begin{alltt}
-(! 4)
-\(\Longrightarrow\) (if (= 4 0) 1 (* 4 (! (- 4 1))))
-\(\Longrightarrow\) (if #f 1 (* 4 (! (- 4 1))))
-\(\Longrightarrow\) (* 4 (! (- 4 1)))
-\(\Longrightarrow\) (* 4 (! 3))
-\(\Longrightarrow\) (* 4 (if (= 3 0) 1 (* 3 (! (- 3 1)))))
-\(\Longrightarrow\) (* 4 (if #f 1 (* 3 (! (- 3 1)))))
-\(\Longrightarrow\) (* 4 (* 3 (! (- 3 1))))
-\(\Longrightarrow\) (* 4 (* 3 (! 2)))
-\(\ldots\)
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (! 1))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (if (= 1 0) 1 (* 1 (! (- 1 1)))))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (if #f ... (* 1 (! (- 1 1)))))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (! (- 1 1))))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (! 0)))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (if (= 0 0) 1 (* 0 (! (- 0 1))))))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 (if #t 1 (* 0 (! (- 0 1)))))))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 (* 1 1))))
-\(\Longrightarrow\) (* 4 (* 3 (* 2 1)))
-\(\Longrightarrow\) (* 4 (* 3 2))
-\(\Longrightarrow\) (* 4 6)
-\(\Longrightarrow\) 24
-\end{alltt}
+Wir haben den Wert des \lstinline{sum}-Parameters immer untereinander
+geschrieben, und man sieht gut, wie sich das Zwischenergebnis von 0
+schrittweise auf das Endergebnis 10 zubewegt.
+
+Wenn Du das "<alte"> \lstlisting{list-sum} in
+Abschnitt~\ref{sec:list-sum} auf Seite~\ref{sec:list-sum} im Stepper
+laufen lässt, sieht das schon optisch ganz anders aus:
 %
-Es ist deutlich sichtbar, dass die Version ohne Akkumulator alle
-Multiplikationen bis zum Schluss "<aufstaut">.  Das heißt aber auch,
-dass im Laufe des Berechnungsprozesses Ausdrücke auftauchen, die desto
-größer werden je größer das Argument von \texttt{!} ist: Bei
-\texttt{(!  100)} werden zum Beispiel 100 Multiplikationen aufgestaut.
+\begin{lstlisting}
+(list-sum #<list 1 2 3 4>)
+|\evalsto| (+ (first #<list 1 2 3 4>) (list-sum (rest #<list 1 2 3 4>)))
+|\evalsto| (+ 1 (list-sum #<list 2 3 4>))
+|\evalsto| (+ 1 (+ 2 (list-sum #<list 3 4>))
+|\evalsto| (+ 1 (+ 2 (+ 3 (list-sum #<list 4>))))
+|\evalsto| (+ 1 (+ 2 (+ 3 (+ 4 (list-sum #<empty-list>)))))
+|\evalsto| (+ 1 (+ 2 (+ 3 (+ 4 0))))
+|\evalsto| (+ 1 (+ 2 (+ 3 4)))
+|\evalsto| (+ 1 (+ 2 7))
+|\evalsto| (+ 1 9)
+|\evalsto| 10
+\end{lstlisting}
+%
+Hier sieht man, dass die rekursiven Aufrufe die einzelnen Additionen
+"<aufstauen">, und die eigentliche Arbeit der Addition erst nach dem
+letzten rekursiven Aufruf stattfindet.  Dieses "<Aufstauen"> kommt
+daher, dass der rekursive Aufruf in der alten Version innerhalb des
+Aufrufs von \lstinline{+} steht:
+%
+\begin{lstlisting}
+(+ (first list) (list-sum (rest list)))
+\end{lstlisting}
+%
+Bei der Version mit Akkumulator ist es genau umgekehrt und der
+rekursive Aufruf steht um den Aufruf von \lstinline{+} herum:
+%
+\begin{lstlisting}
+(accumulate (rest list) (+ (first list) sum))
+\end{lstlisting}
+%
+Wenn der Computer in der alten Version einen rekursiven Aufruf
+auswertet, muss er sich merken, dass nach dem rekursiven Aufruf noch
+eine Addition passieren muss.  Entsprechend wird die Kette von
+\lstinline{+}-Aufrufen bei jedem rekursiven Aufruf länger.  Dieser
+Aufruf von \lstinline{+} heißt der \textit{Kontext}\index{Kontext} des
+rekursiven Aufrufs~-- er ist um ihn herumgewickelt.
 
-Die Version mit Akkumulator hingegen scheint in der Größe der
-zwischenzeitlich auftretenden Ausdrücke begrenzt zu sein.  Tatsächlich
-stellt sich das Wachstum der Version ohne Akkumulator bei der Version
-mit Akkumulator nicht ein.
+Bei der Version mit Akkumulator hat der rekursive Aufruf von
+\lstinline{accumulate} keinen Kontext, dementsprechend staut sich bei
+der Auswertung und im Stepper da auch nichts auf.  Ein rekursiver
+Aufruf ohne Kontext heißt \textit{endrekursiv}\index{Endrekursion},
+weil nach dem Aufruf nichts mehr passieren muss, der Aufruf also "<am
+Ende"> steht.
 
-Der Grund dafür sind die Schablonen: In der Schablone für Funktionen
-ohne Akkumulator steht \texttt{(... (proc (- n 1)) ...)}, das
-heißt, um den rekursiven Aufruf von \texttt{proc} wird noch
-etwas "<herumgewickelt">, oder, anders gesagt, mit dem Ergebnis des
-rekursiven Aufrufs passiert noch etwas.  Das, was mit dem Ergebnis
-noch passiert, heißt der \textit{Kontext\index{Kontext}} des Aufrufs.
-Bei \texttt{!} ist der vollständige Ausdruck \texttt{(* n (! (- n
-  1)))}.  Wenn aus diesem Ausdruck der rekursive Aufruf \texttt{(! (-
-  n 1))} herausgenommen wird, bleibt der Kontext \texttt{(* n
-  \(\circ\))}, wobei $\circ$ markiert, wo der Aufruf entfernt
-wurde.  Tatsächlich wird in der Literatur diese Markierung
-\textit{Loch\index{Loch}} genannt und \texttt{[]} geschrieben.  Der
-Kontext \texttt{(* n [])} macht deutlich, dass mit Ergebnis eines
-Aufrufs, der später für \texttt{[]} eingesetzt wird, noch \texttt{n}
-multipliziert wird.  Dementsprechend stauen sich in der
-Reduktionsfolge die Multiplikationen mit den verschiedenen Werten von
-\texttt{n}.
+Der Begriff "<Endrekursion"> ist etwas unglücklich: Ob ein
+Funktionsaufruf einen Kontext hat oder nicht, hat eigentlich gar
+nichts damit zu tun, ob er rekursiv ist oder nicht.  Im Englischen
+gibt es den besseren Begriff \textit{tail call}
+\index{tail call@\textit{tail call}}, der sowohl auf rekursive
+als auch nicht-rekursive Aufrufe zutrifft.
 
-Bei der Fakultäts-Funktion mit Akkumulator ist der Ausdruck, zu dem
-der Rumpf bei $\texttt{n} \neq 0$ reduziert wird, \texttt{(!-helper (- n 1)
-  (* n acc))}.  Der Kontext des Aufrufs von \texttt{!-helper} innerhalb
-dieses Ausdrucks ist \texttt{[]}, also \emph{leer}~-- \emph{nichts}
-passiert mehr mit dem Rückgabewert von \texttt{!-helper}, und damit stauen
-sich auch bei der Reduktion keine Kontexte an.  Solche Funktionaufrufe
-ohne Kontext heißen \textit{endrekursiv\index{endrekursiv}}~-- eben,
-weil nach dem rekursiven Aufruf "<Ende"> ist.\footnote{Das Konzept des
-  Aufrufs ohne Kontext ist nicht auf rekursive Aufrufe beschränkt.  Im
-  Englischen heißen solche Aufrufe allgemeiner \textit{tail
-    calls\index{tail call}} (also ohne "<recursive">).}
-Die Berechnungsprozesse, die von endrekursiven Aufrufen generiert
-werden, heißen auch \textit{iterative\index{Iteration}} Prozesse.
+Dass der Aufruf im alten \lstinline{list-sum} nicht endrekursiv ist,
+legt schon die Schablone fest, in der das Ergebnis des rekursiven
+Aufrufs noch mit dem ersten Element der Liste kombiniert werden muss.
+Bei der Schablone für Funktionen mit Akkumulator ist das nicht so,
+entsprechend haben die entstehenden rekursiven Aufrufe auch keinen
+Kontext.
+
+Die Auswertungsprozesse, die von endrekursiven Aufrufen generiert
+werden, gehen in einer geraden Linie voran und heißen auch
+\textit{iterative\index{Iteration}} Prozesse.  In anderen
+Programmiersprachen spricht man auch von
+\textit{Schleifen}\index{Schleife}; viele Programmiererinnen und
+Programmierer benutzen deshalb den Namen \lstinline{loop} statt
+\lstinline{accumulate}.
 
 \section{Das Phänomen der umgedrehten Liste}
 
