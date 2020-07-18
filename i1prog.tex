@@ -1700,10 +1700,17 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
     \begin{displaymath}
       a^2 + b^2 = c^2
     \end{displaymath}
-    Schreibe eine Funktion \texttt{hypotenuse},
+    Schreibe eine Funktion \lstinline{hypotenuse},
     die $c$ der obigen Gleichung berechnet.
+
     Um die Quadratwurzel einer Zahl zu berechnen,
-    kannst du \texttt{sqrt} verwenden.
+    kannst du \lstinline{sqrt} verwenden, die folgende
+    Signaturdeklaration hat:
+    %
+\begin{lstlisting}
+(: sqrt (number -> number))
+\end{lstlisting}
+    % 
     Erkenne und abstrahiere weitere Teilprobleme!
 
   \item Schreibe schließlich eine Funktion
