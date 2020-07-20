@@ -143,14 +143,14 @@
   (lambda (list0)
     (define accumulate
       ; evens enthält die geraden Zahlen zwischen list0 und list
+      ; in umgekehrter Reihenfolge
       (lambda (list evens)
         (cond
-          ((empty? list) evens)
+          ((empty? list) (invert evens))
           ((cons? list)
            (accumulate (rest list)
                        (if (even? (first list))
                            (cons (first list) evens)
                            evens))))))
     (accumulate list0 empty)))
-        
         
