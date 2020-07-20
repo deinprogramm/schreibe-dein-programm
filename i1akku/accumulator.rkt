@@ -132,6 +132,25 @@
           ((positive? n)
            (accumulate (- n 1) (* n acc))))))
     (accumulate n0 1)))
-           
+
+; Aus einer Liste gerade Zahlen extrahieren
+(: evens ((list-of integer) -> (list-of integer)))
+
+(check-expect (evens (list 1 2 3 4 5 6))
+              (list 2 4 6))
+
+(define evens
+  (lambda (list0)
+    (define accumulate
+      ; evens enthält die geraden Zahlen zwischen list0 und list
+      (lambda (list evens)
+        (cond
+          ((empty? list) evens)
+          ((cons? list)
+           (accumulate (rest list)
+                       (if (even? (first list))
+                           (cons (first list) evens)
+                           evens))))))
+    (accumulate list0 empty)))
         
         

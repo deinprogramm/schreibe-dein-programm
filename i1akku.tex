@@ -302,7 +302,7 @@ vorn an, so wie wir es in der Beispielrechnung auch gemacht haben:
 %
 Was müssen wir noch dazuschreiben?  Die Funktion arbeitet schon die
 Eingabeliste ab und akkumuliert ihre Elemente in \lstinline{inverted}
-hinein: Sie ist bereits fertig, wir müssen nur die Ellipsen wegmachen:
+hinein: Sie ist bereits fertig, wir müssen nur die Ellipsen wegmachen:\label{function:invert-helper}
 %
 \begin{lstlisting}
 (define invert-helper
@@ -1088,82 +1088,129 @@ Programmierer benutzen deshalb den Namen \lstinline{loop} statt
 
 \section{Das Phänomen der umgedrehten Liste}
 
-Die beiden Varianten der Fakultäts-Funktion berechnen zwar beide 
-stets das gleiche Ergebnis.  Die beiden Reduktionsfolgen für
-\texttt{(! 4)} aus dem vorigen Abschnitt zeigen allerdings, dass die
-beiden Funktionen bei der Berechnung unterschiedlich vorgehen:
-Während die Variante ohne Akkumulator "<von rechts"> multipliziert,
-also folgendermaßen auswertet:
-%
-\begin{displaymath}
-  4\cdot (3 \cdot (2 \cdot (1 \cdot 1)))
-\end{displaymath}
-%
-multipliziert die Variante mit Akkumulator "<von links">:
-%
-\begin{displaymath}
-  (((1 \cdot 4)\cdot 3)\cdot 2)\cdot 1
-\end{displaymath}
-%
-Die Multiplikationen passieren also in umgekehrter Reihenfolge.
-Dies macht bei der Fakultät keinen Unterschied, da die Multiplikation
-assoziativ ist.  Diese Assoziativität ist jedoch nicht immer
-gegeben~-- insbesondere nicht bei Funktionen, die Listen zurückgeben.
-Hier zum Beispiel eine Funktion, die eine Zahl $n$ akzeptiert und eine
-absteigende Liste der Zahlen von $n$ bis $1$ zurückliefert:
+Von \lstinline{list-sum} kennen wir jetzt zwei Varianten: die
+ursprüngliche "<normal rekursive"> Version und die iterative.  Bei
+allen Funktionen, die wir bisher auf Listen geschrieben haben, ist es
+auch möglich, eine endrekursive Fassung zu schreiben.  Die
+endrekursiven Versionen sind nicht besser.  Im Gegenteil: sie sind ja
+schwieriger zu schreiben.  In diesem Kapitel ist das deshalb nur eine
+Fingerübung.  Wir werden aber in Kapitel~\ref{cha:secd} auf
+Seite~\pageref{cha:secd} zeigen, dass wir in vielen anderen
+Programmiersprachen die Listenfunktionen iterativ schreiben
+\emph{müssen}.  Darum ist es gut, wenn wir das schonmal gemacht haben.
+
+Bei Funktionen, die Listen als Ergebnis produzieren, ist eine
+Kleinigkeit zu beachten, wenn wir sie iterativ schreiben.  Wir zeigen,
+was diese Kleinigkeit ist, anhand einer Funktion, die aus einer Liste
+von ganzen Zahlen die geraden Zahlen extrahiert.  Das geht auch, indem
+wir einfach \lstinline{filter} aufrufen, aber wir programmieren das
+zur Übung noch einmal.  Kurzbeschreschreibung, Signatur und Testfall
+sind wie folgt:
 %
 \begin{lstlisting}
-; Liste der Zahlen von n bis 1 generieren
-(: build-list (natural -> (list-of natural)))
+; Aus einer Liste gerade Zahlen extrahieren
+(: evens ((list-of integer) -> (list-of integer)))
 
-(check-expect (build-list 0) empty)
-(check-expect (build-list 3) (list 3 2 1))
-
-(define build-list
-  (lambda (n)
-    (if (= n 0)
-        empty
-        (cons n (build-list (- n 1))))))
+(check-expect (evens (list 1 2 3 4 5 6))
+              (list 2 4 6))
 \end{lstlisting}
 %
-Die direkte Übersetzung in eine Variante mit Akkumulator liefert:
+Die Schablone gibt folgendes her:
 %
 \begin{lstlisting}
-(define build-list
-  (lambda (n)
-    (letrec
-      ((build-list-helper
-        (lambda (n acc)
-          (if (= n 0)
-              acc
-              (build-list-helper (- n 1) (cons n acc))))))
-    (build-list-helper n empty))))
+(define evens
+  (lambda (list0)
+    (define accumulate
+      (lambda (list acc)
+        (cond
+          ((empty? list) ... acc ...)
+          ((cons? list)
+           (accumulate (rest list)
+                       ... (first list) ... acc ...)))))
+    (accumulate list0 ...)))
 \end{lstlisting}
 %
-Diese Variante ist inkorrekt: Sie liefert z.B.\ für
-\texttt{(build-list 3)} das Ergebnis \verb|#<list 1 2 3>|, die
-Elemente der Liste sind also in umgekehrter Reihenfolge.  Da schon die
-Fakultätsfunktion mit Akkumulator die Multiplikationen gegenüber der
-Variante ohne Akkumulator in umgekehrter Reihenfolge durchgeführt hat, war dies allerdings zu
-erwarten, und ist ein generelles Phänomen bei der Berechnung von
-Listen-Ausgaben mit Akkumulator.  Das Problem kann durch das Umdrehen
-der Ergebnisliste gelöst werden:
+Wir müssen uns wieder einen geeigneten Akkumulator überlegen: Es
+bietet sich an, die schon gesehenen geraden Zahlen aufzusammeln.  Wir
+nennen also den Akkumulator genau wie die Funktion \lstinline{evens}
+und schreiben eine geeignete Invariante:
 %
 \begin{lstlisting}
-    (letrec
-      ((build-list-helper
-        (lambda (n acc)
-          (if (= n 0)
-              (reverse acc)
-              (build-list-helper (- n 1) (cons n acc))))))
+(define evens
+  (lambda (list0)
+    (define accumulate
+      ; evens enthält die geraden Zahlen zwischen list0 und list
+      (lambda (list evens)
+        (cond
+          ((empty? list) ... evens ...)
+          ((cons? list)
+           (accumulate (rest list)
+                       ... (first list) ... evens ...)))))
+    (accumulate list0 ...)))
 \end{lstlisting}
 %
+Der erste Wert für den Akkumulator muss gemäß der Invariante
+\lstinline{empty} sein.  Ebenfalls gemäß der Invariante ist
+\lstinline{evens} am Ende das Endergebnis.  Außerdem müssen wir im
+rekursiven Aufruf von \lstinline{accumulate} noch einen neuen Wert für
+\lstinline{evens} berechnen: Wir hängen \lstinline{(first list)} an
+das bisherige Zwischenergebnis an, falls es gerade ist:
+%
+\begin{lstlisting}
+(define evens
+  (lambda (list0)
+    (define accumulate
+      ; evens enthält die geraden Zahlen zwischen list0 und list
+      (lambda (list evens)
+        (cond
+          ((empty? list) evens)
+          ((cons? list)
+           (accumulate (rest list)
+                       (if (even? (first list))
+                           (cons (first list) evens)
+                           evens))))))
+    (accumulate list0 empty)))
+\end{lstlisting}
+%
+Sieht gut aus, oder?  Es gibt allerdings ein kleines Problem: Der
+Testfall schlägt fehl.  Die Funktion liefert \lstinline{#<list 6 4 2>}
+statt \lstinline{#<list 2 4 6>}~-- die Liste ist verkehrt herum!
 
-\section{Vertraute Funktionen endrekursiv}
+Das ist eine natürliche Konsequenz, wenn eine Liste iterativ erzeugt
+wird: Bei einem rekursiven Aufruf, bei dem die Ergebnisliste wächst,
+wird ja mit \lstinline{cons} ein neues Element \emph{vorn} angehängt,
+das erste Element kommt also zuletzt.
+
+Das bedeutet, dass die Invariante zwar richtig, aber unpräzise ist:
+Sie sagt, welche Elemente in \lstinline{evens} drin sind, aber nicht,
+in welcher Reihenfolge.  Wir sollten noch sie so erweitern:
+%
+\begin{lstlisting}
+; evens enthält die geraden Zahlen zwischen list0 und list
+; in umgekehrter Reihenfolge
+\end{lstlisting}
+%
+Vielleicht magst Du \lstinline{evens} sogar in
+\lstinline{inverted-evens} umbenennen.
+
+Wir müssen die Funktion noch korrigieren.  Glücklicherweise geht das
+einfach: Wir rufen einfach einfach am Ende \lstinline{invert} auf dem
+Ergebnis auf, und das Ergebnis passt.  Wir müssen uns keine Sorgen
+machen, dass dadurch die Funktion wieder quadratisch wird, weil wir
+\lstinline{invert} nur am Ende aufrufen, nicht bei jedem rekursiven
+Aufruf.
+
+\begin{aufgabeinline}
+  Schreibe eine iterative Variante von \lstinline{concatenate} aus
+  Abschnitt~\ref{sec:concatenate} auf Seite~\pageref{sec:concatenate}.
+  Vergleiche sie mit der Funktion \lstinline{invert-helper} auf
+  Seite~\pageref{function:invert-helper}: gibt es eine Gemeinsamkeit?
+\end{aufgabeinline}
+
+\section{Listen iterativ zusammenfalten}
 
 FIXME
 
-fold-left
 
 
 \section*{Anmerkungen}
@@ -1178,13 +1225,6 @@ allerdings bei vielen anderen Programmiersprachen nicht der Fall.
 Mehr dazu in Kapitel~\ref{cha:secd}.
 
 \section*{Aufgaben}
-
-\begin{aufgabe}
-  \label{ref:o-of-invert}
-  Enwickle eine Formel für die Anzahl der rekursiven Aufrufe in
-  der ersten Version von \texttt{invert}!  (Hinweis: Greife auf
-  die Gauß'sche Summenformel zurück.)
-\end{aufgabe}
 
 \begin{aufgabe}
   Schreibe eine Funktion \texttt{list-sum+product}, die eine
