@@ -153,4 +153,40 @@
                            (cons (first list) evens)
                            evens))))))
     (accumulate list0 empty)))
-        
+
+; Liste iterativ falten
+(: list-fold-left ((list-of %a) %acc (%acc %a -> %acc) (%acc -> %b) -> %b))
+
+(check-expect (list-fold-left (list 1 2 3)
+                              empty
+                              cons
+                              (lambda (inverted) inverted))
+              (list 3 2 1))
+
+(check-expect (list-fold-left (list 1 2 3 4 5)
+                              0 +
+                              (lambda (sum) sum))
+              15)
+                         
+
+(define list-fold-left
+  (lambda (list0 start-acc next-acc final-acc->result)
+    (define accumulate
+      (lambda (list acc)
+        (cond
+          ((empty? list) (final-acc->result acc))
+          ((cons? list)
+           (accumulate (rest list)
+                       (next-acc (first list) acc))))))
+    (accumulate list0 start-acc)))          
+
+#;(define list-fold-left
+  (lambda (list0 ...)
+    (define accumulate
+      (lambda (list acc)
+        (cond
+          ((empty? list) ... acc ...)
+          ((cons? list)
+           (accumulate (rest list)
+                       ... (first list) ... acc)))))
+    (accumulate list0 ...)))

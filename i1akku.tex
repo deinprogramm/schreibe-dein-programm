@@ -1154,7 +1154,7 @@ Der erste Wert für den Akkumulator muss gemäß der Invariante
 \lstinline{evens} am Ende das Endergebnis.  Außerdem müssen wir im
 rekursiven Aufruf von \lstinline{accumulate} noch einen neuen Wert für
 \lstinline{evens} berechnen: Wir hängen \lstinline{(first list)} an
-das bisherige Zwischenergebnis an, falls es gerade ist:
+das bisherige Zwischenergebnis an, falls es gerade ist:\label{function:evens}
 %
 \begin{lstlisting}
 (define evens
@@ -1183,17 +1183,17 @@ das erste Element kommt also zuletzt.
 
 Das bedeutet, dass die Invariante zwar richtig, aber unpräzise ist:
 Sie sagt, welche Elemente in \lstinline{evens} drin sind, aber nicht,
-in welcher Reihenfolge.  Wir sollten noch sie so erweitern:
+in welcher Reihenfolge.  Wir sollten sie erweitern:
 %
 \begin{lstlisting}
 ; evens enthält die geraden Zahlen zwischen list0 und list
 ; in umgekehrter Reihenfolge
 \end{lstlisting}
 %
-Vielleicht magst Du \lstinline{evens} sogar in
-\lstinline{inverted-evens} umbenennen.
+(Vielleicht magst Du \lstinline{evens} sogar in
+\lstinline{inverted-evens} umbenennen.)
 
-Wir müssen die Funktion noch korrigieren.  Glücklicherweise geht das
+Wir müssen die Funktion natürlich noch korrigieren.  Glücklicherweise geht das
 einfach: Wir rufen einfach einfach am Ende \lstinline{invert} auf dem
 Ergebnis auf, und das Ergebnis passt.  Wir müssen uns keine Sorgen
 machen, dass dadurch die Funktion wieder quadratisch wird, weil wir
@@ -1209,9 +1209,140 @@ Aufruf.
 
 \section{Listen iterativ zusammenfalten}
 
-FIXME
+Du erinnerst Dich vielleicht: In Abschnitt~\ref{sec:fold} auf
+Seite~\pageref{sec:fold} haben wir Mutter aller Listenfunktionen
+geschrieben, \lstinline{list-fold}, indem wir aus der Schablone für
+Listenfunktionen eine Funktion gemacht haben.  Alle Listenfunktionen,
+die nach dieser Schablone programmiert sind, können durch einen
+einfachen Aufruf von \lstinline{list-fold} ersetzt werden.
 
+Für die Funktionen mit Zwischenergebnis gibt es eine andere Schablone,
+und wir machen in diesem Abschnitt für diese Schablone das gleiche,
+was \lstinline{list-fold} für die frühere Schablone gemacht hat.
+Diesmal leiten wir die Funktion von vornherein aus der Schablone her
+und geben ihr gleich einen Namen, nämlich \lstinline{list-fold-left}.
 
+Warum \lstinline{list-fold-left}?  Wenn Du Dir die Arbeitsweise von
+\lstinline{list-fold} im Stepper anschaust, siehst Du, dass sie die
+Liste von rechts nach links aufrollt.  Eine Funktion mit
+Zwischenergebnis arbeitet aber von links nach rechts, darum das
+\lstinline{-left}.  
+
+Hier die Schablone aus
+Konstruktionsanleitung~\ref{ka:listen-eingabe-akkumulator-schablone}
+auf Seite~\pageref{ka:listen-eingabe-akkumulator-schablone} in Form
+einer Funktion:
+%
+\begin{lstlisting}
+(define list-fold-left
+  (lambda (list0 ...)
+    (define accumulate
+      (lambda (list acc)
+        (cond
+          ((empty? list) ... acc ...)
+          ((cons? list)
+           (accumulate (rest list)
+                       ... (first list) ... acc)))))
+    (accumulate list0 ...)))
+\end{lstlisting}
+%
+Überall, wo Ellipsen stehen, müssen wir Namen hinschreiben: Das sind
+insgesamt drei Stellen.  Wir arbeiten uns von hinten nach vorn,
+zunächst ist der erste Aufruf von \lstinline{accumulate} an der
+Reihe.  Die dortige Ellipse steht für den ersten Wert des Akkumulators
+\lstinline{acc}~-- wir wählen dafür den Namen \lstinline{start-acc}
+und nehmen ihn in die Parameter von \lstinline{list-fold-left} auf.
+
+Beim rekursiven Aufruf von \lstinline{accumulate} müssen
+\lstinline{(first list)} und \lstinline{acc} zum nächsten Wert für den
+Akkumulator kombiniert werden.  Das lassen wir von einer Funktion
+erledigen, analog zu \lstinline{for-cons} bei \lstinline{list-fold}.
+Schließlich bleibt noch die Ellipse am Ende im
+\lstinline{empty?}-Zweig, bei der aus dem letzten Akkumulator das
+Endergebnis wird.  Diesen Übergang lassen wir ebenfalls von einer
+Funktion erledigen, die wir \lstinline{final-acc->result} nennen.
+
+Das Ergebnis sieht so aus:
+%
+\begin{lstlisting}
+(define list-fold-left
+  (lambda (list0 start-acc next-acc final-acc->result)
+    (define accumulate
+      (lambda (list acc)
+        (cond
+          ((empty? list) (final-acc->result acc))
+          ((cons? list)
+           (accumulate (rest list)
+                       (next-acc (first list) acc))))))
+    (accumulate list0 start-acc)))
+\end{lstlisting}
+%
+Damit können wir die Aufgaben der bisherigen iterativen Funktionen
+erledigen.  Das machen wir gleich als Testfälle.  Hier sind
+\lstinline{invert} und \lstinline{list-sum}:
+%
+\begin{lstlisting}
+(check-expect (list-fold-left (list 1 2 3)
+                              empty
+                              cons
+                              (lambda (inverted) inverted))
+              (list 3 2 1))
+
+(check-expect (list-fold-left (list 1 2 3 4 5)
+                              0 +
+                              (lambda (sum) sum))
+              15)
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Bilde \lstinline{evens} mit einem Aufruf von
+  \lstinline{list-fold-left} nach!
+\end{aufgabeinline}
+%
+Es fehlt noch eine Signatur für \lstinline{list-fold-left}.  Wir
+fangen wieder damit an, dass wir aufschreiben, was wir wissen, nämlich
+dass \lstinline{list-fold-left} vierstellig und das
+\lstinline{list0}-Argument eine Liste ist:
+%
+\begin{lstlisting}
+(: list-fold-left ((list-of %a) ... ... ... -> ...))
+\end{lstlisting}
+%
+Beim ersten Testfall sieht man, dass der Akkumulator nicht die gleiche
+Signatur haben muss wie die Listenelemente.  Wir benutzen für
+den Akkumulator deshalb eine neue Signaturvariable \lstinline{%acc}:
+% 
+\begin{lstlisting}
+(: list-fold-left ((list-of %a) %acc ... ... -> ...))
+\end{lstlisting}
+%
+Wir wissen außerdem, dass \lstinline{next-acc} eine zweistellige
+und \lstinline{final-acc->result} eine einstellige Funktion ist:
+%
+\begin{lstlisting}
+(: list-fold-left
+   ((list-of %a) %acc (... ... -> ...) (... -> ...) -> ...))
+\end{lstlisting}
+%
+Die Argumente von \lstinline{next-acc} sind ein Listenelement und der
+vorige Akkumulator, heraus kommt der nächste Wert für den
+Akkumulator.  Wir können also folgendermaßen ergänzen:
+%
+\begin{lstlisting}
+(: list-fold-left 
+   ((list-of %a) %acc (%acc %a -> %acc) (... -> ...) -> ...))
+\end{lstlisting}
+%
+Es bleibt \lstinline{final-acc->result}, das als Argument den letzten
+Akkumulator akzeptiert.  Das Ergebnis wird dann zum Endergebnis der
+Funktion, wofür wir die Signaturvariable \lstinline{%b} wählen.  Am
+Ende steht da folgende Signatur:
+%
+\begin{lstlisting}
+(: list-fold-left
+   ((list-of %a) %acc (%acc %a -> %acc) (%acc -> %b) -> %b))
+\end{lstlisting}
+%
 
 \section*{Anmerkungen}
 
@@ -1231,7 +1362,8 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
   Liste von Zahlen akzeptiert und eine zweielementige Liste
   zurückgibt, deren erstes Element die Summe der Listenelemente und
   deren zweites Element ihr Produkt ist.  Schreibe zwei Varianten
-  der Funktion: eine ohne Akkumulator und eine mit zwei Akkumulatoren.
+  der Funktion: eine "<normal-rekursive"> ohne Akkumulator und eine
+  iterative mit zwei Akkumulatoren.
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1264,45 +1396,20 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreibe eine endrekursive Variante von \texttt{list-length}.
+  Schreibe eine iterative Variante von \texttt{list-length}.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreibe eine endrekursive Variante von
-  \texttt{concatenate}.  Falls du Hilfsfunktionen auf
-  Listen dafür benutzt, gib auch dafür endrekursive Definitionen an.
+  Schreibe eine iterative Variante von \texttt{concatenate}.
 \end{aufgabe}
 
-\begin{aufgabe}
-  Schreibe endrekursive Varianten von \texttt{evens} und \texttt{odds}
-  aus Aufgabe~\ref{ex:evensodds} auf Seite~\pageref{ex:evensodds}.
-  Falls du Hilfsfunktionen auf Listen dafür benutzt, gib auch dafür
-  endrekursive Definitionen an.
-\end{aufgabe}
+\begin{aufgabeinline}
+  Schreibe \lstinline{list-fold-left} mit Hilfe von \lstinline{list-fold},
+  indem Du die Eingabeliste umdrehst.
 
-\begin{aufgabe}
-  \lstinline{List-fold} sammelt die Elemente von hinten nach vorn bzw.
-  von rechts nach links auf, entsprechend der "<natürlichen">
-  Rekursionsstruktur über Listen.  Das gleiche Spiel lässt sich auch in
-  der anderen Richtung durchführen.  Heraus kommt eine Funktion
-  \lstinline{list-fold-left}, die folgende Gleichung (in
-  Infix-Schreibweise) erfüllt:
-  % 
-\begin{lstlisting}
-(list-fold-left |\(u\)| |\(\odot\)| (|\(a_1\)| |\(\ldots\)| |\(a_n\)|)) = |\((\ldots((u\odot a_1)\odot a_2)\ldots\odot a_n)\)|
-\end{lstlisting}
-  % 
-  Programmiere \lstinline{list-fold-left}!
-\end{aufgabe}
-
-\begin{aufgabe}
-  Programmiere eine Version von
-  \lstinline{list-fold-left}, nämlich die Funktion
-  \lstinline{list-fold-left-bonus}, die \lstinline{list-fold} benutzt aber
-  selbst keine Rekursion enthält und auch keine rekursiven
-  Hilfsfunktionen aufruft.
-\end{aufgabe}
-
+  Schreibe umgekehrt \lstinline{list-fold} mit Hilfe von
+  \lstinline{list-fold-left}!
+\end{aufgabeinline}
 
 \begin{aufgabe}
   Das Newton-Verfahren dient zur nährungsweisen
@@ -1315,12 +1422,11 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 
   Programmiere das Newton-Verfahren!
   
-  Hinweis: Die Lösung soll gut genug sein, wenn der Funktionswert nahe
-  bei 0 liegt, also kleiner als eine Toleranz ist. 
-  Da das
-  Newton-Verfahren nicht immer eine Lösung liefert, programmiere
-  Deine Funktion so, dass sie nach einer gewissen Anzahl von Schritten
-  automatisch abbricht und \lstinline{#f} zurück gibt.
+  Hinweis: Die Lösung ist fertig, wenn der Funktionswert nahe bei 0
+  liegt, also kleiner als eine Toleranz ist.  Da das Newton-Verfahren
+  nicht immer eine Lösung liefert, programmiere Deine Funktion so,
+  dass sie nach einer gewissen Anzahl von Schritten automatisch
+  abbricht.
 \end{aufgabe}
 
 
