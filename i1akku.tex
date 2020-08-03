@@ -10,9 +10,9 @@ Manche Berechnungen funktionieren am einfachsten, wenn sie ein
 Zwischenergebnis mitführen und aktualisieren.  Die bisherigen
 Konstruktionsanleitungen für Funktionen, die Listen oder natürliche
 Zahlen verarbeiten, können das aber nicht.  Wir brauchen dafür eine
-neue Programmiertechnik, das das Programmieren mit
+neue Programmiertechnik, das Programmieren mit
 \textit{Akkumulatoren}, und entsprechend angepasste
-Konstruktionsanleitungen.  Beides gibt es in diesem Kapitel.
+Konstruktionsanleitungen.  Beides behandeln wir in diesem Kapitel.
 
 \section{Zwischenergebnisse mitführen}
 \label{sec:intermediate-results}
@@ -51,10 +51,10 @@ müssen wir deshalb \lstinline{(first list)} hinten an das Ergebnis des
 rekursiven Aufrufs anhängen.
 
 Um ein Element \emph{hinten} an eine Liste zu hängen, haben wir bisher
-noch keine fertige Funktion~-- die müsen wir erst noch schreiben.
+noch keine fertige Funktion~-- die müssen wir erst noch schreiben.
 Wir könnten die Arbeit jetzt unterbrechen, um das zu tun.  Wir machen
 erstmal nur eine Notiz, dass wir das später machen~-- in Form einer
-Kurzbeschreibung und einer Signatur:0
+Kurzbeschreibung und einer Signatur:
 %
 \begin{lstlisting}
 ; Element an Liste anhängen
@@ -114,14 +114,17 @@ mit der eingebauten \lstinline{list} machen:
              (append-element (rest list) element))))))
 \end{lstlisting}
 %
-Hier wollten wir gern "<Fertig!"> wir sonst auch schreiben, aber die
+Hier wollten wir gern "<Fertig!"> wie sonst auch schreiben, aber die
 Funktion funktioniert nicht: DrRacket beschwert sich, dass nach der
 öffnenden Klammer von \lstinline{(list element)} keine Funktion steht
 sondern \lstinline{#<empty-list>}.  Wups!  Das liegt daran, dass wir
-den Namen \lstinline{list} auch für den Parameter gleichen Namens
-verwendet haben.  Und nach den Regeln der lexikalischen Bindung aus
+zwar in \lstinline{(list element)} die eingebaute Funktion
+\lstinline{list} gemeint haben,
+wir aber auch einen Parameter mit dem Namen \lstinline{list}
+benutzen, und der
+überdeckt nach den Regeln der lexikalischen Bindung aus
 Abschnitt~\ref{sec:lexikalische-bindung} auf
-Seite~\pageref{sec:lexikalische-bindung} überdeckt der Parameter die
+Seite~\pageref{sec:lexikalische-bindung} die
 eingebaute Funktion.
 
 Wir können das Problem auf zwei Arten lösen~-- wir benennen den
@@ -142,7 +145,7 @@ Doch zurück zu \lstinline{invert}.  Obwohl die zu erledigende Aufgabe
 einfach erscheint, dauert schon das Invertieren von Listen der Länge
 1000 eine ganze Weile.  Du kannst das zum Beispiel ausprobieren, indem
 Du die Funktion \lstinline{copies} aus Abschnitt~\ref{func:copies} auf
-Seite~\pageref{func:copies} verwendest und
+Seite~\pageref{func:copies} verwendest und das hier in der REPL auswertest:
 %
 \begin{lstlisting}
 (invert (copies 1000 42))
@@ -197,7 +200,7 @@ Wenn Du die rechte Seite ausmultiplizierst, steht da:
 \[ \frac{n\times (n+1)}{2} = \frac{n^2 + n}{2} \]
 %
 In der Formel bestimmt das $n^2$ das schnelle Wachstum, auch
-\textit{quadratisch} genannt.\index{quadratisches Wachstum}.  
+\textit{quadratisch} genannt.\index{quadratisches Wachstum}
 
 Tatsächlich gibt es eine bessere Methode, eine Liste umzudrehen: Die
 obige \lstinline{invert}"=Funktion konstruiert die Ergebnisliste, indem
@@ -302,7 +305,7 @@ vorn an, so wie wir es in der Beispielrechnung auch gemacht haben:
 %
 Was müssen wir noch dazuschreiben?  Die Funktion arbeitet schon die
 Eingabeliste ab und akkumuliert ihre Elemente in \lstinline{inverted}
-hinein: Sie ist bereits fertig, wir müssen nur die Ellipsen wegmachen:\label{function:invert-helper}
+hinein. Sie ist bereits fertig, wir müssen nur die Ellipsen wegmachen:\label{function:invert-helper}
 %
 \begin{lstlisting}
 (define invert-helper
@@ -398,9 +401,10 @@ Im \lstinline{empty}-Zweig steht der Akkumulator \lstinline{sum}, in
 der Schablone aus
 Konstruktionsanleitung~\ref{ka:listen-eingabe-schablone} gar nichts
 steht: Hier ist die Liste am Ende und es ist Zeit, das Endergebnis
-auszurechnen: das soll im \lstinline{empty}-Zweig herauskommen.   Weil
-der Akkumulator ein Zwischenergebnis ist, muss er am Schluss am
-Endergebnis zumindest nah dran sein.  Meist \emph{ist} das letzte
+auszurechnen, das im \lstinline{empty}-Zweig herauskommen soll.   Weil
+der Akkumulator ein Zwischenergebnis ist, muss er am Schluss zumindest
+nah am
+Endergebnis dran sein.  Meist \emph{ist} das letzte
 Zwischenergebnis das Endergebnis.
 
 Im \lstinline{cons}-Fall steht ein rekursiver Aufruf mit
@@ -414,7 +418,7 @@ sie in der Schablone.  Dieser Teil der Schablone ist also nur eine
 Erweiterung der ursprünglichen Schablone.
 
 Außerdem fällt Dir vielleicht auf, dass um den rekursiven Aufruf herum
-keine Ellipsen \lstinline{...}: Du solltest da nichts drumherum
+keine Ellipsen \lstinline{...} stehen: Du solltest da nichts drumherum
 schreiben.  Das liegt daran, dass der letzte rekursive Aufruf von
 \lstinline{list-sum-helper} am Ende der Liste das Ergebnis
 produziert~-- das muss die Funktion einfach unverändert zurückliefern,
@@ -427,7 +431,7 @@ aller Listenelemente handelt, welche die Funktion schon "<gesehen">
 hat.  Die sind aber für \lstinline{list-sum-helper} gar nicht mehr
 sichtbar.  Wir können sie sichtbar machen, indem wir die Funktion
 \lstinline{list-sum} einbeziehen, die \lstinline{list-sum-helper}
-aufruft.  Hier ist ihre Schablone dafür:
+aufruft.  Hier ist die Schablone dafür:
 %
 \begin{lstlisting}
 (define list-sum
@@ -438,7 +442,7 @@ aufruft.  Hier ist ihre Schablone dafür:
 Wir haben bewusst den Namen \lstinline{list0} gewählt, damit wir ihn
 nicht mit dem \lstinline{list} aus \lstinline{list-sum-helper}
 durcheinanderbringen.  (Anders als noch bei \lstinline{reverse}~-- wir
-versuchen es besser zu machen.)
+versuchen, es besser zu machen.)
 
 \begin{figure}[tb]
   \centering
@@ -498,8 +502,7 @@ Liste \emph{aller} Elemente, \lstinline{list} markiert die Stelle, an
 der sich \lstinline{list-sum-helper} gerade befindet, besteht also aus
 noch nicht gesehenen Elementen.
 
-Bevor wir nun die Schablone ausfüllen (auch wenn es Dir in den Fingern
-juckt), sollten wir überlegen, in welchem Verhältnis
+Bevor wir nun die Schablone ausfüllen, sollten wir überlegen, in welchem Verhältnis
 \lstinline{list0}, \lstinline{list} und \lstinline{sum} stehen.  Hier
 ist das nämlich noch einfach, aber bei machen Funktionen mit
 Akkumulator werden wir sehen, dass es schwieriger ist.  In diesem Fall
@@ -762,7 +765,7 @@ konsumieren, können wir eine Schablone formulieren:
 
 \begin{konstruktionsanleitung}{Natürliche Zahlen als Eingabe, mit Akkumulator: Schablone}
   \label{ka:natzahlen-eingabe-akkumulator-schablone}
-  Wenn Du eine Funktion schreibst, die eine natürliche akzeptiert und
+  Wenn Du eine Funktion schreibst, die eine natürliche Zahl akzeptiert und
   einen Akkumulator benutzen soll, gehe folgendermaßen vor:
   \begin{enumerate}
   \item Überlege Dir, was für Information der Akkumulator
@@ -792,7 +795,7 @@ konsumieren, können wir eine Schablone formulieren:
   Programmiere eine Funktion, welche die
   \textit{Fakultät}\index{Fakultät} einer Zahl berechnet (auf englisch
   "<factorial">). Für eine Zahl $n$ ist deren Fakultät $n!$ das
-  Produkt \[1\times 2\times \cdots \times (n-1)\times n\].
+  folgende Produkt: \[1\times 2\times \cdots \times (n-1)\times n\]
 \end{aufgabeinline}
 
 \section{Aktienkurse analysieren}
@@ -984,8 +987,8 @@ Fertig!
 \section{Kontext und Endrekursion}
 \label{sec:iteration}
 
-In diesem Abschnitt werfen wir einen Blick darauf, was eigentlich im
-Rechner abläuft bei der Auswertung rekursiver Funktionsaufrufe.  Dabei
+In diesem Abschnitt werfen wir einen Blick darauf, wie  
+die Auswertung rekursiver Funktionsaufrufe funktioniert.  Dabei
 wird ein wichtiger Unterschied zwischen den Funktionen mit Akkumulator
 und den "<normalen"> Funktionen davor sichtbar.
 
@@ -1350,9 +1353,10 @@ Bei der Auswertung von Programmen durch den Computer wird für die
 Verwaltung von Kontexten Speicherplatz benötigt: Bei rekursiven
 Funktionen ohne Akkumulator wächst dieser Speicherplatz mit der Größe
 der Argumente.  Entsprechend wird prinzipiell kein Speicherplatz
-benötigt, wenn kein Kontext anfällt.  In den Lehrsprachen  wird auch tatsächlich
-kein Speicherplatz für endrekursive Aufrufe verbraucht; dies ist
-allerdings bei vielen anderen Programmiersprachen nicht der Fall.
+benötigt, wenn kein Kontext anfällt.  In den Lehrsprachen wird auch tatsächlich
+kein Speicherplatz für endrekursive Aufrufe verbraucht.
+Leider sind viele andere Programmiersprachen nicht so sparsam und
+verbrauchen sinnlos Speicherplatz auch für endrekursive Aufrufe.
 Mehr dazu in Kapitel~\ref{cha:secd}.
 
 \section*{Aufgaben}
