@@ -21,27 +21,6 @@
 (define dillo3 (make-dillo 60000 #t)) ; 60 kg, lebendig
 (define dillo4 (make-dillo 63000 #f)) ; 63 kg, tot
 
-; Gürteltier mit 500g Futter füttern
-(: feed-dillo (dillo -> dillo))
-
-(check-expect (feed-dillo dillo1) (make-dillo 55500 #t))
-(check-expect (feed-dillo dillo2) dillo2)
-
-#;(define feed-dillo
-  (lambda (dillo)
-    (if (dillo-alive? dillo)
-        (make-dillo (+ (dillo-weight dillo) 500)
-                    #t)
-        dillo)))
-
-(define feed-dillo
-  (lambda (dillo)
-    (make-dillo (if (dillo-alive? dillo)
-                    (+ (dillo-weight dillo) 500)
-                    (dillo-weight dillo))
-                (dillo-alive? dillo))))
-
-
 ; Gürteltier überfahren
 (: run-over-dillo (dillo -> dillo))
 
@@ -92,46 +71,6 @@
   (signature
     (mixed dillo parrot)))
 
-; Gewicht eines Tiers feststellen
-(: animal-weight (animal -> natural))
-
-(check-expect (animal-weight dillo1) 55000)
-(check-expect (animal-weight dillo2) 58000)
-(check-expect (animal-weight parrot1) 10000)
-(check-expect (animal-weight parrot2) 5000)
-
-(define animal-weight
-  (lambda (animal)
-    (cond
-      ((dillo? animal) (dillo-weight animal))
-      ((parrot? animal) (parrot-weight animal)))))
-
-
-; Papagei mit 50 g Futter füttern
-(: feed-parrot (parrot -> parrot))
-
-(check-expect (feed-parrot parrot1) (make-parrot 10050 "Der Gärtner war's."))
-(check-expect (feed-parrot parrot2) (make-parrot 5050 "Ich liebe Dich."))
-
-(define feed-parrot
-  (lambda (parrot)
-    (make-parrot (+ (parrot-weight parrot) 50)
-                 (parrot-sentence parrot))))
-
-; Tier füttern
-(: feed-animal (animal -> animal))
-
-(check-expect (feed-animal parrot1) (feed-parrot parrot1))
-(check-expect (feed-animal parrot2) (feed-parrot parrot2))
-(check-expect (feed-animal dillo1) (feed-dillo dillo1))
-(check-expect (feed-animal dillo2) (feed-dillo dillo2))
-
-(define feed-animal
-  (lambda (animal)
-    (cond
-      ((dillo? animal) (feed-dillo animal))
-      ((parrot? animal) (feed-parrot animal)))))
-
 (: run-over-animal (animal -> animal))
 
 (define run-over-animal
@@ -139,8 +78,6 @@
     (cond
       ((dillo? animal) (run-over-dillo animal))
       ((parrot? animal) (run-over-parrot animal)))))
-
-
 
 (: animal-alive? (animal -> boolean))
 
@@ -206,56 +143,6 @@
        (place-image dead-eyes
                     35 40
                     live-dillo)))))
-        
-      
-
-
-(define body
-  (add-solid-curve empty-image
-                   0 0 60 0
-                   80 0 -45 1
-                   "brown"))
-(define head
-  (add-solid-curve empty-image
-                   0 20 45 1
-                   40 0 -20 0.5
-                   "brown"))
-
-(define tail
-  (add-curve empty-image
-             0 10 -10 1
-             40 0 150 0.4
-             (make-pen "brown" 5 "solid" "round" "round")))
-
-(define body-with-tail
-  (overlay/align/offset "right" "bottom" body 0 10 tail))
-
-; frühe Version
-#;(define dillo-image
-  (overlay/align/offset "left" "bottom" head 30 0 body-with-tail))
-
-(define snake-pen (make-pen "brown" 6 "solid" "round" "round"))
-
-(define snake-link
-  (add-curve
-   (add-curve empty-image
-              0 0 0 1
-              0 20 180 1
-              snake-pen)
-   0 23 180 1
-   0 40 0 1
-   snake-pen))
-
-(define snake
-  (lambda (n)
-    (if (= n 1)
-        snake-link
-        (overlay/align/offset "center"
-                              "bottom"         
-                              (snake (- n 1))
-                              0
-                              (- (image-height snake-link) 6)
-                              snake-link))))
 
 ; Parrot
 ; 0 is straight down, from there clockwise
@@ -501,18 +388,6 @@
                animal-on-road))
          animals-on-road)))
 
-
-(: car-on-position-count (position (list-of position) -> natural))
-
-(define car-on-position-count
-  (lambda (car-position positions)
-    (fold 0
-          (lambda (position count)
-            (if (car-on-position? car-position position)
-                (+ count 1)
-                count))
-          positions)))
-
 (: place-animal-on-road (natural animal-on-road image -> image))
 
 (define place-animal-on-road
@@ -581,24 +456,10 @@
                 (+ (live-animals-under-car-count car-position animals-on-road)
                    (world-score world)))))
 
-#;(define display-game
-  (lambda (ticks)
-    (car-on-road
-     (road-window ticks))))
-
 (big-bang (make-world 0 "left" animals-on-road 0)
   (to-draw world->image)
   (on-tick next-world)
   (on-key react-to-key))
              
-
-(define number-picture
-  (lambda (number)
-    (place-image/align
-     (text (number->string number) 100 "blue")
-     250 60
-     "center" "center"
-     (empty-scene 500 120))))
-
 
 
