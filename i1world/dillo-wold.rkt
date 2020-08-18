@@ -56,13 +56,13 @@
   (lambda (parrot)
     (not (string=? (parrot-sentence parrot) ""))))
 
+; Papagei überfahren
 (: run-over-parrot (parrot -> parrot))
 
 (define run-over-parrot
   (lambda (parrot)
     (make-parrot (parrot-weight parrot)
                  "")))
-          
 
 ; Ein Tier ist eins der folgenden:
 ; - Gürteltier
@@ -71,6 +71,7 @@
   (signature
     (mixed dillo parrot)))
 
+; Tier überfahren
 (: run-over-animal (animal -> animal))
 
 (define run-over-animal
@@ -79,6 +80,7 @@
       ((dillo? animal) (run-over-dillo animal))
       ((parrot? animal) (run-over-parrot animal)))))
 
+; Ist Tier noch am Leben?
 (: animal-alive? (animal -> boolean))
 
 (define animal-alive?
@@ -87,7 +89,7 @@
       ((dillo? animal) (dillo-alive? animal))
       ((parrot? animal) (parrot-alive? animal)))))
 
-; Video-Spiel
+; Videospiel
 
 (define dillo-body
   (add-polygon (rectangle 100 60
@@ -119,6 +121,8 @@
   (overlay (flip-horizontal (line 10 10 "black"))
            (line 10 10 "black")))
 
+; Gürteltier-Bild erzeugen
+
 (: dillo-image (dillo -> image))
 
 (define dillo-image
@@ -130,8 +134,6 @@
                    60 (- 60 10) 0 0.5
                    (make-pen "brown" 4 "solid" "round" "round")) 
         
-     
-   
         (rectangle 120 70 "solid" "black")))
 
   (scale
@@ -144,7 +146,7 @@
                     35 40
                     live-dillo)))))
 
-; Parrot
+; Papagei
 ; 0 is straight down, from there clockwise
 ; no. Relative to incoming angle?
 ; Or to incoming line?
@@ -181,17 +183,9 @@
                 "solid"
                 "green")
        0 0
-       (rectangle 130 280 "outline" "white"))))))
+       (rectangle 130 280 "solid" "black"))))))
 
-
-(: animal-image (animal -> image))
-
-(define animal-image
-  (lambda (animal)
-    (cond
-      ((dillo? animal) (dillo-image animal))
-      ((parrot? animal) (parrot-image animal)))))
-
+; Text in der Mitte eines Tiers abbilden
 (: add-text-center (string natural image-color image -> image))
 
 (define add-text-center
@@ -203,9 +197,24 @@
      "center" "center"
      scene)))
 
+; Tier abbilden
+(: animal-image (animal -> image))
+
+(define animal-image
+  (lambda (animal)
+    (cond
+      ((dillo? animal) (dillo-image animal))
+      ((parrot? animal) (parrot-image animal)))))
+
+; Meter in Pixel umwandeln
+(: meters->pixels (real -> real))
+
 (define meters->pixels
   (lambda (meters)
     (* meters 100)))
+
+; Pixel in Meter umwandeln
+(: pixels->meters (real -> real))
 
 (define pixels->meters
   (lambda (pixels)
@@ -214,6 +223,7 @@
 (define marking-height 2)
 (define gap-height 1)
 
+; Straßenmarkierung mit bestimmter Anzahl von Streifen malen
 (: markings (natural -> image))
 
 (define markings
@@ -249,14 +259,19 @@
 (define visible-markings
   (markings marking-count))
 
+; Meter pro Tick
 (define meters-per-tick 0.1)
 
+; Ticks in Meter umwandeln
 (define ticks->meters
   (lambda (ticks)
     (* meters-per-tick ticks)))
 
 (define marking-segment-pixels
   (meters->pixels (+ marking-height gap-height)))
+
+; Straßenausschnitt zu Zeitpunkt anzeigen
+(: road-window (natural -> image))
 
 (define road-window
   (lambda (ticks)
@@ -269,24 +284,34 @@
                        "center" "top"
                        blank-road-window)))
 
-    
+
+; Rad
 (define wheel
   (rectangle (meters->pixels 0.2) (meters->pixels .5) "outline" "white"))
 
+; Zwei Räder auf einer Seite des Autos
 (define wheels-on-one-side
  (above wheel (rectangle 0 (meters->pixels 1.2) "solid" "black") wheel))
 
+; Breite des Autos
 (define car-width 1.5)
+; Länge des Autos
 (define car-length 3.0)
 
+; Bild des Autos
 (define car
   (beside
    wheels-on-one-side
    (rectangle (meters->pixels car-width) (meters->pixels car-length) "solid" "blue")
    wheels-on-one-side))
 
+; Seite der Straße
 (define side
   (signature (enum "left" "right")))
+
+; Eine Position auf der Straße besteht aus:
+; - Abstand vom Straßenanfang in Meter
+; - Seite
 
 (define-record position
   make-position
@@ -300,12 +325,11 @@
   (animal-on-road-animal animal)
   (animal-on-road-position position))
 
-(define animals-on-road
-  (list (make-animal-on-road dillo1 (make-position 20 "left"))
-        (make-animal-on-road parrot1 (make-position 26 "right"))
-        (make-animal-on-road dillo2 (make-position 30 "left"))
-        (make-animal-on-road parrot2 (make-position 42 "left"))))
-  
+; Die Welt des Spiels besteht aus:
+; - Ticks seit Spielanfang
+; - Seite, auf der das Auto fährt
+; - Tiere auf der Straße
+; - Punktzahl
 (define-record world
   make-world
   world?
@@ -314,6 +338,17 @@
   (world-animals-on-road (list-of animal-on-road))
   (world-score natural))
 
+; Position des Autos
+(: world-car-position (world -> position))
+
+(check-expect (world-car-position (make-world 0 "left" empty 0))
+              (make-position (/ road-window-height 2)
+                             "left"))
+(check-expect (world-car-position (make-world 100 "left" empty 0))
+              (make-position (+ (ticks->meters 100) (/ road-window-height 2))
+                             "left"))
+
+                           
 (define world-car-position
   (lambda (world)
     (define meters (ticks->meters (world-ticks world)))
@@ -321,6 +356,8 @@
                       (/ road-window-height 2))
                    (world-car-side world))))
     
+
+(: place-image-on-road (image real image position -> image))
 
 (define place-image-on-road
   (lambda (road-image road-bottom-m image position)
@@ -334,7 +371,7 @@
         ((string=? side "left")
          (* middle-pixels 0.5)) ; Mitte der linken Spur
         ((string=? side "right")
-         (* middle-pixels 1.5))))
+         (* middle-pixels 1.5)))) ; Mitte der rechten Spur
     (if (and (>= (+ image-m-from-start (/ image-height-m 2))
                  road-bottom-m)
              (<= (- image-m-from-start (/ image-height-m 2))
@@ -348,6 +385,7 @@
          road-image)
         road-image)))
 
+; Auto auf die Straße setzen
 (: place-car-on-road (natural position image -> image))
                       
 (define place-car-on-road
@@ -357,7 +395,21 @@
                          meters
                          car car-position)))
 
+; Berührt das Auto eine Position?
 (: car-on-position? (position position -> boolean))
+
+(check-expect (car-on-position? (make-position 10 "left")
+                                (make-position 10 "right"))
+              #f)
+(check-expect (car-on-position? (make-position 10 "left")
+                                (make-position 10 "left"))
+              #t)
+(check-expect (car-on-position? (make-position 11 "left")
+                                (make-position 10 "left"))
+              #t)
+(check-expect (car-on-position? (make-position 10 "left")
+                                (make-position 11 "left"))
+              #t)
 
 (define car-on-position?
   (lambda (car-position position)
@@ -366,7 +418,16 @@
                      (position-m-from-start position)))
              (/ car-length 2)))))
 
+; Wieviele Tiere werden vom Auto berührt?
 (: live-animals-under-car-count (position (list-of animal-on-road) -> natural))
+
+(check-expect (live-animals-under-car-count (make-position 10 "left")
+                                            (list (make-animal-on-road dillo1 (make-position 10 "left"))
+                                                  (make-animal-on-road dillo1 (make-position 10 "right"))
+                                                  (make-animal-on-road dillo1 (make-position 11 "left"))
+                                                  (make-animal-on-road dillo1 (make-position 9 "left"))
+                                                  (make-animal-on-road dillo1 (make-position 12 "left"))))
+              3)
 
 (define live-animals-under-car-count
   (lambda (car-position animals-on-road)
@@ -376,7 +437,22 @@
                     (animal-alive? (animal-on-road-animal animal-on-road))))
              animals-on-road))))
 
+; Alle Tiere überfahren, die das Auto berührt
 (: run-over-animals-on-road (position (list-of animal-on-road) -> (list-of animal-on-road)))
+
+(define dead-dillo1 (run-over-dillo dillo1))
+
+(check-expect (run-over-animals-on-road (make-position 10 "left")
+                                        (list (make-animal-on-road dillo1 (make-position 10 "left"))
+                                              (make-animal-on-road dillo1 (make-position 10 "right"))
+                                              (make-animal-on-road dillo1 (make-position 11 "left"))
+                                              (make-animal-on-road dillo1 (make-position 9 "left"))
+                                              (make-animal-on-road dillo1 (make-position 12 "left"))))
+              (list (make-animal-on-road dead-dillo1 (make-position 10 "left"))
+                    (make-animal-on-road dillo1 (make-position 10 "right"))
+                    (make-animal-on-road dead-dillo1 (make-position 11 "left"))
+                    (make-animal-on-road dead-dillo1 (make-position 9 "left"))
+                    (make-animal-on-road dillo1 (make-position 12 "left"))))
 
 (define run-over-animals-on-road
   (lambda (car-position animals-on-road)
@@ -388,6 +464,7 @@
                animal-on-road))
          animals-on-road)))
 
+; Ein Tier auf die Straße malen
 (: place-animal-on-road (natural animal-on-road image -> image))
 
 (define place-animal-on-road
@@ -397,6 +474,7 @@
                          (animal-image (animal-on-road-animal animal-on-road))
                          (animal-on-road-position animal-on-road))))
 
+; Alle Tiere auf die Straße malen
 (: place-animals-on-road (natural (list-of animal-on-road) image -> image))
 
 (define place-animals-on-road
@@ -406,6 +484,7 @@
             (place-animal-on-road ticks animal-on-road image))
           animals-on-road)))
 
+; Punktzahl anzeigen
 (: place-score (natural image -> image))
 
 (define place-score
@@ -416,6 +495,7 @@
      "left" "top"
      image)))
 
+; Spiel anzeigen
 (: world->image (world -> image))
 
 (define world->image
@@ -430,6 +510,9 @@
        ticks
        (world-animals-on-road world)
        (road-window ticks))))))
+
+; Auf Tastendrück reagieren
+(: react-to-key (world string -> world))
 
 (define react-to-key
   (lambda (world key)
@@ -446,6 +529,9 @@
                    (world-score world)))
       (else world))))
 
+; Wie verändert sich die Welt, wenn ein Tick Zeit vergeht?
+(: next-world (world -> world))
+
 (define next-world
   (lambda (world)
     (define car-position (world-car-position world))
@@ -456,10 +542,13 @@
                 (+ (live-animals-under-car-count car-position animals-on-road)
                    (world-score world)))))
 
+(define animals-on-road
+  (list (make-animal-on-road dillo1 (make-position 20 "left"))
+        (make-animal-on-road parrot1 (make-position 26 "right"))
+        (make-animal-on-road dillo2 (make-position 30 "left"))
+        (make-animal-on-road parrot2 (make-position 42 "left"))))
+
 (big-bang (make-world 0 "left" animals-on-road 0)
   (to-draw world->image)
   (on-tick next-world)
   (on-key react-to-key))
-             
-
-
