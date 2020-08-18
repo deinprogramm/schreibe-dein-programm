@@ -1,7 +1,7 @@
 ;; Die ersten drei Zeilen dieser Datei wurden von DrRacket eingefügt. Sie enthalten Metadaten
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname dillo-wold) (read-case-sensitive #f) (teachpacks ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp"))) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp")))))
-; TODO: Auto in der Mitte?
+; TODO: Nur Gürteltiere?
 
 ; Ein Gürteltier hat folgende Eigenschaften:
 ; - Gewicht (in g)
@@ -427,6 +427,14 @@
   (world-animals-on-road (list-of animal-on-road))
   (world-score natural))
 
+(define world-car-position
+  (lambda (world)
+    (define meters (ticks->meters (world-ticks world)))
+    (make-position (+ meters
+                      (/ road-window-height 2))
+                   (world-car-side world))))
+    
+
 (define place-image-on-road
   (lambda (road-image road-bottom-m image position)
     (define image-m-from-start (position-m-from-start position))
@@ -453,44 +461,40 @@
          road-image)
         road-image)))
 
-(: place-car-on-road (natural side image -> image))
+(: place-car-on-road (natural position image -> image))
                       
 (define place-car-on-road
-  (lambda (ticks side road-image)
+  (lambda (ticks car-position road-image)
     (define meters (ticks->meters ticks))
     (place-image-on-road road-image
                          meters
-                         car
-                         (make-position (+ meters (/ car-length 2))
-                                        side))))
+                         car car-position)))
 
-(: car-on-position? (natural side position -> boolean))
+(: car-on-position? (position position -> boolean))
 
 (define car-on-position?
-  (lambda (ticks car-side position)
-    (and (string=? car-side (position-side position))
-         (<= (abs (- (ticks->meters ticks)
+  (lambda (car-position position)
+    (and (string=? (position-side car-position) (position-side position))
+         (<= (abs (- (position-m-from-start car-position)
                      (position-m-from-start position)))
              (/ car-length 2)))))
 
-; FIXME: extract car position
-
-(: live-animals-under-car-count (natural side (list-of animal-on-road) -> natural))
+(: live-animals-under-car-count (position (list-of animal-on-road) -> natural))
 
 (define live-animals-under-car-count
-  (lambda (ticks car-side animals-on-road)
+  (lambda (car-position animals-on-road)
     (length
      (filter (lambda (animal-on-road)
-               (and (car-on-position? ticks car-side (animal-on-road-position animal-on-road))
+               (and (car-on-position? car-position (animal-on-road-position animal-on-road))
                     (animal-alive? (animal-on-road-animal animal-on-road))))
              animals-on-road))))
 
-(: run-over-animals-on-road (natural side (list-of animal-on-road) -> (list-of animal-on-road)))
+(: run-over-animals-on-road (position (list-of animal-on-road) -> (list-of animal-on-road)))
 
 (define run-over-animals-on-road
-  (lambda (ticks car-side animals-on-road)
+  (lambda (car-position animals-on-road)
     (map (lambda (animal-on-road)
-           (if (car-on-position? ticks car-side
+           (if (car-on-position? car-position
                                  (animal-on-road-position animal-on-road))
                (make-animal-on-road (run-over-animal (animal-on-road-animal animal-on-road))
                                     (animal-on-road-position animal-on-road))
@@ -498,13 +502,13 @@
          animals-on-road)))
 
 
-(: car-on-position-count (natural side (list-of position) -> natural))
+(: car-on-position-count (position (list-of position) -> natural))
 
 (define car-on-position-count
-  (lambda (ticks car-side positions)
+  (lambda (car-position positions)
     (fold 0
           (lambda (position count)
-            (if (car-on-position? ticks car-side position)
+            (if (car-on-position? car-position position)
                 (+ count 1)
                 count))
           positions)))
@@ -546,7 +550,7 @@
      (world-score world)
      (place-car-on-road
       ticks
-      (world-car-side world)
+      (world-car-position world)
       (place-animals-on-road
        ticks
        (world-animals-on-road world)
@@ -569,13 +573,12 @@
 
 (define next-world
   (lambda (world)
-    (define ticks (world-ticks world))
-    (define car-side (world-car-side world))
+    (define car-position (world-car-position world))
     (define animals-on-road (world-animals-on-road world))
-    (make-world (+ 1 ticks)
-                car-side
-                (run-over-animals-on-road ticks car-side animals-on-road)
-                (+ (live-animals-under-car-count ticks car-side animals-on-road)
+    (make-world (+ 1 (world-ticks world))
+                (world-car-side world)
+                (run-over-animals-on-road car-position animals-on-road)
+                (+ (live-animals-under-car-count car-position animals-on-road)
                    (world-score world)))))
 
 #;(define display-game
