@@ -1,0 +1,32 @@
+;; Die ersten drei Zeilen dieser Datei wurden von DrRacket eingefügt. Sie enthalten Metadaten
+;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
+#reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname create-images) (read-case-sensitive #f) (teachpacks ((lib "image.rkt" "teachpack" "deinprogramm" "sdp"))) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ((lib "image.rkt" "teachpack" "deinprogramm" "sdp")))))
+(save-image (rectangle 100 30 "outline" "brown")
+            "rectangle.png")
+(save-image (circle 50 "solid" "red")
+            "circle.png")
+(save-image (ellipse 50 100 "solid" "green")
+            "ellipse.png")
+(save-image (triangle 50 "solid" "gold")
+            "triangle.png")
+(save-image (line 150 100 "blue")
+            "line1.png")
+(save-image (line -150 100 "blue")
+            "line2.png")
+(save-image (text "Schreibe Dein Programm!" 20 "red")
+            "text.png")
+(save-image (polygon (list (make-posn 0 0)
+                           (make-posn -20 40)
+                           (make-posn 120 0)
+                           (make-posn -20 -40))
+                     "solid"
+                     "plum")
+            "polygon1.png")
+
+(save-image (polygon (list (make-pulled-point 1/2 0 0 0 1/2 -20)
+                           (make-posn -20 40)
+                           (make-pulled-point 1/2 -20 120 0 1/2 20)
+                           (make-posn -20 -40))
+                     "solid"
+                     "plum")
+            "polygon2.png")

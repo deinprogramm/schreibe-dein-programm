@@ -118,8 +118,8 @@
                "brown"))
 
 (define dead-eyes
-  (overlay (flip-horizontal (line 10 10 "black"))
-           (line 10 10 "black")))
+  (overlay (line 10 10 "green")
+           (line -10 10 "green")))
 
 ; Gürteltier-Bild erzeugen
 
@@ -142,9 +142,9 @@
          15000))
    (if (dillo-alive? dillo)
        live-dillo
-       (place-image dead-eyes
-                    35 40
-                    live-dillo)))))
+       (overlay/xy dead-eyes
+                   -30 -30
+                   live-dillo)))))
 
 ; Papagei
 ; 0 is straight down, from there clockwise
@@ -548,7 +548,7 @@
         (make-animal-on-road dillo2 (make-position 30 "left"))
         (make-animal-on-road parrot2 (make-position 42 "left"))))
 
-(big-bang (make-world 0 "left" animals-on-road 0)
+#;(big-bang (make-world 0 "left" animals-on-road 0)
   (to-draw world->image)
   (on-tick next-world)
   (on-key react-to-key))
