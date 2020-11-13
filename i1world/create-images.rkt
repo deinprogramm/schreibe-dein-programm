@@ -30,3 +30,60 @@
                      "solid"
                      "plum")
             "polygon2.png")
+(save-image
+ (overlay
+  (circle 50 "solid" "gold")
+  (rectangle 100 100 "solid" "blue"))
+ "overlay.png")
+(save-image
+ (overlay/xy
+  (circle 50 "solid" "gold")
+  10 -20
+  (rectangle 100 100 "solid" "blue"))
+ "overlayxy.png")
+(save-image
+ (place-image
+  (circle 50 "solid" "gold")
+  40 70
+  (rectangle 100 100 "solid" "blue"))
+ "place-image.png")
+(save-image
+ (place-image/align
+  (circle 20 "solid" "gold")
+  40 70 "left" "center"
+  (rectangle 100 100 "solid" "blue"))
+ "place-image-align1.png")
+(save-image
+ (place-image/align
+  (circle 20 "solid" "gold")
+  40 70 "right" "center"
+  (rectangle 100 100 "solid" "blue"))
+ "place-image-align2.png")
+(save-image
+ (place-image/align
+  (circle 20 "solid" "gold")
+  40 70 "center" "center"
+  (rectangle 100 100 "solid" "blue"))
+ "place-image-align3.png")
+(save-image
+ (place-image/align
+  (circle 20 "solid" "gold")
+  40 70 "center" "top"
+  (rectangle 100 100 "solid" "blue"))
+ "place-image-align4.png")
+(save-image
+ (place-image/align
+  (circle 20 "solid" "gold")
+  40 70 "center" "bottom"
+  (rectangle 100 100 "solid" "blue"))
+ "place-image-align5.png")
+(save-image
+ (let ()
+   (define c (circle 20 "solid" "green"))
+   (beside (scale 0.5 c)
+           c
+           (scale 1 c)
+           (scale 1.5 c)
+           (scale 2 c)
+           (scale 3 c)))
+ "scale.png")

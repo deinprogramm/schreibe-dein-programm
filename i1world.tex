@@ -44,7 +44,7 @@ einfache Bilder.  So hat zum Beispiel die Funktion \texttt{rectangle}
 folgende Signatur:\index{rectangle@\texttt{rectangle}}
 % 
 \begin{lstlisting}
-(: rectangle (natural natural mode color -> image))
+(: rectangle (real real mode color -> image))
 \end{lstlisting}
 %
 Dabei sind die ersten beiden Argumente Breite und Höhe eines Rechtecks
@@ -68,7 +68,7 @@ Es gibt es noch weitere Funktionen, die
 geometrische Figuren zeichnen:\index{circle@\texttt{circle}}
 %
 \begin{lstlisting}
-(: circle (natural mode color -> image))
+(: circle (real mode color -> image))
 \end{lstlisting}
 %
 Die \lstinline{circle}-Funktion liefert einen Kreis, wobei das erste
@@ -82,7 +82,7 @@ Beispiel:
 \end{lstlisting}
 %
 \begin{lstlisting}
-(: ellipse (natural natural mode color -> image))
+(: ellipse (real real mode color -> image))
 \end{lstlisting}
 %
 \index{ellipse@\texttt{ellipse}}Diese Funktion liefert eine Ellipse,
@@ -95,7 +95,7 @@ Beispiel:
 \end{lstlisting}
 %
 \begin{lstlisting}
-(: triangle (natural mode color -> image))
+(: triangle (real mode color -> image))
 \end{lstlisting}
 %
 \index{triangle@\texttt{triangle}}Diese Funktion liefert ein nach oben
@@ -108,7 +108,7 @@ Seitenlänge angibt.  Beispiel:
 \end{lstlisting}
 %
 \begin{lstlisting}
-(: line (natural natural color -> image))
+(: line (real real color -> image))
 \end{lstlisting}
 %
 \index{line@\texttt{line}}zeichnet eine Linie.  Der Aufruf
@@ -129,7 +129,7 @@ Wir können auch ein Bild erzeugen, in dem Text steht, und zwar mit der
 Funktion \lstinline{text}\index{text@\texttt{text}}, die folgende Signatur hat:
 %
 \begin{lstlisting}
-(: text (string natural color -> image))
+(: text (string real color -> image))
 \end{lstlisting}
 %
 Die Zahl ist die Höhe der Buchstaben.  Beispiel:
@@ -222,136 +222,194 @@ typischerweise Zahlen zwischen 0 und 1.
 %
 \begin{lstlisting}
 (polygon (list (make-pulled-point 1/2 0 0 0 1/2 -20)
-                           (make-posn -20 40)
-                           (make-pulled-point 1/2 -20 120 0 1/2 20)
-                           (make-posn -20 -40))
-                     "solid"
-                     "plum")
+               (make-posn -20 40)
+               (make-pulled-point 1/2 -20 120 0 1/2 20)
+               (make-posn -20 -40))
+         "solid"
+         "plum")
 |\evalsto| |\includegraphics[scale=0.5]{i1world/polygon2}|
 \end{lstlisting}
 %
-add-curve
-
-\subsection{Bilder zusammensetzen und verändern}
-
-Da diese geometrischen Formen für sich genommen langweilig sind, können
-mehrere Bilder miteinander kombiniert werden.
-
-
-Zum Aufeinanderlegen gibt es die Funktion \lstinline{overlay}\index{overlay@\texttt{overlay}}:
-%
-\begin{lstlisting}
-(: overlay (image image h-place v-place -> image))
-\end{lstlisting}
-%
-Dabei sind die ersten beiden Argumente die Bilder, die
-aufeinandergelegt werden~-- das zweite auf das erste.
-Die beiden anderen Argumente geben an, wie
-die beiden Bilder zueinander positioniert werden.  Die Signatur
-von \lstinline{h-place}, das die horizontale Positionierung festlegt,
-ist:\index{h-place@\texttt{h-place}}
-%
-\begin{lstlisting}
-(define h-place
-   (signature
-      (mixed natural
-             (enum "left"
-                   "right"
-                   "center"))))
-\end{lstlisting}
-%
-Im ersten Fall, wenn es sich um eine Zahl $x$ handelt, wird das zweite
-Bild $x$ Pixel vom linken Rand auf das erste gelegt.  Die drei
-Fälle mit Zeichenketten sagen, dass die Bilder am linken Rand beziehungsweise am
-rechten Rand bündig plaziert werden, beziehungsweise das zweite Bild horizontal
-in die Mitte des ersten gesetzt wird.
-Dementsprechend ist
-\lstinline{v-place}, das die vertikale Positionierung festlegt,
-wie folgt definiert:\index{v-place@\texttt{v-place}}
-%
-\begin{lstlisting}
-(define h-place
-   (signature
-      (mixed natural
-             (enum "top"
-                   "bottom"
-                   "center"))))
-\end{lstlisting}
-%
-Im ersten Fall, wenn es sich um eine Zahl $y$ handelt, wird das zweite
-Bild $y$ Pixel vom oberen Rand auf das erste gelegt.  Die drei
-Fälle mit Zeichenketten sagen, dass die Bilder am oberen Rand beziehungsweise am
-unteren Rand bündig plaziert werden, beziehungsweise das zweite Bild vertikal
-in die Mitte des ersten gesetzt wird.
-
-Das Bild, das bei \lstinline{overlay} herauskommt, ist groß genug, dass
-beide Eingabebilder genau hineinpassen.
-
-overlay/xy
-
-scale
-
-place-image/align
-
-
-Die folgenden Hilfsfunktionen sind Spezialfälle von \lstinline{overlay}:
-%
-\begin{lstlisting}
-(: above  (image image h-mode -> image))
-(: beside (image image v-mode -> image))
-\end{lstlisting}
-%
-Die Funktion \lstinline{above}\index{above@\texttt{above}} ordnet zwei
-Bilder übereinander an, \lstinline{beside}\index{beside@\texttt{beside}}
-nebeneinenander.  Dabei ist \lstinline{h-mode} eine der Zeichenketten
-\lstinline{"left"}, \lstinline{"right"} und \lstinline{"center"}, die angibt, ob die
-Bilder bei \lstinline{above} an der linken oder rechten Kante oder der
-Mitte ausgerichtet werden.  Entsprechend ist \lstinline{v-mode} eine der
-Zeichenketten \lstinline{"top"}, \lstinline{"bottom"} und \lstinline{"center"}, die
-angibt, ob die Bilder bei \lstinline{beside} oben, unten oder an der
-Mitte ausgerichtet werden.
-
-Die Funktionen \lstinline{clip} und \lstinline{pad} beschneiden beziehungsweise
-erweitern ein Bild:\index{clip@\texttt{clip}}\index{pad@\texttt{pad}}
-%
-\begin{lstlisting}
-(: clip (image natural natural natural natural -> image))
-(: pad  (image natural natural natural natural -> image))
-\end{lstlisting}
-%
-Ein Aufruf \lstinline{(clip $i$ $x$ $y$ $w$ $h$)} liefert 
-das Teilrechteck des Bildes $i$ mit Ecke bei $(x, y)$, Breite $w$ und
-Höhe $h$.  Der Aufruf \lstinline{(pad $i$ $l$ $r$ $t$ $b$)}
-fügt an den Seiten von $i$ noch transparenten Leerraum an: $l$ Pixel
-links, $r$ Pixel rechts, $t$ Pixel oben und $b$ Pixel unten.
-
-Abbildung~\ref{fig:image-ss} zeigt, wie sich die einige der
-\texttt{image.ss}-Funktionen in der \drscheme{}-REPL verhalten.
-
-\begin{figure}
+\begin{figure}[tb]
   \centering
-  TBD
-  \caption{Eingefügte Bilder in der \drscheme{}-REPL}
+  \includegraphics[height=0.4\textheight]{i1world/insert-image}
+  \caption{Bilddatei in Programm einbetten}
   \label{fig:image-insert}
 \end{figure}
-%
 Es ist auch möglich, externe Bilder-Dateien in
 \texttt{image.rkt}-Bilder zu verwandeln.  Dazu dient der Menüpunkt
-\texttt{Bild einfügen} im \texttt{Spezial}-Menü:  \drscheme{} fragt nach dem
-Namen einer Bilddatei, die dann in den Programmtext da eingefügt wird,
-wo der Cursor steht.  Die eingefügten Bilder dienen dann als
+\texttt{Bild einfügen} im \texttt{Spezial}-Menü: \drscheme{} fragt
+nach dem Namen einer Bilddatei, die dann in den Programmtext da
+eingefügt wird, wo der Cursor steht.  Alternativ ist es möglich,
+Bilder in anderen Applikationen auszuwählen und zu kopieren und dann
+in DrRacket einzufügen.  Die eingefügten Bilder dienen dann als
 Literale für Bild-Objekte.  Abbildung~\ref{fig:image-insert} zeigt ein
 Beispiel.
 
-Die folgenden Funktionen ermitteln Breite und Höhe
+Schließlich ermitteln die folgenden Funktionen Breite und Höhe
 eines Bildes:\index{image-width@\texttt{image-width}}\index{image-height@\texttt{image-height}}
 %
 \begin{lstlisting}
 (: image-width  (image -> natural))
 (: image-height (image -> natural))
 \end{lstlisting}
+%
 
+\subsection{Bilder zusammensetzen und verändern}
 
+Da diese geometrischen Formen für sich genommen langweilig sind,
+können wir mehrere Bilder zu einem zusammensetzen.
+
+Zum Aufeinanderlegen gibt es die Funktion
+\lstinline{overlay}\index{overlay@\texttt{overlay}}, die ein Bild
+mittig auf ein anderes Bild drauflegt.  Das Bild, das bei
+\lstinline{overlay} herauskommt, ist groß genug, dass beide
+Eingabebilder genau hineinpassen.  Signatur:
+%
+\begin{lstlisting}
+(: overlay (image image -> image))
+\end{lstlisting}
+%
+Beispiel:
+%
+\begin{lstlisting}
+(overlay
+  (circle 50 "solid" "gold")
+  (rectangle 100 100 "solid" "blue"))
+|\evalsto| |\includegraphics[scale=0.5]{i1world/overlay}|
+\end{lstlisting}
+%
+Mittig ist nicht immer das richtige Arrangement für zwei Bilder, die
+übereinandergelegt werden.  Die
+Funktion~\lstinline{overlay/xy}\index{overlayxy@\texttt{overlay/xy}}
+erlaubt, das untere Bild gegenüber dem oberen in X- und Y-Richtung zu
+verschieben.  Hier ist die Signatur:
+%
+\begin{lstlisting}
+(: overlay/xy (image real real image -> image))
+\end{lstlisting}
+%
+Beispiel:
+%
+\begin{lstlisting}
+(overlay/xy
+  (circle 50 "solid" "gold")
+  10 -20
+  (rectangle 100 100 "solid" "blue"))
+|\evalsto| |\includegraphics[scale=0.5]{i1world/overlayxy}|
+\end{lstlisting}
+%
+Das Beispiel zeigt, das auch \lstinline{overlay/xy} das Ergebnisbild
+gerade so groß macht, dass die beiden Eingabebilder hineinpassen.
+
+Manchmal macht auch \lstinline{overlay/xy} nicht das richtige, nämlich
+wenn einfach nur ein Objekt in eine "<Szene"> platziert werden soll,
+zum Beispiel das Gürteltier auf einem Straßenabschnitt.  In dem Fall
+wollen wir genau wie bei \lstinline{overlay/xy} kontrollieren, an
+welchen Koordinaten das daraufgelegte Bild erscheint, aber das Bild
+soll nicht größer werden, wenn zum Beispiel ein Teil des Gürteltiers
+über den Straßenabschnitt hinausragt.  Diese Aufgabe erledigt die
+Funktion
+\lstinline{place-iamge}\index{place-image@\texttt{ place-image}}, deren
+Signatur der von \lstinline{overlay/xy} entspricht:
+%
+\begin{lstlisting}
+(: place-image (image real real image -> image))
+\end{lstlisting}
+%
+Die beiden Koordinaten werden allerdings anders als bei
+\lstinline{overlay/xy} nicht relativ zur mittigen Anordnung
+interpretiert.  Stattdessen geben die beiden Koordinaten die Position
+im zweiten Bild an, wo die Mitte des ersten Bilds platziert wird,
+ausgehend von der oberen linken Ecke des ersten Bildes.  Beispiel:
+%
+\begin{lstlisting}
+(place-image
+  (circle 50 "solid" "gold")
+  40 70
+  (rectangle 100 100 "solid" "blue"))
+|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image}|
+\end{lstlisting}
+%
+Die Funktion \lstinline{place-image} hat noch eine große Schwester
+\lstinline{place-image/align}.  Während \lstinline{place-image} den
+Bezugspunkt immer in der Mitte des ersten Bilds setzt, erlaubt
+\lstinline{place-image} auch anderee Bezugspunkte.  Hier die Signatur:
+%
+\begin{lstlisting}
+(: place-image/align (image real real x-place y-place image -> image
+\end{lstlisting}
+%
+Die Signaturen \lstinline{x-place} und \lstinline{y-place} könnten
+folgendermaßen definiert sein:
+%
+\begin{lstlisting}
+(define x-place (signature (enum "left" "right" "center")))
+(define y-place (signature (enum "top" "bottom" "center")))
+\end{lstlisting}
+%
+Diese Argumente geben also an, ob der Bezugspunkt horizontal am linken
+oder rechten Rand oder in der Mitte liegt und vertikal oben, unten
+oder in der Mitte:
+%
+\begin{lstlisting}
+(place-image/align
+  (circle 20 "solid" "gold")
+  40 70 "left" "center"
+  (rectangle 100 100 "solid" "blue"))
+|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image-align1}|
+(place-image/align
+  (circle 20 "solid" "gold")
+  40 70 "right" "center"
+  (rectangle 100 100 "solid" "blue"))
+|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image-align2}|
+(place-image/align
+  (circle 20 "solid" "gold")
+  40 70 "center" "center"
+  (rectangle 100 100 "solid" "blue"))
+|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image-align3}|
+(place-image/align
+  (circle 20 "solid" "gold")
+  40 70 "center" "top"
+  (rectangle 100 100 "solid" "blue"))
+|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image-align4}|
+(place-image/align
+  (circle 20 "solid" "gold")
+  40 70 "center" "bottom"
+  (rectangle 100 100 "solid" "blue"))
+|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image-align5}|
+\end{lstlisting}
+%
+Die folgenden Funktionen \lstinline{above} und \lstinline{beside}
+kennst Du vielleicht noch aus dem ersten Kapitel auf
+Seite~\pageref{function:beside-above}.  Sie setzten zwei Bilder
+übereinander respektive nebeneinander:
+%
+\begin{lstlisting}
+(: above  (image image -> image))
+(: beside (image image -> image))
+\end{lstlisting}
+%
+Manchmal sieht ein Bild gut aus, ist aber zu klein oder zu groß
+geraten.  Die Funktion \lstinline{scale} kann es größer oder kleiner
+machen.  Signatur:
+\begin{lstlisting}
+(: scale (real image -> image))
+\end{lstlisting}
+%
+Beispiel:
+%
+\begin{lstlisting}
+(define c (circle 20 "solid" "green"))
+(beside (scale 0.5 c)
+        c
+        (scale 1 c)
+        (scale 1.5 c)
+        (scale 2 c)
+        (scale 3 c))
+|\evalsto| |\includegraphics[scale=0.5]{i1world/scale}|
+\end{lstlisting}
+%
 \section{Modelle und Ansichten}
 
 
