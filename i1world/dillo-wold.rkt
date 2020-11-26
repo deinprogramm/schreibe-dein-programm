@@ -135,24 +135,15 @@
 
 (define dillo-image
   (lambda (dillo)
-    (define live-dillo
-       (overlay
-        (add-curve dillo-body
-                   92 (- 60 25) -90 0.5
-                   60 (- 60 10) 0 0.5
-                   (make-pen "brown" 4 "solid" "round" "round")) 
-        
-        (rectangle 120 70 "solid" "black")))
-
-  (scale
-   (+ 1
-      (/ (- (dillo-weight dillo) 50000)
-         15000))
-   (if (dillo-alive? dillo)
-       live-dillo
-       (overlay/xy dead-eyes
-                   -30 -30
-                   live-dillo)))))
+    (scale
+     (+ 1
+        (/ (- (dillo-weight dillo) 50000)
+           15000))
+     (if (dillo-alive? dillo)
+         dillo-body
+         (overlay/xy dead-eyes
+                     -25 -25
+                     dillo-body)))))
 
 ; Papagei
 ; 0 is straight down, from there clockwise
