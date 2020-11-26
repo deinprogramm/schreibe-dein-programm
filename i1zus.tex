@@ -59,12 +59,12 @@ Gigabyte.
 
 Wir können daraus eine amtliche Datendefinition machen:
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Ein Computer besteht aus:
 ; - Prozessor
 ; - Hauptspeicher-Kapazität in Gbyte
 ; - Festplatten-Kapazität in Gbyte
-\end{alltt}
+\end{lstlisting}
 %
 Wichtig ist hier die Formulierung "<besteht aus">, die auf
 zusammengesetzte Daten hindeutet.  Die Daten, die aus so einer
@@ -104,59 +104,59 @@ des Typs haben.
 Der Record-Typ für Computer sieht feste Felder\index{Feld}
 vor ("<Prozessor">, "<RAM"> und "<Festplatte">).  Ein einzelner Record
 dieses Typs besteht aus Komponenten\index{Komponente}, eine pro
-Feld. (In diesem Fall "<\texttt{Cell}">, $8$ und $250$.)
+Feld. (In diesem Fall \lstinline{"Cell"}, $8$ und $250$.)
 
 Record-Typen müssen in einem Programm explizit mit Hilfe einer
 speziellen \textit{Record-Definition}\index{Record-Definition} definiert werden, die mit
-\texttt{define-record} beginnt.  Hier ist die
+\lstinline{define-record} beginnt.  Hier ist die
 Record-Definition für
 Computer:\index{define-record@\texttt{define-record}}
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define-record computer
   make-computer
   (computer-processor  string)
   (computer-ram        natural)
   (computer-hard-drive natural))
-\end{verbatim}
+\end{lstlisting}
 %
 Diese etwas komplizierte Form erläutern wir Schritt für Schritt.  Weil sie gleich mehrere
 Funktionen definiert, die mit Records zu tun haben, heißt
-sie \texttt{define-record}.  Als erstes nach
-dem \texttt{define-record} steht der Name der Signatur für
+sie \lstinline{define-record}.  Als erstes nach
+dem \lstinline{define-record} steht der Name der Signatur für
 die Werte des Record-Typs,
-\texttt{computer}.  Diese Signatur nennen wir ab sofort die
+\lstinline{computer}.  Diese Signatur nennen wir ab sofort die
 \textit{Record-Signatur}.\index{Record-Signatur}
 
-Als Nächstes in der Record-Definition kommt \texttt{make-computer},
+Als Nächstes in der Record-Definition kommt \lstinline{make-computer},
 der Name einer Funktion, die für die \textit{Konstruktion} eines
 Computer-Records zuständig ist.  Analog zum Zusammenbauen eines
 Computer mit Cell-Prozessor, 8 Gigabyte RAM und 250 Gigabyte
 Festplatte wird der dazugehörige Record mit der Funktion
-\texttt{make-computer} folgendermaßen hergestellt:
+\lstinline{make-computer} folgendermaßen hergestellt:
 %
-\begin{alltt}
+\begin{lstlisting}
 (make-computer "Cell" 8 250)
-\evalsto{} #<record:computer "Cell" 8 250>
-\end{alltt}
+|\evalsto| #<record:computer "Cell" 8 250>
+\end{lstlisting}
 %
-\texttt{Make-computer} hat folgende Signatur:
+\lstinline{Make-computer} hat folgende Signatur:
 %
-\begin{alltt}
+\begin{lstlisting}
 (: make-computer (string natural natural -> computer))
-\end{alltt}
+\end{lstlisting}
 %
 Die drei Eingaben sind der Reihe nach Prozessor, RAM und Festplatte.
-\texttt{Make-computer} macht daraus einen Wert der Sorte
-\texttt{computer} der Computer-Records.  Da \texttt{make-computer}
+\lstinline{Make-computer} macht daraus einen Wert der Sorte
+\lstinline{computer} der Computer-Records.  Da \lstinline{make-computer}
 einen Computer-Record "<konstruiert">, heißt die Funktion auch
 \textit{Konstruktor\index{Konstruktor}}.
 
 Mit der Schreibweise
 %
-\begin{verbatim}
+\begin{lstlisting}
 #<record:... ...>
-\end{verbatim}
+\end{lstlisting}
 %
 werden Record-Typ und ihre Komponenten in der REPL sichtbar.
 
@@ -165,48 +165,48 @@ welche die Beziehung zwischen Daten und Information (siehe
 Abschnitt~\ref{sec:information-daten} auf
 Seite~\pageref{sec:information-daten}) herstellt:
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Cell, 4 Gbyte RAM, 1000 Gbyte Festplatte
 (define gamer (make-computer "Cell" 4 1000))
 
 gamer
-\evalsto{} #<record:computer "Cell" 4 1000>
+|\evalsto| #<record:computer "Cell" 4 1000>
 ; Xeon, 2 Gbyte RAM, 500 Gbyte Festplatte
 (define workstation (make-computer "Xeon" 2 500))
 
 workstation
-\evalsto{} #<record:computer "Xeon" 2 500>
-\end{alltt}
+|\evalsto| #<record:computer "Xeon" 2 500>
+\end{lstlisting}
 %
 Umgekehrt zur Konstruktion nehmen manche Bastler aus dem Computer die
 Einzelteile wieder heraus, zum Beispiel, um sie in einem anderen
 Computer zu verbauen. Für dieses Herausnehmen sind die Funktionen
-\texttt{computer"=processor}, \texttt{computer"=ram} und
-\texttt{computer-hard-drive} zuständig, die von der
+\lstinline{computer"=processor}, \lstinline{computer"=ram} und
+\lstinline{computer-hard-drive} zuständig, die von der
 Record-Definition definiert werden:
 %
-\begin{alltt}
+\begin{lstlisting}
 (computer-processor gamer)
-\evalsto{} "Cell"
+|\evalsto| "Cell"
 (computer-ram gamer)
-\evalsto{} 4
+|\evalsto| 4
 (computer-hard-drive gamer)
-\evalsto{} 1000
-\end{alltt}
+|\evalsto| 1000
+\end{lstlisting}
 %
 Diese drei Funktionen heißen \textit{Selektoren\index{Selektor}}.  Sie haben
 folgende Signaturen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (: computer-processor (computer -> string))
 (: computer-ram (computer -> natural))
 (: computer-hard-drive (computer -> natural))
-\end{alltt}
+\end{lstlisting}
 %
 Genau genommen sind diese Signaturen redundant: In der
 Record-Definition steht ja schon, dass die Felder die Signaturen
-\texttt{string}, \texttt{natural} und \texttt{natural} sind.  Jeder
-Selektor hat \texttt{computer} als Eingabe und die jeweilige
+\lstinline{string}, \lstinline{natural} und \lstinline{natural} sind.  Jeder
+Selektor hat \lstinline{computer} als Eingabe und die jeweilige
 Feld-Signatur als Ausgabe.  Genauso ist es mit der Signatur des
 Konstruktors.
 %
@@ -227,64 +227,64 @@ also Hauptspeicher und Festplattenspeicher zusammen.
 Eine solche Funktion müßte Kurzbeschreibung und Signatur wie folgt
 haben:\index{total-memory@\texttt{total-memory}} 
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Gesamtspeicher berechnen
 (: total-memory (computer -> natural))
-\end{alltt}
+\end{lstlisting}
 %
-Hier sind unsere Erwartungen an \texttt{total-memory}, als Testfälle
+Hier sind unsere Erwartungen an \lstinline{total-memory}, als Testfälle
 formuliert:
 %
-\begin{alltt}
+\begin{lstlisting}
 (check-expect (total-memory workstation) 502)
 (check-expect (total-memory gamer) 1004)
-\end{alltt}
+\end{lstlisting}
 % 
 Das Gerüst ist wie folgt:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define total-memory
   (lambda (c)
     ...))
-\end{alltt}
+\end{lstlisting}
 %
-Um etwas aus dem Record zu berechnen, muss \texttt{total-memory} (und
+Um etwas aus dem Record zu berechnen, muss \lstinline{total-memory} (und
 so gut wie jede andere Funktion auch) die Bestandteile betrachten.  Es
 ist deshalb sinnvoll, die Schablone mit den Aufrufe der Selektoren zu
 bestücken.
 %
-\begin{alltt}
+\begin{lstlisting}
 (define total-memory
   (lambda (c)
     ... (computer-processor c) ...
     ... (computer-ram c) ...
     ... (computer-hard-drive c) ...))
-\end{alltt}
+\end{lstlisting}
 %
 Jetzt wo die Schablone fertig ist, können wir uns mit dem Inhalt der
 Aufgabe beschäftigen: Der Prozessor hat nichts mit der
 Speichermenge zu tun, wir können den entsprechenden Selektoraufruf
 also wieder löschen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define total-memory
   (lambda (c)
     ... (computer-ram c) ...
     ... (computer-hard-drive c) ...))
-\end{alltt}
+\end{lstlisting}
 %
 Das Gesamtspeicher ergibt sich aus Addition der beiden Komponenten:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define total-memory
   (lambda (c)
     (+ (computer-ram c)
        (computer-hard-drive c))))
-\end{alltt}
+\end{lstlisting}
 %
 Fertig!
 
-\texttt{Total-memory} ist ein Beispiel für eine Funktion, die einen
+\lstinline{Total-memory} ist ein Beispiel für eine Funktion, die einen
 Record akzeptiert.  Umgekehrt gibt es auch Funktionen, die Records
 produzieren.  Angenommen, unser Computerhändler bietet neben der
 Einzelkonfiguration von Prozessor, Hauptspeicher und Festplatte einige
@@ -300,7 +300,7 @@ Konstruktionsanleitung~\ref{ka:aufzaehlung} auf
 Seite~\pageref{ka:aufzaehlung}~-- eine Daten- und eine
 Signatur-Definition:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Modell ist eins der folgenden:
 ; - Billigmodell
 ; - Profi-Modell
@@ -308,34 +308,34 @@ Signatur-Definition:
 (define model
   (signature
    (enum "cheap" "professional" "gamer")))
-\end{verbatim}
+\end{lstlisting}
 %
 Eine Funktion, die zu einer Standardkonfiguration den passenden
 Computer fertigt, könnte damit folgende Kurzbeschreibung und Signatur haben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Standard-Computer zusammenstellen
 (: standard-computer (model -> computer))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Testfälle sollten alle drei Standardkonfigurationen abdecken:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (standard-computer "cheap")
               (make-computer "Sempron" 2 500))
 (check-expect (standard-computer "professional")
               (make-computer "Xeon" 4 1000))
 (check-expect (standard-computer "gamer")
               (make-computer "Quad" 4 750))
-\end{verbatim}
+\end{lstlisting}
 %
 Hier ist das Gerüst:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define standard-computer
   (lambda (k)
     ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Bei der Schablone gehen wir wieder nach Konstruktionsanleitung~\ref{ka:aufzaehlung} auf
 Seite~\pageref{ka:aufzaehlung} vor.
@@ -344,35 +344,35 @@ mit \emph{drei} Alternativen~-- handelt, können wir die
 dazu passende Schablone~-- eine Verzweigung mit \emph{drei} Zweigen~--
 zum Einsatz bringen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define standard-computer
   (lambda (k)
     (cond
       (... ...)
       (... ...)
       (... ...))))
-\end{verbatim}
+\end{lstlisting}
 %
-Bei den Tests der Zweige müssen wir \texttt{k} mit den Elementen der
+Bei den Tests der Zweige müssen wir \lstinline{k} mit den Elementen der
 Aufzählung vergleichen.  Da es sich um Zeichenketten handelt, nehmen
-wir dazu \texttt{string=?}:
+wir dazu \lstinline{string=?}:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define standard-computer
   (lambda (k)
     (cond
       ((string=? k "cheap") ...)
       ((string=? k "professional") ...)
       ((string=? k "gamer") ...))))
-\end{verbatim}
+\end{lstlisting}
 %
 In jedem Zweig müssen wir nun dafür sorgen, dass der entsprechende
 Computer hergestellt wird.  Für das Herstellen von Computer-Records
-ist der Konstruktor \texttt{make-computer} zuständig.  Dementsprechend
-müssen wir in jedem Zweig einen Aufruf an \texttt{make-computer}
+ist der Konstruktor \lstinline{make-computer} zuständig.  Dementsprechend
+müssen wir in jedem Zweig einen Aufruf an \lstinline{make-computer}
 platzieren, jeweils mit drei Argumenten:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define standard-computer
   (lambda (k)
     (cond
@@ -382,15 +382,15 @@ platzieren, jeweils mit drei Argumenten:
        (make-computer ... ... ...))
       ((string=? k "gamer")
        (make-computer ... ... ...)))))
-\end{verbatim}
+\end{lstlisting}
 %
 Jetzt müssen wir die Argumente für die Aufrufe von
-\texttt{make-computer} zur Verfügung stellen.  Für jeden Aufruf sind
+\lstinline{make-computer} zur Verfügung stellen.  Für jeden Aufruf sind
 das der Prozessor, die Größe des Hauptspeichers und die
 Größe der Festplatte.  Die entsprechenden Angaben können wir zum
 Beispiel den Testfällen entnehmen.  Folgendes kommt dabei heraus:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define standard-computer
   (lambda (k)
     (cond
@@ -400,7 +400,7 @@ Beispiel den Testfällen entnehmen.  Folgendes kommt dabei heraus:
        (make-computer "Xeon" 4 1000))
       ((string=? k "gamer")
        (make-computer "Quad" 4 750)))))
-\end{verbatim}
+\end{lstlisting}
 %
 Fertig!
 
@@ -415,30 +415,30 @@ Fertig!
 Für ein weiteres Beispiel greifen wir auf folgenden Satz aus der
 Einleitung zurück, den wir schon als Datendefinition auslegen können:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Eine Uhrzeit besteht aus Stunde und Minute.
-\end{verbatim}
+\end{lstlisting}
 %
 Für die Entwicklung der dazu passenden Record-Definition müssen wir
 uns einen Namen für den Record-Typ ausdenken.  Dann können wir bereits
 ein karges Gerüst hinschreiben:\index{wallclock-time@\texttt{wallclock-time}}
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define-record wallclock-time
   make-wallclock-time
   ...)
-\end{verbatim}
+\end{lstlisting}
 %
 Als Nächstes müssen wir festlegen, \emph{wie viele} Bestandteile die
 Records haben sollen.  In diesem Fall ("<Stunde und Minute">) sind es
 zwei.  Wir können das Gerüst entsprechend erweitern:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define-record wallclock-time
   make-wallclock-time
   (... ...)
   (... ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Auf die Anzahl der Bestandteile zu achten, hilft uns dabei, 
 Mantra~\ref{mantra:schreib} auf Seite~\pageref{mantra:schreib}
@@ -447,74 +447,74 @@ umzusetzen:
 \mantraschreib*
 
 \noindent Als Nächstes kommen die Namen der Selektoren.  Dabei befolgen wir eine
-Konvention, die Selektoren alle mit \texttt{wallclock-time-} anfangen
+Konvention, die Selektoren alle mit \lstinline{wallclock-time-} anfangen
 zu lassen.  Bei der Benennung des Konstruktor haben wir ebenfalls
-eine Konvention angewendet, dessen Name sich aus \texttt{make-} und
+eine Konvention angewendet, dessen Name sich aus \lstinline{make-} und
 dem Namen des Record-Typs ergibt.  Also:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define-record wallclock-time
   make-wallclock-time
   (wallclock-time-hour   ...)
   (wallclock-time-minute ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Es fehlen noch die Signaturen.  Dass wir die untereinander schreiben,
 dient lediglich der Übersichtlichkeit, ist also ebenfalls eine
 Konvention.  Bei sowohl Stunde als auch Minute handelt es sich um
 natürliche Zahlen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define-record wallclock-time
   make-wallclock-time
   (wallclock-time-hour   natural)
   (wallclock-time-minute natural))
-\end{verbatim}
+\end{lstlisting}
 %
 Wir schreiben die Signaturen der definierten Funktionen aus.  Diese
 ergeben sich direkt aus der Record-Definition:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (: make-wallclock-time (natural natural -> wallclock-time))
 (: wallclock-time-hour (wallclock-time -> natural))
 (: wallclock-time-minute (wallclock-time -> natural))
-\end{verbatim}
+\end{lstlisting}
 %
 Der Konstruktor akzeptiert für jedes Feld ein Argument~-- entsprechend
 stehen die Signaturen der Felder vor dem Pfeil.  Heraus kommt beim
 Konstruktor immer ein Record, da steht also der Name des Record-Types.
 
-\begin{feature}{\texttt{define-record} (einfach)}{scheme:define-record-simple}
+\begin{feature}{\lstinline{define-record} (einfach)}{scheme:define-record-simple}
 Eine Record-Definition\index{Record-Definition}\index{define-record@\texttt{define-record}}
 hat folgende allgemeine Gestalt:\label{def:define-record}
 %
-\begin{alltt}
-(define-record \(t\)
-  \(c\)
-  (\(\mathit{sel}\sb{1}\) \(\mathit{sig}\sb{1}\))
-  \(\ldots\)
-  (\(\mathit{sel}\sb{n}\) \(\mathit{sig}\sb{n}\)))
-\end{alltt}
+\begin{lstlisting}
+(define-record |\(t\)|
+  |\(c\)|
+  (|\(\mathit{sel}\sb{1}\)| |\(\mathit{sig}\sb{1}\)|)
+  |\(\ldots\)|
+  (|\(\mathit{sel}\sb{n}\)| |\(\mathit{sig}\sb{n}\)|))
+\end{lstlisting}
 %
 Diese Form definiert einen Record-Typ mit $n$ Feldern.
 Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, für die
-\texttt{define-record} Definitionen anlegt:
+\lstinline{define-record} Definitionen anlegt:
 %
 \begin{itemize}
 \item $t$ ist der Name der Record-Signatur.
 \item $c$ ist der Name des Konstruktors, den
-  \texttt{define-record} anlegt.  Der Konstruktor hat 
+  \lstinline{define-record} anlegt.  Der Konstruktor hat 
   folgende Signatur:
 %  
-\begin{alltt}
-(: \(c\) (\(\mathit{sig}\sb{1}\) \(\ldots\) \(\mathit{sig}\sb{n}\) -> \(t\)))
-\end{alltt}
+\begin{lstlisting}
+(: $c$ ($\mathit{sig}\sb{1}$ $\ldots$ $\mathit{sig}\sb{n}$ -> $t$))
+\end{lstlisting}
 \item $\mathit{Sel}_1, \ldots, \mathit{sel}_n$ sind die Namen der Selektoren für die Felder
   des Record-Typs.  Der Selektor $s_i$ hat folgende Signatur:
 % 
-\begin{alltt}
-(: \(\mathit{sel}\sb{i}\) (\(t\) -> \(\mathit{sig}\sb{i}\)))
-\end{alltt}
+\begin{lstlisting}
+(: $\mathit{sel}\sb{i}$ ($t$ -> $\mathit{sig}\sb{i}$))
+\end{lstlisting}
 \end{itemize}
 %
 \end{feature}
@@ -529,16 +529,16 @@ von Record-Definitionen zusammen.
 Hier sind drei Beispiele für Uhrzeiten als Daten, mit Kommentaren,
 welche die repräsentierte Information beschreiben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define wt1 (make-wallclock-time 11 55)) ; fünf vor zwölf
 (define wt2 (make-wallclock-time 0 0)) ; Mitternacht
 (define wt3 (make-wallclock-time 1 1)) ; 1 Uhr 1
-\end{verbatim}
+\end{lstlisting}
 %
 Zuerst berechnen wir für eine Uhrzeit die Anzahl der Minuten
 seit Mitternacht.  Hier sind Kurzbeschreibung, Signatur, Testfälle und Gerüst:\index{minutes-since-midnight@\texttt{minutes-since-midnight}}
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Minuten seit Mitternacht berechnen
 (: minutes-since-midnight (wallclock-time -> natural))
 
@@ -549,30 +549,30 @@ seit Mitternacht.  Hier sind Kurzbeschreibung, Signatur, Testfälle und Gerüst:
 (define minutes-since-midnight
   (lambda (wt)
     ...))
-\end{verbatim}
+\end{lstlisting}
 %
-\texttt{Minutes-since-midnight} soll eine Funktion sein, die
+\lstinline{Minutes-since-midnight} soll eine Funktion sein, die
 Uhrzeiten als Eingabe akzeptiert, also zusammengesetzte Daten.  Eine
 Funktion, die aus zusammengesetzten Daten etwas berechnet, muss meist
 deren Bestandteile verwenden, auf die sie mit den Selektoren zugreifen
 kann.  Wir fügen als nächsten Schritt Aufrufe beider Selektoren ein:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define minutes-since-midnight
   (lambda (wt)
     ... (wallclock-time-hour wt) ...
     ... (wallclock-time-minute wt) ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Jetzt setzen wir noch etwas Wissen über Uhrzeiten ein und
 vervollständigen damit den Rumpf:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define minutes-since-midnight
   (lambda (wt)
     (+ (* 60 (wallclock-time-hour wt))
        (wallclock-time-minute wt))))
-\end{verbatim}
+\end{lstlisting}
 %
 \begin{aufgabeinline}
   Schreibe eine Funktion, die für eine Uhrzeit zurückliefert, ob sich
@@ -582,103 +582,103 @@ vervollständigen damit den Rumpf:
 %
 Die Umrechnung können wir auch umdrehen, mit einer Funktion wie folgt:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Aus Minuten seit Mitternacht die Uhrzeit berechnen
 (: minutes-since-midnight->wallclock-time (natural -> wallclock-time))
-\end{verbatim}
+\end{lstlisting}
 %
-Der Pfeil \verb|->| gehört zum Namen dazu und steht für die Umwandlung
+Der Pfeil \lstinline{->} gehört zum Namen dazu und steht für die Umwandlung
 einer Größe in eine andere.  Die Testfälle sind gegenüber
-\texttt{minutes-since-midnight} umgedreht.
+\lstinline{minutes-since-midnight} umgedreht.
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (minutes-since-midnight->wallclock-time (+ (* 11 60) 55))
               wt1)
 (check-expect (minutes-since-midnight->wallclock-time 0)
               wt2)
 (check-expect (minutes-since-midnight->wallclock-time 61)
               wt3)
-\end{verbatim}
+\end{lstlisting}
 %
 Hier ist das Gerüst:\index{minutes-since-midnight->wallclock-time@\texttt{minutes-since-midnight->wallclock-time}}
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define minutes-since-midnight->wallclock-time
   (lambda (msm)
     ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Dies ist eine Funktion, die eine Uhrzeit produziert~-- sie muss also
-den Konstruktor für \texttt{wallclock"=time} aufrufen.  Daraus ergibt
+den Konstruktor für \lstinline{wallclock-time} aufrufen.  Daraus ergibt
 sich folgende Schablone:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define minutes-since-midnight->wallclock-time
   (lambda (msm)
     (make-wallclock-time ... ...)))
-\end{verbatim}
+\end{lstlisting}
 % 
 Um die Schablone zum Rumpf zu vervollständigen, müssen wir aus den
-Minuten seit Mitternacht \texttt{msm} zunächst die Stunde berechnen.
+Minuten seit Mitternacht \lstinline{msm} zunächst die Stunde berechnen.
 Dazu brauchen wir eine Funktion, die ganzzahlig teilt.  Die eingebaute
-Funktion \texttt{/} macht das leider nicht:
+Funktion \lstinline{/} macht das leider nicht:
 %
-\begin{alltt}
+\begin{lstlisting}
 (/ 61 60)
-\evalsto 1.01\(\overline{\mathtt{6}}\)
-\end{alltt}
+|\evalsto| 1.01$\overline{\mathtt{6}}$
+\end{lstlisting}
 %
-Aber die Funktion \texttt{quotient} hilft uns weiter:
+Aber die Funktion \lstinline{quotient} hilft uns weiter:
 %
-\begin{alltt}
+\begin{lstlisting}
 (quotient 61 60)
-\evalsto 1
-\end{alltt}
+|\evalsto| 1
+\end{lstlisting}
 %
 Das können wir in der Schablone benutzen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define minutes-since-midnight->wallclock-time
   (lambda (msm)
     (make-wallclock-time (quotient msm 60) ...)))
-\end{verbatim}
+\end{lstlisting}
 %
 Es fehlt noch die Minute~-- dafür brauchen wir den
 Divisions\emph{rest}.  Den berechnet die eingebaute Funktion
-\texttt{remainder}:
+\lstinline{remainder}:
 %
-\begin{alltt}
+\begin{lstlisting}
 (remainder 67 60)
-\evalsto 7
+|\evalsto| 7
 (remainder 125 60)
-\evalsto 5
-\end{alltt}
+|\evalsto| 5
+\end{lstlisting}
 %
 Damit können wir den Rumpf vervollständigen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define minutes-since-midnight->wallclock-time
   (lambda (msm)
     (make-wallclock-time (quotient msm 60) (remainder msm 60))))
-\end{verbatim}
+\end{lstlisting}
 
 \begin{aufgabeinline}
-  Schreibe eine Funktion \texttt{make-wallclock-time-12h}, die eine
+  Schreibe eine Funktion \lstinline{make-wallclock-time-12h}, die eine
   Uhrzeit aus einer Zeitangabe im 12-Stunden-Format konstruiert.  Also
   zum Beispiel:
   %
-\begin{alltt}
+\begin{lstlisting}
 (make-wallclock-time-12h 6 30 "AM")
-\evalsto{} #<record:wallclock-time 6 30>
+|\evalsto| #<record:wallclock-time 6 30>
 (make-wallclock-time-12h 6 30 "PM")
-\evalsto{} #<record:wallclock-time 18 30>
+|\evalsto| #<record:wallclock-time 18 30>
 (make-wallclock-time-12h 12 00 "PM")
-\evalsto{} #<record:wallclock-time 12 0>
+|\evalsto| #<record:wallclock-time 12 0>
 (make-wallclock-time-12h 12 00 "AM")
-\evalsto{} #<record:wallclock-time 0 0>
+|\evalsto| #<record:wallclock-time 0 0>
 (make-wallclock-time-12h 12 30 "PM")
-\evalsto{} #<record:wallclock-time 12 30>
-\end{alltt}
+|\evalsto| #<record:wallclock-time 12 30>
+\end{lstlisting}
   %
   (Für die beiden Fälle 12:00AM und 12:00PM gibt es keine eindeutige
   Zuordnung, wir haben das willkürlich festgelegt.)
@@ -699,13 +699,13 @@ oder "<ein $X$ hat~\ldots"> erkennen.  Manchmal lautet die
 Formulierung etwas anders.  Die daraus resultierende Datendefinition
 ist ein Kommentar im Programm in folgender Form:
 %
-\begin{alltt}
+\begin{lstlisting}
 ; Ein X hat / besteht aus / ist charakterisiert durch:
 ; - Bestandteil / Eigenschaft 1
 ; - Bestandteil / Eigenschaft 2
 ; ...
 ; - Bestandteil / Eigenschaft n
-\end{alltt}
+\end{lstlisting}
 %
 Auf die Datendefinition folgt eine entsprechende Record-Definition.
 Dafür überlege Dir Namen für den Record-Typ $T$ und für die
@@ -714,19 +714,19 @@ die dazu passende Signatur $\mathit{sig}_{i}$ angeben.
 Die Record-Definition hat dann folgende
 Form:
 %
-\begin{alltt}
-(define-record \(T\)
-  make-\(T\)
-  (\(T\)-\(f\sb{1}\) \(\mathit{sig}\sb{1}\))
-  \(\ldots\)
-  (\(T\)-\(f\sb{n}\) \(\mathit{sig}\sb{n}\)))
-\end{alltt}
+\begin{lstlisting}
+(define-record $T$
+  make-$T$
+  ($T$-$f\sb{1}$ $\mathit{sig}\sb{1}$)
+  $\ldots$
+  ($T$-$f\sb{n}$ $\mathit{sig}\sb{n}$))
+\end{lstlisting}
 %
 Der Name des Record-Typs \(T\) ist die Record-Signatur,
-\texttt{make-\(T\)} ist der Konstruktor und \(T\)-\(f\sb{i}\)
+\lstinline{make-}\(T\) ist der Konstruktor und \(T\)-\(f\sb{i}\)
 sind die Selektoren.
 
-Dass der Konstruktorname mit \texttt{make-} anfängt und dass die
+Dass der Konstruktorname mit \lstinline{make-} anfängt und dass die
 Selektornamen sich aus dem Namen des Typs und der Felder
 zusammensetzt, ist reine Konvention.  Von ihr solltest Du aber nur aus
 guten Gründen abweichen.
@@ -734,12 +734,12 @@ guten Gründen abweichen.
 Unter die Record-Definition gehören die Signaturen für den Konstruktor
 und die Selektoren:
 %
-\begin{alltt}
-(: make-\(T\) (\(\mathit{sig}\sb{1}\) \(\ldots\) \(\mathit{sig}\sb{n}\) -> \(T\)))
-(: \(T\)-\(f\sb{1}\) (\(T\) -> \(\mathit{sig}\sb{1}\)))
-\(\ldots\)
-(: \(T\)-\(f\sb{n}\) (\(T\) -> \(\mathit{sig}\sb{n}\)))
-\end{alltt}
+\begin{lstlisting}
+(: make-$T$ ($\mathit{sig}\sb{1}$ $\ldots$ $\mathit{sig}\sb{n}$ -> $T$))
+(: $T$-$f\sb{1}$ ($T$ -> $\mathit{sig}\sb{1}$))
+$\ldots$
+(: $T$-$f\sb{n}$ ($T$ -> $\mathit{sig}\sb{n}$))
+\end{lstlisting}
 %
 \end{konstruktionsanleitung}
 %
@@ -766,9 +766,9 @@ Konstruktionsanleitung auswählen.
 \item Für jede dieser Komponenten, schreibe  \texttt{($\mathit{sel}$ $r$)} in die
   Schablone, wobei $\mathit{sel}$ der Selektor der Komponente und $r$ der Name
   des Record-Parameters ist, also zum Beispiel:
-\begin{verbatim}
+\begin{lstlisting}
 (wallclock-time-hour wt)
-\end{verbatim}
+\end{lstlisting}
 \item Vervollständige die Schablone, indem Du einen Ausdruck
   konstruierst, in dem die Selektor"=Anwendungen vorkommen.
 \item Es ist möglich, dass nicht alle Selektor-Anwendungen im Rumpf
@@ -798,9 +798,9 @@ aufrufen.  Die Schablone ergibt sich folgendermaßen:
   zunächst mit einer Ellipse für jedes Feld des Records, also zum
   Beispiel:
   %
-\begin{alltt}
-(make-wallclock-time \ldots{} \ldots)
-\end{alltt}
+\begin{lstlisting}
+(make-wallclock-time $\ldots$ $\ldots$)
+\end{lstlisting}
 
 \end{konstruktionsanleitung}
 
@@ -823,11 +823,11 @@ Konstruktionsanleitung~\ref{ka:zusammengesetzt-datenanalyse} auf
 Seite~\pageref{ka:zusammengesetzt-datenanalyse} direkt in eine
 Datendefinition übersetzen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Gürteltier hat folgende Eigenschaften:
 ; - Gewicht (in g)
 ; - lebendig oder tot
-\end{verbatim}
+\end{lstlisting}
 %
 Wiederum handelt es sich sichtlich um zusammengesetzte Daten, wie
 aus der Formulierung "<hat"> ersichtlich ist.  Wir beschränken uns
@@ -836,122 +836,122 @@ relevant sind.
 Aus der Datendefinition können wir direkt eine passende
 Record-Definition machen:
 % 
-\begin{verbatim}
+\begin{lstlisting}
 (define-record dillo
   make-dillo
   (dillo-weight natural)
   (dillo-alive? boolean))
-\end{verbatim}
+\end{lstlisting}
 %
 ("<Dillo"> steht kurz für "<Armadillo">, englisch für Gürteltier.)
 
-Für das Feld \texttt{alive?} könnten wir unterschiedliche Repräsentationen
+Für das Feld \lstinline{alive?} könnten wir unterschiedliche Repräsentationen
 wählen: Eine Aufzählung wäre möglich; wir haben uns für einen
 booleschen Wert entschieden, der die Frage "<Lebt das Gürteltier?">
 beantwortet.  Hier sind die Signaturen für die Record-Funktionen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (: make-dillo (natural boolean -> dillo))
 (: dillo-weight (dillo -> natural))
 (: dillo-alive? (dillo -> boolean))
-\end{verbatim}
+\end{lstlisting}
 %
 Hier sind einige Exemplare als Daten plus Information:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define dillo1 (make-dillo 55000 #t)) ; 55 kg, lebendig 
 (define dillo2 (make-dillo 58000 #f)) ; 58 kg, tot
 (define dillo3 (make-dillo 60000 #t)) ; 60 kg, lebendig
 (define dillo4 (make-dillo 63000 #f)) ; 63 kg, tot
-\end{verbatim}
+\end{lstlisting}
 %
 Fangen wir damit an, Gürteltiere zu füttern.  Die
 Standard-Futter-Portion ist dabei 500g, und das Gürteltier nimmt durch
 die Fütterung um das entsprechende Gewicht zu.  Hier Kurzbeschreibung
 und Signatur:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Gürteltier mit 500g Futter füttern
 (: feed-dillo (dillo -> dillo))
-\end{verbatim}
+\end{lstlisting}
 %
 Hier der erste, naheliegende Testfall:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (feed-dillo dillo1) (make-dillo 55500 #t))
-\end{verbatim}
+\end{lstlisting}
 %
-Bei \texttt{feed-dillo} ist relevant, was es mit toten
+Bei \lstinline{feed-dillo} ist relevant, was es mit toten
 Gürteltieren macht: Tote Gürteltiere fressen nicht, entsprechend
 nehmen sie auch nicht zu, wenn man ihnen Futter anbietet:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (feed-dillo dillo2) dillo2)
-\end{verbatim}
+\end{lstlisting}
 %
 Hier das Gerüst der Funktion:
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     ...))
-\end{verbatim}
+\end{lstlisting}
 %
-Für den Namen des Parameters verwenden wir auch \texttt{dillo}, nicht
-zu verwechseln mit der Signatur, die ebenfalls \texttt{dillo} heißt. Das
-\texttt{lambda} sorgt dafür, dass \texttt{dillo} innherhalb seines
+Für den Namen des Parameters verwenden wir auch \lstinline{dillo}, nicht
+zu verwechseln mit der Signatur, die ebenfalls \lstinline{dillo} heißt. Das
+\lstinline{lambda} sorgt dafür, dass \lstinline{dillo} innherhalb seines
 Rumpfes sich auf den Parameter bezieht, nicht auf die weiter außen
 stehende Signatur.
 
 \begin{aufgabeinline}
-  Um Du Dir klarzumachen, welches \texttt{dillo} zu welchem
-  \texttt{lambda} beziehungsweise zu welcher Definition gehört, kannst
-  Du in \drscheme{} den Knopf \texttt{Syntaxprüfung} drücken und
+  Um Du Dir klarzumachen, welches \lstinline{dillo} zu welchem
+  \lstinline{lambda} beziehungsweise zu welcher Definition gehört, kannst
+  Du in \drscheme{} den Knopf \lstinline{Syntaxprüfung} drücken und
   danach mit der Maus über die verschiedenen Vorkommen von
-  \texttt{dillo} streichen.
+  \lstinline{dillo} streichen.
 \end{aufgabeinline}
 %
-\texttt{Feed-dillo} hat zusammengesetzte Daten sowohl als Eingabe
+\lstinline{Feed-dillo} hat zusammengesetzte Daten sowohl als Eingabe
 als auch als Ausgabe.  Entsprechend kommen die Schablonen für beide
 Situationen zum Einsatz.  Zunächst die Schablone für zusammengesetzte
 Daten als Eingabe aus
 Konstruktionsanleitung~\ref{ka:zusammengesetzt-eingabe-schablone} auf
 Seite \pageref{ka:zusammengesetzt-eingabe-schablone}; wir schreiben die Aufrufe der Selektoren auf:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     ... (dillo-weight dillo) ...
     ... (dillo-alive? dillo) ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Dazu kommt die Schablone für zusammengesetzte Daten als Ausgabe aus
 Konstruktionsanleitung~\ref{ka:zusammengesetzt-ausgabe-schablone} auf
 Seite~\pageref{ka:zusammengesetzt-ausgabe-schablone}, also
 der Aufruf des Konstruktors:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (make-dillo ... ...)
     ... (dillo-weight dillo) ...
     ... (dillo-alive? dillo) ...))
-\end{verbatim}
+\end{lstlisting}
 %
-Der zweite Testfall zeigt, dass, was \texttt{feed-dillo}
+Der zweite Testfall zeigt, dass, was \lstinline{feed-dillo}
 betrifft, die Gürteltiere in zwei verschiedene Gruppen fallen:
-\texttt{Feed-dillo} verhält sich bei lebenden Gürteltieren anders als
+\lstinline{Feed-dillo} verhält sich bei lebenden Gürteltieren anders als
 bei toten: eine Fallunterscheidung.
 
 Entsprechend brauchen wir eine Verzweigung im Rumpf, und zwar nach dem
-Wert von \texttt{(dillo"=alive? dillo)}, der glücklicherweise schon in der
-Schablone steht.  Da \texttt{dillo-alive?} einen booleschen Wert
+Wert von \lstinline{(dillo-alive? dillo)}, der glücklicherweise schon in der
+Schablone steht.  Da \lstinline{dillo-alive?} einen booleschen Wert
 liefert, handelt es sich um eine boolesche Fallunterscheidung.
 Deshalb 
 können wir Konstruktionsanleitung~\ref{ka:boolesche-fallunterscheidung}
 auf Seite~\pageref{ka:boolesche-fallunterscheidung} anwenden und eine
 binäre Verzweigung benutzen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (if (dillo-alive? dillo)
@@ -959,14 +959,14 @@ binäre Verzweigung benutzen:
          ...)
     (make-dillo ... ...)
     ... (dillo-weight dillo) ...
-\end{verbatim}
+\end{lstlisting}
 %
 Nun müssen wir noch die beiden Zweige ergänzen.  Am
 einfachsten ist "<Gürteltier tot">, dann nämlich kommt
 das gleiche Gürteltier aus der Funktion, das hineingegangen ist.  Wir
-setzen also \texttt{dillo} als Alternative der Verzweigung ein:
+setzen also \lstinline{dillo} als Alternative der Verzweigung ein:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (if (dillo-alive? dillo)
@@ -974,127 +974,127 @@ setzen also \texttt{dillo} als Alternative der Verzweigung ein:
          dillo)
     (make-dillo ... ...)
     ... (dillo-weight dillo) ...
-\end{verbatim}
+\end{lstlisting}
 %
 Im ersten Zweig müssen wir schließlich einen neuen Gürteltier-Wert
 berechnen, der die Zunahme berücksichtigt.  Dabei werden der
 Konstruktur-Aufruf und der zweite Selektor-Aufruf aus der Schablone
 verbraucht:
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (if (dillo-alive? dillo)
         (make-dillo ... ...)
         dillo)))
-\end{verbatim}
+\end{lstlisting}
 %
-Wir müssen beim Aufruf des Konstruktors \texttt{make-dillo} angeben,
+Wir müssen beim Aufruf des Konstruktors \lstinline{make-dillo} angeben,
 welches Gewicht das frisch gefütterte Gürteltier haben soll und ob es
 noch am Leben ist.  Das Gewicht erhöht sich um das Gewicht des
 Futters.  Außerdem ist das Gürteltier noch am Leben, weil der
 Konstruktoraufruf in dem Zweig steht, in dem das so ist:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (if (dillo-alive? dillo)
         (make-dillo (+ (dillo-weight dillo) 500)
                     #t)
         dillo)))
-\end{verbatim}
+\end{lstlisting}
 %
 Wir kommen nun zum unangenehmen Teil, dem Überfahren, das aus einem
 lebenden Gürteltier ein totes macht.  Hier Kurzbeschreibung und
 Signatur:\index{run-over-dillo@\texttt{run-over-dillo}}\label{page:run-over-dillo}
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Gürteltier überfahren
 (: run-over-dillo (dillo -> dillo))
-\end{verbatim}
+\end{lstlisting}
 %
-Aus dem Beispiel \texttt{dillo1} können wir den ersten Testfall machen:
+Aus dem Beispiel \lstinline{dillo1} können wir den ersten Testfall machen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (run-over-dillo dillo1) (make-dillo 55000 #f))
-\end{verbatim}
+\end{lstlisting}
 %
-Wir sollten aber auch berücksichtigen, was \texttt{run-over-dillo} mit
+Wir sollten aber auch berücksichtigen, was \lstinline{run-over-dillo} mit
 toten Gürteltieren anstellt.  Diese bleiben auch nach dem Überfahren
 tot:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (run-over-dillo dillo2) dillo2)
-\end{verbatim}
+\end{lstlisting}
 %
 Hier das Gerüst der Funktion:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define run-over-dillo
   (lambda (dillo)
     ...))
-\end{verbatim}
+\end{lstlisting}
 %
-\texttt{Run-over-dillo} hat zusammengesetzte Daten sowohl als Eingabe
+\lstinline{Run-over-dillo} hat zusammengesetzte Daten sowohl als Eingabe
 als auch als Ausgabe.  Entsprechend kommen ein weiteres Mal die
 Schablonen für beide Situationen zum Einsatz.  Zunächst die Schablone
 für zusammengesetzte Daten als Eingabe; wir schreiben die Aufrufe der
 Selektoren auf:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define run-over-dillo
   (lambda (dillo)
     ... (dillo-weight dillo) ...
     ... (dillo-alive? dillo) ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Dazu kommt die Schablone für zusammengesetzte Daten als Ausgabe, also
 der Aufruf des Konstruktors:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define run-over-dillo
   (lambda (dillo)
     (make-dillo ... ...)
     ... (dillo-weight dillo) ...
     ... (dillo-alive? dillo) ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Da das Überfahren das Gewicht nicht ändert, übernimmt
 der Ausdruck für das Gewicht das Gewicht des Eingabe-Gürteltiers aus
 der Schablone:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define run-over-dillo
   (lambda (dillo)
     (make-dillo (dillo-weight dillo) ...)
     ... (dillo-alive? dillo) ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Das Gürteltier ist nach dem Überfahren auf jeden Fall tot.  Da es
 keine Rolle spielt, ob das Gürteltier vorher lebendig war oder nicht,
-können wir den Selektoraufruf \texttt{(dillo-alive? dillo)} verwerfen:
+können wir den Selektoraufruf \lstinline{(dillo-alive? dillo)} verwerfen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define run-over-dillo
   (lambda (dillo)
     (make-dillo (dillo-weight dillo)
                 #f)))
-\end{verbatim}
+\end{lstlisting}
 %
 Fertig!
 
 \section{Alternativen bei den Konstruktionsanleitung}
 
 Vielleicht ist Dir bei der Folge von Schablonen für
-\texttt{feed-dillo} aufgefallen, dass die Anordnung der Schablonen für
+\lstinline{feed-dillo} aufgefallen, dass die Anordnung der Schablonen für
 die Konstruktion zusammgesetzter Daten und die Schablone für binäre
 Fallunterscheidungen recht willkürlich angeordnet haben, indem wir die
 Verzweigung "<außen"> um den Konstruktoraufruf gestellt haben.
 
 Die Konstruktionsanleitungen hätten wir genauso gut andersherum
-anwenden können, in dem wir die Verzweigung "<innen"> in den
-Konstruktoraufruf von \texttt{make-dillo} gestellt hätten:
+anwenden können, indem wir die Verzweigung "<innen"> in den
+Konstruktoraufruf von \lstinline{make-dillo} gestellt hätten:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (make-dillo (if (dillo-alive? dillo)
@@ -1103,12 +1103,12 @@ Konstruktoraufruf von \texttt{make-dillo} gestellt hätten:
                 ...)
    ... (dillo-alive? dillo) ...
    ... (dillo-weight dillo) ...))
-\end{alltt}
+\end{lstlisting}
 %
 Bei dieser Vorgehensweise füllen wir zunächst die Ellipsen für die
 beiden möglichen Gewichte aus:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (make-dillo (if (dillo-alive? dillo)
@@ -1116,20 +1116,20 @@ beiden möglichen Gewichte aus:
                     (dillo-weight dillo))
                 ...)
    ... (dillo-alive? dillo) ...)
-\end{alltt}
+\end{lstlisting}
 %
-Was das zweite Argument von \texttt{make-dillo} betrifft, also ob das
+Was das zweite Argument von \lstinline{make-dillo} betrifft, also ob das
 Gürteltier lebendig oder tot ist, so ist der Wert dort so wie
-vorher, also entsprechend dem Ergebnis von \texttt{dillo-alive?}:
+vorher, also entsprechend dem Ergebnis von \lstinline{dillo-alive?}:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (make-dillo (if (dillo-alive? dillo)
                     (+ (dillo-weight dillo) 500)
                     (dillo-weight dillo))
                 (dillo-alive? dillo))))
-\end{alltt}
+\end{lstlisting}
 %
 Diese Version ist genauso korrekt wie die erste, und keine ist
 offensichtlich "<besser"> als die andere.\footnote{Erfahrene
@@ -1142,78 +1142,78 @@ möglich, mehrere unterschiedliche Wege zu beschreiten.  Meist
 funktionieren alle davon, sie unterscheiden sich aber gelegentlich in
 Länge und subjektiver Eleganz.
 
-Eine andere Alternative bei der Konstruktion von \texttt{feed-dillo}
+Eine andere Alternative bei der Konstruktion von \lstinline{feed-dillo}
 wäre an dieser Stelle möglich gewesen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (if (dillo-alive? dillo)
         (make-dillo ... ...)
         dillo)))
-\end{verbatim}
+\end{lstlisting}
 %
-Hier haben wir ziemlich vorschnell \texttt{dillo} in der Alternative des
-\texttt{if} geschrieben, weil es uns "<offensichtlich"> erschien, dass
+Hier haben wir ziemlich vorschnell \lstinline{dillo} in der Alternative des
+\lstinline{if} geschrieben, weil es uns "<offensichtlich"> erschien, dass
 der Zustand eines toten Gürteltiers nach dem Füttern genauso wie
 vorher ist.  Es wäre konsequenter gewesen, erst einmal die Schablonen
 vollständig anzuwenden:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (if (dillo-alive? dillo)
         (make-dillo ... ...)
         (make-dillo ... ...))))
-\end{verbatim}
+\end{lstlisting}
 %
 Dann hätten wir auch für den zweiten Zweig ("<Gürteltier tot">) die Fragen beantwortet,
 welches Gewicht das Gürteltier hat und ob es noch lebt:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (if (dillo-alive? dillo)
         (make-dillo (+ (dillo-weight dillo) 500) #t)
         (make-dillo (dillo-weight dillo) #f))))
-\end{verbatim}
+\end{lstlisting}
 %
 Auch diese Version ist richtig.  Wir könnten diese Version noch etwas
 umformen, in dem wir die Beobachtung ausnutzen, dass der Wert des
-\texttt{dillo-alive?}-Felds im Ergebnis dem Ergebnis von
-\texttt{(dillo-alive? dillo)} entspricht und das im zweiten
-\texttt{make-dillo}-Aufruf einsetzen:
+\lstinline{dillo-alive?}-Felds im Ergebnis dem Ergebnis von
+\lstinline{(dillo-alive? dillo)} entspricht und das im zweiten
+\lstinline{make-dillo}-Aufruf einsetzen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (if (dillo-alive? dillo)
         (make-dillo (+ (dillo-weight dillo) 500) #t)
         (make-dillo (dillo-weight dillo) (dillo-alive? dillo)))))
-\end{verbatim}
+\end{lstlisting}
 %
 Das Programm ist zwar länger geworden, es gibt aber auch eine Einsicht
-frei, wenn wir den zweiten \texttt{make-dillo}-Aufruf näher anschauen.
-Dieser Aufruf stellt ein \texttt{dillo}-Record her, bei dem jedes Feld
-aus dem entsprechenden Feld von \texttt{dillo} bestückt wird.  Es ist
-deshalb gleich zu \texttt{dillo}.  Eine Gleichung bringt das zum Ausdruck:
+frei, wenn wir den zweiten \lstinline{make-dillo}-Aufruf näher anschauen.
+Dieser Aufruf stellt ein \lstinline{dillo}-Record her, bei dem jedes Feld
+aus dem entsprechenden Feld von \lstinline{dillo} bestückt wird.  Es ist
+deshalb gleich zu \lstinline{dillo}.  Eine Gleichung bringt das zum Ausdruck:
 %
-\begin{displaymath}
-  \texttt{(make-dillo (dillo-alive? dillo) (dillo-weight dillo))} = \texttt{dillo}
-\end{displaymath}
+\begin{center}
+  \lstinline{(make-dillo (dillo-alive? dillo) (dillo-weight dillo))} $=$ \lstinline{dillo}
+\end{center}
 %
-Wir können also den \texttt{make-dillo}-Aufruf durch \texttt{dillo}
+Wir können also den \lstinline{make-dillo}-Aufruf durch \lstinline{dillo}
 ersetzen und so das Programm mit Hilfe der Gleichung vereinfachen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
     (if (dillo-alive? dillo)
         (make-dillo (+ (dillo-weight dillo) 500) #t)
         dillo)))
-\end{verbatim}
+\end{lstlisting}
 %
-Jetzt ist die erste Version von \texttt{feed-dillo} entstanden, ohne
+Jetzt ist die erste Version von \lstinline{feed-dillo} entstanden, ohne
 dass wir uns vorschnell überlegen mussten, dass im Fall "<Gürteltier
 tot"> die Eingabe gleich der Ausgabe ist.  In diesem Beispiel mögen die
 resultierende Einsicht und Vereinfachung banal sein.  Wir können aber
@@ -1225,8 +1225,8 @@ Seite~\pageref{mantra:gleichungen}:
 \mantragleichungen*
 
 \begin{aufgabeinline}
-  Formuliere Gleichungen entsprechend der für \texttt{dillo} für die
-  Record-Typen \texttt{computer} und \texttt{wallclock"=time} aus
+  Formuliere Gleichungen entsprechend der für \lstinline{dillo} für die
+  Record-Typen \lstinline{computer} und \lstinline{wallclock-time} aus
   diesem Kapitel.
 \end{aufgabeinline}
 
@@ -1248,7 +1248,7 @@ Seite~\pageref{mantra:gleichungen}:
   Funktion
   % 
   \begin{center}
-    \texttt{(: gcd (number number -> number))},
+    \lstinline{(: gcd (number number -> number))},
   \end{center}
   % 
   die den größten gemeinsamen Teiler ("<greatest common divisor">) von
@@ -1271,12 +1271,12 @@ Seite~\pageref{mantra:gleichungen}:
     Achte darauf, dass auch die Konstruktionsanleitungen für die
     Komponenten von Qux-Records zur Anwendung bringen.
   \item Nimm an, Du hättest für eine zu schreibende Funktion
-    \texttt{quxop2} die folgende Signatur festgelegt:
-\begin{verbatim}
+    \lstinline{quxop2} die folgende Signatur festgelegt:
+\begin{lstlisting}
 (: quxop2 (natural (enum "Hx" "Bx" "Px") -> qux))
-\end{verbatim}
+\end{lstlisting}
     (Dabei ist angenommen, dass die Record-Definition für ein Qux
-    den Namen \texttt{qux} hat.) Entwickele daraus Gerüst und
+    den Namen \lstinline{qux} hat.) Entwickele daraus Gerüst und
     Schablone der zu schreibenden Funktion.  Identifiziere die dazu
     benutzten Konstruktionsanleitungen.
   \end{enumerate}
@@ -1295,7 +1295,7 @@ Seite~\pageref{mantra:gleichungen}:
     die Uhrzeit (es wird nur in Stunden gerechnet) und der Name des Dozenten, der
     den Raum belegt.
 
-  \item Schreibe eine Funktion \texttt{reserve}, die als Argumente einen Eintrag und einen
+  \item Schreibe eine Funktion \lstinline{reserve}, die als Argumente einen Eintrag und einen
     Dozentennamen akzeptiert und einen Eintrag zurückgibt. Falls der Raum noch nicht belegt
     wurde (das heißt im Eintrag ist der Dozentenname "<">), soll der Raum reserviert werden und
     damit ein neuer Eintrag zurückgegeben werden, bei dem der Dozentenname gesetzt ist.
@@ -1325,19 +1325,19 @@ Seite~\pageref{mantra:gleichungen}:
 
   \begin{enumerate}
   \item Erstelle eine Datendefinition
-    \texttt{dough} für den Teig.  Jeder Teig besteht aus Eiern, Mehl,
+    \lstinline{dough} für den Teig.  Jeder Teig besteht aus Eiern, Mehl,
     Zucker und Wasser und hat ein Gesamtgewicht.  Überlege Dir
     geeignete Einheiten für die Zutaten.
     % In Teil 3. sind allerdings Einheiten angegeben. Absicht?
-  \item Erstelle eine Datendefinition \texttt{cake}
+  \item Erstelle eine Datendefinition \lstinline{cake}
     für Kuchen.  Diese enthält einen Teig, eine Backdauer in Minuten und 
     das Endgewicht des Kuchens.
   \item Schreibe eine Funktion
-    \texttt{ingredients->dough} welche eine Anzahl an Eiern, eine
+    \lstinline{ingredients->dough} welche eine Anzahl an Eiern, eine
     Menge Mehl in Gramm, eine Menge Zucker in Gramm und eine
     Menge Wasser in Milliliter erhält und daraus einen Teig
     herstellt. Gehe davon aus, dass jedes Ei 64g wiegt.
-  \item Schreibe eine Funktion \texttt{bake-cake}. 
+  \item Schreibe eine Funktion \lstinline{bake-cake}. 
     Diese erhält einen Teig, eine Backdauer in Minuten und erstellt einen 
     Kuchen.  Gehe davon aus, dass nach dem Backen noch 80\% des
     Wassers im Kuchen sind.
@@ -1349,26 +1349,26 @@ Seite~\pageref{mantra:gleichungen}:
 \begin{aufgabe}
 
   Schreibe eine Datendefinition
-  \texttt{appointment} für Termine, bestehend aus Datum, Uhrzeit,
+  \lstinline{appointment} für Termine, bestehend aus Datum, Uhrzeit,
   Dauer (in Minuten) und Ort.  Verwenden sie für das Datum und die
   Uhrzeit weitere Datendefinitionen bestehend aus Tag, Monat und Jahr
   beziehungsweise Stunde und Minute.
 
   \begin{enumerate}
-  \item Schreibe eine Funktion \texttt{date-ok?}, die feststellt,
+  \item Schreibe eine Funktion \lstinline{date-ok?}, die feststellt,
     ob ein Datums-Objekt einem tatsächlichen Kalenderdatum entspricht,
     also korrekte Daten wie 1.1.1970 von unsinnigen wie 34.17.2006
     unterscheidet. Lasse dazu Schaltjahre außer Acht. Beachte
     die Monate mit 28, 30 und 31 Tagen.
-  \item Schreibe eine Funktion \texttt{date-equal?}, die
+  \item Schreibe eine Funktion \lstinline{date-equal?}, die
     vergleicht, ob zwei Datums-Objekte gleich sind.
-  \item Schreibe eine Funktion \texttt{time-ok?}, die feststellt,
+  \item Schreibe eine Funktion \lstinline{time-ok?}, die feststellt,
     ob ein Zeit-Objekt einer tatsächlichen Uhrzeit entspricht.
-  \item Schreibe eine Funktion \texttt{time-overlap?}, die
+  \item Schreibe eine Funktion \lstinline{time-overlap?}, die
     überprüft, ob sich zwei Zeiten mit einer jeweils gegebenen Dauer
     (in Minuten) überschneiden. Gehe davon aus, dass es sich um
     Zeiten desselben Tages handelt.
-  \item Schreibe eine Funktion \texttt{overlap?}, die prüft, ob
+  \item Schreibe eine Funktion \lstinline{overlap?}, die prüft, ob
     sich zwei gegebene Termine überschneiden. Beachte die Dauer
     der Termine. Gehe davon aus, dass die Termine nicht über
     Mitternacht liegen.
@@ -1376,9 +1376,9 @@ Seite~\pageref{mantra:gleichungen}:
   %
   \textbf{Hinweis:} Zur Lösung der Aufgabe kann die eingebaute
   Funktion
-  \begin{center}
-    \texttt{(: remainder (natural natural -> natural))}
-  \end{center}
+  \begin{lstlisting}
+    (: remainder (natural natural -> natural))
+  \end{lstlisting}
 
   hilfreich sein. Sie berechnet den Rest einer ganzzahligen Division.
 
@@ -1420,18 +1420,18 @@ Seite~\pageref{mantra:gleichungen}:
     und "<Benzinauto">. Gehe davon aus, dass die Busse der
     Schadstoffklasse~2, das Dieselauto der Schadstoffklasse~3 und das
     Benzinauto der Schadstoffklasse~4 angehören.
-  \item Schreibe eine Funktion \texttt{fahrverbot?},
+  \item Schreibe eine Funktion \lstinline{fahrverbot?},
     welche überprüft ob ein gegebenes Fahrzeug bei einer gegebenen
     Mindest-Schadstoffklasse noch fahren darf. Gestalte die Signatur
     so, dass er nur Mindest-Schadstoffklassen von 1 bis 4 akzeptiert.
   \item Die Mühlstraße in Tübingen ist in einer Richtung für
     alle Fahrzeuge außer Stadtbusse gesperrt. Schreibe eine Funktion
-    \texttt{sonderrecht?}, die überprüft ob ein gegebenes Fahrzeug die
+    \lstinline{sonderrecht?}, die überprüft ob ein gegebenes Fahrzeug die
     Mühlstraße in der gesperrten Richtung befahren darf.  
   \item Bürgermeister Boris Palmer hat die Idee, den Tourismus
     dadurch anzukurbeln, dass Sonntags auch Reisebusse die Mühlstrasse in
     der gesperrten Richtunge befahren dürfen. Erweitere hierfür die
-    Funktion \texttt{sonderrecht?} um den Wochentag und lasse sonntags
+    Funktion \lstinline{sonderrecht?} um den Wochentag und lasse sonntags
     auch Reisebusse zu.
   \end{enumerate}
   Verwende beim Schreiben der Funktion die
@@ -1453,12 +1453,12 @@ Seite~\pageref{mantra:gleichungen}:
     
   \item Der Paketdienst verlangt einen Zuschlag für Sendungen, die
     international verschickt werden.  Schreibe eine Funktion
-    \texttt{international?}, die als Argument eine \textit{Adresse}
+    \lstinline{international?}, die als Argument eine \textit{Adresse}
     bekommt und feststellt, ob die Adresse im Ausland liegt.
 
   \item Der Paketdienst hat einen Sondertarif für Sendungen, die
     innerhalb der gleichen Postleitzahl verschickt werden.  Schreibe
-    eine Funktion \texttt{same-zip-code?}, die als Argumente zwei
+    eine Funktion \lstinline{same-zip-code?}, die als Argumente zwei
     \textit{Adressen} bekommt und feststellt, ob die Postleitzahlen
     und die Länder der beiden Adressen gleich sind.
 
@@ -1473,12 +1473,12 @@ Seite~\pageref{mantra:gleichungen}:
     um die Kosten für das Paket zu berechnen.  Ausschlaggebendes
     Kriterium für die Paketgröße ist die Summe der längsten und der
     kürzesten Seite des Pakets.  Schreibe eine Funktion
-    \texttt{add-longest-and-shortest-side}, die als Argument eine
+    \lstinline{add-longest-and-shortest-side}, die als Argument eine
     \textit{Abmessung} bekommt.  Der Rückgabewert von
-    \texttt{add"=longest"=and"=shortest"=side} soll die Summe der längsten
+    \lstinline{add-longest-and-shortest-side} soll die Summe der längsten
     und der kürzesten Seite der Abmessung sein.  Lagere die
-    Teilprobleme in zwei Hilfsfunktionen aus: \texttt{longest-side}
-    und \texttt{shortest-side}.
+    Teilprobleme in zwei Hilfsfunktionen aus: \lstinline{longest-side}
+    und \lstinline{shortest-side}.
 
   \item Schreibe eine Daten- und eine Record-Definition für
     \textit{Pakete}.  Ein Paket besteht aus einer Absender- und einer
@@ -1489,7 +1489,7 @@ Seite~\pageref{mantra:gleichungen}:
     und eine Zusatz\-option Nachnahme.  Die Beförderungsdauer soll
     \emph{normal}, \emph{next-day} oder \emph{next-morning} sein.
 
-  \item Schreibe eine Funktion \texttt{parcel-size-class}, die
+  \item Schreibe eine Funktion \lstinline{parcel-size-class}, die
     als Argument ein \textit{Paket} bekommt und die Größenklasse
     zurückgibt.  Ausschlaggebend für die Paketgröße ist die Abmessung
     (siehe oben).  Folgende Tabelle enthält die Zuordnung von
@@ -1505,7 +1505,7 @@ Seite~\pageref{mantra:gleichungen}:
       \end{tabular}
     \end{center}
 
-  \item Schreibe eine Funktion \texttt{calculate-base-postage},
+  \item Schreibe eine Funktion \lstinline{calculate-base-postage},
     die als Argument ein \textit{Paket} bekommt und die
     Basis-Portokosten für dieses Paket berechnet.  Lege Sie dabei
     folgende Grundtariftabelle des Paketdienstes zugrunde:
@@ -1524,7 +1524,7 @@ Seite~\pageref{mantra:gleichungen}:
     
 
   \item Schreibe eine Funktion
-    \texttt{transportation-time-factor}, die als Argument ein
+    \lstinline{transportation-time-factor}, die als Argument ein
     \textit{Paket} bekommt und den Aufschlagsfaktor für die
     Beförderungsdauer zurückliefert.  Lege dabei folgende
     Aufschlagsfaktoren zugrunde:
@@ -1541,7 +1541,7 @@ Seite~\pageref{mantra:gleichungen}:
     \end{center}
     
   \item Schreibe eine Funktion
-    \texttt{cash-on-delivery-surcharge}, die als Argument ein
+    \lstinline{cash-on-delivery-surcharge}, die als Argument ein
     \textit{Paket} bekommt und den Aufschlag für die Nachnahme
     zurückliefert.  Lege dabei folgende Aufschläge zugrunde:
 
@@ -1554,7 +1554,7 @@ Seite~\pageref{mantra:gleichungen}:
       \end{tabular}
     \end{center}
 
-  \item Schreibe eine Funktion \texttt{calculate-postage}, die
+  \item Schreibe eine Funktion \lstinline{calculate-postage}, die
     als Argument ein \textit{Paket} bekommt und die Portokosten
     berechnet.  Benutze dafür die bereits programmierten
     Lösungen der verschiedenen Teilprobleme.
