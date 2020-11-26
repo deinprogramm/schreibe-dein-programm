@@ -1,8 +1,6 @@
 ;; Die ersten drei Zeilen dieser Datei wurden von DrRacket eingefügt. Sie enthalten Metadaten
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname dillo-wold) (read-case-sensitive #f) (teachpacks ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp"))) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp")))))
-; TODO: Nur Gürteltiere?
-
 ; Ein Gürteltier hat folgende Eigenschaften:
 ; - Gewicht (in g)
 ; - lebendig oder tot
@@ -33,11 +31,9 @@
     (make-dillo (dillo-weight dillo)
                 #f)))
 
-; Videospiel
-
+; Körper des Gürteltiers
 (define dillo-body
-  (add-polygon (rectangle 100 60
-                          "solid" "black")
+  (overlay/xy (polygon
                (list (make-pulled-point
                       0.3 30
                       5 (- 60 5)
@@ -67,14 +63,12 @@
                       29 (- 60 17)
                       0.5 20))
                "solid"
-               "brown"))
-
-(define dead-eyes
-  (overlay (line 10 10 "green")
-           (line -10 10 "green")))
+               "brown")
+              0 -30
+              (rectangle 100 60
+                         "solid" "transparent")))
 
 ; Gürteltier-Bild erzeugen
-
 (: dillo-image (dillo -> image))
 
 (define dillo-image
@@ -89,131 +83,26 @@
                      -25 -25
                      dillo-body)))))
 
-; Text in der Mitte eines Tiers abbilden
-(: add-text-center (string natural image-color image -> image))
+(define dead-eyes
+  (overlay (line 10 10 "green")
+           (line -10 10 "green")))
 
-(define add-text-center
-  (lambda (txt size color scene)
-    (place-image/align
-     (text txt size color)
-     (/ (image-width scene) 2)
-     (/ (image-height scene) 2)
-     "center" "center"
-     scene)))
-
-; Meter in Pixel umwandeln
-(: meters->pixels (real -> real))
-
-(define meters->pixels
-  (lambda (meters)
-    (* meters 100)))
-
-; Pixel in Meter umwandeln
-(: pixels->meters (real -> real))
-
-(define pixels->meters
-  (lambda (pixels)
-    (/ pixels 100)))
-
-(define marking-height 2)
-(define gap-height 1)
-
-; Straßenmarkierung mit bestimmter Anzahl von Streifen malen
-(: markings (natural -> image))
-
-(define markings
-  (lambda (n)
-    (cond
-      ((zero? n) empty-image)
-      ((positive? n)
-       (above (rectangle (meters->pixels .20)
-                         (meters->pixels marking-height)
-                         "solid"
-                         "white")
-              (rectangle (meters->pixels .20)
-                         (meters->pixels gap-height)
-                         "solid"
-                         "black")
-              (markings (- n 1)))))))
-
-; in meters
-(define road-width 5)
-
-; in meters
-(define road-window-height 12)
-
-(define blank-road-window
-  (empty-scene (meters->pixels road-width)
-               (meters->pixels road-window-height)
-               "black"))
-
-(define marking-count
-  (+ 1
-     (quotient road-window-height (+ marking-height gap-height))))
-
-(define visible-markings
-  (markings marking-count))
-
-; Meter pro Tick
-(define meters-per-tick 0.1)
-
-; Ticks in Meter umwandeln
-(define ticks->meters
-  (lambda (ticks)
-    (* meters-per-tick ticks)))
-
-(define marking-segment-pixels
-  (meters->pixels (+ marking-height gap-height)))
-
-; Straßenausschnitt zu Zeitpunkt anzeigen
-(: road-window (natural -> image))
-
-(define road-window
-  (lambda (ticks)
-    (place-image/align visible-markings
-                       (/ (image-width blank-road-window) 2)
-                       (-
-                        (remainder (meters->pixels (* ticks meters-per-tick))
-                                   marking-segment-pixels)
-                        marking-segment-pixels)
-                       "center" "top"
-                       blank-road-window)))
-
-
-; Rad
-(define wheel
-  (rectangle (meters->pixels 0.2) (meters->pixels .5) "outline" "white"))
-
-; Zwei Räder auf einer Seite des Autos
-(define wheels-on-one-side
- (above wheel (rectangle 0 (meters->pixels 1.2) "solid" "black") wheel))
-
-; Breite des Autos
-(define car-width 1.5)
-; Länge des Autos
-(define car-length 3.0)
-
-; Bild des Autos
-(define car
-  (beside
-   wheels-on-one-side
-   (rectangle (meters->pixels car-width) (meters->pixels car-length) "solid" "blue")
-   wheels-on-one-side))
-
-; Seite der Straße
+; Straßenseite
 (define side
   (signature (enum "left" "right")))
 
 ; Eine Position auf der Straße besteht aus:
 ; - Abstand vom Straßenanfang in Meter
 ; - Seite
-
 (define-record position
   make-position
   position?
   (position-m-from-start real)
   (position-side side))
 
+; Ein Gürteltier auf der Straße hat folgende Eigenschaften:
+; - Gürteltier-Zustand
+; - Position auf der Straße
 (define-record dillo-on-road
   make-dillo-on-road
   dillo-on-road?
@@ -233,6 +122,14 @@
   (world-dillos-on-road (list-of dillo-on-road))
   (world-score natural))
 
+; Meter pro Tick
+(define meters-per-tick 0.1)
+
+; Ticks in Meter umwandeln
+(define ticks->meters
+  (lambda (ticks)
+    (* meters-per-tick ticks)))
+
 ; Position des Autos
 (: world-car-position (world -> position))
 
@@ -242,7 +139,6 @@
 (check-expect (world-car-position (make-world 100 "left" empty 0))
               (make-position (+ (ticks->meters 100) (/ road-window-height 2))
                              "left"))
-
                            
 (define world-car-position
   (lambda (world)
@@ -252,43 +148,12 @@
                    (world-car-side world))))
     
 
-(: place-image-on-road (image real image position -> image))
 
-(define place-image-on-road
-  (lambda (road-image road-bottom-m image position)
-    (define image-m-from-start (position-m-from-start position))
-    (define side (position-side position))
-    (define road-top-m (+ road-bottom-m road-window-height))
-    (define image-height-m (pixels->meters (image-height image)))
-    (define middle-pixels (/ (image-width road-image) 2))
-    (define pixels-from-left
-      (cond
-        ((string=? side "left")
-         (* middle-pixels 0.5)) ; Mitte der linken Spur
-        ((string=? side "right")
-         (* middle-pixels 1.5)))) ; Mitte der rechten Spur
-    (if (and (>= (+ image-m-from-start (/ image-height-m 2))
-                 road-bottom-m)
-             (<= (- image-m-from-start (/ image-height-m 2))
-                 road-top-m))
-        (place-image/align
-         image
-         pixels-from-left
-         (- (image-height road-image)
-            (meters->pixels (- image-m-from-start road-bottom-m)))
-         "center" "center"
-         road-image)
-        road-image)))
+; Breite des Autos
+(define car-width 1.5)
+; Länge des Autos
+(define car-length 3.0)
 
-; Auto auf die Straße setzen
-(: place-car-on-road (natural position image -> image))
-                      
-(define place-car-on-road
-  (lambda (ticks car-position road-image)
-    (define meters (ticks->meters ticks))
-    (place-image-on-road road-image
-                         meters
-                         car car-position)))
 
 ; Berührt das Auto eine Position?
 (: car-on-position? (position position -> boolean))
@@ -358,6 +223,135 @@
                                     (dillo-on-road-position dillo-on-road))
                dillo-on-road))
          dillos-on-road)))
+
+
+
+; Meter in Pixel umwandel
+(: meters->pixels (real -> real))
+
+(define meters->pixels
+  (lambda (meters)
+    (* meters 100)))
+
+; Pixel in Meter umwandeln
+(: pixels->meters (real -> real))
+
+(define pixels->meters
+  (lambda (pixels)
+    (/ pixels 100)))
+
+(define marking-height 2)
+(define gap-height 1)
+
+; Straßenmarkierung mit bestimmter Anzahl von Streifen malen
+(: markings (natural -> image))
+
+(define markings
+  (lambda (n)
+    (cond
+      ((zero? n) empty-image)
+      ((positive? n)
+       (above (rectangle (meters->pixels .20)
+                         (meters->pixels marking-height)
+                         "solid"
+                         "white")
+              (rectangle (meters->pixels .20)
+                         (meters->pixels gap-height)
+                         "solid"
+                         "black")
+              (markings (- n 1)))))))
+
+; in Meter
+(define road-width 5)
+
+; in Meter
+(define road-window-height 12)
+
+(define blank-road-window
+  (empty-scene (meters->pixels road-width)
+               (meters->pixels road-window-height)
+               "black"))
+
+(define marking-count
+  (+ 1
+     (quotient road-window-height
+               (+ marking-height gap-height))))
+
+(define visible-markings
+  (markings marking-count))
+
+
+(define marking-segment-pixels
+  (meters->pixels (+ marking-height gap-height)))
+
+; Straßenausschnitt zu Zeitpunkt anzeigen
+(: road-window (natural -> image))
+
+(define road-window
+  (lambda (ticks)
+    (place-image/align visible-markings
+                       (/ (image-width blank-road-window) 2)
+                       (-
+                        (remainder (meters->pixels (* ticks meters-per-tick))
+                                   marking-segment-pixels)
+                        marking-segment-pixels)
+                       "center" "top"
+                       blank-road-window)))
+
+; Rad
+(define wheel
+  (rectangle (meters->pixels 0.2) (meters->pixels .5) "outline" "white"))
+
+; Zwei Räder auf einer Seite des Autos
+(define wheels-on-one-side
+ (above wheel (rectangle 0 (meters->pixels 1.2) "solid" "black") wheel))
+
+; Bild des Autos
+(define car
+  (beside
+   wheels-on-one-side
+   (rectangle (meters->pixels car-width) (meters->pixels car-length) "solid" "blue")
+   wheels-on-one-side))
+
+; Bild auf der Straße platzieren
+(: place-image-on-road (image real image position -> image))
+
+(define place-image-on-road
+  (lambda (road-image road-bottom-m image position)
+    (define image-m-from-start (position-m-from-start position))
+    (define side (position-side position))
+    (define road-top-m (+ road-bottom-m road-window-height))
+    (define image-height-m (pixels->meters (image-height image)))
+    (define middle-pixels (/ (image-width road-image) 2))
+    (define pixels-from-left
+      (cond
+        ((string=? side "left")
+         (* middle-pixels 0.5)) ; Mitte der linken Spur
+        ((string=? side "right")
+         (* middle-pixels 1.5)))) ; Mitte der rechten Spur
+    (if (and (>= (+ image-m-from-start (/ image-height-m 2))
+                 road-bottom-m)
+             (<= (- image-m-from-start (/ image-height-m 2))
+                 road-top-m))
+        (place-image/align
+         image
+         pixels-from-left
+         (- (image-height road-image)
+            (meters->pixels (- image-m-from-start road-bottom-m)))
+         "center" "center"
+         road-image)
+        road-image)))
+
+; Auto auf die Straße setzen
+(: place-car-on-road (natural position image -> image))
+                      
+(define place-car-on-road
+  (lambda (ticks car-position road-image)
+    (define meters (ticks->meters ticks))
+    (place-image-on-road road-image
+                         meters
+                         car car-position)))
+
 
 ; Ein Tier auf die Straße malen
 (: place-dillo-on-road (natural dillo-on-road image -> image))
