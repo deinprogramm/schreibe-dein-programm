@@ -1,15 +1,20 @@
 ;; Die ersten drei Zeilen dieser Datei wurden von DrRacket eingefügt. Sie enthalten Metadaten
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "beginner-reader.rkt" "deinprogramm" "sdp")((modname wallclock-time) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
+; Eine Stunde ist eine ganze Zahl zwischen 0 und 23.
+(define hour (signature (integer-from-to 0 23)))
+; Eine Minute ist eine ganze Zahl zwischen 0 und 59.
+(define minute (signature (integer-from-to 0 59)))
+
 ; Eine Uhrzeit besteht aus Stunde und Minute.
 (define-record wallclock-time
   make-wallclock-time
-  (wallclock-time-hour   natural)
-  (wallclock-time-minute natural))
+  (wallclock-time-hour   hour)
+  (wallclock-time-minute minute))
 
-(: make-wallclock-time (natural natural -> wallclock-time))
-(: wallclock-time-hour (wallclock-time -> natural))
-(: wallclock-time-minute (wallclock-time -> natural))
+(: make-wallclock-time (hour minute -> wallclock-time))
+(: wallclock-time-hour (wallclock-time -> hour))
+(: wallclock-time-minute (wallclock-time -> minute))
 
 (define wt1 (make-wallclock-time 11 55)) ; fünf vor zwölf
 (define wt2 (make-wallclock-time 0 0)) ; Mitternacht

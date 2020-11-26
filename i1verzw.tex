@@ -269,6 +269,20 @@ Fertig!
   Finde heraus was passiert, wenn Du die Funktion mit einer Zahl
   aufrufst, für die sie nicht gemacht ist.
 \end{aufgabeinline}
+%
+Wie oben schon erwähnt, suggeriert die Signatur von
+\lstinline{say-number}, dass sie eine beliebige natürliche Zahl
+aufsagen kann, auch wenn sie nur bis Drei funktioniert.
+Glücklicherweise können wir die Signatur präzisieren, und zwar so:
+%
+\begin{lstlisting}
+(: say-number ((integer-from-to 0 3) -> string))
+\end{lstlisting}
+%
+Die Funktion
+\lstinline{integer-from-to}\index{integer-from-to@\texttt{integer-from-to}}
+liefert also eine Signatur, die natürliche Zahlen zwischen einer Unter-
+und einer Untergrenze beschreibt.\ref{function:integer-from-to}
 
 \section{Abdeckung}
 \label{sec:testabdeckung}
@@ -371,12 +385,11 @@ Da sind gleich zwei neue Programmelemente drin:
   Die Funktion \lstinline{say-number} aus dem vorigen Abschnitt hat ja als
   Signatur-Deklaration die folgende:
 \begin{lstlisting}
-(: say-number (natural -> string))
+(: say-number ((integer-from-to 0 3) -> string))
 \end{lstlisting}
-  % 
-  Mach die Signatur präziser mit Hilfe von Datendefinitionen und
-  Signatur-Definitionen!  Ersetze dafür \lstinline{natural} und
-  \lstinline{string} durch Aufzählungen.
+  %
+  Schreibe explizite Datendefinition für Ein- und Ausgabe der Funktion
+  und mache ihre Signatur mit Hilfe von Aufzählungen präziser!
 \end{aufgabeinline}
 %
 Zurück zu unserer Funktion zur Niedlichkeitsanalyse.  Die definierte
@@ -787,7 +800,7 @@ eine Fallunterscheidung ist mit drei Fällen.  Wir können also das
          (|\ldots| |\ldots|)
          (|\ldots| |\ldots|)
          (|\ldots| |\ldots|)))
-      ; Die Erwärmung würde die Wassertemperatur auf über 100|\si{\degree}|C erhöhen.
+      ; Erwärmung würde die Wassertemperatur auf über 100|\si{\degree}|C erhöhen.
       ((>= (+ temp heat) 100) 100)
       ; Wasser fängt flüssig an und bleibt durch Erwärmung flüssig.
       ((and (>= temp 0) (< (+ temp heat) 100))
@@ -1075,7 +1088,7 @@ müssen also den neuen Zweig unmittelbar vor dem \lstinline{else}-Zweig
 einfügen.  Der sieht so aus:
 %
 \begin{lstlisting}
-         ; Die Erwärmung würde die Temperatur auf über 100\si{\degree}C bringen
+         ; Erwärmung würde die Temperatur auf über 100|\si{\degree}|C bringen
          ((>= (- (+ temp heat) 80) 100) 100)
 \end{lstlisting}
 %

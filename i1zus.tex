@@ -459,25 +459,47 @@ dem Namen des Record-Typs ergibt.  Also:
   (wallclock-time-minute ...))
 \end{verbatim}
 %
-Es fehlen noch die Signaturen.  Dass wir die untereinander schreiben,
-dient lediglich der Übersichtlichkeit, ist also ebenfalls eine
-Konvention.  Bei sowohl Stunde als auch Minute handelt es sich um
-natürliche Zahlen:
+Dass wir die untereinander schreiben, dient lediglich der
+Übersichtlichkeit, ist also ebenfalls eine Konvention.  Es fehlen noch
+die Signaturen bei \lstinline{wallclock-time-hour} und
+\lstinline{wallclock-time-minute}.  Nicht nur die: Wir brauchen
+überhaupt erstmal Datendefinitionen für die beiden Felder.
+%
+\begin{lstlisting}
+; Eine Stunde ist eine ganze Zahl zwischen 0 und 23.
+; Eine Minute ist eine ganze Zahl zwischen 0 und 59.
+\end{lstlisting}
+%
+Da es um ganze Zahlen ab 0 geht, könnten wir \lstinline{natural}
+verwenden, präziser ist es aber, wenn wir \lstinline{integer-from-to}
+aus Abschnitt~\ref{function:integer-from-to} auf
+Seite~\pageref{function:integer-from-to} benutzen und eigene
+Signaturdefinitionen einführen:
+%
+\begin{lstlisting}
+; Eine Stunde ist eine ganze Zahl zwischen 0 und 23.
+(define hour (signature (integer-from-to 0 23)))
+; Eine Minute ist eine ganze Zahl zwischen 0 und 59.
+(define minute (signature (integer-from-to 0 59)))
+\end{lstlisting}
+%
+Diese Signaturene können wir jetzt in der Record-Definition für
+\lstinline{wallclock-time} verwenden:
 %
 \begin{verbatim}
 (define-record wallclock-time
   make-wallclock-time
-  (wallclock-time-hour   natural)
-  (wallclock-time-minute natural))
+  (wallclock-time-hour   hour)
+  (wallclock-time-minute minute))
 \end{verbatim}
 %
 Wir schreiben die Signaturen der definierten Funktionen aus.  Diese
 ergeben sich direkt aus der Record-Definition:
 %
 \begin{verbatim}
-(: make-wallclock-time (natural natural -> wallclock-time))
-(: wallclock-time-hour (wallclock-time -> natural))
-(: wallclock-time-minute (wallclock-time -> natural))
+(: make-wallclock-time (hour minute -> wallclock-time))
+(: wallclock-time-hour (wallclock-time -> hour))
+(: wallclock-time-minute (wallclock-time -> minute))
 \end{verbatim}
 %
 Der Konstruktor akzeptiert für jedes Feld ein Argument~-- entsprechend
