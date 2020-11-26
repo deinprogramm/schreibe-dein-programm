@@ -33,62 +33,6 @@
     (make-dillo (dillo-weight dillo)
                 #f)))
 
-; Ein Papagei hat folgende Eigenschaften:
-; - Gewicht in Gramm
-; - Satz, den er sagt
-(define-record parrot
-  make-parrot
-  parrot?
-  (parrot-weight   natural)
-  (parrot-sentence string))
-
-(: make-parrot (natural string -> parrot))
-(: parrot? (any -> boolean))
-(: parrot-weight (parrot -> natural))
-(: parrot-sentence (parrot -> string))
-
-(define parrot1 (make-parrot 10000 "Der Gärtner war's.")) ; 10kg, Miss Marple
-(define parrot2 (make-parrot 5000 "Ich liebe Dich.")) ; 5kg, Romantiker 
-
-(: parrot-alive? (parrot -> boolean))
-
-(define parrot-alive?
-  (lambda (parrot)
-    (not (string=? (parrot-sentence parrot) ""))))
-
-; Papagei überfahren
-(: run-over-parrot (parrot -> parrot))
-
-(define run-over-parrot
-  (lambda (parrot)
-    (make-parrot (parrot-weight parrot)
-                 "")))
-
-; Ein Tier ist eins der folgenden:
-; - Gürteltier
-; - Papagei
-(define animal
-  (signature
-    (mixed dillo parrot)))
-
-; Tier überfahren
-(: run-over-animal (animal -> animal))
-
-(define run-over-animal
-  (lambda (animal)
-    (cond
-      ((dillo? animal) (run-over-dillo animal))
-      ((parrot? animal) (run-over-parrot animal)))))
-
-; Ist Tier noch am Leben?
-(: animal-alive? (animal -> boolean))
-
-(define animal-alive?
-  (lambda (animal)
-    (cond
-      ((dillo? animal) (dillo-alive? animal))
-      ((parrot? animal) (parrot-alive? animal)))))
-
 ; Videospiel
 
 (define dillo-body
@@ -145,45 +89,6 @@
                      -25 -25
                      dillo-body)))))
 
-; Papagei
-; 0 is straight down, from there clockwise
-; no. Relative to incoming angle?
-; Or to incoming line?
-(define parrot-image
-  (lambda (parrot)
-    (add-text-center
-     (parrot-sentence parrot) 20 "dark red"
-     (scale
-      (/ (parrot-weight parrot)
-         10000)
-      (overlay/xy
-       (polygon (list (make-pulled-point 0.5 0
-                                         0 42
-                                        0.5 -30)
-                      (make-pulled-point 0.2 30
-                                         40 0
-                                         0.5 -45)
-                      (make-pulled-point 0.5 0
-                                         100 60
-                                         0.4 -30)
-                      (make-pulled-point 0.4 40
-                                         110 200
-                                         0.5 20)
-                      (make-pulled-point 0.5 0
-                                         100 280
-                                         0.5 20)
-                      (make-pulled-point 0.5 0
-                                         60 200
-                                         0.5 -20)
-                      (make-pulled-point 0 0
-                                         20 40
-                                         0 0))
-               
-                "solid"
-                "green")
-       0 0
-       (rectangle 130 280 "solid" "black"))))))
-
 ; Text in der Mitte eines Tiers abbilden
 (: add-text-center (string natural image-color image -> image))
 
@@ -195,15 +100,6 @@
      (/ (image-height scene) 2)
      "center" "center"
      scene)))
-
-; Tier abbilden
-(: animal-image (animal -> image))
-
-(define animal-image
-  (lambda (animal)
-    (cond
-      ((dillo? animal) (dillo-image animal))
-      ((parrot? animal) (parrot-image animal)))))
 
 ; Meter in Pixel umwandeln
 (: meters->pixels (real -> real))
@@ -318,11 +214,11 @@
   (position-m-from-start real)
   (position-side side))
 
-(define-record animal-on-road
-  make-animal-on-road
-  animal-on-road?
-  (animal-on-road-animal animal)
-  (animal-on-road-position position))
+(define-record dillo-on-road
+  make-dillo-on-road
+  dillo-on-road?
+  (dillo-on-road-dillo dillo)
+  (dillo-on-road-position position))
 
 ; Die Welt des Spiels besteht aus:
 ; - Ticks seit Spielanfang
@@ -334,7 +230,7 @@
   world?
   (world-ticks natural)
   (world-car-side side)
-  (world-animals-on-road (list-of animal-on-road))
+  (world-dillos-on-road (list-of dillo-on-road))
   (world-score natural))
 
 ; Position des Autos
@@ -418,70 +314,70 @@
              (/ car-length 2)))))
 
 ; Wieviele Tiere werden vom Auto berührt?
-(: live-animals-under-car-count (position (list-of animal-on-road) -> natural))
+(: live-dillos-under-car-count (position (list-of dillo-on-road) -> natural))
 
-(check-expect (live-animals-under-car-count (make-position 10 "left")
-                                            (list (make-animal-on-road dillo1 (make-position 10 "left"))
-                                                  (make-animal-on-road dillo1 (make-position 10 "right"))
-                                                  (make-animal-on-road dillo1 (make-position 11 "left"))
-                                                  (make-animal-on-road dillo1 (make-position 9 "left"))
-                                                  (make-animal-on-road dillo1 (make-position 12 "left"))))
+(check-expect (live-dillos-under-car-count (make-position 10 "left")
+                                            (list (make-dillo-on-road dillo1 (make-position 10 "left"))
+                                                  (make-dillo-on-road dillo1 (make-position 10 "right"))
+                                                  (make-dillo-on-road dillo1 (make-position 11 "left"))
+                                                  (make-dillo-on-road dillo1 (make-position 9 "left"))
+                                                  (make-dillo-on-road dillo1 (make-position 12 "left"))))
               3)
 
-(define live-animals-under-car-count
-  (lambda (car-position animals-on-road)
+(define live-dillos-under-car-count
+  (lambda (car-position dillos-on-road)
     (length
-     (filter (lambda (animal-on-road)
-               (and (car-on-position? car-position (animal-on-road-position animal-on-road))
-                    (animal-alive? (animal-on-road-animal animal-on-road))))
-             animals-on-road))))
+     (filter (lambda (dillo-on-road)
+               (and (car-on-position? car-position (dillo-on-road-position dillo-on-road))
+                    (dillo-alive? (dillo-on-road-dillo dillo-on-road))))
+             dillos-on-road))))
 
 ; Alle Tiere überfahren, die das Auto berührt
-(: run-over-animals-on-road (position (list-of animal-on-road) -> (list-of animal-on-road)))
+(: run-over-dillos-on-road (position (list-of dillo-on-road) -> (list-of dillo-on-road)))
 
 (define dead-dillo1 (run-over-dillo dillo1))
 
-(check-expect (run-over-animals-on-road (make-position 10 "left")
-                                        (list (make-animal-on-road dillo1 (make-position 10 "left"))
-                                              (make-animal-on-road dillo1 (make-position 10 "right"))
-                                              (make-animal-on-road dillo1 (make-position 11 "left"))
-                                              (make-animal-on-road dillo1 (make-position 9 "left"))
-                                              (make-animal-on-road dillo1 (make-position 12 "left"))))
-              (list (make-animal-on-road dead-dillo1 (make-position 10 "left"))
-                    (make-animal-on-road dillo1 (make-position 10 "right"))
-                    (make-animal-on-road dead-dillo1 (make-position 11 "left"))
-                    (make-animal-on-road dead-dillo1 (make-position 9 "left"))
-                    (make-animal-on-road dillo1 (make-position 12 "left"))))
+(check-expect (run-over-dillos-on-road (make-position 10 "left")
+                                        (list (make-dillo-on-road dillo1 (make-position 10 "left"))
+                                              (make-dillo-on-road dillo1 (make-position 10 "right"))
+                                              (make-dillo-on-road dillo1 (make-position 11 "left"))
+                                              (make-dillo-on-road dillo1 (make-position 9 "left"))
+                                              (make-dillo-on-road dillo1 (make-position 12 "left"))))
+              (list (make-dillo-on-road dead-dillo1 (make-position 10 "left"))
+                    (make-dillo-on-road dillo1 (make-position 10 "right"))
+                    (make-dillo-on-road dead-dillo1 (make-position 11 "left"))
+                    (make-dillo-on-road dead-dillo1 (make-position 9 "left"))
+                    (make-dillo-on-road dillo1 (make-position 12 "left"))))
 
-(define run-over-animals-on-road
-  (lambda (car-position animals-on-road)
-    (map (lambda (animal-on-road)
+(define run-over-dillos-on-road
+  (lambda (car-position dillos-on-road)
+    (map (lambda (dillo-on-road)
            (if (car-on-position? car-position
-                                 (animal-on-road-position animal-on-road))
-               (make-animal-on-road (run-over-animal (animal-on-road-animal animal-on-road))
-                                    (animal-on-road-position animal-on-road))
-               animal-on-road))
-         animals-on-road)))
+                                 (dillo-on-road-position dillo-on-road))
+               (make-dillo-on-road (run-over-dillo (dillo-on-road-dillo dillo-on-road))
+                                    (dillo-on-road-position dillo-on-road))
+               dillo-on-road))
+         dillos-on-road)))
 
 ; Ein Tier auf die Straße malen
-(: place-animal-on-road (natural animal-on-road image -> image))
+(: place-dillo-on-road (natural dillo-on-road image -> image))
 
-(define place-animal-on-road
-  (lambda (ticks animal-on-road road-image)
+(define place-dillo-on-road
+  (lambda (ticks dillo-on-road road-image)
     (place-image-on-road road-image
                          (ticks->meters ticks)
-                         (animal-image (animal-on-road-animal animal-on-road))
-                         (animal-on-road-position animal-on-road))))
+                         (dillo-image (dillo-on-road-dillo dillo-on-road))
+                         (dillo-on-road-position dillo-on-road))))
 
 ; Alle Tiere auf die Straße malen
-(: place-animals-on-road (natural (list-of animal-on-road) image -> image))
+(: place-dillos-on-road (natural (list-of dillo-on-road) image -> image))
 
-(define place-animals-on-road
-  (lambda (ticks animals-on-road road-image)
+(define place-dillos-on-road
+  (lambda (ticks dillos-on-road road-image)
     (fold road-image
-          (lambda (animal-on-road image)
-            (place-animal-on-road ticks animal-on-road image))
-          animals-on-road)))
+          (lambda (dillo-on-road image)
+            (place-dillo-on-road ticks dillo-on-road image))
+          dillos-on-road)))
 
 ; Punktzahl anzeigen
 (: place-score (natural image -> image))
@@ -505,9 +401,9 @@
      (place-car-on-road
       ticks
       (world-car-position world)
-      (place-animals-on-road
+      (place-dillos-on-road
        ticks
-       (world-animals-on-road world)
+       (world-dillos-on-road world)
        (road-window ticks))))))
 
 ; Auf Tastendrück reagieren
@@ -519,12 +415,12 @@
       ((key=? key "left")
        (make-world (world-ticks world)
                    "left"
-                   (world-animals-on-road world)
+                   (world-dillos-on-road world)
                    (world-score world)))
       ((key=? key "right")
        (make-world (world-ticks world)
                    "right"
-                   (world-animals-on-road world)
+                   (world-dillos-on-road world)
                    (world-score world)))
       (else world))))
 
@@ -534,20 +430,20 @@
 (define next-world
   (lambda (world)
     (define car-position (world-car-position world))
-    (define animals-on-road (world-animals-on-road world))
+    (define dillos-on-road (world-dillos-on-road world))
     (make-world (+ 1 (world-ticks world))
                 (world-car-side world)
-                (run-over-animals-on-road car-position animals-on-road)
-                (+ (live-animals-under-car-count car-position animals-on-road)
+                (run-over-dillos-on-road car-position dillos-on-road)
+                (+ (live-dillos-under-car-count car-position dillos-on-road)
                    (world-score world)))))
 
-(define animals-on-road
-  (list (make-animal-on-road dillo1 (make-position 20 "left"))
-        (make-animal-on-road parrot1 (make-position 26 "right"))
-        (make-animal-on-road dillo2 (make-position 30 "left"))
-        (make-animal-on-road parrot2 (make-position 42 "left"))))
+(define dillos-on-road
+  (list (make-dillo-on-road dillo1 (make-position 20 "left"))
+        (make-dillo-on-road dillo2 (make-position 26 "right"))
+        (make-dillo-on-road dillo3 (make-position 30 "left"))
+        (make-dillo-on-road dillo4 (make-position 42 "left"))))
 
-#;(big-bang (make-world 0 "left" animals-on-road 0)
+(big-bang (make-world 0 "left" dillos-on-road 0)
   (to-draw world->image)
   (on-tick next-world)
   (on-key react-to-key))
