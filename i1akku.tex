@@ -1346,6 +1346,106 @@ Ende steht da folgende Signatur:
    ((list-of %a) %acc (%acc %a -> %acc) (%acc -> %b) -> %b))
 \end{lstlisting}
 %
+\begin{figure}[tb]
+  \centering
+\tikzset{
+  foldlistelement/.style= {circle, draw, font=\ttfamily,inner sep=1pt},
+  foldacc/.style= {draw, font=\ttfamily,inner sep=2pt}
+}
+\begin{tikzpicture}[yscale=0.8]
+\draw
+  node at (1,8)[foldlistelement,name=el1]{\%a}
+  node at (2,8)[foldlistelement,name=el2]{\%a}
+  node at (3,8)[foldlistelement,name=el3]{\%a}
+  node at (4,8)[foldlistelement,name=el4]{\%a}
+  node at (5,8)[foldlistelement,name=el5]{\%a}
+  node at (6,8)[foldlistelement,name=el6]{\%a}
+  node at (7,8)[foldlistelement,name=el7]{\%a};
+\draw 
+  node at (0,8)[foldacc,name=acc1]{\%acc}
+  node at (0.5,7)[foldacc,name=acc2]{\%acc}
+  node at (1.5,6)[foldacc,name=acc3]{\%acc}
+  node at (2.5,5)[foldacc,name=acc4]{\%acc}
+  node at (3.5,4)[foldacc,name=acc5]{\%acc}
+  node at (4.5,3)[foldacc,name=acc6]{\%acc}
+  node at (5.5,2)[foldacc,name=acc7]{\%acc}
+  node at (6.5,1)[foldacc,name=acc8]{\%acc};
+\draw
+  node at (6.5,0)[circle,draw,inner sep=1pt,name=result,font=\ttfamily]{\%b};
+\draw[<-](result) -- (acc8);
+\draw(acc2) -- ++(up:0.5) -- ++(right:0.5) -- (el1);
+\draw[<-](acc2) -- ++(up:0.5) -- ++(left:0.5) -- (acc1);
+\draw(acc3) -- ++(up:0.5) -- ++(right:0.5) -- (el2);
+\draw[<-](acc3) -- ++(up:0.5) -- ++(left:1) -- (acc2);
+\draw(acc4) -- ++(up:0.5) -- ++(right:0.5) -- (el3);
+\draw[<-](acc4) -- ++(up:0.5) -- ++(left:1) -- (acc3);
+\draw(acc5) -- ++(up:0.5) -- ++(right:0.5) -- (el4);
+\draw[<-](acc5) -- ++(up:0.5) -- ++(left:1) -- (acc4);
+\draw(acc6) -- ++(up:0.5) -- ++(right:0.5) -- (el5);
+\draw[<-](acc6) -- ++(up:0.5) -- ++(left:1) -- (acc5);
+\draw(acc7) -- ++(up:0.5) -- ++(right:0.5) -- (el6);
+\draw[<-](acc7) -- ++(up:0.5) -- ++(left:1) -- (acc6);
+\draw(acc8) -- ++(up:0.5) -- ++(right:0.5) -- (el7);
+\draw[<-](acc8) -- ++(up:0.5) -- ++(left:1) -- (acc7);
+\end{tikzpicture}
+\caption{Ablauf von \lstinline{list-fold-left}}
+\label{fig:list-fold-left}
+\end{figure}
+
+Abbildung~\ref{fig:list-fold-left} illustriert den Zusammenhang
+zwischen dem Ablauf von \lstinline{list-fold-left} und der Signatur:
+Die Verarbeitung läuft sichtlich von links nach rechts.
+
+\begin{figure}[tb]
+  \centering
+\tikzset{
+  foldlistelement/.style= {circle, draw, font=\ttfamily,inner sep=1pt},
+  foldacc/.style= {draw, font=\ttfamily,inner sep=2pt}
+}
+\begin{tikzpicture}[yscale=0.7]
+\draw
+  node at (0,0)[foldlistelement,name=el1]{\%a}
+  node at (1,0)[foldlistelement,name=el2]{\%a}
+  node at (2,0)[foldlistelement,name=el3]{\%a}
+  node at (3,0)[foldlistelement,name=el4]{\%a}
+  node at (4,0)[foldlistelement,name=el5]{\%a}
+  node at (5,0)[foldlistelement,name=el6]{\%a}
+  node at (6,0)[foldlistelement,name=el7]{\%a}
+  node at (7,0)[foldlistelement,name=empty]{\%b};
+\draw 
+  node at (6.5,1)[foldacc,name=result7]{\%b}
+  node at (5.5,2)[foldacc,name=result6]{\%b}
+  node at (4.5,3)[foldacc,name=result5]{\%b}
+  node at (3.5,4)[foldacc,name=result4]{\%b}
+  node at (2.5,5)[foldacc,name=result3]{\%b}
+  node at (1.5,6)[foldacc,name=result2]{\%b}
+  node at (0.5,7)[foldacc,name=result1]{\%b};
+\draw(empty) -- ++(up:0.5) -- ++(left:0.5) -- (result7);
+\draw[->](el7)   -- ++(up:0.5) -- ++(right:0.5) -- (result7);
+\draw(result7) -- ++(up:0.5) -- ++(left:1) -- (result6);
+\draw[->](el6) -- ++(up:1.5) -- ++(right:0.5) -- (result6);
+\draw(result6) -- ++(up:0.5) -- ++(left:1) -- (result5);
+\draw[->](el5) -- ++(up:2.5) -- ++(right:0.5) -- (result5);
+\draw(result5) -- ++(up:0.5) -- ++(left:1) -- (result4);
+\draw[->](el4) -- ++(up:3.5) -- ++(right:0.5) -- (result4);
+\draw(result4) -- ++(up:0.5) -- ++(left:1) -- (result3);
+\draw[->](el3) -- ++(up:4.5) -- ++(right:0.5) -- (result3);
+\draw(result3) -- ++(up:0.5) -- ++(left:1) -- (result2);
+\draw[->](el2) -- ++(up:5.5) -- ++(right:0.5) -- (result2);
+\draw(result2) -- ++(up:0.5) -- ++(left:1) -- (result1);
+\draw[->](el1) -- ++(up:6.5) -- ++(right:0.5) -- (result1);
+\end{tikzpicture}
+\caption{Ablauf von \lstinline{list-fold}}
+\label{fig:list-fold}
+\end{figure}
+
+Abbildung~\ref{fig:list-fold} zeigt im Gegensatz dazu die Arbeitsweise
+von \lstinline{list-fold}, das von rechts nach links arbeitet.  Zur
+Erinnerung hier noch einmal die Signatur:
+%
+\begin{lstlisting}
+(: list-fold (%a (%b %a -> %a) (list-of %b) -> %a))
+\end{lstlisting}
 
 \section*{Anmerkungen}
 
