@@ -49,7 +49,7 @@
       ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
-         ; Die Erwärmumg bleibt unter 0°C.
+         ; Die Erwärmung bleibt unter 0°C.
          ((< (+ temp heat) 0) (+ temp heat))
          ; Die Erwärmung bleibt bei  0°C "stecken"
          ((and (>= (+ temp heat) 0)
@@ -71,7 +71,7 @@
       ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
-         ; Die Erwärmumg bleibt unter 0°C.
+         ; Die Erwärmung bleibt unter 0°C.
          ((< (+ temp heat) 0) (+ temp heat))
          ; Die Erwärmung bleibt bei  0°C "stecken"
          ((and (>= (+ temp heat) 0)
@@ -92,7 +92,7 @@
       ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
-         ; Die Erwärmumg bleibt unter 0°C.
+         ; Die Erwärmung bleibt unter 0°C.
          ((< (+ temp heat) 0) (+ temp heat))
          ; Die Erwärmung bleibt bei  0°C "stecken"
          ((< (+ temp heat) 80) 0)
@@ -111,7 +111,7 @@
       ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
-         ; Die Erwärmumg bleibt unter 0°C.
+         ; Die Erwärmung bleibt unter 0°C.
          ((< (+ temp heat) 0) (+ temp heat))
          ; Die Erwärmung bleibt bei  0°C "stecken"
          ((< (+ temp heat) 80) 0)
@@ -135,7 +135,7 @@
       ; Die Anfangstemperatur ist unter 0°C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
-         ; Die Erwärmumg bleibt unter 0°C.
+         ; Die Erwärmung bleibt unter 0°C.
          ((< (+ temp heat) 0) (+ temp heat))
          ; Die Erwärmung bleibt bei  0°C "stecken"
          ((< (+ temp heat) 80) 0)

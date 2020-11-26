@@ -1716,7 +1716,7 @@ dann so aus:
       ; Anfangstemperatur ist unter 0|\si{\degree}|C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
-         ; Erwärmumg bleibt unter 0|\si{\degree}|C.
+         ; Erwärmung bleibt unter 0|\si{\degree}|C.
          ((< (+ temp heat) 0) (+ temp heat))
          ; Erwärmung bleibt bei  0|\si{\degree}|C "stecken".
          ((< (+ temp heat) 80) 0)
