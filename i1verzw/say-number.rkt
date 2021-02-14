@@ -2,7 +2,9 @@
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname say-number) (read-case-sensitive #f) (teachpacks ()) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ())))
 ; Zahl zu Text machen
-(: say-number (natural -> string))
+;(: say-number (natural -> string))
+(: say-number ((integer-from-to 0 3) -> string))
+
 
 (check-expect (say-number 0) "zero")
 (check-expect (say-number 1) "one")
