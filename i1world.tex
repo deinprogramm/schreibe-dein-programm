@@ -64,6 +64,12 @@ entsprechend angezeigt wird wie andere Werte auch.  Beispiel:
 |\evalsto| |\includegraphics[scale=0.5]{i1world/rectangle}|
 \end{lstlisting}
 %
+Als Farbe geht übrigens auch \lstinline{"transparent"}, die das Bild
+durchsichtig beziehungsweise unsichtbar macht.  (Wozu ist ein
+unsichtbares Bild gut, fragst Du vielleicht. Zum Beispiel, wenn wir
+ein kleineres Bild nicht ganz mittig platzieren wollen~-- dann können
+es auf ein transparentes Bild legen.)
+
 Es gibt es noch weitere Funktionen, die 
 geometrische Figuren zeichnen:\index{circle@\texttt{circle}}
 %
@@ -384,7 +390,7 @@ Die folgenden Funktionen \lstinline{above} und \lstinline{beside}
 kennst Du vielleicht noch aus dem ersten Kapitel auf
 Seite~\pageref{function:beside-above}.  Sie setzten zwei Bilder
 übereinander respektive nebeneinander:
-%
+% 
 \begin{lstlisting}
 (: above  (image image -> image))
 (: beside (image image -> image))
@@ -409,11 +415,475 @@ Beispiel:
         (scale 3 c))
 |\evalsto| |\includegraphics[scale=0.5]{i1world/scale}|
 \end{lstlisting}
-%
+
 \section{Modelle und Ansichten}
 
+In unserem Videospiel geht es um Gürteltiere auf dem texanischen
+Highway.  Vielleicht erinnerst Du Dich, wir sind ihnen schon in
+Abschnitt~\ref{sec:armadillo} auf Seite~\pageref{sec:armadillo}
+begegnet.  Zur Erinnerung, hier ist der relevante Code dazu:
+%
+\begin{lstlisting}
+; Ein Gürteltier hat folgende Eigenschaften:
+; - Gewicht (in g)
+; - lebendig oder tot
+(define-record dillo
+  make-dillo
+  dillo?
+  (dillo-weight natural)
+  (dillo-alive? boolean))
 
-TBD
+(: make-dillo (natural boolean -> dillo))
+(: dillo-weight (dillo -> natural))
+(: dillo-alive? (dillo -> boolean))
+
+(define dillo1 (make-dillo 55000 #t)) ; 55 kg, lebendig 
+(define dillo2 (make-dillo 58000 #f)) ; 58 kg, tot
+(define dillo3 (make-dillo 60000 #t)) ; 60 kg, lebendig
+(define dillo4 (make-dillo 63000 #f)) ; 63 kg, tot
+
+; Gürteltier überfahren
+(: run-over-dillo (dillo -> dillo))
+
+(define run-over-dillo
+  (lambda (dillo)
+    (make-dillo (dillo-weight dillo)
+                #f)))
+\end{lstlisting}
+%
+Die Datendefinition mit dem zugehörigen Code hält zwar einige Eigenschaften
+von Gürteltieren fest, für ein Videospiel fehlt aber noch eine
+grafische Darstellung.  Ebenso definiert \lstinline{run-over-dillo}
+eine Operation auf Gürteltier-Objekten fest, aber auch die sagt nichts
+zu einer grafischen Darstellung.  Eine solche Repräsentation mit
+zugehörigen Operationen heißt in der Softwararchitektur auch
+\textit{Modell}\index{Modell} oder auch
+\textit{Domänenlogik}\index{Modell}, und bei größeren Softwaresystemen
+ist es eine gute Idee, das Modell von der grafischen Darstellung zu
+trennen, damit das Modell stabil bleiben kann, auch wenn die grafische
+Darstellung geändert wird.
+
+Die grafische Darstellung eines Modells nennen wir dessen
+\textit{Ansicht}\index{Ansicht} (auf englisch
+\textit{View}\index{View}).  Wenn wir uns also mit Gürteltieren als
+Modell für ein Videospiel beschäftigen, müssen wir daraus eine Ansicht
+in Form eines Bildes berechnen.
+
+Wir warnen Dich schonmal vor: Der grafische Gestaltung in diesem
+Kapitel fehlt es vorsichtig gesagt an Finesse.  Wir hoffen, Du kannst
+es besser machen!
+
+Um also aus einem \lstinline{dillo}-Wert ein Bild zu machen, werden
+wir solch eine Funktion benötigen:
+%
+\begin{lstlisting}
+; Gürteltier-Bild erzeugen
+(: dillo-image (dillo -> image))
+\end{lstlisting}
+%
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.6\textwidth]{i1world/dillo}
+  \caption{Umriss eines Gürteltiers}
+  \label{fig:dillo-body}
+\end{figure}
+Als Basis dafür machen wir erstmal ein Bild mit dem Körper des
+Gürteltiers.  Zu diesem Zweck haben wir zunächst von Hand eine
+Zeichnung mit dem Umriss des Gürteltiers in ein Koordinatensystem
+gezeichnet und die Punkte markiert, an denen sich die Richtung des
+Strichs abrupt ändert~-- also quasi die Ecken.  Diese Ecken haben wir
+durchnummeriert und daraus haben wir dieses Polygon gemacht:
+%
+\begin{lstlisting}
+(define dillo-body
+  (overlay/xy (polygon
+               (list (make-pulled-point
+                      0.3 30
+                      5 (- 60 5)
+                      0.2 5)
+                     (make-pulled-point
+                      0.4 20
+                      20 (- 60 32)
+                      0.5 -70)
+                     (make-pulled-point
+                      0.5 120 
+                      90 (- 60 22)
+                      0.2 -30)
+                     (make-pulled-point
+                      0.5 90
+                      60 (- 60 10)
+                      0.5 90)
+                     (make-pulled-point
+                      0 0 
+                      90 (- 60 22)
+                      0.2 -30)
+                     (make-pulled-point
+                      0 0
+                      55 (- 60 20)
+                      0.3 -30)
+                     (make-pulled-point
+                      0 0
+                      29 (- 60 17)
+                      0.5 20))
+               "solid"
+               "brown")
+              0 -30
+              (rectangle 100 60
+                         "solid" "transparent")))
+\end{lstlisting}
+%
+Du siehst, da haben wir ganz schön viel herumprobiert, bis es
+einigermaßen aussah, insbesondere bei den Zahlen für die
+\lstinline{pulled-point}s.  Immerhin haben wir die Koordinaten aus der
+Zeichnung direkt übertragen, dabei ist uns aber aufgefallen, dass die
+Koordinaten in der Mathematik von unten nach oben, im Teachpack aber
+von oben nach unten laufen.  Darum steht da zum Beispiel
+\lstinline{(- 60 5)} für die Y-Koordinate 5, weil der obere Rand der
+Zeichnung bei 60 liegt.
+
+Außerdem ist das Gürteltier vor allem nach oben und rechts nach außen
+gewölbt.  DrRacket schneidet das Polygon bei der Anzeige ab, weswegen
+wir es mit \lstinline{overlay/xy} noch auf einen transparenten
+Hintergrund montiert haben.  So sieht das Ergebnis aus:
+%
+\begin{lstlisting}
+dillo-body
+|\evalsto| |\includegraphics[scale=0.5]{i1world/dillo-body}|
+\end{lstlisting}
+%
+Jetzt wollen wir ja nicht jedes Gürteltier genau gleich darstellen,
+sondern wir wollen dessen Eigenschaften bei der Darstellung
+berücksichtigen.  Dafür schreiben wir nun die Funktion
+\lstinline{dillo-image}, von der wir ja schon Kurzbeschreibung und
+Signatur gesehen haben.  Hier ist das Gerüst mit der Schablone für
+zusammengesetzte Daten als Eingabe:
+%
+\begin{lstlisting}
+(define dillo-image
+  (lambda (dillo)
+    ... 
+    (dillo-weight dillo)
+    (dillo-alive? dillo)
+    ...))
+\end{lstlisting}
+%
+Wir sollten also noch berücksichtigen, wieviel das Gürteltier wiegt
+und außerdem, ob es noch lebt.  Das Gewicht berücksichtigen wir, indem
+wir das Gürteltier größer oder kleiner machen:
+%
+\begin{lstlisting}
+(define dillo-image
+  (lambda (dillo)
+    (scale
+     (+ 1
+        (/ (- (dillo-weight dillo) 50000)
+           15000))
+     dillo-body)
+    ...
+    (dillo-alive? dillo)
+    ...))    
+\end{lstlisting}
+%
+Den Faktor bei \lstinline{scale} haben wir durch Herumprobieren
+ermittelt.  Aber \lstinline{(dillo-alive? dillo)} steht noch da~-- wir
+bauen das ein, indem wir einem toten Gürteltier "<tote Augen"> ins
+Gesicht setzen:
+%
+\begin{lstlisting}
+(define dillo-image
+  (lambda (dillo)
+    (scale
+     (+ 1
+        (/ (- (dillo-weight dillo) 50000)
+           15000))
+     (if (dillo-alive? dillo)
+         dillo-body
+         (overlay/xy dead-eyes
+                     -25 -25
+                     dillo-body)))))
+
+(define dead-eyes
+  (overlay (line 10 10 "green")
+           (line -10 10 "green")))
+\end{lstlisting}
+%
+Fertig ist die Gürteltier-Darstellung!
+
+\section{Welt in Bewegung}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[height=0.4\textheight]{i1world/dillo-world}
+  \caption{Gürteltiere auf der Straße}
+  \label{fig:dillo-world}
+\end{figure}
+
+Ein Gürteltier allein macht noch kein Videospiel: Wir setzen gleich
+mehrere Gürteltiere auf die Straße und~-- natürlich~-- überfahren sie
+dann.  Das sieht dann so aus wie in
+Abbildung~\ref{fig:dillo-world}. Das Auto bewegt sich auf der Straße
+und kann entweder auf die linke oder rechte Straßenseite wechseln, wo
+es dann gegebenfalls über Gürteltiere fährt.  Oben links steht ein
+Punktestand~-- wieviele Gürteltiere schon vom lebenden Zustand in den
+toten überführt wurden.
+
+Damit wir das alles darstellen können, müssen wir ein Modell bauen,
+in dem alle Informationen festgehalten sind, die auf dem Bild der
+Straße zu sehen sind:
+%
+\begin{itemize}
+\item die Position des Autos
+\item die Positionen der Gürteltiere zusammen mit ihren Zuständen
+\item der Punktestand
+\end{itemize}
+%
+Wir müssen auch berücksichtigen, dass die Zeit vergeht.  Das Auto
+fährt mit konstanter Geschwindigkeit, seine Position hängt also von
+der Zeit ab.  Wenn wir die Zeit haben, können wir die Position des
+Autos entlang der Straße daraus berechnen, wir müssen nur noch wissen,
+ob das Auto links oder rechts fährt.
+
+Man sieht schon, dass "<Positionen"> eine wichtige Rolle spielen,
+sowohl für das Auto als auch für die Gürteltiere.  Um die
+Datendefinition für das Modell zu schreiben, brauchen wir zunächst
+eine für Positionen.  In dem Bild kann man sehen, dass dazu gehört,
+auf welcher Seite der Straße sich etwas aufhält und bei welchem
+"<Straßenmeter">.  Dabei kommt folgende beiden Datendefinitionen für
+die Straßenseite und eine Position heraus:
+%
+\begin{lstlisting}
+; Straßenseite
+(define side
+  (signature (enum "left" "right")))
+
+; Eine Position auf der Straße besteht aus:
+; - Straßenmeter (Abstand vom Straßenanfang in Meter)
+; - Seite
+(define-record position
+  make-position
+  position?
+  (position-m-from-start real)
+  (position-side side))
+\end{lstlisting}
+%
+Als nächstes müssen wir die Idee "<Positionen der Gürteltiere zusammen
+mit ihren Zuständen"> in eine Datendefinition umwandeln.  Wir machen
+das erstmal für ein einzelnes Gürteltier und nennen das Konzept
+"<Gürteltier auf der Straße">:
+%
+\begin{lstlisting}
+; Ein Gürteltier auf der Straße hat folgende Eigenschaften:
+; - Gürteltier-Zustand
+; - Position auf der Straße
+(define-record dillo-on-road
+  make-dillo-on-road
+  dillo-on-road?
+  (dillo-on-road-state dillo)
+  (dillo-on-road-position position))
+\end{lstlisting}
+%
+Damit können wir jetzt das Modell für die Welt des Spiels
+fertigstellen:
+%
+\begin{lstlisting}
+; Die Welt des Spiels besteht aus:
+; - Ticks seit Spielanfang
+; - Seite, auf der das Auto fährt
+; - Tiere auf der Straße
+; - Punktzahl
+(define-record world
+  make-world
+  world?
+  (world-ticks natural)
+  (world-car-side side)
+  (world-dillos-on-road (list-of dillo-on-road))
+  (world-score natural))
+\end{lstlisting}
+%
+Das Wort "<Tick"> kommt aus dem Teachpack \texttt{universe.rkt}, wo es
+28 Ticks pro Sekunde gibt.  Wir werden noch dazu kommen, wo die Ticks
+genau herkommen.
+
+Wie kommen wir von hier zu einem fertigen Spiel?  Wir denken darüber
+nach, was wir alles noch brauchen werden, damit aus dem
+\lstinline{world}-Record alle Aspekte des Spiels berechnet werden
+können:\label{page:dillo-world-todos}
+%
+\begin{enumerate}
+\item Wir brauchen für die Darstellung die Position des Autos~-- als
+  \lstinline{position}-Record, nicht bloß die Straßenseite.
+\item Wir müssen feststellen ob das Auto die Position eines
+  Gürteltiers berührt und dieses damit überfährt.
+\item Wir müssen zählen, wieviele Tiere vo einem gegebenen
+  Zeitpunkt vom Auto touchiert, mithin überfahren werden.
+\item Schließlich müssen wir alle Tiere überfahren, deren Position
+  unter das Auto gerät.
+\end{enumerate}
+%
+Diese Liste arbeiten wir jetzt ab.
+%
+\paragraph{Position des Autors}
+Fangen wir an mit der Position des Autos: Die Seite steht ja schon im
+\lstinline{world}-Record.  Für die Konstruktion einer Position fehlen
+noch die Straßenmeter, die aus den Ticks berechnet werden können.  Die
+Funktion dafür hat Kurzbeschreibung, Signatur und Testfälle wie folgt:
+%
+\begin{lstlisting}
+; Position des Autos
+(: world-car-position (world -> position))
+\end{lstlisting}
+%
+Für die Testfälle und auch für die Konstruktion der Funktion müssen
+wir von Ticks in Straßenmeter umrechnen.  Diese Umrechnung ist eine
+Zwischengröße bei der Berechnung der Position, wir verlagern sie
+deswegen in eine separate Funktion namens \lstinline{ticks->meters}.
+Wir haben sie geschrieben, bevor wir mit
+\lstinline{world-car-position} weitergemacht haben.  Du kannst aber
+auch genauso gut erstmal \lstinline{world-car-position}
+fertigschreiben und erst dann \lstinline{ticks->meters} entwickeln.
+Wir müssen zunächst einmal festlegen, wie schnell der Wagen fährt.
+Wir haben uns für ein recht gemächliches Tempo entschieden, damit auch
+wirklich alle Gürteltiere erwischen:
+%
+\begin{lstlisting}
+; Meter pro Tick
+(define meters-per-tick 0.1)
+\end{lstlisting}
+%
+Diese Funktion ist so einfach, dass sich ausnahmsweise separates
+Testen nicht lohnt:
+%
+\begin{lstlisting}
+; Ticks in Meter umwandeln
+(: ticks->meters (natural -> rational))
+
+(define ticks->meters
+  (lambda (ticks)
+    (* meters-per-tick ticks)))
+\end{lstlisting}
+%
+Weiter geht es mit den Tests von \lstinline{world-car-position}, bei
+denen wir \lstinline{ticks->meters} benutzen können:
+%
+\begin{lstlisting}
+(check-expect (world-car-position (make-world 0 "left" empty 0))
+              (make-position 0 "left"))
+(check-expect (world-car-position (make-world 100 "right" empty 0))
+              (make-position (ticks->meters 100) "right"))
+\end{lstlisting}
+%
+Die Schablone für die Funktion berücksichtigt, dass es sich sowohl bei
+Ein- als auch bei der Ausgabe jeweils um zusammengesetzte Daten handelt:
+%
+\begin{lstlisting}
+(define world-car-position
+  (lambda (world)
+    (make-position ... ...)
+    ...
+    (world-ticks world)
+    (world-car-side world)
+    (world-dillos-on-road world)
+    (world-score world)
+    ...))
+\end{lstlisting}
+%
+Nur die ersten beiden Felder von \lstinline{world} sind relevant für
+die Position des Autos~-- Gürteltiere und Punktzahl sind sichtlich
+nicht relevant.  Für die Position brauchen wir die Straßenmeter, die
+wir aus den Ticks mit Hilfe von \lstinline{ticks->meters} berechnen
+können:
+%
+\begin{lstlisting}
+(define world-car-position
+  (lambda (world)
+    (make-position (ticks->meters (world-ticks world))
+                   (world-car-side world))))
+\end{lstlisting}
+%
+\paragraph{Berührung eines Gürteltiers} Als nächstes auf der Liste auf
+Seite~\pageref{page:dillo-world-todos} müssen wir feststellen, ob das
+Auto die Position eines Gürteltiers berührt.  Dafür ist natürlich
+relevant, wie groß das Auto ist.  Wir haben uns für folgende Maße
+entschieden:
+%
+\begin{lstlisting}
+; Breite des Autos
+(define car-width 1.5)
+; Länge des Autos
+(define car-length 3.0)
+\end{lstlisting}
+%
+Wir brauchen eine Funktion mit Kurzbeschreibung und Signatur wie
+folgt:
+%
+\begin{lstlisting}
+; Berührt das Auto eine Position?
+(: car-on-position? (position position -> boolean))
+\end{lstlisting}
+%
+Das Auto berührt eine Position, wenn die Position auf der gleichen
+Straßenseite nah dran ist.  Hier die Testfälle dazu:
+%
+\begin{lstlisting}
+(check-expect (car-on-position? (make-position 10 "left")
+                                (make-position 10 "right"))
+              #f)
+(check-expect (car-on-position? (make-position 10 "left")
+                                (make-position 10 "left"))
+              #t)
+(check-expect (car-on-position? (make-position 11 "left")
+                                (make-position 10 "left"))
+              #t)
+(check-expect (car-on-position? (make-position 10 "left")
+                                (make-position 11 "left"))
+              #t)
+\end{lstlisting}
+%
+Für die Schablone haben wir es bei beiden Eingaben mit
+zusammengesetzten Daten zu tun:
+%
+\begin{lstlisting}
+(define car-on-position?
+  (lambda (car-position position)
+    ...
+    (position-side car-position) 
+    (position-side position)
+    (position-m-from-start car-position)
+    (position-m-from-start position)
+    ...))
+\end{lstlisting}
+%
+Die beiden Straßenseiten müssen gleich sein.  Bei den Straßenmetern
+der beiden Positionen ist relevant, dass die Straßenmeter des Autos
+genau in der Mitte des Autos sind~-- die Position darf nicht mehr als
+die Hälfte davon entfernt sein.  Um den Vergleich zu erleichtern, egal
+ob die Position vor oder hinter dem Mittelpunkt ist, benutzen wir die
+eingebaute Funktion \lstinline{abs}\index{abs@\texttt{abs}}.  Diese
+Funktion berechnet den \textit{Absolutbetrag}\index{Absolutbetrag}
+einer Zahl: Sie macht aus negativen Zahlen die entsprechenden
+positiven Zahlen:
+%
+\begin{lstlisting}
+(abs 5)
+|\evalsto| 5
+(abs -5)
+|\evalsto| 5
+\end{lstlisting}
+%
+Hier die fertige Funktion:
+%
+\begin{lstlisting}
+(define car-on-position?
+  (lambda (car-position position)
+    (and (string=? (position-side car-position) (position-side position))
+         (<= (abs (- (position-m-from-start car-position)
+                     (position-m-from-start position)))
+             (/ car-length 2)))))
+\end{lstlisting}
+
+\paragraph{Wieviele Tiere sind gerade unter dem Auto?} FIXME
+
+\paragraph{Gürteltiere tatsächlich überfahren} FIXME
 
 \section{Bewegung und Zustand}
 

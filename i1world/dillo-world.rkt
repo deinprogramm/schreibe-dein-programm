@@ -1,6 +1,6 @@
 ;; Die ersten drei Zeilen dieser Datei wurden von DrRacket eingefügt. Sie enthalten Metadaten
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
-#reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname dillo-wold) (read-case-sensitive #f) (teachpacks ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp"))) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp")))))
+#reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname dillo-world) (read-case-sensitive #f) (teachpacks ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp"))) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp")))))
 ; Ein Gürteltier hat folgende Eigenschaften:
 ; - Gewicht (in g)
 ; - lebendig oder tot
@@ -92,7 +92,7 @@
   (signature (enum "left" "right")))
 
 ; Eine Position auf der Straße besteht aus:
-; - Abstand vom Straßenanfang in Meter
+; - Straßenmeter (Abstand vom Straßenanfang in Meter)
 ; - Seite
 (define-record position
   make-position
@@ -106,7 +106,7 @@
 (define-record dillo-on-road
   make-dillo-on-road
   dillo-on-road?
-  (dillo-on-road-dillo dillo)
+  (dillo-on-road-state dillo)
   (dillo-on-road-position position))
 
 ; Die Welt des Spiels besteht aus:
@@ -126,6 +126,8 @@
 (define meters-per-tick 0.1)
 
 ; Ticks in Meter umwandeln
+(: ticks->meters (natural -> rational))
+
 (define ticks->meters
   (lambda (ticks)
     (* meters-per-tick ticks)))
@@ -134,20 +136,14 @@
 (: world-car-position (world -> position))
 
 (check-expect (world-car-position (make-world 0 "left" empty 0))
-              (make-position (/ road-window-height 2)
-                             "left"))
-(check-expect (world-car-position (make-world 100 "left" empty 0))
-              (make-position (+ (ticks->meters 100) (/ road-window-height 2))
-                             "left"))
+              (make-position 0 "left"))
+(check-expect (world-car-position (make-world 100 "right" empty 0))
+              (make-position (ticks->meters 100) "right"))
                            
 (define world-car-position
   (lambda (world)
-    (define meters (ticks->meters (world-ticks world)))
-    (make-position (+ meters
-                      (/ road-window-height 2))
+    (make-position (ticks->meters (world-ticks world))
                    (world-car-side world))))
-    
-
 
 ; Breite des Autos
 (define car-width 1.5)
@@ -194,7 +190,7 @@
     (length
      (filter (lambda (dillo-on-road)
                (and (car-on-position? car-position (dillo-on-road-position dillo-on-road))
-                    (dillo-alive? (dillo-on-road-dillo dillo-on-road))))
+                    (dillo-alive? (dillo-on-road-state dillo-on-road))))
              dillos-on-road))))
 
 ; Alle Tiere überfahren, die das Auto berührt
@@ -219,7 +215,7 @@
     (map (lambda (dillo-on-road)
            (if (car-on-position? car-position
                                  (dillo-on-road-position dillo-on-road))
-               (make-dillo-on-road (run-over-dillo (dillo-on-road-dillo dillo-on-road))
+               (make-dillo-on-road (run-over-dillo (dillo-on-road-state dillo-on-road))
                                     (dillo-on-road-position dillo-on-road))
                dillo-on-road))
          dillos-on-road)))
@@ -292,7 +288,7 @@
     (place-image/align visible-markings
                        (/ (image-width blank-road-window) 2)
                        (-
-                        (remainder (meters->pixels (* ticks meters-per-tick))
+                        (remainder (meters->pixels (ticks->meters ticks))
                                    marking-segment-pixels)
                         marking-segment-pixels)
                        "center" "top"
@@ -314,10 +310,13 @@
    wheels-on-one-side))
 
 ; Bild auf der Straße platzieren
-(: place-image-on-road (image real image position -> image))
+(: place-image-on-road (image natural image position -> image))
 
 (define place-image-on-road
-  (lambda (road-image road-bottom-m image position)
+  (lambda (road-image ticks image position)
+    (define road-bottom-m (- (ticks->meters ticks)
+                             ; damit 0 in der Mitte der Ansicht ist
+                             (/ road-window-height 2)))
     (define image-m-from-start (position-m-from-start position))
     (define side (position-side position))
     (define road-top-m (+ road-bottom-m road-window-height))
@@ -347,9 +346,8 @@
                       
 (define place-car-on-road
   (lambda (ticks car-position road-image)
-    (define meters (ticks->meters ticks))
     (place-image-on-road road-image
-                         meters
+                         ticks
                          car car-position)))
 
 
@@ -359,8 +357,8 @@
 (define place-dillo-on-road
   (lambda (ticks dillo-on-road road-image)
     (place-image-on-road road-image
-                         (ticks->meters ticks)
-                         (dillo-image (dillo-on-road-dillo dillo-on-road))
+                         ticks
+                         (dillo-image (dillo-on-road-state dillo-on-road))
                          (dillo-on-road-position dillo-on-road))))
 
 ; Alle Tiere auf die Straße malen
@@ -437,7 +435,7 @@
         (make-dillo-on-road dillo3 (make-position 30 "left"))
         (make-dillo-on-road dillo4 (make-position 42 "left"))))
 
-(big-bang (make-world 0 "left" dillos-on-road 0)
+#;(big-bang (make-world 0 "left" dillos-on-road 0)
   (to-draw world->image)
   (on-tick next-world)
   (on-key react-to-key))
