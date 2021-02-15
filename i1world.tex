@@ -625,6 +625,8 @@ es dann gegebenfalls über Gürteltiere fährt.  Oben links steht ein
 Punktestand~-- wieviele Gürteltiere schon vom lebenden Zustand in den
 toten überführt wurden.
 
+\subsection{Die Welt modellieren}
+
 Damit wir das alles darstellen können, müssen wir ein Modell bauen,
 in dem alle Informationen festgehalten sind, die auf dem Bild der
 Straße zu sehen sind:
@@ -702,10 +704,12 @@ Das Wort "<Tick"> kommt aus dem Teachpack \texttt{universe.rkt}, wo es
 28 Ticks pro Sekunde gibt.  Wir werden noch dazu kommen, wo die Ticks
 genau herkommen.
 
+\subsection{Das Spiel simulieren}
+  
 Wie kommen wir von hier zu einem fertigen Spiel?  Wir denken darüber
 nach, was wir alles noch brauchen werden, damit aus dem
 \lstinline{world}-Record alle Aspekte des Spiels berechnet werden
-können:\label{page:dillo-world-todos}
+können, mithin der texanische Highway simuliert:\label{page:dillo-world-todos}
 %
 \begin{enumerate}
 \item Wir brauchen für die Darstellung die Position des Autos~-- als
@@ -713,7 +717,8 @@ können:\label{page:dillo-world-todos}
 \item Wir müssen feststellen ob das Auto die Position eines
   Gürteltiers berührt und dieses damit überfährt.
 \item Wir müssen zählen, wieviele Tiere vo einem gegebenen
-  Zeitpunkt vom Auto touchiert, mithin überfahren werden.
+  Zeitpunkt vom Auto touchiert, mithin überfahren werden, damit wir
+  die Punktzahl entsprechend erhöhen können.
 \item Schließlich müssen wir alle Tiere überfahren, deren Position
   unter das Auto gerät.
 \end{enumerate}
@@ -873,15 +878,130 @@ Hier die fertige Funktion:
 \begin{lstlisting}
 (define car-on-position?
   (lambda (car-position position)
-    (and (string=? (position-side car-position) (position-side position))
+    (and (string=? (position-side car-position) 
+                   (position-side position))
          (<= (abs (- (position-m-from-start car-position)
                      (position-m-from-start position)))
              (/ car-length 2)))))
 \end{lstlisting}
 
-\paragraph{Wieviele Tiere sind gerade unter dem Auto?} FIXME
+\paragraph{Wieviele Tiere sind gerade unter dem Auto?} Als nächstes
+schreiben wir eine Funtkion, welche die Tiere unter dem Auto zählt,
+damit wir die Punktzahl entsprechend erhöhen können.  Genauer gesagt
+zählen wir nur die \emph{lebendigen} Gürteltiere: Für das nochmalige
+Überfahren eines toten Gürteltiers gibt es keinen Punkt.  Hier
+Kurzbeschreibung und Signatur:
+%
+\begin{lstlisting}
+; Wieviele Tiere werden vom Auto berührt?
+(: live-dillos-under-car-count 
+   (position (list-of dillo-on-road) -> natural))
+\end{lstlisting}
+%
+Für den Test sollten wir in der Eingabe sowohl lebendige als auch
+tote Gürteltiere unterbringen, ebenso wie solche, die unter dem Auto
+liegen, und solche, die weiter weg sind:
+%
+\begin{lstlisting}
+(check-expect
+  (live-dillos-under-car-count
+    (make-position 10 "left")
+     (list (make-dillo-on-road dillo1 (make-position 10 "left"))
+           (make-dillo-on-road dillo2 (make-position 10 "right"))
+           (make-dillo-on-road dillo2 (make-position 11 "left"))
+           (make-dillo-on-road dillo1 (make-position 9 "left"))
+           (make-dillo-on-road dillo1 (make-position 12 "left"))))
+  2)
+\end{lstlisting}
+%
+Der Test zählt das erste und das vorletzte Gürteltier.
 
-\paragraph{Gürteltiere tatsächlich überfahren} FIXME
+Für die Definition könnten wir die Schablone für Funktionen auf Listen
+heranziehen.  Da es aber darum geht, aus einer Liste einige Elemente
+auszuwählen, die einem bestimmten Kriterium entsprechen, können wir
+auch die Funktion \lstinline{filter} von Seite~\pageref{func:filter}
+benutzen, die eingebaute Version von \lstinline{extract-list}.  Damit
+extrahieren wir die zu zählenden Gürteltiere.  Die müssen wir nur noch
+mit der ebenfalls eingebauten Funktion~\lstinline{length}
+zählen. (\lstinline{Length} ist die eingebaute Version von
+\lstinline{list-length}, siehe Seite~\pageref{func:length}.)
+%
+\begin{lstlisting}
+(define live-dillos-under-car-count
+  (lambda (car-position dillos-on-road)
+    (length
+     (filter (lambda (dillo-on-road)
+               (and (car-on-position?
+                       car-position
+                       (dillo-on-road-position dillo-on-road))
+                    (dillo-alive? 
+                      (dillo-on-road-state dillo-on-road))))
+             dillos-on-road))))
+\end{lstlisting}
+
+\paragraph{Gürteltiere tatsächlich überfahren} Als letzter
+Arbeitsauftrag bleibt noch, die Gürteltiere, die vom Auto touchiert
+werden, vom lebenden in den toten Zustand zu überführen.  Die Funktion
+akzeptiert wie \lstinline{live-dillos-under-car-count} die Position
+des Autos und die Gürteltiere:
+%
+\begin{lstlisting}
+; Alle Tiere überfahren, die das Auto berührt
+(: run-over-dillos-on-road
+   (position (list-of dillo-on-road) -> (list-of dillo-on-road)))
+\end{lstlisting}
+%
+Beim Testen gibt es jede Menge tote Gürteltiere, darum definieren wir
+den dazugehörigen Zustand zwecks Wiederverwendung:
+%
+\begin{lstlisting}
+(define dead-dillo1 (run-over-dillo dillo1))
+
+(check-expect
+ (run-over-dillos-on-road
+  (make-position 10 "left")
+  (list (make-dillo-on-road dillo1 (make-position 10 "left"))
+        (make-dillo-on-road dillo1 (make-position 10 "right"))
+        (make-dillo-on-road dillo1 (make-position 11 "left"))
+        (make-dillo-on-road dillo1 (make-position 9 "left"))
+        (make-dillo-on-road dillo1 (make-position 12 "left"))))
+ (list (make-dillo-on-road dead-dillo1 (make-position 10 "left"))
+       (make-dillo-on-road dillo1 (make-position 10 "right"))
+       (make-dillo-on-road dead-dillo1 (make-position 11 "left"))
+       (make-dillo-on-road dead-dillo1 (make-position 9 "left"))
+       (make-dillo-on-road dillo1 (make-position 12 "left"))))
+\end{lstlisting}
+%
+Die Funktion wendet also eine Operation auf jedes Element der Liste an
+und gibt uns die Ergebnisse in einer Liste zurück: Dafür können wir
+wieder eine Higher"=Order"=Funktion aus Kapitel~\ref{cha:higher-order}
+verwenden, nämlich \lstinline{map}, die eingebaute Version von
+\lstinline{list-map}, siehe Seite~\pageref{func:map}.  Für jedes
+Gürteltier überprüft die Funktion, ob es vom Auto berührt wird und
+benutzt gegebenenfalls \lstinline{run-over-dillo}, um die schmutzige
+Arbeit zu machen:
+%
+\begin{lstlisting}
+(define run-over-dillos-on-road
+  (lambda (car-position dillos-on-road)
+    (map (lambda (dillo-on-road)
+           (if (car-on-position?
+                car-position
+                (dillo-on-road-position dillo-on-road))
+               (make-dillo-on-road
+                (run-over-dillo (dillo-on-road-state dillo-on-road))
+                (dillo-on-road-position dillo-on-road))
+               dillo-on-road))
+         dillos-on-road)))
+\end{lstlisting}
+
+\begin{aufgabeinline}
+  Was ist die Konsequenz, wenn auch das Überfahren toter Gürteltiere
+  Punkte geben würde?  Versuche, das hier schon einmal durch reines
+  Nachdenken zu klären und probiere es später aus!
+
+  FIXME: nochmal aufgreifen
+\end{aufgabeinline}
 
 \section{Bewegung und Zustand}
 

@@ -179,11 +179,11 @@
 
 (check-expect (live-dillos-under-car-count (make-position 10 "left")
                                             (list (make-dillo-on-road dillo1 (make-position 10 "left"))
-                                                  (make-dillo-on-road dillo1 (make-position 10 "right"))
-                                                  (make-dillo-on-road dillo1 (make-position 11 "left"))
+                                                  (make-dillo-on-road dillo2 (make-position 10 "right"))
+                                                  (make-dillo-on-road dillo2 (make-position 11 "left"))
                                                   (make-dillo-on-road dillo1 (make-position 9 "left"))
                                                   (make-dillo-on-road dillo1 (make-position 12 "left"))))
-              3)
+              2)
 
 (define live-dillos-under-car-count
   (lambda (car-position dillos-on-road)
@@ -194,29 +194,34 @@
              dillos-on-road))))
 
 ; Alle Tiere überfahren, die das Auto berührt
-(: run-over-dillos-on-road (position (list-of dillo-on-road) -> (list-of dillo-on-road)))
+(: run-over-dillos-on-road
+   (position (list-of dillo-on-road) -> (list-of dillo-on-road)))
 
 (define dead-dillo1 (run-over-dillo dillo1))
 
-(check-expect (run-over-dillos-on-road (make-position 10 "left")
-                                        (list (make-dillo-on-road dillo1 (make-position 10 "left"))
-                                              (make-dillo-on-road dillo1 (make-position 10 "right"))
-                                              (make-dillo-on-road dillo1 (make-position 11 "left"))
-                                              (make-dillo-on-road dillo1 (make-position 9 "left"))
-                                              (make-dillo-on-road dillo1 (make-position 12 "left"))))
-              (list (make-dillo-on-road dead-dillo1 (make-position 10 "left"))
-                    (make-dillo-on-road dillo1 (make-position 10 "right"))
-                    (make-dillo-on-road dead-dillo1 (make-position 11 "left"))
-                    (make-dillo-on-road dead-dillo1 (make-position 9 "left"))
-                    (make-dillo-on-road dillo1 (make-position 12 "left"))))
+(check-expect
+ (run-over-dillos-on-road
+  (make-position 10 "left")
+  (list (make-dillo-on-road dillo1 (make-position 10 "left"))
+        (make-dillo-on-road dillo1 (make-position 10 "right"))
+        (make-dillo-on-road dillo1 (make-position 11 "left"))
+        (make-dillo-on-road dillo1 (make-position 9 "left"))
+        (make-dillo-on-road dillo1 (make-position 12 "left"))))
+ (list (make-dillo-on-road dead-dillo1 (make-position 10 "left"))
+       (make-dillo-on-road dillo1 (make-position 10 "right"))
+       (make-dillo-on-road dead-dillo1 (make-position 11 "left"))
+       (make-dillo-on-road dead-dillo1 (make-position 9 "left"))
+       (make-dillo-on-road dillo1 (make-position 12 "left"))))
 
 (define run-over-dillos-on-road
   (lambda (car-position dillos-on-road)
     (map (lambda (dillo-on-road)
-           (if (car-on-position? car-position
-                                 (dillo-on-road-position dillo-on-road))
-               (make-dillo-on-road (run-over-dillo (dillo-on-road-state dillo-on-road))
-                                    (dillo-on-road-position dillo-on-road))
+           (if (car-on-position?
+                car-position
+                (dillo-on-road-position dillo-on-road))
+               (make-dillo-on-road
+                (run-over-dillo (dillo-on-road-state dillo-on-road))
+                (dillo-on-road-position dillo-on-road))
                dillo-on-road))
          dillos-on-road)))
 
