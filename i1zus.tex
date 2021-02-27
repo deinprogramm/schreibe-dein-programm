@@ -650,7 +650,7 @@ Funktion \lstinline{/} macht das leider nicht:
 |\evalsto| 1.01$\overline{\mathtt{6}}$
 \end{lstlisting}
 %
-Aber die Funktion \lstinline{quotient} hilft uns weiter:
+Aber die Funktion \lstinline{quotient} hilft uns weiter:\label{func:quotient}
 %
 \begin{lstlisting}
 (quotient 61 60)
@@ -1260,8 +1260,8 @@ Seite~\pageref{mantra:gleichungen}:
   für das Bruchrechnen:
   \begin{itemize}
   \item Kürzen eines Bruchs
-  \item Test auf Gleichheit der durch zwei Brüche repräsentierter
-    rationaler Zahlen
+  \item Test auf Gleichheit der durch zwei Brüche repräsentierten
+    rationalen Zahlen
   \item Addition, Subtraktion, Multiplikation und Division von
     Brüchen
   \end{itemize}
@@ -1431,7 +1431,7 @@ Seite~\pageref{mantra:gleichungen}:
 \begin{aufgabe}
 
   Schreibe für den Tübinger Stadtverkehr ein
-  Programm, welches überprüft ob ein Fahrzeug in den Umweltzonen fahren 
+  Programm, welches überprüft, ob ein Fahrzeug in den Umweltzonen fahren 
   darf.
   \begin{enumerate}
   \item Definiere einen Datentyp für Fahrzeuge. Dieser
@@ -1443,12 +1443,12 @@ Seite~\pageref{mantra:gleichungen}:
     Schadstoffklasse~2, das Dieselauto der Schadstoffklasse~3 und das
     Benzinauto der Schadstoffklasse~4 angehören.
   \item Schreibe eine Funktion \lstinline{fahrverbot?},
-    welche überprüft ob ein gegebenes Fahrzeug bei einer gegebenen
+    welche überprüft, ob ein gegebenes Fahrzeug bei einer gegebenen
     Mindest-Schadstoffklasse noch fahren darf. Gestalte die Signatur
     so, dass er nur Mindest-Schadstoffklassen von 1 bis 4 akzeptiert.
   \item Die Mühlstraße in Tübingen ist in einer Richtung für
     alle Fahrzeuge außer Stadtbusse gesperrt. Schreibe eine Funktion
-    \lstinline{sonderrecht?}, die überprüft ob ein gegebenes Fahrzeug die
+    \lstinline{sonderrecht?}, die überprüft, ob ein gegebenes Fahrzeug die
     Mühlstraße in der gesperrten Richtung befahren darf.  
   \item Bürgermeister Boris Palmer hat die Idee, den Tourismus
     dadurch anzukurbeln, dass Sonntags auch Reisebusse die Mühlstrasse in
