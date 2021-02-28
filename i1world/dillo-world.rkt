@@ -1,7 +1,7 @@
 ;; Die ersten drei Zeilen dieser Datei wurden von DrRacket eingefügt. Sie enthalten Metadaten
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname dillo-world) (read-case-sensitive #f) (teachpacks ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp"))) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp")))))
-; Ein Gürteltier hat folgende Eigenschaften:
+; Ein Gürteltier hat fo<lgende Eigenschaften:
 ; - Gewicht (in g)
 ; - lebendig oder tot
 (define-record dillo
@@ -227,7 +227,7 @@
 
 
 
-; Meter in Pixel umwandel
+; Meter in Pixel umwandeln
 (: meters->pixels (real -> real))
 
 (define meters->pixels
@@ -241,8 +241,8 @@
   (lambda (pixels)
     (/ pixels 100)))
 
-(define marking-height 2)
-(define gap-height 1)
+(define marking-height 2) ; Höhe der Streifen
+(define gap-height 1) ; Höhe der Lücken
 
 ; Straßenmarkierung mit bestimmter Anzahl von Streifen malen
 (: markings (natural -> image))
@@ -262,26 +262,27 @@
                          "black")
               (markings (- n 1)))))))
 
-; in Meter
-(define road-width 5)
+(define road-window-height 12) ; Höhe des Straßenausschnitts
 
-; in Meter
-(define road-window-height 12)
-
-(define blank-road-window
-  (empty-scene (meters->pixels road-width)
-               (meters->pixels road-window-height)
-               "black"))
-
+; Anzahl der nötigen Markierungen
 (define marking-count
   (+ 1
      (quotient road-window-height
                (+ marking-height gap-height))))
 
+; sichtbare Markierungen
 (define visible-markings
   (markings marking-count))
 
+(define road-width 5) ; Breite der Straße
 
+; leerer Straßenausschnitt
+(define blank-road-window
+  (empty-scene (meters->pixels road-width)
+               (meters->pixels road-window-height)
+               "black"))
+
+; Höhe eines Markierungssegments (Streifen und Lücke) in Pixeln
 (define marking-segment-pixels
   (meters->pixels (+ marking-height gap-height)))
 
@@ -319,14 +320,21 @@
 
 (define place-image-on-road
   (lambda (road-image ticks image position)
+    ; Straßenmeter des oberen Randes des Straßenausschnitts
     (define road-bottom-m (- (ticks->meters ticks)
                              ; damit 0 in der Mitte der Ansicht ist
                              (/ road-window-height 2)))
-    (define image-m-from-start (position-m-from-start position))
-    (define side (position-side position))
+    ; Straßenmeter des unteren Randes des Straßenausschnitts
     (define road-top-m (+ road-bottom-m road-window-height))
+    ; Straßenmeter des Mittelpunkts des Bilds
+    (define image-m-from-start (position-m-from-start position))
+    ; Höhe des Bilds
     (define image-height-m (pixels->meters (image-height image)))
+
+    (define side (position-side position))
+    ; X-Koordinate der Mitte der Straße, in Pixeln
     (define middle-pixels (/ (image-width road-image) 2))
+    ; X-Koordinate des Mittelpunkts des Bilds
     (define pixels-from-left
       (cond
         ((string=? side "left")

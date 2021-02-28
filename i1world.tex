@@ -314,7 +314,7 @@ welchen Koordinaten das daraufgelegte Bild erscheint, aber das Bild
 soll nicht größer werden, wenn zum Beispiel ein Teil des Gürteltiers
 über den Straßenabschnitt hinausragt.  Diese Aufgabe erledigt die
 Funktion
-\lstinline{place-iamge}\index{place-image@\texttt{ place-image}}, deren
+\lstinline{place-iamge}\index{place-image@\texttt{place-image}}, deren
 Signatur der von \lstinline{overlay/xy} entspricht:
 %
 \begin{lstlisting}
@@ -336,9 +336,10 @@ ausgehend von der oberen linken Ecke des ersten Bildes.  Beispiel:
 \end{lstlisting}
 %
 Die Funktion \lstinline{place-image} hat noch eine große Schwester
-\lstinline{place-image/align}.  Während \lstinline{place-image} den
-Bezugspunkt immer in der Mitte des ersten Bilds setzt, erlaubt
-\lstinline{place-image} auch anderee Bezugspunkte.  Hier die Signatur:
+\lstinline{place-image/align}.\index{place-image-align@\texttt{place-iamge/align}}\label{func:place-image-align}
+Während \lstinline{place-image} den Bezugspunkt immer in der Mitte des
+ersten Bilds setzt, erlaubt \lstinline{place-image} auch anderee
+Bezugspunkte.  Hier die Signatur:
 %
 \begin{lstlisting}
 (: place-image/align (image real real x-place y-place image -> image
@@ -607,7 +608,7 @@ Gesicht setzen:
 %
 Fertig ist die Gürteltier-Darstellung!
 
-\section{Welt in Bewegung}
+\section{Die Welt ein Highway}
 
 \begin{figure}[tb]
   \centering
@@ -624,8 +625,6 @@ und kann entweder auf die linke oder rechte Straßenseite wechseln, wo
 es dann gegebenfalls über Gürteltiere fährt.  Oben links steht ein
 Punktestand~-- wieviele Gürteltiere schon vom lebenden Zustand in den
 toten überführt wurden.
-
-\subsection{Die Welt modellieren}
 
 Damit wir das alles darstellen können, müssen wir ein Modell bauen,
 in dem alle Informationen festgehalten sind, die auf dem Bild der
@@ -704,7 +703,444 @@ Das Wort "<Tick"> kommt aus dem Teachpack \texttt{universe.rkt}, wo es
 28 Ticks pro Sekunde gibt.  Wir werden noch dazu kommen, wo die Ticks
 genau herkommen.
 
-\subsection{Das Spiel simulieren}
+\section{Straßenansichten}
+
+Jetzt wo wir die Welt modelliert haben können wir sie auch auf den
+Bildschirm bringen.  Wir fangen erstmal mit den einfachen und
+offensichtlichen Elementen an: der Straße Straße, inklusive der
+Markierung auf dem Mittelstreifen und deme Auto.  Die Gürteltiere
+haben wir ja schon.
+
+Damit wir einigermaßen realistisch über die Proportionen von allem
+nachdenken können, messen wir alles in Metern ab und wandeln zwischen
+Metern und Pixeln hin und her.  Auf unserem Bildschirm sieht ein
+Verhältnis von 1m:100 Pixel gut aus.  Diese Funktionen konvertieren
+hin und her:
+
+\begin{lstlisting}
+; Meter in Pixel umwandeln
+(: meters->pixels (real -> real))
+
+(define meters->pixels
+  (lambda (meters)
+    (* meters 100)))
+
+; Pixel in Meter umwandeln
+(: pixels->meters (real -> real))
+
+(define pixels->meters
+  (lambda (pixels)
+    (/ pixels 100)))
+\end{lstlisting}
+%
+Die Straße selbst ist nur ein schwarzes Rechteck, das ist einfach.
+Schwieriger sind die Straßenmarkierungen, also abwechselnd ein weißer
+und ein schwarzer Streifen.  Damit das realistisch aussieht,
+definieeren wir erst einmal die Länge der Markierungen und die der Lücken:
+%
+\begin{lstlisting}
+(define marking-height 2) ; Höhe der Streifen
+(define gap-height 1) ; Höhe der Lücken
+\end{lstlisting}
+%
+Die Markierungen und die Lücken müssen wir abwechseln
+aneinanderkleben.  Wie oft fragst Du?  Nun, der texanische Highway ist
+unendlich lang, das wäre schwierig.  Aber wir zeigen ja nur einen
+Ausschnitt, und darum machen wir nur soviele Streifen, wie in den
+Ausschnitt passen.  Wieviele das sind, hängt von der Höhe des
+Ausschnitts ab.  Wir könnten natürlich von Hand nachzählen, das würde
+aber bedeuten, dass wir uns frühzeitig auf die Höhe des Ausschnitts
+festlegen müssten.  Um das zu vermeiden, schreiben wir erst einmal
+eine Funktion, die als Eingabe die Anzahl der Streifen akzeptiert.
+Wir folgen der Schablone für Funktionen auf natürlichen Zahlen:
+%
+\begin{lstlisting}
+; Straßenmarkierung mit bestimmter Anzahl von Streifen malen
+(: markings (natural -> image))
+
+(define markings
+  (lambda (n)
+    (cond
+      ((zero? n) empty-image)
+      ((positive? n)
+       (above (rectangle (meters->pixels .20)
+                         (meters->pixels marking-height)
+                         "solid"
+                         "white")
+              (rectangle (meters->pixels .20)
+                         (meters->pixels gap-height)
+                         "solid"
+                         "black")
+              (markings (- n 1)))))))
+\end{lstlisting}
+%
+Hier jetzt die tatsächliche Höhe des Straßenabschnitts:
+%
+\begin{lstlisting}
+(define road-window-height 12) ; Höhe des Straßenausschnitts
+\end{lstlisting}
+%
+Die Idee, dass Du später nur diese eine Definition ändern musst, falls
+Dir die Ausschnittshöhe nicht passt,, und sich dann alles andere
+automatisch anpasst.
+
+Um die Anzahl der nötigen Markierungen zu berechnen, teilen wir die
+Höhe des Straßenausschnitts durch die Länge einer Markierung plus
+Lücke.  Zur Sicherheit addieren noch eins drauf: Die Division könnte
+nicht ganz aufgehen.  Außerdem wird möglicherweise am Ende nur ein
+Teil eines Streifens zu sehen sein, auch dafür ist es gut gut, wenn im
+Zweifelsfall einer mehr da ist.  Aus der Zahl machen wir schließlich
+das Bild der Streifen:
+%
+\begin{lstlisting}
+; Anzahl der nötigen Markierungen
+(define marking-count
+  (+ 1
+     (quotient road-window-height
+               (+ marking-height gap-height))))
+
+; sichtbare Markierungen
+(define visible-markings
+  (markings marking-count))
+\end{lstlisting}
+%
+Zur Erinnerung: Die Funktion \lstinline{quotient} haben wir auf
+Seite~\pageref{func:quotient} eingeführt, sie teilt ganzzahlig.
+
+Nun können wir das Bild des Straßenausschnitts zusammensetzen.  Wir
+brauchen neben der Höhe auch noch die Breite und machen erstmal eine
+leere Szene nur aus schwarzem Asphalt:
+%
+\begin{lstlisting}
+; in Meter
+(define road-width 5)
+
+(define blank-road-window
+  (empty-scene (meters->pixels road-width)
+               (meters->pixels road-window-height)
+               "black"))
+\end{lstlisting}
+%
+Wie Mittelstreifen auf dem Straßenausschnitt platziert werden, hängt
+vom Zeitpunkt ab.  Wir schreiben also eine Funktion, welche die Ticks
+als Eingabe nimmt und ein Bild des Straßenausschnitts liefert:
+%
+\begin{lstlisting}
+; Straßenausschnitt zu Zeitpunkt anzeigen
+(: road-window (natural -> image))
+\end{lstlisting}
+%
+Wir benutzen \lstinline{place-image/align} (siehe
+Seite~\pageref{func:place-image-align}), um die Mittelstreifen auf den
+Asphalt zu setzen:
+
+%
+\begin{lstlisting}
+(define road-window
+  (lambda (ticks)
+    (place-image/align visible-markings
+                       ...
+                       ...
+                       ... ...
+                       blank-road-window)))
+\end{lstlisting}
+%
+Wir setzen zunächst den Bezugspunkt beim Mittelstreifen nach oben in
+die Mitte:
+%
+\begin{lstlisting}
+(define road-window
+  (lambda (ticks)
+    (place-image/align visible-markings
+                       ...
+                       ...
+                       "center" "top"
+                       blank-road-window)))
+\end{lstlisting}
+%
+In X-Richtung muss der Mittelstreifen in die Mitte, da können wir
+einfach die Breite der Straße halbieren.
+
+Bei der Y-Koordinate ist es schwieriger: Die hängt davon ab, wieweit
+wir schon gefahren sind, und das hängt von den Ticks ab.  Wir rechnen
+zunächst die Ticks in Meter um:
+%
+\begin{lstlisting}
+(meters->pixels (ticks->meters ticks))
+\end{lstlisting}
+%
+Das ist natürlich mehr als der Ausschnitt hoch beziehungsweise das
+Mittelstreifenbild lang ist.  Das Mittelstreifenbild wiederholt sich
+aber immer, wenn ein Streifen plus Lücke vorbeigezogen ist.  Wir
+rechnen also die Anzahl der Pixel dafür aus:
+%
+\begin{lstlisting}
+(define marking-segment-pixels
+  (meters->pixels (+ marking-height gap-height)))
+\end{lstlisting}
+%
+Durch diese Zahl teilen wir und nehmen den Divisionsrest, um die
+Y-Position zu bekommen.  Das heißt nicht ganz~-- der Divisionsrest ist immer
+positiv, und damit ist der Mittelstreifen zu weit unten: Wir ziehen
+das Bild noch um einen Streifen nach oben, indem wir
+\lstinline{marking-segment-pixels} abziehen.  Das kommt dabei heraus:
+%
+\begin{lstlisting}
+(define road-window
+  (lambda (ticks)
+    (place-image/align visible-markings
+                       (/ (image-width blank-road-window) 2)
+                       (- (remainder (meters->pixels
+                                       (ticks->meters ticks))
+                                     marking-segment-pixels)
+                        marking-segment-pixels)
+                       "center" "top"
+                       blank-road-window)))
+
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Probiere \lstinline{road-window} aus.  Entferne die Substraktion von
+  \lstinline{marking-segment-pixels} und untersucht, wie sich das
+  auswirkt!
+\end{aufgabeinline}
+%
+Die Straße ist fertig, als nächstes ist das Auto dran.  Wir fangen mit
+einem Rad an:
+%
+\begin{lstlisting}
+; Rad
+(define wheel
+  (rectangle (meters->pixels 0.2) (meters->pixels .5) "outline" "white"))
+\end{lstlisting}
+%
+Als nächstes setzen wir zwei Räder zu einem Bild zusammen, das dann
+links und rechts von der Karosserie platziert werden:
+%
+\begin{lstlisting}
+; Zwei Räder auf einer Seite des Autos
+(define wheels-on-one-side
+ (above wheel (rectangle 0 (meters->pixels 1.2) "solid" "black") wheel))
+
+; Bild des Autos
+(define car
+  (beside
+   wheels-on-one-side
+   (rectangle (meters->pixels car-width) (meters->pixels car-length) "solid" "blue")
+   wheels-on-one-side))
+\end{lstlisting}
+%
+Schließlich müssen wir Auto und auch die Gürteltiere noch auf der
+Straße platzieren.  Wir müssen erstmal überlegen, welche Signatur die
+Funktion überhaupt hat.  Klar ist, dass ein Bild herauskommen soll.
+Als Eingaben stehen schon einmal fest:
+%
+\begin{itemize}
+\item das Bild, das auf der Straße platziert werden soll
+\item die Position des Bildes
+\end{itemize}
+%
+Wir benötigen außerdem noch:
+%
+\begin{itemize}
+\item die Zeit, weil sie bestimmt, welcher Ausschnitt der Straße
+  angezeigt wird
+\item das Bild der Straße
+\end{itemize}
+%
+Letzteres überrascht Dich vielleicht. Ist das Bild der Straße nicht
+immer das gleiche?  Nein, ist es nicht!  Zunächst einmal ist die
+Position des Mittelstreifens je nach Zeit immer unterschiedlich.
+Außerdem wollen wir ja nicht nur ein Objekt auf der Straße platzieren,
+sondern viele.  Dafür füttern wir das Ergebnis der Funktion wieder in
+die Funktion hinein, um ein weiteres Objekt zu platzieren.
+
+Kurzbeschreibung, Signatur und Gerüst sehen entsprechend aus wie
+folgt:
+%
+\begin{lstlisting}
+; Bild auf der Straße platzieren
+(: place-image-on-road (image natural image position -> image))
+
+(define place-image-on-road
+  (lambda (road-image ticks image position)
+    ...))
+\end{lstlisting}
+%
+\begin{figure}[tb]
+  \centering
+  \def\svgwidth{0.4\textwidth}
+  \input{i1world/dillo-on-road.pdf_tex}
+  \caption{Bild auf Straße platzieren}
+  \label{fig:dillo-on-road}
+\end{figure}
+%
+Wir müssen jetzt die Pixelkoordinaten des Bildes relativ zum
+Straßenausschnitt berechnen.  Sowas plant man am besten anhand einer
+Zeichnung wie der in Abbildung~\ref{fig:dillo-on-road}.
+Dort sind einige Zwischengrößen eingezeichnet, die sinnvollerweise
+eigene Namen bekommen:
+%
+\begin{description}
+\item[\lstinline{road-top-m}] die Straßenmeter des oberen Randes des
+  Straßenausschnitts
+\item[\lstinline{road-bottom-m}] die Straßenmeter des unteren Randes des
+  Straßenausschnitts
+\item[\lstinline{image-m-from-start}] die Straßenmeter des
+  Mittelpunkts des Bilds
+\item[\lstinline{image-height-m}] die Höhe des Bildes in Meter
+\end{description}
+%
+Die Größe \lstinline{road-top-m} wählen wir so, dass sie am Anfang des
+Spiels~-- also wenn \lstinline{ticks} 0 ist~-- genau in der Mitte der
+Straße ist:
+%
+\begin{lstlisting}
+(define place-image-on-road
+  (lambda (road-image ticks image position)
+    ; Straßenmeter des oberen Randes des Straßenausschnitts
+    (define road-bottom-m (- (ticks->meters ticks)
+                             ; damit 0 in der Mitte der Ansicht ist
+                             (/ road-window-height 2)))
+    ; Straßenmeter des unteren Randes des Straßenausschnitts
+    (define road-top-m (+ road-bottom-m road-window-height))
+    ; Straßenmeter des Mittelpunkts des Bilds
+    (define image-m-from-start (position-m-from-start position))
+    ; Höhe des Bilds
+    (define image-height-m (pixels->meters (image-height image)))
+    ...))
+\end{lstlisting}
+%
+Als nächstes rechnen wir die X-Koordinate des Bildes aus.  Dazu nehmen
+wir die Mitte des Bildes zur Hand, da wo der Mittelstreifen ist.
+Links ist gerade bei der Hälfte davon, rechts entsprechend:
+%
+\begin{lstlisting}
+    (define side (position-side position))
+    ; X-Koordinate der Mitte der Straße, in Pixeln
+    (define middle-pixels (/ (image-width road-image) 2))
+    ; X-Koordinate des Mittelpunkts des Bilds
+    (define pixels-from-left
+      (cond
+        ((string=? side "left")
+         (* middle-pixels 0.5)) ; Mitte der linken Spur
+        ((string=? side "right")
+         (* middle-pixels 1.5)))) ; Mitte der rechten Spur
+\end{lstlisting}
+%
+Jetzt müssen wir nur noch überprüfen, ob das Bild überhaupt in diesem
+Straßenausschnitt zu sehen   Dabei spielt
+\lstinline{image-m-height} eine Rolle.    Bei der Platzierung des
+Bildes müssen wir außerdem noch berücksichtigen, dass in unserem Spiel
+die Y-Koordinaten von unten nach oben laufen, im Teachpack aber in die
+andere Richtung.  Hier ist die fertige Funktion:
+%
+\begin{lstlisting}
+(define place-image-on-road
+  (lambda (road-image ticks image position)
+    ; Straßenmeter des oberen Randes des Straßenausschnitts
+    (define road-bottom-m (- (ticks->meters ticks)
+                             ; damit 0 in der Mitte der Ansicht ist
+                             (/ road-window-height 2)))
+    ; Straßenmeter des unteren Randes des Straßenausschnitts
+    (define road-top-m (+ road-bottom-m road-window-height))
+    ; Straßenmeter des Mittelpunkts des Bilds
+    (define image-m-from-start (position-m-from-start position))
+    ; Höhe des Bilds
+    (define image-height-m (pixels->meters (image-height image)))
+
+    (define side (position-side position))
+    ; X-Koordinate der Mitte der Straße, in Pixeln
+    (define middle-pixels (/ (image-width road-image) 2))
+    ; X-Koordinate des Mittelpunkts des Bilds
+    (define pixels-from-left
+      (cond
+        ((string=? side "left")
+         (* middle-pixels 0.5)) ; Mitte der linken Spur
+        ((string=? side "right")
+         (* middle-pixels 1.5)))) ; Mitte der rechten Spur
+    (if (and (>= (+ image-m-from-start (/ image-height-m 2))
+                 road-bottom-m)
+             (<= (- image-m-from-start (/ image-height-m 2))
+                 road-top-m))
+        (place-image/align
+         image
+         pixels-from-left
+         (- (image-height road-image)
+            (meters->pixels (- image-m-from-start road-bottom-m)))
+         "center" "center"
+         road-image)
+        road-image)))
+\end{lstlisting}
+%
+FIXME
+% 
+\begin{lstlisting}
+; Auto auf die Straße setzen
+(: place-car-on-road (natural position image -> image))
+                      
+(define place-car-on-road
+  (lambda (ticks car-position road-image)
+    (place-image-on-road road-image
+                         ticks
+                         car car-position)))
+
+
+; Ein Tier auf die Straße malen
+(: place-dillo-on-road (natural dillo-on-road image -> image))
+
+(define place-dillo-on-road
+  (lambda (ticks dillo-on-road road-image)
+    (place-image-on-road road-image
+                         ticks
+                         (dillo-image (dillo-on-road-state dillo-on-road))
+                         (dillo-on-road-position dillo-on-road))))
+\end{lstlisting}
+%
+\begin{lstlisting}
+; Alle Tiere auf die Straße malen
+(: place-dillos-on-road (natural (list-of dillo-on-road) image -> image))
+
+(define place-dillos-on-road
+  (lambda (ticks dillos-on-road road-image)
+    (fold road-image
+          (lambda (dillo-on-road image)
+            (place-dillo-on-road ticks dillo-on-road image))
+          dillos-on-road)))
+\end{lstlisting}
+
+\begin{lstlisting}
+; Punktzahl anzeigen
+(: place-score (natural image -> image))
+
+(define place-score
+  (lambda (score image)
+    (place-image/align
+     (text (number->string score) 100 "blue")
+     0 0
+     "left" "top"
+     image)))
+
+; Spiel anzeigen
+(: world->image (world -> image))
+
+(define world->image
+  (lambda (world)
+    (define ticks (world-ticks world))
+    (place-score
+     (world-score world)
+     (place-car-on-road
+      ticks
+      (world-car-position world)
+      (place-dillos-on-road
+       ticks
+       (world-dillos-on-road world)
+       (road-window ticks))))))
+\end{lstlisting}
+
+FIXME: verschiedene Beispiele zum Ausprobieren animieren
+
+\section{Welt in Bewegung}
   
 Wie kommen wir von hier zu einem fertigen Spiel?  Wir denken darüber
 nach, was wir alles noch brauchen werden, damit aus dem
@@ -980,6 +1416,8 @@ verwenden, nämlich \lstinline{map}, die eingebaute Version von
 Gürteltier überprüft die Funktion, ob es vom Auto berührt wird und
 benutzt gegebenenfalls \lstinline{run-over-dillo}, um die schmutzige
 Arbeit zu machen:
+
+FIXME: KA
 %
 \begin{lstlisting}
 (define run-over-dillos-on-road
