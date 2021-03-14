@@ -869,6 +869,9 @@ zunächst die Ticks in Meter um:
 (meters->pixels (ticks->meters ticks))
 \end{lstlisting}
 %
+Die Hilfsfunktion \lstinline{ticks->meters}, die die eigentliche
+Arbeit erledigt, schreiben wir später.
+
 Das ist natürlich mehr als der Ausschnitt hoch beziehungsweise das
 Mittelstreifenbild lang ist.  Das Mittelstreifenbild wiederholt sich
 aber immer, wenn ein Streifen plus Lücke vorbeigezogen ist.  Wir
@@ -922,6 +925,11 @@ links und rechts von der Karosserie platziert werden:
 (define wheels-on-one-side
  (above wheel (rectangle 0 (meters->pixels 1.2) "solid" "black") wheel))
 
+; Breite des Autos
+(define car-width 1.5)
+; Länge des Autos
+(define car-length 3.0)
+ 
 ; Bild des Autos
 (define car
   (beside
@@ -967,113 +975,117 @@ folgt:
     ...))
 \end{lstlisting}
 %
-\begin{figure}[tb]
-  \centering
-  \def\svgwidth{0.4\textwidth}
-  \input{i1world/dillo-on-road.pdf_tex}
-  \caption{Bild auf Straße platzieren}
-  \label{fig:dillo-on-road}
-\end{figure}
-%
-Wir müssen jetzt die Pixelkoordinaten des Bildes relativ zum
-Straßenausschnitt berechnen.  Sowas plant man am besten anhand einer
-Zeichnung wie der in Abbildung~\ref{fig:dillo-on-road}.
-Dort sind einige Zwischengrößen eingezeichnet, die sinnvollerweise
-eigene Namen bekommen:
-%
-\begin{description}
-\item[\lstinline{road-top-m}] die Straßenmeter des oberen Randes des
-  Straßenausschnitts
-\item[\lstinline{road-bottom-m}] die Straßenmeter des unteren Randes des
-  Straßenausschnitts
-\item[\lstinline{image-m-from-start}] die Straßenmeter des
-  Mittelpunkts des Bilds
-\item[\lstinline{image-height-m}] die Höhe des Bildes in Meter
-\end{description}
-%
-Die Größe \lstinline{road-top-m} wählen wir so, dass sie am Anfang des
-Spiels~-- also wenn \lstinline{ticks} 0 ist~-- genau in der Mitte der
-Straße ist:
+Da es sich bei \lstinline{position} um zusammengesetzte Daten handelt,
+stehen in der Schablone Aufrufe der Selektoren:
 %
 \begin{lstlisting}
 (define place-image-on-road
   (lambda (road-image ticks image position)
-    ; Straßenmeter des oberen Randes des Straßenausschnitts
-    (define road-bottom-m (- (ticks->meters ticks)
-                             ; damit 0 in der Mitte der Ansicht ist
-                             (/ road-window-height 2)))
-    ; Straßenmeter des unteren Randes des Straßenausschnitts
-    (define road-top-m (+ road-bottom-m road-window-height))
-    ; Straßenmeter des Mittelpunkts des Bilds
-    (define image-m-from-start (position-m-from-start position))
-    ; Höhe des Bilds
-    (define image-height-m (pixels->meters (image-height image)))
+    ...
+    (position-m-from-start position)
+    (position-side position)
     ...))
 \end{lstlisting}
 %
-Als nächstes rechnen wir die X-Koordinate des Bildes aus.  Dazu nehmen
-wir die Mitte des Bildes zur Hand, da wo der Mittelstreifen ist.
-Links ist gerade bei der Hälfte davon, rechts entsprechend:
+Wir müssen jetzt die Pixelkoordinaten des Bildes relativ zum
+Straßenausschnitt berechnen.  Bei der X-Koordinate ist das
+verhältnismäßig einfach.  Wir legen dafür eine Variable namens
+\lstinline{pixels-from-left} an, die sich aus 
+\lstinline{(position-side position))} ergibt, 
+was ja schon in der Schablone steht.  Die Seite
+ist relativ zum Mittelstreifen, für dessen X-Koordinate wir ebenfalls
+eine Zwischenvariable anlegen:
 %
 \begin{lstlisting}
-    (define side (position-side position))
     ; X-Koordinate der Mitte der Straße, in Pixeln
     (define middle-pixels (/ (image-width road-image) 2))
+\end{lstlisting}
+%
+Daraus ergibt sich \lstinline{pixels-from-left} so:
+%
+\begin{lstlisting}
     ; X-Koordinate des Mittelpunkts des Bilds
     (define pixels-from-left
       (cond
-        ((string=? side "left")
+        ((string=? (position-side position) "left")
          (* middle-pixels 0.5)) ; Mitte der linken Spur
-        ((string=? side "right")
+        ((string=? (position-side position) "right")
          (* middle-pixels 1.5)))) ; Mitte der rechten Spur
 \end{lstlisting}
 %
-Jetzt müssen wir nur noch überprüfen, ob das Bild überhaupt in diesem
-Straßenausschnitt zu sehen   Dabei spielt
-\lstinline{image-m-height} eine Rolle.    Bei der Platzierung des
-Bildes müssen wir außerdem noch berücksichtigen, dass in unserem Spiel
-die Y-Koordinaten von unten nach oben laufen, im Teachpack aber in die
-andere Richtung.  Hier ist die fertige Funktion:
+Als nächstes brauchen wir die Y-Koordinate, da ist es etwas
+komplizierter: Wir benötigen die Y-Koordinate von \lstinline{image}
+\emph{relativ} zum unteren Rand des Bildes.  (Oder des oberen, das
+geht auch.)  Das wäre folgender Ausdruck:
+%
+\begin{lstlisting}
+(- (position-m-from-start position)
+   (ticks->meters ticks))
+\end{lstlisting}
+%
+Diese Koordinate ist noch in Metern, die müssen wir noch in Pixel
+umrechnen.  Außerdem müssen wir berücksichtigen, dass die
+Pixel-Koordinaten von oben nach unten laufen, die Straßenmeter aber
+von unten nach oben~-- wir ziehen also diese Zahl von der Höhe des
+Bildes ab.  Damit können wir wieder einmal
+\lstinline{place-image/align} (siehe
+Seite~\pageref{func:place-image-align}) bemühen, um das Bild auf die
+Straße zu setzen.  Die Funktion sieht vollständig so aus:
 %
 \begin{lstlisting}
 (define place-image-on-road
   (lambda (road-image ticks image position)
-    ; Straßenmeter des oberen Randes des Straßenausschnitts
-    (define road-bottom-m (- (ticks->meters ticks)
-                             ; damit 0 in der Mitte der Ansicht ist
-                             (/ road-window-height 2)))
-    ; Straßenmeter des unteren Randes des Straßenausschnitts
-    (define road-top-m (+ road-bottom-m road-window-height))
-    ; Straßenmeter des Mittelpunkts des Bilds
-    (define image-m-from-start (position-m-from-start position))
-    ; Höhe des Bilds
-    (define image-height-m (pixels->meters (image-height image)))
-
-    (define side (position-side position))
     ; X-Koordinate der Mitte der Straße, in Pixeln
     (define middle-pixels (/ (image-width road-image) 2))
     ; X-Koordinate des Mittelpunkts des Bilds
     (define pixels-from-left
       (cond
-        ((string=? side "left")
+        ((string=? (position-side position) "left")
          (* middle-pixels 0.5)) ; Mitte der linken Spur
-        ((string=? side "right")
+        ((string=? (position-side position) "right")
          (* middle-pixels 1.5)))) ; Mitte der rechten Spur
-    (if (and (>= (+ image-m-from-start (/ image-height-m 2))
-                 road-bottom-m)
-             (<= (- image-m-from-start (/ image-height-m 2))
-                 road-top-m))
-        (place-image/align
-         image
-         pixels-from-left
-         (- (image-height road-image)
-            (meters->pixels (- image-m-from-start road-bottom-m)))
-         "center" "center"
-         road-image)
-        road-image)))
+
+    (place-image/align
+     image
+     pixels-from-left
+     (- (image-height road-image)
+        (meters->pixels (- (position-m-from-start position)
+                           (ticks->meters ticks))))
+     "center" "center"
+     road-image)))
 \end{lstlisting}
 %
-FIXME
+Die Funktion ist kompliziert genug, dass wir sie testen sollten.
+Einen \lstinline{check-expect}-Test vorab zu konstruieren ist schier
+unmöglich, aber wir können die Funktion zumindest in der REPL
+ausprobieren, am einfachsten bei 0 Ticks, also am Anfang des Spiels:
+%
+\begin{lstlisting}
+(place-image-on-road (road-window 0) 0 car (make-position 0 "left"))
+|\evalsto{} \includegraphics[height=1.5cm]{i1world/car-bottom}
+\end{lstlisting}
+%
+Da ist noch ein Problem!  Das Auto ist am unteren Rand und nur zur
+Hälfte zu sehen, wir wollen es aber gern in der Mitte.  Wir müssen
+also noch die Hälfte der Höhe des Straßenabschnitts abziehen,
+entsprechend den Aufruf von \lstinline{place-image/align} korrigieren:
+%
+\begin{lstlisting}
+  (place-image/align
+     image
+     pixels-from-left
+     (- (image-height road-image)
+        (meters->pixels (+ (- (position-m-from-start position)
+                              (ticks->meters ticks))
+                           (/ road-window-height 2))))
+     "center" "center"
+     road-image)
+\end{lstlisting}
+%
+Jetzt ist alles bei 0 in der Mitte!
+
+Diese Funktion können wir jetzt benutzen, um zunächst das Autobild auf
+dem Straßenabschnitt zu platzieren:
 % 
 \begin{lstlisting}
 ; Auto auf die Straße setzen
@@ -1084,8 +1096,13 @@ FIXME
     (place-image-on-road road-image
                          ticks
                          car car-position)))
-
-
+\end{lstlisting}
+%
+Ähnlich machen wir das für das Gürteltier-Bild.  Die nötigen Angaben,
+zu Position und Zustand des Gürteltiers ziehen wir aus dem
+\lstinline{dillo-on-road}-Record:
+%
+\begin{lstlisting}
 ; Ein Tier auf die Straße malen
 (: place-dillo-on-road (natural dillo-on-road image -> image))
 
@@ -1097,10 +1114,22 @@ FIXME
                          (dillo-on-road-position dillo-on-road))))
 \end{lstlisting}
 %
+Jetzt gibt es ja auf der Straße nicht nur ein Gürteltier sondern
+viele, die als Liste im \lstinline{world}-Record stecken.  Dafür
+brauchen wir eine Funktion mit folgender Kurzbeschreibung und
+Signatur:
+%
 \begin{lstlisting}
 ; Alle Tiere auf die Straße malen
 (: place-dillos-on-road (natural (list-of dillo-on-road) image -> image))
-
+\end{lstlisting}
+%
+Wir könnten das nach Konstruktionsanleitung für Listen programmieren.
+Einfacher ist aber, die universelle Funktion~\lstinline{fold} zu
+benutzen. (Siehe Abschnitt~\ref{sec:fold} auf
+Seite~\pageref{sec:fold}.)  Das sieht dann so aus:
+%
+\begin{lstlisting}
 (define place-dillos-on-road
   (lambda (ticks dillos-on-road road-image)
     (fold road-image
@@ -1108,7 +1137,10 @@ FIXME
             (place-dillo-on-road ticks dillo-on-road image))
           dillos-on-road)))
 \end{lstlisting}
-
+%
+Neben Auto und Gürteltieren fehlt noch die Punktzahl oben links in der
+Ecke.  Das erledigt folgende Funktion:
+%
 \begin{lstlisting}
 ; Punktzahl anzeigen
 (: place-score (natural image -> image))
@@ -1120,7 +1152,13 @@ FIXME
      0 0
      "left" "top"
      image)))
-
+\end{lstlisting}
+%
+Damit können wir alle Bild-Bestandteile anzeigen, wir müssen sie nur
+kombinieren, um alles in einem \lstinline{world}-Record als
+Straßenabschnitt anzuzeigen:
+%
+\begin{lstlisting}
 ; Spiel anzeigen
 (: world->image (world -> image))
 
@@ -1137,52 +1175,15 @@ FIXME
        (world-dillos-on-road world)
        (road-window ticks))))))
 \end{lstlisting}
+%
+Du erkennst vielleicht etwas Wunschdenken in Form der Funktion
+\lstinline{world-car-position}~-- die gibt es nämlich noch gar nicht.
+Außerdem fehlt noch die Hilfsfunktion \lstinline{ticks->meters}, die
+wir uns zuerst für \lstinline{road-window} gewünscht haben.  Die kommt zuerst
 
-FIXME: verschiedene Beispiele zum Ausprobieren animieren
-
-\section{Welt in Bewegung}
-  
-Wie kommen wir von hier zu einem fertigen Spiel?  Wir denken darüber
-nach, was wir alles noch brauchen werden, damit aus dem
-\lstinline{world}-Record alle Aspekte des Spiels berechnet werden
-können, mithin der texanische Highway simuliert:\label{page:dillo-world-todos}
-%
-\begin{enumerate}
-\item Wir brauchen für die Darstellung die Position des Autos~-- als
-  \lstinline{position}-Record, nicht bloß die Straßenseite.
-\item Wir müssen feststellen ob das Auto die Position eines
-  Gürteltiers berührt und dieses damit überfährt.
-\item Wir müssen zählen, wieviele Tiere vo einem gegebenen
-  Zeitpunkt vom Auto touchiert, mithin überfahren werden, damit wir
-  die Punktzahl entsprechend erhöhen können.
-\item Schließlich müssen wir alle Tiere überfahren, deren Position
-  unter das Auto gerät.
-\end{enumerate}
-%
-Diese Liste arbeiten wir jetzt ab.
-%
-\paragraph{Position des Autors}
-Fangen wir an mit der Position des Autos: Die Seite steht ja schon im
-\lstinline{world}-Record.  Für die Konstruktion einer Position fehlen
-noch die Straßenmeter, die aus den Ticks berechnet werden können.  Die
-Funktion dafür hat Kurzbeschreibung, Signatur und Testfälle wie folgt:
-%
-\begin{lstlisting}
-; Position des Autos
-(: world-car-position (world -> position))
-\end{lstlisting}
-%
-Für die Testfälle und auch für die Konstruktion der Funktion müssen
-wir von Ticks in Straßenmeter umrechnen.  Diese Umrechnung ist eine
-Zwischengröße bei der Berechnung der Position, wir verlagern sie
-deswegen in eine separate Funktion namens \lstinline{ticks->meters}.
-Wir haben sie geschrieben, bevor wir mit
-\lstinline{world-car-position} weitergemacht haben.  Du kannst aber
-auch genauso gut erstmal \lstinline{world-car-position}
-fertigschreiben und erst dann \lstinline{ticks->meters} entwickeln.
-Wir müssen zunächst einmal festlegen, wie schnell der Wagen fährt.
-Wir haben uns für ein recht gemächliches Tempo entschieden, damit auch
-wirklich alle Gürteltiere erwischen:
+Wir legen zuerst fest, wie schnell der Wagen fährt.  Wir haben uns für
+ein recht gemächliches Tempo entschieden, damit auch wirklich alle
+Gürteltiere erwischen:
 %
 \begin{lstlisting}
 ; Meter pro Tick
@@ -1199,6 +1200,16 @@ Testen nicht lohnt:
 (define ticks->meters
   (lambda (ticks)
     (* meters-per-tick ticks)))
+\end{lstlisting}
+%
+Jetzt zu \lstinline{world-car-position}.  Wir brauchen Seite und
+Straßenmeter.  Die Seite steht ja schon im \lstinline{world}-Record.
+Die Straßenmeter berechnen wir aus den Ticks.  Die Funktion dafür hat
+Kurzbeschreibung, Signatur und Testfälle wie folgt:
+%
+\begin{lstlisting}
+; Position des Autos
+(: world-car-position (world -> position))
 \end{lstlisting}
 %
 Weiter geht es mit den Tests von \lstinline{world-car-position}, bei
@@ -1239,19 +1250,32 @@ können:
                    (world-car-side world))))
 \end{lstlisting}
 %
+
+FIXME: verschiedene Beispiele zum Ausprobieren animieren
+
+\section{Welt in Bewegung}
+  
+Wie kommen wir von hier zu einem fertigen Spiel?  Wir denken darüber
+nach, was wir alles noch brauchen werden, damit aus dem
+\lstinline{world}-Record alle Aspekte des Spiels berechnet werden
+können, mithin der texanische Highway simuliert:\label{page:dillo-world-todos}
+%
+\begin{enumerate}
+\item Wir müssen feststellen ob das Auto die Position eines
+  Gürteltiers berührt und dieses damit überfährt.
+\item Wir müssen zählen, wieviele Tiere vo einem gegebenen
+  Zeitpunkt vom Auto touchiert, mithin überfahren werden, damit wir
+  die Punktzahl entsprechend erhöhen können.
+\item Schließlich müssen wir alle Tiere überfahren, deren Position
+  unter das Auto gerät.
+\end{enumerate}
+%
+Diese Liste arbeiten wir jetzt ab.
+%
 \paragraph{Berührung eines Gürteltiers} Als nächstes auf der Liste auf
 Seite~\pageref{page:dillo-world-todos} müssen wir feststellen, ob das
-Auto die Position eines Gürteltiers berührt.  Dafür ist natürlich
-relevant, wie groß das Auto ist.  Wir haben uns für folgende Maße
-entschieden:
-%
-\begin{lstlisting}
-; Breite des Autos
-(define car-width 1.5)
-; Länge des Autos
-(define car-length 3.0)
-\end{lstlisting}
-%
+Auto die Position eines Gürteltiers berührt.
+
 Wir brauchen eine Funktion mit Kurzbeschreibung und Signatur wie
 folgt:
 %
@@ -1412,12 +1436,55 @@ Die Funktion wendet also eine Operation auf jedes Element der Liste an
 und gibt uns die Ergebnisse in einer Liste zurück: Dafür können wir
 wieder eine Higher"=Order"=Funktion aus Kapitel~\ref{cha:higher-order}
 verwenden, nämlich \lstinline{map}, die eingebaute Version von
-\lstinline{list-map}, siehe Seite~\pageref{func:map}.  Für jedes
-Gürteltier überprüft die Funktion, ob es vom Auto berührt wird und
-benutzt gegebenenfalls \lstinline{run-over-dillo}, um die schmutzige
-Arbeit zu machen:
-
-FIXME: KA
+\lstinline{list-map}, siehe Seite~\pageref{func:map}.
+%
+\begin{lstlisting}
+(define run-over-dillos-on-road
+  (lambda (car-position dillos-on-road)
+    (map (lambda (dillo-on-road)
+           ...)
+         dillos-on-road)))
+\end{lstlisting}
+%
+Bei dem Argument der \lstinline{lambda}-Funktion handelt es sich um
+zusammengesetzte Daten.  Es kommen also Selektoraufrufe in die
+Schablone:
+%
+\begin{lstlisting}
+(define run-over-dillos-on-road
+  (lambda (car-position dillos-on-road)
+    (map (lambda (dillo-on-road)
+           ...
+           (dillo-on-road-position dillo-on-road)
+           (dillo-on-road-state dillo-on-road)
+           ...)
+         dillos-on-road)))
+\end{lstlisting}
+%
+Die Gürteltiere fallen in zwei Klassen: Die, die vom Auto gerade
+touchiert werden, und alle anderen.  Wir können die Funktion
+\lstinline{car-on-position?} benutzen, um eine binäre Verzweigung zu
+bilden:
+%
+\begin{lstlisting}
+(define run-over-dillos-on-road
+  (lambda (car-position dillos-on-road)
+    (map (lambda (dillo-on-road)
+           (if (car-on-position?
+                car-position
+                (dillo-on-road-position dillo-on-road))
+               ...
+               ...)
+           ...
+           (dillo-on-road-position dillo-on-road)
+           (dillo-on-road-state dillo-on-road)
+           ...)
+         dillos-on-road)))
+\end{lstlisting}
+%
+Im ersten Fall sollten wir das Gürteltier überfahren, das machen wir
+mit \lstinline{run-over-dillo}.  Im anderen Fall gebenwir
+\lstinline{dillo-on-road} unverletzt zurück:
 %
 \begin{lstlisting}
 (define run-over-dillos-on-road

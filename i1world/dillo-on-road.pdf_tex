@@ -54,10 +54,10 @@
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{i1world/dillo-on-road.pdf}}%
-    \put(-0.25412951,1.00984141){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\lstinline{image-m-height}\end{tabular}}}}%
+    \put(-0.65412951,1.00984141){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\lstinline{(image-height road-image)}\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{i1world/dillo-on-road.pdf}}%
-    \put(0.61135192,1.00719822){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\lstinline{image-m-from-start}\end{tabular}}}}%
-    \put(0.77832248,1.44973809){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\lstinline{road-top-m}\end{tabular}}}}%
+    \put(0.61135192,1.00719822){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\lstinline{(position-m-from-start position)}\end{tabular}}}}%
+    % \put(0.77832248,1.44973809){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\lstinline{road-top-m}\end{tabular}}}}%
     \put(0.77832248,0.00899496){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\lstinline{road-bottom-m}\end{tabular}}}}%
   \end{picture}%
 \endgroup%

@@ -320,39 +320,25 @@
 
 (define place-image-on-road
   (lambda (road-image ticks image position)
-    ; Straßenmeter des oberen Randes des Straßenausschnitts
-    (define road-bottom-m (- (ticks->meters ticks)
-                             ; damit 0 in der Mitte der Ansicht ist
-                             (/ road-window-height 2)))
-    ; Straßenmeter des unteren Randes des Straßenausschnitts
-    (define road-top-m (+ road-bottom-m road-window-height))
-    ; Straßenmeter des Mittelpunkts des Bilds
-    (define image-m-from-start (position-m-from-start position))
-    ; Höhe des Bilds
-    (define image-height-m (pixels->meters (image-height image)))
-
-    (define side (position-side position))
     ; X-Koordinate der Mitte der Straße, in Pixeln
     (define middle-pixels (/ (image-width road-image) 2))
     ; X-Koordinate des Mittelpunkts des Bilds
     (define pixels-from-left
       (cond
-        ((string=? side "left")
+        ((string=? (position-side position) "left")
          (* middle-pixels 0.5)) ; Mitte der linken Spur
-        ((string=? side "right")
+        ((string=? (position-side position) "right")
          (* middle-pixels 1.5)))) ; Mitte der rechten Spur
-    (if (and (>= (+ image-m-from-start (/ image-height-m 2))
-                 road-bottom-m)
-             (<= (- image-m-from-start (/ image-height-m 2))
-                 road-top-m))
-        (place-image/align
-         image
-         pixels-from-left
-         (- (image-height road-image)
-            (meters->pixels (- image-m-from-start road-bottom-m)))
-         "center" "center"
-         road-image)
-        road-image)))
+
+    (place-image/align
+     image
+     pixels-from-left
+     (- (image-height road-image)
+        (meters->pixels (+ (- (position-m-from-start position)
+                              (ticks->meters ticks))
+                           (/ road-window-height 2))))
+     "center" "center"
+     road-image)))
 
 ; Auto auf die Straße setzen
 (: place-car-on-road (natural position image -> image))
@@ -448,7 +434,7 @@
         (make-dillo-on-road dillo3 (make-position 30 "left"))
         (make-dillo-on-road dillo4 (make-position 42 "left"))))
 
-#;(big-bang (make-world 0 "left" dillos-on-road 0)
+(big-bang (make-world 0 "left" dillos-on-road 0)
   (to-draw world->image)
   (on-tick next-world)
   (on-key react-to-key))
