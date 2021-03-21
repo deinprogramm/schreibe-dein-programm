@@ -608,7 +608,8 @@ Gesicht setzen:
 %
 Fertig ist die Gürteltier-Darstellung!
 
-\section{Die Welt ein Highway}
+\section{Den Highway modellieren}
+\label{sec:highway-model}
 
 \begin{figure}[tb]
   \centering
@@ -626,9 +627,8 @@ es dann gegebenfalls über Gürteltiere fährt.  Oben links steht ein
 Punktestand~-- wieviele Gürteltiere schon vom lebenden Zustand in den
 toten überführt wurden.
 
-Damit wir das alles darstellen können, müssen wir ein Modell bauen,
-in dem alle Informationen festgehalten sind, die auf dem Bild der
-Straße zu sehen sind:
+Damit wir das alles darstellen können, müssen für alles
+Datendefinition schreiben, was auf dem Bild der Straße zu sehen sind:
 %
 \begin{itemize}
 \item die Position des Autos
@@ -636,19 +636,13 @@ Straße zu sehen sind:
 \item der Punktestand
 \end{itemize}
 %
-Wir müssen auch berücksichtigen, dass die Zeit vergeht.  Das Auto
-fährt mit konstanter Geschwindigkeit, seine Position hängt also von
-der Zeit ab.  Wenn wir die Zeit haben, können wir die Position des
-Autos entlang der Straße daraus berechnen, wir müssen nur noch wissen,
-ob das Auto links oder rechts fährt.
+Für diese Aspekte des Spiels entwickeln wir Datendefinitionen.
 
 Man sieht schon, dass "<Positionen"> eine wichtige Rolle spielen,
-sowohl für das Auto als auch für die Gürteltiere.  Um die
-Datendefinition für das Modell zu schreiben, brauchen wir zunächst
-eine für Positionen.  In dem Bild kann man sehen, dass dazu gehört,
-auf welcher Seite der Straße sich etwas aufhält und bei welchem
-"<Straßenmeter">.  Dabei kommt folgende beiden Datendefinitionen für
-die Straßenseite und eine Position heraus:
+sowohl für das Auto als auch für die Gürteltiere.  In dem Bild kann
+man sehen, dass dazu gehört, auf welcher Seite der Straße sich etwas
+aufhält und bei welchem "<Straßenmeter">.  Dabei kommt folgende beiden
+Datendefinitionen für die Straßenseite und eine Position heraus:
 %
 \begin{lstlisting}
 ; Straßenseite
@@ -681,27 +675,6 @@ das erstmal für ein einzelnes Gürteltier und nennen das Konzept
   (dillo-on-road-position position))
 \end{lstlisting}
 %
-Damit können wir jetzt das Modell für die Welt des Spiels
-fertigstellen:
-%
-\begin{lstlisting}
-; Die Welt des Spiels besteht aus:
-; - Ticks seit Spielanfang
-; - Seite, auf der das Auto fährt
-; - Tiere auf der Straße
-; - Punktzahl
-(define-record world
-  make-world
-  world?
-  (world-ticks natural)
-  (world-car-side side)
-  (world-dillos-on-road (list-of dillo-on-road))
-  (world-score natural))
-\end{lstlisting}
-%
-Das Wort "<Tick"> kommt aus dem Teachpack \texttt{universe.rkt}, wo es
-28 Ticks pro Sekunde gibt.  Wir werden noch dazu kommen, wo die Ticks
-genau herkommen.
 
 \section{Straßenansichten}
 
@@ -822,22 +795,21 @@ leere Szene nur aus schwarzem Asphalt:
 \end{lstlisting}
 %
 Wie Mittelstreifen auf dem Straßenausschnitt platziert werden, hängt
-vom Zeitpunkt ab.  Wir schreiben also eine Funktion, welche die Ticks
-als Eingabe nimmt und ein Bild des Straßenausschnitts liefert:
-%
+davon ab, an welchem Straßenmeter sich der Bildausschnitt befindet.
+Wir schreiben also eine Funktion, welche die Straßenmeter akzeptiert
+und ein passendes Bild liefert:
 \begin{lstlisting}
-; Straßenausschnitt zu Zeitpunkt anzeigen
-(: road-window (natural -> image))
+; Straßenausschnitt anzeigen
+(: road-window (real -> image))
 \end{lstlisting}
 %
 Wir benutzen \lstinline{place-image/align} (siehe
 Seite~\pageref{func:place-image-align}), um die Mittelstreifen auf den
 Asphalt zu setzen:
-
 %
 \begin{lstlisting}
 (define road-window
-  (lambda (ticks)
+  (lambda (meters)
     (place-image/align visible-markings
                        ...
                        ...
@@ -850,7 +822,7 @@ die Mitte:
 %
 \begin{lstlisting}
 (define road-window
-  (lambda (ticks)
+  (lambda (meters)
     (place-image/align visible-markings
                        ...
                        ...
@@ -861,21 +833,12 @@ die Mitte:
 In X-Richtung muss der Mittelstreifen in die Mitte, da können wir
 einfach die Breite der Straße halbieren.
 
-Bei der Y-Koordinate ist es schwieriger: Die hängt davon ab, wieweit
-wir schon gefahren sind, und das hängt von den Ticks ab.  Wir rechnen
-zunächst die Ticks in Meter um:
-%
-\begin{lstlisting}
-(meters->pixels (ticks->meters ticks))
-\end{lstlisting}
-%
-Die Hilfsfunktion \lstinline{ticks->meters}, die die eigentliche
-Arbeit erledigt, schreiben wir später.
-
-Das ist natürlich mehr als der Ausschnitt hoch beziehungsweise das
-Mittelstreifenbild lang ist.  Das Mittelstreifenbild wiederholt sich
-aber immer, wenn ein Streifen plus Lücke vorbeigezogen ist.  Wir
-rechnen also die Anzahl der Pixel dafür aus:
+Bei der Y-Koordinate ist es schwieriger: Die hängt von den
+Straßenmetern ab.  Die Straßenmeter sind aber (außer ganz am Anfang)
+mehr als der Ausschnitt hoch beziehungsweise das Mittelstreifenbild
+lang ist.  Das Mittelstreifenbild wiederholt sich aber immer, wenn ein
+Streifen plus Lücke vorbeigezogen ist.  Wir rechnen also die Anzahl
+der Pixel dafür aus:
 %
 \begin{lstlisting}
 (define marking-segment-pixels
@@ -890,16 +853,14 @@ das Bild noch um einen Streifen nach oben, indem wir
 %
 \begin{lstlisting}
 (define road-window
-  (lambda (ticks)
+  (lambda (meters)
     (place-image/align visible-markings
                        (/ (image-width blank-road-window) 2)
-                       (- (remainder (meters->pixels
-                                       (ticks->meters ticks))
+                       (- (remainder (meters->pixels meters)
                                      marking-segment-pixels)
-                        marking-segment-pixels)
+                          marking-segment-pixels)
                        "center" "top"
                        blank-road-window)))
-
 \end{lstlisting}
 %
 \begin{aufgabeinline}
@@ -908,13 +869,107 @@ das Bild noch um einen Streifen nach oben, indem wir
   auswirkt!
 \end{aufgabeinline}
 %
+
+\section{Bewegte Bilder mit \texttt{universe.rkt}}
+
+Bisher haben wir nur statische, langweilige Bilder.  Es ist Zeit, sie
+in Bewegung zu setzen.  Dafür brauchen wir ein weiteres Teachpack
+namens \texttt{universe.rkt}.  Um es zu aktivieren, musst Du nochmal
+ins \texttt{Sprache}/\texttt{Language}-Menü und dort auf
+\texttt{Teachpack hinzufügen}/\texttt{Add Teachpack} drücken und in
+dem dann auftauchenden Dialog auf \texttt{universe.rkt} und
+schließlich auf \texttt{OK} drücken.
+
+Zum \texttt{universe.rkt}-Teachpack gehört eine Funktion namens
+\lstinline{animate}\index{animate@\texttt{animate}}.  Was sie macht,
+verdeutlicht am einfachsten ein Beispiel, dass Du in die REPL
+eintippen kannst:
+%
+\begin{lstlisting}
+(animate
+  (lambda (ticks)
+     (place-image/align (circle 5 "solid" "red") 
+                        100 ticks "center" "top" 
+                        (square 200 "solid" "black"))))
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Probier es aus!
+\end{aufgabeinline}
+%
+Du siehst einen kleinen roten Kreis sich in einem quadratischen Bild
+von oben nach unten bewegen. 
+
+Die neue Funktion \lstinline{animate} akzeptiert eine Funktion mit
+einer Eingabe names \lstinline{ticks}, die ein Bild produziert:
+%
+\begin{lstlisting}
+(: animate ((natural -> image) -> natural))
+\end{lstlisting}
+%
+\lstinline{Animate} ruft die Funktion 28mal in der Sekunde auf und
+zeigt die entstehenden Bilder hintereinander als Animation an.  Dabei
+übergibt \lstinline{animate} als \lstinline{ticks} eine natürliche
+Zahl, die bei Null anfängt, und jedesmal um eins größer wird: Sie
+misst also die Zeit, in sogenannten \textit{Ticks}\index{Ticks}.
+
+Wir benutzen jetzt \lstinline{animate}, um das Bild des
+Straßenausschnitts in Bewegung zu setzen~-- so, dass das Wagen genau
+in der Mitte ist.  Wir legen zuerst fest, wie schnell der Wagen fährt.
+Wir haben uns für ein recht gemächliches Tempo entschieden, damit auch
+wirklich alle Gürteltiere erwischen:
+%
+\begin{lstlisting}
+; Meter pro Tick
+(define meters-per-tick 0.1)
+\end{lstlisting}
+%
+Diese Funktion ist so einfach, dass sich ausnahmsweise separates
+Testen nicht lohnt:
+%
+\begin{lstlisting}
+; Ticks in Meter umwandeln
+(: ticks->meters (natural -> rational))
+
+(define ticks->meters
+  (lambda (ticks)
+    (* meters-per-tick ticks)))
+\end{lstlisting}
+%
+Damit können wir eine Funktion schreiben, die aus Ticks Straßenmetern
+macht und dann \lstinline{road-window} aufruft:
+%
+\begin{lstlisting}
+; Straßenausschnitt zu Zeitpunkt anzeigen
+(: road-window-at-ticks (natural -> image))
+
+(define road-window-at-ticks
+  (lambda (ticks)
+    (road-window (ticks->meters ticks))))
+\end{lstlisting}
+% Du kannst
+also folgendes ausprobieren:
+%
+\begin{lstlisting}
+(animate road-window-at-ticks)
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Schreibe eine andere Funktion Deiner Wahl mit der für
+  \lstinline{animate} passenden Signatur und probiere
+  \lstinline{animate} damit aus!
+\end{aufgabeinline}
+
+\section{Autos und Gürteltiere auf dem Highway}
+
 Die Straße ist fertig, als nächstes ist das Auto dran.  Wir fangen mit
 einem Rad an:
 %
 \begin{lstlisting}
 ; Rad
 (define wheel
-  (rectangle (meters->pixels 0.2) (meters->pixels .5) "outline" "white"))
+  (rectangle (meters->pixels 0.2) (meters->pixels .5)
+             "outline" "white"))
 \end{lstlisting}
 %
 Als nächstes setzen wir zwei Räder zu einem Bild zusammen, das dann
@@ -923,7 +978,9 @@ links und rechts von der Karosserie platziert werden:
 \begin{lstlisting}
 ; Zwei Räder auf einer Seite des Autos
 (define wheels-on-one-side
- (above wheel (rectangle 0 (meters->pixels 1.2) "solid" "black") wheel))
+  (above wheel
+         (rectangle 0 (meters->pixels 1.2) "solid" "black")
+         wheel))
 
 ; Breite des Autos
 (define car-width 1.5)
@@ -934,7 +991,8 @@ links und rechts von der Karosserie platziert werden:
 (define car
   (beside
    wheels-on-one-side
-   (rectangle (meters->pixels car-width) (meters->pixels car-length) "solid" "blue")
+   (rectangle (meters->pixels car-width) (meters->pixels car-length)
+              "solid" "blue")
    wheels-on-one-side))
 \end{lstlisting}
 %
@@ -1098,6 +1156,12 @@ dem Straßenabschnitt zu platzieren:
                          car car-position)))
 \end{lstlisting}
 %
+\begin{aufgabeinline}
+  Konstruiere auf Basis von \lstinline{place-car-on-road} eine
+  Funktion, die Du an \lstinline{animate} übergeben kannst und
+  probiere sie aus!
+\end{aufgabeinline}
+%
 Ähnlich machen wir das für das Gürteltier-Bild.  Die nötigen Angaben,
 zu Position und Zustand des Gürteltiers ziehen wir aus dem
 \lstinline{dillo-on-road}-Record:
@@ -1154,68 +1218,68 @@ Ecke.  Das erledigt folgende Funktion:
      image)))
 \end{lstlisting}
 %
-Damit können wir alle Bild-Bestandteile anzeigen, wir müssen sie nur
-kombinieren, um alles in einem \lstinline{world}-Record als
-Straßenabschnitt anzuzeigen:
+
+\section{Die Welt ein Highway}
+
+Es wird Zeit, dass wir alles zusammensetzen zu einem Spiel, das sich
+bewegt und dass auf Knopfdruck reagiert.  Das
+\texttt{universe.rkt}-Teachpack fordert, dass wir eine Datendefinition
+erstellen, in der der gesamte Zustand des Spiels stecks.  In
+Abschnitt~\ref{sec:highway-model} auf
+Seite~\pageref{sec:highway-model} hatten wir schon folgende Aspekte
+aufgelistet:
+%
+\begin{itemize}
+\item die Position des Autos
+\item die Positionen der Gürteltiere zusammen mit ihren Zuständen
+\item der Punktestand
+\end{itemize}
+%
+Wir wissen, dass uns das \texttt{universe.rkt}-Teachpack später die
+Zeit als Ticks liefern wird: Daraus können wir die Straßenmeter der
+Position des Autors berechnen.  Nur noch die Seite müssen wir explizit
+repräsentieren.  Es entsteht also folgende etwas angepasste Datendefinition:
 %
 \begin{lstlisting}
-; Spiel anzeigen
-(: world->image (world -> image))
-
-(define world->image
-  (lambda (world)
-    (define ticks (world-ticks world))
-    (place-score
-     (world-score world)
-     (place-car-on-road
-      ticks
-      (world-car-position world)
-      (place-dillos-on-road
-       ticks
-       (world-dillos-on-road world)
-       (road-window ticks))))))
+; Die Welt des Spiels besteht aus:
+; - Ticks seit Spielanfang
+; - Seite, auf der das Auto fährt
+; - Tiere auf der Straße
+; - Punktzahl
+(define-record world
+  make-world
+  world?
+  (world-ticks natural)
+  (world-car-side side)
+  (world-dillos-on-road (list-of dillo-on-road))
+  (world-score natural))
 \end{lstlisting}
 %
-Du erkennst vielleicht etwas Wunschdenken in Form der Funktion
-\lstinline{world-car-position}~-- die gibt es nämlich noch gar nicht.
-Außerdem fehlt noch die Hilfsfunktion \lstinline{ticks->meters}, die
-wir uns zuerst für \lstinline{road-window} gewünscht haben.  Die kommt zuerst
-
-Wir legen zuerst fest, wie schnell der Wagen fährt.  Wir haben uns für
-ein recht gemächliches Tempo entschieden, damit auch wirklich alle
-Gürteltiere erwischen:
+Hier ein Beispiel dafür:
 %
 \begin{lstlisting}
-; Meter pro Tick
-(define meters-per-tick 0.1)
-\end{lstlisting}
-%
-Diese Funktion ist so einfach, dass sich ausnahmsweise separates
-Testen nicht lohnt:
-%
-\begin{lstlisting}
-; Ticks in Meter umwandeln
-(: ticks->meters (natural -> rational))
+; Vier Gürteltiere auf der Straße
+(define dillos-on-road
+  (list (make-dillo-on-road dillo1 (make-position 20 "left"))
+        (make-dillo-on-road dillo2 (make-position 26 "right"))
+        (make-dillo-on-road dillo3 (make-position 30 "left"))
+        (make-dillo-on-road dillo4 (make-position 42 "left"))))
 
-(define ticks->meters
-  (lambda (ticks)
-    (* meters-per-tick ticks)))
+; Welt am Anfang, Auto steht links
+(define initial-world
+  (make-world 0 "left" dillos-on-road 0))
 \end{lstlisting}
 %
-Jetzt zu \lstinline{world-car-position}.  Wir brauchen Seite und
-Straßenmeter.  Die Seite steht ja schon im \lstinline{world}-Record.
-Die Straßenmeter berechnen wir aus den Ticks.  Die Funktion dafür hat
-Kurzbeschreibung, Signatur und Testfälle wie folgt:
+Wir werden für \lstinline{place-car-on-road} die Position des Autos
+als \lstinline{position}-Record benötigen, die noch nicht direkt im
+\lstinline{world}-Record vorhanden ist.  Die Seite steht immerhin
+schon da.  Die Straßenmeter berechnen wir aus den Ticks.  Die Funktion
+dafür hat Kurzbeschreibung, Signatur und Testfälle wie folgt:
 %
 \begin{lstlisting}
 ; Position des Autos
 (: world-car-position (world -> position))
-\end{lstlisting}
-%
-Weiter geht es mit den Tests von \lstinline{world-car-position}, bei
-denen wir \lstinline{ticks->meters} benutzen können:
-%
-\begin{lstlisting}
+
 (check-expect (world-car-position (make-world 0 "left" empty 0))
               (make-position 0 "left"))
 (check-expect (world-car-position (make-world 100 "right" empty 0))
@@ -1250,7 +1314,28 @@ können:
                    (world-car-side world))))
 \end{lstlisting}
 %
+Jetzt haben wir endlich alle Funktionen, die wir benötigen, um die
+ganze Welt anzuzeigen.  Wir müssen sie nur kombinieren, um alles in
+einem \lstinline{world}-Record als Straßenabschnitt anzuzeigen:
+%
+\begin{lstlisting}
+; Spiel anzeigen
+(: world->image (world -> image))
 
+(define world->image
+  (lambda (world)
+    (define ticks (world-ticks world))
+    (place-score
+     (world-score world)
+     (place-car-on-road
+      ticks
+      (world-car-position world)
+      (place-dillos-on-road
+       ticks
+       (world-dillos-on-road world)
+       (road-window ticks))))))
+\end{lstlisting}
+%
 FIXME: verschiedene Beispiele zum Ausprobieren animieren
 
 \section{Welt in Bewegung}
@@ -1507,6 +1592,8 @@ mit \lstinline{run-over-dillo}.  Im anderen Fall gebenwir
 
   FIXME: nochmal aufgreifen
 \end{aufgabeinline}
+
+FIXME: next-world react-to-key
 
 \section{Bewegung und Zustand}
 

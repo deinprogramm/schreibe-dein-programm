@@ -109,29 +109,6 @@
   (dillo-on-road-state dillo)
   (dillo-on-road-position position))
 
-; Die Welt des Spiels besteht aus:
-; - Ticks seit Spielanfang
-; - Seite, auf der das Auto fährt
-; - Tiere auf der Straße
-; - Punktzahl
-(define-record world
-  make-world
-  world?
-  (world-ticks natural)
-  (world-car-side side)
-  (world-dillos-on-road (list-of dillo-on-road))
-  (world-score natural))
-
-; Meter pro Tick
-(define meters-per-tick 0.1)
-
-; Ticks in Meter umwandeln
-(: ticks->meters (natural -> rational))
-
-(define ticks->meters
-  (lambda (ticks)
-    (* meters-per-tick ticks)))
-
 ; Position des Autos
 (: world-car-position (world -> position))
 
@@ -286,20 +263,37 @@
 (define marking-segment-pixels
   (meters->pixels (+ marking-height gap-height)))
 
-; Straßenausschnitt zu Zeitpunkt anzeigen
-(: road-window (natural -> image))
+; Straßenausschnitt anzeigen
+(: road-window (real -> image))
 
 (define road-window
-  (lambda (ticks)
+  (lambda (meters)
     (place-image/align visible-markings
                        (/ (image-width blank-road-window) 2)
-                       (-
-                        (remainder (meters->pixels (ticks->meters ticks))
-                                   marking-segment-pixels)
-                        marking-segment-pixels)
+                       (- (remainder (meters->pixels meters)
+                                     marking-segment-pixels)
+                          marking-segment-pixels)
                        "center" "top"
                        blank-road-window)))
 
+; Meter pro Tick
+(define meters-per-tick 0.1)
+
+; Ticks in Meter umwandeln
+(: ticks->meters (natural -> rational))
+
+(define ticks->meters
+  (lambda (ticks)
+    (* meters-per-tick ticks)))
+
+
+; Straßenausschnitt zu Zeitpunkt anzeigen
+(: road-window-at-ticks (natural -> image))
+
+(define road-window-at-ticks
+  (lambda (ticks)
+    (road-window (ticks->meters ticks))))
+    
 ; Rad
 (define wheel
   (rectangle (meters->pixels 0.2) (meters->pixels .5) "outline" "white"))
@@ -381,6 +375,19 @@
      "left" "top"
      image)))
 
+; Die Welt des Spiels besteht aus:
+; - Ticks seit Spielanfang
+; - Seite, auf der das Auto fährt
+; - Tiere auf der Straße
+; - Punktzahl
+(define-record world
+  make-world
+  world?
+  (world-ticks natural)
+  (world-car-side side)
+  (world-dillos-on-road (list-of dillo-on-road))
+  (world-score natural))
+
 ; Spiel anzeigen
 (: world->image (world -> image))
 
@@ -395,7 +402,7 @@
       (place-dillos-on-road
        ticks
        (world-dillos-on-road world)
-       (road-window ticks))))))
+       (road-window-at-ticks ticks))))))
 
 ; Auf Tastendrück reagieren
 (: react-to-key (world string -> world))
@@ -428,13 +435,18 @@
                 (+ (live-dillos-under-car-count car-position dillos-on-road)
                    (world-score world)))))
 
+; Vier Gürteltiere auf der Straße
 (define dillos-on-road
   (list (make-dillo-on-road dillo1 (make-position 20 "left"))
         (make-dillo-on-road dillo2 (make-position 26 "right"))
         (make-dillo-on-road dillo3 (make-position 30 "left"))
         (make-dillo-on-road dillo4 (make-position 42 "left"))))
 
-(big-bang (make-world 0 "left" dillos-on-road 0)
+; Welt am Anfang, Auto steht links
+(define initial-world
+  (make-world 0 "left" dillos-on-road 0))
+
+(big-bang initial-world
   (to-draw world->image)
   (on-tick next-world)
   (on-key react-to-key))
