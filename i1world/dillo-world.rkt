@@ -1,7 +1,7 @@
 ;; Die ersten drei Zeilen dieser Datei wurden von DrRacket eingefügt. Sie enthalten Metadaten
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname dillo-world) (read-case-sensitive #f) (teachpacks ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp"))) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ((lib "image.rkt" "teachpack" "deinprogramm" "sdp") (lib "universe.rkt" "teachpack" "deinprogramm" "sdp")))))
-; Ein Gürteltier hat fo<lgende Eigenschaften:
+; Ein Gürteltier hat folgende Eigenschaften:
 ; - Gewicht (in g)
 ; - lebendig oder tot
 (define-record dillo
@@ -404,8 +404,56 @@
        (world-dillos-on-road world)
        (road-window-at-ticks ticks))))))
 
-; Auf Tastendrück reagieren
+; Vier Gürteltiere auf der Straße
+(define dillos-on-road
+  (list (make-dillo-on-road dillo1 (make-position 20 "left"))
+        (make-dillo-on-road dillo2 (make-position 26 "right"))
+        (make-dillo-on-road dillo3 (make-position 30 "left"))
+        (make-dillo-on-road dillo4 (make-position 42 "left"))))
+
+; Welt am Anfang, Auto steht links
+(define initial-world
+  (make-world 0 "left" dillos-on-road 0))
+
+; Statische Welt zu einem bestimmten Zeitpunkt darstellen
+(: world-at-ticks (natural -> world))
+
+(define world-at-ticks
+  (lambda (ticks)
+    (make-world ticks "left" dillos-on-road 0)))
+
+; Wie verändert sich die Welt, wenn ein Tick Zeit vergeht?
+(: next-world (world -> world))
+
+#;(define next-world
+  (lambda (world)
+    (make-world (+ 1 (world-ticks world))
+                (world-car-side world)
+                (world-dillos-on-road world)
+                (world-score world))))
+
+(define next-world
+  (lambda (world)
+    (define car-position (world-car-position world))
+    (define dillos-on-road (world-dillos-on-road world))
+    (make-world (+ 1 (world-ticks world))
+                (world-car-side world)
+                (run-over-dillos-on-road car-position dillos-on-road)
+                (+ (live-dillos-under-car-count car-position dillos-on-road)
+                   (world-score world)))))
+
+
+; Auf Tastendruck reagieren
 (: react-to-key (world string -> world))
+
+(check-expect (react-to-key (make-world 12 "right" dillos-on-road 5) "left")
+              (make-world 12 "left" dillos-on-road 5))
+
+(check-expect (react-to-key (make-world 12 "left" dillos-on-road 5) "right")
+              (make-world 12 "right" dillos-on-road 5))
+              
+(check-expect (react-to-key (make-world 12 "left" dillos-on-road 5) "a")
+              (make-world 12 "left" dillos-on-road 5))
 
 (define react-to-key
   (lambda (world key)
@@ -422,29 +470,6 @@
                    (world-score world)))
       (else world))))
 
-; Wie verändert sich die Welt, wenn ein Tick Zeit vergeht?
-(: next-world (world -> world))
-
-(define next-world
-  (lambda (world)
-    (define car-position (world-car-position world))
-    (define dillos-on-road (world-dillos-on-road world))
-    (make-world (+ 1 (world-ticks world))
-                (world-car-side world)
-                (run-over-dillos-on-road car-position dillos-on-road)
-                (+ (live-dillos-under-car-count car-position dillos-on-road)
-                   (world-score world)))))
-
-; Vier Gürteltiere auf der Straße
-(define dillos-on-road
-  (list (make-dillo-on-road dillo1 (make-position 20 "left"))
-        (make-dillo-on-road dillo2 (make-position 26 "right"))
-        (make-dillo-on-road dillo3 (make-position 30 "left"))
-        (make-dillo-on-road dillo4 (make-position 42 "left"))))
-
-; Welt am Anfang, Auto steht links
-(define initial-world
-  (make-world 0 "left" dillos-on-road 0))
 
 (big-bang initial-world
   (to-draw world->image)

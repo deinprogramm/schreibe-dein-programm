@@ -6,6 +6,8 @@
 \chapter{Videospiele programmieren}
 \label{cha:representation-and-state}
 
+FIXME: Doku-Links
+
 In diesem Kapitel programmieren wir zum ersten Mal ein vollständiges,
 benutzbares Programm, nämlich ein kleines Videospiel.  Dafür brauchen
 wir zwei Zusätze für die Lehrsprache in DrRacket, die Teachpacks
@@ -342,7 +344,7 @@ ersten Bilds setzt, erlaubt \lstinline{place-image} auch anderee
 Bezugspunkte.  Hier die Signatur:
 %
 \begin{lstlisting}
-(: place-image/align (image real real x-place y-place image -> image
+(: place-image/align (image real real x-place y-place image -> image))
 \end{lstlisting}
 %
 Die Signaturen \lstinline{x-place} und \lstinline{y-place} könnten
@@ -1185,7 +1187,8 @@ Signatur:
 %
 \begin{lstlisting}
 ; Alle Tiere auf die Straße malen
-(: place-dillos-on-road (natural (list-of dillo-on-road) image -> image))
+(: place-dillos-on-road
+   (natural (list-of dillo-on-road) image -> image))
 \end{lstlisting}
 %
 Wir könnten das nach Konstruktionsanleitung für Listen programmieren.
@@ -1336,12 +1339,45 @@ einem \lstinline{world}-Record als Straßenabschnitt anzuzeigen:
        (road-window ticks))))))
 \end{lstlisting}
 %
-FIXME: verschiedene Beispiele zum Ausprobieren animieren
+Du kannst jetzt natürlich
+%
+\begin{lstlisting}
+(world->image initial-world)
+\end{lstlisting}
+%
+ausprobieren, aber da ist nur der anfängliche, leere Straßenabschnitt
+zu sehen.
 
-\section{Welt in Bewegung}
+Besser wird es mit \lstinline{animate}.  Dafür brauchen wir eine
+Funktion mit Signatur \lstinline{(natural -> image)}.  Da wir schon
+\lstinline{world->image} mit der Signatur \lstinline{(world -> image)}
+haben, brauchen wir noch eine Funktion mit Signatur
+\lstinline{(natural -> world)}, die ein passendes
+\lstinline{world}-Objekt erzeugt:
+%
+\begin{lstlisting}
+; Statische Welt zu einem bestimmten Zeitpunkt darstellen
+(: world-at-ticks (natural -> world))
+
+(define world-at-ticks
+  (lambda (ticks)
+    (make-world ticks "left" dillos-on-road 0)))
+\end{lstlisting}
+%
+Nun können wir \lstinline{animate} mit einer Kombination aus den
+beiden aufrufen:
+%
+\begin{lstlisting}
+(animate (lambda (ticks) (world->image (world-at-ticks ticks))))
+\end{lstlisting}
+%
+Da sieht man die Straße vorbeiziehen, und schließlich tauchen auch
+Gürteltiere auf.  Aber das Auto ist links festgeklebt und die
+Gürteltiere sterben auch nicht, wenn das Auto drüberfährt.
+
+\section{Überfahren konkret}
   
-Wie kommen wir von hier zu einem fertigen Spiel?  Wir denken darüber
-nach, was wir alles noch brauchen werden, damit aus dem
+Was fehlt noch, damit aus dem
 \lstinline{world}-Record alle Aspekte des Spiels berechnet werden
 können, mithin der texanische Highway simuliert:\label{page:dillo-world-todos}
 %
@@ -1355,7 +1391,7 @@ können, mithin der texanische Highway simuliert:\label{page:dillo-world-todos}
   unter das Auto gerät.
 \end{enumerate}
 %
-Diese Liste arbeiten wir jetzt ab.
+Diese Liste arbeiten wir in diesem Abschnitt ab.
 %
 \paragraph{Berührung eines Gürteltiers} Als nächstes auf der Liste auf
 Seite~\pageref{page:dillo-world-todos} müssen wir feststellen, ob das
@@ -1593,113 +1629,273 @@ mit \lstinline{run-over-dillo}.  Im anderen Fall gebenwir
   FIXME: nochmal aufgreifen
 \end{aufgabeinline}
 
-FIXME: next-world react-to-key
+\section{Reaktive Animation}
 
-\section{Bewegung und Zustand}
-
-TBD  Dafür ist ein weiteres Teachpack namens
-\texttt{universe.ss}\index{universe.ss@\texttt{universe.ss}} zuständig.  Es
-kann in \drscheme{} genauso wie bei \texttt{image.rkt}
-geladen werden.  
-
-Alle Definitionen von
-\texttt{image.rkt} sind auch in \texttt{universe.ss} verfügbar.
-
-In der Terminologie von \texttt{universe.ss} ist ein Modell eine
-\textit{world}, auf deutsch eine \textit{Welt}: Die Idee dahinter
-ist, dass ein Bild eine Ansicht einer kleinen Welt ist.  Damit das
-funktioniert, muss bei \texttt{universe.ss} eine erste Welt angemeldet
-werden, zusammen mit Angaben, wie groß die Ansicht wird.  Dazu gibt es
-die Funktion \texttt{big-bang}\index{big-bang@\texttt{big-bang}}:
+An diesem Punkt haben wir alle Grundaspekte des Spiels durch
+Funktionen beschrieben.  Wir müssen sie noch zu einem Spiel
+zusammensetzen.  Das sollte dann insbesondere auch auf Tastendrücke
+reagieren.  Für solche reaktiven Animationen brauchen wir noch
+Unterstützung vom \texttt{universe.rkt}-Teachpack, das dafür extea ein
+neues Programmiersprachene-Element mitbringt, das heißt
+\lstinline{big-bang}\index{big-bang@\texttt{big-bang}}.  Es startet
+das Spiel und hat folgende Form:
 %
 \begin{lstlisting}
-(: big-bang (natural natural number world -> #t))
+(big-bang $world$ $clause$ $\ldots$)
 \end{lstlisting}
 %
-("<Big Bang"> heißt zu deutsch "<Urknall">.)
-Die ersten beiden Argumente geben Breite und Höhe der Ansicht an.  Das
-dritte Argument gibt die Dauer (in Sekunden) zwischen Ticks der Uhr
-an, die für die Animation benötigt wird.  Das vierte Argument gibt
-schließlich die erste Welt an.  (Der Rückgabewert, immer
-\lstinline{#t}, ist ohne Bedeutung.)  Für den Himmel mit
-Sonne sieht der Aufruf von \texttt{big-bang} folgendermaßen aus:
+Der erste Operand $world$ ist die Welt am Anfang des Spiels, danach
+kommen einige Klauseln, die beschreiben, was das Spiel machen soll,
+wenn bestimmte Sachen passieren.  Das kann sein:
+%
+\begin{itemize}
+\item eine Taste auf der Tastatur wird gedrückt
+\item eine Taste auf der Tastur wird losgelassen
+\item die Maus wird bewegt oder eine Maustaste wird gedrückt
+\end{itemize}
+%
+Außerdem gibt es eine Klausel, die festlegt, wie aus der Welt ein Bild
+generiert wird.  Die sieht so aus:\index{to-draw@\texttt{to-draw}}
 %
 \begin{lstlisting}
-(big-bang sky-width sky-height 0.1 0)
+(to-draw $function$)
 \end{lstlisting}
 %
-Dieser Aufruf erzeugt ein Fenster mit Breite und Höhe des Himmels,
-startet die Uhr, die jede Sekunde zehnmal tickt, und legt als erste
-Welt "<0">, also den Anfang der Zeit fest.  (Eine zehntel Sekunde
-reicht etwa aus, damit die Animation dem menschlichen Auge als
-"<Bewegung"> erscheint.)
+\ldots~und die Funktion muss die Signatur \lstinline{(world -> image)}
+erfüllen.  Damit reicht gerade so aus, um \lstinline{big-bang} ein
+erstes Mal auszuprobieren:
+%
+\begin{lstlisting}
+(big-bang initial-world
+  (to-draw world->image))
+\end{lstlisting}
+%
+Da wird immerhin die Welt am Anfang angezeigt, die sich aber noch
+nicht bewegt.  Dafür könnte sie auf Tastendruck reagieren, das geht
+mit einer Klausel folgender Form:\index{on-key@\texttt{on-key}}
+%
+\begin{lstlisting}
+(on-key $function$)
+\end{lstlisting}
+%
+Diese Funktion muss folgende Signatur haben:
+%
+\begin{lstlisting}
+(world string -> world)
+\end{lstlisting}
+%
+Sie wird immer dann aufgerufen, wenn eine Taste gedrückt wird~-- und
+zwar mit der Welt vor dem Tastendruck und einer Zeichenkette, die er
+Taste entspricht.  Also zum Beispiel \lstinline{"a"} für die A-Taste,
+\lstinline{"+"} für die +-Taste undsoweiter.  Für die "<Sondertasten">
+sieht das so aus:
+%
+\begin{center}
+  \begin{tabular}{l|l}
+    {\lstinline!"left"!} & Linkspfeil\\
+    {\lstinline!"right"!} & Rechtspfeil\\
+    {\lstinline!"up"!} & Obenpfeil\\
+    {\lstinline!"down"!} & Untenpfeil\\
+    {\lstinline!"shift"!} & linke Shift-Taste\\
+    {\lstinline!"rshift"!} & rechte Shift-Taste
+  \end{tabular}
+\end{center}
+%
+Für unser Spiel brauchen wir nur die Links- und Rechts-Pfeiltasten,
+die das Auto auf die linke oder rechte Straßenseite befördern.   Wir
+brauchen also eine Funktion mit folgender Signatur:
+%
+\begin{lstlisting}
+; Auf Tastendruck reagieren
+(: react-to-key (world string -> world))
+\end{lstlisting}
+%
+Wir testen beide Pfeiltasten~-- alle anderen Tasten sollten die Welt
+unverändert lassen:
+%
+\begin{lstlisting}
+(check-expect
+  (react-to-key (make-world 12 "right" dillos-on-road 5) "left")
+  (make-world 12 "left" dillos-on-road 5))
 
-Damit das Teachpack die Welt in eine Ansicht umwandeln kann, muss eine
-entsprechende Ansicht angemeldet werden.  Dafür ist die Funktion
-\texttt{on-redraw\index{on-redraw@\texttt{on-redraw}}} zuständig:
-%
-\begin{lstlisting}
-(: on-redraw ((world -> image) -> #t))
+(check-expect
+  (react-to-key (make-world 12 "left" dillos-on-road 5) "right")
+  (make-world 12 "right" dillos-on-road 5))
+              
+(check-expect
+  (react-to-key (make-world 12 "left" dillos-on-road 5) "a")
+  (make-world 12 "left" dillos-on-road 5))
 \end{lstlisting}
 %
-Als Argument akzeptiert \texttt{on-redraw} also eine Funktion, die aus
-einer Welt ein Bild macht.  TBD
+Hier das Gerüst:
+%
+\begin{lstlisting}
+(define react-to-key
+  (lambda (world key)
+    ...))
+\end{lstlisting}
+%
+Bei \lstinline{key} handelt es sich effektiv um eine Aufzählung:
+links, rechts, alles andere.  Die Schablone sieht also so aus:
+%
+\begin{lstlisting}
+(define react-to-key
+  (lambda (world key)
+    (cond
+      ((key=? key "left") ...)
+      ((key=? key "right") ...)
+      (else ...))))
+\end{lstlisting}
+%
+Außerdem steuern die Konstruktionsanleitungen Schablonen für
+zusammengesetzte Daten als Ein- und als Ausgabe bei:
+%
+\begin{lstlisting}
+(define react-to-key
+  (lambda (world key)
+    (cond
+      ((key=? key "left")
+       (make-world ...
+                   ...
+                   ...
+                   ...))
+      ((key=? key "right")
+       (make-world ...
+                   ...
+                   ...
+                   ...))
+      (else ...))
+    ...
+    (world-ticks world)
+    (world-car-side world)
+    (world-dillos-on-road world)
+    (world-score-road world)
+    ...))
+\end{lstlisting}
+%
+Bei Links- und Rechtspfeil ändert sich jeweils nur die Seite des
+Autos.  Bei allen anderen Tasten ändert sich nichts:
+%
+\begin{lstlisting}
+(define react-to-key
+  (lambda (world key)
+    (cond
+      ((key=? key "left")
+       (make-world (world-ticks world)
+                   "left"
+                   (world-dillos-on-road world)
+                   (world-score world)))
+      ((key=? key "right")
+       (make-world (world-ticks world)
+                   "right"
+                   (world-dillos-on-road world)
+                   (world-score world)))
+      (else world))))
+\end{lstlisting}
+%
+Damit können wir den \lstinline{big-bang}-Aufruf erweitern:
+%
+\begin{lstlisting}
+(big-bang initial-world
+  (to-draw world->image)
+  (on-key react-to-key))
+\end{lstlisting}
+%
+Die Straße steht zwar immer noch permanent auf Anfang, aber wir können
+mit den Pfeiltasten das Auto nach links und rechts bewegen.
 
-Auch diese Funktion muss noch beim Teachpack angemeldet werden.  Dafür
-die Teachpack-Funktion
-\texttt{on-tick-event\index{on-tick-event@\texttt{on-tick-event}}}
-zuständig:
+Dass die Straße sich bewegt, hatten wir schonmal, aber da haben wir
+\lstinline{animate} benutzt.  Bei \lstinline{big-bang} funktioniert
+das ein wenig anders, da gibt es eine Klausel dieser Form:
 %
 \begin{lstlisting}
-(: on-tick-event ((world -> world) -> #t))
+(on-tick $function$)
 \end{lstlisting}
 %
-Die \texttt{on-tick-event}-Funktion akzeptiert eine Funktion, die bei
-jedem Uhren-Tick aufgerufen wird, um aus der "<alten"> Welt eine neue
-zu machen.  Auf diese Beschreibung und auch auf die Signatur
-passt aber \texttt{next-time}.  Der Aufruf kann also so aussehen:
+Die Funktion bei \lstinline{on-tick} wird immer aufgerufen, wenn ein
+Tick verstreicht, und muss die folgende Signatur haben:
 %
 \begin{lstlisting}
-(on-tick-event next-time)
+(world -> world)
 \end{lstlisting}
 %
-Wenn das Programm
-beendet werden soll, muss \texttt{on-tick-event} die Funktion
-\texttt{end-of-time\index{end-of-time@\texttt{end-of-time}}} des
-Teachpacks aufrufen, die folgende Signatur hat:
+Das heißt, das die Funktion nicht wie bei \lstinline{animate} die
+Anzahl der Ticks geliefert bekommt sondern selbst zählen muss.  Wir
+fangen mal an, eine solche Funktion zu schreiben:
 %
 \begin{lstlisting}
-(: end-of-time (string -> world))
+; Wie verändert sich die Welt, wenn ein Tick Zeit vergeht?
+(: next-world (world -> world))
 \end{lstlisting}
 %
+Gerüst und Schablone nutzen aus, dass sowohl Ein- als auch Ausgabe
+zusammengesetzte Daten sind:
 
-\section{Andere Welten}
-
-Eine kleine (wenn auch nicht besonders sinnvolle) Erweiterung zeigt,
-wie die Animation auf Benutzereingaben reagieren kann.  Dazu muss sie
-noch eine weitere Funktion anmelden, und zwar mittels
-\texttt{on-key-event\index{on-key-event@\texttt{on-key-event}}}, das
-ähnlich funktioniert wie \texttt{on-tick-event}:
-%
 \begin{lstlisting}
-(: on-key-event ((world string -> world) -> #t))
+(define next-world
+  (lambda (world)
+    (make-world ... ... ... ...)
+    ...
+    (world-ticks world)
+    (world-car-side world)
+    (world-dillos-on-road world)
+    (world-score world)
+    ...))
 \end{lstlisting}
 %
-Die Funktion, die mit \texttt{on-key-event} angemeldet wird, wird
-immer aufgerufen, wenn der Benutzer eine Taste drückt.  Welche Taste
-gedrückt wurde, gibt das zweite Argument 
-an.  Wenn der Benutzer eine reguläre Zeichen-Taste drückt (also keine
-Cursor-Taste o.ä.), ist dieses Argument eine Zeichenkette bestehend
-aus diesem einen Zeichen.
+Wir schreiben erst einmal eine ganz einfache Funktion, bei der nur die
+Zeit vergeht:
+%
+\begin{lstlisting}
+(define next-world
+  (lambda (world)
+    (make-world (+ 1 (world-ticks world))
+                (world-car-side world)
+                (world-dillos-on-road world)
+                (world-score world))))
+\end{lstlisting}
+%
+Die Funktion binden wir jetzt in den \lstinline{big-bang}-Ausdruck ein:
+%
+\begin{lstlisting}
+(big-bang initial-world
+  (to-draw world->image)
+  (on-tick next-world)
+  (on-key react-to-key))
+\end{lstlisting}
+%
+Das sieht schon besser aus: Die Straße bewegt sich, und man kann das
+Auto nach links und rechts steuern.  Aber überfahrene Gürteltiere
+sterben noch nicht, und die Punktzahl geht frustrierenderweise auch
+noch nicht hoch.  Das liegt daran, dass wir die Funktionen dafür~--
+\lstinline{run-over-dillos-on-road} und
+\lstinline{live-dillos-under-car-count}~-- noch nicht eingesetzt
+haben.  Das holen wir nach:
+%
+\begin{lstlisting}
+(define next-world
+  (lambda (world)
+    (define car-position (world-car-position world))
+    (define dillos-on-road (world-dillos-on-road world))
+    (make-world (+ 1 (world-ticks world))
+                (world-car-side world)
+                (run-over-dillos-on-road car-position dillos-on-road)
+                (+ (live-dillos-under-car-count car-position dillos-on-road)
+                   (world-score world)))))
+\end{lstlisting}
+%
+Voil\`a, viel Spaß beim Gürteltiere-überfahren!
 
-TBD
+FIXME: on-release, on-mouse
 
 \section*{Aufgaben}
 
-TBD
+\begin{aufgabe}
+  Mache das Gürteltier-Spiel besser!
+\end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie ein kleines Telespiel Ihrer Wahl.
+  Schreibe ein Telespiel Deiner Wahl.
 \end{aufgabe}
 
 %%% Local Variables: 
