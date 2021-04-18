@@ -6,8 +6,6 @@
 \chapter{Videospiele programmieren}
 \label{cha:representation-and-state}
 
-FIXME: Doku-Links
-
 In diesem Kapitel programmieren wir zum ersten Mal ein vollständiges,
 benutzbares Programm, nämlich ein kleines Videospiel.  Dafür brauchen
 wir zwei Zusätze für die Lehrsprache in DrRacket, die Teachpacks
@@ -15,6 +13,22 @@ wir zwei Zusätze für die Lehrsprache in DrRacket, die Teachpacks
 Anzeigen der Grafik zuständig (wir haben es im ersten Kapitel schon
 einmal benutzt), und \texttt{universe.rkt} ist dafür da, die Grafiken
 zu bewegen und interaktiv zu machen.
+
+Beide Teachpacks können noch viel mehr als in dieses Kapitel passt.
+Zum Glück steht im Hilfezentrum von DrRacket umfangreiche
+Dokukumentation, allerdings leider derzeit nur auf Englisch: Für das
+\texttt{image.rkt}-Teachpack muss man dort nach \texttt{2htdp/image}
+suchen, für \texttt{universe.rkt} nach
+\texttt{2htdp/universe}.\footnote{\texttt{2htdp} bezieht sich auf den
+  Titel des Buchs \textit{How to Design Programs} in der zweiten
+  Auflage~\cite{FelleisenFindlerFlattKrishnamurthi2001}, für das diese
+Teachpacks ursprünglich entwickelt wurden.}  Hier sind direkte Links
+auf die Dokumentation:
+%
+\begin{flushleft}
+\url{https://docs.racket-lang.org/teachpack/2htdpimage.html}\\
+\url{https://docs.racket-lang.org/teachpack/2htdpuniverse.html}
+\end{flushleft}
 
 \section{Bilder mit \texttt{image.rkt}}
 
@@ -28,14 +42,6 @@ der englischen Ausgabe) den Punkt \texttt{Teachpack hinzufügen}
 (\texttt{Add teachpack}) anwählen, und im dann erscheinenden
 Auswahl-Dialog die Datei
 \texttt{image.rkt\index{image.rkt@\texttt{image.rkt}}} auswählen.
-
-Dieses Kapitel beschreibt die wichtigsten Funktionen des Teachpacks,
-aber es gibt noch viel mehr davon.  Du kannst Dokumentation dazu
-finden, indem Du in DrRacket im \texttt{Hilfe}- oder \texttt{Help}-Menü
-auf die Racket-Dokumentation klickst, und dort nach
-\texttt{2htdp/image} im Suchfeld eintippst.\footnote{Zum Zeitpunkt der
-  Drucklegung leider nur auf Englisch.  Wir arbeiten an einer
-  deutschen Übersetzung.}
 
 \subsection{Einfache Bilder}
 
