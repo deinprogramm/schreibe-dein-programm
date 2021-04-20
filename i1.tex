@@ -254,6 +254,15 @@
 \newcommand{\valof}[1]{{\(\lceil{}#1\rceil\)}}
 \newcommand{\redex}[1]{\(\underline{\texttt{#1}}\)}
 
+% https://tex.stackexchange.com/questions/248886/problem-in-using-lstinline-as-description-item
+\makeatletter
+\newcommand*{\lstitem}[1][]{%
+  \setbox0\hbox\bgroup
+    \patchcmd{\lst@InlineM}{\@empty}{\@empty\egroup\item[\usebox0]\leavevmode\ignorespaces}{}{}%
+    \lstinline[#1]%
+  }
+\makeatother
+
 \begin{document}
 \setcounter{tocdepth}{1}
 \begin{titlepage}
