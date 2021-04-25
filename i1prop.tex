@@ -257,8 +257,8 @@ Neben der Addition ist auch die Multiplikation kommutativ:
       (* b a))))
 \end{alltt}
 %
-Wenn Sie diese Eigenschaft neben die Kommutativität für \texttt{+}
-legen, sehen Sie, dass diese fast identisch sind und damit natürliche
+Wenn Du diese Eigenschaft neben die Kommutativität für \texttt{+}
+legst, siehst Du, dass diese fast identisch sind und damit natürliche
 Kandidaten für Abstraktion: Nur die Operation~-- \texttt{*} im einen
 und \texttt{+} im anderen Fall~-- ist unterschiedlich.  Wenn wir über
 die Operation abstrahieren, bekommen wir so etwas wie eine allgemeine
@@ -350,14 +350,14 @@ wie folgt aufrufen:
 (check-property (commutativity + (signature rational) =))
 \end{alltt}
 %
-Denken Sie an das \texttt{signature}, das immer notwendig ist, wenn
+Denk an das \texttt{signature}, das immer notwendig ist, wenn
 eine Signatur außerhalb einer Signatur-Deklaration mit \texttt{:} sowie
 einem \texttt{for-all} vorkommt.
 
 Um \texttt{commutativity} auch auf \texttt{and} und \texttt{or}
 loszulassen, gibt es allerdings noch ein weiteres Hindernis: Das
 Argument zu \texttt{op} muss eine Funktion sein~-- \texttt{and} und
-\texttt{or} sind aber Spezialformen.  Wir können Sie aber zu
+\texttt{or} sind aber Spezialformen.  Wir können sie aber zu
 Funktionen machen, indem wir \texttt{lambda}s darumwickeln:
 %
 \begin{alltt}
@@ -423,7 +423,7 @@ herauskommt:
           (op (op a b) c)))))
 \end{verbatim}
 %
-Benutzen können wir Sie ähnlich wie bei der Kommutativität:
+Benutzen können wir sie ähnlich wie bei der Kommutativität:
 %
 \begin{alltt}
 (check-property (associativity + (signature rational) =))
@@ -1699,15 +1699,15 @@ Dies ist eine lohnende Fingerübung.
 \section*{Aufgaben}
 
 \begin{aufgabe}
-Welche interessanten Eigenschaften hat die Division?  Schreiben Sie
+Welche interessanten Eigenschaften hat die Division?  Schreibe
 diese als Eigenschaften von \texttt{/} auf.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie eine möglichst vollständige Liste interessanter
+  Schreibe eine möglichst vollständige Liste interessanter
   Eigenschaften sowohl der Ihnen bekannten arithmetischen Operationen
-  als auch der logischen Operationen auf.  Beziehen Sie dazu auch die
-  Vergleichsoperationen $<$, $\leq$ etc.\ ein.  Finden Sie außerdem
+  als auch der logischen Operationen auf.  Beziehe dazu auch die
+  Vergleichsoperationen $<$, $\leq$ etc.\ ein.  Finde außerdem
   für jede Operation eine interessante Eigenschaft, die \emph{nicht}
   gilt und überprüfen, ob \drscheme{} jeweils ein Gegenbeispiel
   findet.
@@ -1717,17 +1717,17 @@ diese als Eigenschaften von \texttt{/} auf.
   \label{aufgabe:boolean-distrib}
   Für \texttt{and} und \texttt{or} gelten zwei Distributivgesetze
   analog dem Distributivgesetz für \texttt{*} und \texttt{+}:
-  Formulieren Sie diese als Eigenschaften und lassen Sie \drscheme{}
+  Formuliere diese als Eigenschaften und lasse sie \drscheme{}
   sie überprüfen.
 
-  Abstrahieren Sie dann über die nun insgesamt drei Distributivgesetze
+  Abstrahiere dann über die nun insgesamt drei Distributivgesetze
   analog zu \texttt{commutativity} und \texttt{associativity} und
-  formulieren Sie die drei Distributivgesetze mit Hilfe der
-  Abstraktion neu.  Schreiben Sie eine möglichst aussagekräftige
-  Signatur für Ihre Abstraktion!
+  formuliere die drei Distributivgesetze mit Hilfe der
+  Abstraktion neu.  Schreibe eine möglichst aussagekräftige
+  Signatur für Deine Abstraktion!
 \end{aufgabe}
 
-\begin{aufgabe}  Schreiben Sie Abstraktionen analog zu \texttt{commutativity} und
+\begin{aufgabe}  Schreibe Abstraktionen analog zu \texttt{commutativity} und
   \texttt{associativity} für folgende Eigenschaften:
   \begin{enumerate}
   \item DeMorgan
@@ -1743,7 +1743,7 @@ diese als Eigenschaften von \texttt{/} auf.
 
 
 \begin{aufgabe}
-  Versuchen Sie, die Eigenschafts-Tests für \texttt{number-list=?}
+  Versuche, die Eigenschafts-Tests für \texttt{number-list=?}
   auszutricksen, also eine fehlerhafte Version von
   \texttt{number-list=?} zu schreiben, die alle drei
   \texttt{check-property}-Tests besteht.
@@ -1751,33 +1751,33 @@ diese als Eigenschaften von \texttt{/} auf.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Formulieren Sie Eigenschaften von \texttt{filter} und \texttt{map}
-  im Zusammenhang mit \texttt{concatenate} und testen Sie diese.
+  Formuliere Eigenschaften von \texttt{filter} und \texttt{map}
+  im Zusammenhang mit \texttt{concatenate} und teste diese.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Finden Sie eine präzisere Formulierung der Kommutativität von
+  Finde eine präzisere Formulierung der Kommutativität von
   \texttt{list-sum} als die in
   Abschnitt~\ref{sec:list-sum-commutative}, also eine, an der sich die
   Eigenschaft, dass die "<Reihenfolge der Elemente der Liste keine
   Rolle spielt"> klarer zu sehen ist.
 
-  Schreiben Sie dazu eine Funktion, welche die Reihenfolge der
+  Schreibe dazu eine Funktion, welche die Reihenfolge der
   Elemente einer Liste abhängig von einer natürlichen Zahl $n$
-  verändert, z.B.\ indem die $n$te Permutation der Elemente ausgewählt
+  verändert, zum Beispiel indem die $n$te Permutation der Elemente ausgewählt
   wird.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Schreiben Sie einen \texttt{check-property}-Test für folgende Eigenschaft:
+  Schreibe einen \texttt{check-property}-Test für folgende Eigenschaft:
   \begin{center}
     \texttt{(uncurry (curry $p_2$))} $\equiv$ $p_2$
   \end{center}
 \end{aufgabe}
 
 \begin{aufgabe}
-  Formulieren Sie sinnvolle Eigenschaften von \texttt{compose} und
-  \texttt{repeat} von Seite~\ref{page:repeat} und überprüfen Sie
+  Formuliere sinnvolle Eigenschaften von \texttt{compose} und
+  \texttt{repeat} von Seite~\ref{page:repeat} und überprüfe
   diese mit \texttt{check-property}!
 \end{aufgabe}
 
@@ -1793,7 +1793,7 @@ diese als Eigenschaften von \texttt{/} auf.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweisen Sie die entsprechend dem Beweis der Kommutativität von
+  Beweise die entsprechend dem Beweis der Kommutativität von
   \texttt{+} in Abschnitt~\ref{sec:scheme-arithmetik-beweis} die
   Assoziativität von \texttt{+} sowie die Distributivität von
   \texttt{+} und \texttt{*} aus
@@ -1801,7 +1801,7 @@ diese als Eigenschaften von \texttt{/} auf.
 \end{aufgabe}
 
 \begin{aufgabe}
-Beweisen Sie, dass die
+Beweise, dass die
 folgende Funktion natürliche Zahlen quadriert:
 %
 \begin{alltt}
@@ -1815,14 +1815,14 @@ folgende Funktion natürliche Zahlen quadriert:
            (- (+ n n) 1)))))
 \end{alltt}
 %
-Formulieren Sie dazu auch eine Eigenschaft und überprüfen Sie diese
+Formuliere dazu auch eine Eigenschaft und überprüfe diese
 mit \texttt{check-property}.
 %
 \end{aufgabe}
 
 \begin{aufgabe}
-Beweisen Sie, dass auch die folgende Funktion \texttt{square}
-natürliche Zahlen quadriert.  Geben Sie die Invariante von
+Beweise, dass auch die folgende Funktion \texttt{square}
+natürliche Zahlen quadriert.  Gib die Invariante von
 \texttt{square-helper} an!
 %
 \begin{alltt}
@@ -1840,7 +1840,7 @@ natürliche Zahlen quadriert.  Geben Sie die Invariante von
                        (+ acc
                           (- (+ n n) 1))))))
 \end{alltt}
-Formulieren Sie dazu auch eine Eigenschaft und überprüfen Sie diese
+Formuliere dazu auch eine Eigenschaft und überprüfe diese
 mit \texttt{check-property}.
 \end{aufgabe}
 
