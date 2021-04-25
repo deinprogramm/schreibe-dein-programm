@@ -85,28 +85,28 @@ Das DrRacket-Fenster besteht aus zwei Teilen:
 \section{Ausdrücke und die REPL}
 
 Fangen wir mit der REPL an: Wenn Du gerade \texttt{Start} gedrückt
-hast, dann erscheint der Cursor rechts von dem \verb|>|-Zeichen: Du
+hast, dann erscheint der Cursor rechts von dem \lstinline{>}-Zeichen: Du
 kannst da etwas eingeben und Return drücken~-- DrRacket zeigt dann
 das Ergebnis darunter an.
 
-Wenn Du zum Beispiel \texttt{123} eintippst, zeigt DrRacket gleich
+Wenn Du zum Beispiel \lstinline{123} eintippst, zeigt DrRacket gleich
 darunter 123 an.  DrRacket kann auch rechnen.  Dafür musst Du
 allerdings die Rechenaufgaben etwas anders aufschreiben als sonst.
 Zum Beispiel so:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (+ 123 42)
-\end{verbatim}
+\end{lstlisting}
 %
-Wenn Du das in die REPL tippst, zeigt DrRacket \texttt{165} an, die
+Wenn Du das in die REPL tippst, zeigt DrRacket \lstinline{165} an, die
 \textit{Summe}\index{Summe} von 123 und 42.  Diese "<Rechenaufgabe">
 ist ein sogenannter \textit{Ausdruck\index{Ausdruck}}.  Ausdrücke, die
 etwas ausrechnen sollten, haben in den Lehrsprachen immer die gleiche
 Form, und die sieht so aus:
 %
-\begin{alltt}
-(\textnormal{\textit{Operator}} \textnormal{\textit{Operand}} \ldots)
-\end{alltt}
+\begin{lstlisting}
+(|\textnormal{\textit{Operator}}| |\textnormal{\textit{Operand}}| |\ldots|)
+\end{lstlisting}
 %
 Das heißt, da stehen \emph{immer} Klammern\index{Klammer} drumherum
 (und die können auch nirgendwo sonst stehen).  Dann steht da der
@@ -121,7 +121,7 @@ nicht mehr "<Hundertdreiundzwanzig plus zweiundvierzig">, sondern
 
 Wie schon gesagt, die Klammern sind wichtig.  Wenn Du sie vergisst,
 können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
-\texttt{+ 123 42} in der REPL eintippst, sieht das so aus:
+\lstinline{+ 123 42} in der REPL eintippst, sieht das so aus:
 %
 \begin{alltt}
 > + {\color{green}123 42}
@@ -130,12 +130,12 @@ können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
 42}
 \end{alltt}
 %
-Das liegt daran, dass ohne Klammern \texttt{+ 123 32} aus \emph{drei}
+Das liegt daran, dass ohne Klammern \lstinline{+ 123 32} aus \emph{drei}
 Ausdrücken besteht und die REPL darum auch drei Ergebnisse ausdruckt:
-Die Funktion \texttt{+}, dann die \texttt{123}, dann \texttt{42}.
-(Die Operation \texttt{+} ist eine sogenannte Funktion~-- das
+Die Funktion \lstinline{+}, dann die \lstinline{123}, dann \lstinline{42}.
+(Die Operation \lstinline{+} ist eine sogenannte Funktion~-- das
 erläutern wir später noch genauer.)  Ähnlich verhält es sich mit
-\texttt{123 + 42}~-- probiere es aus!
+\lstinline{123 + 42}~-- probiere es aus!
 
 Wenn Du versehentlich den Operator dazwischen schreibst, erscheint
 in der REPL eine Fehlermeldung:
@@ -154,39 +154,39 @@ sieht zum Beispiel so aus:
 {\color{red}Operator darf keine Zahl sein, ist aber 123}
 \end{alltt}
 %
-Das liegt daran, dass \texttt{+123} zusammen die Zahl "<plus
-hundertdreiundzwanzig"> bildet und nicht etwa in das \texttt{+}-Zeichen und
-\texttt{123} aufgeteilt wird.
+Das liegt daran, dass \lstinline{+123} zusammen die Zahl "<plus
+hundertdreiundzwanzig"> bildet und nicht etwa in das \lstinline{+}-Zeichen und
+\lstinline{123} aufgeteilt wird.
 
-Wenn ein Ausdruck wie \texttt{(+ 123 42)} ein Ergebnis wie 165 hat,
+Wenn ein Ausdruck wie \lstinline{(+ 123 42)} ein Ergebnis wie 165 hat,
 schreiben wir das im Buch zukünftig so, etwas anders als die
 DrRacket-REPL:
 %
-\begin{alltt}
+\begin{lstlisting}
 (+ 123 42)
-\evalsto{} 165
-\end{alltt}
+|\evalsto| 165
+\end{lstlisting}
 %
 Es gehen natürlich nicht nur Summen, sonderen auch Differenzen,
 Produkte und Quotienten:
 %
-\begin{alltt}
+\begin{lstlisting}
 (- 123 42)
-\evalsto{} 81
+|\evalsto| 81
 (* 123 42)
-\evalsto{} 5166
+|\evalsto| 5166
 (/ 123 42)
-\evalsto{} 2.9\(\overline{\mathtt{285714}}\)
-\end{alltt}
+|\evalsto| 2.9$\overline{\mathtt{285714}}$
+\end{lstlisting}
 %
 Beim letzen Ausdruck ist zu sehen, dass Dezimalzahlen mit Punkt und
 nicht mit Komma geschrieben werden.  Der Überstrich bei
-\texttt{2.9\(\overline{\mathtt{285714}}\)} ist eine
+\lstinline{2.9$\overline{\mathtt{285714}}$} ist eine
 \textit{Periode\index{Periode}}. Die Zahl ist also eigentlich
 %
-\begin{alltt}
+\begin{lstlisting}
 2.9285714285714285714285714285714\ldots
-\end{alltt}
+\end{lstlisting}
 %
 Die REPL funktioniert also folgendermaßen: Sie \emph{liest} einen
 Ausdruck ein ("<read">), berechnet dessen Wert oder \emph{wertet}
@@ -197,27 +197,27 @@ von vorn los, wie in einer Schleife ("<loop">).  Die Abfolge
 
 Ausdrücke können auch kombiniert werden, zum Beispiel so:
 %
-\begin{alltt}
+\begin{lstlisting}
 (* 123 (+ 20 22))
-\evalsto{} 5166
+|\evalsto| 5166
 (* 123 (+ (* 2 10) 22))
-\evalsto{} 5166
-\end{alltt}
+|\evalsto| 5166
+\end{lstlisting}
 %
 Bei der Kombination ist wichtig, dass um jeden Teilausdruck wieder ein
 Klammernpaar kommt.  Ist das nicht der Fall, erscheinen gelegentlich
 auch mal Fehlermeldungen wie diese hier:
 %
-\begin{alltt}
+\begin{lstlisting}
 (* 123 (+ * 2 10 22))
-{\color{red}+: Zahl als erstes Argument erwartet, #<function:*> bekommen}
-\end{alltt}
+|\color{red}\texttt{+: Zahl als erstes Argument erwartet, \#<function:*> bekommen}|
+\end{lstlisting}
 %
-Das liegt daran, dass das \texttt{*} hier an der Stelle eines
+Das liegt daran, dass das \lstinline{*} hier an der Stelle eines
 Operanden für die Summe dient.  Das Wort \textit{Argument} steht für
 den Wert des Operanden einer Funktion, darum steht da sinngemäß, dass
-\texttt{+} eine Zahl als erstes Argument etwartet, aber
-stattdessen die Funktion \texttt{+} bekommen hat.  (Das Wort
+\lstinline{+} eine Zahl als erstes Argument etwartet, aber
+stattdessen die Funktion \lstinline{+} bekommen hat.  (Das Wort
 "<Argument"> definieren wir genauer in Abschnitt~\ref{sec:argument} auf
 Seite~\pageref{sec:argument}.)
 
@@ -249,32 +249,32 @@ Programm, die REPL kannst Du dann benutzen, um es auszuprobieren.
 Schreib in das Definitionsfenster folgende
 \textit{Definition\index{Definition}}:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define alles (+ 20 22))
-\end{verbatim}
+\end{lstlisting}
 %
-Diese Definition besagt, dass der Name \texttt{alles} für das Ergebnis
-von \texttt{(+ 20 22)} steht.  Um das auszuprobieren, drück auf den
+Diese Definition besagt, dass der Name \lstinline{alles} für das Ergebnis
+von \lstinline{(+ 20 22)} steht.  Um das auszuprobieren, drück auf den
 Knopf \texttt{Start} bzw.\ \texttt{Run} rechts oben.  Der Cursor
 landet dann wieder in der REPL, wo Du das Programm ausprobieren
 kannst:
 %
-\begin{alltt}
+\begin{lstlisting}
 alles
-\evalsto{} 42
-\end{alltt}
+|\evalsto| 42
+\end{lstlisting}
 %
 Ein Name, der in einem Programm so definiert ist, heißt
 \textit{Variable\index{Variable}}.
 
 Hier sind ein paar weitere Beispiele für Definitionen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define one 1)
 (define temperature 23)
 (define birgit-prinz 9)
 (define michael-ballack 13)
-\end{alltt}
+\end{lstlisting}
 %
 Bei der Gestaltung eines Namens gibt es weitgehende
 Freiheiten.\footnote{Anders als in anderen Programmiersprachen sind
@@ -283,23 +283,23 @@ erlaubt.
 
 In einem Programm kannst Du Zeilenumbrüche und Einrückung benutzen, um
 Dein Programm übersichtlicher zu gestalten.  Zum Beispiel kannst Du
-nach \texttt{alles} die Return-Taste drücken, das Ergebnis sieht so
+nach \lstinline{alles} die Return-Taste drücken, das Ergebnis sieht so
 aus:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define alles
   (+ 20 22))
-\end{alltt}
+\end{lstlisting}
 %
 DrRacket rückt die zweite Zeile ein bisschen ein, um auszudrücken,
-dass sie noch in die Klammern vom \texttt{define} gehört.  Bei
+dass sie noch in die Klammern vom \lstinline{define} gehört.  Bei
 komplizierteren Ausdrücken ist das hilfreich:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define alles
   (+ 20
      (* 11 2)))
-\end{verbatim}
+\end{lstlisting}
 %
 Hier stellt DrRacket die Operanden der Summe genau untereinander.
 DrRacket zwingt Dich nicht, die Einrückung genau so zu machen, und
@@ -323,13 +323,13 @@ Tab-Taste korrekt einrücken.
 \begin{aufgabeinline}
   Bring bei einem mehrzeiligen Programm die Einrückung richtig
   durcheinander, zum Beispiel so:
-\begin{verbatim}
+\begin{lstlisting}
 (define nr
   (+ 12
  (- (* 42
   13)
     500)))
-\end{verbatim}
+\end{lstlisting}
   %
   Benutze dann die Tab-Taste, um die Einrückung wieder zu korrigieren.
 \end{aufgabeinline}
@@ -348,11 +348,11 @@ Abschnitt geht es um das Rechnen mit Text und das Rechnen mit Bildern.
 Zum Beispiel gibt es auch Text, der in einem Programm immer von
 doppelten Anführungszeichen umschlossen ist, zum Beispiel:
 %
-\begin{alltt}
+\begin{lstlisting}
 "Mike Sperber"
 "Herbert Klaeren"
 "Schreibe Dein Programm!"
-\end{alltt}
+\end{lstlisting}
 %
 Diese Werte heißen \textit{Zeichenketten\index{Zeichenkette}}.
 
@@ -361,37 +361,37 @@ Buchstaben hinzuschreiben, aus denen sie besteht.  Die
 Anführungszeichen müssen drumherum, damit die Zeichenketten von anderen
 Ausdrücken unterschieden werden können.  Die Anführungszeichen gehören aber nicht
 zu den Buchstaben dazu, aus denen die Zeichenkette besteht~--
-\verb|"abc"| besteht aus den drei Buchstaben \texttt{abc}.
+\lstinline{"abc"} besteht aus den drei Buchstaben \texttt{abc}.
 
 \begin{feature}{Zeichenketten}{scheme:strings}
 \textit{Zeichenketten\index{Zeichenkette}} (auf Englisch
 \textit{Strings}\index{String}) repräsentieren Text.
 Literale für Zeichenketten haben folgende Form:
 %
-\begin{alltt}
-"\(z\sb{1}\)\(z\sb{2}\) \(\ldots\) \(z\sb{n}\)"
-\end{alltt}
+\begin{lstlisting}
+"$z\sb{1}$$z\sb{2}$ $\ldots$ $z\sb{n}$"
+\end{lstlisting}
 %
-Dabei sind die \(z\sb{i}\) beliebige einzelne Zeichen, außer \verb|"| selbst.
+Dabei sind die \(z\sb{i}\) beliebige einzelne Zeichen, außer \lstinline{"} selbst.
 Beispiel:
 %
-\begin{alltt}
+\begin{lstlisting}
 "Herbert was here!"
-\end{alltt}
+\end{lstlisting}
 %
-Das Anführungszeichen (\verb|"|) kann nicht "<ungeschützt"> vorkommen, da es das Ende der
+Das Anführungszeichen (\lstinline{"}) kann nicht "<ungeschützt"> vorkommen, da es das Ende der
 Zeichenkette markiert. Es wird als Zeichen innerhalb einer Zeichenkette
-durch \verb|\"| dargestellt:
+durch \lstinline{\"} dargestellt:
 %
-\begin{alltt}
-"Herbert sagt, Mike wäre \backwhack{}"doof\backwhack{}"!"
-\end{alltt}
+\begin{lstlisting}
+"Herbert sagt, Mike wäre |\backwhack|"doof|\backwhack|"!"
+\end{lstlisting}
 \end{feature}
 
 Abbildung~\ref{scheme:strings} beschreibt die genaue Schreibweise für
 solche "<festen"> Zeichenketten.  Feste Schreibweisen für Werte heißen
 allgemein \textit{Literale\index{Literal}}.  Das kennen wir schon von
-den Zahlen: Die Zeichenfolge \texttt{123} steht für die Zahl
+den Zahlen: Die Zeichenfolge \lstinline{123} steht für die Zahl
 "<hundertdreiundzwanzig">.  Kästen wie Abbildung~\ref{scheme:strings}
 werden in diesem Buch noch oft dazu dienen, neue Sprachelemente
 einzuführen.
@@ -401,50 +401,50 @@ Funktion
 \texttt{string"=append}\index{string-append@\texttt{string-append}},
 die zwei Zeichenketten aneinanderhängt:
 %
-\begin{alltt}
+\begin{lstlisting}
 (string-append "Herbert" "Mike")
-\evalsto{} "HerbertMike"
+|\evalsto| "HerbertMike"
 (string-append "Mike" " " "ist doof")
-\evalsto{} "Mike ist doof"
-\end{alltt}
+|\evalsto| "Mike ist doof"
+\end{lstlisting}
 %
 Die eingebaute Funktion
-\texttt{string-length}\index{string-length@\texttt{string-length}}
+\lstinline{string-length}\index{string-length@\texttt{string-length}}
 liefert die Anzahl der Buchstaben in einer Zeichenkette:
 %
-\begin{alltt}
+\begin{lstlisting}
 (string-length "Herbert")
-\evalsto{} 7
+|\evalsto| 7
 (string-length "Mike")
-\evalsto{} 4
-\end{alltt}
+|\evalsto| 4
+\end{lstlisting}
 %
-Die Namen \texttt{string-append} und \texttt{string-length} sehen auf
-den ersten Blick "<anders"> aus als \texttt{+} und \texttt{*} zum
+Die Namen \lstinline{string-append} und \lstinline{string-length} sehen auf
+den ersten Blick "<anders"> aus als \lstinline{+} und \lstinline{*} zum
 Beispiel, dieser Eindruck täuscht jedoch: Sie sind allesamt Namen von
 vordefinierten Operationen, die Programme benutzen können, ohne sie
 selbst definieren zu müssen.
 
 Die vordefinierten Funktionen
-\texttt{string->number}\index{string->number@\texttt{string->number}}
-und \texttt{number->string} konvertieren zwischen Zahlen und den
+\lstinline{string->number}\index{string->number@\texttt{string->number}}
+und \lstinline{number->string} konvertieren zwischen Zahlen und den
 Zeichenketten, die diese darstellen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (string->number "23")
-\evalsto{} 23
+|\evalsto| 23
 (number->string 23)
-\evalsto{} "23"
-\end{alltt}
+|\evalsto| "23"
+\end{lstlisting}
 %
 \begin{aufgabeinline}
-  Mache Dir den Unterschied zwischen der Zahl \texttt{23} und der
-  Zeichenkette \verb|"23"| klar.  Probiere zum Beispiel aus:
-\begin{alltt}
+  Mache Dir den Unterschied zwischen der Zahl \lstinline{23} und der
+  Zeichenkette \lstinline{"23"} klar.  Probiere zum Beispiel aus:
+\begin{lstlisting}
 (+ "23" 42)
 (string-append 23 "42")
 (number->string "23")
-\end{alltt}
+\end{lstlisting}
 \end{aufgabeinline}
 
 \subsection{Rechnen mit Bildern}
@@ -460,50 +460,50 @@ wähle \texttt{image.rkt} aus und drücke
 
 Das Teachpack \texttt{image.rkt} enthält zusätzliche vordefinierte
 Funktionen, mit denen wir Bilder herstellen können.  Zum Beispiel
-\texttt{square}, \texttt{circle} und \texttt{star-polygon}:
+\lstinline{square}, \lstinline{circle} und \lstinline{star-polygon}:
 %
-\begin{alltt}
+\begin{lstlisting}
 (square 40 "solid" "red")
-\evalsto{} \includegraphics[height=24pt]{i1prog/square}
+|\evalsto| |\includegraphics[height=24pt]{i1prog/square}|
 (circle 20 "solid" "green")
-\evalsto{} \includegraphics[height=24pt]{i1prog/circle}
+|\evalsto| |\includegraphics[height=24pt]{i1prog/circle}|
 (star-polygon 20 10 3 "solid" "blue")
-\evalsto{} \includegraphics[height=24pt]{i1prog/starpolygon}
-\end{alltt}
+|\evalsto| |\includegraphics[height=24pt]{i1prog/starpolygon}|
+\end{lstlisting}
 %
-Schauen wir uns das eingebaute \texttt{star-polygon} etwas näher an:
+Schauen wir uns das eingebaute \lstinline{star-polygon} etwas näher an:
 Es akzeptiert fünf Eingaben, die ersten drei davon sind Zahlen~-- die
 Seitenlänge, die Seitenanzahl und die Anzahl der Ecken, die für jede
 Seite übersprungen wird.  Danach kommen zwei Zeichenketten~--
-\verb|"solid"| heißt, dass das Innere des Sterns ausgefüllt ist und
-\verb|"blue"| ist die Farbe.  Statt \verb|"solid"| kannst Du auch
-\verb|"outline"| schreiben, dann wird auch etwas klarer, was
+\lstinline{"solid"} heißt, dass das Innere des Sterns ausgefüllt ist und
+\lstinline{"blue"} ist die Farbe.  Statt \lstinline{"solid"} kannst Du auch
+\lstinline{"outline"} schreiben, dann wird auch etwas klarer, was
 "<überspringen"> heißt:
 %
 % filename can't contain hyphen because of alltt
-\begin{alltt}
+\begin{lstlisting}
 (star-polygon 20 10 3 "outline" "blue")
-\evalsto{} \includegraphics[height=24pt]{i1prog/starpolygon_outline}
-\end{alltt}
+|\evalsto| |\includegraphics[height=24pt]{i1prog/starpolygon_outline}|
+\end{lstlisting}
 %
 \begin{aufgabeinline}
-  Wofür stehen die Zahleneingaben bei \texttt{square} und
-  \texttt{circle}?  Probiere unterschiedliche Zahlen aus!  Es gibt
-  auch eine eingebaute Funktion \texttt{rectangle}.  Kannst Du ein
-  funktionierendes Beispiel für den Einsatz von \texttt{rectangle}
+  Wofür stehen die Zahleneingaben bei \lstinline{square} und
+  \lstinline{circle}?  Probiere unterschiedliche Zahlen aus!  Es gibt
+  auch eine eingebaute Funktion \lstinline{rectangle}.  Kannst Du ein
+  funktionierendes Beispiel für den Einsatz von \lstinline{rectangle}
   konstruieren?  Außerdem gibt es eine eingebaute Funktion
-  \texttt{ellipse}, die genauso benutzt wird wie \texttt{rectangle}~--
+  \lstinline{ellipse}, die genauso benutzt wird wie \lstinline{rectangle}~--
   probiere sie aus!
 \end{aufgabeinline}
 %
 Bilder sind Werte wie Zahlen und Zeichenketten auch.  Du kannst
 mit Definitionen auch Namen dafür vergeben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define s1 (square 40 "solid" "red"))
 (define c1 (circle 40 "solid" "green"))
 (define p1 (star-polygon 20 10 3 "solid" "blue"))
-\end{verbatim}
+\end{lstlisting}
 %
 \begin{aufgabeinline}
   Du kannst auch Bilddateien oder Bilder in Webseiten in Dein Programm
@@ -513,32 +513,32 @@ mit Definitionen auch Namen dafür vergeben:
 %
 Mit Bildern kann DrRacket auch rechnen:\label{function:beside-above}
 %
-\begin{alltt}
+\begin{lstlisting}
 (beside s1 p1)
-\evalsto{} \includegraphics[height=24pt]{i1prog/beside.png}
+|\evalsto| |\includegraphics[height=24pt]{i1prog/beside.png}|
 (above s1 c1)
-\evalsto{} \includegraphics[width=24pt]{i1prog/above.png}
+|\evalsto| |\includegraphics[width=24pt]{i1prog/above.png}|
 (above (beside s1 p1) (beside p1 c1))
-\evalsto{} \includegraphics[width=48pt]{i1prog/abovebeside.png}
-\end{alltt}
+|\evalsto| |\includegraphics[width=48pt]{i1prog/abovebeside.png}|
+\end{lstlisting}
 %
 \begin{aufgabeinline}
   Probiere in der der REPL folgende Ausdrücke aus:
-\begin{verbatim}
+\begin{lstlisting}
 (triangle 50 "outline" "red")
 (square 100 "solid" "blue")
-\end{verbatim}
+\end{lstlisting}
   %
-  Schreibe mit Hilfe der Funktionen \texttt{triangle} und
-  \texttt{square} einen Ausdruck, der ein ganz einfaches Haus
+  Schreibe mit Hilfe der Funktionen \lstinline{triangle} und
+  \lstinline{square} einen Ausdruck, der ein ganz einfaches Haus
   berechnet.
 \end{aufgabeinline}
 %
-Das heißt, \texttt{beside} akzeptiert als Eingabe zwei (oder mehr)
+Das heißt, \lstinline{beside} akzeptiert als Eingabe zwei (oder mehr)
 Bilder und macht daraus wieder ein Bild, in dem die Teilbilder
-nebeneinander stehen.  Das gleiche gilt für \texttt{above}, nur dass
+nebeneinander stehen.  Das gleiche gilt für \lstinline{above}, nur dass
 die Bilder übereinander angeordnet werden.  Selbstverständlich können
-\texttt{above} und \texttt{beside} auch kombiniert werden.
+\lstinline{above} und \lstinline{beside} auch kombiniert werden.
 
 \section{Abstraktion und Applikation}
 \label{sec:abstraktion-und-applikation}
@@ -546,85 +546,85 @@ die Bilder übereinander angeordnet werden.  Selbstverständlich können
 Hier sind zwei Ausdrücke, welche die Bilder aus dem vorigen Abschnitt
 zu einem Muster kombinieren:
 %
-\begin{alltt}
+\begin{lstlisting}
 (above
  (beside s1 p1)
  (beside p1 s1))
-\evalsto{} \includegraphics[width=48pt]{i1prog/tile1}
+|\evalsto| |\includegraphics[width=48pt]{i1prog/tile1}|
 
 (above
  (beside p1 c1)
  (beside c1 p1))
-\evalsto{} \includegraphics[width=48pt]{i1prog/tile2}
-\end{alltt}
+|\evalsto| |\includegraphics[width=48pt]{i1prog/tile2}|
+\end{lstlisting}
 %
 Beide Ausdrücke folgen dem gleichen Muster, sie "<kacheln"> jeweils zwei
 Bilder in einer quadratischen Anordnung.  Das Muster könnte man so
 hinschreiben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (above
  (beside a b)
  (beside b a))
-\end{verbatim}
+\end{lstlisting}
 %
-Das erste Beispiel entsteht dann, indem für \texttt{a} \texttt{s1}
-eingesetzt wird und für \texttt{b} \texttt{p1}, im zweiten für \texttt{a}
-\texttt{p1} und für \texttt{b} dann \texttt{c1}.
+Das erste Beispiel entsteht dann, indem für \lstinline{a} \lstinline{s1}
+eingesetzt wird und für \lstinline{b} \lstinline{p1}, im zweiten für \lstinline{a}
+\lstinline{p1} und für \lstinline{b} dann \lstinline{c1}.
 
 Dieses Muster kannst Du in ein Programm gießen.  Dann müssen wir nicht
-jedesmal \texttt{above \ldots{} beside \ldots{} beside} eintippen.
-Dazu schreibst Du es erst einmal genauso hin, also mit \texttt{a} und
-\texttt{b}.  Wenn Du das Programm startet, erscheint folgende Meldung:
+jedesmal \lstinline{above |\ldots| beside |\ldots| beside} eintippen.
+Dazu schreibst Du es erst einmal genauso hin, also mit \lstinline{a} und
+\lstinline{b}.  Wenn Du das Programm startet, erscheint folgende Meldung:
 %
 \begin{alltt}
 \color{red}a: Ungebundene Variable
 \end{alltt}
 %
-Na klar, es gibt ja auch keine Definition für \texttt{a}.  Du könntest
+Na klar, es gibt ja auch keine Definition für \lstinline{a}.  Du könntest
 eine hinschreiben, zum Beispiel:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define a s1)
-\end{verbatim}
+\end{lstlisting}
 %
-Aber dann wäre \texttt{a} auf \texttt{s1} festgelegt.  Wir wollen
+Aber dann wäre \lstinline{a} auf \lstinline{s1} festgelegt.  Wir wollen
 stattdessen das Muster verallgemeinern, so dass Du es mehrmals mit
-unterschiedlichen Werten für \texttt{a} und \texttt{b} verwenden
+unterschiedlichen Werten für \lstinline{a} und \lstinline{b} verwenden
 kannst.  Dieser Verallgemeinerungsprozess heißt beim Programmieren
 \textit{Abstraktion\index{Abstraktion}}.  Dafür müssen wir dem Muster
 noch etwas hinzufügen, um zu sagen, dass wir unterschiedliche Werte
-für \texttt{a} und \texttt{b} einsetzen wollen:
+für \lstinline{a} und \lstinline{b} einsetzen wollen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (lambda (a b)
   (above
    (beside a b)
    (beside b a)))
-\end{verbatim}
+\end{lstlisting}
 %
-Das \texttt{lambda}\index{lambda@\texttt{lambda}} ist eine Art Zauberwort, es sagt soviel wie: "<Für
-die Variablen \texttt{a} und \texttt{b} möchte ich später (und
+Das \lstinline{lambda}\index{lambda@\texttt{lambda}} ist eine Art Zauberwort, es sagt soviel wie: "<Für
+die Variablen \lstinline{a} und \lstinline{b} möchte ich später (und
 vielleicht mehrmals) Werte einsetzen.">  Wenn Du das Programm jetzt
 startest, geht die Fehlermeldung weg und in der REPL erscheint:
 %
-\begin{alltt}
-#<function:\ldots>
-\end{alltt}
+\begin{lstlisting}
+#<function:...>
+\end{lstlisting}
 %
 (Der Text anstelle des \ldots{} variiert etwas von Fall zu Fall.)
 
-Das deutet darauf hin, dass bei dem \texttt{lambda} eine Funktion
+Das deutet darauf hin, dass bei dem \lstinline{lambda} eine Funktion
 herauskommt.  Um etwas damit anfzufangen, gib ihr einen Namen mit
-\texttt{define}:
+\lstinline{define}:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define tile
   (lambda (a b)
     (above
      (beside a b)
      (beside b a))))
-\end{verbatim}
+\end{lstlisting}
 %
 (Alles schön richtig einrücken! "<Tile"> heißt auf Deutsch
 "<kacheln">.)
@@ -632,20 +632,20 @@ herauskommt.  Um etwas damit anfzufangen, gib ihr einen Namen mit
 Dadurch ist eine neue Operation entstanden.  Die kannst Du direkt
 verwenden:
 %
-\begin{alltt}
+\begin{lstlisting}
 (tile s1 p1)
-\evalsto{} \includegraphics[width=48pt]{i1prog/tile1}
+|\evalsto| |\includegraphics[width=48pt]{i1prog/tile1}|
 
 (tile p1 c1)
-\evalsto{} \includegraphics[width=48pt]{i1prog/tile2}
-\end{alltt}
+|\evalsto| |\includegraphics[width=48pt]{i1prog/tile2}|
+\end{lstlisting}
 %
 Was ist da passiert?  Am einfachsten kann man das in einem speziellen
 Werkzeug sehen, dem \textit{Stepper\index{Stepper}}.  Um ihn zum
 Einsatz zu bringen, sorge dafür, dass im Definitionsfenster folgendes
 Programm steht, also das, was weiter oben schon steht:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define s1 (square 40 "solid" "red"))
 (define c1 (circle 40 "solid" "green"))
 (define p1 (star-polygon 20 10 3 "solid" "blue"))
@@ -658,7 +658,7 @@ Programm steht, also das, was weiter oben schon steht:
 
 (tile s1 p1)
 (tile p1 c1)
-\end{verbatim}
+\end{lstlisting}
 %
 Dann drück auf den \texttt{Stepper}-Knopf oben rechts im
 DrRacket-Fenster.  Es erscheint ein neues Fenster, das so aussieht:
@@ -684,9 +684,9 @@ ein paar Schritte vorwärts gehst, sieht das so aus:
 \noindent Du kannst sehen, wie DrRacket jeweils einen Ausdruck einen Schritt auf
 einmal auswertet~-- der ist auf der linken Seite grün~-- und dann
 rechts durch das Resultat ersetzt.  Oben kannst Du sehen, wie der
-Stepper die Variable \texttt{tile} durch den \texttt{lambda}-Ausdruck
-aus der Definition von \texttt{tile} ersetzt. Das macht der Stepper
-auch mit den Definitionen von \texttt{s1} und \texttt{p1}:
+Stepper die Variable \lstinline{tile} durch den \lstinline{lambda}-Ausdruck
+aus der Definition von \lstinline{tile} ersetzt. Das macht der Stepper
+auch mit den Definitionen von \lstinline{s1} und \lstinline{p1}:
 %
 \begin{figure}[H]
   \centering
@@ -696,10 +696,10 @@ auch mit den Definitionen von \texttt{s1} und \texttt{p1}:
 \end{figure}
 %
 \noindent Interessant wird es danach. Die Variablen aus den Definitionen sind
-alle ersetzt.  Hinter dem \texttt{lambda}-Ausdruck stehen jetzt das
+alle ersetzt.  Hinter dem \lstinline{lambda}-Ausdruck stehen jetzt das
 Quadrat und der Stern, und die werden jetzt für die Variablen aus dem
-\texttt{lambda}-Ausdruck eingesetzt, also das Quadrat für \texttt{a}
-und der Stern für \texttt{b}:
+\lstinline{lambda}-Ausdruck eingesetzt, also das Quadrat für \lstinline{a}
+und der Stern für \lstinline{b}:
 %
 \begin{figure}[H]
   \centering
@@ -708,7 +708,7 @@ und der Stern für \texttt{b}:
   \label{fig:stepper-3}
 \end{figure}
 %
-\noindent Dabei verschwindet auch das \texttt{lambda}.
+\noindent Dabei verschwindet auch das \lstinline{lambda}.
 %
 \begin{aufgabeinline}
   Probiere das Beispiel im Stepper aus und klicke Dich bis zum Ende
@@ -716,35 +716,35 @@ und der Stern für \texttt{b}:
   Seite zusammenhängt.
 \end{aufgabeinline}
 %
-\texttt{(tile s1 p1)} ist eine sogenannte
+\lstinline{(tile s1 p1)} ist eine sogenannte
 \textit{Applikation\index{Applikation}}: Das ist ein Ausdruck mit
 (natürlich) Klammern drum.  Der Operator und die Operanden der
 Applikation sind ebenfalls Ausdrücke.  Der Operator ergibt eine
 Funktion~-- entweder eingebaut oder aus einem
-\texttt{lambda}-Ausdruck.  Eine Applikation wird auch oft
+\lstinline{lambda}-Ausdruck.  Eine Applikation wird auch oft
 \textit{Funktionsaufruf\index{Funktionsaufruf}} oder
 \textit{Funktionsanwendung\index{Funktionsanwendung}} genannt.
 
-Wenn die Funktion ein \texttt{lambda}-Ausdruck ist wie in
+Wenn die Funktion ein \lstinline{lambda}-Ausdruck ist wie in
 Abbildung~\ref{fig:stepper-3}, dann muss es genauso viele Operanden
-geben wie der \texttt{lambda}-Ausdruck Variablen hat.
+geben wie der \lstinline{lambda}-Ausdruck Variablen hat.
 Dann wertet DrRacket den Ausdruck wie folgt aus:
 %
 \begin{enumerate}
 \item Die Operanden werden ausgewertet und ergeben die sogenannten
   \textit{Argumente\index{Argument}}.\label{sec:argument}
 \item Die Argumente werden für die
-  Variablen des \texttt{lambda}-Ausdrucks~-- die sogenannten
+  Variablen des \lstinline{lambda}-Ausdrucks~-- die sogenannten
   \textit{Parameter\index{Parameter}}~-- im Innenteil des
-  \texttt{lambda}-Ausdrucks, dem \textit{Rumpf\index{Rumpf}}
+  \lstinline{lambda}-Ausdrucks, dem \textit{Rumpf\index{Rumpf}}
   eingesetzt.
 \end{enumerate}
 %
 \begin{feature}{Abstraktion und Applikation}{scheme:abstraction}
   Eine Abstraktion\index{Abstraktion} hat folgende Form:
-\begin{alltt}
-(lambda (\(p\sb{1} \ldots p\sb{n}\)) \(e\))
-\end{alltt}
+\begin{lstlisting}
+(lambda ($p\sb{1} \ldots p\sb{n}$) $e$)
+\end{lstlisting}
   %
   Die $p_i$ sind jeweils Namen, die \textit{Parameter}\index{Parameter}, und
   $e$ ist der \textit{Rumpf}\index{Rumpf}.  In $e$ dürfen die $p_i$
@@ -753,11 +753,11 @@ Dann wertet DrRacket den Ausdruck wie folgt aus:
 
   Eine \textit{Applikation} einer Funktion hat folgende Form:
   %
-\begin{alltt}
-(\(p\) \(a\sb{1}\) \ldots \(a\sb{n}\))
-\end{alltt}
+\begin{lstlisting}
+($p$ $a\sb{1}$ $\ldots$ $a\sb{n}$)
+\end{lstlisting}
   %
-  $p$ ist ein Ausdruck, der eine Funktion ergeben muß, die $a_i$ sind
+  $p$ ist ein Ausdruck, der eine Funktion ergeben muss, die $a_i$ sind
   ebenfalls Ausdrücke, die \textit{Argumente}\index{Argument}.  Bei
   der Auswertung einer Applikation werden zunächst $p$ und die $a_i$
   ausgewertet; danach geht es mit der Auswertung des Rumpfes der
@@ -765,21 +765,21 @@ Dann wertet DrRacket den Ausdruck wie folgt aus:
   Argumente $a_i$ eingesetzt werden.
 \end{feature}
 %
-\texttt{Lambda}-Ausdrücke heißen auch
+\lstinline{Lambda}-Ausdrücke heißen auch
 \textit{Abstraktionen\index{Abstraktion}}.
 Abbildung~\ref{scheme:abstraction} fasst zusammen, wie Abstraktionen
 und Applikationen aufgebaut sind und ausgewertet werden.
 
 Verwirrend ist vielleicht der Unterschied zwischen Abstraktion und
-Funktion: Die Abstraktion ist der \texttt{lambda}-Ausdruck im
+Funktion: Die Abstraktion ist der \lstinline{lambda}-Ausdruck im
 Programm, die Funktion ist der Wert, der bei der Programmauswertung
 dabei herauskommt.  Wir verwenden im Buch aber häufig den Begriff
 "<Funktion"> für eine Abstraktion, weil uns interessiert, was bei der
 Abstraktion herauskommt.
 
 \begin{aufgabeinline}
-  Kannst Du das Ergebnis von \texttt{tile} wieder als Eingabe für
-  \texttt{tile} benutzen?  Probier es aus!
+  Kannst Du das Ergebnis von \lstinline{tile} wieder als Eingabe für
+  \lstinline{tile} benutzen?  Probier es aus!
 \end{aufgabeinline}
 
 \section{Information und Daten}
@@ -787,9 +787,9 @@ Abstraktion herauskommt.
 
 Eine Definition wie
 %
-\begin{alltt}
+\begin{lstlisting}
 (define mehrwertsteuer 19)
-\end{alltt}
+\end{lstlisting}
 %
 suggeriert, dass die Zahl 19 an dieser Stelle eine Bedeutung "<in der
 realen Welt"> hat, zum Beispiel in einem Programm, das eine Registrierkasse
@@ -826,14 +826,14 @@ müssen, was der Kontext ist und wie Information in Daten zu übersetzen
 ist und umgekehrt.  An konkreten Beispielen können (und sollten) wir
 dazu einen Kommentar anbringen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define bruce-willis 23) ; Anzahl der Haare
-(define temperatur-tübingen 23) ; 23°C in Tübingen
+(define temperatur-tübingen 23) ; 23|\si{degree}|C in Tübingen
 (define temperatur-tübingen-2000-07-01 23)
-  ; 23°C in Tübingen am 7.1.2000
-(define schlafzimmer 23) ; Schlafzimmer ist 23m²
+  ; 23|\si{degree}C in Tübingen am 7.1.2000
+(define schlafzimmer 23) ; Schlafzimmer ist 23m$^2$
 (define alexandra-popp 23) ; Rückennummer
-\end{verbatim}
+\end{lstlisting}
 
 \section{Programme systematisch konstruieren}
 
@@ -896,16 +896,16 @@ als Ergebnis liefern soll.
 
 Funktionen, die ein Problem aus einer Aufgabenstellung lösen, sollten
 immer einen Namen haben~-- den sollten wir uns gleich am Anfang
-ausdenken.  Der Name \texttt{billig-strom} bietet sich an.  Wir wissen
+ausdenken.  Der Name \lstinline{billig-strom} bietet sich an.  Wir wissen
 schon, dass sie den Verbrauch in Kilowattstunden akzeptiert.  Wenn wir
 uns noch dafür einen Namen ausdenken, können wir direkt ein unfertiges
 Programm hinschreiben, ohne groß nachzudenken:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define billig-strom
   (lambda (kWh)
     ...))
-\end{verbatim}
+\end{lstlisting}
 %
 \emph{Wichtig:} Schreibe dieses \textit{Gerüst\index{Gerüst}}
 unbedingt hin, auch wenn Du noch keine Vorstellung hast, wie es danach
@@ -918,24 +918,24 @@ aufschreiben, indem wir auf die Grundgebühr das Produkt aus dem
 Verbrauchspreis addieren.  Entsprechend müssen wir den Rumpf\index{Rumpf} der
 Funktion ergänzen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define billig-strom
   (lambda (kWh)
     (+ 4.90 (* 0.19 kWh))))
-\end{verbatim}
+\end{lstlisting}
 %
-Die Funktion \texttt{billig-strom} kannst Du jetzt aufrufen:
+Die Funktion \lstinline{billig-strom} kannst Du jetzt aufrufen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (billig-strom 10)
 \evalsto{} 6.8
 (billig-strom 20)
 \evalsto{} 8.7
 (billig-strom 30)
 \evalsto{} 10.6
-\end{alltt}
+\end{lstlisting}
 %
-Die Funktion \texttt{billig-strom} ist ein einigermaßen winziges
+Die Funktion \lstinline{billig-strom} ist ein einigermaßen winziges
 Programm.  Wenn Programme größer werden, ist häufig nicht mehr
 unmittelbar ersichtlich, was die Programmteile tun oder ob sie
 tatsächlich korrekt sind.  Es ist darum sinnvoll, die Funktion mit
@@ -952,14 +952,14 @@ sogenannte \textit{Kurzbeschreibung\index{Kurzbeschreibung}}, die
 beschreibt, was die Funktion macht.  Eine prägnante Zeile ist dafür
 genug.  Das könnte so aussehen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; monatlichen Rechnungsbetrag für Tarif Billig-Strom berechnen
 
 (define billig-strom ...)
-\end{verbatim}
+\end{lstlisting}
 %
 \begin{feature}{Kommentare}{scheme:comment}
-  Ein Semikolon \texttt{;} kennzeichnet einen 
+  Ein Semikolon \lstinline{;} kennzeichnet einen 
   \textit{Kommentar\index{Kommentar}}.  Der Kommentar erstreckt sich
   vom Semikolon bis zum Ende der Zeile und wird von DrRacket
   ignoriert.
@@ -985,23 +985,23 @@ Signatur zu schreiben, benutzen wir für diese Beschreibungen dieser
 nicht-negative Zahl heißt auch \textit{natürliche
   Zahl\index{natürliche Zahl}}.  Ein Bruch heißt auch
 \textit{rationale Zahl\index{rationale Zahl}}.  Die
-Signatur-Deklaration für \texttt{billig-strom} sollte gleich nach der
+Signatur-Deklaration für \lstinline{billig-strom} sollte gleich nach der
 Kurzbeschreibung kommen und sieht so aus:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (: billig-strom (natural -> rational))
-\end{verbatim}
+\end{lstlisting}
 %
-Die Elemente \texttt{natural} und \texttt{rational} sind die
+Die Elemente \lstinline{natural} und \lstinline{rational} sind die
 Lehrsprachen-Namen für natürliche Zahlen respektive Brüche.
 
-Diese Signatur-Deklaration besteht aus der Form \texttt{(: \ldots)},
-dem Namen der Funktion und ihrer Signatur, \texttt{(natural ->
-  rational)}.  Wir werden noch einer Vielzahl von Signaturen begegnen,
-aber diese hier hat einen Pfeil \texttt{->} in der Mitte und ist
+Diese Signatur-Deklaration besteht aus der Form \lstinline{(: |\ldots|)},
+dem Namen der Funktion und ihrer Signatur, \lstinline{(natural -> rational)}. 
+Wir werden noch einer Vielzahl von Signaturen begegnen,
+aber diese hier hat einen Pfeil \lstinline{->} in der Mitte und ist
 deshalb eine Signatur für eine Funktion: links vom Pfeil steht, was
 die Funktion als Eingabe akzeptiert, rechts vom Pfeil die Ausgabe. Die
-Signatur-Deklaration ist also so zu lesen: "<\texttt{Billig-strom} ist
+Signatur-Deklaration ist also so zu lesen: "<\lstinline{Billig-strom} ist
 eine Funktion, die eine natürliche Zahl als Eingabe akzeptiert und
 eine rationale Zahl als Ausgabe produziert.">
 
@@ -1010,7 +1010,7 @@ eine rationale Zahl als Ausgabe produziert.">
   Sorte von Werten.
 
   \smallskip
-  Die Signatur \texttt{string}\index{string@\texttt{string}}
+  Die Signatur \lstinline{string}\index{string@\texttt{string}}
   beschreibt eine Zeichenkette.
   \smallskip
   
@@ -1018,17 +1018,17 @@ eine rationale Zahl als Ausgabe produziert.">
   %
   \begin{flushleft}
     \begin{tabular}{ll}
-      \texttt{natural\index{natural@\texttt{natural}}} & natürliche
+      {\lstinline!natural!}\index{natural@\texttt{natural}} & natürliche
                                                          Zahlen\index{natürliche
                                                          Zahlen} ($0, 1, 2\ldots$)\\
-      \texttt{integer\index{integer@\texttt{integer}}} & ganze
+      {\lstinline!integer!}\index{integer@\texttt{integer}} & ganze
                                                          Zahlen\index{ganze
                                                          Zahlen} ($0, 1, -1, 2, -2, \ldots$)\\
-      \texttt{rational\index{rational@\texttt{rational}}} &
+      {\lstinline!rational!}\index{rational@\texttt{rational}} &
                                                             Brüche\index{Bruch} / rationale Zahlen\index{rationale Zahlen} \\
-      \texttt{real\index{real@\texttt{real}}} & reelle
+      {\lstinline!real!}\index{real@\texttt{real}} & reelle
                                                 Zahlen\index{reelle Zahlen}\\
-      \texttt{number\index{number@\texttt{number}}} & beliebige Zahlen
+      {\lstinline!number!}\index{number@\texttt{number}} & beliebige Zahlen
     \end{tabular}
   \end{flushleft}
   %
@@ -1043,9 +1043,9 @@ eine rationale Zahl als Ausgabe produziert.">
   
   Signaturen für Funktionen haben die Form
 %
-\begin{alltt}
-(\(s\sb{1}\) \ldots \(s\sb{n}\) -> \(s\))
-\end{alltt}
+\begin{lstlisting}
+($s\sb{1}$ $\ldots$ $s\sb{n}$ -> $s$)
+\end{lstlisting}
 %
 Die Signaturen $s_1 \ldots s_n$ sind die Signaturen für die Argumente
 der Funktion und $s$ die Signatur für das Ergebnis.
@@ -1056,9 +1056,9 @@ Eine \textit{Signatur-Deklaration\index{Signatur-Deklaration}} für
 eine Funktion hat
 folgende Form:
 %
-\begin{alltt}
-(: \(f\) (\(s\sb{1}\) \ldots \(s\sb{n}\) -> \(s\)))
-\end{alltt}
+\begin{lstlisting}
+(: $f$ ($s\sb{1}$ $\ldots$ $s\sb{n}$ -> $s$))
+\end{lstlisting}
 %
 Sie sagt aus, dass das Verhalten der Funktion der Signatur entspricht:
 Wenn die Eingaben der Funktion $f$ den Signaturen \(s\sb{1} \ldots
@@ -1072,7 +1072,7 @@ und Signatur-Deklarationen genauer.
 \section{Tests}
 
 Wir haben oben in der REPL die Funktion
-\texttt{billig-strom} ausprobiert, indem wir DrRacket mehrere Aufrufe
+\lstinline{billig-strom} ausprobiert, indem wir DrRacket mehrere Aufrufe
 mit unterschiedlichen Eingaben haben auswerten lassen.  Anhand dieser
 Beispiele können wir auch (vielleicht mit einem Taschenrechner)
 überprüfen, ob die Funktion dabei korrekte Ergebnisse produziert hat.
@@ -1082,11 +1082,11 @@ wenn sie im Programm stehen.  Gepaart mit den erwünschten Ergebnissen
 erleichtern sie das Verständnis.  Im Programm schreiben wir
 das folgendermaßen, gleich nach der Signatur:
 %
-\begin{alltt}
+\begin{lstlisting}
 (check-expect (billig-strom 10) 6.8)
 (check-expect (billig-strom 20) 8.7)
 (check-expect (billig-strom 30) 10.6)
-\end{alltt}
+\end{lstlisting}
 %
 Wenn wir jetzt das Programm laufen lassen, steht in der REPL:
 %
@@ -1095,20 +1095,20 @@ Alle 3 Tests bestanden!
 \end{verbatim}
 %
 Das neue Programmelement
-\texttt{check-expect\index{check-expect@\texttt{check-expect}}} (siehe
+\lstinline{check-expect}\index{check-expect@\texttt{check-expect}} (siehe
 Abbildung~\ref{scheme:test}) macht
 nämlich einen sogenannten \textit{Testfall\index{Testfall}} oder \textit{Test\index{Test}}.  In diesem Falle
 meldet DrRacket, dass mit den Tests alles geklappt hat.  Aber das
 Programm könnte einen Fehler enthalten.  Wenn wir in der Definition
-von \texttt{billig-strom} statt \texttt{4.90} "<versehentlich">
-\texttt{5.90} schreiben, sieht die Ausgabe anders aus:
+von \lstinline{billig-strom} statt \lstinline{4.90} "<versehentlich">
+\lstinline{5.90} schreiben, sieht die Ausgabe anders aus:
 %
 \begin{feature}{Tests}{scheme:test}
   Ein \textit{Test\index{Test}} hat die folgende Form:
   %
-\begin{alltt}
-(check-expect \(t\) \(e\))
-\end{alltt}
+\begin{lstlisting}
+(check-expect $t$ $e$)
+\end{lstlisting}
 %
 Wenn das Programm läuft, wertet DrRacket den Test-Ausdruck $t$ aus und
 überprüft, ob er mit dem Wert des Ausdrucks $e$ übereinstimmt.  Wenn
@@ -1140,9 +1140,9 @@ schrieben, einen Taschenrechner bemühen.  Es gibt aber fast immer
 mindestens einen möglichen Test, der ganz einfach ist.  In diesem Fall
 ist das:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (billig-strom 0) 4.9)
-\end{verbatim}
+\end{lstlisting}
 %
 Hier können wir das Ergebnis direkt der Tabelle entnehmen.  Dieser
 überprüft zwar nicht, ob der richtige pro-kWh-Preis berechnet wird,
@@ -1159,9 +1159,9 @@ kann Dir dabei helfen.
 \label{page:abdeckung0}
 Wenn Du das Programm nur auf die Funktionsdefinition reduzierst (also
 alle Tests und Beispiel\-aufrufe entfernst) und dann laufen lässt,
-sollte Dir auffallen, dass der Rumpf von \texttt{billig-strom} blau
+sollte Dir auffallen, dass der Rumpf von \lstinline{billig-strom} blau
 hinterlegt ist.  (Außerdem Teile der Signatur von
-\texttt{billig-strom}.)  Diese Hinterlegung zeigt die sogenannte
+\lstinline{billig-strom}.)  Diese Hinterlegung zeigt die sogenannte
 \textit{Abdeckung\index{Abdeckung}} an: Die blau hinterlegten
 Programmteile sind noch nie gelaufen und wurden ergo auch noch nicht
 getestet.  Es fehlen also noch Tests.  In Zukunft achten wir also
@@ -1175,10 +1175,10 @@ ausprobieren, die Du Dir vorher überlegt hast, und diese visuell überprüfen.
 Wenn Dir ein Ergebnis richtig erscheint, kannst Du das Bild aus der
 REPL kopieren in das Programm kopieren.  In der REPL könnte das so aussehen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (square 40 "solid" "red")
-\evalsto{} \includegraphics[height=24pt]{i1prog/square}
-\end{alltt}
+|\evalsto| |\includegraphics[height=24pt]{i1prog/square}|
+\end{lstlisting}
 %
 Du kannst dann das Quadrat aus der REPL kopieren, also zum Beispiel
 mit der Maus markieren und dann mit \texttt{Ctrl-C} beziehungsweise
@@ -1186,21 +1186,21 @@ mit der Maus markieren und dann mit \texttt{Ctrl-C} beziehungsweise
 beziehungsweise \texttt{Command-V} einfügen und dann daraus folgenden
 Test machen:
 %
-\begin{alltt}
+\begin{lstlisting}
 (check-expect (square 40 "solid" "red") \includegraphics[height=24pt]{i1prog/square})
-\end{alltt}
+\end{lstlisting}
 
 \begin{aufgabeinline}
-  Schreibe für \texttt{tile} zwei Tests!
+  Schreibe für \lstinline{tile} zwei Tests!
 \end{aufgabeinline}
 %
 Übrigens ist eine Signatur-Deklaration auch so eine Art Testfall.
 Das sehen wir, wenn wir absichtlich einen Fehler wie diesen hier
 machen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (billig-strom "30") 13.0)
-\end{verbatim}
+\end{lstlisting}
 %
 Probier es aus!  Es erscheint zusammen mit den Meldungen über die
 Tests eine Meldung über eine
@@ -1296,9 +1296,9 @@ des Ablaufs ein, die wir schon eingeführt haben:
   kurz beschreibt.  Ein Satz, der auf eine Zeile passen sollte,
   reicht.  Beispiel:
   %
-\begin{verbatim}
+\begin{lstlisting}
 ; monatlichen Rechnungsbetrag für Tarif Billig-Strom berechnen
-\end{verbatim}
+\end{lstlisting}
 \end{konstruktionsanleitung}
 
 \begin{konstruktionsanleitung}{Signatur-Deklaration}
@@ -1310,13 +1310,13 @@ des Ablaufs ein, die wir schon eingeführt haben:
   und Ausgaben haben und schreibe dann eine Signatur, welche die Ein-
   und Ausgaben der Funktion möglichst präzise beschreiben.  Beispiel:
   %
-  \begin{verbatim}
+  \begin{lstlisting}
 (: billig-strom (natural -> rational))
-\end{verbatim}
+\end{lstlisting}
   %
   Achte bei den Zahlen-Signaturen besonders auf eine möglichst präzise
-  Signatur.  Bei \texttt{billig"=strom} wäre auch die Signatur
-  \texttt{(number -> number)} korrekt, aber nicht so genau.
+  Signatur.  Bei \lstinline{billig-strom} wäre auch die Signatur
+  \lstinline{(number -> number)} korrekt, aber nicht so genau.
 \end{konstruktionsanleitung}
 
 \begin{konstruktionsanleitung}{Tests}
@@ -1326,22 +1326,22 @@ des Ablaufs ein, die wir schon eingeführt haben:
   möglichst möglichst einfache, aber auch möglichst interessante
   Beispiele für Aufrufe der Funktion auf und lege fest, was dabei
   herauskommen soll.  Mache aus den Beispielen Tests mit
-  \texttt{check-expect}.  Beispiel:
-\begin{alltt}
+  \lstinline{check-expect}.  Beispiel:
+\begin{lstlisting}
 (check-expect (billig-strom 0) 4.9)
 (check-expect (billig-strom 10) 6.8)
 (check-expect (billig-strom 20) 8.7)
 (check-expect (billig-strom 30) 10.6)
-\end{alltt}
+\end{lstlisting}
   Achte darauf, dass die Tests dafür sorgen, dass der Code Deiner
   Funktion durch die Tests vollständig abgedeckt wird.
 \end{konstruktionsanleitung}
 %
 Der letzte Satz der Konstruktionsanleitung ergibt, was das Beispiel
-\texttt{billig-strom} betrifft, keinen Sinn, da jeder einzelne der
+\lstinline{billig-strom} betrifft, keinen Sinn, da jeder einzelne der
 Tests bereits dafür
 sorgt, dass die Addition und die Multiplikation in
-\texttt{billig-strom} ausgewertet werden.  In
+\lstinline{billig-strom} ausgewertet werden.  In
 Abschnitt~\ref{sec:testabdeckung} werden wir aber Beispiele
 programmieren, bei denen es nicht selbstverständlich ist, dass die
 Tests alles auswerten.
@@ -1353,21 +1353,21 @@ Tests alles auswerten.
   übernimmst Du den Namen aus der Signatur-Deklaration in eine
   Funktionsdefinition wie zum Beispiel:
   %
-\begin{verbatim}
+\begin{lstlisting}
 (define billig-strom
   (lambda (...)
     ...))
-\end{verbatim}
+\end{lstlisting}
   %
   Denke Dir Namen für die Eingaben der Funktion aus.  Das müssen
   genauso viele sein, wie die Signatur Eingaben hat.  Schreibe dann
-  diese Namen als Eingaben in die \texttt{lambda}-Abstraktion.
+  diese Namen als Eingaben in die \lstinline{lambda}-Abstraktion.
   Beispiel:
-  \begin{verbatim}
+  \begin{lstlisting}
 (define billig-strom
   (lambda (kWh)
     ...))
-\end{verbatim}
+\end{lstlisting}
 \end{konstruktionsanleitung}
 
 \begin{konstruktionsanleitung}{Rumpf}
@@ -1375,11 +1375,11 @@ Tests alles auswerten.
   \label{ka:rumpf}
   Als letzten Schritt fülle mit Hilfe des Wissens über das Problem
   den Rumpf der Funktion aus.
-\begin{alltt}
+\begin{lstlisting}
 (define billig-strom
   (lambda (kWh)
     \textbf{(+ 4.90 (* 0.19 kWh))}))
-\end{alltt}
+\end{lstlisting}
 \end{konstruktionsanleitung}
 
 Diesen Ablauf demonstrieren wir anhand des zweiten Teils der
@@ -1392,56 +1392,56 @@ Verbrauchspreis pro kWh von \EUR{0,16}.
 
 Fangen wir mit der Kurzbeschreibung an.  Die können wir entsprechend
 zu "<Billig-Strom"> formulieren:
-\begin{verbatim}
+\begin{lstlisting}
 ; monatlichen Rechnungsbetrag für Tarif Watt für wenig berechnen
-\end{verbatim}
+\end{lstlisting}
 
 \paragraph{Signatur}
 
 Auch die Signatur-Deklaration können wir analog zu "<Billig-Strom">
 formulieren~-- wir müssen uns nur einen neuen Namen aussuchen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (: watt-für-wenig (natural -> rational))
-\end{verbatim}
+\end{lstlisting}
 
 \paragraph{Tests}
 
 Die Tests müssen wir neu formulieren.  Es ist immer sinnvoll, mit dem
 einfachsten Beispiel anzufangen:
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (watt-für-wenig 0) 8.2)
-\end{verbatim}
+\end{lstlisting}
 
 Ansonsten nehmen wir wieder progressiv größere Verbrauchswerte und
 rechnen den Rechnungsbetrag im Kopf aus:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (watt-für-wenig 10) 9.8)
 (check-expect (watt-für-wenig 20) 11.4)
 (check-expect (watt-für-wenig 30) 13.0)
-\end{verbatim}
+\end{lstlisting}
 
 \paragraph{Gerüst}
 
 Das Gerüst ergibt sich direkt aus der Signatur:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define watt-für-wenig
   (lambda (kWh)
     ...))
-\end{verbatim}
+\end{lstlisting}
 
 \paragraph{Rumpf}
 
 Schließlich müssen wir noch den Rumpf vervollständigen, indem wir die
 entsprechende Formel hineinschreiben:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define watt-für-wenig
   (lambda (kWh)
     (+ 8.20 (* 0.16 kWh))))
-\end{verbatim}
+\end{lstlisting}
 %
 Fertig!
 
@@ -1455,7 +1455,7 @@ wird der Stromtarif aus einer Grundgebühr und einem Verbrauchspreis
 pro kWh mit der gleichen Formel berechnet.  Die Definitionen ähneln
 sich dementsprechend:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define billig-strom
   (lambda (kWh)
     (+ 4.90 (* 0.19 kWh))))
@@ -1463,49 +1463,49 @@ sich dementsprechend:
 (define watt-für-wenig
   (lambda (kWh)
     (+ 8.20 (* 0.16 kWh))))
-\end{verbatim}
+\end{lstlisting}
 %
 Diese "<Verdoppelung"> ist unbefriedigend und kann auch später
 Probleme machen: Wenn ein Fehler bekannt wird, müssen möglicherweise
 zwei Funktionen korrigiert werden.
 
 Es wäre also gut, wenn wir die Gemeinsamkeiten der beiden Funktionen
-irgendwie zusammenfassen könnten, mithin über \texttt{billig-strom}
-und \texttt{watt-für-wenig} \textit{abstrahieren\index{Abstraktion}}
+irgendwie zusammenfassen könnten, mithin über \lstinline{billig-strom}
+und \lstinline{watt-für-wenig} \textit{abstrahieren\index{Abstraktion}}
 könnten.  Dazu kopieren wir die Funktion ein letztes Mal und benennen
 sie um.  Außerdem ersetzen wir alle Stellen, bei denen sich die beiden
 Funktionen unterscheiden, jeweils durch eine Variable, zum Beispiel
-\texttt{grundgebühr} und \texttt{pro-kWh}:
+\lstinline{grundgebühr} und \lstinline{pro-kWh}:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define stromtarif-rechnungsbetrag
   (lambda (kWh)
     (+ grundgebühr (* pro-kWh kWh))))
-\end{verbatim}
+\end{lstlisting}
 %
 Die beiden neuen Variablen sind noch nicht gebunden, wir müssen sie zu
-den Parametern des \texttt{lambda} hinzufügen:
+den Parametern des \lstinline{lambda} hinzufügen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define stromtarif-rechnungsbetrag
   (lambda (grundgebühr pro-kWh kWh)
     (+ grundgebühr (* pro-kWh kWh))))
-\end{verbatim}
+\end{lstlisting}
 %
 Wir ergänzen noch Kurzbeschreibung und Signatur.  Die neuen Parameter
 sind auch beides rationale Zahlen, das sieht also so aus:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; monatlichen Rechnungsbetrag für Stromtarif berechnen
 (: stromtarif-rechnungsbetrag (rational rational natural -> rational))
-\end{verbatim}
+\end{lstlisting}
 %
 Außerdem sollten wir Tests formulieren.  Diese können wir aus den
-Tests für \texttt{billig-strom} und \texttt{watt-für-wenig} gewinnen.
+Tests für \lstinline{billig-strom} und \lstinline{watt-für-wenig} gewinnen.
 Wir müssen nur jeweils zu den Argumenten noch die Grundgebühr
 beziehungsweise den Preis pro kWh hinzufügen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (check-expect (stromtarif-rechnungsbetrag 4.90 0.19 10) 6.8)  ; Billig-Strom
 (check-expect (stromtarif-rechnungsbetrag 4.90 0.19 20) 8.7)  ; Billig-Strom
 (check-expect (stromtarif-rechnungsbetrag 4.90 0.19 30) 10.6) ; Billig-Strom
@@ -1516,14 +1516,14 @@ beziehungsweise den Preis pro kWh hinzufügen:
 (check-expect (stromtarif-rechnungsbetrag 8.20 0.16 10) 9.8)  ; Watt für wenig
 (check-expect (stromtarif-rechnungsbetrag 8.20 0.16 20) 11.4) ; Watt für wenig
 (check-expect (stromtarif-rechnungsbetrag 8.20 0.16 30) 13.0) ; Watt für wenig
-\end{verbatim}
+\end{lstlisting}
 %
-Schließlich können wir auch die Definitionen von \texttt{billig-strom}
-und \texttt{watt-für-wenig} so ändern, dass sie nicht mehr "<selbst">
+Schließlich können wir auch die Definitionen von \lstinline{billig-strom}
+und \lstinline{watt-für-wenig} so ändern, dass sie nicht mehr "<selbst">
 den Rechnungsbetrag ausrechnen, sondern dafür
-\texttt{stromtarif"=rechnungsbetrag} benutzen:
+\lstinline{stromtarif"=rechnungsbetrag} benutzen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define billig-strom
   (lambda (kWh)
     (stromtarif-rechnungsbetrag 4.90 0.19 kWh)))
@@ -1531,7 +1531,7 @@ den Rechnungsbetrag ausrechnen, sondern dafür
 (define watt-für-wenig
   (lambda (kWh)
     (stromtarif-rechnungsbetrag 8.20 0.16 kWh)))
-\end{verbatim}
+\end{lstlisting}
 %
 Zu dieser Technik werden wir in diesem Buch noch oft greifen.  Sie
 erspart nicht nur oft Arbeit und macht unsere Programme leichter zu
@@ -1649,17 +1649,17 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
 \begin{aufgabe}
  Vervielfachung von Strings:
  \begin{itemize}
-  \item Schreibe eine Funktion \texttt{double-string}, die eine Zeichenkette akzeptiert und
-    diese "<verdoppelt">, das heißt, für eine Eingabe \verb|"Sperber"| den
-    Rückgabewert \verb|"SperberSperber"| liefert.
+  \item Schreibe eine Funktion \lstinline{double-string}, die eine Zeichenkette akzeptiert und
+    diese "<verdoppelt">, das heißt, für eine Eingabe \lstinline{"Sperber"} den
+    Rückgabewert \lstinline{"SperberSperber"} liefert.
     
-  \item Schreibe eine Funktion \texttt{quadruple-string}, die eine
+  \item Schreibe eine Funktion \lstinline{quadruple-string}, die eine
     Zeichenkette akzeptiert und "<vervierfacht">.
 
-  \item Schreibe eine Funktion \texttt{octuple-string}, die eine
+  \item Schreibe eine Funktion \lstinline{octuple-string}, die eine
     Zeichenkette akzeptiert und "<verachtfacht">.
 
-  \item Schreibe eine Funktion \texttt{sixteentuple-string}, die
+  \item Schreibe eine Funktion \lstinline{sixteentuple-string}, die
     eine Zeichenkette akzeptiert und "<versechzehnfacht">.
   \end{itemize}
   % Schreibe für jede Funktion Kurzbeschreibung, Signatur, Testfälle, Gerüst und Rumpf.
@@ -1742,38 +1742,38 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
   \begin{enumerate}
 
   \item Schreibe eine Funktion
-    \texttt{liters-per-hundred-kilometers}, die eine Menge Benzin in
+    \lstinline{liters-per-hundred-kilometers}, die eine Menge Benzin in
     Liter und die Reichweite dieses Benzins in Kilometer akzeptiert
     und daraus den Verbrauch in Liter pro 100 km berechnet.
 
   \item Schreibe eine Funktion
-    \texttt{miles-per-gallon}, die eine Entfernung in Meilen und den
+    \lstinline{miles-per-gallon}, die eine Entfernung in Meilen und den
     Benzinverbrauch auf diese Entfernung in Gallonen akzeptiert und
     daraus die Reichweite in Meilen pro Gallone berechnet.
 
   \item Definiere eine Konstante
-    \texttt{kilometers-per-mile} (eine US-Meile entspricht etwa $1,61$
+    \lstinline{kilometers-per-mile} (eine US-Meile entspricht etwa $1,61$
     Kilometer) und schreibe zwei Funktionen
-    \texttt{kilometers->miles} und \texttt{miles->kilometers}, die
+    \lstinline{kilometers->miles} und \lstinline{miles->kilometers}, die
     jeweils eine Entfernung in einer Maßeinheit akzeptieren und die
     Entfernung in die jeweils andere Maßeinheit umrechnen.
 
   \item Definiere eine Konstante
-    \texttt{liters-per-gallon} (eine Gallone entspricht etwa $3,79$
-    Liter) und schreibe zwei Funktionen \texttt{liters->gallons}
-    und \texttt{gallons->liters}, die jeweils eine Menge in einer
+    \lstinline{liters-per-gallon} (eine Gallone entspricht etwa $3,79$
+    Liter) und schreibe zwei Funktionen \lstinline{liters->gallons}
+    und \lstinline{gallons->liters}, die jeweils eine Menge in einer
     Maßeinheit akzeptieren und die Menge in die jeweils andere
     Maßeinheit umrechnen.
 
   \item Schreibe die Funktion
-    \texttt{l/100km->mi/gal}, die einen Verbrauch in Liter pro 100 km
+    \lstinline{l/100km->mi/gal}, die einen Verbrauch in Liter pro 100 km
     akzeptiert und in die Reichweite in Meilen pro Gallone umrechnet.
     Benutze dafür die Funktionen, die Du in den anderen
     Teilaufgaben erstellt hast.  Solltest Du auf weitere Teilprobleme
     stoßen, abstrahiere diese Teilprobleme in eigene Funktionen.
 
   \item Schreibe die Funktion
-    \texttt{mi/gal->l/100km}, die eine Reichweite in Meilen pro
+    \lstinline{mi/gal->l/100km}, die eine Reichweite in Meilen pro
     Gallone akzeptiert und in den Verbrauch in Liter pro 100 km
     umrechnet.  Benutze dafür die Funktionen, die Du in den
     anderen Teilaufgaben erstellt hast.  Solltest Du auf weitere
