@@ -1746,8 +1746,8 @@ links, rechts, alles andere.  Die Schablone sieht also so aus:
 (define react-to-key
   (lambda (world key)
     (cond
-      ((key=? key "left") ...)
-      ((key=? key "right") ...)
+      ((string=? key "left") ...)
+      ((string=? key "right") ...)
       (else ...))))
 \end{lstlisting}
 %
@@ -1758,12 +1758,12 @@ zusammengesetzte Daten als Ein- und als Ausgabe bei:
 (define react-to-key
   (lambda (world key)
     (cond
-      ((key=? key "left")
+      ((string=? key "left")
        (make-world ...
                    ...
                    ...
                    ...))
-      ((key=? key "right")
+      ((string=? key "right")
        (make-world ...
                    ...
                    ...
@@ -1784,12 +1784,12 @@ Autos.  Bei allen anderen Tasten ändert sich nichts:
 (define react-to-key
   (lambda (world key)
     (cond
-      ((key=? key "left")
+      ((string=? key "left")
        (make-world (world-ticks world)
                    "left"
                    (world-dillos-on-road world)
                    (world-score world)))
-      ((key=? key "right")
+      ((string=? key "right")
        (make-world (world-ticks world)
                    "right"
                    (world-dillos-on-road world)

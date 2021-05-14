@@ -458,12 +458,12 @@
 (define react-to-key
   (lambda (world key)
     (cond
-      ((key=? key "left")
+      ((string=? key "left")
        (make-world (world-ticks world)
                    "left"
                    (world-dillos-on-road world)
                    (world-score world)))
-      ((key=? key "right")
+      ((string=? key "right")
        (make-world (world-ticks world)
                    "right"
                    (world-dillos-on-road world)
