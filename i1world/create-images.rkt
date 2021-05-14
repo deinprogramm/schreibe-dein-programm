@@ -1,7 +1,15 @@
 ;; Die ersten drei Zeilen dieser Datei wurden von DrRacket eingefügt. Sie enthalten Metadaten
 ;; über die Sprachebene dieser Datei in einer Form, die DrRacket verarbeiten kann.
 #reader(lib "vanilla-reader.rkt" "deinprogramm" "sdp")((modname create-images) (read-case-sensitive #f) (teachpacks ((lib "image.rkt" "teachpack" "deinprogramm" "sdp"))) (deinprogramm-settings #(#f write repeating-decimal #f #t none explicit #f ((lib "image.rkt" "teachpack" "deinprogramm" "sdp")))))
-(save-image (rectangle 100 30 "outline" "brown")
+(define flesh-out
+  (lambda (image)
+    (overlay image
+             (rectangle (+ 1 (image-width image))
+                        (+ 1 (image-height image))
+                        0
+                        "white"))))
+
+(save-image (flesh-out (rectangle 100 30 "outline" "brown"))
             "rectangle.png")
 (save-image (circle 50 "solid" "red")
             "circle.png")
