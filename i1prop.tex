@@ -142,14 +142,14 @@ Hierfür liefert \drscheme{} folgende Meldung:
 \textit{Gegenbeispiel\index{Gegenbeispiel}} für die Eigenschaft gibt,
 also Werte für die Variablen \lstinline{a} und \lstinline{b}, welche die
 Eigenschaft falsch werden lassen.  \drscheme{} hat in diesem Fall ein
-Gegenbeispiel gefunden, bei dem \lstinline{a} den Wert $0.0$ und
-\lstinline{b} den Wert $1.5$ hat:
+Gegenbeispiel gefunden, bei dem \lstinline{a} den Wert $#i1.25$ und
+\lstinline{b} den Wert $#i-4.0$ hat:
 %
 \begin{lstlisting}
-(- 0.0 -1.5)
-|\evalsto| 1.5
-(- -1.5 0.0)
-|\evalsto| -1.5
+(- #i1.25 #i-4.0)
+|\evalsto| #i5.25
+(- #i-4.0 #i1.25)
+|\evalsto| #i-5.25
 \end{lstlisting}
 %
 Dieses Beispiel widerlegt also tatsächlich die Behauptung der Eigenschaft.
