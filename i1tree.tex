@@ -155,7 +155,7 @@ ist genug, damit wir die Schablone in Funktion \lstinline{ancestor?}
 weiter ausfüllen, indem wir überprüfen, ob Elternteil Nr.~1 oder Nr.~2
 Vorfahr ist:
 %
-\begin{lstinline}
+\begin{lstlisting}
 (define ancestor?
   (lambda (name person)
     (if (string=? name (person-name person))
@@ -164,7 +164,7 @@ Vorfahr ist:
                 (parent-ancestor? name (person-parent-2 person)))
             #t
             #f))))
-\end{lstinline}
+\end{lstlisting}
 %
 Diese Funktion ist schon korrekt, aber sie könnte noch etwas eleganter
 sein.  Der zweite \lstinline{if}-Ausdruck liefert \lstinline{#t}, falls
