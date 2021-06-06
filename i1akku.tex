@@ -517,6 +517,8 @@ könnte das so aussehen:
 Diese Aussage sollten wir als Kommentar in die Funktion schreiben,
 denn daraus ergibt sich alles weitere.  Weil sie so wichtig ist, hat
 sie einen eigenen Namen: \textit{Invariante}\index{Invariante}.
+("<Vario"> heißt im Lateinischen "<sich ändern">, entsprechend
+ist eine In-variante etwas, was sich nicht verändert.)
 
 Um die Funktion fertigzustellen, fangen wir damit an, die Lücke in
 \lstinline{list-sum} zu schließen, die \lstinline{list-sum-helper} mit
@@ -539,7 +541,7 @@ Endergebnis.  Zwischenstand:
 %
 \begin{lstlisting}
 (define list-sum-helper
-  ; sum ist die Summer aller Elemente in list0 vor list
+  ; sum ist die Summe aller Elemente in list0 vor list
   (lambda (list sum)
     (cond
       ((empty? list) sum)
@@ -555,7 +557,7 @@ Es bleibt der rekursive Aufruf.  Hier muss der \emph{neue} Wert von
 %
 \begin{lstlisting}
 (define list-sum-helper
-  ; sum ist die Summer aller Elemente in list0 vor list
+  ; sum ist die Summe aller Elemente in list0 vor list
   (lambda (list sum)
     (cond
       ((empty? list) sum)
@@ -609,7 +611,9 @@ Aus diesem Beispiel ergibt sich folgende Konstruktionsanleitung:
   \begin{enumerate}
   \item Überlege Dir, was für Information der Akkumulator
     repräsentieren soll. Das ist typischerweise ein
-    Zwischenergebnis~-- also ein vorläufiger Wert für das Endergebnis.
+    Zwischenergebnis~-- also ein vorläufiger Wert für das
+    Endergebnis.  Insbesondere ist die Signatur des Akkumulators die
+    gleiche wie die des Endergebnisses.
   \item Konstruiere die Schablone wie folgt:
 \begin{lstlisting}
 (define |\(f\)|
