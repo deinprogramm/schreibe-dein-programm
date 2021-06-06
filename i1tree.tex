@@ -6,6 +6,8 @@
 \chapter{Bäume}
 \label{cha:trees}
 
+FIXME
+
 \index{Baum}Bäume sind induktive Datenstrukturen,
 die viele Anwendungen in der praktischen
 Programmierung haben.  Sie sind beispielsweise die Grundlage
@@ -14,8 +16,240 @@ Datenkompressionsverfahren.  Dieses
 Kapitel demonstriert die Programmierung mit Binärbäumen anhand von
 Suchbäumen.
 
+\section{Stammbäume}
+
+Die Idee, den Baum als Metapher für eine bestimmte Form von Daten zu
+benutzen, findet sich bereits in der Bibel, die Wörter wie
+"<Baumstumpf"> und "<Spross"> benutzt, um Abstammmung zu beschreiben.
+Erste bildliche Darstellungen von Stammbäumen sind aus diesen
+Beschreibungen ab dem 11.\ Jahrhundert abgeleitet worden.
+
+Das Stammbaum-Beispiel ist etwas ausgetreten, aber dennoch instruktiv.
+In Stammbäumen sind in der Regel für eine Person ihr Name sowie
+Verbindungen zu den beiden Eltern vermerkt.  Das führt zu folgender
+Datendefinition.
+%
+\begin{lstlisting}
+; Eine Person hat folgende Eigenschaften:
+; - Name
+; - Elternteil #1
+; - Elternteil #2
+\end{lstlisting}
+%
+Diese Definition lässt offen, um was für Daten es sich bei den beiden
+Elternteilen handelt.  Natürlich sind es auch Personen, aber wenn wir
+in einem Stammbaum weit genug nach oben gehen, sind diese irgendwann
+unbekannt: Jeder konkrete Stammbaum endet irgendwo.  Wir brauchen also
+auch noch eine Repräsentation für einen "<unbekannten Elternteil">
+ohne (bekannte) Eigenschaften:
+%
+\begin{lstlisting}
+; Ein unbekannter Elternteil hat keine Eigenschaften
+(define-record unknown-parent
+  make-unknown-parent
+  unknown-parent?)
+\end{lstlisting}
+%
+Daraus entsteht eine Datendefinition für "<Elternteil">:
+%
+\begin{lstlisting}
+; Ein Elternteil ist eins der folgenden:
+; - eine Person
+; - ein unbekannter Elternteil
+\end{lstlisting}
+%
+Diese~-- und die Datendefinition für "<Person"> können wir nun in Code
+übersetzen:
+%
+\begin{lstlisting}
+(define-record person
+  make-person
+  person?
+  (person-name string)
+  (person-parent-1 parent)
+  (person-parent-2 parent))
+
+(define parent
+  (signature
+   (mixed person unknown-parent)))
+\end{lstlisting}
+%
+Für das unbekannte Elternteil stellen wir gleich mal einen Wert her:
+%
+\begin{lstlisting}
+(define an-unknown-parent (make-unknown-parent))
+\end{lstlisting}
+%
+Hier ein kleiner Stammbaum als Beispiel:
+%
+\begin{lstlisting}
+(define slash
+  (make-person "Slash"
+               (make-person "Ola Hudson"
+                            an-unknown-parent
+                            an-unknown-parent)
+               (make-person "Anthony Hudson"
+                            an-unknown-parent
+                            an-unknown-parent)))
+(define london-hudson
+  (make-person "London Hudson"
+               slash
+               (make-person "Perla Ferrar"
+                            an-unknown-parent
+                            an-unknown-parent)))
+\end{lstlisting}
+%
+Wir schreiben nun eine Funktion, die feststellen soll, ob jemand der
+Vorfahr einer Person ist, so etwa:
+%
+\begin{lstlisting}
+; Ist jemand Vorfahr:in einer Person?
+(: ancestor? (string person -> boolean))
+
+(check-expect (ancestor? "Slash" london-hudson) #t)
+(check-expect (ancestor? "Axl" london-hudson) #f)
+\end{lstlisting}
+%
+Die Schablone für diese Funktion sieht folgendermaßen aus:
+%
+\begin{lstlisting}
+(define ancestor?
+  (lambda (name person)
+    ...
+    (person-name person)
+    (person-parent-1 person)
+    (person-parent-2 person)
+    ...))
+\end{lstlisting}
+%
+Was können wir mit diesen Bestandteilen anfangen?  Den Namen der
+Person könnten wir mit dem gesuchten Namen vergleichen~-- wenn ja,
+handelt es sich um einen Vorfahren:
+%
+\begin{lstlisting}
+(define ancestor?
+  (lambda (name person)
+    (if (string=? name (person-name person))
+        #t
+        ...)
+    (person-parent-1 person)
+    (person-parent-2 person)
+    ...))
+\end{lstlisting}
+%
+Bei \lstinline{(person-parent-1 person)} und
+\lstinline{(person-parent-2 person)} handelt es sich um gemischte
+Daten.  Wir könnten die nötige Verzweigung direkt in
+\lstinline{ancestor?} einbauen.  Genauso können wir eine separate
+Funktion schreiben, welche die Frage beantwortet, ob ein Elternteil
+Vorfahr ist.  Da es zwei Elternteile gibt, lohnt sich tendenziell eine
+solche separate Funktion mit Kurzbeschreibung und Signatur wie folgt:
+%
+\begin{lstlisting}
+; Ist jemand Vorfahr:in eines Elternteils?
+(: parent-ancestor? (string parent -> boolean))
+\end{lstlisting}
+%
+Diese Funktion schreiben wir gleich im Anschluss.  Aber ihre Signatur
+ist genug, damit wir die Schablone in Funktion \lstinline{ancestor?}
+weiter ausfüllen, indem wir überprüfen, ob Elternteil Nr.~1 oder Nr.~2
+Vorfahr ist:
+%
+\begin{lstinline}
+(define ancestor?
+  (lambda (name person)
+    (if (string=? name (person-name person))
+        #t
+        (if (or (parent-ancestor? name (person-parent-1 person))
+                (parent-ancestor? name (person-parent-2 person)))
+            #t
+            #f))))
+\end{lstinline}
+%
+Diese Funktion ist schon korrekt, aber sie könnte noch etwas eleganter
+sein.  Der zweite \lstinline{if}-Ausdruck liefert \lstinline{#t}, falls
+die Bedingung \lstinline{#t} und \lstinline{#f}, falls die Bedingung
+\lstinline{#f} liefert: Es kommt also immer das Ergebnis der Bedingung
+heraus.  Das ist eine allgemein anwendbare Regel:
+%
+\begin{lstlisting}
+(if $b$ #t #f) $=$ $b$
+\end{lstlisting}
+%
+Wir können \lstinline{ancestor?} also verkürzen auf:
+%
+\begin{lstlisting}
+(define ancestor?
+  (lambda (name person)
+    (if (string=? name (person-name person))
+        #t
+        (or (parent-ancestor? name (person-parent-1 person))
+            (parent-ancestor? name (person-parent-2 person))))))
+\end{lstlisting}
+%
+Auch den verbleibenden \lstinline{if}-Ausdruck können wir noch
+loswerden, weil er \lstinline{#t} ergibt, wenn die Bedingung
+\lstinline{#t} ergibt oder wenn der \lstinline{or}-Ausdruck
+\lstinline{#t} liefert.  Wir können deshalb die Funktion mit einem
+großen \lstinline{or} schreiben:
+%
+\begin{lstlisting}
+(define ancestor?
+  (lambda (name person)
+    (or (string=? name (person-name person))
+        (parent-ancestor? name (person-parent-1 person))
+        (parent-ancestor? name (person-parent-2 person)))))
+\end{lstlisting}
+%
+Notwendig war diese Vereinfachung nicht, aber schöner sieht das
+Resultat schon aus, finden wir!
+
+Es fehlt noch die Hilfsfunktion \lstinline{parent-ancestor?}.  Hier
+sind ein paar Tests:
+%
+\begin{lstlisting}
+(check-expect (parent-ancestor? "Slash" london-hudson) #t)
+(check-expect (parent-ancestor? "Axl" london-hudson) #f)
+(check-expect (parent-ancestor? "Slash" an-unknown-parent) #f)
+\end{lstlisting}
+%
+Gerüst und Schablone ergeben sich~-- wie immer~-- aus der
+Datendefinition von \lstinline{parent}:
+%
+\begin{lstlisting}
+(define parent-ancestor?
+  (lambda (name parent)
+    (cond
+      ((person? parent) ...)
+      ((unknown-parent? parent) ...))))
+\end{lstlisting}
+%
+Für den ersten Fall können wir \lstinline{ancestor?} benutzen, im
+zweiten Fall können wir mit \lstinline{#f} antworten:
+%
+\begin{lstlisting}
+(define parent-ancestor?
+  (lambda (name parent)
+    (cond
+      ((person? parent)
+       (ancestor? name parent))
+      ((unknown-parent? parent)
+       #f))))
+\end{lstlisting}
+%
+Fertig!
+
+\begin{aufgabeinline}
+  Ändere die Funktion dahingehend, dass eine Person nicht ihr eigener
+  Vorfahr ist.  Wird die Funktion einfacher?
+\end{aufgabeinline}
+
 \section{Binärbäume}
 \label{sec:trees}
+
+FIXME: An \lstinline{confluence} andocken und darüber abstrahieren.
+
+FIXME: Doch Stammbaum mit \lstinline{parent-1} und \lstinline{parent-2}
 
 Viele Anwendungen von Bäumen bauen auf einem
 Spezialfall  auf, den \textit{binären Bäumen\index{binärer
