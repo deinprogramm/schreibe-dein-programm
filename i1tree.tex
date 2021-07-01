@@ -6,15 +6,14 @@
 \chapter{Bäume}
 \label{cha:trees}
 
-FIXME
-
-\index{Baum}Bäume sind induktive Datenstrukturen,
-die viele Anwendungen in der praktischen
-Programmierung haben.  Sie sind beispielsweise die Grundlage
-für schnelle Suchverfahren in Datenbanken und einige
-Datenkompressionsverfahren.  Dieses
-Kapitel demonstriert die Programmierung mit Binärbäumen anhand von
-Suchbäumen.
+\index{Baum}Bäume sind eine Form von Daten, die (wie Listen) besonders
+oft in der Informatik vorkommt.  Oft ergeben sich baumförmige
+Datendefinitionen aus der Problemstellung.  Wenn wir über diese
+Datendefinitionen abstrahieren, entsteht eine universell verwendbare
+Form von Daten, der \textit{Binärbaum}\index{Binärbaum}.  Diese
+Binärbäume sind ähnlich vielseitig wie Listen und erlauben uns
+außerdem, Daten so in Bäumen zu organisieren, dass wir sie schnell
+wiederfinden können.
 
 \section{Stammbäume}
 
@@ -240,258 +239,274 @@ zweiten Fall können wir mit \lstinline{#f} antworten:
 Fertig!
 
 \begin{aufgabeinline}
-  Ändere die Funktion dahingehend, dass eine Person nicht ihr eigener
-  Vorfahr ist.  Wird die Funktion einfacher?
+  Ändere die Funktion \lstinline{ancestor?} dahingehend, dass eine
+  Person nicht ihr eigener Vorfahr ist.
+  Achte darauf, dass ansonsten die Funktion noch richtig arbeitet!
+  Wird die Funktion einfacher?
 \end{aufgabeinline}
 
 \section{Binärbäume}
 \label{sec:trees}
 
-FIXME: An \lstinline{confluence} andocken und darüber abstrahieren.
-
-FIXME: Doch Stammbaum mit \lstinline{parent-1} und \lstinline{parent-2}
-
-Viele Anwendungen von Bäumen bauen auf einem
-Spezialfall  auf, den \textit{binären Bäumen\index{binärer
-    Baum}\index{Binärbaum}\index{Baum!binär}} oder \textit{Binärbäumen}.  
-
-Die Binärbaume bilden eine induktiv definierte Menge.  Ein Baum ist
-eins der folgenden:
+Wir schauen uns nochmal die Record-Defininiton von \lstinline{person}
+an:
 %
-\begin{itemize}
-\item Der \textit{leere Binärbaum\index{leerer Binärbaum}} ist ein Binärbaum.
-\item Ein \textit{Knoten\index{Knoten}}, bestehend seinerseits aus zwei Binärbäumen,
-  genannt \textit{linker} und \textit{rechter
-    Teilbaum}\index{Teilbaum} des Knotens
-  und einer beliebigen \textit{Markierung\index{Markierung}} ist ebenfalls ein
-  Binärbaum.
-\end{itemize}
+\begin{lstlisting}
+(define-record person
+  make-person
+  person?
+  (person-name string)
+  (person-parent-1 parent)
+  (person-parent-2 parent))
+\end{lstlisting}
 %
-\begin{figure}[h!]
-  TBD
-% \begin{pspdf}
-% \begin{center}
-%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{Axl} { \pstree{\Tr{Slash} {
-%       \pstree{\Tr{Buckethead}} { \Tdot \pstree{\Tr{Dizzy}} { \Tdot \Tdot } } \Tdot}
-%     \pstree{\Tr{Duff}} { \pstree{\Tr{Brain}} { \Tdot \Tdot } \Tdot
-%       } }
-% \end{center}
-% \end{pspdf}
-  \caption{Binärbaum}
-  \label{fig:bintree1}
-\end{figure}
-Die Markierung an den Knoten kann beliebige Daten aufnehmen, je nach
-Verwendungszweck des Baums.
+Vielleicht hat Dich das an eine Record-Definition aus
+Kapitel~\ref{cha:selbstbezug} erinnert:
+%
+\begin{lstlisting}
+(define-record confluence
+  make-confluence
+  confluence?
+  (confluence-location  string)
+  (confluence-main-stem river)
+  (confluence-tributary river))
+\end{lstlisting}
+%
+Die Struktur ist bei beiden Definitionen gleich.  Insbesondere
+enthalten beide Definitionen jeweils zwei Selbstreferenzen.  Bei
+\lstinline{person} ist die Selbstreferenz auf \lstinline{parent}, das
+so definiert ist:
+%
+\begin{lstlisting}
+(define parent
+  (signature
+   (mixed person unknown-parent)))
+\end{lstlisting}
+% 
+Bei \lstinline{confluence} ist die Selbstreferenz auf
+\lstinline{river}:
+%
+\begin{lstlisting}
+(define river
+  (signature (mixed creek confluence)))
+\end{lstlisting}
+%
+Die jeweils anderen Fälle von \lstinline{parent} und
+\lstinline{person} unterscheiden sich leicht:
+%
+\begin{lstlisting}
+(define-record unknown-parent
+  make-unknown-parent
+  unknown-parent?)
 
-Binärbäume haben eine einleuchtende grafische Darstellung, die in
-Abbildung~\ref{fig:bintree1} vorgestellt wird.  Die Punkte unten
-am Baum stehen für leere Binärbäume.  Ein Bild der Form:
+(define-record creek
+  make-creek
+  creek?
+  (creek-origin string))
+\end{lstlisting}
+%
+In beiden steckt selbst aber keine Selbstreferenz mehr.  Beide
+Datendefinitionen bilden baumartige Strukturen ab: Ein
+\lstinline{person}- oder \lstinline{confluence}-Record bildet einen
+Ast, der zweifach verzweigt.  Ein Baum endet jeweils bei
+\lstinline{unknown-parent}- oder \lstinline{creek}-Records.  Weil die
+"<inneren"> Äste immer zweifach verzweigen, handelt es sich in beiden
+Fällen um \textit{Binärbäume}\index{Binärbaum}.  
 
-TBD
-
-% \begin{pspdf}
-% \begin{center}
-%   \pstree[levelsep=4ex,treesep=3em,labelsep=3pt,nodesep=2pt]{\Tr{$L$}}
-%   {
-%     \Tr{\raisebox{-1ex}{\ldots}}
-%     \Tr{\raisebox{-1ex}{\ldots}}
-%     }
-% \end{center}
-% \end{pspdf}
-
-steht für einen Knoten mit Markierung $L$, unter dem sich ein linker und
-ein rechter Teilbaum befinden.  Die Teilbäume werden auch
-\textit{Zweige}\index{Zweig}  genannt.  Knoten, die als linken und rechten
-Teilbaum jeweils den leeren Baum haben, heißen auch
-\textit{Blätter\index{Blatt}}.
-
-Die Datendefinition für Bäume zeigt klar, daß es sich um gemischte
-Daten handelt.  Für die leeren Bäume kommt ein eigener Record-Typ zum
-Einsatz:\index{empty-tree@\texttt{empty-tree}}
+Über diese beiden Sätze von Definitionen können wir abstrahieren.
+Fangen wir mit \lstinline{person} und \lstinline{confluence} an.  Der
+gängige Name für die Verzweigungen innerhalb eines Binärbaums ist
+\textit{Knoten}\index{Knoten} oder \textit{innerer Knoten}, auf
+Englisch \textit{node}.  Wir brauchen außerdem einen Namen für die
+"<Namensdaten">, die bei beiden noch dabei sind.  Üblich ist
+\textit{Markierung}\index{Markierung}, auf Englisch \textit{label}.
+Die Signatur für den Selbstbezug nennen wir einfach \lstinline{tree}:
 %
-\begin{alltt}
-;  leerer Baum
-(define-record-procedures empty-tree
-  make-empty-tree empty-tree?
-  ())
-\end{alltt}
+\begin{lstlisting}
+(define-record node
+  make-node node?
+  (node-label string)
+  (node-left-branch tree)
+  (node-right-branch tree))
+\end{lstlisting}
 %
-Auf den ersten Blick scheint hier ein Mißbrauch vorzuliegen~--
-immerhin handelt es sich bei leeren Bäumen eindeutig nicht um
-zusammengesetzte Daten: Der Record-Typ
-hat kein einziges Feld.  Record-Typen haben aber noch die 
-Funktion, neue Datensorten einzuführen, und sind darum auch dann das
-Mittel der Wahl für die Realisierung gemischter Daten,
-wenn es sich nicht wirklich um zusammengesetzte Daten
-handelt.  In diesem Fall reicht es, nur einen leeren
-Baum zu haben, genauso wie es nur eine leere Liste gibt:\index{the-empty-tree@\texttt{the-empty-tree}}
+Bei der Definition für \lstinline{tree} brauchen wir noch einen Namen
+für die Werte an den Rändern des Baums~-- genannt
+\textit{Blätter}\index{Blatt}, auf Englisch \textit{leaf}.
 %
-\begin{alltt}
-(define the-empty-tree (make-empty-tree))
-\end{alltt}
+\begin{lstlisting}
+(define tree
+  (signature (mixed leaf node)))
+\end{lstlisting}
 %
-Knoten hingegen sind tatsächlich zusammengesetzte Daten: Ein Knoten
-besteht aus seiner Markierung sowie linkem und rechtem
-Teilbaum.  Da es Bäume über verschiedenen Sorten von Markierungen
-gibt, ist die Signatur für Knoten parametrisch:\index{node@\texttt{node}}\index{node@\texttt{node}}
+Es fehlt noch die Definition von \lstinline{leaf}.  Hier ist es nicht
+ganz so einfach, weil \lstinline{creek} noch einen Namen enthält,
+\lstinline{unknown-parent} aber nicht.  Wir müssen also über beide
+abstrahieren.  Einen Namen haben wir ja schon~-- \lstinline{leaf}~--
+es fehlt noch das \lstinline{lambda}:
 %
-\begin{alltt}
-; Ein Knoten besteht aus:
-; - Markierung
-; - linker Teilbaum
-; - rechter Teilbaum
-(define-record-procedures-parametric node node-of*
- make-node node?
- (node-label
-  node-left-branch node-right-branch))
-
-(define node-of
- (lambda (x)
-   (signature
-    (node-of* x (tree-of x) (tree-of x)))))
-\end{alltt}
-%
-Hier ist die Datendefinition für Bäume im allgemeinen:
-%
-\begin{alltt}
-; Ein Binärbaum ist eins der folgenden:
-; - ein leerer Baum
-; - ein Knoten
+\begin{lstlisting}
 (define tree-of
- (lambda (x)
-   (signature (mixed empty-tree (node-of x)))))
-\end{alltt}
+  (lambda (leaf)
+    (signature (mixed leaf node))))
+\end{lstlisting}
 %
-Damit kann ein Baum wie der in Abbildung~\ref{fig:bintree1} durch
-folgenden Ausdruck konstruiert werden:
+Das zieht noch eine weitere Änderung nach sich, weil \lstinline{tree}
+ja in der Definition von \lstinline{node} verwendet wird.  Wir müssen
+da entsprechend den \lstinline{leaf}-Parameter mit durchziehen:
 %
-\begin{alltt}
-(: t (tree-of string))
-(define t
-  (make-node
-   "A"
-   (make-node
-    "B"
-    (make-node
-     "C"
-     the-empty-tree
-     (make-node "D" the-empty-tree the-empty-tree))
-    the-empty-tree)
-   (make-node
-    "E"
-    (make-node "F" the-empty-tree the-empty-tree)
-    the-empty-tree)))
-\end{alltt}
+\begin{lstlisting}
+(define-record (node-of leaf)
+  make-node node?
+  (node-label string)
+  (node-left-branch (tree-of leaf))
+  (node-right-branch (tree-of leaf)))
+\end{lstlisting}
 %
-Hier sind zwei weitere Beispielbäume über ganzen Zahlen:
-% HK: t1 modifiziert, damit node-count ein anderes Ergebnis liefert als depth
-\begin{alltt}
-(: t1 (tree-of integer))
-(define t1
-  (make-node 3
-    (make-node 4
-      the-empty-tree
-      (make-node 7 the-empty-tree the-empty-tree))
-    (make-node 8 the-empty-tree the-empty-tree)))
+Die Notation für die Abstraktion der Record-Signatur mit den
+Extra-Klammern um \lstinline{(node-of leaf)} haben wir bisher erst
+einmal gesehen, bei der Definition von \lstinline{list-of} in
+Abschnitt~\ref{function:list-of} auf Seite~\pageref{function:list-of}.
 
-(: t2 (tree-of integer))
-(define t2 (make-node 17 (make-node 3 the-empty-tree t1) the-empty-tree))
-\end{alltt}
-Als Beispiel für das Programmieren mit Bäumen dient die
-\textit{Tiefe}\index{Tiefe!eines Baumes}
-eines Binärbaums, also die maximale Anzahl von "<Ebenen"> im Bild des
-Binärbaums.  Hier sind Kurzbeschreibung, Signatur, Testfälle und
-Gerüst:\index{depth@\texttt{depth}}
+Wir könnten an dieser Stelle fertig sein.  Wir nehmen aber noch eine
+Verallgemeinerung vor: Wie wir sehen werden, müssen die Markierungen
+in Bäumen nicht unbedingt Zeichenketten sein~-- wir werden da noch
+andere Arten von Werten ablegen wollen.  Darum abstrahieren wir auch
+über die Signatur der Markierungen noch.  Außerdem reichen wir noch
+die Datendefinitionen nach:
 %
-\begin{alltt}
+\begin{lstlisting}
+; Ein Knoten besteht aus
+; - Markierung
+; - linken Ast
+; - rechter Ast
+(define-record (node-of leaf label)
+  make-node node?
+  (node-label label)
+  (node-left-branch (tree-of leaf label))
+  (node-right-branch (tree-of leaf label)))
+
+; Ein Binärbaum ist entweder ein Blatt oder ein Knoten
+(define tree-of
+  (lambda (leaf node-label)
+    (signature (mixed leaf (node-of leaf node-label)))))
+\end{lstlisting}
+%
+Das nun ist die Definition eines Binärbaums in Reinform.  Hier sind
+zwei Beispiele, bei denen wir einfach den Wert \lstinline{#f} als
+Blatt verwendet haben:
+%
+\begin{lstlisting}
+(: tree1 (tree-of false number))
+(define tree1 (make-node 3 (make-node 4 #f (make-node 7 #f #f)) #f))
+(: tree2 (tree-of false number))
+(define tree2 (make-node 17 (make-node 3 #f tree1) #f))
+\end{lstlisting}
+%
+Hier ist noch ein weiteres Beispiel, bei dem die Blätter Zahlen sind
+und die Markierungen Zeichenketten
+\begin{lstlisting}
+(: tree3 (tree-of number string))
+(define tree3 (make-node "Axl"
+                         (make-node "Slash" 17 (make-node "Duff" 14 23))
+                         12))
+\end{lstlisting}
+%
+% FIXME: Bild mit tree1, tree2, tree3?
+Wir können \lstinline{tree-of} benutzen, um die Definition von
+\lstinline{river} und \lstinline{parent} zu vereinfachen:
+%
+\begin{lstlisting}
+(define river (tree-of creek string))
+(define river? node?)
+(define make-confluence make-node)
+(define confluence-location node-label)
+(define confluence-main-stem node-left-branch)
+(define confluence-tributary node-right-branch)
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Definiere \lstinline{person} mit Hilfe von \lstinline{tree-of}!
+\end{aufgabeinline}
+%
+Auf Bäumen kann man alle möglichen Sachen berechnen.  Ein Beispiel ist
+die \textit{Tiefe}\index{Tiefe!eines Baums}, also die maximale Anzahl
+Knoten auf dem Weg zu einem Blatt.  (Manchmal heißt diese Größe auch
+die \textit{Höhe}\index{Höhe!eines Baums} eines Baums.)  Für die Tiefe
+des Baums sind die Signaturen der Blätter und Markierungen egal:
+%
+\begin{lstlisting}
 ; Tiefe eines Baums berechnen
-(: depth ((tree-of %a) -> natural))
+(: depth ((tree-of %leaf %label) -> natural))
+\end{lstlisting}
+%
+Hier sind zwei Testfälle:
+%
+\begin{lstlisting}
+(check-expect (depth tree1) 3)
+(check-expect (depth tree2) 5)
+\end{lstlisting}
+%
+Bei \lstinline{tree1} sind es die Knoten mit den Markierunen 3, 4 und
+7, die den maximal langen Weg zu einem Blatt bilden.  Bei
+\lstinline{tree2} sind es 17, 3, 3, 4, 7.
 
-(check-expect (depth t1) 3)
-(check-expect (depth t2) 5)
-
+Es geht wieder los mit der Konstruktionsanleitung.  Wir brauchen die
+Schablone für gemischte Daten als Eingabe.  Da die Datendefinition für
+Binärbäume zwei Fälle hat, brauchen wir ein \lstinline{cond} mit zwei
+Zweigen.  Beim ersten können wir Bedingungen mit \lstinline{node?}
+bilden.  Die Blätter haben kein festes Prädikat, aber das sind einfach
+alle Bäume, die keine Knoten sind~-- wir können also statt einer
+Bedingung \lstinline{else} schreiben:
+%
+\begin{lstlisting}
 (define depth
   (lambda (tree)
-    ...))
-\end{alltt}
-%
-Es geht weiter strikt nach Anleitung: Es handelt sich um gemischte
-Daten, also kommt eine Verzweigung zum Einsatz.  Da es zwei
-verschiedene Sorten Bäume gibt, hat die Verzweigung zwei Zweige:
-%
-\begin{alltt}
-(define depth
-  (lambda (t)
     (cond
-      ((empty-tree? t)
+      ((node? tree) ...)
+      (else ... 0))))
+\end{lstlisting}
+%
+In den Knoten stecken zwei Selbstbezüge, wir brauchen also zwei
+rekursive Aufrufe:
+%
+\begin{lstlisting}
+(define depth
+  (lambda (tree)
+    (cond
+      ((node? tree)
+       ...
+       (depth (node-left-branch tree))
+       (depth (node-right-branch tree))
        ...)
-      ((node? t)
-       ...))))
-\end{alltt}
+      (else ...))))
+\end{lstlisting}
 %
-Der erste Fall ist einfach: Der leere Baum hat die Tiefe 0.  Im
-zweiten Fall geht es um Knoten, die wiederum Bäume enthalten.  Genau
-wie bei Listen gibt es also Selbstreferenzen und damit Rekursion:
+Für die Tiefe zählt nur der Weg mit der maximalen Anzahl von Knoten.
+Außerdem müssen wir den Knoten in \lstinline{tree} noch mitzählen.
+Blätter zählen überhaupt nicht:
 %
-\begin{alltt}
+\begin{lstlisting}
 (define depth
-  (lambda (t)
+  (lambda (tree)
     (cond
-      ((empty-tree? t)
-       0)
-      ((node? t)
-       ... (node-label t) ...
-       ... (depth (node-left-branch t)) ...
-       ... (depth (node-right-branch t)) ...))))
-\end{alltt}
-%
-Die Markierung spielt keine Rolle für die Tiefe, kann also wegfallen.
-Bei den Teilbäumen spielt für die Tiefe des Knotens nur der tiefere
-der beiden eine Rolle.  Der Knoten ist um eins tiefer als das Maximum
-der Tiefen der Teilbäume:
-%
-\begin{alltt}
-(define depth
-  (lambda (t)
-    (cond
-      ((empty-tree? t)
-       0)
-      ((node? t)
+      ((node? tree)
        (+ 1
-          (max (depth (node-left-branch t))
-               (depth (node-right-branch t))))))))
-\end{alltt}
+          (max (depth (node-left-branch tree))
+               (depth (node-right-branch tree)))))
+      (else 0))))
+\end{lstlisting}
 %
-(\texttt{Max}\index{max@\texttt{max}} ist eine eingebaute Funktion,
-die das Maximum ihrer Argumente ermittelt.)
-
-Auch \texttt{depth} folgt einer 
-Schablone, die für viele Funktionen auf Bäumen
-gilt; Aufgabe~\ref{ex:recipe-trees} beschäftigt sich damit.
-Ihr folgt auch die Funktion \texttt{node-count}, welche die Anzahl der
-Knoten in einem Binärbaum liefert:\index{node-count@\texttt{node-count}}
+Fertig!
 %
-\begin{alltt}
-; Knoten in Baum zählen
-(: node-count ((tree-of %a) -> natural))
-
-(check-expect (node-count t1) 4)
-(check-expect (node-count t2) 6)
-
-(define node-count
-  (lambda (t)
-    (cond
-      ((empty-tree? t)
-       0)
-      ((node? t)
-       (+ 1
-          (node-count (node-left-branch t))
-          (node-count (node-right-branch t)))))))
-\end{alltt}
-%
+\begin{aufgabeinline}
+  Schreiben Sie eine Funktion, die alle Knoten eines Baums zählt!
+\end{aufgabeinline}
 
 \section{Suchbäume}
 \label{sec:search-trees}
+
+FIXME member?
 
 Viele Programme benötigen irgendeine Form von Suchfunktionalität in
 einer Menge von Daten: Es könnte sich um die Suche nach einer

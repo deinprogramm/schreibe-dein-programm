@@ -75,6 +75,10 @@
 ; Ist jemand Vorfahr:in eines Elternteils?
 (: parent-ancestor? (string parent -> boolean))
 
+(check-expect (parent-ancestor? "Slash" london-hudson) #t)
+(check-expect (parent-ancestor? "Axl" london-hudson) #f)
+(check-expect (parent-ancestor? "Slash" an-unknown-parent) #f)
+
 (define parent-ancestor?
   (lambda (name parent)
     (cond

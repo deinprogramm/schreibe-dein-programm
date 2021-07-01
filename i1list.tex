@@ -11,7 +11,7 @@ Im vorigen Kapitel haben wir bereits Daten mit Selbstbezug
 kennengelernt, die Informationen variabler Größe repräsentieren
 können: Flüsse, Bilder und Finanzverträge.  Die Repräsentationen dafür
 waren recht speziell das jeweilige Einsatzgebiet gekoppelt.  In diesem
-Kapitel lernen wir eine besonders praktische Datenstruktur mit
+Kapitel lernen wir eine besonders praktische Datendefinition mit
 Selbstbezug kennen, die in nahezu allen Einsatzgebieten nützlich ist:
 \textit{Listen}.\index{Liste}
 
@@ -446,7 +446,7 @@ Record-Definition geht das, indem wir aus \lstinline{cons-list} stattdessen
 \lstinline{(cons-list-of element)} machen.
 Das wirkt wie ein
 \lstinline{lambda} und wir können dann \lstinline{element} innerhalb
-der Record-Definition benutzen:
+der Record-Definition benutzen:\label{function:cons-list-of}
 %
 \begin{lstlisting}
 (define-record (cons-list-of element)
@@ -1429,7 +1429,7 @@ Fertig!
 
 \section*{Anmerkungen}
 
-Listen sind, was Datenstrukturen betrifft, eine Art Alleskleber:
+Listen sind eine Art Alleskleber:
 Sie taugen auch für die Repräsentation von Tabellen,
 Mengen und vielen anderen zusammengesetzten Daten.  Für Listen gibt es
 eine riesige Anzahl praktischer Funktionen, von denen die Funktionen in
