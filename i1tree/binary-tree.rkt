@@ -137,13 +137,18 @@
 (check-expect (member? string=? "Buckethead" (list "Axl" "Slash")) #f)
 
 (define member?
-  (lambda (= element list)
+  (lambda (equals? element list)
     (cond
       ((empty? list) #f)
       ((cons? list)
-       (if (= element (first list))
+       (if (equals? element (first list))
            #t
-           (member? = element (rest list)))))))
+           (member? equals? element (rest list)))))))
+
+
+
+; Ist eine Zahl in einem sortierten Baum vorhanden? 
+(: tree-member? (real (tree-of false real) -> boolean))
 
 (define tree4
    (make-node 5
@@ -151,9 +156,6 @@
               (make-node 17
                          (make-node 10 #f (make-node 12 #f #f))
                          #f)))
-
-; Ist eine Zahl in einem sortierten Baum vorhanden? 
-(: tree-member? (real (tree-of false real) -> boolean))
 
 (check-expect (tree-member? 5 tree4) #t)
 (check-expect (tree-member? 17 tree4) #t)

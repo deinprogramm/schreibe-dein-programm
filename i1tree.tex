@@ -412,7 +412,7 @@ und die Markierungen Zeichenketten
                          12))
 \end{lstlisting}
 %
-% FIXME: Bild mit tree1, tree2, tree3?
+% FIXME: Bild mit tree1, tree2, tree3 - dabei auch Begriff Wurzel einführen
 Wir können \lstinline{tree-of} benutzen, um die Definition von
 \lstinline{river} und \lstinline{parent} zu vereinfachen:
 %
@@ -506,7 +506,440 @@ Fertig!
 \section{Suchbäume}
 \label{sec:search-trees}
 
-FIXME member?
+Viele Probleme bei der Programmierung sind "<Suchprobleme">: Einen
+Namen, eine Telefonummer, eine Bestellnummer aus einer Liste
+heraussuchen.  Darum geht es in diesem Abschnitt und wir fangen damit
+an, dass wir das Wort "<Liste"> wörtlich nehmen und eine Funktion wie
+folgt schreiben:
+%
+\begin{lstlisting}
+; ist Wert Element einer Liste?
+(: member? (%a (list-of %a) -> boolean))
+\end{lstlisting}
+%
+Wir haben eine Signaturvariable verwendet, weil es sich bei den
+Listenelementen mal um Zahlen, mal um Zeichenketten, mal um etwas
+anderes handeln kann.  Hier sind ein paar Testfälle:
+%
+\begin{lstlisting}
+(check-expect (member? 5 empty) #f)
+(check-expect (member? 2 (list 1 2 3)) #t)
+(check-expect (member? "Slash" (list "Axl" "Slash")) #t)
+(check-expect (member? "Buckethead" (list "Axl" "Slash")) #f)
+\end{lstlisting}
+%
+Hier Gerüst und Schablone für Funktionen auf Listen:
+%
+\begin{lstlisting}
+(define member?
+  (lambda (element list)
+    (cond
+      ((empty? list) ...)
+      ((cons? list)
+       ... 
+       (first list)
+       (member? element (rest list))
+       ...))))
+\end{lstlisting}
+%
+Bei der leeren Liste kann die Funktion nur \lstinline{#f}
+zurückgeben.  Bei der Cons-Liste legt die Schablone nahe, dass die
+Funktion erst einmal prüfen sollte, ob \lstinline{(first list)} das
+gesucht Element ist.
+
+Klingt einfach, oder?  Aber \emph{wie} prüfen wir das?  Wir könnten
+das hier hinschreiben:
+%
+\begin{lstlisting}
+(= element (first list))
+\end{lstlisting}
+%
+\ldots~aber das würde die Funktion auf Zahlen beschränken, weil
+\lstinline{=} nur auf Zahlen funktioniert.  Für die beiden Testfälle
+mit Zeichenketten müssten wir \lstinline{string=?} verwenden.  Wir
+müssen also \lstinline{member?} über \lstinline{=} respektive
+\lstinline{string=?} abstrahieren, noch bevor die Funktion überhaupt
+fertig ist.  Wir brauchen wie immer einen weiteren Parameter und
+nennen ihn \lstinline{equals?}:
+%
+\begin{lstlisting}
+(define member?
+  (lambda (equals? element list)
+    (cond
+      ((empty? list) ...)
+      ((cons? list)
+       ... 
+       (first list)
+       (member? equals? element (rest list))
+       ...))))
+\end{lstlisting}
+%
+(Aufpassen: Der rekursive Aufruf muss~-- wie immer~-- auch durch den
+neuen Parameter erweitert werden.)
+
+Jetzt können wir den Vergleich mit Hilfe von \lstinline{equals?}
+durchführen und diesen mit einer binären Verzweigung verarbeiten:
+%
+\begin{lstlisting}
+(define member?
+  (lambda (equals? element list)
+    (cond
+      ((empty? list) #f)
+      ((cons? list)
+       (if (equals? element (first list))
+           #t
+           (member? equals? element (rest list)))))))
+\end{lstlisting}
+%
+Signatur und Testfälle haben von dem neuen Parameter noch nichts
+mitbekommen.  Die \lstinline{equals?}-Funktion akzeptiert zwei
+Listenelemente und liefert ein boolesches Ergebnis.  Da die
+Listenelemente die Signatur \lstinline{%a}
+haben, sieht die Signaturdeklaration für \lstinline{member?} so aus:
+%
+\begin{lstlisting}
+(: member? ((%a %a -> boolean) %a (list-of %a) -> boolean))
+\end{lstlisting}
+%
+Bei den Testfällen müssen wir jeweils noch die richtige
+Vergleichsfunktion übergeben.  Das ist \lstinline{=} für Zahlen und
+\lstinline{equals?} für Zeichenketten.
+%
+\begin{lstlisting}
+(check-expect (member? = 5 empty) #f)
+(check-expect (member? = 2 (list 1 2 3)) #t)
+(check-expect (member? string=? "Slash" (list "Axl" "Slash")) #t)
+(check-expect (member? string=? "Buckethead" (list "Axl" "Slash")) #f)
+\end{lstlisting}
+%
+Fertig!
+
+Allerdings hat \lstinline{member?} einen Nachteil: Bei kurzen Listen
+oder wenn das gesuchte Element am Anfang der Liste steht, wird
+\lstinline{member?} ziemlich schnell fertig.  Aber stell Dir vor, die
+Liste hat ein paar Millionen Elemente und das gesuchte Element ist am
+Ende.  Oder gar nicht drin: Dann muss \lstinline{member?} die gesamte
+Liste abklappern.
+%
+\begin{aufgabeinline}
+  Schreibe mit Hilfe von \lstinline{member?} eine Funktion, die von
+  zwei Listen alle Elemente liefert, die in beiden Listen stehen, also
+  deren Schnittmenge.  Wie lange braucht diese Funktion im
+  ungünstigsten Fall?
+\end{aufgabeinline}
+%
+Kann irgendwie schneller herausfinden, ob ein Wert Element einer Menge
+ist oder nicht?  In der Tat ist das möglich, aber nicht mit Listen:
+Wir brauchen eine andere Struktur, um das Suchen zu beschleunigen~--
+Bäume.
+
+\begin{figure}[tb]
+\begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
+\node (z){$M$}
+  child {node (a) {$B$}
+    child {node (b) {$A$}
+      child {node {$\bullet$}} 
+      child {node {$\bullet$}}
+    }
+    child {node (g) {$D$}
+      child {node {$\bullet$}}
+      child {node {$\bullet$}}
+    }
+  }
+  child {node (j) {$O$}
+    child {node (k) {$N$}
+      child {node {$\bullet$}}
+      child {node {$\bullet$}}
+    }
+    child {node (l) {$R$}
+      child {node {$\bullet$}}
+      child {node {$\bullet$}}
+    }
+  };
+\end{tikzpicture}
+  \caption{Ein Suchbaum über Buchstaben}
+  \label{fig:searchtree}
+\end{figure}
+
+Schau Dir mal Abbildung~\ref{fig:searchtree} an.  In diesem Baum musst
+Du nicht alle Elemente anschauen, um ein bestimmtes Element zu
+finden.  Das liegt daran, dass die Buchstaben in dem Baum auf
+bestimmte Art nach dem Alphabet sortiert sind:
+
+Die Wurzel mit der Markierung $M$ hat zwei Teilbäume~-- die
+Markierungen des linken Teilbaums liegen allesamt \emph{vor} $M$ im
+Alphabet, alle Markierungen des rechten Teilbaums \emph{nach} $M$.
+Wenn Du also nach einem Buchstaben suchst~-- nehmen wir mal $D$~--
+dann weißt Du, wenn Du die Wurzel mit $M$ siehst, dass $D$ im linken
+Teilbaum von $M$~-- mit der Markierung $B$ und von da aus im rechten
+Teilbaum von $B$ stehen muss.  Die Knoten $A$, $O$, $N$, $R$ kannst Du
+ignorieren.
+
+Die Suche braucht also höchstens so viele Schritte wie der Baum tief
+ist.  Das ist schonmal besser, als in der Liste zu suchen, wo wir
+potenziell alle Elemente anschauen müssen.  Programmieren wir das
+also!
+
+Wir fangen mit einem derart sortierten Baum über reellen Zahlen an.
+(Reelle Zahlen deshalb, weil wir sie einfach mit \lstinline{=} und
+\lstinline{<} vergleichen können.  Wir verallgemeinern das später.)
+Die Zahlen kleben als Markierungen an den Knoten.  An den Blättern
+steht nichts relevantes, wir benutzen deshalb immer \lstinline{#f}.
+Entsprechend sehen Kurzbeschreibung und Signatur so aus:
+%
+\begin{lstlisting}
+; Ist eine Zahl in einem sortierten Baum vorhanden? 
+(: tree-member? (real (tree-of false real) -> boolean))
+\end{lstlisting}
+%
+Die Signatur \lstinline{false}\index{false@\texttt{false}} ist neu:
+Sie beschreibt nur den Wert \lstinline{#f}.  Entsprechend gibt es
+natürlich auch eine Signatur
+\lstinline{true}\index{true@\texttt{true}} für \lstinline{#t}.
+
+Als Beispielbaum für die Tests benutzen wir diesen hier:
+%
+\begin{lstlisting}
+(define tree4
+   (make-node 5
+              (make-node 3 #f #f)
+              (make-node 17
+                         (make-node 10 #f (make-node 12 #f #f))
+                         #f)))
+\end{lstlisting}
+%
+Hier sind ein paar Tests:
+%
+\begin{lstlisting}
+(check-expect (tree-member? 5 tree4) #t)
+(check-expect (tree-member? 17 tree4) #t)
+(check-expect (tree-member? 3 tree4) #t)
+(check-expect (tree-member? 10 tree4) #t)
+(check-expect (tree-member? 2 tree4) #f)
+\end{lstlisting}
+%
+Hier ist das Gerüst:
+\begin{lstlisting}
+(define tree-member?
+  (lambda (value tree)
+    ...))
+\end{lstlisting}
+%
+In die Schablone für Bäume tragen wir gleich den zweiten Fall ein:
+Wenn die Funktion ein Blatt erreicht, dann ist das \lstinline{value}
+definitiv nicht im Baum, das Ergebnis dann \lstinline{#f}:
+%
+\begin{lstlisting}
+(define tree-member?
+  (lambda (value tree)
+    (cond
+      ((node? tree)
+       ...
+       (node-label tree)
+       (tree-member? value (node-left-branch tree))
+       (tree-member? value (node-right-branch tree))
+       ...
+      (else #f)))))
+\end{lstlisting}
+%
+Bei Knoten können wir drei Fälle unterscheiden: Wenn die Markierung
+gerade das gesucht \lstinline{value} ist, wenn \lstinline{value}
+kleiner ist als die Markierung (also im linken Teilbaum stehen muss)
+und wenn sie größer ist.  Daraus ergibt sich folgende
+Weiterentwicklung:
+\begin{lstlisting}
+(define tree-member?
+  (lambda (value tree)
+    (cond
+      ((node? tree)
+      ...
+      (tree-member? value (node-left-branch tree)))
+      (tree-member? value (node-right-branch tree))
+      (cond
+         ((= value (node-label tree)) #t)
+         ((< value (node-label tree)) ...
+         (else ...)))
+      (else #f))))
+\end{lstlisting}
+%
+Da \lstinline{(node-label tree)} zweimal vorkommt, machen wir dafür
+eien Definition und setzen die Bestandteile der Schablone so zusammen:
+%
+\begin{lstlisting}
+(define tree-member?
+  (lambda (value tree)
+    (cond
+      ((node? tree)
+       (define label (node-label tree))
+       (cond
+         ((= value label) #t)
+         ((< value label)
+          (tree-member? value (node-left-branch tree)))
+         (else
+          (tree-member? value (node-right-branch tree)))))
+      (else #f))))
+\end{lstlisting}
+%
+Fertig!
+
+Intuitiv ist die Idee mit dem sortierten Baum beim Suchen
+effizienter.  Aber hält diese Intuition auch einer mathematischen
+Untersuchung stand?  Betrachte dazu den Baum in "<Ebenen"> --
+erste Ebene ist die Wurzel, die zweite Ebene deren Teilbäume, die
+dritte Ebene wiederum deren Teilbäume undsoweiter.  Dann passen in
+jede Ebene doppelt soviele Knoten wie in die Ebene darüber.
+
+In einen Baum der Tiefe 1 passt auch nur $1 = 2^0$ Knoten, in einen
+der Tiefe 2 passen $2^0 + 2^1 = 1+2 = 3$ Knoten, dann 7, dann 15
+undsoweiter.  Dir fällt vielleicht auf, dass die Zahlen 1, 3, 7, 15
+allesamt Vorgänger einer Zweierpotenz sind.  Wir können deshalb
+versuchen, das zu einer Formel zu verallgemeinern.  Die Tiefe des
+Baums heißt dabei $t$.  Dann nehmen wir an (oder hoffen zumindest),
+dass für für alle 
+%
+\begin{displaymath}
+  2^0 + ... + 2^{t-1} = \sum_{i=0}^{i=t-1} 2^i  = 2^t-1
+\end{displaymath}
+%
+Da es sich bei $t$ um eine natürliche Zahl handelt, können wir
+vollständige Induktion anwenden nach der Anleitung in
+Abschnitt~\ref{sec:nat-induction-ka} auf
+Seite~\pageref{sec:nat-induction-ka}.
+
+Wir müssen also beweisen, dass für alle $t\in\mathbb{N}$ gilt:
+%
+\begin{displaymath}
+  \sum_{i=0}^{i=t-1} 2^i  = 2^t-1
+\end{displaymath}
+%
+$t=0$:
+%
+\begin{displaymath}
+  \sum_{i=0}^{i=0-1} 2^i = 2^0 - 1
+\end{displaymath}
+%
+Beweis:
+%
+\begin{eqnarray*}
+  \sum_{i=0}^{i=-1} 2^i
+  &=& 0\\
+  &=& 1-1\\
+  &=& 2^0 - 1
+\end{eqnarray*}
+%
+(Vielleicht kommt Dir komisch vor, dass die Summe von $0$ bis $-1$
+läuft.  Da es keine Zahl zwischen $0$ bis $-1$ gibt, ist die Summe
+leer und deshalb das neutrale Element bezüglich der Addition.)
+
+\smallskip
+
+\noindent Induktionsvoraussetzung:
+\begin{displaymath}
+  \sum_{i=0}^{i=t-1} 2^i  = 2^t-1
+\end{displaymath}
+%
+Induktionsschluss (zu zeigen):
+%
+\begin{displaymath}
+    \sum_{i=0}^{i=(t+1)-1} 2^t = 2^{t+1} - 1
+\end{displaymath}
+%
+Beweis:
+%
+\begin{eqnarray*}
+  \sum_{i=0}^{i=(t+1)-1} 2^i
+  &=& \sum_{i=0}^{i=t} 2^i\\
+  &=& \sum_{i=0}^{i=t-1} 2^i + 2^t\\
+  &=& 2^t-1 + 2^t \quad\textrm{Induktionsvoraussetzung}\\
+  &=& 2^t\cdot 2 - 1\\
+  &=& 2^{t+1} - 1
+\end{eqnarray*}
+%
+Wozu ist diese Formel gut, fragst Du Dich vielleicht.  Nun, die rechte
+Seite können wir umdrehen.  (Bei der linken Seite ist das
+schwieriger.) Wenn die Anzahl der Knoten $k$ ist, dann gilt:
+%
+\begin{displaymath}
+  \begin{array}{lrcl}
+    & k &=& 2^t - 1\\
+    \Longleftrightarrow & k + 1 &=& 2^t\\
+    \Longleftrightarrow & \log_2(k+1) &=& t
+  \end{array}
+\end{displaymath}
+%
+Die $\log_2$ ist der sogenannte
+\textit{Logarithmus}\index{Logarithmus} zur Basis 2, auch genannte
+\textit{Zweierlogarithmus}\index{Zweierlogarithmus}.  Das ist die
+Umkehrfunktion zur Exponentialfunktion mit der Basis 2.
+
+\begin{figure}[tb]
+  \centering
+\begin{tikzpicture}
+  \begin{axis}[
+    title={Tiefe eines sortierten Baums },
+    xlabel={Anzahl $k$ der Baumelemente},
+    ylabel={$t = \log_2(k+1)$}
+    ]
+    \addplot [
+    blue,
+    domain=0:100,
+    samples=100,
+    ]
+    {log2(x+1)}; 
+  \end{axis}
+\end{tikzpicture}
+  \caption{Beziehung zwischen Anzahl von Knoten und Tiefe eines Binärbaums}
+  \label{fig:log2}
+\end{figure}
+
+Schau Dir Abbildung~\ref{fig:log2} an: Da siehst Du, dass die Tiefe~--
+mithin der Logarithmus~-- viel langsamer wächst als die Anzahl der
+Knoten, und die Kurve immer flacher wird.  Diese Kurve erklärt, warum
+das mit dem Suchbaum eine gute Idee ist: Die Tiefe des Baums ist ja
+die Anzahl der Elemente des Baums, die man abklappern muss, um das
+gewünschte Element zu finden.  (Beziehungsweise herauszubekommen, dass
+es nicht im Suchbaum ist.)  Das gilt allerdings nur, wenn der Suchbaum
+"<voll besetzt"> ist.
+
+\begin{figure}[tb]
+\begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
+\node (z){$A$}
+    child {node {$\bullet$}}
+    child {node (b) {$B$}
+      child {node {$\bullet$}}
+      child {node (d) {$D$}
+        child {node {$\bullet$}}
+        child {node (m) {$M$}
+          child {node {$\bullet$}}
+          child {node (n) {$N$}
+            child {node {$\bullet$}}
+            child {node (o) {$O$}
+              child {node {$\bullet$}}
+              child {node (r) {$R$}
+                child {node {$\bullet$}}
+                child {node {$\bullet$}}
+              }
+            }
+          }
+        }
+      }
+  };
+\end{tikzpicture}
+  \caption{Entarteter Suchbaum}
+  \label{fig:degenerated-searchtree}
+\end{figure}
+
+Abbildung~\ref{fig:degenerated-searchtree} zeigt einen Suchbaum, der
+nicht voll besetzt ist~-- einen sogenannten \textit{entarteten
+  Suchbaum}\index{entarteter Suchbaum}\index{Suchbaum!entartet}. Bei
+diesem Suchbaum dauert die Suche genau so lang wie in einer Liste.
+Wir müssen uns also irgendwann Gedanken machen, wie wir dafür sorgen,
+dass Suchbaum immer möglichst voll besetzt sind.  Aber dazu kommen wir
+später.
+
+
+FIXME: Ab hier alt
+
 
 Viele Programme benötigen irgendeine Form von Suchfunktionalität in
 einer Menge von Daten: Es könnte sich um die Suche nach einer
@@ -519,19 +952,6 @@ vorhanden ist.
 
 Suchbäume setzen eine Gleichheitsoperation und eine totale Ordnung auf
 den Elementen (siehe Definition~\ref{def:total-order}) voraus.
-
-\begin{figure}[tb]
-% \begin{pspdf}
-% \begin{center}
-%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{\texttt{N}}} {
-%     \pstree{\Tr{\texttt{B}}} { \pstree{\Tr{\texttt{A}}}{\Tdot \Tdot} \pstree{\Tr{\texttt{D}}}{\Tdot \Tdot }}
-%     \pstree{\Tr{\texttt{Q}}} { \pstree{\Tr{\texttt{P}}}{\Tdot \Tdot} \pstree{\Tr{\texttt{R}}}{\Tdot \Tdot} } }
-% \end{center}
-% \end{pspdf}
-  TBD
-  \caption{Ein Suchbaum über Buchstaben}
-  \label{fig:searchtree}
-\end{figure}
 
 \index{Suchbaum}\index{Baum!Such-} Sei also $S$ eine total geordnete
 Menge.  Dann ist ein \textit{Suchbaum} über $S$ ein Binärbaum, so daß bei
