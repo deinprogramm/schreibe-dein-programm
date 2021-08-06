@@ -1024,15 +1024,178 @@ Gelegenheit für einen Fehler, weil wir das vollkommen konsistent
 machen müssen.
 
 Wir wollen also versuchen, ohne diese zusätzlichen Parameter
-auszukommen.  Das bedeutet aber, dass die Funktionen für \lstinline{=}
-und \lstinline{<} in einem der schon vorher existierenden Argumente
-unterkommen müssen: \lstinline{value} und \lstinline{tree}.  Wir
-machen das mit \lstinline{tree}, weil die benutzen Funktionen
-bestimmen, wie der Baum aussehen muss.  Die Idee ist, dass wir die
-beiden Funktionen zusammen mit dem Baum "<einpacken">.
+auszukommen.  Dazu benutzen wir einen Trick und packen die Funktionen
+für \lstinline{=} und \lstinline{<} zusammen mit \lstinline{tree}.
+Das Ergebnis heißt \textit{Suchbaum}\index{Suchbaum}.  Heraus kommt
+folgende Datendefinition:
+%
+\begin{lstlisting}
+; Ein Suchbaum besteht aus
+; - Funktion für =
+; - Funktion für <
+; - Binärbaum
+\end{lstlisting}
+%
+Um die Definition in Code umzusetzen, benutzen wir eine
+Record-Definition.  Diesmal abstrahieren wir über die Signatur der
+Elemente mit einem Signatur-Parameter namens \lstinline{element}:
+%
+\begin{lstlisting}
+(define-record (search-tree-of element)
+  make-search-tree search-tree?
+  (search-tree-label-=?-function (element element -> boolean))
+  (search-tree-label-<?-function (element element -> boolean))
+  (search-tree-tree (tree-of false element)))
+\end{lstlisting}
+%
+Vergleiche die Signatur von \lstinline{search-tree-tree} mit der
+Signatur der Bäume bei \lstinline{tree-member?} und
+\lstinline{tree-insert}!
 
-FIXME
+Hier ist der Suchbaum aus Abbildung~\ref{fig:searchtree} auf
+Seite~\pageref{fig:searchtree}:
+%
+\begin{lstlisting}
+(define search-tree1
+  (make-search-tree
+   string=? string<?
+   (make-node "M"
+              (make-node "B"
+                         (make-node "A" #f #f)
+                         (make-node "D" #f #f))
+              (make-node "O"
+                         (make-node "N" #f #f)
+                         (make-node "R" #f #f)))))
+\end{lstlisting}
+%
+Wir schreiben jetzt Varianten von \lstinline{tree-member?} und
+\lstinline{tree-insert}, die Suchbäume statt "<normale"> Bäume
+akzeptieren.  Hier Kurzbeschreibung, Signatur und Tests für die
+Funktion für das Suchen:
+%
+\begin{lstlisting}
+; festellen, ob Element in Suchbaum vorhanden ist
+(: search-tree-member? (%a (search-tree-of %a) -> boolean))
+(check-expect (search-tree-member? "M" search-tree1) #t)
+(check-expect (search-tree-member? "D" search-tree1) #t)
+(check-expect (search-tree-member? "N" search-tree1) #t)
+(check-expect (search-tree-member? "R" search-tree1) #t)
+(check-expect (search-tree-member? "Z" search-tree1) #f)
+\end{lstlisting}
+%
+Hier ist das Gerüst für die Funktionsdefinition, zusammen mit der
+Schablone für \lstinline{search-tree}:
+%
+\begin{lstlisting}
+(define search-tree-member?
+  (lambda (value search-tree)
+    ...
+    (search-tree-label-=?-function search-tree)
+    (search-tree-label-<?-function search-tree)
+    (search-tree-tree search-tree)
+    ...))
+\end{lstlisting}
+%
+Jetzt könnten wir natürlich alles wie immer ausprogrammieren.  Viel
+einfacher aber ist es, wenn wir die existierende Funktion
+\lstinline{tree-member?} wiederverwenden: Wir haben ja genau das
+gleiche vor, was die Funktion schon macht.  Dazu kopieren wir sie
+einfach in den Rumpf:
+%
+\begin{lstlisting}
+(define search-tree-member?
+  (lambda (value search-tree)
+    ...
+    (search-tree-label-=?-function search-tree)
+    (search-tree-label-<?-function search-tree)
+    (search-tree-tree search-tree)
+    (define tree-member?
+      (lambda (value tree)
+        (cond
+          ((node? tree)
+           (define label (node-label tree))
+           (cond
+             ((= value label) #t)
+             ((< value label)
+              (tree-member? value (node-left-branch tree)))
+             (else
+              (tree-member? value (node-right-branch tree)))))
+          (else #f))))
+    ...))
+\end{lstlisting}
+%
+Wir müssen allerdings noch über \lstinline{=} und \lstinline{<}
+abstrahieren.  Dazu denken wir uns erstmal nur neue Namen aus, nämlich
+\lstinline{label=?} für \lstinline{=} und \lstinline{label<?} für \lstinline{<}:
+%
+\begin{lstlisting}
+(define search-tree-member?
+  (lambda (value search-tree)
+    ...
+    (search-tree-label-=?-function search-tree)
+    (search-tree-label-<?-function search-tree)
+    (search-tree-tree search-tree)
+    (define tree-member?
+      (lambda (value tree)
+        (cond
+          ((node? tree)
+           (define label (node-label tree))
+           (cond
+             ((label=? value label) #t)
+             ((label<? value label)
+              (tree-member? value (node-left-branch tree)))
+             (else
+              (tree-member? value (node-right-branch tree)))))
+          (else #f))))
+    ...))
+\end{lstlisting}
+%
+Anders als sonst legen wir aber keine Parameter für
+\lstinline{label=?} und \lstinline{label<?} an: Die Funktionen
+dafür stehen ja schon in der Schablone, wir müssen ihnen nur die
+richtigen Namen geben mit Hilfe von lokalen Definitionen:
+%
+\begin{lstlisting}
+(define search-tree-member?
+  (lambda (value search-tree)
+    (define label=? (search-tree-label-=?-function search-tree))
+    (define label<? (search-tree-label-<?-function search-tree))
+    ...
+    (search-tree-tree search-tree)
+    ...
+    (define tree-member? ...)
+    ...)))
+\end{lstlisting}
+%
+Zu guter letzt brauchen wir noch einen Aufruf von \lstinline{tree-member?}
+im Rumpf von \lstinline{search-tree-member?}, damit es auch losgeht.
+Dafür verbrauchen wir den letzten Baustein aus der Schablone:
+%
+\begin{lstlisting}
+(define search-tree-member?
+  (lambda (value search-tree)
+    (define label=? (search-tree-label-=?-function search-tree))
+    (define label<? (search-tree-label-<?-function search-tree))
+    (define tree-member?
+      (lambda (value tree)
+        (cond
+          ((node? tree)
+           (define label (node-label tree))
+           (cond
+             ((label=? value label) #t)
+             ((label<? value label)
+              (tree-member? value (node-left-branch tree)))
+             (else
+              (tree-member? value (node-right-branch tree)))))
+          (else #f))))
+    (tree-member? value (search-tree-tree search-tree))))
+\end{lstlisting}
+%
+Fertig!
 
+% FIXME
+
+% FIXME: Aufgabe Baum -> Liste
 
 \section{Sortierte Bäume sind effizienter als Listen}
   
@@ -1194,6 +1357,7 @@ nicht voll besetzt ist~-- einen sogenannten \textit{entarteten
   Suchbaum}\index{entarteter Suchbaum}\index{Suchbaum!entartet}. Bei
 diesem Suchbaum dauert die Suche genau so lang wie in einer Liste.
 
+\begin{comment}
 \section{Interessantere Suchbäume}
 
 
@@ -1762,7 +1926,9 @@ erfüllt offensichtlich die Suchbaumeigenschaft.
   dritten Fall.
 \end{itemize}
 \end{beweis}
+
 %
+\end{comment}
 \section*{Aufgaben}
 
 \begin{aufgabe}
