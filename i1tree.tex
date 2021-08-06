@@ -417,7 +417,77 @@ und die Markierungen Zeichenketten
                          12))
 \end{lstlisting}
 %
-% FIXME: Bild mit tree1, tree2, tree3 - dabei auch Begriff Wurzel einführen
+
+\begin{figure}[tb]
+  \centering
+  \begin{minipage}{0.3\textwidth}
+\begin{center}
+  \lstinline{tree1}\\[1ex]
+  \begin{tikzpicture}[level/.style={sibling distance=20mm/#1, level distance=10mm}]
+    \node (three){3}
+    child {node (four) {4}
+      child {node {$\bullet$}} 
+      child {node (seven) {7}
+        child {node {$\bullet$}}
+        child {node {$\bullet$}}
+      }
+    }
+   child {node {$\bullet$}};
+ \end{tikzpicture}
+\end{center}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+\begin{center}
+  \lstinline{tree2}\\[1ex]
+\begin{tikzpicture}[level/.style={sibling distance=20mm/#1, level distance=10mm}]
+    \node (seventeen){17}
+    child {node (three0) {3}
+      child {node {$\bullet$}} 
+      child {node (three){3}
+        child {node (four) {4}
+          child {node {$\bullet$}} 
+          child {node (seven) {7}
+            child {node {$\bullet$}}
+            child {node {$\bullet$}}
+          }
+        }
+      }
+   }
+   child {node {$\bullet$}};
+ \end{tikzpicture}
+\end{center}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+\begin{center}
+  \lstinline{tree3}\\[1ex]
+\begin{tikzpicture}[level/.style={sibling distance=20mm/#1, level distance=10mm}]
+    \node (Axl){Axl}
+    child {node (Slash) {Slash}
+      child {node {17}} 
+      child {node (Duff) {Duff}
+        child {node {14}}
+        child {node {23}}
+      }
+    }
+   child {node {12}};
+ \end{tikzpicture}
+\end{center}
+\end{minipage}
+\caption{Beispielbäume}
+  \label{fig:tree123}
+\end{figure}
+
+Abbildung~\ref{fig:tree123} stellt die drei Bäume \lstinline{tree1},
+\lstinline{tree2} und \lstinline{tree3} grafisch dar.  Dort hat jeder
+Baum erkennbar einen "<obersten"> Knoten, die sogenannte
+\textit{Wurzel}\index{Wurzel}~-- ein Begriff, der im Zusammenhang mit
+Bäumen häufig verwendet wird.  Bei dem Begriff muss immer mitgesagt
+werden, \emph{wovon} die Wurzel gemeint ist. So ist 
+\lstinline{tree1} ein Teil von \lstinline{tree2}.  Entsprechend steckt
+die Wurzel von \lstinline{tree1} (der Knoten mit der 3) auch in
+\lstinline{tree2} drin, aber die Wurzel von \lstinline{tree2} ist eben
+der Knoten mit der 17.
+
 Wir können \lstinline{tree-of} benutzen, um die Definition von
 \lstinline{river} und \lstinline{parent} zu vereinfachen:
 %
