@@ -330,6 +330,10 @@ Die Signatur für den Selbstbezug nennen wir einfach \lstinline{tree}:
   (node-right-branch tree))
 \end{lstlisting}
 %
+Das Wort "<branch"> heißt wörtlich übersetzt "<Zweig">, wir verwenden
+aber die Begriffe "<linker Teilbaum"> und "<rechter Teilbaum">, was im
+Deutschen üblicher ist.\index{Teilbaum}
+
 Bei der Definition für \lstinline{tree} brauchen wir noch einen Namen
 für die Werte an den Rändern des Baums~-- genannt
 \textit{Blätter}\index{Blatt}, auf Englisch \textit{leaf}.
@@ -365,8 +369,8 @@ da entsprechend den \lstinline{leaf}-Parameter mit durchziehen:
 %
 Die Notation für die Abstraktion der Record-Signatur mit den
 Extra-Klammern um \lstinline{(node-of leaf)} haben wir bisher erst
-einmal gesehen, bei der Definition von \lstinline{list-of} in
-Abschnitt~\ref{function:list-of} auf Seite~\pageref{function:list-of}.
+einmal gesehen, bei der Definition von \lstinline{cons-list-of} in
+Abschnitt~\ref{function:cons-list-of} auf Seite~\pageref{function:cons-list-of}.
 
 Wir könnten an dieser Stelle fertig sein.  Wir nehmen aber noch eine
 Verallgemeinerung vor: Wie wir sehen werden, müssen die Markierungen
@@ -408,7 +412,8 @@ und die Markierungen Zeichenketten
 \begin{lstlisting}
 (: tree3 (tree-of number string))
 (define tree3 (make-node "Axl"
-                         (make-node "Slash" 17 (make-node "Duff" 14 23))
+                         (make-node "Slash" 17 
+                                            (make-node "Duff" 14 23))
                          12))
 \end{lstlisting}
 %
@@ -503,7 +508,7 @@ Fertig!
   Schreiben Sie eine Funktion, die alle Knoten eines Baums zählt!
 \end{aufgabeinline}
 
-\section{Suchbäume}
+\section{Bäume für's Suchen}
 \label{sec:search-trees}
 
 Viele Probleme bei der Programmierung sind "<Suchprobleme">: Einen
@@ -657,7 +662,7 @@ Bäume.
     }
   };
 \end{tikzpicture}
-  \caption{Ein Suchbaum über Buchstaben}
+  \caption{Sortierter Baum über Buchstaben}
   \label{fig:searchtree}
 \end{figure}
 
@@ -677,10 +682,11 @@ ignorieren.
 
 Die Suche braucht also höchstens so viele Schritte wie der Baum tief
 ist.  Das ist schonmal besser, als in der Liste zu suchen, wo wir
-potenziell alle Elemente anschauen müssen.  Programmieren wir das
-also!
+potenziell alle Elemente anschauen müssen.
 
-Wir fangen mit einem derart sortierten Baum über reellen Zahlen an.
+Programmieren wir das also!
+
+Wir fangen mit einem sortierten Baum über reellen Zahlen an.
 (Reelle Zahlen deshalb, weil wir sie einfach mit \lstinline{=} und
 \lstinline{<} vergleichen können.  Wir verallgemeinern das später.)
 Die Zahlen kleben als Markierungen an den Knoten.  An den Blättern
@@ -755,6 +761,7 @@ Weiterentwicklung:
       ...
       (tree-member? value (node-left-branch tree)))
       (tree-member? value (node-right-branch tree))
+      ...
       (cond
          ((= value (node-label tree)) #t)
          ((< value (node-label tree)) ...
@@ -782,6 +789,183 @@ eien Definition und setzen die Bestandteile der Schablone so zusammen:
 %
 Fertig!
 
+\section{Sortierte Bäume herstellen}
+
+In den Testfällen für \lstinline{tree-member?} haben wir immer den
+Baum \lstinline{tree4} vwerwendet, den wir direkt mit
+\lstinline{make-node} konstruiert haben.  Dabei mussten wir selbst
+darauf achten, dass er auch sortiert ist.  In diesem Abschnitt
+automatisieren wir diese Konstruktion, dann kann dabei auch kein
+Fehler passieren.  (Wenn wir korrekt programmieren zumindest.)
+
+Wir schreiben dafür eine Funktion, die ein neues Element in einen
+bestehenden sortierten Baum einfügt.  Kurzbeschreibung und Signatur
+sind wie folgt:
+%
+\begin{lstlisting}
+; Zahl in sortierten Baum einfügen 
+(: tree-insert (real (tree-of false real) -> (tree-of false real)))
+\end{lstlisting}
+%
+Testfälle brauchen wir als nächstes.  Wir könnten das so machen wie
+immer: Wir schreiben einen Aufruf von \lstinline{tree-member?} hin und
+den Ergebniswert, den wir uns erhoffen.  In diesem Fall aber ist es
+gar nicht so wichtig, was der Ergebniswert genau ist.  Wichtig ist,
+dass ein eingefügtes Element im Ergebnisbaum auch drin ist.  Außerdem
+ist es mühsam, immer den ganzen Baum hinzuschreiben.  Darum benutzen
+wir \lstinline{tree-member?}, um \lstinline{tree-insert} zu testen.
+%
+\begin{lstlisting}
+(check-expect (tree-member? 5 (tree-insert 5 tree4)) #t)
+(check-expect (tree-member? 11 (tree-insert 11 tree4)) #t)
+\end{lstlisting}
+%
+Später werden wir feststellen, dass \lstinline{tree-insert}
+unterschiedliche sortierte Bäume liefern kann, die allesamt korrekt
+sind.
+%
+\begin{aufgabeinline}
+  Die beiden Tests erwarten jeweils, dass \lstinline{#t} bei
+  \lstinline{tree-member?} herauskommt.  Wäre es sinnvoll, auch noch
+  welche mit \lstinline{#f} zu schreiben?
+\end{aufgabeinline}
+%
+Wenn Du ein mulmiges Gefühl bei den spärlichen beiden Tests hast:
+richtig!  In Kapitel~\ref{cha:properties} auf
+Seite~\pageref{cha:properties} werden wir zeigen, wie man Funktionen
+wie \lstinline{tree-insert} besser testet.
+
+Aber jetzt geht's erst einmal mit der Funktion selbst los.  Gerüst und
+Schablone sind genau wie bei \lstinline{tree-member?}:
+%
+\begin{lstlisting}
+(define tree-insert
+  (lambda (value tree)
+    (cond
+      ((node? tree)
+        ...
+        (tree-insert value (node-left-branch tree))
+        (tree-insert value (node-right-branch tree))
+        ...)
+      (else ...))))
+\end{lstlisting}
+%
+Die Fallunterscheidung bei Knoten ist ebenfalls wie in
+\lstinline{tree-member?}, darum können wir auch die Verzweigung aus
+der dortigen Schablone übernehmen:
+%
+\begin{lstlisting}
+(define tree-insert
+  (lambda (value tree)
+    (cond
+      ((node? tree)
+        ...
+        (tree-insert value (node-left-branch tree))
+        (tree-insert value (node-right-branch tree))
+        ...
+        (cond
+         ((= value (node-label tree)) ...)
+         ((< value (node-label tree)) ...)
+         (else ...)))
+      (else ...))))
+\end{lstlisting}
+%
+Auch hier ist der erste Fal einfach: Wenn \lstinline{value} gerade die
+Markierung eines Knotens ist, dann enthält der Baum den Wert bereits,
+die Funktion muss nichts einfügen und kann einfach \lstinline{tree}
+liefern.  Auch für den Fall, dass \lstinline{tree} ein Blatt ist (das
+letzte \lstinline{else}), ist es recht einfach: Wir konstruieren einen
+neuen, einelementigen Baum:
+%
+\begin{lstlisting}
+(define tree-insert
+  (lambda (value tree)
+    (cond
+      ((node? tree)
+        ...
+        (tree-insert value (node-left-branch tree))
+        (tree-insert value (node-right-branch tree))
+        ...
+        (cond
+         ((= value (node-label tree)) tree)
+         ((< value (node-label tree)) ...)
+         (else ...)))
+      (else (make-node value #f #f)))))
+\end{lstlisting}
+%
+Es bleiben noch zwei Fälle, in denen der einzufügende Wert links
+beziehungsweise rechts von der Knotenmarkierung liegt.  Er muss
+entsprechend im linken oder rechten Teilbaum eingefügt werden: Genau
+das erledigen die beiden rekursiven Aufrufe aus der Schablone.  Der
+jeweils andere Teilbaum bleibt so wie er ist:
+%
+\begin{lstlisting}
+(define tree-insert
+  (lambda (value tree)
+    (cond
+      ((node? tree)
+       (cond
+         ((= value (node-label tree)) tree)
+         ((< value (node-label tree))
+          (make-node (node-label tree)
+                     (tree-insert value (node-left-branch tree))
+                     (node-right-branch tree)))
+         (else
+          (make-node (node-label tree)
+                     (node-left-branch tree)
+                     (tree-insert value (node-right-branch tree))))))
+      (else
+       (make-node value #f #f)))))
+\end{lstlisting}
+%
+Fertig!
+
+\section{Suchbäume}
+
+Unsere Funktionen \lstinline{tree-member?} und \lstinline{tree-insert}
+funktionieren nur auf Zahlen. Die Bäume aus den
+Abbildungen~\ref{fig:searchtree} und \ref{fig:degenerated-searchtree}
+enthalten aber beide Buchstaben.  Wenn wir andere Werte als Zahlen
+zulassen wollen, müssen wir wieder einmal abstrahieren über alles, was
+mit Zahlen zu tun hat.
+
+Schau Dir nochmal die Definition von \lstinline{tree-member?} an: Es
+gibt zwei Stellen, die "<zahlenspezifisch"> sind, nämlich
+\lstinline{=} und \lstinline{<}.  Wenn Zeichenketten in einem
+sortierten Baum unterbringen wollten, müssten wir da
+\lstinline{string=?} und \lstinline{string<?} hinschreiben.
+
+\begin{aufgabeinline}
+  Abstrahiere \lstinline{tree-member?} und \lstinline{tree-insert}
+  über \lstinline{=} und \lstinline{<}.
+
+  Übergib mal statt \lstinline{<} die Funktion \lstinline{>}.
+  Funktionieren \lstinline{tree-member?} und \lstinline{tree-insert}
+  dann noch korrekt?  Wie unterscheiden sich die Bäume, die mit
+  \lstinline{<} aus \lstinline{tree-insert} herauskommen von denen mit
+  \lstinline{>}?
+\end{aufgabeinline}
+
+Die abstrahierten Versionen von \lstinline{tree-member?} und
+\lstinline{tree-insert} haben einen Nachteil: Bei jedem Aufruf dieser
+Funktionen müssen wir die beiden Argumente für \lstinline{=} und
+\lstinline{<} hinschreiben.  Das nervt und ist jedesmal eine
+Gelegenheit für einen Fehler, weil wir das vollkommen konsistent
+machen müssen.
+
+Wir wollen also versuchen, ohne diese zusätzlichen Parameter
+auszukommen.  Das bedeutet aber, dass die Funktionen für \lstinline{=}
+und \lstinline{<} in einem der schon vorher existierenden Argumente
+unterkommen müssen: \lstinline{value} und \lstinline{tree}.  Wir
+machen das mit \lstinline{tree}, weil die benutzen Funktionen
+bestimmen, wie der Baum aussehen muss.  Die Idee ist, dass wir die
+beiden Funktionen zusammen mit dem Baum "<einpacken">.
+
+FIXME
+
+
+\section{Sortierte Bäume sind effizienter als Listen}
+  
 Intuitiv ist die Idee mit dem sortierten Baum beim Suchen
 effizienter.  Aber hält diese Intuition auch einer mathematischen
 Untersuchung stand?  Betrachte dazu den Baum in "<Ebenen"> --
@@ -895,11 +1079,17 @@ Umkehrfunktion zur Exponentialfunktion mit der Basis 2.
 Schau Dir Abbildung~\ref{fig:log2} an: Da siehst Du, dass die Tiefe~--
 mithin der Logarithmus~-- viel langsamer wächst als die Anzahl der
 Knoten, und die Kurve immer flacher wird.  Diese Kurve erklärt, warum
-das mit dem Suchbaum eine gute Idee ist: Die Tiefe des Baums ist ja
+das mit dem sortierten Baum eine gute Idee ist: Die Tiefe des Baums ist ja
 die Anzahl der Elemente des Baums, die man abklappern muss, um das
 gewünschte Element zu finden.  (Beziehungsweise herauszubekommen, dass
 es nicht im Suchbaum ist.)  Das gilt allerdings nur, wenn der Suchbaum
-"<voll besetzt"> ist.
+"<voll besetzt"> ist.  Wir müssen uns also irgendwann Gedanken machen,
+wie wir dafür sorgen, dass Suchbäume immer möglichst voll besetzt
+sind.  Dazu kommen wir später.
+
+\section{Suchbäume konstruieren}
+
+FIXME
 
 \begin{figure}[tb]
 \begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
@@ -933,43 +1123,12 @@ Abbildung~\ref{fig:degenerated-searchtree} zeigt einen Suchbaum, der
 nicht voll besetzt ist~-- einen sogenannten \textit{entarteten
   Suchbaum}\index{entarteter Suchbaum}\index{Suchbaum!entartet}. Bei
 diesem Suchbaum dauert die Suche genau so lang wie in einer Liste.
-Wir müssen uns also irgendwann Gedanken machen, wie wir dafür sorgen,
-dass Suchbaum immer möglichst voll besetzt sind.  Aber dazu kommen wir
-später.
+
+\section{Interessantere Suchbäume}
 
 
 FIXME: Ab hier alt
 
-
-Viele Programme benötigen irgendeine Form von Suchfunktionalität in
-einer Menge von Daten: Es könnte sich um die Suche nach einer
-Telefonnummer, einer Primzahl oder einer schon geleisteten Aufgabe
-handeln.  Eine effiziente Realisierung für eine Suchfunktionalität
-sind \textit{Suchbäume\index{Suchbaum}}.  Ein Suchbaum besteht aus
-"<Elementen">: Neue Elemente können eingefügt werden, und für ein
-gegebenes Element kann festgestellt werden, ob es im Suchbaum
-vorhanden ist.
-
-Suchbäume setzen eine Gleichheitsoperation und eine totale Ordnung auf
-den Elementen (siehe Definition~\ref{def:total-order}) voraus.
-
-\index{Suchbaum}\index{Baum!Such-} Sei also $S$ eine total geordnete
-Menge.  Dann ist ein \textit{Suchbaum} über $S$ ein Binärbaum, so daß bei
-jedem Knoten alle Markierungen in seinem linken Teilbaum kleiner und
-alle in seinem rechten Teilbaum größer sind als die Markierung des Knotens
-selbst.  Diese Eigenschaft des Baums heißt auch
-\textit{Suchbaumeigenschaft} (bezüglich der gewählten totalen
-Ordnung).
-Abbildung~\ref{fig:searchtree} zeigt einen Suchbaum über Buchstaben,
-die alphabetisch geordnet sind.
-
-Die Markierung eines Knotens bestimmt,
-in welchem Teilbaum
-des Knotens eine gesuchte Markierung stecken muß, wenn diese nicht sowieso schon die gesuchte ist: Ist die gesuchte
-Markierung kleiner als die des Knotens, so muß sie (wenn überhaupt) im
-linken Teilbaum stecken; wenn sie größer ist, im rechten.
-Insbesondere ist es nicht nötig, im jeweils anderen Teilbaum nach der
-Markierung zu suchen.
 
 Für Suchbäume wird ein neuer Record-Typ
 definiert.\index{search-tree@\texttt{search-tree}} Zu einem Suchbaum
