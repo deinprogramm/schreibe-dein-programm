@@ -151,11 +151,11 @@
 (: tree-member? (real (tree-of false real) -> boolean))
 
 (define tree4
-   (make-node 5
-              (make-node 3 #f #f)
-              (make-node 17
-                         (make-node 10 #f (make-node 12 #f #f))
-                         #f)))
+  (make-node 5
+             (make-node 3 #f #f)
+             (make-node 17
+                        (make-node 10 #f (make-node 12 #f #f))
+                        #f)))
 
 (check-expect (tree-member? 5 tree4) #t)
 (check-expect (tree-member? 17 tree4) #t)
@@ -176,46 +176,60 @@
           (tree-member? value (node-right-branch tree)))))
       (else #f))))
 
+; Zahl in sortierten Baum einfügen 
+(: tree-insert (real (tree-of false real) -> (tree-of false real)))
+
+(check-expect (tree-member? 5 (tree-insert 5 tree4)) #t)
+(check-expect (tree-member? 11 (tree-insert 11 tree4)) #t)
+
+(define tree-insert
+  (lambda (value tree)
+    (cond
+      ((node? tree)
+       (cond
+         ((= value (node-label tree))
+          tree)
+         ((< value (node-label tree))
+          (make-node (node-label tree)
+                     (tree-insert value (node-left-branch tree))
+                     (node-right-branch tree)))
+         (else
+          (make-node (node-label tree)
+                     (node-left-branch tree)
+                     (tree-insert value (node-right-branch tree))))))
+      (else
+       (make-node value #f #f)))))
+
 ; Suchbäume
 
 ; Ein Suchbaum besteht aus
-; - einer Prozedur, die zwei Markierungen auf Gleichheit testet,
-; - einer Prozedur, die vergleicht, ob eine Markierung kleiner als die andere ist
-; - einem Binärbaum
+; - Funktion für =
+; - Funktion für <
+; - Binärbaum
 (define-record (search-tree-of a)
   make-search-tree search-tree?
   (search-tree-label-=?-function (a a -> boolean))
   (search-tree-label-<?-function (a a -> boolean))
   (search-tree-tree (tree-of false a)))
 
-
-; leeren Suchbaum konstruieren
-(: make-empty-search-tree
-   ((%a %a -> boolean) (%a %a -> boolean)
-    -> (search-tree-of %a)))
-
-(define make-empty-search-tree
-  (lambda (label-=?-function label-<?-function)
-    (make-search-tree label-=?-function label-<?-function
-                      #f)))
-
 (define search-tree1
   (make-search-tree
-   = <
-   (make-node 5
-              (make-node 3 #f #f)
-              (make-node 17
-                         (make-node 10 #f (make-node 12 #f #f))
-                         #f))))
+   string=? string<?
+   (make-node "M"
+              (make-node "B"
+                         (make-node "A" #f #f)
+                         (make-node "D" #f #f))
+              (make-node "O"
+                         (make-node "N" #f #f)
+                         (make-node "R" #f #f)))))
 
 ; festellen, ob Element in Suchbaum vorhanden ist
 (: search-tree-member? (%a (search-tree-of %a) -> boolean))
-(check-expect (search-tree-member? 5 search-tree1) #t)
-(check-expect (search-tree-member? 17 search-tree1) #t)
-(check-expect (search-tree-member? 3 search-tree1) #t)
-(check-expect (search-tree-member? 10 search-tree1) #t)
-(check-expect (search-tree-member? 2 search-tree1) #f)
-
+(check-expect (search-tree-member? "M" search-tree1) #t)
+(check-expect (search-tree-member? "D" search-tree1) #t)
+(check-expect (search-tree-member? "N" search-tree1) #t)
+(check-expect (search-tree-member? "R" search-tree1) #t)
+(check-expect (search-tree-member? "Z" search-tree1) #f)
 
 (define search-tree-member?
   (lambda (value search-tree)
@@ -227,14 +241,24 @@
           ((node? tree)
            (define label (node-label tree))
            (cond
-             ((= value label) #t)
-             ((< value label)
+             ((label=? value label) #t)
+             ((label<? value label)
               (tree-member? value (node-left-branch tree)))
              (else
               (tree-member? value (node-right-branch tree)))))
           (else #f))))
     (tree-member? value (search-tree-tree search-tree))))
 
+
+; leeren Suchbaum konstruieren
+(: make-empty-search-tree
+   ((%a %a -> boolean) (%a %a -> boolean)
+                       -> (search-tree-of %a)))
+
+(define make-empty-search-tree
+  (lambda (label-=?-function label-<?-function)
+    (make-search-tree label-=?-function label-<?-function
+                      #f)))
 
 
 ; neues Element in Suchbaum einfügen
@@ -249,8 +273,8 @@
   (lambda (value search-tree)
     (define label=? (search-tree-label-=?-function search-tree))
     (define label<? (search-tree-label-<?-function search-tree))
-    (define insert
-      (lambda (tree)
+    (define tree-insert
+      (lambda (value tree)
         (cond
           ((node? tree)
            (cond
@@ -258,17 +282,17 @@
               tree)
              ((label<? value (node-label tree))
               (make-node (node-label tree)
-                         (insert (node-left-branch tree))
+                         (tree-insert value (node-left-branch tree))
                          (node-right-branch tree)))
              (else
               (make-node (node-label tree)
                          (node-left-branch tree)
-                         (insert (node-right-branch tree))))))
+                         (tree-insert value (node-right-branch tree))))))
           (else
            (make-node value #f #f)))))
     (make-search-tree
      label=? label<?
-     (insert (search-tree-tree search-tree)))))
+     (tree-insert value (search-tree-tree search-tree)))))
 
 (define search-tree2
   (search-tree-insert
@@ -282,7 +306,7 @@
 
 ; aus allen Elementen einer Liste einen Suchbaum machen
 (: list->search-tree ((%a %a -> boolean) (%a %a -> boolean)
-                      (list-of %a) -> (search-tree-of %a)))
+                                         (list-of %a) -> (search-tree-of %a)))
 
 (check-property
  (for-all ((elements (list-of natural)))

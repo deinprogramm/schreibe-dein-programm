@@ -575,7 +575,11 @@ Blätter zählen überhaupt nicht:
 Fertig!
 %
 \begin{aufgabeinline}
-  Schreiben Sie eine Funktion, die alle Knoten eines Baums zählt!
+  Schreibe eine Funktion, die alle Knoten eines Baums zählt!
+\end{aufgabeinline}
+\begin{aufgabeinline}
+  Schreibe eine Funktion, die für einen Baum eine Liste aller Blätter
+  des Baums liefert!
 \end{aufgabeinline}
 
 \section{Bäume für's Suchen}
@@ -1068,8 +1072,8 @@ Seite~\pageref{fig:searchtree}:
                          (make-node "R" #f #f)))))
 \end{lstlisting}
 %
-Wir schreiben jetzt Varianten von \lstinline{tree-member?} und
-\lstinline{tree-insert}, die Suchbäume statt "<normale"> Bäume
+Wir schreiben nun eine Variante von \lstinline{tree-member?},
+die Suchbäume statt "<normale"> Bäume
 akzeptieren.  Hier Kurzbeschreibung, Signatur und Tests für die
 Funktion für das Suchen:
 %
@@ -1193,7 +1197,11 @@ Dafür verbrauchen wir den letzten Baustein aus der Schablone:
 %
 Fertig!
 
-% FIXME
+\begin{aufgabeinline}
+  Schreibe entsprechend zu \lstinline{search-tree-member?} eine
+  Funktion \lstinline{search-tree-insert} auf Basis von
+  \lstinline{tree-insert}!
+\end{aufgabeinline}
 
 % FIXME: Aufgabe Baum -> Liste
 
@@ -1551,7 +1559,7 @@ Für die Testfälle wird ein Suchbaum \texttt{s3} wie folgt definiert:
 %
 Die Testfälle werden dann wie zuvor mit Hilfe von
 \texttt{search"=tree"=member?} formuliert:
-%
+%9
 \begin{alltt}
 (check-expect (search-tree-member? 5 s3) #t)
 (check-expect (search-tree-member? 17 s3) #t)
