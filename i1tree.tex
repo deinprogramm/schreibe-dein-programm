@@ -392,8 +392,8 @@ die Datendefinitionen nach:
 
 ; Ein Binärbaum ist entweder ein Blatt oder ein Knoten
 (define tree-of
-  (lambda (leaf node-label)
-    (signature (mixed leaf (node-of leaf node-label)))))
+  (lambda (leaf label)
+    (signature (mixed leaf (node-of leaf label)))))
 \end{lstlisting}
 %
 Das nun ist die Definition eines Binärbaums in Reinform.  Hier sind
@@ -1328,9 +1328,7 @@ es nicht im Suchbaum ist.)  Das gilt allerdings nur, wenn der Suchbaum
 wie wir dafür sorgen, dass Suchbäume immer möglichst voll besetzt
 sind.  Dazu kommen wir später.
 
-\section{Suchbäume konstruieren}
-
-FIXME
+\section{Suchbäume balancieren}
 
 \begin{figure}[tb]
 \begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
@@ -1364,597 +1362,378 @@ Abbildung~\ref{fig:degenerated-searchtree} zeigt einen Suchbaum, der
 nicht voll besetzt ist~-- einen sogenannten \textit{entarteten
   Suchbaum}\index{entarteter Suchbaum}\index{Suchbaum!entartet}. Bei
 diesem Suchbaum dauert die Suche genau so lang wie in einer Liste.
+%
+\begin{aufgabeinline}
+  Schreibe einen Ausdruck aus Aufrufen von
+  \texttt{search"=tree"=insert}, um den Suchbaum in
+  Abbildung~\ref{fig:degenerated-searchtree} zu erzeugen!
+\end{aufgabeinline}
+%
+In diesem Abschnitt wollen wir eine Variante von
+\lstinline{search-tree-insert} schreiben, bei der niemals so ein
+entarteter Suchbaum herauskommen kann und die stattdessen den Baum
+immmer \index{balancieren!von Suchbäumen}\textit{balanciert}.
 
-\begin{comment}
-\section{Interessantere Suchbäume}
+Spätestens jetzt betreten wir einen Bereich der Programmierung, der in
+der Informatik meist \textit{Algorithmen und Datenstrukturen} heißt.
+(Manchmal auch nur \textit{Algorithmen}\index{Algorithmus} oder nur
+\textit{Datenstrukturen}.)  Ein Algorithmus ist in der Regel eine
+Funktion, die in vielen Programmen verwendet werden können.
+Entsprechend ist eine Datenstruktur eine Datendefinition, auf der ein
+Algorithmus aufbaut: Die beiden gehören oft zusammen.\footnote{Der
+  Begriff "<Algorithmus"> stammt vom Namen des persischen
+  Rechenmeisters \textit{Al-Chwarizmi}.  Die deutsche Schulinformatik
+  kennt noch detaillierte Definitionen des Begriffs, die aber für die
+  praktische Programmierung weitgehend irrelevant sind.}
 
+Viele Algorithmen basieren auf cleveren Ideen, von denen die
+Schöpferinnen und Schöpfer selbst gar nicht so genau erklären können,
+wie sie auf sie gekommen sind.  Dementsprechend erwarten wir nicht von
+Dir (und auch nicht von uns), auf das Material dieses Abschnitts
+selbst zu kommen.  Glücklicherweise gibt es in vielen Bereichen der
+Programmierung schon fertige Algorithmen und Datenstrukturen, die Du
+nur benutzen musst und nicht selbst programmieren.  In diesem
+Abschnitt zeigen wir aber trotzdem beispielhaft, wie und warum so eine
+Datenstruktur funktioniert.  Vielleicht findest Du es interessant~--
+andernfalls reicht es aber, wenn Du diesen Abschnitt überfliegst oder
+überspringst.
 
-FIXME: Ab hier alt
+Wie also können wir einen Suchbaum balancieren? Dabei sollten wir
+nicht nur dafür sorgen, dass das Suchen effizient funktioniert.  Auch
+das Balancieren sollte nicht zuviel Arbeit machen~-- sonst werden die
+Vorteile beim Suchen durch den Aufwand beim Balancieren wieder
+zunichte gemacht.  Das bedeutet ganz praktisch, dass wir einen
+Kompromiss suchen müssen zwischen den Einsparungen beim Suchen und dem
+Aufwand für das Balancieren.  Solche Kompromisse gibt es oft bei
+Algorithmen, und oft werden Messungen eingesetzt, um sie auszuwählen
+und schrittweise zu verbessern.  So ist es auch hier.
 
+Wir zeigen Dir hier eine Balancier-Funktion, die in einem
+wissenschaftlichen Aufsatz von Stephen Adams~\cite{Adams1993} aus dem
+Jahr 1993 beschrieben ist.  Dieser beruht auf einem
+Programmierwettbewerb, bei dem Adams den zweiten Platz belegte, was
+die Effizienz betrifft.  Gleichzeitig ist seine Lösung aber deutlich
+eleganter als die erstplatzierte, weswegen der Aufsatz bis heute oft
+eingesetzt wird, um effiziente Suchbäume zu programmieren.
 
-Für Suchbäume wird ein neuer Record-Typ
-definiert.\index{search-tree@\texttt{search-tree}} Zu einem Suchbaum
-gehören neben dem Baum selbst auch noch Operationen für
-Gleichheit und die "<Kleiner-als">-Relation auf den Markierungen, beide repräsentiert durch
-Prädikate (die zum Binärbaum und zueinander passen müssen).  Genau wie
-Bäume sind auch Suchbäume parametrisch:
-%
-\begin{alltt}
-; Ein Suchbaum besteht aus
-; - einer Funktion, die zwei Markierungen auf Gleichheit testet,
-; - einer Funktion, die vergleicht, ob eine Markierung kleiner als die andere ist
-; - einem Binärbaum
-(: make-search-tree ((%a %a -> boolean) 
-                     (%a %a -> boolean) 
-                     (tree-of %a) 
-                         -> (search-tree-of %a)))
-(: search-tree? (any -> boolean))
-(: search-tree-label-equal-proc ((search-tree-of %a) -> (%a %a -> boolean)))
-(: search-tree-label-less-than-proc ((search-tree-of %a) -> (%a %a -> boolean)))
-(: search-tree-tree ((search-tree-of %a) -> (tree-of %a)))
+Die Idee von Adams beruht auf einer Variante von
+\lstinline{search-tree-insert}, die bei der Konstruktion eines neuen
+Knotens darauf achtet, dass der Baum nicht zu sehr aus dem
+Gleichgewicht gerät.  Falls dies doch droht zu passieren, wird der
+Baum \textit{rotiert}\index{Rotation!eines Baumes} und so balanciert.
 
-(define-record-procedures-parametric search-tree search-tree-of*
-  make-search-tree search-tree?
-  (search-tree-label-equal-proc
-   search-tree-label-less-than-proc
-   search-tree-tree))
+\subsection{Größenannotierte Bäume}
 
-(define search-tree-of
-  (lambda (x)
-    (signature
-     (search-tree-of* (x x -> boolean) (x x -> boolean) (tree-of x)))))
-\end{alltt}
-%
-Alle Suchbäume fangen
-beim leeren Suchbaum an:\index{make-empty-search-tree@\texttt{make-empty-search-tree}}
-%
-\begin{alltt}
-; leeren Suchbaum konstruieren
-(: make-empty-search-tree
-   ((%a %a -> boolean) (%a %a -> boolean) -> (search-tree-of %a)))
-(define make-empty-search-tree
-  (lambda (label-equal-proc label-less-than-proc)
-    (make-search-tree label-equal-proc label-less-than-proc
-                      the-empty-tree)))
-\end{alltt}
-%
-Ohne weiterführende Funktionen gibt es hier noch nichts zu testen. Hier kommt
-aber schon ein Beispiel zu Testzwecken:
+Um festzustellen, ob der Baum aus dem Gleichgewicht gerät, vergleicht
+der Algorithmus die Anzahl der Knoten in den beiden Teilbäumen eines
+Knotens.  Nun wäre es blöd, wenn er dafür jedesmal nachzählen müsste,
+wieviele das denn sind.  Viel effizienter ist es, die Größe eines
+Baums im Baum selbst mitzuführen, als Teil der Markierung eines
+Knotens.  Die definieren wir erstmal, bevor es mit dem Balancieren
+losgeht.
 
-\begin{alltt}
-(define s1
-  (make-search-tree
-   = <
-   (make-node 5
-              (make-node 3 the-empty-tree the-empty-tree)
-              (make-node 17
-                         (make-node 10 
-                                    the-empty-tree 
-                                    (make-node 12 the-empty-tree the-empty-tree))
-                         the-empty-tree))))
-\end{alltt}
+Bäume, bei denen die Größe an jedem Knoten dransteht, nennen wir
+\textit{größenannotiert}\index{größenannotierter
+  Baum}\index{Baum!größenannotiert}.  Im Englischen ist der Begriff
+nicht ganz so sperrig: \textit{sized}.  Neben der Größe brauchen wir
+an jedem Knoten auch noch die "<eigentliche"> Markierung.  Zusammen
+ergibt das folgende Daten- und Record-Definition:
 %
-Die nachfolgende Funktion \texttt{search"=tree"=member?} 
-stellt fest, ob ein Knoten mit Markierung \texttt{l} in einem
-Suchbaum \texttt{s} vorhanden ist. Die eigentliche Arbeit
-macht die lokale Hilfsfunktion \texttt{member?},\index{search-tree-member?@\texttt{search-tree-member?}}
-die auf dem zugrundeliegenden Binärbaum operiert.  Da \texttt{member?} rekursiv
-ist, wird sie mit \texttt{letrec} (siehe
-Abbildung~\ref{scheme:letrec}) gebunden.
+\begin{lstlisting}
+; Die Markierung an einem größenannotierten Baum besteht aus:
+; - Anzahl der Knoten
+; - "eigentliche" Markierung
+(define-record (sized-label-of label)
+  make-sized-label
+  sized-label
+  (sized-label-size natural)
+  (sized-label-label label))
+\end{lstlisting}
 %
-\begin{alltt}
-; feststellen, ob Element in Suchbaum vorhanden ist
-(: search-tree-member? (%a (search-tree-of %a) -> boolean))
+Hier ist nochmal der Baum aus Abbildung~\ref{fig:searchtree} auf
+Seite~\pageref{fig:searchtree}, aber diesmal größenannotiert:
+%
+\begin{lstlisting}
+(define sized-tree1
+  (make-node (make-sized-label 7 "M")
+             (make-node (make-sized-label 3 "B")
+                        (make-node (make-sized-label 1 "A") #f #f)
+                        (make-node (make-sized-label 1 "D") #f #f))
+             (make-node (make-sized-label 3 "O")
+                        (make-node (make-sized-label 1 "N") #f #f)
+                        (make-node (make-sized-label 1 "R") #f #f))))
+\end{lstlisting}
+%
+Ganz schön umständlich, jedesmal von Hand die richtige Größe
+hinzuschreiben.  Das können wir auch gut den Computer erledigen
+lassen, indem wir eine Hilfsfunktion schreiben, welche die Größe bei
+der Konstruktion eines Knotens ausrechnet.  Hier sind Kurzbeschreibung
+und Signatur:
+%
+\begin{lstlisting}
+; Größenannotierten Knoten konstruieren
+(: make-sized-node (%label (tree-of %leaf (sized-label-of %label))
+                           (tree-of %leaf (sized-label-of %label))
+                    -> (node-of %leaf (sized-label-of %label))))
+\end{lstlisting}
+%
+Diese Signatur entspricht der von \lstinline{make-node}~-- hier ist
+diese zum Vergleich:
+%
+\begin{lstlisting}
+(: make-node (%label (tree-of %leaf %label)
+                     (tree-of %leaf %label)
+              -> (node-of %leaf %label)))
+\end{lstlisting}
+%
+Für einen Test nehmen wir den Ausdruck von \lstinline{sized-tree1}
+ersetzen die Aufrufe von \lstinline{make-node} durch welche von
+\lstinline{make-sized-node}.  Es sollte das gleiche herauskommen:
+%
+\begin{lstlisting}
+(check-expect (make-sized-node
+               "M"
+               (make-sized-node "B"
+                                (make-sized-node "A" #f #f)
+                                (make-sized-node "D" #f #f))
+               (make-sized-node "O"
+                                (make-sized-node "N" #f #f)
+                                (make-sized-node "R" #f #f)))
+              sized-tree1)
+\end{lstlisting}
+%
+Hier ist Gerüst mit Schablone für die Funktion. Die Signatur besagt,
+dass die Funktion einen  \lstinline{node}-Record liefert, entsprechend
+besteht die Schablone aus einem Aufruf des Konstruktors:
+%
+\begin{lstlisting}
+(define make-sized-node
+  (lambda (label left-branch right-branch)
+    (make-node ... ... ...)
+\end{lstlisting}
+%
+Die beiden Argumente für \lstinline{left-branch} und
+\lstinline{right-branch} können wir direkt an den Konstruktor
+weiterreichen.  Allein die Größe müssen wir noch ausrechnen: Diese ist
+die Summe der beiden Teilbäume, plus 1, weil das \lstinline{make-node}
+noch einen neuen Knoten erzeugt:
+%
+\begin{lstlisting}
+(define make-sized-node
+  (lambda (label left-branch right-branch)
+    (make-node
+     (make-sized-label (+ 1
+                          (sized-tree-size left-branch)
+                          (sized-tree-size right-branch))
+                       label)
+     left-branch right-branch)))
+\end{lstlisting}
+%
+Schau nochmal den Teilausdruck an, der die Größe berechnet: Da wird
+eine Funktion \lstinline{sized-tree-size} benutzt, welche die Größe
+eines Baums berechnet.  Die gib's aber noch gar nicht~-- reines
+Wunschdenken!  Das müssen wir noch nachholen.  Hier sind
+Kurzbeschreibung, Signatur und zwei Tests:
+%
+\begin{lstlisting}
+; Größe eines größenannotierten Baums liefern
+(: sized-tree-size ((tree-of %leaf (sized-label-of %label)) -> Natural))
 
-(check-expect (search-tree-member? 3 s1) #t)
-(check-expect (search-tree-member? 5 s1) #t)
-(check-expect (search-tree-member? 9 s1) #f)
-(check-expect (search-tree-member? 10 s1) #t)
-(check-expect (search-tree-member? 17 s1) #t)
+(check-expect (sized-tree-size "A") 0)
+(check-expect (sized-tree-size sized-tree1) 7)
+\end{lstlisting}
+%
+Hier sind Gerüst und Schablone.  Die Funktion verarbeitet gemischte
+Daten, also brauchen wir eine Verzweigung:
+%
+\begin{lstlisting}
+(define sized-tree-size
+  (lambda (tree)
+    (cond
+      ((node? tree) ...)
+      (else ...))))
+\end{lstlisting}
+%
+Im \lstinline{node}-Fall wissen wir schon, wo die Größe steht, nämlich
+in der \lstinline{sized-label}-Markierung.  Im anderen Fall handelt es
+sich um ein Blatt, das hat Größe 0:
+%
+\begin{lstlisting}
+(define sized-tree-size
+  (lambda (tree)
+    (cond
+      ((node? tree)
+       (sized-label-size (node-label tree)))
+      (else 0))))
+\end{lstlisting}
+%
+Wenn Du Dir die Signaturdeklarationen von \lstinline{make-sized-node}
+und \lstinline{sized-tree-size} anschaut, dann siehst Du, dass
+folgende Signaturen mehrfach vorkommen:
+%
+\begin{lstlisting}
+(node-of %leaf (sized-label-of %label))
+(tree-of %leaf (sized-label-of %label))
+\end{lstlisting}
+%
+Das wird noch öfter passieren, darum abstrahieren wir:
+%
+\begin{lstlisting}
+; Signatur für größenannotierte Knoten
+(define sized-node-of
+  (lambda (label leaf)
+    (node-of leaf (sized-label-of label))))
 
-(define search-tree-member?
-  (lambda (l s)
-    (let ((label-equal? (search-tree-label-equal-proc s))
-          (label-less-than? (search-tree-label-less-than-proc s)))
-      (letrec
-          ;; member? : tree -> bool
-          ((member?
-            (lambda (t)
-              (cond
-               ((empty-tree? t) #f)
-               ((node? t)
-                (cond                 
-                  ((label-equal? (node-label t) l)
-                   #t)
-                  ((label-less-than? l (node-label t))
-                   (member? (node-left-branch t)))
-                  (else
-                   (member? (node-right-branch t)))))))))
-        (member? (search-tree-tree s))))))
-\end{alltt}
+; Signatur für größenannotierte Bäume
+(define sized-tree-of
+  (lambda (leaf label)
+    (tree-of leaf (sized-label-of label))
+\end{lstlisting}
 %
-\texttt{Search-tree-member?} packt zunächst die beiden
-Vergleichsoperationen \texttt{label-equal?} und
-\texttt{label-less-than?} aus dem Suchbaum aus.
-Dann wird die Hilfsfunktion \texttt{member?} aufgerufen.
+\begin{aufgabeinline}
+  Formuliere die Signaturdeklarationen von \lstinline{make-sized-node}
+  und \lstinline{sized-tree-size} mit Hilfe dieser Funktionen!
+\end{aufgabeinline}
+%
 
-Da es zwei Arten Binärbäume gibt, folgt 
-\texttt{member?} zunächst der Konstruktionsanleitung für
-gemischte Daten.  Im Zweig für den leeren Baum ist die Antwort
-klar.  Im Zweig für einen Knoten vergleicht \texttt{member?} die
-gesuchte Markierung mit der des Knotens.  Dabei gibt es drei
-Möglichkeiten, also auch drei Zweige: Bei Gleichheit ist die Markierung
-gefunden.  Ansonsten wird \texttt{member?} entweder auf den linken
-oder den rechten Teilbaum angewendet, je nachdem, in welchem Teilbaum
-die Markierung stehen muß.
-
-\texttt{Search-tree-member?} kann nur richtig funktionieren, wenn das
-Argument \texttt{s} tatsächlich die Suchbaumeigenschaft
-erfüllt.  Rein prinzipiell ist es möglich, durch Mißbrauch von
-\texttt{make-search-tree} einen Wert vom Typ \texttt{search-tree} zu
-erzeugen, der nicht die Suchbaumeigenschaft erfüllt, wie etwa
-\texttt{s2} hier:
-%
-\begin{alltt}
-(define s2
-  (make-search-tree
-   = <
-   (make-node 5
-              (make-node 17 the-empty-tree the-empty-tree)
-              (make-node 3 the-empty-tree the-empty-tree))))
-\end{alltt}
-%
-Zu \texttt{s2} paßt das folgende Bild:
-%
-% \begin{pspdf}
-% \begin{center}
-%   \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{5}}
-%   {
-%     \pstree{\Tr{17}}{\Tdot\Tdot}
-%     \pstree{\Tr{3}}{\Tdot\Tdot}
-%     }
-% \end{center}
-% \end{pspdf}
-
-TBD
-
-%
-In diesem "<Suchbaum"> findet \texttt{search-tree-member?} zwar
-die 5, nicht aber die anderen beiden Elemente:\label{label:non-search-tree}
-%
-\begin{alltt}
-(search-tree-member? 5 s2)
-\evalsto{} #t
-(search-tree-member? 17 s2)
-\evalsto{} #f
-(search-tree-member? 3 s2)
-\evalsto{} #f
-\end{alltt}
-%
-Aus diesem Grund sollte \texttt{make-search-tree} nur "<intern">
-verwendet werden.   Ansonsten sollten nur die Funktionen \texttt{make"=empty"=search"=tree} und eine
-neue Funktion \texttt{search"=tree"=insert} verwendet werden, die
-ein neues Element in den
-Suchbaum einfügt und dabei die Suchbaumeigenschaft
-erhält.\index{search-tree-insert@\texttt{search-tree-insert}}
-Hier Kurzbeschreibung und Signatur:
-%
-\begin{alltt}
-; neues Element in Suchbaum einfügen
-(: search-tree-insert (%a (search-tree-of %a) -> (search-tree-of %a)))
-\end{alltt}
-%
-Für die Testfälle wird ein Suchbaum \texttt{s3} wie folgt definiert:
-%
-\begin{alltt}
-(define s3
-  (search-tree-insert
-   5
-   (search-tree-insert
-    17
-    (search-tree-insert
-     3
-     (make-empty-search-tree = <)))))
-\end{alltt}
-%
-Die Testfälle werden dann wie zuvor mit Hilfe von
-\texttt{search"=tree"=member?} formuliert:
-%9
-\begin{alltt}
-(check-expect (search-tree-member? 5 s3) #t)
-(check-expect (search-tree-member? 17 s3) #t)
-(check-expect (search-tree-member? 3 s3) #t)
-(check-expect (search-tree-member? 13 s3) #f)
-(check-expect (search-tree-member? -1 s3) #f)
-\end{alltt}
-%
-Zu beachten ist, daß die Definition von \texttt{s3} im Programm
-\emph{hinter} die Definition von \texttt{search-tree-insert} gestellt
-wird, da diese Funktion für die Auswertung der rechten Seite benötigt wird.
-%
-\begin{alltt}
-(define search-tree-insert
-  (lambda (l s)
-    (let ((label-equal? (search-tree-label-equal-proc s))
-          (label-less-than? (search-tree-label-less-than-proc s)))
-      (letrec
-          ; (: insert (tree-of %a) -> (tree-of %a))
-          ((insert
-            (lambda (t)
-              (cond
-               ((empty-tree? t)
-                (make-node l the-empty-tree the-empty-tree))
-               ((node? t)
-                (cond
-                  ((label-equal? l (node-label t))
-                   t)
-                  ((label-less-than? l (node-label t))
-                   (make-node (node-label t)
-                              (insert (node-left-branch t))
-                              (node-right-branch t)))
-                  (else
-                   (make-node (node-label t)
-                              (node-left-branch t)
-                              (insert (node-right-branch t))))))))))
-        (make-search-tree
-         label-equal? label-less-than?
-         (insert (search-tree-tree s)))))))
-\end{alltt}
-%
-Im Herzen von \texttt{search-tree-insert} erledigt die rekursive
-Hilfsfunktion \texttt{insert} die eigentliche Arbeit: Soll
-\texttt{l} in den leeren Baum eingefügt werden, so gibt
-\texttt{insert} einen trivialen Baum der Form
-%
-% \begin{pspdf}
-% \begin{center}
-%     \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{\texttt{l}}}
-%     {\Tdot\Tdot}
-% \end{center}
-% \end{pspdf}
-
-TBD
-
-% 
-zurück.  Wenn \texttt{t} ein Knoten ist, gibt es wieder drei Fälle:
-Wenn \texttt{l} mit der
-Knotenmarkierung übereinstimmt, so ist es bereits im alten Baum
-vorhanden~-- \texttt{insert} kann \texttt{t} unverändert
-zurückgeben.  Ansonsten muß
-\texttt{l} im linken oder rechten Teilbaum eingefügt werden,
-und \texttt{insert} bastelt aus dem neuen Teilbaum und dem anderen, alten Teilbaum
-einen neuen Baum zusammen.
-
-Das Resultat des Aufrufs von \texttt{insert} am Ende der Funktion wird
-schließlich wieder in einen \texttt{search-tree}-Wert eingepackt,
-mit denselben \texttt{label-equal}- und \texttt{label"=less"=than}"=Operationen wie vorher.
-
-Die Funktion \texttt{search-tree-member?} muß für den Suchbaum in
-Abbildung~\ref{fig:searchtree} nicht alle Elemente nach dem gesuchten
-durchforsten; \texttt{search-tree-member?} sucht auf direktem Weg
-von der Wurzel des Suchbaums nach unten zum gesuchten Element.  Da pro
-weiterer "<Ebene"> eines Binärbaums jeweils doppelt soviele Elemente
-Platz finden als in der vorhergehenden, wächst die Anzahl der Ebenen
-des Baums~-- die Tiefe also~-- nur mit dem Zweierlogarithmus der
-Anzahl der Elemente, also viel langsamer als zum Beispiel die Länge
-einer Liste, die alle Elemente aufnehmen müßte.
+\subsection{Suchbäume rotieren}
 
 \begin{figure}[tb]
-%   \begin{pspdf}
-%   \begin{center}
-%     \pstree[nodesep=2pt,levelsep=4ex,treesep=3em]{\Tr{\texttt{A}}}{\Tdot
-%       \pstree{\Tr{\texttt{B}}}{\Tdot
-%         \pstree{\Tr{\texttt{D}}}{\Tdot
-%           \pstree{\Tr{\texttt{N}}}{\Tdot
-%             \pstree{\Tr{\texttt{P}}}{\Tdot
-%               \pstree{\Tr{\texttt{Q}}}{\Tdot
-%                 \pstree{\Tr{\texttt{R}}}{\Tdot \Tdot}}}}}}}
-%   \end{center}
-% \end{pspdf}
-  TBD
-     \caption{Ein entarteter Suchbaum}
-     \label{fig:stupid-searchtree}
+  \centering
+\begin{minipage}{0.25\textwidth}
+  \begin{tikzpicture}[triangle/.style = {regular polygon, regular polygon sides=3, draw}]
+\node (a){$a$}
+    child {node[triangle]  {$X$}} 
+    child {node (b) {$b$}
+      child {node[triangle]  {$Y$}} 
+      child {node[triangle]  {$Z$}}
+    }; 
+\end{tikzpicture}
+\end{minipage}
+%
+\begin{tabular}{c}
+  einfache Rotation\\
+  $\longrightarrow$
+\end{tabular}
+% 
+\begin{minipage}{0.35\textwidth}
+\begin{tikzpicture}[triangle/.style = {regular polygon, regular polygon sides=3, draw}]
+\node (b){$b$}
+    child {node (a) {$a$}
+      child {node[triangle]  {$X$}} 
+      child {node[triangle]  {$Y$}}
+    }
+    child {node[triangle]  {$Z$}};
+\end{tikzpicture}
+\end{minipage}
+
+\bigskip
+
+\hspace*{-1.8cm}
+\begin{minipage}{0.25\textwidth}
+  \begin{tikzpicture}[triangle/.style = {regular polygon, regular polygon sides=3, draw}]
+\node (a){$a$}
+    child {node[triangle]  {$X$}} 
+    child {node (c) {$c$}
+      child {node (b) {$b$}
+        child {node[triangle]  {$Y_1$}} 
+        child {node[triangle]  {$Y_2$}}
+      }
+    child {node[triangle]  {$Z$}} 
+    }; 
+\end{tikzpicture}
+\end{minipage}
+%
+\begin{tabular}{c}
+  doppelte Rotation\\
+  $\longrightarrow$
+\end{tabular}
+\hspace*{-1.5cm}
+% 
+\begin{minipage}{0.35\textwidth}
+  \begin{tikzpicture}[level/.style={sibling distance=35mm/#1},
+    triangle/.style = {regular polygon, regular polygon sides=3, draw}]
+\node (b){$b$}
+    child {node (a) {$a$}
+      child {node[triangle]  {$X$}} 
+      child {node[triangle]  {$Y_1$}}
+    }
+    child {node (c) {$c$}
+      child {node[triangle]  {$Y_2$}} 
+      child {node[triangle]  {$Z$}}
+    };
+\end{tikzpicture}
+\end{minipage}
+
+\caption{Balancieren von Bäumen durch Rotation}
+  \label{fig:search-tree-rotation}
 \end{figure}
 
-Leider ist nicht jeder Suchbaum so angenehm organisiert wie der in
-Abbildung~\ref{fig:searchtree}.  Abbildung~\ref{fig:stupid-searchtree}
-zeigt einen Binärbaum, der zwar die Suchbaumeigenschaft erfüllt, aber
-\textit{entartet\index{entarteter Suchbaum}\index{Suchbaum!entartet}}
-ist:\label{label:entartet}
-In diesem Suchbaum dauert die Suche genauso
-lang wie in einer Liste.  Welche Form der Suchbaum hat und ob er
-entartet wird, hängt von der
-Reihenfolge der Aufrufe von \texttt{search"=tree"=insert}
-ab, mit denen er konstruiert wird.  Es gibt allerdings Varianten von Suchbäumen, die bei
-  \texttt{search-tree-insert} die Entartung vermeiden und den
-  Suchbaum \textit{balancieren}.
+Kommen wir endlich zum konkreten Algorithmus von Stephen Adams.  Er
+beruht auf der Idee der \textit{Rotation}\index{Rotation!eines
+  Suchbaums} eines Suchbaums.
 
+Schau Dir dazu mal Abbildung~\ref{search-tree-rotation} an.  Links
+oben siehst Du einen Baum mit Markierungen $a$ und $b$ sowie
+dreieckigen Teilbäumen $X$, $Y$ und $Z$.  Nun stell Dir vor, der Baum
+hat rechts deutlich mehr Knoten als links.  Dann ist er aus dem
+Gleichgewicht geraten und sollte neu balanciert werden.  Das macht nun
+die Rotation, die aus diesem Baum den Baum oben rechts macht: Dabei
+wird der Teilbaum $Y$ von rechts nach links geschoben, was das
+Ungleichgewicht zumindest etwas lindert.
 
-\section{Eigenschaften der Suchbaum-Operationen}
+Unten links siehst Du ebenfalls einen Baum, der aus dem Gleichgewicht
+gekommen ist: Auch hier wird ein Teilbaum von rechts nach links
+verschoben, der sich aber noch eine Ebene tiefer befindet.  Diese
+Rotation ist etwas komplizierter, darum heißt sie "<doppelte>
+Rotation, die erste heißt entsprechend "<einfach">.
 
-\texttt{Search-tree-insert} ist eine der komplizierteren Funktionen in
-diesem Buch; es ist alles andere als offensichtlich, daß sie korrekt
-ist.  Die Testfälle mögen zwar punktuell auf die Korrektheit von
-\texttt{search-tree-insert} und \texttt{search-tree-member?}
-hindeuten, Sicherheit liefern sie jedoch nicht.  Der erste Schritt, um
-mehr Vertrauen in die Korrektheit zu gewinnen, ist die Formulierung
-von Eigenschaften und deren Überprüfung mit \texttt{check-expect}.
-Der zweite Schritt ist ein Beweis der Suchbaumeigenschaft.
+\begin{aufgabeinline}
+  Könnte es sein, dass die Rotationen in
+  Abbildung~\ref{fig:search-tree-rotation} dafür sorgen, dass die
+  Bäume auf der rechten Seite nicht mehr sortiert sind?
+\end{aufgabeinline}
 
-Um interessante Eigenschaften zu formulieren, müssen
-\texttt{search-tree-insert} und \texttt{search"=tree"=member} gemeinsam
-betrachtet werden: \texttt{search-tree-insert} allein kann nichts
-sinnvolles anstellen, wenn nach den eingefügten Elementen nicht auch
-gesucht werden kann.  Die wichtigsten Eigenschaften sind folgende:
-%
-\begin{enumerate}
-\item Ein mit \texttt{search-tree-insert} eingefügtes Element wird
-  stets von \texttt{search"=tree"=member?} wieder gefunden.
-\item Wenn ein Element \emph{nicht} mit in den Suchbaum eingefügt
-  wurde, wird es von \texttt{search"=tree"=member?} \emph{nicht}
-  gefunden.
-\end{enumerate}
-%
-Die erste Eigenschaft ergibt ohne die zweite wenig Sinn: Sie wäre auch
-erfüllt, wenn \texttt{search-tree-member?} immer \verb|#t| liefern
-würde.
+Wann sollte unser Algorithmus nun einfach und wann doppelt rotieren?
+Schau Dir dazu noch einmal in Abbildung~\ref{fig:search-tree-rotation}
+den oberen linken Baum an.  Von den Teilbäumen $X$ und $Y$ ist einer
+größer als der andere.  Nehmen wir mal an, das ist $Z$.  Dann vermindert
+eine einfache Rotation auf jeden Fall das Ungleichgewicht zwischen
+links und rechts.
 
-Für einen Test mit \texttt{for-all} müssen beliebige Suchbäume
-betrachtet werden.  Allerdings funktioniert der Ansatz
-%
-\begin{alltt}
-(for-all ((st (search-tree-of %a)))
-  ...)
-\end{alltt}
-%
-nicht, schon weil \texttt{search-tree-of} eine  parametrisierte Signatur ist und
-damit nicht direkt in \texttt{for-all} verwendet kann.  Außerdem
-sollen die Suchbäume, die betrachtet werden, ja gerade mit
-\texttt{search-tree-insert} konstruiert werden.  
+Wenn aber $Y$ größer ist $Z$, dann macht die einfache Rotation das
+Ungleichgewicht \emph{größer}: Der eh größere Brocken $Y$ tut sich
+dann auch noch mit $X$ zusammen, während der kleine Brocken $Z$ rechts
+ganz allein zurückbleibt.  In diesem Fall ist die doppelte Rotation
+angezeigt, die nur einen Teilbaum von $Y$, nämlich $Y_1$, nach links
+verlagert.
 
-Im folgenden legen wir uns auf eine bestimmte Parametrisierung der Suchbäume
-fest, wohl wissend, dass es für die Suchbaumeigenschaft auf die
-Parametrisierung im Grunde nicht ankommt. Der nächste Versuch
-könnte deshalb so aussehen:
+\begin{aufgabeinline}
+  Nimm Dir ein Stück Papier und male die beiden Rotationen aus
+  \ref{fig:search-tree-rotation} so auf, dass jeweils links
+  Übergewicht herrscht.
+\end{aufgabeinline}
 %
-\begin{alltt}
-(for-all ((el natural))
-  ... (search-tree-insert el (make-empty-search-tree = <) ...)
-\end{alltt}
-%
-Eine solche Eigenschaft würde allerdings nur Suchbäume mit einem
-einzigen Element einbeziehen, also eher uninteressante Vertreter ihrer
-Spezies.  Für substantielle Tests ist es notwendig, Suchbäume zu
-betrachten, die aus unterschiedlichen (insbesondere unterschiedlich
-langen) Folgen von \texttt{search-tree-insert}-Operationen entstanden
-sind.  Da für die Repräsentation von Folgen in den Lehrsprachen Listen zuständig
-sind, bietet sich eine Eigenschaft folgender Form an:
-%
-\begin{alltt}
-(for-all ((els (list-of natural)))
-  ...)
-\end{alltt}
-%
-Damit es funktioniert, muß nur die Liste \texttt{els} noch in einen
-Suchbaum umgewandelt werden, der gerade ihre Elemente enthält.  Das
-kann eine Hilfsfunktion namens \texttt{list->search"=tree} leisten.
-Hier sind Kurzbeschreibung und Signatur:
-%
-\begin{alltt}
-; aus allen Zahlen einer Liste einen Suchbaum machen
-(: list->search-tree ((%a %a -> boolean)
-                      (%a %a -> boolean) (list-of %a) -> (search-tree-of %a)))
-\end{alltt}
-%
-Da \texttt{list->search-tree} nur sukzessive für alle Elemente der
-Liste \texttt{search-tree-insert} aufruft, wird sie am einfachsten mit
-\texttt{fold} programmiert:
-%
-\begin{alltt}
-(define list->search-tree
-  (lambda (= < els)
-    (fold (make-empty-search-tree = <)
-          search-tree-insert
-          els)))
-\end{alltt}
-%
-Die erste Eigenschaft~-- ob also jedes mit \texttt{search-tree-insert}
-in einen Suchbaum eingefügte Element auch von
-\texttt{search-tree-member?} gefunden wird, läßt sich jetzt mit Hilfe
-der Funktion \texttt{every?} aus Abschnitt~\ref{page:every}
-formulieren.  (Zur Erinnerung: \texttt{every?} wendet ein Prädikat auf
-alle Elemente einer Liste an und gibt \verb|#t| zurück, wenn das
-Prädikat für jedes Element \verb|#t| liefert, sonst \verb|#f|.)
-%
-\begin{alltt}
-(check-property
- (for-all ((els (list-of natural)))
-   (let ((st (list->search-tree = < els)))
-     (every? (lambda (el)
-               (search-tree-member? el st))
-             els))))
-\end{alltt}
-%
-Es fehlt noch die zweite Eigenschaft: Für ein Element, das nicht im
-Suchbaum vorhanden ist, darf \texttt{search-tree-member?} auch nicht
-\verb|#t| liefern.  Zum Test der Eigenschaft gehört also wie schon bei
-der ersten Eigenschaft ein beliebiger Suchbaum sowie ein einzelnes Element:
-%
-\begin{alltt}
-(for-all ((els (list-of natural))
-          (el natural))
-  ... (list->search-tree = < els) ...)
-\end{alltt}
-%
-Der Test ist nur sinnvoll, wenn \texttt{el} \emph{nicht} Element der Liste
-\texttt{els} ist: Das muß erst einmal überprüft werden, und zwar durch
-eine Funktion, die testet, ob ein Wert Element einer Liste ist.  Hier
-sind Kurzbeschreibung und Signatur:
-%
-\begin{alltt}
-; ist Wert Element einer Liste?
-(: member? ((%a %a -> boolean) %a (list-of %a) -> boolean))
-\end{alltt}
-%
-Das erste Argument ist ein Gleichheitsprädikat, welches den gesuchten
-Wert mit den Listenelementen vergleicht.  Hier sind einige Tests,
-Gerüst und Schablone für die Funktion, die eine Liste akzeptiert:
-%
-\begin{alltt}
-(check-expect (member? = 5 empty) #f)
-(check-expect (member? = 5 (list 1 2 3)) #f)
-(check-expect (member? = 1 (list 1 2 3)) #t)
-(check-expect (member? = 2 (list 1 2 3)) #t)
-(check-expect (member? = 3 (list 1 2 3)) #t)
-
-(define member?
-  (lambda (= el lis)
-    (cond
-      ((empty? lis) ...)
-      ((cons? lis)
-       ... (first lis)
-       ... (member? = el (rest lis)) ...))))
-\end{alltt}
-%
-Im \texttt{empty?}-Zweig ist die Liste leer, das Ergebnis also
-\verb|#f|.  Im anderen Fall muß die Funktion feststellen, ob
-\texttt{(first lis)} gerade das gesuchte Element \texttt{el} ist.
-Vollständig sieht die Funktion so aus:
-%
-\begin{alltt}
-(define member?
-  (lambda (= el lis)
-    (cond
-      ((empty? lis) #f)
-      ((cons? lis)
-       (if (= el (first lis))
-           #t
-           (member? = el (rest lis)))))))
-\end{alltt}
-%
-Zurück zur Eigenschaft von \texttt{search-tree-member?}: Immer dann,
-wenn \texttt{el} \emph{nicht} Element von \texttt{els} ist, darf auch
-\texttt{search-tree-member?} \texttt{el} nicht finden.  Diese
-Implikation wird mit \texttt{==>} formuliert:
-%
-\begin{alltt}
-(check-property
- (for-all ((els (list-of natural))
-           (el natural))
-   (==> (not (member? = el els))
-        (not (search-tree-member? el (list->search-tree = < els)))))) 
-\end{alltt}
-%
-Die beiden \texttt{check-property}-Tests stärken also das Vertrauen in
-die korrekte Funktionsweise von \texttt{search-tree-insert} und
-\texttt{search-tree-member?}.  Aber auch hier ist Kontrolle über einen
-Beweis der Korrektheit noch besser:
-Es lohnt sich, etwas formaler über die
-Korrektheit von \texttt{search-tree-insert} nachzudenken.  Zunächst
-einmal ist es wichtig, zu formulieren, was der Begriff "<Korrektheit">
-im Zusammenhang mit \texttt{search-tree-insert} überhaupt bedeutet:
-%
-\begin{satz}\label{satz:suchbaum}
-  \texttt{Search-tree-insert} \emph{erhält die Suchbaumeigenschaft}.
-  Oder mit anderen Worten: Wenn das \texttt{search-tree}-Argument von
-  \texttt{search"=tree"=insert} die Suchbaumeigenschaft erfüllt, so
-  erfüllt auch der zurückgegebene Baum die Suchbaumeigenschaft\index{Suchbaumeigenschaft}.
-\end{satz}
-%
-\begin{beweis}
-  Die Korrektheit ist an der Hilfsfunk tion \texttt{insert}
-  festgemacht: Wenn das Argument von \texttt{insert} die
-  Suchbaumeigenschaft erfüllt, so muß auch der Rückgabewert sie
-  erfüllen.  Der Beweis funktioniert über strukturelle Induktion über
-  den Wert \texttt{t}, der an den Baum $\tau$ gebunden sei.  Im
-  Beweis gibt es vier Fälle, die den Zweigen der \texttt{cond}-Formen
-  entsprechen:
+Die Idee von Stephen Adams ist nun \lstinline{search-tree-insert}
+durch eine neue Funktion \lstinline{balanced-search-tree-insert} zu
+ersetzen.  Diese sieht im wesentlichen so aus wie
+\lstinline{search-tree-insert}, nur mit zwei Unterschieden:
 %
 \begin{itemize}
-\item $\tau$ ist der leere Baum.  Der dann zurückgegebene Baum
-  der Form
-
-  TBD
-  
-% \begin{pspdf}
-%   \begin{center}
-%     \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{$l$}}
-%     {\Tdot\Tdot}
-%   \end{center}
-% \end{pspdf}
-erfüllt offensichtlich die Suchbaumeigenschaft.
-\item $\tau$ ist ein Knoten, dessen Markierung mit
-  $l$ übereinstimmt.  Dann gibt \texttt{insert} 
-  $\tau$ zurück.  Da $\tau$ nach Voraussetzung die
-  Suchbaumeigenschaft erfüllt, ist auch hier die
-  Suchbaumeigenschaft erhalten.
-\item $\tau$ ist ein Knoten, dessen Markierung \emph{größer}
-  ist als $l$, sieht also so aus:
-% \begin{pspdf}
-%   \begin{center}
-%     \pstree[levelsep=4ex,treesep=3em,dotsize=0pt 0.1]{\Tr{$m$}}
-%     {
-%       \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$a$}}}
-%       \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$b$}}}
-%       }
-%   \end{center}
-% \end{pspdf}
-
-  TBD
-  
-  wobei sowohl $a$ als auch $b$ selbst die Suchbaumeigenschaft
-  erfüllen. In diesem
-  Fall sieht der entstehende Baum folgendermaßen aus:
-  %
-  % \begin{pspdf}
-  % \begin{center}
-  %   \pstree[levelsep=4ex,treesep=3em,dotsize=0pt 0.1]{\Tr{$m$}} {
-  %     \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{
-  %         \texttt{(insert \valof{a})}
-  %         }}}
-  %     \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$b$}}} }
-  % \end{center}
-  % \end{pspdf}
-
-  TBD
-  
-% 
-  Per Induktionsannahme erfüllt \texttt{(insert \valof{a})} die
-  Suchbaumeigenschaft.  Da $b$ auch die Suchbaumeigenschaft
-  erfüllt, muß nur noch gezeigt werden, daß alle Markierungen in
-  \texttt{(insert \valof{a})} kleiner sind als $m$.
-  Es gibt in \texttt{insert} drei Aufrufe von \texttt{make-node},
-  die neue Knoten erzeugen können.  Alle fügen höchstens
-  \texttt{l} zu der Menge der Markierungen des Baumes hinzu.
-  Alle anderen Markierungen sind nach Voraussetzung kleiner als $m$,
-  ebenso wie \texttt{l}.  Das Resultat erfüllt also ebenfalls
-  die Suchbaumeigenschaft.
-\item Im vierten Fall ist $\tau$ ein Knoten, dessen Markierung
-  \emph{kleiner} ist als $l$.  Dieser Fall geht analog zum
-  dritten Fall.
+\item Sie arbeitet auf den neuen größenannotierten Bäumen.
+\item Wenn \lstinline{balanced-search-tree-insert} einen neuen Knoten
+  konstruiert, balanciert sie diesen sofort durch Rotation aus, falls
+  nötig.
 \end{itemize}
-\end{beweis}
-
 %
-\end{comment}
-\section*{Aufgaben}
+FIXME
 
-\begin{aufgabe}
-  \label{ex:recipe-trees}
-  Formulieren Sie eine spezielle Schablone für Funktionen, die
-  Binärbäume akzeptieren!
-\end{aufgabe}
+
+\section*{Aufgaben}
 
 \begin{aufgabe}
   Schreiben Sie eine Funktion, die einen Binärbaum akzeptiert
   und eine Liste aller Markierungen in dem Baum zurückgibt.
-\end{aufgabe}
-
-\begin{aufgabe}
-  Wie muß \texttt{search-tree-insert} aufgerufen werden, um den
-  Suchbaum in Abbildung~\ref{fig:searchtree} zu erzeugen?  Wie muß
-  \texttt{search"=tree"=insert} aufgerufen werden, um den Suchbaum in
-  Abbildung~\ref{fig:stupid-searchtree} zu erzeugen?
 \end{aufgabe}
 
 \begin{aufgabe}

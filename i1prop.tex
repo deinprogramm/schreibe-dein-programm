@@ -1696,6 +1696,273 @@ ist, muss im wesentlichen folgende Gleichung bewiesen werden:
 \[a+ \frac{n}{n+1} = a + \frac{n-1}{n} + \frac{1}{n\cdot (n+1)}\]
 Dies ist eine lohnende Fingerübung.
 
+\section{Eigenschaften der Suchbaum-Operationen}
+
+FIXME:
+
+\texttt{Search-tree-insert} ist eine der komplizierteren Funktionen in
+diesem Buch; es ist alles andere als offensichtlich, daß sie korrekt
+ist.  Die Testfälle mögen zwar punktuell auf die Korrektheit von
+\texttt{search-tree-insert} und \texttt{search-tree-member?}
+hindeuten, Sicherheit liefern sie jedoch nicht.  Der erste Schritt, um
+mehr Vertrauen in die Korrektheit zu gewinnen, ist die Formulierung
+von Eigenschaften und deren Überprüfung mit \texttt{check-expect}.
+Der zweite Schritt ist ein Beweis der Suchbaumeigenschaft.
+
+Um interessante Eigenschaften zu formulieren, müssen
+\texttt{search-tree-insert} und \texttt{search"=tree"=member} gemeinsam
+betrachtet werden: \texttt{search-tree-insert} allein kann nichts
+sinnvolles anstellen, wenn nach den eingefügten Elementen nicht auch
+gesucht werden kann.  Die wichtigsten Eigenschaften sind folgende:
+%
+\begin{enumerate}
+\item Ein mit \texttt{search-tree-insert} eingefügtes Element wird
+  stets von \texttt{search"=tree"=member?} wieder gefunden.
+\item Wenn ein Element \emph{nicht} mit in den Suchbaum eingefügt
+  wurde, wird es von \texttt{search"=tree"=member?} \emph{nicht}
+  gefunden.
+\end{enumerate}
+%
+Die erste Eigenschaft ergibt ohne die zweite wenig Sinn: Sie wäre auch
+erfüllt, wenn \texttt{search-tree-member?} immer \verb|#t| liefern
+würde.
+
+Für einen Test mit \texttt{for-all} müssen beliebige Suchbäume
+betrachtet werden.  Allerdings funktioniert der Ansatz
+%
+\begin{alltt}
+(for-all ((st (search-tree-of %a)))
+  ...)
+\end{alltt}
+%
+nicht, schon weil \texttt{search-tree-of} eine  parametrisierte Signatur ist und
+damit nicht direkt in \texttt{for-all} verwendet kann.  Außerdem
+sollen die Suchbäume, die betrachtet werden, ja gerade mit
+\texttt{search-tree-insert} konstruiert werden.  
+
+Im folgenden legen wir uns auf eine bestimmte Parametrisierung der Suchbäume
+fest, wohl wissend, dass es für die Suchbaumeigenschaft auf die
+Parametrisierung im Grunde nicht ankommt. Der nächste Versuch
+könnte deshalb so aussehen:
+%
+\begin{alltt}
+(for-all ((el natural))
+  ... (search-tree-insert el (make-empty-search-tree = <) ...)
+\end{alltt}
+%
+Eine solche Eigenschaft würde allerdings nur Suchbäume mit einem
+einzigen Element einbeziehen, also eher uninteressante Vertreter ihrer
+Spezies.  Für substantielle Tests ist es notwendig, Suchbäume zu
+betrachten, die aus unterschiedlichen (insbesondere unterschiedlich
+langen) Folgen von \texttt{search-tree-insert}-Operationen entstanden
+sind.  Da für die Repräsentation von Folgen in den Lehrsprachen Listen zuständig
+sind, bietet sich eine Eigenschaft folgender Form an:
+%
+\begin{alltt}
+(for-all ((els (list-of natural)))
+  ...)
+\end{alltt}
+%
+Damit es funktioniert, muß nur die Liste \texttt{els} noch in einen
+Suchbaum umgewandelt werden, der gerade ihre Elemente enthält.  Das
+kann eine Hilfsfunktion namens \texttt{list->search"=tree} leisten.
+Hier sind Kurzbeschreibung und Signatur:
+%
+\begin{alltt}
+; aus allen Zahlen einer Liste einen Suchbaum machen
+(: list->search-tree ((%a %a -> boolean)
+                      (%a %a -> boolean) (list-of %a) -> (search-tree-of %a)))
+\end{alltt}
+%
+Da \texttt{list->search-tree} nur sukzessive für alle Elemente der
+Liste \texttt{search-tree-insert} aufruft, wird sie am einfachsten mit
+\texttt{fold} programmiert:
+%
+\begin{alltt}
+(define list->search-tree
+  (lambda (= < els)
+    (fold (make-empty-search-tree = <)
+          search-tree-insert
+          els)))
+\end{alltt}
+%
+Die erste Eigenschaft~-- ob also jedes mit \texttt{search-tree-insert}
+in einen Suchbaum eingefügte Element auch von
+\texttt{search-tree-member?} gefunden wird, läßt sich jetzt mit Hilfe
+der Funktion \texttt{every?} aus Abschnitt~\ref{page:every}
+formulieren.  (Zur Erinnerung: \texttt{every?} wendet ein Prädikat auf
+alle Elemente einer Liste an und gibt \verb|#t| zurück, wenn das
+Prädikat für jedes Element \verb|#t| liefert, sonst \verb|#f|.)
+%
+\begin{alltt}
+(check-property
+ (for-all ((els (list-of natural)))
+   (let ((st (list->search-tree = < els)))
+     (every? (lambda (el)
+               (search-tree-member? el st))
+             els))))
+\end{alltt}
+%
+Es fehlt noch die zweite Eigenschaft: Für ein Element, das nicht im
+Suchbaum vorhanden ist, darf \texttt{search-tree-member?} auch nicht
+\verb|#t| liefern.  Zum Test der Eigenschaft gehört also wie schon bei
+der ersten Eigenschaft ein beliebiger Suchbaum sowie ein einzelnes Element:
+%
+\begin{alltt}
+(for-all ((els (list-of natural))
+          (el natural))
+  ... (list->search-tree = < els) ...)
+\end{alltt}
+%
+Der Test ist nur sinnvoll, wenn \texttt{el} \emph{nicht} Element der Liste
+\texttt{els} ist: Das muß erst einmal überprüft werden, und zwar durch
+eine Funktion, die testet, ob ein Wert Element einer Liste ist.  Hier
+sind Kurzbeschreibung und Signatur:
+%
+\begin{alltt}
+; ist Wert Element einer Liste?
+(: member? ((%a %a -> boolean) %a (list-of %a) -> boolean))
+\end{alltt}
+%
+Das erste Argument ist ein Gleichheitsprädikat, welches den gesuchten
+Wert mit den Listenelementen vergleicht.  Hier sind einige Tests,
+Gerüst und Schablone für die Funktion, die eine Liste akzeptiert:
+%
+\begin{alltt}
+(check-expect (member? = 5 empty) #f)
+(check-expect (member? = 5 (list 1 2 3)) #f)
+(check-expect (member? = 1 (list 1 2 3)) #t)
+(check-expect (member? = 2 (list 1 2 3)) #t)
+(check-expect (member? = 3 (list 1 2 3)) #t)
+
+(define member?
+  (lambda (= el lis)
+    (cond
+      ((empty? lis) ...)
+      ((cons? lis)
+       ... (first lis)
+       ... (member? = el (rest lis)) ...))))
+\end{alltt}
+%
+Im \texttt{empty?}-Zweig ist die Liste leer, das Ergebnis also
+\verb|#f|.  Im anderen Fall muß die Funktion feststellen, ob
+\texttt{(first lis)} gerade das gesuchte Element \texttt{el} ist.
+Vollständig sieht die Funktion so aus:
+%
+\begin{alltt}
+(define member?
+  (lambda (= el lis)
+    (cond
+      ((empty? lis) #f)
+      ((cons? lis)
+       (if (= el (first lis))
+           #t
+           (member? = el (rest lis)))))))
+\end{alltt}
+%
+Zurück zur Eigenschaft von \texttt{search-tree-member?}: Immer dann,
+wenn \texttt{el} \emph{nicht} Element von \texttt{els} ist, darf auch
+\texttt{search-tree-member?} \texttt{el} nicht finden.  Diese
+Implikation wird mit \texttt{==>} formuliert:
+%
+\begin{alltt}
+(check-property
+ (for-all ((els (list-of natural))
+           (el natural))
+   (==> (not (member? = el els))
+        (not (search-tree-member? el (list->search-tree = < els)))))) 
+\end{alltt}
+%
+Die beiden \texttt{check-property}-Tests stärken also das Vertrauen in
+die korrekte Funktionsweise von \texttt{search-tree-insert} und
+\texttt{search-tree-member?}.  Aber auch hier ist Kontrolle über einen
+Beweis der Korrektheit noch besser:
+Es lohnt sich, etwas formaler über die
+Korrektheit von \texttt{search-tree-insert} nachzudenken.  Zunächst
+einmal ist es wichtig, zu formulieren, was der Begriff "<Korrektheit">
+im Zusammenhang mit \texttt{search-tree-insert} überhaupt bedeutet:
+%
+\begin{satz}\label{satz:suchbaum}
+  \texttt{Search-tree-insert} \emph{erhält die Suchbaumeigenschaft}.
+  Oder mit anderen Worten: Wenn das \texttt{search-tree}-Argument von
+  \texttt{search"=tree"=insert} die Suchbaumeigenschaft erfüllt, so
+  erfüllt auch der zurückgegebene Baum die Suchbaumeigenschaft\index{Suchbaumeigenschaft}.
+\end{satz}
+%
+\begin{beweis}
+  Die Korrektheit ist an der Hilfsfunk tion \texttt{insert}
+  festgemacht: Wenn das Argument von \texttt{insert} die
+  Suchbaumeigenschaft erfüllt, so muß auch der Rückgabewert sie
+  erfüllen.  Der Beweis funktioniert über strukturelle Induktion über
+  den Wert \texttt{t}, der an den Baum $\tau$ gebunden sei.  Im
+  Beweis gibt es vier Fälle, die den Zweigen der \texttt{cond}-Formen
+  entsprechen:
+%
+\begin{itemize}
+\item $\tau$ ist der leere Baum.  Der dann zurückgegebene Baum
+  der Form
+
+  TBD
+  
+% \begin{pspdf}
+%   \begin{center}
+%     \pstree[levelsep=4ex,treesep=3em,nodesep=2pt]{\Tr{$l$}}
+%     {\Tdot\Tdot}
+%   \end{center}
+% \end{pspdf}
+erfüllt offensichtlich die Suchbaumeigenschaft.
+\item $\tau$ ist ein Knoten, dessen Markierung mit
+  $l$ übereinstimmt.  Dann gibt \texttt{insert} 
+  $\tau$ zurück.  Da $\tau$ nach Voraussetzung die
+  Suchbaumeigenschaft erfüllt, ist auch hier die
+  Suchbaumeigenschaft erhalten.
+\item $\tau$ ist ein Knoten, dessen Markierung \emph{größer}
+  ist als $l$, sieht also so aus:
+% \begin{pspdf}
+%   \begin{center}
+%     \pstree[levelsep=4ex,treesep=3em,dotsize=0pt 0.1]{\Tr{$m$}}
+%     {
+%       \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$a$}}}
+%       \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$b$}}}
+%       }
+%   \end{center}
+% \end{pspdf}
+
+  TBD
+  
+  wobei sowohl $a$ als auch $b$ selbst die Suchbaumeigenschaft
+  erfüllen. In diesem
+  Fall sieht der entstehende Baum folgendermaßen aus:
+  %
+  % \begin{pspdf}
+  % \begin{center}
+  %   \pstree[levelsep=4ex,treesep=3em,dotsize=0pt 0.1]{\Tr{$m$}} {
+  %     \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{
+  %         \texttt{(insert \valof{a})}
+  %         }}}
+  %     \pstree{\Tdot}{\Ttri{\raisebox{-1ex}[0pt][1.8ex]{$b$}}} }
+  % \end{center}
+  % \end{pspdf}
+
+  TBD
+  
+% 
+  Per Induktionsannahme erfüllt \texttt{(insert \valof{a})} die
+  Suchbaumeigenschaft.  Da $b$ auch die Suchbaumeigenschaft
+  erfüllt, muß nur noch gezeigt werden, daß alle Markierungen in
+  \texttt{(insert \valof{a})} kleiner sind als $m$.
+  Es gibt in \texttt{insert} drei Aufrufe von \texttt{make-node},
+  die neue Knoten erzeugen können.  Alle fügen höchstens
+  \texttt{l} zu der Menge der Markierungen des Baumes hinzu.
+  Alle anderen Markierungen sind nach Voraussetzung kleiner als $m$,
+  ebenso wie \texttt{l}.  Das Resultat erfüllt also ebenfalls
+  die Suchbaumeigenschaft.
+\item Im vierten Fall ist $\tau$ ein Knoten, dessen Markierung
+  \emph{kleiner} ist als $l$.  Dieser Fall geht analog zum
+  dritten Fall.
+\end{itemize}
+\end{beweis}
+
 
 \section*{Aufgaben}
 

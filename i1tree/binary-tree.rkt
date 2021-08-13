@@ -15,8 +15,8 @@
 
 ; Ein Binärbaum ist entweder ein Blatt oder ein Knoten
 (define tree-of
-  (lambda (leaf node-label)
-    (signature (mixed leaf (node-of leaf node-label)))))
+  (lambda (leaf label)
+    (signature (mixed leaf (node-of leaf label)))))
 
 (: tree1 (tree-of false number))
 (define tree1 (make-node 3 (make-node 4 (make-node 5 #f #f) (make-node 7 #f #f)) #f))
@@ -206,11 +206,11 @@
 ; - Funktion für =
 ; - Funktion für <
 ; - Binärbaum
-(define-record (search-tree-of a)
+(define-record (search-tree-of element)
   make-search-tree search-tree?
-  (search-tree-label-=?-function (a a -> boolean))
-  (search-tree-label-<?-function (a a -> boolean))
-  (search-tree-tree (tree-of false a)))
+  (search-tree-label-=?-function (element element -> boolean))
+  (search-tree-label-<?-function (element element -> boolean))
+  (search-tree-tree (tree-of false element)))
 
 (define search-tree1
   (make-search-tree
@@ -335,3 +335,308 @@
                  (p? first)))
           list)))
 
+; Die Markierung an einem größenannotierten Baum besteht aus:
+; - Anzahl der Knoten
+; - "eigentliche" Markierung
+(define-record (sized-label-of label)
+  make-sized-label
+  sized-label
+  (sized-label-size natural)
+  (sized-label-label label))
+
+(define sized-tree1
+  (make-node (make-sized-label 7 "M")
+             (make-node (make-sized-label 3 "B")
+                        (make-node (make-sized-label 1 "A") #f #f)
+                        (make-node (make-sized-label 1 "D") #f #f))
+             (make-node (make-sized-label 3 "O")
+                        (make-node (make-sized-label 1 "N") #f #f)
+                        (make-node (make-sized-label 1 "R") #f #f))))
+
+; Größenannotierten Knoten konstruieren
+(: make-sized-node (%label (tree-of %leaf (sized-label-of %label))
+                           (tree-of %leaf (sized-label-of %label))
+                     -> (node-of %leaf (sized-label-of %label))))
+
+(check-expect (make-sized-node
+               "M"
+               (make-sized-node "B"
+                                (make-sized-node "A" #f #f)
+                                (make-sized-node "D" #f #f))
+               (make-sized-node "O"
+                                (make-sized-node "N" #f #f)
+                                (make-sized-node "R" #f #f)))
+              sized-tree1)
+
+(define make-sized-node
+  (lambda (label left-branch right-branch)
+    (make-node
+     (make-sized-label (+ 1
+                          (sized-tree-size left-branch)
+                          (sized-tree-size right-branch))
+                       label)
+     left-branch right-branch)))                                    
+
+; Signatur für größenannotierte Knoten
+(define sized-node-of
+  (lambda (label leaf)
+    (node-of leaf (sized-label-of label))))
+
+; Signatur für größenannotierte Bäume
+(define sized-tree-of
+  (lambda (leaf label)
+    (tree-of leaf (sized-label-of label))))
+
+; Größe eines größenannotierten Baums liefern
+(: sized-tree-size ((tree-of %leaf (sized-label-of %label)) -> natural))
+
+(check-expect (sized-tree-size "A") 0)
+(check-expect (sized-tree-size sized-tree1) 7)
+
+(define sized-tree-size
+  (lambda (tree)
+    (cond
+      ((node? tree)
+       (sized-label-size (node-label tree)))
+      (else 0))))
+
+; einfache Rotation nach links
+(: single-left
+   (%label (sized-tree-of %leaf %label) (sized-node-of %leaf %label)
+           -> (sized-node-of %leaf %label)))
+
+
+(check-expect
+ (single-left "a" "X" (make-sized-node "b" "Y" "Z"))
+ (make-sized-node "b"
+                  (make-sized-node "a" "X" "Y")
+                  "Z"))
+
+(define single-left
+  (lambda (a X node)
+    (define b (sized-node-label node))
+    (define Y (node-left-branch node))
+    (define Z (node-right-branch node))
+    (make-sized-node b
+                     (make-sized-node a X Y)
+                     Z)))
+
+(define sized-node-label
+  (lambda (node)
+    (sized-label-label (node-label node))))
+
+; doppelte Rotation nach links
+(: double-left
+   (%label (sized-tree-of %leaf %label) (sized-node-of %leaf %label)
+           -> (sized-node-of %leaf %label)))
+
+(check-expect
+ (double-left "a" "X"
+              (make-sized-node "c"
+                               (make-sized-node "b" "Y1" "Y2")
+                               "Z"))
+ (make-sized-node "b"
+                  (make-sized-node "a" "X" "Y1")
+                  (make-sized-node "c" "Y2" "Z"))) 
+
+(define double-left
+  (lambda (a X node)
+    (define node2 (node-left-branch node))
+    (define b (sized-node-label node2))
+    (define c (sized-node-label node))
+    (define Y1 (node-left-branch node2))
+    (define Y2 (node-right-branch node2))
+    (define Z (node-right-branch node))
+    (make-sized-node b
+                     (make-sized-node a X Y1)
+                     (make-sized-node c Y2 Z))))
+
+
+; einfache Rotation nach rechts
+(: single-right
+   (%label (sized-node-of %leaf %label) (sized-tree-of %leaf %label)
+           -> (sized-node-of %leaf %label)))
+
+(check-expect
+ (single-right "b" (make-sized-node "a" "X" "Y") "Z")
+ (make-sized-node "a"
+                  "X"
+                  (make-sized-node "b" "Y" "Z")))
+
+(define single-right
+  (lambda (b node Z)
+    (define a (sized-node-label node))
+    (define X (node-left-branch node))
+    (define Y (node-right-branch node))
+    (make-sized-node a
+                     X (make-sized-node b Y Z))))
+
+; doppelte Rotation nach rechts
+(: double-right
+   (%label (sized-node-of %leaf %label) (sized-tree-of %leaf %label)
+           -> (sized-node-of %leaf %label)))
+
+(check-expect
+ (double-right "c"
+               (make-sized-node "a"
+                                "X"
+                                (make-sized-node "b" "Y1" "Y2"))
+               "Z")
+ (make-sized-node "b"
+                  (make-sized-node "a" "X" "Y1")
+                  (make-sized-node "c" "Y2" "Z")))
+                                                 
+
+(define double-right
+  (lambda (c node Z)
+    (define node2 (node-right-branch node))
+    (define a (sized-node-label node))
+    (define b (sized-node-label node2))
+    (define X (node-left-branch node))
+    (define Y1 (node-left-branch node2))
+    (define Y2 (node-right-branch node2))
+    (make-sized-node b
+                     (make-sized-node a X Y1)
+                     (make-sized-node c Y2 Z))))
+
+(define ratio 5)
+
+(define make-balanced-node
+  (lambda (label left-branch right-branch)
+    (define ln (sized-tree-size left-branch))
+    (define rn (sized-tree-size right-branch))
+    (cond
+      ((< (+ ln rn) 2)
+       (make-node (make-sized-label (+ 1 ln rn) label)
+                  left-branch right-branch))
+      ((> rn (* ratio ln)) ; right is too big
+       (define rl (node-left-branch right-branch))
+       (define rr (node-right-branch right-branch))
+       (define rln (sized-tree-size rl))
+       (define rrn (sized-tree-size rr))
+       (if (< rln rrn)
+           (single-left label left-branch right-branch)
+           (double-left label left-branch right-branch)))
+      ((> ln (* ratio rn)) ; left is too big
+       (define ll (node-left-branch left-branch))
+       (define lr (node-right-branch left-branch))
+       (define lln (sized-tree-size ll))
+       (define lrn (sized-tree-size lr))
+       (if (< lrn lln)
+           (single-right label left-branch right-branch)
+           (double-right label left-branch right-branch)))
+      (else
+       (make-sized-node label left-branch right-branch)))))
+
+; Ein balancierter Suchbaum besteht aus
+; - Funktion für =
+; - Funktion für <
+; - Binärbaum mit Größe im Label
+(define-record (sized-search-tree-of element)
+  make-sized-search-tree sized-search-tree?
+  (sized-search-tree-label-=?-function (element element -> boolean))
+  (sized-search-tree-label-<?-function (element element -> boolean))
+  (sized-search-tree-tree (sized-tree-of false element)))
+
+(define make-empty-sized-search-tree
+  (lambda (label-=?-function label-<?-function)
+    (make-sized-search-tree label-=?-function label-<?-function
+                               #f)))
+
+(define balanced-search-tree-insert
+  (lambda (value search-tree)
+    (define label=? (sized-search-tree-label-=?-function search-tree))
+    (define label<? (sized-search-tree-label-<?-function search-tree))
+    (define tree-insert
+      (lambda (value tree)
+        (cond
+          ((node? tree)
+           (cond
+             ((label=? value (sized-node-label tree))
+              tree)
+             ((label<? value (sized-node-label tree))
+              (make-balanced-node (sized-node-label tree)
+                                  (tree-insert value (node-left-branch tree))
+                                  (node-right-branch tree)))
+             (else
+              (make-balanced-node (sized-node-label tree)
+                                  (node-left-branch tree)
+                                  (tree-insert value (node-right-branch tree))))))
+          (else
+           (make-sized-node value #f #f)))))
+    (make-sized-search-tree
+     label=? label<?
+     (tree-insert value (sized-search-tree-tree search-tree)))))
+
+
+
+
+(define balanced-search-tree2
+  (balanced-search-tree-insert
+   5
+   (balanced-search-tree-insert
+    17
+    (balanced-search-tree-insert
+     3
+     (make-empty-sized-search-tree = <)))))
+
+
+(define sized-search-tree1
+  (make-sized-search-tree
+   string=? string<?
+   (make-sized-node "M"
+              (make-sized-node "B"
+                               (make-sized-node "A" #f #f)
+                               (make-sized-node "D" #f #f))
+              (make-sized-node "O"
+                               (make-sized-node "N" #f #f)
+                               (make-sized-node "R" #f #f)))))
+
+; festellen, ob Element in Suchbaum vorhanden ist
+(: sized-search-tree-member? (%a (sized-search-tree-of %a) -> boolean))
+(check-expect (sized-search-tree-member? "M" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "D" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "N" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "R" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "Z" sized-search-tree1) #f)
+
+(define sized-search-tree-member?
+  (lambda (value search-tree)
+    (define label=? (sized-search-tree-label-=?-function search-tree))
+    (define label<? (sized-search-tree-label-<?-function search-tree))
+    (define tree-member?
+      (lambda (value tree)
+        (cond
+          ((node? tree)
+           (define label (sized-node-label tree))
+           (cond
+             ((label=? value label) #t)
+             ((label<? value label)
+              (tree-member? value (node-left-branch tree)))
+             (else
+              (tree-member? value (node-right-branch tree)))))
+          (else #f))))
+    (tree-member? value (sized-search-tree-tree search-tree))))
+
+; aus allen Elementen einer Liste einen Suchbaum machen
+(: list->balanced-search-tree ((%a %a -> boolean) (%a %a -> boolean)
+                                                  (list-of %a) -> (sized-search-tree-of %a)))
+
+(check-property
+ (for-all ((elements (list-of natural)))
+   (let ((search-tree (list->balanced-search-tree = < elements)))
+     (every? (lambda (element)
+               (sized-search-tree-member? element search-tree))
+             elements))))
+
+(check-property
+ (for-all ((elements (list-of natural))
+           (element natural))
+   (==> (not (member? = element elements))
+        (not (sized-search-tree-member? element (list->balanced-search-tree = < elements)))))) 
+
+(define list->balanced-search-tree
+  (lambda (= < elements)
+    (fold (make-empty-sized-search-tree = <)
+          balanced-search-tree-insert
+          elements)))
