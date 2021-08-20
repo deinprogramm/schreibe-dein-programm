@@ -1075,7 +1075,7 @@ Seite~\pageref{fig:searchtree}:
 Wir schreiben nun eine Variante von \lstinline{tree-member?},
 die Suchbäume statt "<normale"> Bäume
 akzeptieren.  Hier Kurzbeschreibung, Signatur und Tests für die
-Funktion für das Suchen:
+Funktion für das Suchen:\label{func:search-tree-member}
 %
 \begin{lstlisting}
 ; festellen, ob Element in Suchbaum vorhanden ist
@@ -2113,7 +2113,7 @@ Ungleichgewicht aufweist.  Dann könnten wir einfach
   \lstinline{make-balanced-node}.  Das ist bedenklich, insbesondere
   weil die Funktionen ziemlich kompliziert sind.  So richtig testen
   werden wir sie im nächsten Kapitel.  Aber mach Dir schomal ein paar
-  Gedanken darüber, \emph{was} eigentlich werden müsste.  Reicht es,
+  Gedanken darüber, \emph{was} eigentlich getestet werden müsste.  Reicht es,
   die Funktion so zu testen wie \lstinline{search-tree-insert}?
 \end{aufgabeinline}
 
@@ -2124,11 +2124,6 @@ Ungleichgewicht aufweist.  Dann könnten wir einfach
   und eine Liste aller Markierungen in dem Baum zurückgibt.
 \end{aufgabe}
 
-\begin{aufgabe}
-  Schreiben Sie eine Funktion \texttt{search-tree-delete}, die ein
-  Element aus einem Suchbaum entfernt.  Beweisen Sie, daß die Funktion die
-  Suchbaumeigenschaft erhält.
-\end{aufgabe}
 
 \begin{aufgabe}
   Die Implementierung von Suchbäumen ist für viele Suchprobleme nicht
@@ -2149,17 +2144,135 @@ Ungleichgewicht aufweist.  Dann könnten wir einfach
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweisen Sie die Korrektheit von \texttt{search-tree-member?}.
-  Formulieren Sie zunächst eine geeignete Korrektheitseigenschaft und
-  beweisen Sie diese mit Hilfe von Induktion!
+
+  \begin{figure}[tb]
+    \centering
+  \begin{tikzpicture}[level/.style={sibling distance=13mm},
+        triangle/.style = {regular polygon, regular polygon sides=3, draw},
+        every node/.style={scale=0.8}]
+    \node [circle,fill=black] (c) {\textit{\textcolor{white}c}}
+    child {node [circle,fill=red] (b) {\textit{\textcolor{white}b}}
+      child {node [circle,fill=red] (a) {\textit{\textcolor{white}a}}
+        child {node[triangle]  {$W$}} 
+        child {node[triangle]  {$X$}}
+      }
+      child {node[triangle]  {$Y$}}
+    }
+    child {node[triangle]  {$Z$}};
+    \begin{scope}[xshift=2.6cm]
+    \node [circle,fill=black] (c) {\textit{\textcolor{white}c}}
+    child {node [circle,fill=red] (a) {\textit{\textcolor{white}a}}
+      child {node[triangle]  {$W$}}
+      child {node [circle,fill=red] (b) {\textit{\textcolor{white}b}}
+        child {node[triangle]  {$X$}} 
+        child {node[triangle]  {$Y$}}
+      }
+    }
+    child {node[triangle]  {$Z$}};
+  \end{scope}
+    \begin{scope}[xshift=5.1cm]
+    \node [circle,fill=black] (a) {\textit{\textcolor{white}a}}
+    child {node[triangle]  {$W$}}
+    child {node [circle,fill=red] (b) {\textit{\textcolor{white}b}}
+      child {node[triangle]  {$X$}}
+      child {node [circle,fill=red] (c) {\textit{\textcolor{white}c}}
+        child {node[triangle]  {$Y$}} 
+        child {node[triangle]  {$Z$}}
+      }
+    };
+  \end{scope}
+    \begin{scope}[xshift=8.9cm]
+    \node [circle,fill=black] (a) {\textit{\textcolor{white}a}}
+    child {node[triangle]  {$W$}}
+    child {node [circle,fill=red] (c) {\textit{\textcolor{white}c}}
+      child {node [circle,fill=red] (b) {\textit{\textcolor{white}b}}
+        child {node[triangle]  {$X$}} 
+        child {node[triangle]  {$Y$}}
+      }
+      child {node[triangle]  {$Z$}}
+    };
+  \end{scope}
+  \begin{scope}[yshift=-5.2cm, xshift=4cm]
+    \node {\textrm{\huge$\Downarrow$}};
+  \end{scope}
+  \begin{scope}[yshift=-6cm, xshift=4cm, level/.style={sibling distance=30mm/#1}]
+    \node [circle,fill=red] (b) {\textit{\textcolor{white}b}}
+    child {node [circle,fill=black] (a) {\textit{\textcolor{white}a}}
+      child {node[triangle]  {$W$}} 
+      child {node[triangle]  {$X$}}
+    }
+    child {node [circle,fill=black] (c) {\textit{\textcolor{white}c}}
+      child {node[triangle]  {$Y$}} 
+      child {node[triangle]  {$Z$}}
+    };;
+  \end{scope}
+  
+\end{tikzpicture}    
+    \caption{Red-Black-Trees}
+    \label{fig:red-black-trees}
+  \end{figure}
+
+  In Abbildung~\ref{fig:red-black-trees-an} ist eine alternative
+  Strategie abgebildet, um Suchbäume auszubalancieren. Diese Strategie
+  benutzt nicht größenannotierte Bäume sondern auf solchen, wo an
+  jedem Knoten eine \textit{Farbe} Teil der Markierung ist.  Es gibt
+  nur die Farben Rot und Schwarz, entsprechend heißen diese Bäume
+  \textit{Red-Black-Trees}\index{Red-Black-Trees}.  (Falls Du die
+  Abbildung in Schwarz-Weiß anschaust: Die grauen Markierungen sind
+  rot, die schwarzen schwarz.)  Blätter haben immer die Farbe Schwarz.
+
+  Für einen Red-Black-Tree gelten die folgenden Bedingungen:
+  \begin{itemize}
+  \item Kein roter Knoten hat einen roten Teilbaum.
+  \item Auf jedem von der Wurzel ausgehenden Weg zu den Blättern ist
+    die Anzahl der schwarzen Knoten gleich.
+  \end{itemize}
+  %
+  Durch diese Bedingungen wird garantiert, dass der längste mögliche
+  Weg, also ein Weg bei dem sich rote und schwarze Knoten abwechseln,
+  weniger als doppelt so lang wie der kürzestmögliche Weg ist. (Der
+  kürzestmögliche Pfad besteht nur aus schwarzen Knoten.)  Soll ein
+  Red-Black-Tree um einen Knoten erweitert werden, muss nach dem
+  Einfügen diese Bedingung immer noch gelten, er muss also
+  entsprechend ausbalanciert werden.
+  
+  Programmieren Red-Black-Trees mit Hilfe der folgenden Anleitung!
+
+  \begin{itemize}
+  \item Schreibe zunächst Daten- und Record-Definition für
+    Red-Black-Trees analog zu größenannotierten Bäumen und Suchbäumen.
+  \item Schreibe Funktionen \lstinline{red-tree?}  und
+    \texttt{black-tree?}, die überprüfen, ob ein (Teil)baum rot oder
+    schwarz ist.
+  \item Schreibe eine Funktion \lstinline{red-black-tree-member?}
+    analog zu \lstinline{sized-tree-member?}.
+    
+  \item Schreibe eine Funktion \lstinline{red-black-tree-insert}
+    analog zu \lstinline{balanced-search-tree-insert}.
+  \end{itemize}
+
 \end{aufgabe}
 
 \begin{aufgabe}
-  FIXME: Aufgaben aus DMdA, inklusive Red-Black-Trees
+  \label{aufgabe:search-tree-delete}
+  Schreibe eine Funktion \texttt{search-tree-delete}, die ein
+  Element aus einem Suchbaum entfernt.  
 \end{aufgabe}
 
 \begin{aufgabe}
-  FIXME: Alternative Repräsentation von Listen mit Append-Knoten
+  Entwickle eine zu Listen alternative Repräsentation für endliche
+  Folgen auf Basis folgender Datendefinition:
+\begin{lstlisting}
+; Eine AListe ist eins der folgenden:
+; - die leere AListe
+; - eine einelementige AListe
+; - eine Aneinanderhängung von zwei AListen
+\end{lstlisting}
+  Programmiere einige der Funktionen aus Kapitel~\ref{char:list} auf
+  dieser neuen Repräsentation, zum Beispiel \lstinline{list-sum},
+  \lstinline{concat}, \lstinline{list-map} und
+  \lstinline{list-filter}.  Welche Vor- und Nachteile hat diese
+  Repräsentation gegenüber Listen?
 \end{aufgabe}
 
 %%% Local Variables: 
