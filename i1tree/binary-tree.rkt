@@ -407,6 +407,61 @@
   (lambda (node)
     (sized-label-label (node-label node))))
 
+; Ein größenannotierter Suchbaum besteht aus
+; - Funktion für =
+; - Funktion für <
+; - größenannotierter Binärbaum
+(define-record (sized-search-tree-of element)
+  make-sized-search-tree sized-search-tree?
+  (sized-search-tree-label-=?-function (element element -> boolean))
+  (sized-search-tree-label-<?-function (element element -> boolean))
+  (sized-search-tree-tree (sized-tree-of false element)))
+
+(define make-empty-sized-search-tree
+  (lambda (label-=?-function label-<?-function)
+    (make-sized-search-tree label-=?-function label-<?-function
+                               #f)))
+
+(define sized-search-tree1
+  (make-sized-search-tree
+   string=? string<?
+   (make-sized-node "M"
+              (make-sized-node "B"
+                               (make-sized-node "A" #f #f)
+                               (make-sized-node "D" #f #f))
+              (make-sized-node "O"
+                               (make-sized-node "N" #f #f)
+                               (make-sized-node "R" #f #f)))))
+
+; festellen, ob Element in Suchbaum vorhanden ist
+(: sized-search-tree-member? (%a (sized-search-tree-of %a) -> boolean))
+(check-expect (sized-search-tree-member? "M" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "D" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "N" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "R" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "Z" sized-search-tree1) #f)
+
+(define sized-search-tree-member?
+  (lambda (value search-tree)
+    (define label=? (sized-search-tree-label-=?-function search-tree))
+    (define label<? (sized-search-tree-label-<?-function search-tree))
+    (define tree-member?
+      (lambda (value tree)
+        (cond
+          ((node? tree)
+           (define label (sized-node-label tree))
+           (cond
+             ((label=? value label) #t)
+             ((label<? value label)
+              (tree-member? value (node-left-branch tree)))
+             (else
+              (tree-member? value (node-right-branch tree)))))
+          (else #f))))
+    (tree-member? value (sized-search-tree-tree search-tree))))
+
+
+
+
 ; neuen Knoten herstellen, dabei neu ausbalancieren
 (: make-balanced-node (%label (sized-tree-of false %label)
                               (sized-tree-of false %label)
@@ -459,22 +514,6 @@
       (else
        (make-sized-node label left-branch right-branch)))))
 
-; Ein größenannotierter Suchbaum besteht aus
-; - Funktion für =
-; - Funktion für <
-; - größenannotierter Binärbaum
-(define-record (sized-search-tree-of element)
-  make-sized-search-tree sized-search-tree?
-  (sized-search-tree-label-=?-function (element element -> boolean))
-  (sized-search-tree-label-<?-function (element element -> boolean))
-  (sized-search-tree-tree (sized-tree-of false element)))
-
-(define make-empty-sized-search-tree
-  (lambda (label-=?-function label-<?-function)
-    (make-sized-search-tree label-=?-function label-<?-function
-                               #f)))
-
-
 ; neues Element in größenannotierten Suchbaum einfügen
 (: balanced-search-tree-insert
    (%a (sized-search-tree-of %a) -> (sized-search-tree-of %a)))
@@ -514,42 +553,6 @@
      (make-empty-sized-search-tree = <)))))
 
 
-(define sized-search-tree1
-  (make-sized-search-tree
-   string=? string<?
-   (make-sized-node "M"
-              (make-sized-node "B"
-                               (make-sized-node "A" #f #f)
-                               (make-sized-node "D" #f #f))
-              (make-sized-node "O"
-                               (make-sized-node "N" #f #f)
-                               (make-sized-node "R" #f #f)))))
-
-; festellen, ob Element in Suchbaum vorhanden ist
-(: sized-search-tree-member? (%a (sized-search-tree-of %a) -> boolean))
-(check-expect (sized-search-tree-member? "M" sized-search-tree1) #t)
-(check-expect (sized-search-tree-member? "D" sized-search-tree1) #t)
-(check-expect (sized-search-tree-member? "N" sized-search-tree1) #t)
-(check-expect (sized-search-tree-member? "R" sized-search-tree1) #t)
-(check-expect (sized-search-tree-member? "Z" sized-search-tree1) #f)
-
-(define sized-search-tree-member?
-  (lambda (value search-tree)
-    (define label=? (sized-search-tree-label-=?-function search-tree))
-    (define label<? (sized-search-tree-label-<?-function search-tree))
-    (define tree-member?
-      (lambda (value tree)
-        (cond
-          ((node? tree)
-           (define label (sized-node-label tree))
-           (cond
-             ((label=? value label) #t)
-             ((label<? value label)
-              (tree-member? value (node-left-branch tree)))
-             (else
-              (tree-member? value (node-right-branch tree)))))
-          (else #f))))
-    (tree-member? value (sized-search-tree-tree search-tree))))
 
 ; aus allen Elementen einer Liste einen Suchbaum machen
 (: list->balanced-search-tree ((%a %a -> boolean) (%a %a -> boolean)

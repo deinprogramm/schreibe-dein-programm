@@ -1596,6 +1596,24 @@ Das wird noch öfter passieren, darum abstrahieren wir:
   Hilfe dieser Funktionen!
 \end{aufgabeinline}
 %
+Wir können außerdem schon absehen, dass wir noch häufig die Markierung
+eines größenannotierten Knotens benötigen werden.  Dafür müssen wir im
+Moment zwei Funktionen aufrufen:
+%
+\begin{lstlisting}
+(sized-node-label (node-label node))
+\end{lstlisting}
+%
+Wir definieren deshalb eine Hilfsfunktion:
+%
+\begin{lstlisting}
+; aus größenannotiertem Knoten die Markierung extrahieren
+(: sized-node-label ((sized-node-of %leaf %label) -> %label))
+
+(define sized-node-label
+  (lambda (node)
+    (sized-label-label (node-label node))))
+\end{lstlisting}
 
 \subsection{Balancierte Suchbäume}
 
@@ -1658,21 +1676,60 @@ Hier ist ein Beispiel:
 \end{lstlisting}
 \end{aufgabeinline}
 %
-FIXME: \lstinline{sized-search-tree-member}
+Wir machen als nächstes aus der Funktion
+\lstinline{search-tree-member?} die Funktion
+\lstinline{sized-search-tree-member?}.  Dafür müssen wir die Funktion
+nur kopieren, umbenennen und auf die Benutzung von
+\lstinline{sized-search-tree} umstellen.
+%
+\begin{lstlisting}
+; festellen, ob Element in Suchbaum vorhanden ist
+(: sized-search-tree-member? (%a (sized-search-tree-of %a) -> boolean))
+(check-expect (sized-search-tree-member? "M" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "D" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "N" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "R" sized-search-tree1) #t)
+(check-expect (sized-search-tree-member? "Z" sized-search-tree1) #f)
 
-Entsprechend hat die neue Funktion
-\lstinline{balanced-search-tree-insert} nun eine Signatur mit
-\lstinline{sized-search-tree-of}:
+(define sized-search-tree-member?
+  (lambda (value search-tree)
+    (define label=? (sized-search-tree-label-=?-function search-tree))
+    (define label<? (sized-search-tree-label-<?-function search-tree))
+    (define tree-member?
+      (lambda (value tree)
+        (cond
+          ((node? tree)
+           (define label (sized-node-label tree))
+           (cond
+             ((label=? value label) #t)
+             ((label<? value label)
+              (tree-member? value (node-left-branch tree)))
+             (else
+              (tree-member? value (node-right-branch tree)))))
+          (else #f))))
+    (tree-member? value (sized-search-tree-tree search-tree))))
+\end{lstlisting}
+%
+Vergleiche sie mit \lstinline{search-tree-insert}: Es gibt nur zwei
+Unterschiede:
+%
+\begin{itemize}
+\item Die Funktion benutzt größenannotierte Suchbäume und Bäume
+  anstatt der "<normalen">.
+\item Die Funktion ruft statt \lstinline{node-label} 
+\lstinline{sized-node-label} auf.
+\end{itemize}
+%
+Nun widmen wir uns der Konstruktion von balancierten Suchbäumen und
+schreiben eine Funktion \lstinline{balanced-search-tree-insert}.  Auch
+sie entsteht aus \lstinline{search-tree-insert} durch Kopieren und
+Umstellen auf \lstinline{sized-search-tree}:
 %
 \begin{lstlisting}
 ; neues Element in größenannotierten Suchbaum einfügen
 (: balanced-search-tree-insert
    (%a (sized-search-tree-of %a) -> (sized-search-tree-of %a)))
-\end{lstlisting}
-%
-So sieht die neue Funktion aus:
-%
-\begin{lstlisting}
+
 (define balanced-search-tree-insert
   (lambda (value search-tree)
     (define label=? (sized-search-tree-label-=?-function search-tree))
@@ -1701,22 +1758,12 @@ So sieht die neue Funktion aus:
      (tree-insert value (sized-search-tree-tree search-tree)))))
 \end{lstlisting}
 %
-Vergleiche sie mit \lstinline{search-tree-insert}: Es gibt nur zwei
-Unterschiede:
-%
-\begin{itemize}
-\item Die Funktion benutzt größenannotierte Suchbäume und Bäume
-  anstatt der "<normalen">.
-\item Für die Konstruktion eines neues Knotens benutzt die Funktion
-  nicht \lstinline{make-node} (beziehungsweise
-  \lstinline{make-sized-node}), sondern eine noch zu schreibende
-  Funktion \lstinline{make-balanced-node}.
-\end{itemize}
-%
-Diese neue Funktion \lstinline{make-balanced-node} muss sich dann um
-das oben beschriebene "<bisschen Aufräumen"> durch Ausbalancieren
-kümmern.  Sie entspricht der von \lstinline{make-sized-node}, nur
-wieder mit größenannotierten Bäumen:
+Für die Konstruktion eines neues Knotens benutzt die Funktion nicht
+\lstinline{make-node} (beziehungsweise \lstinline{make-sized-node}),
+sondern eine noch zu schreibende Funktion
+\lstinline{make-balanced-node}. Die muss sich dann um das oben
+beschriebene "<bisschen Aufräumen"> durch Ausbalancieren kümmern.  Sie
+hat die gleiche Signatur wie \lstinline{make-sized-node}:
 %
 \begin{lstlisting}
 ; neuen Knoten herstellen, dabei neu ausbalancieren
