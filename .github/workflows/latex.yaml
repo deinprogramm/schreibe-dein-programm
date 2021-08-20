@@ -1,7 +1,9 @@
-name: Run LaTeX on book
+name: Run LaTeX
 
 on:
    push:
+    tags:
+      - '2*' # Push events to matching 2*, e.g. 2021-08-20
 
 jobs:
    latex:
@@ -17,3 +19,27 @@ jobs:
         - run: sed -i 's/\\eingebaut/eingebaut/g' i1.idx
         - run: makeindex -c -s i1.mst -g i1
         - run: pdflatex -interaction=nonstopmode -halt-on-error i1 
+
+        - name: Create Release
+          id: create_release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          with:
+            tag_name: ${{ github.ref }}
+            release_name: Release ${{ github.ref }}
+            draft: false
+            prerelease: false
+
+        - name: Upload Release Asset
+          id: upload-release-asset 
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing its ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+            asset_path: ./i1.pdf
+            asset_name: i1.pdf
+            asset_content_type: application/pdf
+
+            
