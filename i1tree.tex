@@ -1429,7 +1429,7 @@ der Algorithmus die Anzahl der Knoten in den beiden Teilbäumen eines
 Knotens.  Nun wäre es blöd, wenn er dafür jedesmal nachzählen müsste,
 wieviele das denn sind.  Viel effizienter ist es, die Größe eines
 Baums im Baum selbst mitzuführen, als Teil der Markierung eines
-Knotens.  Die definieren wir erstmal, bevor es mit dem Balancieren
+Knotens.  Die definieren wir erstmal, bevor es mit dem Ausbalancieren
 losgeht.
 
 Bäume, bei denen die Größe an jedem Knoten dransteht, nennen wir
@@ -1509,7 +1509,7 @@ besteht die Schablone aus einem Aufruf des Konstruktors:
 \begin{lstlisting}
 (define make-sized-node
   (lambda (label left-branch right-branch)
-    (make-node ... ... ...)
+    (make-node ... ... ...)))
 \end{lstlisting}
 %
 Die beiden Argumente für \lstinline{left-branch} und
@@ -1581,22 +1581,240 @@ Das wird noch öfter passieren, darum abstrahieren wir:
 \begin{lstlisting}
 ; Signatur für größenannotierte Knoten
 (define sized-node-of
-  (lambda (label leaf)
+  (lambda (leaf label)
     (node-of leaf (sized-label-of label))))
 
 ; Signatur für größenannotierte Bäume
 (define sized-tree-of
   (lambda (leaf label)
-    (tree-of leaf (sized-label-of label))
+    (tree-of leaf (sized-label-of label))))
 \end{lstlisting}
 %
 \begin{aufgabeinline}
-  Formuliere die Signaturdeklarationen von \lstinline{make-sized-node}
-  und \lstinline{sized-tree-size} mit Hilfe dieser Funktionen!
+  Schreibe bessere Signaturdeklarationen für
+  \lstinline{make-sized-node} und \lstinline{sized-tree-size} mit
+  Hilfe dieser Funktionen!
 \end{aufgabeinline}
 %
 
-\subsection{Suchbäume rotieren}
+\subsection{Balancierte Suchbäume}
+
+Für die Entwicklung von Algorithmen gibt es leider keine übergreifende
+Strategie analog zu den Konstruktionsanleitungen. Häufig steht am
+Anfang eine Idee, die sich aus einer bestimmten Sichtweise des
+Problems entsteht, verbunden mit Variationen und Experimenten.
+
+Der Ausgangspunkt von Stephen Adams' Algorithmus ist die Funktion
+\lstinline{search-tree-insert}.  Die platziert das neue Element an die
+erstbeste Stelle im Suchbaum, die passt: Das ist der minimal mögliche
+Aufwand.  Adams' Idee ist nun, \lstinline{search-tree-insert} im
+wesentlichen beizubehalten, aber mit einer Ergänzung: Wenn das
+Einfügen eines neuen Elements den Baum aus dem Gleichgewicht bringt,
+wird er ein bisschen neu ausbalanciert.
+
+So, als würde man immer, wenn man was neues kauft, den neuen
+Gegenstand im Zimmer ins Regal legen und dann ein kleines bisschen
+aufräumen.  Die Kunst ist, gerade genug aufzuräumen, dass das Zimmer
+auf Dauer trotzdem nicht im Chaos versinkt.  Dabei hilft wiederum die
+Annotation mit der Größe.
+
+Wir brauchen also erstmal eine Variante der Datendefinition für
+Suchbäume mit größenannotierten Bäumen:
+%
+\begin{lstlisting}
+; Ein größenannotierter Suchbaum besteht aus
+; - Funktion für =
+; - Funktion für <
+; - größenannotierter Binärbaum
+(define-record (sized-search-tree-of element)
+  make-sized-search-tree sized-search-tree?
+  (sized-search-tree-label-=?-function (element element -> boolean))
+  (sized-search-tree-label-<?-function (element element -> boolean))
+  (sized-search-tree-tree (sized-tree-of false element)))
+\end{lstlisting}
+%
+Hier ist ein Beispiel:
+%
+\begin{lstlisting}
+(define sized-search-tree1
+  (make-sized-search-tree
+   string=? string<?
+   (make-sized-node "M"
+              (make-sized-node "B"
+                               (make-sized-node "A" #f #f)
+                               (make-sized-node "D" #f #f))
+              (make-sized-node "O"
+                               (make-sized-node "N" #f #f)
+                               (make-sized-node "R" #f #f)))))
+\end{lstlisting}
+% 
+\begin{aufgabeinline}
+  Warum müssen wir einen neuen Record-Typ definieren?  Könnten wir
+  \lstinline{sized-search-tree-of} nicht folgendermaßen definieren?
+\begin{lstlisting}
+(define sized-search-tree-of
+  (lambda (element)
+    (search-tree-of (sized-label-of element))))
+\end{lstlisting}
+\end{aufgabeinline}
+%
+FIXME: \lstinline{sized-search-tree-member}
+
+Entsprechend hat die neue Funktion
+\lstinline{balanced-search-tree-insert} nun eine Signatur mit
+\lstinline{sized-search-tree-of}:
+%
+\begin{lstlisting}
+; neues Element in größenannotierten Suchbaum einfügen
+(: balanced-search-tree-insert
+   (%a (sized-search-tree-of %a) -> (sized-search-tree-of %a)))
+\end{lstlisting}
+%
+So sieht die neue Funktion aus:
+%
+\begin{lstlisting}
+(define balanced-search-tree-insert
+  (lambda (value search-tree)
+    (define label=? (sized-search-tree-label-=?-function search-tree))
+    (define label<? (sized-search-tree-label-<?-function search-tree))
+    (define tree-insert
+      (lambda (value tree)
+        (cond
+          ((node? tree)
+           (cond
+             ((label=? value (sized-node-label tree))
+              tree)
+             ((label<? value (sized-node-label tree))
+              (make-balanced-node
+                (sized-node-label tree)
+                (tree-insert value (node-left-branch tree))
+                (node-right-branch tree)))
+             (else
+              (make-balanced-node
+                (sized-node-label tree)
+                (node-left-branch tree)
+                (tree-insert value (node-right-branch tree))))))
+          (else
+           (make-sized-node value #f #f)))))
+    (make-sized-search-tree
+     label=? label<?
+     (tree-insert value (sized-search-tree-tree search-tree)))))
+\end{lstlisting}
+%
+Vergleiche sie mit \lstinline{search-tree-insert}: Es gibt nur zwei
+Unterschiede:
+%
+\begin{itemize}
+\item Die Funktion benutzt größenannotierte Suchbäume und Bäume
+  anstatt der "<normalen">.
+\item Für die Konstruktion eines neues Knotens benutzt die Funktion
+  nicht \lstinline{make-node} (beziehungsweise
+  \lstinline{make-sized-node}), sondern eine noch zu schreibende
+  Funktion \lstinline{make-balanced-node}.
+\end{itemize}
+%
+Diese neue Funktion \lstinline{make-balanced-node} muss sich dann um
+das oben beschriebene "<bisschen Aufräumen"> durch Ausbalancieren
+kümmern.  Sie entspricht der von \lstinline{make-sized-node}, nur
+wieder mit größenannotierten Bäumen:
+%
+\begin{lstlisting}
+; neuen Knoten herstellen, dabei neu ausbalancieren
+(: make-balanced-node (%label (sized-tree-of false %label)
+                              (sized-tree-of false %label)
+                       -> (sized-node-of false %label)))
+\end{lstlisting}
+%
+Hier das Gerüst:
+%
+\begin{lstlisting}
+(define make-balanced-node
+  (lambda (label left-branch right-branch)
+    ...))
+\end{lstlisting}
+%
+Wir könnten es uns einfach machen und schreiben:
+%
+\begin{lstlisting}
+(define make-balanced-node
+  (lambda (label left-branch right-branch)
+    (make-sized-node label left-branch right-branch)))
+\end{lstlisting}
+%
+Das entspricht aber der Strategie eines gewissen 12jährigen Kindes
+eines der Autoren: Einfach das neue Element aufs Bett werfen, Tür zu,
+fertig.  Aber die Idee ist ja: Wenn die Unordnung zu groß ist, wollen
+wir ein bisschen aufräumen.  Wobei Unordnung hier heißt
+"<Ungleichgewicht zwischen \lstinline{left-branch} und
+\lstinline{right-branch}">.  Und das Ungleichgewicht definieren wir
+(genauer gesagt: Stephen Adams) über die Größe der Teilbäume.
+
+Naiv könnten wir es folgendermaßen machen:
+%
+\begin{lstlisting}
+(define make-balanced-node
+  (lambda (label left-branch right-branch)
+    (cond
+      ((= (sized-tree-size left-branch)
+          (sized-tree-size right-branch))
+       (make-sized-node label left-branch right-branch))
+      (else ...)))) ; ausbalancieren
+\end{lstlisting}
+%
+\ldots~aber das wäre zu hart: Das würde heißen, dass die Funktion
+\emph{jedesmal} ausbalancieren müsste, wenn auch nur das kleinste
+bisschen Ungleichgewicht entstehen würde.  Abgesehen davon ist das
+auch unmöglich: Ein Baum der Größe 3 kann gar nicht perfekt balanciert
+sein zum Beispiel.
+
+Wir brauchen also ein "<weicheres"> Kriterium.  Stephen Adams hatte
+nun folgende Idee: Wenn ein Teilbaum mehr als $n$ mal so groß ist wie
+der andere, dann wird neu ausbalanciert.  Wie ist er darauf gekommen
+und wie groß sollte $n$ sein?  Wie er darauf gekommen ist, ist
+nicht überliefert, aber wir gehen davon aus, dass er unterschiedliche
+Kriterien ausprobiert hat und dieses hier dazu führte, das die
+entstehende Funktion sowohl einfach als auch im Schnitt schnell
+funktioniert.  Dabei hat er auch ermittelt, wie groß $n$
+sinnvollerweise ist, nämlich 5.  Es entsteht folgende Schablone:
+%
+\begin{lstlisting}
+(define ratio 5)
+
+(define make-balanced-node
+  (lambda (label left-branch right-branch)
+    (define left-size (sized-tree-size left-branch))
+    (define right-size (sized-tree-size right-branch))
+    (cond
+      ((> right-size (* ratio left-size)) ...) ; rechts hat Übergewicht
+      ((> left-size (* ratio right-size)) ...) ; links hat Übergewicht
+      (else
+       (make-sized-node label left-branch right-branch)))))
+\end{lstlisting}
+%
+Du siehst, wir haben die 5 in eine separate Definition verlagert, weil
+sie zweimal benutzt wird und so einfach geändert werden kann.  Adams
+hat die Funktion noch etwas weiter verbessert, indem er ein weiteres
+Kriterium hinzufügte, bei dem kein Ausbalancieren notwendig ist:
+
+\begin{lstlisting}
+(define make-balanced-node
+  (lambda (label left-branch right-branch)
+    (define left-size (sized-tree-size left-branch))
+    (define right-size (sized-tree-size right-branch))
+    (cond
+      ((< (+ left-size right-size) 2)
+       (make-sized-node label left-branch right-branch))
+      ((> right-size (* ratio left-size)) ...) ; rechts hat Übergewicht
+      ((> left-size (* ratio right-size)) ...) ; links hat Übergewicht
+      (else
+       (make-sized-node label left-branch right-branch)))))
+\end{lstlisting}
+%
+Der erste Zweig kommt immer dann zum Zug, wenn in den beiden
+Teilbäumen zusammen nur ein Knoten ist: Dann macht Ausbalancieren auch
+keinen Sinn.
+
+\section{Ausbalancieren durch Rotation}
 
 \begin{figure}[tb]
   \centering
@@ -1604,7 +1822,7 @@ Das wird noch öfter passieren, darum abstrahieren wir:
   \begin{tikzpicture}[triangle/.style = {regular polygon, regular polygon sides=3, draw}]
 \node (a){$a$}
     child {node[triangle]  {$X$}} 
-    child {node (b) {$b$}
+    child {node (c) {$c$}
       child {node[triangle]  {$Y$}} 
       child {node[triangle]  {$Z$}}
     }; 
@@ -1618,7 +1836,7 @@ Das wird noch öfter passieren, darum abstrahieren wir:
 % 
 \begin{minipage}{0.35\textwidth}
 \begin{tikzpicture}[triangle/.style = {regular polygon, regular polygon sides=3, draw}]
-\node (b){$b$}
+\node (c){$c$}
     child {node (a) {$a$}
       child {node[triangle]  {$X$}} 
       child {node[triangle]  {$Y$}}
@@ -1664,23 +1882,22 @@ Das wird noch öfter passieren, darum abstrahieren wir:
     };
 \end{tikzpicture}
 \end{minipage}
-
-\caption{Balancieren von Bäumen durch Rotation}
+\caption{Ausbalancieren von Bäumen durch Rotation}
   \label{fig:search-tree-rotation}
 \end{figure}
 
-Kommen wir endlich zum konkreten Algorithmus von Stephen Adams.  Er
-beruht auf der Idee der \textit{Rotation}\index{Rotation!eines
-  Suchbaums} eines Suchbaums.
+Um den Baum auszubalancieren, schauen wir uns an, wie so ein
+Ungleichgewicht überhaupt aussehen kann.  Schau Dir
+Abbildung~\ref{fig:search-tree-rotation} an.  Links oben siehst Du einen
+Baum mit Markierungen $a$ und $c$ sowie dreieckigen Teilbäumen $X$,
+$Y$ und $Z$.  Nun stell Dir vor, der Baum hat rechts deutlich mehr
+Knoten als links.  Dann ist er aus dem Gleichgewicht und sollte neu
+ausbalanciert werden.
 
-Schau Dir dazu mal Abbildung~\ref{search-tree-rotation} an.  Links
-oben siehst Du einen Baum mit Markierungen $a$ und $b$ sowie
-dreieckigen Teilbäumen $X$, $Y$ und $Z$.  Nun stell Dir vor, der Baum
-hat rechts deutlich mehr Knoten als links.  Dann ist er aus dem
-Gleichgewicht geraten und sollte neu balanciert werden.  Das macht nun
-die Rotation, die aus diesem Baum den Baum oben rechts macht: Dabei
-wird der Teilbaum $Y$ von rechts nach links geschoben, was das
-Ungleichgewicht zumindest etwas lindert.
+Das erledigt eine \textit{Rotation}\index{Rotation!eines Suchbaums},
+die aus diesem Baum den Baum oben rechts macht: Dabei wird der
+Teilbaum $Y$ von rechts nach links geschoben, was das Ungleichgewicht
+zumindest etwas lindern kann.
 
 Unten links siehst Du ebenfalls einen Baum, der aus dem Gleichgewicht
 gekommen ist: Auch hier wird ein Teilbaum von rechts nach links
@@ -1689,17 +1906,17 @@ Rotation ist etwas komplizierter, darum heißt sie "<doppelte>
 Rotation, die erste heißt entsprechend "<einfach">.
 
 \begin{aufgabeinline}
-  Könnte es sein, dass die Rotationen in
-  Abbildung~\ref{fig:search-tree-rotation} dafür sorgen, dass die
-  Bäume auf der rechten Seite nicht mehr sortiert sind?
+  Warum bewirken die Rotationen in
+  Abbildung~\ref{fig:search-tree-rotation} nicht, dass die Bäume auf
+  der rechten Seite nicht mehr sortiert sind?
 \end{aufgabeinline}
 
-Wann sollte unser Algorithmus nun einfach und wann doppelt rotieren?
+Wann sollte der Algorithmus nun einfach und wann doppelt rotieren?
 Schau Dir dazu noch einmal in Abbildung~\ref{fig:search-tree-rotation}
 den oberen linken Baum an.  Von den Teilbäumen $X$ und $Y$ ist einer
-größer als der andere.  Nehmen wir mal an, das ist $Z$.  Dann vermindert
-eine einfache Rotation auf jeden Fall das Ungleichgewicht zwischen
-links und rechts.
+größer als der andere.  Nehmen wir mal an, das ist $X$.  Dann
+vermindert eine einfache Rotation das Ungleichgewicht zwischen links
+und rechts.
 
 Wenn aber $Y$ größer ist $Z$, dann macht die einfache Rotation das
 Ungleichgewicht \emph{größer}: Der eh größere Brocken $Y$ tut sich
@@ -1714,20 +1931,144 @@ verlagert.
   Übergewicht herrscht.
 \end{aufgabeinline}
 %
-Die Idee von Stephen Adams ist nun \lstinline{search-tree-insert}
-durch eine neue Funktion \lstinline{balanced-search-tree-insert} zu
-ersetzen.  Diese sieht im wesentlichen so aus wie
-\lstinline{search-tree-insert}, nur mit zwei Unterschieden:
+Diese Rotationen übertragen wir jetzt in den Rumpf von
+\lstinline{make-balanced-node}.  Damit wir dabei möglichst keine
+Fehler machen, verwenden wir Namen genau wie in
+Abbildung~\ref{fig:search-tree-rotation}:
 %
-\begin{itemize}
-\item Sie arbeitet auf den neuen größenannotierten Bäumen.
-\item Wenn \lstinline{balanced-search-tree-insert} einen neuen Knoten
-  konstruiert, balanciert sie diesen sofort durch Rotation aus, falls
-  nötig.
-\end{itemize}
+\begin{lstlisting}
+(define make-balanced-node
+  (lambda (label left-branch right-branch)
+    (define left-size (sized-tree-size left-branch))
+    (define right-size (sized-tree-size right-branch))
+    (cond
+      ((< (+ left-size right-size) 2)
+       (make-sized-node label left-branch right-branch))
+      ((> right-size (* ratio left-size))
+       (define a label)
+       (define X left-branch)
+       (define c (sized-node-label right-branch))
+       (define Y (node-left-branch right-branch))
+       (define Z (node-right-branch right-branch))
+       ...)
+      ...)))
+\end{lstlisting}
 %
-FIXME
-
+\begin{aufgabeinline}
+  Die Definitionen von \lstinline{c}, \lstinline{Y} und \lstinline{Y}
+  überprüfen gar nicht, ob \lstinline{right-branch} wirklich ein
+  Knoten ist.  Könnte es nicht auch ein Blatt sein?
+\end{aufgabeinline}
+%
+Als nächstes ist die Rotation dran: Die Funktion muss noch
+entscheiden, ob sie eine einfache oder eine doppelte Rotation
+vornimmt.  Das hängt davon ab, ob der $Y$ oder $Y$ größer ist:
+%
+\begin{lstlisting}
+(if (< (sized-tree-size Y) (sized-tree-size Z))
+    ... ; einfach
+    ...) ; doppelt
+\end{lstlisting}
+%
+Bei der einfachen Rotation müssen wir die rechte Seite von
+Abbildung~\ref{fig:search-tree-rotation} in Code übersetzen:
+%
+\begin{lstlisting}
+(if (< (sized-tree-size Y) (sized-tree-size Z))
+    (make-sized-node c
+                     (make-sized-node a X Y)
+                     Z)
+    ...)
+\end{lstlisting}
+%
+Bei der doppelten Rotation stehen in der Abbildung noch weitere Namen
+für die Teilbäume von $Y$.  Es ist sinnvoll, die ebenfalls zu binden.
+Leider erlaubt \lstinline{if} nicht die Bindung von lokalen Variablen,
+wir müssen daraus ein \lstinline{cond} machen:
+%
+\begin{lstlisting}
+(cond
+  ((< (sized-tree-size Y) (sized-tree-size Z))
+   (make-sized-node c
+                    (make-sized-node a X Y)
+                    Z))
+  (else
+    (define b (sized-node-label Y))
+    (define Y1 (node-left-branch Y))
+    (define Y2 (node-right-branch Y))
+    (make-sized-node b
+                     (make-sized-node a X Y1)
+                     (make-sized-node c Y2 Z))))
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Bei der doppelte Rotation nimmt die Funktion an, dass \lstinline{Y}
+  ein Knoten ist.  Könnte es nicht auch ein Blatt sein?
+\end{aufgabeinline}
+%
+Wir benötigen in der Funktion nun noch den umgekehrten Fall, dass also
+das Übergewicht links und nichts rechts ist.  Der Code dafür ist
+gegenüber dem gerade behandelten Fall "<gespiegelt">.  Auch der letzte
+Fall fehlt noch: Der tritt dann ein,  wenn der Baum kein exzessives
+Ungleichgewicht aufweist.  Dann könnten wir einfach
+\lstinline{make-sized-node} benutzten.  Hier die ganze Funktion:
+%
+\begin{lstlisting}
+(define make-balanced-node
+  (lambda (label left-branch right-branch)
+    (define left-size (sized-tree-size left-branch))
+    (define right-size (sized-tree-size right-branch))
+    (cond
+      ((< (+ left-size right-size) 2)
+       (make-sized-node label left-branch right-branch))
+      ((> right-size (* ratio left-size))
+       (define a label)
+       (define X left-branch)
+       (define c (sized-node-label right-branch))
+       (define Y (node-left-branch right-branch))
+       (define Z (node-right-branch right-branch))
+       (cond
+         ((< (sized-tree-size Y) (sized-tree-size Z))
+          (make-sized-node c
+                           (make-sized-node a X Y)
+                           Z))
+         (else
+           (define b (sized-node-label Y))
+           (define Y1 (node-left-branch Y))
+           (define Y2 (node-right-branch Y))
+           (make-sized-node b
+                            (make-sized-node a X Y1)
+                            (make-sized-node c Y2 Z)))))
+      ((> left-size (* ratio right-size))
+       (define c label)
+       (define a (sized-node-label left-branch))
+       (define X (node-left-branch left-branch))
+       (define Y (node-right-branch left-branch))
+       (define Z right-branch)
+       (cond
+         ((< (sized-tree-size Y) (sized-tree-size X))
+          (make-sized-node a
+                           X (make-sized-node c Y Z)))
+         (else
+          (define b (sized-node-label Y))
+          (define Y1 (node-left-branch Y))
+          (define Y2 (node-right-branch Y))
+          (make-sized-node b
+                           (make-sized-node a X Y1)
+                           (make-sized-node c Y2 Z)))))
+      (else
+       (make-sized-node label left-branch right-branch)))))
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Es gibt bisher noch keine Tests für
+  \lstinline{balanced-search-tree-insert} oder
+  \lstinline{make-balanced-node}.  Das ist bedenklich, insbesondere
+  weil die Funktionen ziemlich kompliziert sind.  So richtig testen
+  werden wir sie im nächsten Kapitel.  Aber mach Dir schomal ein paar
+  Gedanken darüber, \emph{was} eigentlich werden müsste.  Reicht es,
+  die Funktion so zu testen wie \lstinline{search-tree-insert}?
+\end{aufgabeinline}
 
 \section*{Aufgaben}
 

@@ -379,7 +379,7 @@
 
 ; Signatur für größenannotierte Knoten
 (define sized-node-of
-  (lambda (label leaf)
+  (lambda (leaf label)
     (node-of leaf (sized-label-of label))))
 
 ; Signatur für größenannotierte Bäume
@@ -400,138 +400,69 @@
        (sized-label-size (node-label tree)))
       (else 0))))
 
-; einfache Rotation nach links
-(: single-left
-   (%label (sized-tree-of %leaf %label) (sized-node-of %leaf %label)
-           -> (sized-node-of %leaf %label)))
-
-
-(check-expect
- (single-left "a" "X" (make-sized-node "b" "Y" "Z"))
- (make-sized-node "b"
-                  (make-sized-node "a" "X" "Y")
-                  "Z"))
-
-(define single-left
-  (lambda (a X node)
-    (define b (sized-node-label node))
-    (define Y (node-left-branch node))
-    (define Z (node-right-branch node))
-    (make-sized-node b
-                     (make-sized-node a X Y)
-                     Z)))
+; aus größenannotiertem Knoten die Markierung extrahieren
+(: sized-node-label ((sized-node-of %leaf %label) -> %label))
 
 (define sized-node-label
   (lambda (node)
     (sized-label-label (node-label node))))
 
-; doppelte Rotation nach links
-(: double-left
-   (%label (sized-tree-of %leaf %label) (sized-node-of %leaf %label)
-           -> (sized-node-of %leaf %label)))
-
-(check-expect
- (double-left "a" "X"
-              (make-sized-node "c"
-                               (make-sized-node "b" "Y1" "Y2")
-                               "Z"))
- (make-sized-node "b"
-                  (make-sized-node "a" "X" "Y1")
-                  (make-sized-node "c" "Y2" "Z"))) 
-
-(define double-left
-  (lambda (a X node)
-    (define node2 (node-left-branch node))
-    (define b (sized-node-label node2))
-    (define c (sized-node-label node))
-    (define Y1 (node-left-branch node2))
-    (define Y2 (node-right-branch node2))
-    (define Z (node-right-branch node))
-    (make-sized-node b
-                     (make-sized-node a X Y1)
-                     (make-sized-node c Y2 Z))))
-
-
-; einfache Rotation nach rechts
-(: single-right
-   (%label (sized-node-of %leaf %label) (sized-tree-of %leaf %label)
-           -> (sized-node-of %leaf %label)))
-
-(check-expect
- (single-right "b" (make-sized-node "a" "X" "Y") "Z")
- (make-sized-node "a"
-                  "X"
-                  (make-sized-node "b" "Y" "Z")))
-
-(define single-right
-  (lambda (b node Z)
-    (define a (sized-node-label node))
-    (define X (node-left-branch node))
-    (define Y (node-right-branch node))
-    (make-sized-node a
-                     X (make-sized-node b Y Z))))
-
-; doppelte Rotation nach rechts
-(: double-right
-   (%label (sized-node-of %leaf %label) (sized-tree-of %leaf %label)
-           -> (sized-node-of %leaf %label)))
-
-(check-expect
- (double-right "c"
-               (make-sized-node "a"
-                                "X"
-                                (make-sized-node "b" "Y1" "Y2"))
-               "Z")
- (make-sized-node "b"
-                  (make-sized-node "a" "X" "Y1")
-                  (make-sized-node "c" "Y2" "Z")))
-                                                 
-
-(define double-right
-  (lambda (c node Z)
-    (define node2 (node-right-branch node))
-    (define a (sized-node-label node))
-    (define b (sized-node-label node2))
-    (define X (node-left-branch node))
-    (define Y1 (node-left-branch node2))
-    (define Y2 (node-right-branch node2))
-    (make-sized-node b
-                     (make-sized-node a X Y1)
-                     (make-sized-node c Y2 Z))))
+; neuen Knoten herstellen, dabei neu ausbalancieren
+(: make-balanced-node (%label (sized-tree-of false %label)
+                              (sized-tree-of false %label)
+                       -> (sized-node-of false %label)))
 
 (define ratio 5)
 
 (define make-balanced-node
   (lambda (label left-branch right-branch)
-    (define ln (sized-tree-size left-branch))
-    (define rn (sized-tree-size right-branch))
+    (define left-size (sized-tree-size left-branch))
+    (define right-size (sized-tree-size right-branch))
     (cond
-      ((< (+ ln rn) 2)
-       (make-node (make-sized-label (+ 1 ln rn) label)
-                  left-branch right-branch))
-      ((> rn (* ratio ln)) ; right is too big
-       (define rl (node-left-branch right-branch))
-       (define rr (node-right-branch right-branch))
-       (define rln (sized-tree-size rl))
-       (define rrn (sized-tree-size rr))
-       (if (< rln rrn)
-           (single-left label left-branch right-branch)
-           (double-left label left-branch right-branch)))
-      ((> ln (* ratio rn)) ; left is too big
-       (define ll (node-left-branch left-branch))
-       (define lr (node-right-branch left-branch))
-       (define lln (sized-tree-size ll))
-       (define lrn (sized-tree-size lr))
-       (if (< lrn lln)
-           (single-right label left-branch right-branch)
-           (double-right label left-branch right-branch)))
+      ((< (+ left-size right-size) 2)
+       (make-sized-node label left-branch right-branch))
+      ((> right-size (* ratio left-size))
+       (define a label)
+       (define X left-branch)
+       (define c (sized-node-label right-branch))
+       (define Y (node-left-branch right-branch))
+       (define Z (node-right-branch right-branch))
+       (cond
+         ((< (sized-tree-size Y) (sized-tree-size Z))
+          (make-sized-node c
+                           (make-sized-node a X Y)
+                           Z))
+         (else
+           (define b (sized-node-label Y))
+           (define Y1 (node-left-branch Y))
+           (define Y2 (node-right-branch Y))
+           (make-sized-node b
+                            (make-sized-node a X Y1)
+                            (make-sized-node c Y2 Z)))))
+      ((> left-size (* ratio right-size))
+       (define c label)
+       (define a (sized-node-label left-branch))
+       (define X (node-left-branch left-branch))
+       (define Y (node-right-branch left-branch))
+       (define Z right-branch)
+       (cond
+         ((< (sized-tree-size Y) (sized-tree-size X))
+          (make-sized-node a
+                           X (make-sized-node c Y Z)))
+         (else
+          (define b (sized-node-label Y))
+          (define Y1 (node-left-branch Y))
+          (define Y2 (node-right-branch Y))
+          (make-sized-node b
+                           (make-sized-node a X Y1)
+                           (make-sized-node c Y2 Z)))))
       (else
        (make-sized-node label left-branch right-branch)))))
 
-; Ein balancierter Suchbaum besteht aus
+; Ein größenannotierter Suchbaum besteht aus
 ; - Funktion für =
 ; - Funktion für <
-; - Binärbaum mit Größe im Label
+; - größenannotierter Binärbaum
 (define-record (sized-search-tree-of element)
   make-sized-search-tree sized-search-tree?
   (sized-search-tree-label-=?-function (element element -> boolean))
@@ -542,6 +473,11 @@
   (lambda (label-=?-function label-<?-function)
     (make-sized-search-tree label-=?-function label-<?-function
                                #f)))
+
+
+; neues Element in größenannotierten Suchbaum einfügen
+(: balanced-search-tree-insert
+   (%a (sized-search-tree-of %a) -> (sized-search-tree-of %a)))
 
 (define balanced-search-tree-insert
   (lambda (value search-tree)
@@ -567,9 +503,6 @@
     (make-sized-search-tree
      label=? label<?
      (tree-insert value (sized-search-tree-tree search-tree)))))
-
-
-
 
 (define balanced-search-tree2
   (balanced-search-tree-insert
