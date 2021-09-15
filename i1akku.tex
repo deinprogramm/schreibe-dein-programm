@@ -288,7 +288,7 @@ versucht, da einfach \lstinline{inverted} hinzuschreiben wie bei
 vielen anderen rekursiven Funktionen vorher.  Aber wir müssen doch die
 Elemente von \lstinline{list} da noch "<hineinakkumulieren"> und aus
 dem vorigen Zwischenergebnis das nächste machen.  Für das
-"<Hineinakkumulieren"> nehmen wir das erste Elemente und hängen es
+"<Hineinakkumulieren"> nehmen wir das erste Element und hängen es
 vorn an, so wie wir es in der Beispielrechnung auch gemacht haben:
 %
 \begin{lstlisting}
@@ -803,6 +803,19 @@ konsumieren, können wir eine Schablone formulieren:
   folgende Produkt: \[1\times 2\times \cdots \times (n-1)\times n\]
 \end{aufgabeinline}
 
+Hier noch ein Tipp für Funktionen auf natürlichen Zahlen mit
+Akkumulator.  Bei den Funktionen \lstinline{exponent} und
+\lstinline{list-sum} ist es egal, ob die Funktion von 0 hochzählt oder
+von einer Zahl $n$ herunterzählt: Bei Addition und Multiplikation
+spielt die Reihenfolge keine Rolle.  Das ist aber nicht immer so:
+Häufig macht es einen Unterschied, ob die Funktion bei 0 (oder
+manchmal auch 1) anfängt und hochzählt oder von einer Zahl $n$
+herunterzählt.  (Schau Dir gegebenenfalls noch einmal
+Abschnitt~\ref{sec:andersrum-zaehlen} auf
+Seite~\pageref{sec:andersrum-zaehlen} an.)  Um das zu entscheiden,
+überlege Dir, ob Du mit Bleistift und Papier "<unten"> oder "<oben">
+anfangen würdest.
+
 \section{Aktienkurse analysieren}
 
 Es gibt durchaus Funktionen, bei denen mehrere Zwischenergebnisse
@@ -987,6 +1000,11 @@ Fertig!
   Schreibe eine Funktion, welche für eine Zahl $n$ die $n$-te Zahl aus
   der Fibonacci-Zahl berechnet.  Schreibe dafür eine Funktion
   mit zwei Akkumulatoren.
+
+  Wichtig bei dieser Aufgabe: Überlege Dir vorher, ob Du die
+  Fibonacci-Zahlen mit Papier und Bleistift ausrechnen würdest, indem
+  Du bei 0 anfängst und hochzählst oder stattdessen von $n$
+  herunterzählst.  Schreibe Deine Funktion entsprechend.
 \end{aufgabeinline}
 
 \section{Kontext und Endrekursion}
