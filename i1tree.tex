@@ -477,7 +477,7 @@ und die Markierungen Zeichenketten
   \label{fig:tree123}
 \end{figure}
 
-Abbildung~\ref{fig:tree123} stellt die drei Bäume \lstinline{tree1},
+\noindent Abbildung~\ref{fig:tree123} stellt die drei Bäume \lstinline{tree1},
 \lstinline{tree2} und \lstinline{tree3} grafisch dar.  Dort hat jeder
 Baum erkennbar einen "<obersten"> Knoten, die sogenannte
 \textit{Wurzel}\index{Wurzel}~-- ein Begriff, der im Zusammenhang mit
@@ -488,8 +488,14 @@ die Wurzel von \lstinline{tree1} (der Knoten mit der 3) auch in
 \lstinline{tree2} drin, aber die Wurzel von \lstinline{tree2} ist eben
 der Knoten mit der 17.
 
-Wir können \lstinline{tree-of} benutzen, um die Definition von
-\lstinline{river} und \lstinline{parent} zu vereinfachen:
+Mit der Wurzel hängt auch der Begriff \textit{Pfad}\index{Pfad}
+zusammen: Der Pfad eines Knotens oder Blattes ist die Liste der Knoten
+von der Wurzel zu diesem Knoten oder Blatt.  Der Pfad der 14 in
+\lstinline{tree3} in Abbildung~\ref{fig:tree123} besteht zum Beispiel
+aus den Knoten Axl, Slash und Duff.
+
+Wir können \lstinline{tree-of} benutzen, um die Definitionen von
+\lstinline{river} und \lstinline{confluence} zu vereinfachen:
 %
 \begin{lstlisting}
 (define river (tree-of creek string))
@@ -2130,7 +2136,7 @@ Ungleichgewicht aufweist.  Dann könnten wir einfach
   mächtig genug, da \texttt{search-tree-member?} nur überprüft,
   \emph{ob} ein Element in einem Suchbaum vorhanden ist.  Das hilft
   nicht viel z.B.\ beim Suchen von Telefonnummern zu gegebenen Namen.
-  Erweitern Sie die Implementierung so, daß sie auch z.B.\ zum Suchen
+  Erweitern Sie die Implementierung so, dass sie auch z.B.\ zum Suchen
   von Telefonnummern verwendet werden kann.  Realisieren Sie
   exemplarisch das Suchen nach Telefonnummern!
 
@@ -2138,7 +2144,7 @@ Ungleichgewicht aufweist.  Dann könnten wir einfach
   \textit{Einträge}, die aus eine \textit{Schlüssel} (z.B.\ dem Namen)
   und dem \textit{Wert} bestehen.  Schreiben Sie dazu parametrische Daten-,
   Record- und Signaturdefinitionen. Ändern Sie \texttt{search-tree-insert}
-  dahingehend, daß es Schlüssel und Element akzeptiert.  Schreiben Sie eine
+  dahingehend, dass es Schlüssel und Element akzeptiert.  Schreiben Sie eine
   Funktion \texttt{search-tree-find}, die zu einem Schlüssel den
   zugehörigen Wert findet.
 \end{aufgabe}
@@ -2273,6 +2279,52 @@ Ungleichgewicht aufweist.  Dann könnten wir einfach
   \lstinline{concat}, \lstinline{list-map} und
   \lstinline{list-filter}.  Welche Vor- und Nachteile hat diese
   Repräsentation gegenüber Listen?
+\end{aufgabe}
+
+\begin{aufgabe}
+  Bäume müssen nicht immer binär sein: Es ist auch möglich, Bäume so
+  zu definieren, dass ein Knoten statt immer zwei eine beliebig lange
+  Liste von Teilbäumen mit sich führt.  Die entstehenden Bäume heißen
+  "<Rosenbäume">\index{Rosenbaum} oder auf Englisch "<rose tree">.
+
+  \begin{enumerate}
+  \item Schreibe eine Datendefinition für Rosenbäume und übersetze sie
+    in Code!
+  \item Benötigst Du noch eine spearate Definition für Blätter?
+  \item Man kann Rosenbäume verwenden, um eine spezielle Form von
+    Suchbaum zu implementieren, bei dem die Einträge Listen sind
+
+    Der Suchbaum hat für jeden Eintrag einen Pfad im Baum, bei dem die
+    Knoten entlang des Pfades die Elemente der Liste sind.  Die
+    Markierung an der Wurzel wird ignoriert.
+
+    \begin{figure}[tb]
+      \centering
+\begin{tikzpicture}[level/.style={sibling distance=20mm/#1, level distance=10mm}]
+    \node {$\cdot$}
+    child {node {1}
+      child {node {3}} 
+      child {node {5}
+        child {node {3}}
+        child {node {1}}
+      }
+      child {node {7}}
+    }
+   child {node {2}};
+ \end{tikzpicture}
+      
+      \caption{Rosen-Suchbaum}
+      \label{fig:rose-search-tree}
+    \end{figure}
+
+    Abbildung~\ref{fig:rose-search-tree} zeigt ein Beispiel für einen
+    Rosen-Suchbaum, in dem die Listen \lstinline{#list<1 3>},
+    \lstinline{#list<1 5 3>}, \lstinline{#list<1 5 1>},
+    \lstinline{#list<1 7>} und \lstinline{#list<2>} stehen.
+
+    Schreibe Funktionen analog zu \lstinline{search-tree-insert} und
+    \lstinline{search-tree-member?} für Rosen-Suchbäume!
+  \end{enumerate}
 \end{aufgabe}
 
 %%% Local Variables: 
