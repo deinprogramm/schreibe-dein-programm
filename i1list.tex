@@ -1364,12 +1364,13 @@ mit Kurzbeschreibung und Signatur wie folgt:
 %
 \begin{lstlisting}
 ; Minimum einer nichtleeren Liste von Zahlen berechnen
-(: list-min-nonempty ((nonempty-list-of real) -> real))
+(: list-min-nonempty ((cons-list-of real) -> real))
 \end{lstlisting}
 %
-Der Signaturkonstruktor \lstinline{nonempty-list-of} ist eingebaut und
-macht das, was er sagt: Er beschreibt nicht-leere Listen und
-funktioniert ansonsten genauso wie \lstinline{list-of}.
+Der Signaturkonstruktor \lstinline{cons-list-of} entspricht dem
+gleichnamigen Signatur-Konstruktor aus
+Abschnitt~\ref{function:const-list-of} und beschreibt Cons-Listen~--
+das sind ja genau die nichtleeren.
 
 Wir benutzen die gleichen Testfälle wie vorhin:
 %

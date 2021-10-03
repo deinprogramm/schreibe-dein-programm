@@ -36,7 +36,7 @@
            (min (first list) rest-min))))))
 
 ; Minimum einer nichtleeren Liste von Zahlen berechnen
-(: list-min-nonempty ((nonempty-list-of real) -> real))
+(: list-min-nonempty ((cons-list-of real) -> real))
 
 (check-expect (list-min-nonempty (list 5 3 1 4)) 1)
 (check-expect (list-min-nonempty (list 5 3 1 4 -4 3)) -4)
