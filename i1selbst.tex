@@ -872,7 +872,7 @@ Die Definition von \texttt{date} liegt zum Glück recht nahe:
   %
   Mit diesem Prädikat können wir eine Signatur definieren, die genau
   dann passt, wenn das Prädikat \lstinline{#t} liefert.  Dazu benutzen wir
-  einen neuen Konstruktor für Signaturen, \lstinline{predicate}\index{predicate@\texttt{predicate}}:
+  einen neuen Konstruktor für Signaturen, \lstinline{predicate}\index{predicate@\texttt{predicate}}:\label{page:predicate}
 \begin{lstlisting}
 (define month (signature (predicate month?)))
 \end{lstlisting}

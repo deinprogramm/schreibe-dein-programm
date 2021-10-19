@@ -6,17 +6,659 @@
 \chapter{Eigenschaften von Funktionen}
 \label{cha:properties}
 
-Dass $1+1$ gleich $2$ ist, ist ein \textit{Beispiel} für die
-Arbeitsweise der Addition.  Dieses Beispiel könnte auch als Testfall
-für eine programmierte Version der Addition durchgehen.  Unter
-Umständen kann ein Beispiel, als Testfall formuliert, einen Fehler in
-einem Programm finden.  Allerdings ist das Formulieren von Beispielen
-mühsam.  Schlimmer noch, eine Menge von Testfällen reicht nur selten
-aus, um die Korrektheit einer Funktion auch zu garantieren: Die
-Testfälle decken meist nicht alle möglichen Anwendungen einer Funktion
-ab.  Darum ist es oft sinnvoll, statt isolierter Beispiele allgemeine
-Eigenschaften zu formulieren und zu überprüfen~-- am besten sogar,
-diese zu beweisen.  Dieses Kapitel zeigt, wie das geht.
+Woher wissen wir eigentlich, dass die Funktion, die wir geschrieben
+haben, auch richtig funktioniert?  Wenn wir mit
+Konstruktionsanleitungen arbeiten, stehen die Chancen nicht schlecht.
+Die systematische Konstruktion hilft, von vornherein die Funktion
+richtig zu schreiben.  Aber Kontrolle ist besser: Die Tests helfen,
+etwaige Fehler zu finden.  Leider funktioniert das nicht immer, weil
+jeder Tests nur ein einzelnes Beispiel überprüft.  Zumindest war das
+bisher so.  In diesem Kapitel ändern wir das, in dem wir statt
+einzelner Beispiele allgemeine \textit{Eigenschaften} von Funktionen
+formulieren.  Aus diesen Eigenschaften können wir automatisch Tests
+machen, die effektiver sind als die bisherigen, auf
+\lstinline{check-expect} basierenden Tests.  Für hunderprozentige
+Sicherheit können wir gelegentlich auch Eigenschaften mathematisch
+beweisen.  Dieses Kapitel zeigt, wie es geht.
+
+\section{Korrektheit und Tests}
+
+Erinnerst Du Dich noch an die Funktion \lstinline{heat-water} aus
+Abschnitt~\ref{sec:heat-water} auf Seite~\pageref{sec:heat-water}?
+Die hatte ziemlich komplizierte Verzweigungen.  Dabei sind auch ein
+paar Fehler passiert.  Zum Schluss hatten wir \lstinline{heat-water}
+in zwei Funktionen aufgeteilt, \lstinline{heat->temperature} und
+\lstinline{temperature->heat}.  Hier ist die erste davon, wobei wir
+die Bedingungen in der Verzweigung etwas vereinfacht haben:
+%
+\begin{lstlisting}
+; Aus Wärme Temperatur berechnen
+(: heat->temperature (real -> real))
+
+(define heat->temperature
+  (lambda (heat)
+    (cond
+      ((<= heat 0) heat)
+      ((<= heat 80) 0)
+      ((<= heat 180) (- heat 80))
+      (else 100))))
+\end{lstlisting}
+%
+Da waren außerdem ziemlich viele Testfälle:
+%
+\begin{lstlisting}
+(check-expect (heat->temperature -50) -50)
+(check-expect (heat->temperature 0) 0)
+(check-expect (heat->temperature 20) 0)
+(check-expect (heat->temperature 80) 0)
+(check-expect (heat->temperature 81) 1)
+(check-expect (heat->temperature 180) 100)
+(check-expect (heat->temperature 200) 100)                                            
+\end{lstlisting}
+%
+Die Testfälle haben eigentlich zwei Aufgaben:
+%
+\begin{enumerate}
+\item Sie sollen als Beispiele die Funktion \emph{dokumentieren}.
+\item Sie sollen außerdem sicherstellen, dass die Funktion
+  \emph{korrekt} programmiert ist.
+\end{enumerate}
+%
+Bei dieser Funktion allerdings gibt es bei beiden Aspekten Probleme.
+Es sind so viele Testfälle und sie sind willkürlich und scheinbar
+zufällig ausgewählt.  Das macht es Leserinnen und Lesern schwer, das
+Wirkprinzip dahinter zu erkennen. Das führt dazu, dass uns (und
+vielleicht auch Dich) das Gefühl nicht loslässt, dass bei den
+Testfällen noch Fehler durchschlüpfen könnten.
+%
+\begin{aufgabeinline}
+  Ändere die Funktion absichtlich so, dass sie einen Fehler enthält,
+  und zwar so, dass trotzdem noch alle Testfälle erfolgreich laufen.  
+\end{aufgabeinline}
+%
+Ein \lstinline{check-expect}-Test ist eben leider immer nur ein
+einzelnes Beispiel, was seine Aussagekraft einschränkt.\footnote{In
+  der professionellen Entwicklung heißt ein solcher Test
+  \textit{Unit-Test}.\index{Unit-Test}.}  Oft ist eine allgemeine
+Aussage die bessere Dokumentation.
+
+In diesem Fall könnten wir zum Beispiel aussagen, dass es um Wasser
+geht, die Temperatur also niemals größer als 100 Grad sein kann.  Das
+geht nicht nur als Text, sondern auch als ein Stück Code:
+%
+\begin{lstlisting}
+(<= (heat->temperature heat) 100)
+\end{lstlisting}
+%
+Für sich genommen ergibt dieser Ausdruck keinen Sinn: \lstinline{heat}
+ist nicht gebunden.  Wir brauchen noch den Zusatz, dass die Aussage
+\emph{für alle} Werte von \lstinline{heat} gilt.  Also streng genommen
+auch nicht für wirklich \emph{alle} Werte, nur alle Werte der Signatur
+\lstinline{real}. Das können wir tatsächlich hinschreiben, mit Hilfe
+einer neuen Form namens \lstinline{for-all}:
+%
+\begin{lstlisting}
+(for-all ((heat real))
+  (<= (heat->temperature heat) 100))
+\end{lstlisting}
+%
+Das \lstinline{for-all}\index{for-all@\texttt{for-all}} 
+bedeutet, wie der Name schon sagt, "<für alle">.  Da steht:
+%
+\begin{quote}
+  Für \emph{alle} reellen Zahlen namens \lstinline{heat} muss das
+  Ergebnis von \lstinline{(heat->temperature heat)} kleiner oder
+  gleich 100 sein.
+\end{quote}
+%
+"<Warum sind da doppelte Klammern um \lstinline{heat real}?"> wunderst
+Du Dich vielleicht.  Das liegt daran, dass in dem äußeren Klammernpaar
+mehrere Variablen vorkommen können, jede davon mit Signatur in einem
+inneren Klammernpaar.  Dafür wird es noch Beispiele geben.
+Abbildung~\ref{scheme:for-all} beschreibt genauer, wie
+\lstinline{for-all}-Ausrdrücke im allgemeinen aufgebaut sind.
+
+\begin{feature}{\lstinline{for-all}}{scheme:for-all}
+  \lstinline{For-all}\index{for-all@\texttt{for-all}} ermöglicht das
+  Formulieren von \textit{Eigenschaften\index{Eigenschaft}}.  Ein
+  \lstinline{for-all}-Ausdruck hat die folgende allgemeine Form:
+%
+\begin{lstlisting}
+(for-all (($\mathit{var}\sb{1}$ $\mathit{sig}\sb{1}$) $\ldots$ ($\mathit{var}\sb{n}$ $\mathit{sig}\sb{n}$)) $b$)
+\end{lstlisting}
+%
+Dabei müssen die $\mathit{var}_i$ Variablen sein, die $\_i$ Signaturen und $b$ (der
+Rumpf) ein Ausdruck, der entweder einen booleschen Wert oder eine
+Eigenschaft liefert.  Der \lstinline{for-all}-Ausdruck hat als Wert eine
+Eigenschaft, die besagt, dass $b$ gilt für \emph{alle} Werte der
+$\mathit{var}_i$, welche die Signaturen $\mathit{sig}_i$ erfüllen.
+\end{feature}
+
+Das Ergebnis des \lstinline{for-all}-Ausdrucks wird in der REPL
+etwas undurchsichtig angezeigt:
+%
+\begin{lstlisting}
+(for-all ((heat real))
+  (<= (heat->temperature heat) 100))
+|\evalsto| #<:property>
+\end{lstlisting}
+%
+Auf deutsch heißt "<property"> "<Eigenschaft">, denn 
+es handelt sich um eine Eigenschaft von \lstinline{heat-temperature}.  
+
+Diese Eigenschaft ersetzt nicht (immer) die Unit-Tests, ist aber eine
+wertvolle Ergänzung der Dokumentation.
+
+Sie kann außerdem auch dazu beitragen, die Korrektheit sicherzustellen.
+Dazu wickeln wir um die Eigenschaft noch ein
+\lstinline{check-property}:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((heat real))
+   (<= (heat->temperature heat) 100)))
+\end{lstlisting}
+ %
+\lstinline{Check-property} macht wie \lstinline{check-expect} oder
+\lstinline{check-within} einen Testfall.
+
+Da \lstinline{heat->temperature} korrekt programmiert ist, meldet
+\lstinline{check-property} auch nur einen bestandenen Test.  Wozu
+\lstinline{check-property} fähig ist, sieht man erst, wenn die
+Funktion einen Fehler enthält.  Wenn wir zum Beispiel aus der 180 eine
+280 machen, dann erscheint folgende Meldung:
+%
+\begin{lstlisting}
+Eigenschaft falsifizierbar mit heat = |\fbox{206}|
+\end{lstlisting}
+%
+Wichtig: Wenn Du das bei Dir ausprobierst, kann die konkrete Zahl
+eine andere sein.
+
+Dickes Wort, "<falsifizierbar">\index{falsifizierbar}: Es heißt, das
+Racket ein \textit{Gegenbeispiel} für die Eigenschaft gefunden hat.
+Wir können das nachprüfen:
+%
+\begin{lstlisting}
+(heat->temperature 206)
+|\evalsto| 126
+\end{lstlisting}
+%
+\ldots{} und 126 ist größer als 100.  Das Gegenbeispiel, das der
+\lstinline{check-property}-Test gefunden hat, könnte, wenn wir den
+Fehler nicht absichtlich gemacht hätte, dabei helfen, ihn zu finden
+und zu beseitigen.
+
+Abbildung~\ref{scheme:check-property} beschreibt den Aufbau von
+\lstinline{check-property} genau.
+
+\begin{feature}{\lstinline{check-property}}{scheme:check-property}
+
+\lstinline{Check-property}\index{check-property@\texttt{check-property}}
+testet eine Eigenschaft analog zu \lstinline{check-expect}.  Eine
+\lstinline{check-property}"=Form sieht so aus:
+%
+\begin{lstlisting}
+(check-property $e$) 
+\end{lstlisting}
+%
+$e$ ist ein Ausdruck, der eine Eigenschaft liefern muss~-- in der Regel
+also ein \lstinline{for-all}-Ausdruck.  Die Form testet dann diese
+Eigenschaft.  (Mehr dazu im nächsten Abschnitt.)
+
+\lstinline{Check-property} funktioniert nur für Eigenschaften, bei
+denen aus den Signaturen sinnvoll Werte generiert werden können.  Dies
+ist für die meisten Signaturen der Fall, aber nicht für \lstinline{any},
+Signaturvariablen und Signaturen, die mit \lstinline{predicate}
+(Abschnitt~\ref{page:predicate} auf Seite~\pageref{page:predicate})
+definiert wurden.
+\end{feature}
+
+\begin{aufgabeinline}
+  Mache noch absichtlich ein paar weitere Fehler in
+  \lstinline{heat->temperature}.  Welche davon werden von dem
+  \lstinline{check-property}-Test gefunden und welche nicht?
+\end{aufgabeinline}
+
+Da \lstinline{check-property} eine Eigenschaft testet, heißt diese
+Technik auch \textit{property-based testing}.\index{property-based
+  testing}  Die werden wir im Laufe dieses Kapitels noch auf andere
+Funktionen anwenden.
+
+\section{Wie \lstinline{check-property} funktioniert}
+
+Zunächst einmal machen wir aber einen kleinen Exkurs: Was passiert
+eigentlich bei so einem \lstinline{check-property}-Test?
+
+Toll wäre natürlich, wenn dieser mit Gewissheit sagen könnte, was die
+Eigenschaft besagt: Dass zum Beispiel die Temperatur wirklich für
+\emph{alle} Eingaben höchstens 100 ist.  Das ist im allgemeinen leider
+unmöglich.\footnote{Dass das unmöglich ist, wurde mathematisch
+  bewiesen und als \textit{Satz von Rice} festgehalten.  Der ist Thema
+  in der theoretischen Informatik.}  In vielen Fällen ist es trotzdem
+möglich, Eigenschaften von Funktionen formal zu beweisen.  Das ist
+allerdings (noch) meist recht aufwendig.  (Dazu mehr in
+Abschnitt~\ref{sec:programme-beweisen} auf
+Seite~\pageref{sec:programme-beweisen}.)
+
+\lstinline{Check-property} kann also eine Eigenschaft nicht im
+allgemeinen beweisen.  Stattdessen führt es Stichproben durch: Dafür
+wählt für die angegebenen Signaturen zufällig Werte aus, und
+wiederholt diesen Prozess, um so aus einem Testfall viele individuelle
+Tests zu machen~-- typischerweise mehr als 100.
+
+Die Verwendung des Begriffs "<zufällig"> ist in diesem Zusammenhang in
+der Informatik so üblich, ein besseres Wort wäre aber "<chaotisch">.
+Tatsächlich produziert \lstinline{check-property} bei jedem Durchlauf
+des Programms die gleichen Tests.
+
+Die Technik des \textit{property-based testing}, also zunächst
+allgemeine Eigenschaften zu formulieren und für diese dann Testfälle
+zu erzeugen, ist ursprünglich unter dem Namen \textit{QuickCheck}
+veröffentlicht worden~\cite{ClaessenHughes2000} und war ein
+großer Durchbruch bei der Effektivität von automatischen Tests.
+
+\section{Mehr Eigenschaften und inexakte Zahlen}
+
+Es geht's weiter mit \lstinline{heat-water}:
+\lstinline{Heat->temperature} ist nur eine Hilfsfunktion dafür,
+zusammen mit \lstinline{temperature->heat}.  Auch hier könnten wir
+eine Eigenschaft aufschreiben, die etwas über den Zahlenbereich
+aussagt, der aus der Funktion herauskommt.
+
+Allerdings gibt es noch eine weitaus ergiebigere Eigenschaft:
+\lstinline{temperature->heat} soll ist ja gerade
+\lstinline{heat->temperature} "<umgedreht">.  Daraus können wir
+folgende Eigenschaft beziehungsweise folgenden Test machen:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((temp real))
+   (= (heat->temperature (temperature->heat temp))
+      temp)))
+\end{lstlisting}
+%
+Der besagt also dass, wenn eine Temperatur in Wärme gewandelt wird und
+wieder zurück in eine Temperatur, dass dann das gleiche herauskommen
+soll.  Leider schlägt der Test fehl:
+%
+\begin{lstlisting}
+Eigenschaft falsifizierbar mit temp = |\fbox{0}|
+\end{lstlisting}
+%
+Wir können in der REPL für \lstinline{temp} mal 0 einsetzen:
+%
+\begin{lstlisting}
+(heat->temperature (temperature->heat 0))
+|\evalsto| cond: alle Bedingungen ergaben #f
+\end{lstlisting}
+%
+Da war doch was?  Vielleicht erinnerst Du Dich: Eine Temperatur von
+0\si{\degree}C kann nicht eindeutig einer Wärmezahl zugeordnet werden,
+die kann zwischen 0 und 80 liegen.  Deshalb weigert sich auch
+\lstinline{heat->temperature}, für die Eingabe 0 ein Ergebnis zu
+produzieren.  Wir müssen also unseren Test anpassen, so dass da steht
+"<für alle reellen Zahlen \emph{außer} 0">.
+
+Das geht folgendermaßen:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((temp real))
+   (==> (not (= temp 0))
+        (= (heat->temperature (temperature->heat temp))
+           temp))))
+\end{lstlisting}
+%
+Der Pfeil \lstinline{==>} ist neu und funktioniert nur im Kontext
+einer Eigenschaft: Er bedeutet "<gilt unter der Voraussetzung">.
+Abbildung~\ref{feature:implication} erklärt im Detail, wie die Form
+funktioniert.  Hier steht also, dass die Gleichung nur gelten muss
+unter der Voraussetzung, dass \lstinline{temp} nicht 0 ist.
+
+\begin{feature}{Voraussetzung bei Eigenschaften}{feature:implication}
+  In einer Eigenschaft steht die Form
+\begin{lstlisting}
+(==> $p$ $e$)
+\end{lstlisting}
+  dafür, dass die Eigenschaft $e$ nur dann gelten muss, wenn der
+  Ausdruck $p$ den Wert \lstinline{#t} ergibt.
+
+  Bei einer \lstinline{==>}-Form generiert \lstinline{check-property}
+  nur solche Tests, bei denen $p$ \lstinline{#t} ergibt.
+\end{feature}
+%
+\begin{quote}
+\noindent \emph{Anmerkung:} Du könntest die Eigenschaft oben
+auch mit \lstinline{if} statt \lstinline{==>} hinschreiben:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((temp real))
+   (if (= temp 0))
+       #t
+       (= (heat->temperature (temperature->heat temp))
+          temp)))
+\end{lstlisting}
+%
+Bedeuten würde die Eigenschaft so das gleiche.  Allerdings behandelt
+\lstinline{check-property} diese Schreibweise anders, nämlich
+schlechter.  Wenn \lstinline{check-property} 100 Tests generiert, dann
+hier alle, bei denen \lstinline{temp} 0 ist, als Erfolg gewertet,
+obwohl da eigentlich nichts getestet wird.  Wenn für (hypothetisch)
+drei von den Tests \lstinline{temp} 0 ist, dann werden also nur 97
+richtige Tests durchgeführt.
+
+In der Variante mit \lstinline{==>} allerdings stellt
+\lstinline{check-property} sicher, dass tatsächlich 100 Tests
+durchgeführt werden, bei denen \lstinline{temp} nicht 0 ist.  Das ist
+besser, vor allem bei Tests, bei denen die Bedingung für viele
+mögliche Werte gilt, nicht nur für den einen wie hier.
+\end{quote}
+%
+Wenn wir den Testfall laufen lassen, gibt es allerdings eine
+merkwürdige Überraschung:
+%
+\begin{lstlisting}
+Eigenschaft falsifizierbar mit temp = #i24.571428571428573
+\end{lstlisting}
+%
+Wie schon gesagt, die konkrete Zahl kann anders aussehen, aber es geht
+um das merkwürdige \lstinline{#i}.  Das steht für "<inexakt">, weil es
+sich um eine sogenannte \textit{inexakte Zahl}\index{inexakte Zahl}
+handelt.  Solche Zahlen werden von DrRacket (und so gut wie allen
+anderen Programmiersprachen) verwendet, um die Ergebnisse von
+Berechnungen darzustellen, die (zumindest mit vertretbarem Aufwand)
+nicht ganz genau durchgeführt werden können.
+
+Bisher ging in diesem Buch alles noch ganz genau, weil unsere
+Programme bisher intern exakte Bruchrechnung verwendet haben.  Um so
+eine inexakte Zahl zu berechnen, kannst Du zum Beispiel das hier in
+der REPL ausprobieren, um die Quadratwurzel ("<square root">) von 2
+auszurechnen:
+%
+\begin{lstlisting}
+(sqrt 2)
+|\evalsto| #i1.4142135623730951
+\end{lstlisting}
+%
+Die Wurzel von 2 hat unendlich viele Nachkommestellen, weswegen Racket
+davon nur einige ausrechnet und rundet.  Und damit wir und Du wissen,
+dass gerundet wurde, steht das \lstinline{#i} davor.
+
+Das mit dem Runden ist sogar noch komplizierter, als es scheint: Es
+wird nämlich \emph{binär} gerechnet.  Wie genau abläuft, ist ziemlich
+kompliziert und würde ein weiteres Buch füllen.  Mehr zu dem Thema
+findet sich zum Beispiel im Standardwerk von David
+Goldberg~\cite{Goldberg1991}.
+
+Aber was ist denn nun genau bei unserer Eigenschaft passiert?  Wir
+können die \lstinline{#i}-Zahl von Hand in die Eigenschaft einsetzen
+und in der REPL auswerten:
+%
+\begin{lstlisting}
+(heat->temperature (temperature->heat #i24.571428571428573))
+|\evalsto| #i24.57142857142857
+\end{lstlisting}
+%
+Du kannst sehen, dass offensichtlich beim Rechnen gerundet wurde, und
+zwar bei der letzten Nachkommastelle.  Das erscheint Dir vielleicht
+merkwürdig, weil in \lstinline{heat->temperature}
+\lstinline{temperature->heat} doch ausschließlich addiert und
+subtrahiert wird~-- da ist keine Spur von "<Runden">.  Wenn wir das
+\lstinline{#i} weglassen, wird auch exakt gerechnet:\footnote{Falls Du
+  es mal mit einer der anderen Sprachen zu tun hast, die beim
+  Racket-System dabei sind: Bei den meisten von ihnen wird, anders als
+  hier, jede Zahl mit Dezimalpunkt als inexakt behandelt.}
+%
+\begin{lstlisting}
+(heat->temperature (temperature->heat 24.571428571428573))
+|\evalsto| 24.571428571428573
+\end{lstlisting}
+%
+Das liegt daran, dass "<Inexaktheit"> ansteckend ist: Wenn beim Aufruf
+einer Rechenfunktion wie \lstinline{+} oder \lstinline{*} auch nur
+eine Eingabe inexakt ist, wird gerundet.  Bei unserer Eigenschaft
+haben für \lstinline{temp} die Signatur \lstinline{real} angegeben: In
+dieser Signatur sind auch inexakte Zahlen enthalten, deshalb nimmt da
+das Problem seinen Anfang.  Wir können es auf zwei Arten angehen:
+%
+\begin{itemize}
+\item Wir ersetzen in der Eigenschaft die Signatur \lstinline{real}
+  durch \lstinline{rational}.  In \lstinline{rational} sind keine
+  inexakten Zahlen drin.  Das hat allerdings den Nachteil, dass auch
+  nur auf exakten Zahlen getestet wird, obwohl die Funktionen auch auf
+  inexakten Zahlen funktionieren.
+\item Wir berücksichtigen den Effekt der Rundung, indem wir die Bedingung
+  in der Eigenschaft etwas aufweichen.
+\end{itemize}
+%
+Wir machen letzteres und fordern nur, dass der Abstand zwischen echtem
+und erwartetem Ergebnis einen bestimmten Betrag nicht überschreitet:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((temp real))
+   (==> (not (= temp 0))
+        (<= (abs
+             (- (heat->temperature (temperature->heat temp))
+                temp))
+            0.0000001))))
+\end{lstlisting}
+%
+Zur Erinnerung: Die eingebaute Funktion \lstinline{abs} berechnet den
+Absolutbetrag, dreht also bei negativen Zahlen das Vorzeichen um,
+siehe Abschnitt~\ref{func:abs} auf Seite~\pageref{func:abs}.
+
+Leider schlägt der Test immer noch fehl, zum Beispiel mit folgender
+Ausgabe:
+%
+\begin{lstlisting}
+Eigenschaft falsifizierbar mit temp = 105
+\end{lstlisting}
+%
+Das können wir in der REPL ausprobieren:
+%
+\begin{lstlisting}
+(heat->temperature (temperature->heat 105))
+|{\color{red}cond: alle Bedingungen ergaben \#f}|
+\end{lstlisting}
+%
+Das liegt daran, dass \lstinline{temperature->heat} nur für
+Temperaturen bis 100\si{\degree}C funktioniert: Wasser kann ja nicht
+heißer werden.  Wir müssen also unsere Vorbedingung erweitern:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((temp real))
+   (==> (and (not (= temp 0))
+             (< temp 100))
+        (<= (abs
+             (- (heat->temperature (temperature->heat temp))
+                temp))
+            0.0000001))))
+\end{lstlisting}
+%
+
+% FIXME Korrektheit Gürteltiere
+
+\section{Eigenschaften der Suchbaum-Operationen}
+
+FIXME:
+
+\texttt{Search-tree-insert} ist eine der komplizierteren Funktionen in
+diesem Buch; es ist alles andere als offensichtlich, daß sie korrekt
+ist.  Die Testfälle mögen zwar punktuell auf die Korrektheit von
+\texttt{search-tree-insert} und \texttt{search-tree-member?}
+hindeuten, Sicherheit liefern sie jedoch nicht.  Der erste Schritt, um
+mehr Vertrauen in die Korrektheit zu gewinnen, ist die Formulierung
+von Eigenschaften und deren Überprüfung mit \texttt{check-expect}.
+Der zweite Schritt ist ein Beweis der Suchbaumeigenschaft.
+
+Um interessante Eigenschaften zu formulieren, müssen
+\texttt{search-tree-insert} und \texttt{search"=tree"=member} gemeinsam
+betrachtet werden: \texttt{search-tree-insert} allein kann nichts
+sinnvolles anstellen, wenn nach den eingefügten Elementen nicht auch
+gesucht werden kann.  Die wichtigsten Eigenschaften sind folgende:
+%
+\begin{enumerate}
+\item Ein mit \texttt{search-tree-insert} eingefügtes Element wird
+  stets von \texttt{search"=tree"=member?} wieder gefunden.
+\item Wenn ein Element \emph{nicht} mit in den Suchbaum eingefügt
+  wurde, wird es von \texttt{search"=tree"=member?} \emph{nicht}
+  gefunden.
+\end{enumerate}
+%
+Die erste Eigenschaft ergibt ohne die zweite wenig Sinn: Sie wäre auch
+erfüllt, wenn \texttt{search-tree-member?} immer \verb|#t| liefern
+würde.
+
+Für einen Test mit \texttt{for-all} müssen beliebige Suchbäume
+betrachtet werden.  Allerdings funktioniert der Ansatz
+%
+\begin{alltt}
+(for-all ((st (search-tree-of %a)))
+  ...)
+\end{alltt}
+%
+nicht, schon weil \texttt{search-tree-of} eine  parametrisierte Signatur ist und
+damit nicht direkt in \texttt{for-all} verwendet kann.  Außerdem
+sollen die Suchbäume, die betrachtet werden, ja gerade mit
+\texttt{search-tree-insert} konstruiert werden.  
+
+Im folgenden legen wir uns auf eine bestimmte Parametrisierung der Suchbäume
+fest, wohl wissend, dass es für die Suchbaumeigenschaft auf die
+Parametrisierung im Grunde nicht ankommt. Der nächste Versuch
+könnte deshalb so aussehen:
+%
+\begin{alltt}
+(for-all ((el natural))
+  ... (search-tree-insert el (make-empty-search-tree = <) ...)
+\end{alltt}
+%
+Eine solche Eigenschaft würde allerdings nur Suchbäume mit einem
+einzigen Element einbeziehen, also eher uninteressante Vertreter ihrer
+Spezies.  Für substantielle Tests ist es notwendig, Suchbäume zu
+betrachten, die aus unterschiedlichen (insbesondere unterschiedlich
+langen) Folgen von \texttt{search-tree-insert}-Operationen entstanden
+sind.  Da für die Repräsentation von Folgen in den Lehrsprachen Listen zuständig
+sind, bietet sich eine Eigenschaft folgender Form an:
+%
+\begin{alltt}
+(for-all ((els (list-of natural)))
+  ...)
+\end{alltt}
+%
+Damit es funktioniert, muß nur die Liste \texttt{els} noch in einen
+Suchbaum umgewandelt werden, der gerade ihre Elemente enthält.  Das
+kann eine Hilfsfunktion namens \texttt{list->search"=tree} leisten.
+Hier sind Kurzbeschreibung und Signatur:
+%
+\begin{alltt}
+; aus allen Zahlen einer Liste einen Suchbaum machen
+(: list->search-tree ((%a %a -> boolean)
+                      (%a %a -> boolean) (list-of %a) -> (search-tree-of %a)))
+\end{alltt}
+%
+Da \texttt{list->search-tree} nur sukzessive für alle Elemente der
+Liste \texttt{search-tree-insert} aufruft, wird sie am einfachsten mit
+\texttt{fold} programmiert:
+%
+\begin{alltt}
+(define list->search-tree
+  (lambda (= < els)
+    (fold (make-empty-search-tree = <)
+          search-tree-insert
+          els)))
+\end{alltt}
+%
+Die erste Eigenschaft~-- ob also jedes mit \texttt{search-tree-insert}
+in einen Suchbaum eingefügte Element auch von
+\texttt{search-tree-member?} gefunden wird, läßt sich jetzt mit Hilfe
+der Funktion \texttt{every?} aus Abschnitt~\ref{page:every}
+formulieren.  (Zur Erinnerung: \texttt{every?} wendet ein Prädikat auf
+alle Elemente einer Liste an und gibt \verb|#t| zurück, wenn das
+Prädikat für jedes Element \verb|#t| liefert, sonst \verb|#f|.)
+%
+\begin{alltt}
+(check-property
+ (for-all ((els (list-of natural)))
+   (let ((st (list->search-tree = < els)))
+     (every? (lambda (el)
+               (search-tree-member? el st))
+             els))))
+\end{alltt}
+%
+Es fehlt noch die zweite Eigenschaft: Für ein Element, das nicht im
+Suchbaum vorhanden ist, darf \texttt{search-tree-member?} auch nicht
+\verb|#t| liefern.  Zum Test der Eigenschaft gehört also wie schon bei
+der ersten Eigenschaft ein beliebiger Suchbaum sowie ein einzelnes Element:
+%
+\begin{alltt}
+(for-all ((els (list-of natural))
+          (el natural))
+  ... (list->search-tree = < els) ...)
+\end{alltt}
+%
+Der Test ist nur sinnvoll, wenn \texttt{el} \emph{nicht} Element der Liste
+\texttt{els} ist: Das muß erst einmal überprüft werden, und zwar durch
+eine Funktion, die testet, ob ein Wert Element einer Liste ist.  Hier
+sind Kurzbeschreibung und Signatur:
+%
+\begin{alltt}
+; ist Wert Element einer Liste?
+(: member? ((%a %a -> boolean) %a (list-of %a) -> boolean))
+\end{alltt}
+%
+Das erste Argument ist ein Gleichheitsprädikat, welches den gesuchten
+Wert mit den Listenelementen vergleicht.  Hier sind einige Tests,
+Gerüst und Schablone für die Funktion, die eine Liste akzeptiert:
+%
+\begin{alltt}
+(check-expect (member? = 5 empty) #f)
+(check-expect (member? = 5 (list 1 2 3)) #f)
+(check-expect (member? = 1 (list 1 2 3)) #t)
+(check-expect (member? = 2 (list 1 2 3)) #t)
+(check-expect (member? = 3 (list 1 2 3)) #t)
+
+(define member?
+  (lambda (= el lis)
+    (cond
+      ((empty? lis) ...)
+      ((cons? lis)
+       ... (first lis)
+       ... (member? = el (rest lis)) ...))))
+\end{alltt}
+%
+Im \texttt{empty?}-Zweig ist die Liste leer, das Ergebnis also
+\verb|#f|.  Im anderen Fall muß die Funktion feststellen, ob
+\texttt{(first lis)} gerade das gesuchte Element \texttt{el} ist.
+Vollständig sieht die Funktion so aus:
+%
+\begin{alltt}
+(define member?
+  (lambda (= el lis)
+    (cond
+      ((empty? lis) #f)
+      ((cons? lis)
+       (if (= el (first lis))
+           #t
+           (member? = el (rest lis)))))))
+\end{alltt}
+%
+Zurück zur Eigenschaft von \texttt{search-tree-member?}: Immer dann,
+wenn \texttt{el} \emph{nicht} Element von \texttt{els} ist, darf auch
+\texttt{search-tree-member?} \texttt{el} nicht finden.  Diese
+Implikation wird mit \texttt{==>} formuliert:
+%
+\begin{alltt}
+(check-property
+ (for-all ((els (list-of natural))
+           (el natural))
+   (==> (not (member? = el els))
+        (not (search-tree-member? el (list->search-tree = < els)))))) 
+\end{alltt}
+%
 
 \section{Eigenschaften von eingebauten Operationen}
 
@@ -46,21 +688,7 @@ dass $a$ und $b$ beliebige \emph{Zahlen} sind.  Im allgemeinen also:
 (Wer sich mit der Vorstellung komplexer Zahlen nicht wohlfühlt, kann
 das $\mathbb{C}$ auch durch $\mathbb{R}$ oder $\mathbb{Q}$ ersetzen.)
 
-\begin{feature}{\lstinline{for-all}}{scheme:for-all}
-  \lstinline{For-all}\index{for-all@\texttt{for-all}} ermöglicht das
-  Formulieren von \textit{Eigenschaften\index{Eigenschaft}}.  Ein
-  \lstinline{for-all}-Ausdruck hat die folgende allgemeine Form:
-%
-\begin{lstlisting}
-(for-all (($v\sb{1}$ $c\sb{1}$) $\ldots$ ($v\sb{n}$ $c\sb{n}$)) $b$)
-\end{lstlisting}
-%
-Dabei müssen die $v_i$ Variablen sein, die $c_i$ Signaturen und $b$ (der
-Rumpf) ein Ausdruck, der entweder einen booleschen Wert oder eine
-Eigenschaft liefert.  Der \lstinline{for-all}-Ausdruck hat als Wert eine
-Eigenschaft, die besagt, dass $b$ gilt für \emph{alle} Werte der
-$v_i$, welche die Signaturen $c_i$ erfüllen.
-\end{feature}
+FIXME
 
 In den Lehrspachen lässt sich diese Eigenschaft für die eingebaute Funktion
 \lstinline{+} aufschreiben~-- das $\forall$ ist auf
@@ -73,53 +701,6 @@ Abbildung~\ref{scheme:for-all}):
   (= (+ a b) (+ b a)))
 \end{lstlisting}
 %
-Das Ergebnis dieses Ausdrucks wird in der REPL etwas undurchsichtig
-angezeigt:
-%
-\begin{lstlisting}
-|\evalsto| #<:property>
-\end{lstlisting}
-%
-\begin{feature}{\lstinline{check-property}}{scheme:check-property}
-
-\lstinline{Check-property}\index{check-property@\texttt{check-property}}
-testet eine Eigenschaft analog zu \lstinline{check-expect}.  Eine
-\lstinline{check-property}"=Form sieht so aus:
-%
-\begin{lstlisting}
-(check-property $e$) 
-\end{lstlisting}
-%
-$e$ ist ein Ausdruck, der eine Eigenschaft liefern muss~-- in der Regel
-also ein \lstinline{for-all}-Ausdruck.
-
-Bei der Auswertung setzt \lstinline{check-property} für die Variablen der
-\lstinline{for-all}-Ausdrücke verschiedene Werte ein und testet, ob die
-Eigenschaft jeweils erfüllt ist.
-
-\lstinline{Check-property} funktioniert nur für Eigenschaften, bei denen
-aus den Signaturen sinnvoll Werte generiert werden können.  Dies ist
-für die meisten eingebauten Signaturen der Fall, aber nicht für
-Signaturvariablen und Signaturen, die mit \lstinline{predicate},
-\lstinline{property} oder \lstinline{define-record-procedures} definiert
-wurden.
-\end{feature}
-%
-Bessere Informationen lassen sich erzielen, wenn \lstinline{for-all}-Ausdrücke in
-eine  \lstinline{check-property}-Form
-(siehe Abbildung~\ref{scheme:check-property}) eingebettet werden:
-%
-\begin{lstlisting}
-(check-property
-  (for-all ((a number)
-            (b number))
-    (= (+ a b) (+ b a))))
-\end{lstlisting}
-%
-\lstinline{Check-property} fungiert, wie \lstinline{check-expect} oder
-\lstinline{check-within}, als Testfall und wird auch als solcher
-ausgewertet.  Da \lstinline{+} tatsächlich kommutativ ist, läuft der
-Testfall auch anstandslos durch.
 
 Interessanter wird es erst bei Eigenschaften, die nicht stimmen.  Zum
 Beispiel ist die Subtraktion \lstinline{-} nicht kommutativ:
@@ -687,7 +1268,10 @@ Formulierung der Eigenschaft mit \lstinline{(list-of number)} aus.
 Es bleibt noch ein weiteres Problem bei der Formulierung der
 Assoziativität für \lstinline{concatenate}: Es steht noch keine Funktion
 für den Vergleich der beiden Listen zur Verfügung, die muss erst noch
-geschrieben werden.  Kurzbeschreibung und Signatur:\index{number-list=?@texttt{number-list=?}}
+geschrieben werden.  Kurzbeschreibung und
+Signatur:\index{number-list=?@texttt{number-list=?}}
+%
+FIXME: über = abstrahieren
 %
 \begin{lstlisting}
 ; Zwei Listen aus Zahlen vergleichen
@@ -1148,6 +1732,7 @@ er selbst \lstinline{(curry (uncurry proc))} anwenden:
 Dieser Test funktioniert.
 
 \section{Programme beweisen}
+\label{sec:programme-beweisen}
 
 \lstinline{Check-property} ist nützlich, um zu überprüfen, ob eine
 Eigenschaft gilt oder nicht.  Da \lstinline{check-property} allerdings
@@ -1696,183 +2281,10 @@ ist, muss im wesentlichen folgende Gleichung bewiesen werden:
 \[a+ \frac{n}{n+1} = a + \frac{n-1}{n} + \frac{1}{n\cdot (n+1)}\]
 Dies ist eine lohnende Fingerübung.
 
-\section{Eigenschaften der Suchbaum-Operationen}
+\section{Korrektheit von Suchbäumen beweisen}
 
-FIXME:
+FIXME
 
-\texttt{Search-tree-insert} ist eine der komplizierteren Funktionen in
-diesem Buch; es ist alles andere als offensichtlich, daß sie korrekt
-ist.  Die Testfälle mögen zwar punktuell auf die Korrektheit von
-\texttt{search-tree-insert} und \texttt{search-tree-member?}
-hindeuten, Sicherheit liefern sie jedoch nicht.  Der erste Schritt, um
-mehr Vertrauen in die Korrektheit zu gewinnen, ist die Formulierung
-von Eigenschaften und deren Überprüfung mit \texttt{check-expect}.
-Der zweite Schritt ist ein Beweis der Suchbaumeigenschaft.
-
-Um interessante Eigenschaften zu formulieren, müssen
-\texttt{search-tree-insert} und \texttt{search"=tree"=member} gemeinsam
-betrachtet werden: \texttt{search-tree-insert} allein kann nichts
-sinnvolles anstellen, wenn nach den eingefügten Elementen nicht auch
-gesucht werden kann.  Die wichtigsten Eigenschaften sind folgende:
-%
-\begin{enumerate}
-\item Ein mit \texttt{search-tree-insert} eingefügtes Element wird
-  stets von \texttt{search"=tree"=member?} wieder gefunden.
-\item Wenn ein Element \emph{nicht} mit in den Suchbaum eingefügt
-  wurde, wird es von \texttt{search"=tree"=member?} \emph{nicht}
-  gefunden.
-\end{enumerate}
-%
-Die erste Eigenschaft ergibt ohne die zweite wenig Sinn: Sie wäre auch
-erfüllt, wenn \texttt{search-tree-member?} immer \verb|#t| liefern
-würde.
-
-Für einen Test mit \texttt{for-all} müssen beliebige Suchbäume
-betrachtet werden.  Allerdings funktioniert der Ansatz
-%
-\begin{alltt}
-(for-all ((st (search-tree-of %a)))
-  ...)
-\end{alltt}
-%
-nicht, schon weil \texttt{search-tree-of} eine  parametrisierte Signatur ist und
-damit nicht direkt in \texttt{for-all} verwendet kann.  Außerdem
-sollen die Suchbäume, die betrachtet werden, ja gerade mit
-\texttt{search-tree-insert} konstruiert werden.  
-
-Im folgenden legen wir uns auf eine bestimmte Parametrisierung der Suchbäume
-fest, wohl wissend, dass es für die Suchbaumeigenschaft auf die
-Parametrisierung im Grunde nicht ankommt. Der nächste Versuch
-könnte deshalb so aussehen:
-%
-\begin{alltt}
-(for-all ((el natural))
-  ... (search-tree-insert el (make-empty-search-tree = <) ...)
-\end{alltt}
-%
-Eine solche Eigenschaft würde allerdings nur Suchbäume mit einem
-einzigen Element einbeziehen, also eher uninteressante Vertreter ihrer
-Spezies.  Für substantielle Tests ist es notwendig, Suchbäume zu
-betrachten, die aus unterschiedlichen (insbesondere unterschiedlich
-langen) Folgen von \texttt{search-tree-insert}-Operationen entstanden
-sind.  Da für die Repräsentation von Folgen in den Lehrsprachen Listen zuständig
-sind, bietet sich eine Eigenschaft folgender Form an:
-%
-\begin{alltt}
-(for-all ((els (list-of natural)))
-  ...)
-\end{alltt}
-%
-Damit es funktioniert, muß nur die Liste \texttt{els} noch in einen
-Suchbaum umgewandelt werden, der gerade ihre Elemente enthält.  Das
-kann eine Hilfsfunktion namens \texttt{list->search"=tree} leisten.
-Hier sind Kurzbeschreibung und Signatur:
-%
-\begin{alltt}
-; aus allen Zahlen einer Liste einen Suchbaum machen
-(: list->search-tree ((%a %a -> boolean)
-                      (%a %a -> boolean) (list-of %a) -> (search-tree-of %a)))
-\end{alltt}
-%
-Da \texttt{list->search-tree} nur sukzessive für alle Elemente der
-Liste \texttt{search-tree-insert} aufruft, wird sie am einfachsten mit
-\texttt{fold} programmiert:
-%
-\begin{alltt}
-(define list->search-tree
-  (lambda (= < els)
-    (fold (make-empty-search-tree = <)
-          search-tree-insert
-          els)))
-\end{alltt}
-%
-Die erste Eigenschaft~-- ob also jedes mit \texttt{search-tree-insert}
-in einen Suchbaum eingefügte Element auch von
-\texttt{search-tree-member?} gefunden wird, läßt sich jetzt mit Hilfe
-der Funktion \texttt{every?} aus Abschnitt~\ref{page:every}
-formulieren.  (Zur Erinnerung: \texttt{every?} wendet ein Prädikat auf
-alle Elemente einer Liste an und gibt \verb|#t| zurück, wenn das
-Prädikat für jedes Element \verb|#t| liefert, sonst \verb|#f|.)
-%
-\begin{alltt}
-(check-property
- (for-all ((els (list-of natural)))
-   (let ((st (list->search-tree = < els)))
-     (every? (lambda (el)
-               (search-tree-member? el st))
-             els))))
-\end{alltt}
-%
-Es fehlt noch die zweite Eigenschaft: Für ein Element, das nicht im
-Suchbaum vorhanden ist, darf \texttt{search-tree-member?} auch nicht
-\verb|#t| liefern.  Zum Test der Eigenschaft gehört also wie schon bei
-der ersten Eigenschaft ein beliebiger Suchbaum sowie ein einzelnes Element:
-%
-\begin{alltt}
-(for-all ((els (list-of natural))
-          (el natural))
-  ... (list->search-tree = < els) ...)
-\end{alltt}
-%
-Der Test ist nur sinnvoll, wenn \texttt{el} \emph{nicht} Element der Liste
-\texttt{els} ist: Das muß erst einmal überprüft werden, und zwar durch
-eine Funktion, die testet, ob ein Wert Element einer Liste ist.  Hier
-sind Kurzbeschreibung und Signatur:
-%
-\begin{alltt}
-; ist Wert Element einer Liste?
-(: member? ((%a %a -> boolean) %a (list-of %a) -> boolean))
-\end{alltt}
-%
-Das erste Argument ist ein Gleichheitsprädikat, welches den gesuchten
-Wert mit den Listenelementen vergleicht.  Hier sind einige Tests,
-Gerüst und Schablone für die Funktion, die eine Liste akzeptiert:
-%
-\begin{alltt}
-(check-expect (member? = 5 empty) #f)
-(check-expect (member? = 5 (list 1 2 3)) #f)
-(check-expect (member? = 1 (list 1 2 3)) #t)
-(check-expect (member? = 2 (list 1 2 3)) #t)
-(check-expect (member? = 3 (list 1 2 3)) #t)
-
-(define member?
-  (lambda (= el lis)
-    (cond
-      ((empty? lis) ...)
-      ((cons? lis)
-       ... (first lis)
-       ... (member? = el (rest lis)) ...))))
-\end{alltt}
-%
-Im \texttt{empty?}-Zweig ist die Liste leer, das Ergebnis also
-\verb|#f|.  Im anderen Fall muß die Funktion feststellen, ob
-\texttt{(first lis)} gerade das gesuchte Element \texttt{el} ist.
-Vollständig sieht die Funktion so aus:
-%
-\begin{alltt}
-(define member?
-  (lambda (= el lis)
-    (cond
-      ((empty? lis) #f)
-      ((cons? lis)
-       (if (= el (first lis))
-           #t
-           (member? = el (rest lis)))))))
-\end{alltt}
-%
-Zurück zur Eigenschaft von \texttt{search-tree-member?}: Immer dann,
-wenn \texttt{el} \emph{nicht} Element von \texttt{els} ist, darf auch
-\texttt{search-tree-member?} \texttt{el} nicht finden.  Diese
-Implikation wird mit \texttt{==>} formuliert:
-%
-\begin{alltt}
-(check-property
- (for-all ((els (list-of natural))
-           (el natural))
-   (==> (not (member? = el els))
-        (not (search-tree-member? el (list->search-tree = < els)))))) 
-\end{alltt}
-%
 Die beiden \texttt{check-property}-Tests stärken also das Vertrauen in
 die korrekte Funktionsweise von \texttt{search-tree-insert} und
 \texttt{search-tree-member?}.  Aber auch hier ist Kontrolle über einen
