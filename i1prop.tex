@@ -479,8 +479,378 @@ heißer werden.  Wir müssen also unsere Vorbedingung erweitern:
             0.0000001))))
 \end{lstlisting}
 %
+Dieser Text drückt ganz gut aus, wie \lstinline{heat->temperature} und
+\lstinline{temperature->heat} zueinander stehen: Die eine dreht die
+andere um, zumindest ungefähr.  In der Mathematik heißt es, dass die
+eine Funktion die \textit{Inverse} andere anderen Funktion
+ist.\index{Inverse}
+
+\begin{aufgabeinline}
+  Versuchen, den letzten \lstinline{check-property}-Test
+  auszutricksen.  Anstatt kleine Fehler einzuführen, versuche es mal
+  mit ganz anderen Funktionen, die gar nichts mit Wassertemperaturen
+  zu tun haben, aber trotzdem die obige Eigenschaft haben.
+\end{aufgabeinline}
+%
+Die Aufgabe zeigt, dass Eigenschaften kein Garant für Korrektheit
+sind: Genau wie bei Unit-Tests auch braucht es oft mehrere davon oder
+zusätzliche \lstinline{check-expect}-Tests, um für genug Sicherheit zu
+sorgen.
+
+Die Technik aus der Aufgabe ist dabei hilfreich: Überlege, wie Du
+einen Testfall durch falsche Funktionen austricksen kannst.  Füge dann
+Testfälle hinzu, die diese Fehler aufspüren.
+
+% FIXME: Konstruktionsanleitung?
 
 % FIXME Korrektheit Gürteltiere
+
+\section{Relationale Probleme}
+
+Die Eigenschaften für \lstinline{heat-water} hätten wir auch durch
+eine (lange) Reihe von \lstinline{check-expect}-Tests ersetzen können.
+Die Eigenschaften sind da hilfreich, aber nicht unverzichtbar.  Aber
+es gibt Funktionen, bei denen Unit-Tests grundsätzlich nicht das
+richtige sind: sogenannte \textit{relationale Probleme}.
+
+Hier ist eins: Wir schreiben eine Funktion, welche die Mitglieder
+einer Band nach Alter sortiert.  Hier sind Daten- und
+Record-Definition für ein Bandmitglied:
+%
+\begin{lstlisting}
+(define-record band-member
+  make-band-member
+  (band-member-name string)
+  (band-member-born natural))
+\end{lstlisting}
+%
+Und hier die konkrete Band dazu (Stand 2021):
+%
+\begin{lstlisting}
+(define axl (make-band-member "Axl Rose" 1962))
+(define duff (make-band-member "Duff McKagan" 1964))
+(define slash (make-band-member "Slash" 1965))
+(define dizzy (make-band-member "Dizzy Reed" 1963))
+(define richard (make-band-member "Richard Fortus" 1966))
+(define frank (make-band-member "Frank Ferrer" 1966))
+(define melissa (make-band-member "Melissa Reese" 1990))
+
+(define guns-n-roses
+  (list axl duff slash dizzy richard frank melissa))
+\end{lstlisting}
+%
+Für das Sortieren gibt viele Algorithmen, wir machen das mit einem
+besonders einfachen, wenn auch ineffizienten Verfahren namens
+\textit{Insertionsort}\index{Insertionsort}.  Die Idee ist folgende:
+Die Sortierfunktion arbeitet mit einer sortierte Liste als
+Akkumulator.  Diese ist anfänglich leer, und die Funktion fügt jeweils
+ein Element aus der Eingabeliste hinzu, indem sie dies an der
+richtigen Stelle einfügt.
+
+% Die Funktion soll sowohl aufsteigend als auch absteigend oder nach
+% einem anderen Kriterium sortieren können.  Das machen wir ähnlich wie
+% bei den Suchbäumen in Abschnitt~\ref{sec:suchbaeume} auf
+% Seite~\pageref{sec:suchbaeume}, wo wir über die Funktionen abstrahiert
+% haben, die Markierungen im Baum vergleichen.  Bei den Suchbäumen waren
+% das zwei Funktionen für \lstinline{=} und \lstinline{<}, hier
+% kombinieren wir beides in eine Funktion wie \lstinline{<=}.
+% FIXME: Halbordnung irgendwann?
+
+Hier Kurzbeschreibung und Signatur für die Hilfsfunktion zum Einfügen:
+%
+\begin{lstlisting}
+; Bandmitglied in eine sortierte Liste einfügen
+(: insert (band-member (list-of band-member) -> (list-of band-member)))
+\end{lstlisting}
+%
+Da dies eine Hilfsfunktion für die eigentliche Sortierfunktion ist,
+heben wir uns das Testen ausnahmsweise bis zu dieser auf.
+Konstruieren tun wri streng nach Anleitung.  Gerüst und Schablone:
+%
+\begin{lstlisting}
+(define insert
+  (lambda (band-member list)
+    (cond
+      ((empty? list) ...)
+      ((cons? list)
+       ...
+       (first list)
+       (insert band-member (rest list))
+       ...))))
+\end{lstlisting}
+%
+Im ersten Fall fügt die Funktion eine leere Liste ein: Das Ergebnis
+sollte dann die Liste mit \lstinline{element} als einzigem Element
+sein.  Im zweiten Fall ist noch unklar, wo \lstinline{band-member}
+eingefügt wird, vor oder nach \lstinline{(first list)}.  Die Funktion
+muss die beiden Geburtsjahre miteinander vergleichen:
+%
+\begin{lstlisting}
+(define insert
+  (lambda (band-member list)
+    (cond
+      ((empty? list) (cons band-member empty))
+      ((cons? list)
+       (if (<= (band-member-born band-member)
+               (band-member-born (first list)))
+           (cons band-member list)
+           (cons (first list)
+                 (insert band-member (rest list))))))))
+\end{lstlisting}
+%
+Mit Hilfe von \lstinline{insert} bauen wir nun die Funktion
+\lstinline{sort-band}.  Kurzbeschreibung, Signatur und Unit-Test:
+%
+\begin{lstlisting}
+; Band nach Alter sortieren
+(: sort-band ((list-of band-member) -> (list-of band-member)))
+
+(check-expect (sort-band guns-n-roses)
+              (list axl dizzy duff slash richard frank melissa))
+\end{lstlisting}
+%
+Hier die Schablone für die Funktion~-- mit Akkumulator:
+%
+\begin{lstlisting}
+(define sort-band
+  (lambda (list0)
+    ; Invariante: ...
+    (define accumulate     
+      (lambda (list acc)
+        (cond
+          ((empty? list) ...)
+          ((cons? list)
+           (accumulate (rest list)
+                       ... (first list) ... acc ...)))))
+    (accumulate list0 ...)))
+\end{lstlisting}
+%
+Beim Akkumulieren enthält \lstinline{list} die schon gesehenen
+Elemente aus \lstinline{list0}, und zwar sortiert.  Daraus können wir
+eine Invariante formulieren:
+%
+\begin{lstlisting}
+    ; Invariante: list enthält die Bandmitglieder
+    ; zwischen list0 und list, sortiert.
+\end{lstlisting}
+%
+Damit können wir die Lücken füllen: \lstinline{acc} ist beim ersten
+Aufruf leer.  Wenn \lstinline{list} leer ist, dann ist \lstinline{acc}
+das gewünschte Endergebnis.  Das neue Zwischenergebnis berechnet die
+Funktion mit Hilfe von \lstinline{insert}:
+%
+\begin{lstlisting}
+(define sort-band
+  (lambda (list0)
+    ; Invariante: list enthält die Bandmitglieder
+    ; zwischen list0 und list, sortiert.
+    (define accumulate     
+      (lambda (list acc)
+        (cond
+          ((empty? list) acc)
+          ((cons? list)
+           (accumulate (rest list)
+                       (insert (first list) acc))))))
+    (accumulate list0 empty)))
+\end{lstlisting}
+%
+Fertig! Halt, da ist noch ein kleines Problem:
+%
+\begin{verbatim}
+Der tatsächliche Wert 
+#<list
+ #<record:band-member "Axl Rose" 1962>
+ #<record:band-member "Dizzy Reed" 1963>
+ #<record:band-member "Duff McKagan" 1964>
+ #<record:band-member "Slash" 1965>
+ #<record:band-member "Frank Ferrer" 1966>
+ #<record:band-member "Richard Fortus" 1966>
+ #<record:band-member "Melissa Reese" 1990>>
+ist nicht der erwartete Wert 
+#<list
+ #<record:band-member "Axl Rose" 1962>
+ #<record:band-member "Dizzy Reed" 1963>
+ #<record:band-member "Duff McKagan" 1964>
+ #<record:band-member "Slash" 1965>
+ #<record:band-member "Richard Fortus" 1966>
+ #<record:band-member "Frank Ferrer" 1966>
+ #<record:band-member "Melissa Reese" 1990>>.
+\end{verbatim}
+%
+Woran liegt's?  Richard Fortus und Frank Ferrer sind im selben Jahr
+geboren.  Der Unit-Test haben nimmt an, dass Fortus vor Ferrer
+einsortiert wird, aber \lstinline{sort-band} macht es aber genau
+umgekehrt.  Deswegen ist \lstinline{sort-band} nicht verkehrt: Es gibt
+einfach mehrere korrekte Antworten.
+
+Der Unit-Test ist also ungünstig, selbst wenn wir die Reihenfolge so
+wählen, dass er nicht fehlschlägt.  Wenn wir die Suchfunktion
+irgendwann mal ändern, zum Beispiel um sie schneller zu machen, kann
+sich die Reihenfolge ändern und der Test schlägt wieder fehl, auch
+wenn die Funktion korrekt ist.
+
+Da es für \lstline{sort-band} für eine gegebene Eingabe mehr als ein
+korrektes Ergebnis geben kann, sprechen wir von einem "<relationalen
+Problem">:\index{relationales Problem} Es steht nicht das präzise
+Ergebnis fest, nur die Beziehung ("<Relation">) zwischen Ein- und
+Ausgabe.  Und um die zu beschreiben, ist eine Eigenschaft das richtige
+Mittel.  Wie könnte eine sinnvolle Eigenschaft einer Funktion
+aussehen, die sortiert?
+
+Nun, dass die Ausgabe sortiert ist.  Um das festzustellen, schreiben
+wir eine Funktion:
+%
+\begin{lstlisting}
+; Band sortiert?
+(: band-sorted? ((list-of band-member) -> boolean))
+\end{lstlisting}
+%
+Die Tests lassen unterschiedliche Reihenfolgen zu, solange sie
+sortiert sind:
+%
+\begin{lstlisting}
+(check-expect (band-sorted? (list axl dizzy duff slash frank richard melissa))
+              #t)
+(check-expect (band-sorted? (list axl dizzy duff slash richard frank melissa))
+              #t)
+(check-expect (band-sorted? (list dizzy axl duff slash richard frank melissa))
+              #f)
+(check-expect (band-sorted? (list axl dizzy duff richard slash frank melissa))
+              #f)
+\end{lstlisting}
+%
+Hier sind Gerüst und Schablone:
+%
+\begin{lstlisting}
+(define band-sorted?
+  (lambda (list)
+    (cond
+      ((empty? list) ...)
+      ((cons? list)
+       ... (first list) ...
+       ... (band-sorted? (rest list) ...)))))
+\end{lstlisting}
+%
+Der \lstinline{empty}-Fall ist einfach: Eine leere Liste ist sortiert.
+Im \lstinline{cons}-Fall ist es etwas schwieriger.  Um die Reihenfolge
+zu überprüfen, müssen wir zwei Elemente der Liste miteinander
+vergleichen, da ist aber nur \lstinline{(first list)}.  Wir brauchen
+also noch das zweite Element.  Das gibt es nur bei Listen mit mehr als
+einem Element, weswegen wir eine zweite Verzweigung brauchen:
+%
+\begin{lstlisting}
+(define band-sorted?
+  (lambda (list)
+    (cond
+      ((empty? list) #t)
+      ((cons? list)
+       (cond
+         ((empty? (rest list)) ...)
+         ((cons? (rest list))
+          ...
+          (first list)
+          (first (rest list))))
+          (band-sorted? (rest list))
+          ...))))
+\end{lstlisting}
+%
+Der innere \lstinline{empty}-Fall ist die Liste mit einem Element: Die
+ist auch immer sortiert.  Im \lstinline{cons}-Fall schließlich können
+wir die beiden ersten Elemente vergleichen:
+%
+\begin{lstlisting}
+(define band-sorted?
+  (lambda (list)
+    (cond
+      ((empty? list) #t)
+      ((cons? list)
+       (cond
+         ((empty? (rest list)) #t)
+         ((cons? (rest list))
+          (and (<= (band-member-born (first list))
+                   (band-member-born (first (rest list))))
+               (band-sorted? (rest list)))))))))
+\end{lstlisting}
+%
+Diese Funktion können wir nun benutzen, um aufzuschreiben, dass
+\lstlisting{sort-band} immer sortierte Listen produziert:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((list (list-of band-member)))
+   (band-sorted? (sort-band list))))
+\end{lstlisting}
+%
+Diese Eigenschaft bringt auf den Punkt, was \lstlisting{sort-band}
+ausmacht, nämlich dass sie sortierte Listen produziert.  Sie ist also
+schonmal gute Dokumentation.
+
+Ist sie auch ein guter Testfall?  Vielleicht hast Du ein mulmiges
+Gefühl, dass wir für den Test von \lstlisting{sort-band} eine weitere
+selbstgeschriebene Funktion benutzt haben, die fast ebenso kompliziert
+ist wie \lstlisting{sort-band} selbst.  Was, wenn wir in
+\lstlisting{band-sorted?} einen Fehler gemacht haben, und zwar so,
+dass der Eigenschafts-Testfall dann einen Fehler in
+\lstlisting{sort-band} nicht mehr findet.  Das ist natürlich
+theoretisch möglich, ist aber unwahrscheinlich und wird umso
+unwahrscheinlicher, je mehr Testfälle mit aussagekräftigen
+Eigenschaften dazukommen.
+
+Diese Eigenschaften sind eine Form von Redundanz,\index{Redundanz}
+analog dazu, bei Gebäuden lieber die tragenden Wände etwas stärker zu
+machen als unbedingt notwendig.  Ob diese Redundanz die Arbeit wert
+ist, eine Funktion wie \lstlisting{band-sorted?} zu schreiben, die nur
+für das Testen gut sind, hängt vom Einzelfall ab: Je wichtiger die
+Korrektheit der Funktion und je komplizierter sie ist, desto größer
+ist der Wert solcher Testfälle.
+
+Trotzdem kann man die obige Eigenschaft austricksen, ziemlich einfach
+sogar:
+%
+\begin{lstlisting}
+(define sort-band
+  (lambda (list0)
+    empty))
+\end{lstlisting}
+%
+Das ist natürlich ein bisschen gemein.  Aber die Funktion, die den
+Testfall austrickst, ist einfacher, als die richtige Funktion.  Es ist
+also einfacher, es falsch zu machen als richtig.  Deshalb sollten wir
+nach weiteren Eigenschaften suchen, die solche einfachen aber falschen
+Lösungen finden.  Zum Beispiel könnten wir fordern, dass die
+Ausgabeliste genauso lang ist wie die Eingabe:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((list (list-of band-member)))
+   (= (length (sort-band list))
+      (length list))))
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Die folgende Version von \lstinline{sort-band} besteht die
+  bisherigen Testfälle:
+  %
+\begin{lstlisting}
+(define sort-band
+  (lambda (list)
+    (cond
+      ((empty? list) empty)
+      ((cons? list)
+       (map (lambda (band-member)
+              (first list))
+            list)))))
+\end{lstlisting}
+  %
+  Kannst Du einen Testfall schreiben, der den Fehler in dieser
+  Funktion findet?
+\end{aufgabeinline}
+
+% FIXME:
+% - viele check-expect-Tests ersetzen
+% - relationale Probleme
+% - Invarianten
+% - häufig vorkommende Eigenschaften
 
 \section{Eigenschaften der Suchbaum-Operationen}
 
