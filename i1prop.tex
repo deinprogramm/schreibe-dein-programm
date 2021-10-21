@@ -689,7 +689,7 @@ irgendwann mal ändern, zum Beispiel um sie schneller zu machen, kann
 sich die Reihenfolge ändern und der Test schlägt wieder fehl, auch
 wenn die Funktion korrekt ist.
 
-Da es für \lstline{sort-band} für eine gegebene Eingabe mehr als ein
+Da es für \lstinline{sort-band} für eine gegebene Eingabe mehr als ein
 korrektes Ergebnis geben kann, sprechen wir von einem "<relationalen
 Problem">:\index{relationales Problem} Es steht nicht das präzise
 Ergebnis fest, nur die Beziehung ("<Relation">) zwischen Ein- und
@@ -773,7 +773,7 @@ wir die beiden ersten Elemente vergleichen:
 \end{lstlisting}
 %
 Diese Funktion können wir nun benutzen, um aufzuschreiben, dass
-\lstlisting{sort-band} immer sortierte Listen produziert:
+\lstinline{sort-band} immer sortierte Listen produziert:
 %
 \begin{lstlisting}
 (check-property
@@ -781,17 +781,17 @@ Diese Funktion können wir nun benutzen, um aufzuschreiben, dass
    (band-sorted? (sort-band list))))
 \end{lstlisting}
 %
-Diese Eigenschaft bringt auf den Punkt, was \lstlisting{sort-band}
+Diese Eigenschaft bringt auf den Punkt, was \lstinline{sort-band}
 ausmacht, nämlich dass sie sortierte Listen produziert.  Sie ist also
 schonmal gute Dokumentation.
 
 Ist sie auch ein guter Testfall?  Vielleicht hast Du ein mulmiges
-Gefühl, dass wir für den Test von \lstlisting{sort-band} eine weitere
+Gefühl, dass wir für den Test von \lstinline{sort-band} eine weitere
 selbstgeschriebene Funktion benutzt haben, die fast ebenso kompliziert
-ist wie \lstlisting{sort-band} selbst.  Was, wenn wir in
-\lstlisting{band-sorted?} einen Fehler gemacht haben, und zwar so,
+ist wie \lstinline{sort-band} selbst.  Was, wenn wir in
+\lstinline{band-sorted?} einen Fehler gemacht haben, und zwar so,
 dass der Eigenschafts-Testfall dann einen Fehler in
-\lstlisting{sort-band} nicht mehr findet.  Das ist natürlich
+\lstinline{sort-band} nicht mehr findet.  Das ist natürlich
 theoretisch möglich, ist aber unwahrscheinlich und wird umso
 unwahrscheinlicher, je mehr Testfälle mit aussagekräftigen
 Eigenschaften dazukommen.
@@ -799,7 +799,7 @@ Eigenschaften dazukommen.
 Diese Eigenschaften sind eine Form von Redundanz,\index{Redundanz}
 analog dazu, bei Gebäuden lieber die tragenden Wände etwas stärker zu
 machen als unbedingt notwendig.  Ob diese Redundanz die Arbeit wert
-ist, eine Funktion wie \lstlisting{band-sorted?} zu schreiben, die nur
+ist, eine Funktion wie \lstinline{band-sorted?} zu schreiben, die nur
 für das Testen gut sind, hängt vom Einzelfall ab: Je wichtiger die
 Korrektheit der Funktion und je komplizierter sie ist, desto größer
 ist der Wert solcher Testfälle.
