@@ -83,7 +83,7 @@ einzelnes Beispiel, was seine Aussagekraft einschränkt.\footnote{In
 Aussage die bessere Dokumentation.
 
 In diesem Fall könnten wir zum Beispiel aussagen, dass es um Wasser
-geht, die Temperatur also niemals größer als 100 Grad sein kann.  Das
+geht, die Temperatur also niemals größer als 100\si{\degree}C sein kann.  Das
 geht nicht nur als Text, sondern auch als ein Stück Code:
 %
 \begin{lstlisting}
@@ -268,7 +268,7 @@ aussagt, der aus der Funktion herauskommt.
 
 Allerdings gibt es noch eine weitaus ergiebigere Eigenschaft:
 \lstinline{temperature->heat} soll ist ja gerade
-\lstinline{heat->temperature} "<umgedreht">.  Daraus können wir
+\lstinline{heat->temperature} "<umdrehen">.  Daraus können wir
 folgende Eigenschaft beziehungsweise folgenden Test machen:
 %
 \begin{lstlisting}
@@ -344,7 +344,7 @@ auch mit \lstinline{if} statt \lstinline{==>} hinschreiben:
 Bedeuten würde die Eigenschaft so das gleiche.  Allerdings behandelt
 \lstinline{check-property} diese Schreibweise anders, nämlich
 schlechter.  Wenn \lstinline{check-property} 100 Tests generiert, dann
-hier alle, bei denen \lstinline{temp} 0 ist, als Erfolg gewertet,
+werden alle, bei denen \lstinline{temp} 0 ist, als Erfolg gewertet,
 obwohl da eigentlich nichts getestet wird.  Wenn für (hypothetisch)
 drei von den Tests \lstinline{temp} 0 ist, dann werden also nur 97
 richtige Tests durchgeführt.
@@ -511,11 +511,12 @@ Die Eigenschaften für \lstinline{heat-water} hätten wir auch durch
 eine (lange) Reihe von \lstinline{check-expect}-Tests ersetzen können.
 Die Eigenschaften sind da hilfreich, aber nicht unverzichtbar.  Aber
 es gibt Funktionen, bei denen Unit-Tests grundsätzlich nicht das
-richtige sind: sogenannte \textit{relationale Probleme}.
+richtige sind, nämlich solche, die sogenannte \textit{relationale
+  Probleme} lösen.  Um die geht es in diesem Abschnitt.
 
-Hier ist eins: Wir schreiben eine Funktion, welche die Mitglieder
-einer Band nach Alter sortiert.  Hier sind Daten- und
-Record-Definition für ein Bandmitglied:
+Wir schreiben zunächst eine solche Funktion, um das Konzept zu
+erklären: Sie soll die Mitglieder einer Band nach Alter sortieren.
+Hier sind Daten- und Record-Definition für ein Bandmitglied:
 %
 \begin{lstlisting}
 (define-record band-member
@@ -852,185 +853,599 @@ Ausgabeliste genauso lang ist wie die Eingabe:
 % - Invarianten
 % - häufig vorkommende Eigenschaften
 
-\section{Eigenschaften der Suchbaum-Operationen}
+\section{Konstruktionsanleitungen für Testfälle?}
+\label{sec:ka-testfaelle}
 
-FIXME:
+Die bisherigen Beispiele für Testfälle mit Eigenschaften haben Dich
+hoffentlich überzeugt, dass es eine gute Idee ist, solche Testfälle zu
+schreiben.  Aber \emph{wie} geht das eigentlich bei der nächsten
+Funktion, die getestet werden soll?  Toll wären
+Konstruktionsanleitungen analog zu denen für Funktionen, die zeigen,
+wie wir Eigenschaften aus der Signatur der zu testenden Funktion
+herleiten können.  Das hätte bei zumindest bei den Funktionen der
+bisherigen Abschnitte dieses Kapitels nicht funktioniert.
 
-\texttt{Search-tree-insert} ist eine der komplizierteren Funktionen in
-diesem Buch; es ist alles andere als offensichtlich, daß sie korrekt
-ist.  Die Testfälle mögen zwar punktuell auf die Korrektheit von
-\texttt{search-tree-insert} und \texttt{search-tree-member?}
-hindeuten, Sicherheit liefern sie jedoch nicht.  Der erste Schritt, um
-mehr Vertrauen in die Korrektheit zu gewinnen, ist die Formulierung
-von Eigenschaften und deren Überprüfung mit \texttt{check-expect}.
-Der zweite Schritt ist ein Beweis der Suchbaumeigenschaft.
-
-Um interessante Eigenschaften zu formulieren, müssen
-\texttt{search-tree-insert} und \texttt{search"=tree"=member} gemeinsam
-betrachtet werden: \texttt{search-tree-insert} allein kann nichts
-sinnvolles anstellen, wenn nach den eingefügten Elementen nicht auch
-gesucht werden kann.  Die wichtigsten Eigenschaften sind folgende:
+Trotzdem gibt es ein paar Dinge, die Du probieren kannst, wenn Du
+Eigenschaften für eine neue Funktion formulieren willst:
 %
 \begin{enumerate}
-\item Ein mit \texttt{search-tree-insert} eingefügtes Element wird
-  stets von \texttt{search"=tree"=member?} wieder gefunden.
-\item Wenn ein Element \emph{nicht} mit in den Suchbaum eingefügt
-  wurde, wird es von \texttt{search"=tree"=member?} \emph{nicht}
-  gefunden.
+\item Benutze das Wissen über die Größen Deines Problems.
+
+  Beispiele:
+
+  \begin{itemize}
+    \item Wenn es um die Temperatur von Wasser geht, weißt Du,
+    dass die Temperatur nicht größer als 100\si{\degree}C sein kann.
+  \item Wenn es um das Sortieren von Listen geht, dann weißt Du, das
+    die Ausgabe einer Sortierfunktion sortiert sein sollte.
+  \end{itemize}
+\item Oft gehören zu einem Problem mehrere Funktionen, die auf
+  bestimmte Art und Weise zusammenarbeiten.  Schreibe auf, wie diese
+  Zusammenarbeit aussieht.
+
+  Beispiel: \lstinline{Temperature->heat} dreht
+  \lstinline{heat->temperature} um.
+\item Versuche, die bestehenden Eigenschaften durch einfache aber
+  fehlerhafte Varianten Deiner Funktion auszutricksen.
+  Suche dann nach
+  Eigenschaften, die das Austricksen verhindern.
+
+  Beispiel: Die leere Liste als Resultat \lstinline{sort-band} ist
+  immer sortiert, aber trotzdem falsch.
 \end{enumerate}
 %
-Die erste Eigenschaft ergibt ohne die zweite wenig Sinn: Sie wäre auch
-erfüllt, wenn \texttt{search-tree-member?} immer \verb|#t| liefern
-würde.
+Abschnitt~\ref{sec:algebraische-eigenschaften} auf
+Seite~\pageref{sec:algebraische-eigenschaften} wird diese Liste noch
+ergänzen um Eigenschaften, die tatsächlich mit den Signaturen der zu
+testenden Funktionen zu tun haben.
 
-Für einen Test mit \texttt{for-all} müssen beliebige Suchbäume
-betrachtet werden.  Allerdings funktioniert der Ansatz
-%
-\begin{alltt}
-(for-all ((st (search-tree-of %a)))
-  ...)
-\end{alltt}
-%
-nicht, schon weil \texttt{search-tree-of} eine  parametrisierte Signatur ist und
-damit nicht direkt in \texttt{for-all} verwendet kann.  Außerdem
-sollen die Suchbäume, die betrachtet werden, ja gerade mit
-\texttt{search-tree-insert} konstruiert werden.  
+\section{Suchbäume testen}
 
-Im folgenden legen wir uns auf eine bestimmte Parametrisierung der Suchbäume
-fest, wohl wissend, dass es für die Suchbaumeigenschaft auf die
-Parametrisierung im Grunde nicht ankommt. Der nächste Versuch
-könnte deshalb so aussehen:
+In Abschnitt~\ref{sec:balanced-search-trees} auf
+Seite~\pageref{sec:balanced-search-trees} haben wir die Funktion
+\lstinline{balanced-search-tree-insert}, und die war ziemlich
+kompliziert.  Vielleicht ging es Dir wie uns~-- wir hatten ein etwas
+mulmiges Gefühl, ob die Funktion auch wirklich korrekt ist.
+Sie hat ziemlich viele Verzweigungen, nicht nur in der Funktion selbst
+sondern auch in der Hilfsfunktion \lstinline{make-balanced-node}.
+Dass die Testfälle wirklich jede mögliche Form von Suchbaum testet,
+ist ziemlich unwahrscheinlich.
+
+Eine weitere grundsätzliche Schwierigkeit beim Testen von
+\lstinline{balanced-search-tree-insert} ist, dass die Funktion ein
+relationales Problem löst: Es gibt mehr als ein korrektes
+Ergebnis. Wenn wir einen \lstinline{check-expect}-Testfall schreiben,
+der ein bestimmtes Ergebnis von
+\lstinline{balanced-search-tree-insert} erwartet, kann es sein, das
+die Funktion ein anders, aber trotzdem korrektes Ergebnis liefert.
+Der Testfall schlägt dann fehl, und die Suche nach der Ursache ist
+mühsam.
+
+Aber mit ein paar Eigenschaften können wir (hoffentlich) das mulmige
+Gefühl beseitigen und unser Vertrauen in die Funktion erhöhen.  Der
+vorige Abschnitt hatte einige Vorschläge, wie wir vorgehen können.
+Der erste Vorschlag war:
 %
-\begin{alltt}
-(for-all ((el natural))
-  ... (search-tree-insert el (make-empty-search-tree = <) ...)
-\end{alltt}
+\begin{quote}
+  Benutze das Wissen über die Größen Deines Problems.
+\end{quote}
 %
-Eine solche Eigenschaft würde allerdings nur Suchbäume mit einem
-einzigen Element einbeziehen, also eher uninteressante Vertreter ihrer
-Spezies.  Für substantielle Tests ist es notwendig, Suchbäume zu
-betrachten, die aus unterschiedlichen (insbesondere unterschiedlich
-langen) Folgen von \texttt{search-tree-insert}-Operationen entstanden
-sind.  Da für die Repräsentation von Folgen in den Lehrsprachen Listen zuständig
-sind, bietet sich eine Eigenschaft folgender Form an:
+Die Größe unseres Problems ist hier der balancierte Suchbaum.  In dem
+Begriff steckt schon ziemlich viel Wissen:
 %
-\begin{alltt}
-(for-all ((els (list-of natural)))
-  ...)
-\end{alltt}
+\begin{enumerate}
+\item Das Ergebnis von \lstinline{balanced-search-tree-insert} sollte ein
+  sortierter Baum sein, bei dem alle Markierungen im linken Teilbaum
+  eines Knotens kleiner sein sollte als die Markierung des Knotens.
+\item Die Bäume sind größenannotiert: Die Größenannotation sollte auch
+  stimmen, also bei jedem Knoten die tatsächliche Größe des Baums
+  darunter wiedergeben.
+\item Schließlich und endlich sollte der balancierte Suchbaum
+  natürlich auch \emph{balanciert} sein.
+\end{enumerate}
 %
-Damit es funktioniert, muß nur die Liste \texttt{els} noch in einen
-Suchbaum umgewandelt werden, der gerade ihre Elemente enthält.  Das
-kann eine Hilfsfunktion namens \texttt{list->search"=tree} leisten.
-Hier sind Kurzbeschreibung und Signatur:
+Wir fangen mal mit dem zweiten Punkt an, und überlassen Dir danach den
+ersten als Übungsaufgabe.  Um zu überprüfen, ob die Größenannotation
+stimmt, müssen wir die Annotation jeden Knoten des Baums betrachten.
+Dafür brauchen wir eine Hilfsfunktion.  Sie hat folgende
+Kurzbeschreibung und Signatur:
 %
-\begin{alltt}
-; aus allen Zahlen einer Liste einen Suchbaum machen
-(: list->search-tree ((%a %a -> boolean)
-                      (%a %a -> boolean) (list-of %a) -> (search-tree-of %a)))
-\end{alltt}
+\begin{lstlisting}
+; Stimmt die Größenannotation am Suchbaum?
+(: proper-sized-search-tree? ((sized-search-tree-of %a) -> boolean))
+\end{lstlisting}
 %
-Da \texttt{list->search-tree} nur sukzessive für alle Elemente der
-Liste \texttt{search-tree-insert} aufruft, wird sie am einfachsten mit
-\texttt{fold} programmiert:
+Hier sind zwei einfache Testfälle dafür:
 %
-\begin{alltt}
-(define list->search-tree
-  (lambda (= < els)
-    (fold (make-empty-search-tree = <)
-          search-tree-insert
-          els)))
-\end{alltt}
+\begin{lstlisting}
+(check-expect (proper-sized-search-tree? sized-search-tree1) #t)
+(check-expect (proper-sized-search-tree?
+               (make-sized-search-tree
+                = <
+                (make-sized-node
+                 5
+                 (make-node (make-sized-label 5 3) #f #f)
+                 (make-node (make-sized-label 2 7) #f #f))))
+               #f)
+\end{lstlisting}              
 %
-Die erste Eigenschaft~-- ob also jedes mit \texttt{search-tree-insert}
-in einen Suchbaum eingefügte Element auch von
-\texttt{search-tree-member?} gefunden wird, läßt sich jetzt mit Hilfe
-der Funktion \texttt{every?} aus Abschnitt~\ref{page:every}
-formulieren.  (Zur Erinnerung: \texttt{every?} wendet ein Prädikat auf
-alle Elemente einer Liste an und gibt \verb|#t| zurück, wenn das
-Prädikat für jedes Element \verb|#t| liefert, sonst \verb|#f|.)
+Nur zwei popelige Testfälle, magst Du einwenden, mehr wären sicher
+besser.  Allerdings werden wir sie noch im Rahmen von
+\lstinline{check-property}-Tests zusammen mit
+\lstinline{balanced-search-tree-insert} aufrufen und wir hoffen, dass
+dies die benötigte Redundanz schafft, was die Korrektheit von
+\lstinline{balanced-search-tree-insert} betrifft.  Aber ist diese
+Hoffnung auch berechtigt?  Wir können uns zwei Szenarien vorstellen,
+in denen das nicht der Fall ist, also der Testfall keine Fehler
+findet, obwohl welche vorhanden sind:
 %
-\begin{alltt}
+\begin{itemize}
+\item \lstinline{Proper-sized-search-tree?} liefert \emph{immer}
+  \lstinline{#t}, dann ist jeder Testfall damit nutzlos.  Das haben
+  wir aber durch den einen \lstinline{check-expect}-Testfall
+  ausgeschlossen.
+\item Fehler in \lstinline{proper-sized-search-tree?} "<passen"> genau
+  zu den Fehlern in \lstinline{balanced-search-tree-insert}.  Um dem
+  vorzubeugen, werden wir \lstinline{proper-sized-search-tree?}
+  systematisch mit Hilfe der Konstruktionsanleitungen entwickeln.
+  Wir werden sehen, dass dies bei
+  \lstinline{proper-sized-search-tree?} deutlich einfacher ist als
+  \lstinline{balanced-search-tree-insert}.  
+  Damit ist es wahrscheinlich, dass
+  \lstinline{proper-sized-search-tree?} korrekt gelingt.
+\end{itemize}
+%
+Hier das Gerüst für die Funktion:
+%
+\begin{lstlisting}
+(define proper-sized-search-tree?
+  (lambda (search-tree)
+    ...))
+\end{lstlisting}
+%
+Wir gehen beim Rumpf vor wie bei der Funktion
+\lstinline{sized-search-tree-member?} auf
+Seite~\pageref{func:sized-search-tree-member}. Der eigentliche Baum
+steckt ja in dem \lstinline{search-tree}-Record drin.  Den extrahieren
+wir und lassen die eigentliche Arbeit von einer Hilfsfunktion erledigen.
+%
+\begin{lstlisting}
+(define proper-sized-search-tree?
+  (lambda (search-tree)
+    (define proper?
+      (lambda (tree)
+        ...))
+    (proper? (sized-search-tree-tree search-tree))))
+\end{lstlisting}
+%
+Hier die Schablone:
+%
+\begin{lstlisting}
+(define proper-sized-search-tree?
+  (lambda (search-tree)
+    (define proper?
+      (lambda (tree)
+        (cond
+          ((node? tree)
+           ...
+           (proper? (node-left-branch tree))
+           (proper? (node-right-branch tree))
+           (node-label tree)
+           ...)
+          (else ...))))
+  (proper? (sized-search-tree-tree search-tree))))
+\end{lstlisting}
+%
+Ein paar Lücken können wir schon füllen: Bei einem Blatt ist die
+Größenannotation immer korrekt, weil nicht vorhanden.  Bei Knoten ist
+eine Größenannotation korrekt, wenn sie die Summe der Größen der
+Teilbäume plus 1 (für den Knoten selbst ist).  Außerdem muss die
+Funktion auch die Größenannotationen der Teilbäume überprüfen, das
+erledigen die rekursiven Aufrufe aus der Schablone.  Fertig sieht das
+ganze so aus:
+%
+\begin{lstlisting}
+(define proper-sized-search-tree?
+  (lambda (search-tree)
+    (define proper?
+      (lambda (tree)
+        (cond
+          ((node? tree)
+           (define left (node-left-branch tree))
+           (define right (node-right-branch tree))
+           (and (proper? left)
+                (proper? right)
+                (= (sized-label-size (node-label tree))
+                   (+ 1
+                      (sized-tree-size left)
+                      (sized-tree-size right)))))
+          (else #t))))
+    (proper? (sized-search-tree-tree search-tree))))
+\end{lstlisting}
+% 
+Aber geschrieben hatten wir die Funktion ja, um
+\lstinline{balanced-search-tree-insert} zu testen.  Wenn die korrekt
+ist, dann produziert sie nur solche Suchbäume, bei denen
+\lstinline{proper-sized-search-tree?} als Ergebnis \lstinline{#t}
+liefert.  Man könnte versucht sein, so etwas hier zu schreiben:
+
+\begin{lstlisting}
 (check-property
- (for-all ((els (list-of natural)))
-   (let ((st (list->search-tree = < els)))
-     (every? (lambda (el)
-               (search-tree-member? el st))
-             els))))
-\end{alltt}
+  (for-all ((search-tree (sized-search-tree-of natural))
+            (element natural))
+    (proper-sized-search-tree?
+      (balanced-search-tree-insert element search-tree))))
+\end{lstlisting}
 %
-Es fehlt noch die zweite Eigenschaft: Für ein Element, das nicht im
-Suchbaum vorhanden ist, darf \texttt{search-tree-member?} auch nicht
-\verb|#t| liefern.  Zum Test der Eigenschaft gehört also wie schon bei
-der ersten Eigenschaft ein beliebiger Suchbaum sowie ein einzelnes Element:
-%
-\begin{alltt}
-(for-all ((els (list-of natural))
-          (el natural))
-  ... (list->search-tree = < els) ...)
-\end{alltt}
-%
-Der Test ist nur sinnvoll, wenn \texttt{el} \emph{nicht} Element der Liste
-\texttt{els} ist: Das muß erst einmal überprüft werden, und zwar durch
-eine Funktion, die testet, ob ein Wert Element einer Liste ist.  Hier
-sind Kurzbeschreibung und Signatur:
-%
-\begin{alltt}
-; ist Wert Element einer Liste?
-(: member? ((%a %a -> boolean) %a (list-of %a) -> boolean))
-\end{alltt}
-%
-Das erste Argument ist ein Gleichheitsprädikat, welches den gesuchten
-Wert mit den Listenelementen vergleicht.  Hier sind einige Tests,
-Gerüst und Schablone für die Funktion, die eine Liste akzeptiert:
-%
-\begin{alltt}
-(check-expect (member? = 5 empty) #f)
-(check-expect (member? = 5 (list 1 2 3)) #f)
-(check-expect (member? = 1 (list 1 2 3)) #t)
-(check-expect (member? = 2 (list 1 2 3)) #t)
-(check-expect (member? = 3 (list 1 2 3)) #t)
+Das funktioniert aber nicht, weil die Signatur
+\lstinline{(sized-search-tree-of natural)} nicht dafür geeignet ist,
+Suchbäume zu generieren.  Insbesondere steht in der
+Signatur nur, dass die Größenannotation eine natürliche Zahl ist, aber
+nicht welche: Bei den meisten so generierten Suchbäumen wäre sie
+falsch.  Und wenn die Eingabe für
+\lstinline{balanced-search-tree-insert} schon falsch ist, können wir
+nicht erwarten, dass die Ausgabe korrekt ist: Garbage in, Garbage out.
 
-(define member?
-  (lambda (= el lis)
-    (cond
-      ((empty? lis) ...)
-      ((cons? lis)
-       ... (first lis)
-       ... (member? = el (rest lis)) ...))))
-\end{alltt}
+\begin{aufgabeinline}
+  Noch andere Aspekte der Signatur
+  \lstinline{(sized-search-tree-of natural)}
+  machen sie ungeeignet, korrekte Suchbäume zu generieren.  Finde
+  einen!
+\end{aufgabeinline}
 %
-Im \texttt{empty?}-Zweig ist die Liste leer, das Ergebnis also
-\verb|#f|.  Im anderen Fall muß die Funktion feststellen, ob
-\texttt{(first lis)} gerade das gesuchte Element \texttt{el} ist.
-Vollständig sieht die Funktion so aus:
+Um korrekte größenannotatierte Suchbäume zu erzeugen, rufen wir
+stattdessen \lstinline{balanced-search-tree-insert} wiederholt auf.
+Die Elemente dafür holen wir aus einer Liste und schreiben
+entsprechend eine Funktion, die aus einer Liste einen Suchbaum macht.
+Kurzbeschreibung und Signatur:
 %
-\begin{alltt}
-(define member?
-  (lambda (= el lis)
-    (cond
-      ((empty? lis) #f)
-      ((cons? lis)
-       (if (= el (first lis))
-           #t
-           (member? = el (rest lis)))))))
-\end{alltt}
+\begin{lstlisting}
+; Aus allen Elementen einer Liste einen Suchbaum machen
+(: list->balanced-search-tree ((%a %a -> boolean) (%a %a -> boolean) 
+                               (list-of %a)
+                               -> (sized-search-tree-of %a)))
+\end{lstlisting}
 %
-Zurück zur Eigenschaft von \texttt{search-tree-member?}: Immer dann,
-wenn \texttt{el} \emph{nicht} Element von \texttt{els} ist, darf auch
-\texttt{search-tree-member?} \texttt{el} nicht finden.  Diese
-Implikation wird mit \texttt{==>} formuliert:
+Das ist eine typische Aufgabe für \lstinline{fold}: Mit einem leeren
+Suchbaum anfangen (für dessen Konstruktion wir die Funktionen für den
+Vergleich der Markierungen brauchen) und dann für jedes Listenelement
+\lstinline{balanced-search-tree-insert} aufrufen:
 %
-\begin{alltt}
+\begin{lstlisting}
+(define list->balanced-search-tree
+  (lambda (label=? label<? elements)
+    (fold (make-empty-sized-search-tree label=? label<?)
+          balanced-search-tree-insert
+          elements)))
+\end{lstlisting}
+%
+Und mit Hilfe dieser Funktion können wir endlich den Test schreiben,
+der sicherstellt, dass \lstinline{balanced-search-tree-insert} die
+Größenannotation richtig macht:
+%
+\begin{lstlisting}
 (check-property
- (for-all ((els (list-of natural))
-           (el natural))
-   (==> (not (member? = el els))
-        (not (search-tree-member? el (list->search-tree = < els)))))) 
+ (for-all ((elements (list-of natural)))
+   (proper-sized-search-tree?
+    (list->balanced-search-tree = < elements))))
+\end{lstlisting}
+%
+\begin{aufgabeinline}
+  Schreibe eine Funktion analog zu
+  \lstinline{proper-sized-search-tree?}, die feststellt, ob ein
+  Suchbaum auch wirklich sortiert ist und mache daraus eine
+  Eigenschaft und einen \lstinline{check-property}-Testfall für
+  \lstinline{balanced-search-tree-insert}!
+\end{aufgabeinline}
+%
+Aus ist der Liste vom Anfang dieses Abschnitts haben wir zwei Punkte
+abgehakt: Einer fehlt noch, nämlich zu testen, ob
+\lstinline{balanced-search-tree-insert} auch wirklich balanciert
+sind, wie es der Name suggeriert.
+
+Nehmen wir an, \lstinline{balanced-search-tree-insert} würde
+\emph{nicht} korrekt balancieren.  Das wäre ziemlich tückisch, weil
+die Funktion in allen Tests scheinbar korrekt funktioniert.  Erst,
+wenn sie es mit größeren Datenmengen zu tun bekommt, gibt es Probleme,
+weil die Laufzeit beim Suchen im Baum größer ist als erwartet.
+
+Was heißt eigentlich \emph{genau} balanciert?  Die Funktion
+\lstinline{balanced-search-tree-insert} benutzt dafür ja ein
+"<weiches"> Kriterium, um nicht jedesmal mit viel Aufwand alles
+aufzuräumen.  Wie oft die Funktion neu balanciert, wird durch die
+Definition von \lstinline{ratio} auf Seite~\pageref{def:ratio}
+kontrolliert.  Stephen Adams, der Autor des zugrundeliegenden Papers,
+behauptet, dass bei die Suchbäume immer so ausbalanciert sind, dass
+für einen Knoten, dessen linker Teilbaum die Größe $l$
+und dessen rechter Teilbaum die Größe $r$ gilt, folgende Formel gilt:
+%
+\begin{displaymath}
+  \frac{l}{\mathtt{ratio}} \leq r \leq l \cdot \mathtt{ratio}
+\end{displaymath}
+%
+Aus dieser Formel können wir eine Funktion machen, die einen Suchbaum
+darauf überprüft, dass sie durch den gesamten Baum hindurch
+eingehalten ist.  Das geht nach dem gleichen Muster wie bei
+\lstinline{proper-sized-search-tree?}:
+%
+\begin{lstlisting}
+; Ist ein Suchbaum balanciert?
+(: balanced-search-tree? ((sized-search-tree-of %a) -> boolean))
+
+(define balanced-search-tree?
+  (lambda (search-tree)
+    (define balanced?
+      (lambda (tree)
+        (cond
+          ((node? tree)
+           (define left (node-left-branch tree))
+           (define right (node-right-branch tree)) 
+           (define left-size (sized-tree-size left))
+           (define right-size (sized-tree-size right))
+           (and (balanced? left)
+                (balanced? right)
+                (<= (/ left-size ratio)
+                    right-size
+                    (* left-size ratio))))
+          (else
+           #t))))
+    (balanced? (sized-search-tree-tree search-tree))))
+\end{lstlisting}
+%
+Ebenfalls nach dem gleichen Muster wie bei
+\lstinline{proper-sized-search-tree?} können wir damit eine
+Eigenschaft und einen \lstinline{check-property}-Testfall formulieren:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((elements (list-of natural)))
+   (balanced-search-tree?
+    (list->balanced-search-tree = < elements))))
+\end{lstlisting}
+%
+(Inzwischen kommen soviele Tests zusammen, dass es schon eine Weile
+dauert, bis sie alle durchlaufen.)
+
+Aber hoppla, der Testfall schlägt fehlt.  Bei uns hat er folgendes
+Gegenbeispiel produziert:
+%
+\begin{alltt}
+Eigenschaft falsifizierbar mit elements = \framebox{#<list 1 1 3>}
 \end{alltt}
 %
+Wir probieren mal in der REPL aus, was für ein Suchbaum bei dieser
+Liste herauskommt:
+%
+\begin{lstlisting}
+(list->balanced-search-tree = < (list 1 1 3))
+|\evalsto| #<record:sized-search-tree-of #<function:=> #<function:<> 
+     #<record:node-of #<record:sized-label-of 2 3>
+                      #<record:node-of #<record:sized-label-of 1 1> 
+                                       #f
+                                       #f>
+                      #f>>
+\end{lstlisting}
+%
+(Die zweite 1 hätte sich \lstinline{check-property} auch sparen
+können.  Offenbar ist es nicht ganz optimal programmiert.)
 
-\section{Eigenschaften von eingebauten Operationen}
+Was ist passiert?  Grafisch dargestellt sieht Baum aus der REPL so
+aus:
+%
+\begin{center}
+\begin{tikzpicture}
+\node (a){$3$}
+    child {node (b) {$1$}
+      child {node {$\bullet$}} 
+      child {node {$\bullet$}}
+    }
+    child {node {$\bullet$}};
+\end{tikzpicture}
+\end{center}
+%
+Und in der Tat: Dieser Baum verletzt die Gleichung
+\[\frac{l}{\mathtt{ratio}} \leq r \leq l \cdot \mathtt{ratio}.\]
+In diesem Fall ist $l=1$ und $r=0$.  So richtig schlimm unbalanciert
+ist das allerdings gar nicht.  Außerdem ist es gar nicht möglich, die
+Gleichung bei einem Suchbaum mit den Elementen 1 und 3 zu erfüllen.
+Die einzige andere Möglichkeit ist diese hier:
+
+%
+\begin{center}
+\begin{tikzpicture}
+\node (a){$1$}
+    child {node {$\bullet$}}
+    child {node (b) {$3$}
+      child {node {$\bullet$}} 
+      child {node {$\bullet$}}
+    };
+\end{tikzpicture}
+\end{center}
+%
+Hier gilt $l=0$ und $r=1$ und die Gleichung gilt ebenfalls nicht.
+Dass die Gleichung nicht erfüllbar ist, liegt daran, dass der Baum
+sehr klein ist: Nur zwei Elemente.
+
+Dieser Umstand ist tatsächlich in der Programmierung von
+\lstinline{balanced-search-tree-insert} berücksichtigt.  Schau Dir
+nochmal \lstinline{make-balanced-node} auf
+Seite~\pageref{func:make-balanced-node} an.  Falls Du nicht blättern
+magst~-- so gehtt es los:
+%
+\begin{lstlisting}
+(define make-balanced-node
+  (lambda (label left-branch right-branch)
+    (define left-size (sized-tree-size left-branch))
+    (define right-size (sized-tree-size right-branch))
+    (cond
+      ((< (+ left-size right-size) 2)
+       (make-sized-node label left-branch right-branch))
+      ...)))
+\end{lstlisting}
+%
+Der erste Zweig des \lstinline{cond} schlägt genau dann zu, wenn der
+Baum sehr klein ist: Dann wird nicht rotiert oder anderweitig
+balanciert.  Das ist bei uns gerade der Fall.  Bei allen größeren
+Bäumen greift die Gleichung.  Das ist also etwas schlampig formuliert
+in dem Paper, das der Funktion zugrundeliegt, und wir müssen es im
+Testfall berücksichtigen, indem wir
+%
+\begin{lstlisting}
+                (<= (/ left-size ratio)
+                    right-size
+                    (* left-size ratio)))))
+\end{lstlisting}
+%
+ersetzen durch:
+%
+\begin{lstlisting}
+                (or (< (+ left-size right-size) 2)
+                    (<= (/ left-size ratio)
+                        right-size
+                        (* left-size ratio)))))
+\end{lstlisting}
+%
+Und siehe da: Jetzt läuft der Testfall durch.
+
+Es kommt immer mal wieder vor, dass ein
+\lstinline{check-property}-Testfall Gegenbeispiele findet, die
+eigentlich keine sind, weil wir die Bedingung für den Test nicht ganz
+richtig formuliert haben.  Den eigentlichen Fehler zu finden, nervt
+oft, aber manchmal erfahren wir auch etwas bei der Gelegenheit, was
+wir noch nicht gewusst haben.  (In diesem Fall: Dass kleine Bäume
+gesondert behandelt werden müssen.)
+%
+\begin{aufgabeinline}
+  Was passiert, wenn Du den Zweig für kleine Bäume aus
+  \lstinline{make-balanced-node} entfernst?  Findet das einer der
+  Teställe heraus?  Was genau ist die Ursache des angezeigten Fehlers?
+\end{aufgabeinline}
+%
+Die Liste vom Anfang des Abschnitts haben wir damit abgearbeitet.
+Haben wir mit den bisherigen Tests ausreichend sichergestellt, dass
+\lstinline{balanced-search-tree-insert} korrekt funktioniert?
+
+Nun, wir haben überprüft, dass die entstehenden Suchbäume die korrekte
+Form haben.  Allerdings haben wir noch gar nicht überprüft, dass auch
+der Inhalt stimmt.  Dazu benutzen wir den zweiten Hinweis aus
+Abschnitt~\ref{sec:ka-testfaelle} auf
+Seite~\pageref{sec:ka-testfaelle}:
+%
+\begin{quote}
+  Oft gehören zu einem Problem mehrere Funktionen, die auf bestimmte
+  Art und Weise zusammenarbeiten.  Schreibe auf, wie diese
+  Zusammenarbeit aussieht.
+\end{quote}
+%
+Die Funktion \lstinline{balanced-search-tree-insert} ist ja nur
+insofern sinnbvoll, dass die damit eingefügten Elemente mit
+\lstinline{sized-search-tree-member?} auch gefunden werden können. Das
+ist gerade das gefragte Zusammenspiel mehrerer Funktionen.  Zu diesem
+Zweck benutzen wir wieder \lstinline{list->balanced-search-tree}, um
+aus einer Liste einen Suchbaum herzustellen und überprüfen, dass
+\lstinline{sized-search-tree-member?} auch für jedes Element der Liste
+\lstinline{#t} liefert:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((elements (list-of natural)))
+   (define search-tree (list->balanced-search-tree = < elements))
+   (every? (lambda (element)
+             (sized-search-tree-member? element search-tree))
+           elements)))
+\end{lstlisting}
+%
+Die Funktion \lstinline{every?} haben wir extra für diesen Testfall
+programmiert~-- strikt nach Konstruktionsanleitung für Listen:
+%
+\begin{lstlisting}
+; Gilt ein Prädikat für alle Elemente einer Liste?
+(: every? ((%a -> boolean) (list-of %a) -> boolean))
+
+(check-expect (every? even? (list 2 4 6)) #t)
+(check-expect (every? positive? (list 1 2 3)) #t)
+(check-expect (every? positive? (list 1 0 3)) #f)
+
+(define every?
+  (lambda (p? list)
+    (cond
+      ((empty? list) #t)
+      ((cons? list)
+       (and (p? (first list))
+            (every? p? (rest list)))))))
+\end{lstlisting}
+%
+Das ist schonmal gut, aber Du erinnerst Dich an den dritten Hinweis in
+Abschnitt~\ref{sec:ka-testfaelle} auf
+Seite~\pageref{sec:ka-testfaelle}?
+%
+\begin{quote}
+  Versuche, die bestehenden Eigenschaften durch einfache aber
+  fehlerhafte Varianten Deiner Funktion auszutricksen.
+\end{quote}
+%
+\begin{aufgabeinline}
+  Finde eine einfache, aber fehlerhafte Variante der Funktion
+  \lstinline{balanced-search-tree-insert}, die alle bisherigen
+  Testfälle austrickst!
+\end{aufgabeinline}
+%
+Wir benötigen also auf jeden Fall noch eine Funktion, die überprüft,
+dass Werte, die \emph{nicht} in einem Suchbaum stehen, auch
+tatsächlich \emph{nicht} gefunden werden.  Wir fangen so an wie bisher:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((elements (list-of natural)))
+   ...
+   (list->balanced-search-tree = < elements)
+   ...))
+\end{lstlisting}
+%
+Wir brauchen jetzt noch irgendeine Zahl, die wir darauf überprüfen
+können, dass sie nicht im Suchbaum ist.  Die holt sich der Testfall
+auch mit \lstinline{for-all}:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((elements (list-of natural))
+           (number natural))
+   ...
+   (not (sized-search-tree-member?
+           number
+           (list->balanced-search-tree = < elements)))
+   ...))
+\end{lstlisting}
+%
+Ganz fertig ist das noch nicht.  Wir müssen noch sicherstellen, dass
+\lstinline{number} nicht zufällig doch im Suchbaum ist.  Dazu benutzen
+wir \lstinline{==>}:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((elements (list-of natural))
+           (number natural))
+   (==> (not (member? = number elements))
+        (not (sized-search-tree-member?
+              number
+              (list->balanced-search-tree = < elements))))))
+\end{lstlisting}
+%
+Da steht also umgangssprachlich formuliert: Für alle Listen von
+Elementen \lstinline{elements} und jede Zahl \lstinline{number} gilt:
+Wenn \lstinline{number} nicht zu \lstinline{elements} gehört, dann
+liefert \lstinline{sized-search-tree-member?} für \lstinline{number}
+und den Suchbaum aus den Zahlen in \lstinline{elements} das Ergebnis
+\lstinline{#f}.
+
+Damit haben wir das Zusammenspiel zwischen
+\lstinline{balanced-search-tree-insert} und
+\lstinline{sized-search-tree-member?} ausreichend beschrieben und
+können ziemlich ruhig schlafen in der Gewissheit, dass die Funktionen
+korrekt arbeiten.
+
+\section{Algebraische Eigenschaften}
+\label{sec:algebraische-eigenschaften}
 
 In diesem Abschnitt wird die Formulierung und Überprüfung von
 Eigenschaften anhand von bekannten eingebauten Operationen wie

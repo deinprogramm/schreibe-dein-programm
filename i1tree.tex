@@ -1624,6 +1624,7 @@ Wir definieren deshalb eine Hilfsfunktion:
 \end{lstlisting}
 
 \subsection{Balancierte Suchbäume}
+\label{sec:balanced-search-trees}
 
 Für die Entwicklung von Algorithmen gibt es leider keine übergreifende
 Strategie analog zu den Konstruktionsanleitungen. Häufig steht am
@@ -1688,7 +1689,7 @@ Wir machen als nächstes aus der Funktion
 \lstinline{search-tree-member?} die Funktion
 \lstinline{sized-search-tree-member?}.  Dafür müssen wir die Funktion
 nur kopieren, umbenennen und auf die Benutzung von
-\lstinline{sized-search-tree} umstellen.
+\lstinline{sized-search-tree} umstellen.\label{func:sized-search-tree-member}
 %
 \begin{lstlisting}
 ; festellen, ob Element in Suchbaum vorhanden ist
@@ -1830,7 +1831,7 @@ nicht überliefert, aber wir gehen davon aus, dass er unterschiedliche
 Kriterien ausprobiert hat und dieses hier dazu führte, das die
 entstehende Funktion sowohl einfach als auch im Schnitt schnell
 funktioniert.  Dabei hat er auch ermittelt, wie groß $n$
-sinnvollerweise ist, nämlich 5.  Es entsteht folgende Schablone:
+sinnvollerweise ist, nämlich 5.  Es entsteht folgende Schablone:\label{def:ratio}
 %
 \begin{lstlisting}
 (define ratio 5)
@@ -2066,7 +2067,7 @@ das Übergewicht links und nichts rechts ist.  Der Code dafür ist
 gegenüber dem gerade behandelten Fall "<gespiegelt">.  Auch der letzte
 Fall fehlt noch: Der tritt dann ein,  wenn der Baum kein exzessives
 Ungleichgewicht aufweist.  Dann könnten wir einfach
-\lstinline{make-sized-node} benutzten.  Hier die ganze Funktion:
+\lstinline{make-sized-node} benutzten.  Hier die ganze Funktion:\label{func:make-balanced-node}
 %
 \begin{lstlisting}
 (define make-balanced-node
@@ -2115,20 +2116,30 @@ Ungleichgewicht aufweist.  Dann könnten wir einfach
        (make-sized-node label left-branch right-branch)))))
 \end{lstlisting}
 %
+
+Es gibt bisher noch keine Tests für
+\lstinline{balanced-search-tree-insert} oder
+\lstinline{make-balanced-node}.  Das ist bedenklich, insbesondere weil
+die Funktionen ziemlich kompliziert sind und viele Fälle abdecken
+müssen.  Es lohnt sich, ein weiteres Mal an
+Mantra~\ref{mantra:komplexitaet} auf
+Seite~\pageref{mantra:komplexitaet} zu erinnern:
+
+\mantrakomplexitaet*
+
+So richtig testen werden wir sie im nächsten Kapitel.  Hier schon
+einmal eine Aufgabe zur Vorbereitung:
+  
 \begin{aufgabeinline}
-  Es gibt bisher noch keine Tests für
-  \lstinline{balanced-search-tree-insert} oder
-  \lstinline{make-balanced-node}.  Das ist bedenklich, insbesondere
-  weil die Funktionen ziemlich kompliziert sind.  So richtig testen
-  werden wir sie im nächsten Kapitel.  Aber mach Dir schomal ein paar
-  Gedanken darüber, \emph{was} eigentlich getestet werden müsste.  Reicht es,
-  die Funktion so zu testen wie \lstinline{search-tree-insert}?
+  Mach Dir schomal ein paar Gedanken darüber, \emph{was} eigentlich
+  getestet werden müsste.  Reicht es, die Funktion so zu testen wie
+  \lstinline{search-tree-insert}?
 \end{aufgabeinline}
 
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  Schreiben Sie eine Funktion, die einen Binärbaum akzeptiert
+  Schreibe eine Funktion, die einen Binärbaum akzeptiert
   und eine Liste aller Markierungen in dem Baum zurückgibt.
 \end{aufgabe}
 
@@ -2137,16 +2148,16 @@ Ungleichgewicht aufweist.  Dann könnten wir einfach
   Die Implementierung von Suchbäumen ist für viele Suchprobleme nicht
   mächtig genug, da \texttt{search-tree-member?} nur überprüft,
   \emph{ob} ein Element in einem Suchbaum vorhanden ist.  Das hilft
-  nicht viel z.B.\ beim Suchen von Telefonnummern zu gegebenen Namen.
-  Erweitern Sie die Implementierung so, dass sie auch z.B.\ zum Suchen
-  von Telefonnummern verwendet werden kann.  Realisieren Sie
+  nicht zum Beispiel beim Suchen von Telefonnummern zu gegebenen Namen.
+  Erweitere die Implementierung so, dass sie zum Beispiel auch zum Suchen
+  von Telefonnummern verwendet werden kann.  Realisiere 
   exemplarisch das Suchen nach Telefonnummern!
 
-  Hinweis: Benutzen Sie als Markierungen im Suchbaum sogenannte
-  \textit{Einträge}, die aus eine \textit{Schlüssel} (z.B.\ dem Namen)
-  und dem \textit{Wert} bestehen.  Schreiben Sie dazu parametrische Daten-,
-  Record- und Signaturdefinitionen. Ändern Sie \texttt{search-tree-insert}
-  dahingehend, dass es Schlüssel und Element akzeptiert.  Schreiben Sie eine
+  Hinweis: Benutze als Markierungen im Suchbaum sogenannte
+  \textit{Einträge}, die aus eine \textit{Schlüssel} (zum Beispiel dem Namen)
+  und dem \textit{Wert} bestehen.  Schreibe dazu Daten-,
+  Record- und Signaturdefinitionen. Ändere \texttt{search-tree-insert}
+  dahingehend, dass es Schlüssel und Element akzeptiert.  Schreibe eine
   Funktion \texttt{search-tree-find}, die zu einem Schlüssel den
   zugehörigen Wert findet.
 \end{aufgabe}

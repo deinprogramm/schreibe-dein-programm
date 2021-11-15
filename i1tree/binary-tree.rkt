@@ -1,4 +1,4 @@
-#lang deinprogramm/sdp/vanilla
+#lang deinprogramm/sdp
 ; Binärbäume
 
 ; Ein Knoten besteht aus
@@ -325,13 +325,20 @@
           search-tree-insert
           elements)))
 
+; Gilt ein Prädikat für alle Elemente einer Liste?
+(: every? ((%a -> boolean) (list-of %a) -> boolean))
+
+(check-expect (every? even? (list 2 4 6)) #t)
+(check-expect (every? positive? (list 1 2 3)) #t)
+(check-expect (every? positive? (list 1 0 3)) #f)
+
 (define every?
   (lambda (p? list)
-    (fold #t
-          (lambda (first result)
-            (and result
-                 (p? first)))
-          list)))
+    (cond
+      ((empty? list) #t)
+      ((cons? list)
+       (and (p? (first list))
+            (every? p? (rest list)))))))
 
 ; Die Markierung an einem größenannotierten Baum besteht aus:
 ; - Anzahl der Knoten
@@ -418,7 +425,7 @@
 (define make-empty-sized-search-tree
   (lambda (label-=?-function label-<?-function)
     (make-sized-search-tree label-=?-function label-<?-function
-                               #f)))
+                            #f)))
 
 (define sized-search-tree1
   (make-sized-search-tree
@@ -431,6 +438,99 @@
                                (make-sized-node "N" #f #f)
                                (make-sized-node "R" #f #f)))))
 
+(: sorted-sized-search-tree? ((sized-search-tree-of %a) -> boolean))
+
+(define sorted-sized-search-tree?
+  (lambda (search-tree)
+    (define label<? (sized-search-tree-label-<?-function search-tree))
+    (define sorted?
+      (lambda (tree)
+        (cond
+          ((node? tree)
+           (define left (node-left-branch tree))
+           (define right (node-right-branch tree))
+           (define label (sized-node-label tree))
+           (and (sorted? left)
+                (sorted? right)
+                (if (node? left)
+                    (label<? (sized-node-label left) label)
+                    #t)
+                (if (node? right)
+                    (label<? label (sized-node-label right))
+                    #t)))
+          (else #t))))
+    (sorted? (sized-search-tree-tree search-tree))))
+
+; Stimmt die Größenannotation am Suchbaum?
+(: proper-sized-search-tree? ((sized-search-tree-of %a) -> boolean))
+
+(check-expect (proper-sized-search-tree? sized-search-tree1) #t)
+(check-expect (proper-sized-search-tree?
+               (make-sized-search-tree
+                = <
+                (make-sized-node
+                 5
+                 (make-node (make-sized-label 5 3) #f #f)
+                 (make-node (make-sized-label 2 7) #f #f))))
+              #f)
+              
+#;(define proper-sized-search-tree?
+  (lambda (search-tree)
+    (define proper
+      (lambda (tree)
+        (cond
+          ((node? tree)
+           (define proper-left (proper (node-left-branch tree)))
+           (define proper-right (proper (node-right-branch tree)))
+           (define size (sized-tree-size tree))
+           (cond
+             ((and (natural? proper-left) (natural? proper-right)
+                   (= size (+ 1 proper-left proper-right)))
+              size)
+             (else #f)))
+          (else 0))))
+    (natural? (proper (sized-search-tree-tree search-tree)))))
+
+(define proper-sized-search-tree?
+  (lambda (search-tree)
+    (define proper?
+      (lambda (tree)
+        (cond
+          ((node? tree)
+           (define left (node-left-branch tree))
+           (define right (node-right-branch tree))
+           (and (proper? left)
+                (proper? right)
+                (= (sized-label-size (node-label tree))
+                   (+ 1
+                      (sized-tree-size left)
+                      (sized-tree-size right)))))
+          (else #t))))
+    (proper? (sized-search-tree-tree search-tree))))
+
+; Ist ein Suchbaum balanciert?
+(: balanced-search-tree? ((sized-search-tree-of %a) -> boolean))
+
+(define balanced-search-tree?
+  (lambda (search-tree)
+    (define balanced?
+      (lambda (tree)
+        (cond
+          ((node? tree)
+           (define left (node-left-branch tree))
+           (define right (node-right-branch tree)) 
+           (define left-size (sized-tree-size left))
+           (define right-size (sized-tree-size right))
+           (and (balanced? left)
+                (balanced? right)
+                (or (< (+ left-size right-size) 2)
+                    (<= (/ left-size ratio)
+                        right-size
+                        (* left-size ratio)))))
+          (else
+           #t))))
+    (balanced? (sized-search-tree-tree search-tree))))
+        
 ; festellen, ob Element in Suchbaum vorhanden ist
 (: sized-search-tree-member? (%a (sized-search-tree-of %a) -> boolean))
 (check-expect (sized-search-tree-member? "M" sized-search-tree1) #t)
@@ -552,25 +652,41 @@
 
 
 
-; aus allen Elementen einer Liste einen Suchbaum machen
+; Aus allen Elementen einer Liste einen Suchbaum machen
 (: list->balanced-search-tree ((%a %a -> boolean) (%a %a -> boolean)
-                                                  (list-of %a) -> (sized-search-tree-of %a)))
+                               (list-of %a)
+                               -> (sized-search-tree-of %a)))
 
 (check-property
  (for-all ((elements (list-of natural)))
-   (let ((search-tree (list->balanced-search-tree = < elements)))
-     (every? (lambda (element)
-               (sized-search-tree-member? element search-tree))
-             elements))))
+   (define search-tree (list->balanced-search-tree = < elements))
+   (every? (lambda (element)
+             (sized-search-tree-member? element search-tree))
+           elements)))
 
 (check-property
  (for-all ((elements (list-of natural))
-           (element natural))
-   (==> (not (member? = element elements))
-        (not (sized-search-tree-member? element (list->balanced-search-tree = < elements)))))) 
+           (number natural))
+   (==> (not (member? = number elements))
+        (not (sized-search-tree-member? number (list->balanced-search-tree = < elements))))))
+
+(check-property
+ (for-all ((elements (list-of natural)))
+   (sorted-sized-search-tree?
+    (list->balanced-search-tree = < elements))))
+
+(check-property
+ (for-all ((elements (list-of natural)))
+   (proper-sized-search-tree?
+    (list->balanced-search-tree = < elements))))
+
+(check-property
+ (for-all ((elements (list-of natural)))
+   (balanced-search-tree?
+    (list->balanced-search-tree = < elements))))
 
 (define list->balanced-search-tree
-  (lambda (= < elements)
-    (fold (make-empty-sized-search-tree = <)
+  (lambda (label=? label<? elements)
+    (fold (make-empty-sized-search-tree label=? label<?)
           balanced-search-tree-insert
           elements)))
