@@ -668,7 +668,9 @@
  (for-all ((elements (list-of natural))
            (number natural))
    (==> (not (member? = number elements))
-        (not (sized-search-tree-member? number (list->balanced-search-tree = < elements))))))
+        (not (sized-search-tree-member?
+              number
+              (list->balanced-search-tree = < elements))))))
 
 (check-property
  (for-all ((elements (list-of natural)))
