@@ -42,7 +42,7 @@ DrRacket ist eine \textit{Entwicklungsumgebung}, mit der Du Programme
 schreiben und ausführen kannst.  DrRacket unterstützt nicht nur eine
 Programmiersprache, darum musst Du die richtige Programmiersprache für
 dieses Buch noch auswählen.  Dazu wählst Du den Menüpunkt
-\texttt{Sprache $\rightarrow$ Sprache auswählen} (bzw.\
+\texttt{Sprache $\rightarrow$ Sprache auswählen} (beziehungsweise
 \texttt{Language $\rightarrow$ Choose language} in der englischen
 Fassung), worauf ein Dialog erscheint.  In dem Dialog gibt es eine
 Abteilung \texttt{Lehrsprachen\index{Lehrsprachen}}, und darunter eine
@@ -507,7 +507,20 @@ mit Definitionen auch Namen dafür vergeben:
 %
 \begin{aufgabeinline}
   Du kannst auch Bilddateien oder Bilder von Webseiten in Dein Programm
-  einfügen, wie in einem Textverarbeitsprogramm.  Probier es aus und
+  einfügen, wie in einem Textverarbeitsprogramm. Das geht so:
+  %
+  \begin{itemize}
+    \item Um eine Bilddatei einzufügen, wähle den Menüpunkt
+      \texttt{Einfügen $\rightarrow$ Bild einfügen} beziehungsweise
+      \texttt{Insert $\rightarrow$ Insert Image}.
+    \item Um ein Bild aus einer Webseite einzufügen, wähle aus dem
+      Kontextmenü im Browser \texttt{Bild kopieren} (oder \texttt{Copy
+      Image} oder so ähnlich) aus.  Du kannst das Bild dann in
+    DrRacket über den Menüpunkt \texttt{Bearbeiten $\rightarrow$ Einfügen}
+    beziehungsweise \texttt{Edit $\rightarrow$ Paste} einfügen.
+  \end{itemize}
+  %
+  Probier es aus und
   gib dem Bild einen Namen!
 \end{aufgabeinline}
 %
@@ -928,11 +941,11 @@ Die Funktion \lstinline{billig-strom} kannst Du jetzt aufrufen:
 %
 \begin{lstlisting}
 (billig-strom 10)
-\evalsto{} 6.8
+|\evalsto| 6.8
 (billig-strom 20)
-\evalsto{} 8.7
+|\evalsto| 8.7
 (billig-strom 30)
-\evalsto{} 10.6
+|\evalsto| 10.6
 \end{lstlisting}
 %
 Die Funktion \lstinline{billig-strom} ist ein einigermaßen winziges
