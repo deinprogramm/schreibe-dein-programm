@@ -33,7 +33,7 @@ Zu Racket gehört ein Programm namens
 \textit{DrRacket}\index{DrRacket}: starte es.  Es erscheint ein
 Fenster, das ungefähr so aussehen sollte wie in
 Abbildung~\ref{fig:drracket-start}.  Die Benutzeroberfläche kannst
-Du auf Deutsch umstellen, indem Du im Hilfe-Menü auf \texttt{Deutsche
+Du auf Deutsch umstellen, indem Du im \texttt{Help}-Menü auf \texttt{Deutsche
   Benutzeroberfläche für DrRacket} drückst.  Wenn Du die Auswahl
 bestätigst, wird DrRacket danach beendet und Du musst es noch einmal
 starten; dann sollten die Menüs auf Deutsch sein.
@@ -57,10 +57,10 @@ zugeschnitten sind.
   \label{fig:drracket-deinprogramm}
 \end{figure}
 
-Für den ersten Teil des Buches ist die Ebene \texttt{Schreibe Dein
+Für den ersten Teil des Buchs ist die Ebene \texttt{Schreibe Dein
   Programm! - Anfänger} zuständig:\index{Sprachebene!Anfänger} Wähle
 diese aus und drücke dann einmal oben rechts auf den Knopf
-\texttt{Start} (bzw.\ \texttt{Run}), damit die Auswahl aktiv wird.
+\texttt{Start} (beziehungsweise \texttt{Run}), damit die Auswahl aktiv wird.
 Das Ergebnis sollte dann so aussehen wie in
 Abbildung~\ref{fig:drracket-deinprogramm}.
 
@@ -145,8 +145,8 @@ in der REPL eine Fehlermeldung:
 {\color{red}Operator darf keine Zahl sein, ist aber 123}
 \end{alltt}
 %
-Etwas ähnliches passiert, wenn Du kein Leerzeichen zwischen den
-Operator und die Operanden oder zwischen die Operanden setzt.  Das
+Etwas ähnliches passiert, wenn das Leerzeichen zwischen dem
+Operator und den Operanden fehlt~-- oder zwischen den Operanden.  Das
 sieht zum Beispiel so aus:
 %
 \begin{alltt}
@@ -189,8 +189,8 @@ nicht mit Komma geschrieben werden.  Der Überstrich bei
 \end{lstlisting}
 %
 Die REPL funktioniert also folgendermaßen: Sie \emph{liest} einen
-Ausdruck ein ("<read">), berechnet dessen Wert oder \emph{wertet}
-diesen \emph{aus} (auf Englisch "<eval">) und zeigt das Ergebnis an
+Ausdruck ein (auf Englisch "<read">), berechnet dessen Wert oder \emph{wertet}
+diesen \emph{aus} ("<eval">) und zeigt das Ergebnis an
 oder \emph{druckt} dieses \emph{aus} ("<print">)~-- und dann geht es
 von vorn los, wie in einer Schleife ("<loop">).  Die Abfolge
 \emph{Read-Eval-Print-Loop} gibt der REPL ihren Namen.
@@ -214,7 +214,7 @@ auch mal Fehlermeldungen wie diese hier:
 \end{lstlisting}
 %
 Das liegt daran, dass das \lstinline{*} hier an der Stelle eines
-Operanden für die Summe dient.  Das Wort \textit{Argument} steht für
+Operanden steht.  Das Wort \textit{Argument} steht für
 den Wert des Operanden einer Funktion, darum steht da sinngemäß, dass
 \lstinline{+} eine Zahl als erstes Argument etwartet, aber
 stattdessen die Funktion \lstinline{*} bekommen hat.  (Das Wort
@@ -222,10 +222,13 @@ stattdessen die Funktion \lstinline{*} bekommen hat.  (Das Wort
 Seite~\pageref{sec:argument}.)
 
 Abspeichern geht mit der REPL nicht, und der REPL-Inhalt verschwindet
-auch jedesmal, wenn Du \texttt{Start} bzw.\ \texttt{Run} drückst.  Du
+auch jedesmal, wenn Du \texttt{Start} beziehungsweise \texttt{Run} drückst.  Du
 kannst aber frühere Eingaben zurückholen, indem Du
 \texttt{Strg-$\uparrow$} beziehungsweise \texttt{Control-$\uparrow$}
-(je nach Computertyp) drückst.  Das kannst Du auch benutzen, um einen
+(je nach Computertyp) drückst.  (Das geht natürlich auch nach unten
+mit \texttt{Strg-$\downarrow$} beziehungsweise
+\texttt{Control-$\downarrow$}.)
+Das kannst Du auch benutzen, um einen
 fehlerhaften Ausdruck zu korrigieren, bei dem Du schon Return gedrückt hast.
 
 \begin{aufgabeinline}
@@ -255,7 +258,7 @@ Schreib in das Definitionsfenster folgende
 %
 Diese Definition besagt, dass der Name \lstinline{alles} für das Ergebnis
 von \lstinline{(+ 20 22)} steht.  Um das auszuprobieren, drück auf den
-Knopf \texttt{Start} bzw.\ \texttt{Run} rechts oben.  Der Cursor
+Knopf \texttt{Start} beziehungsweise \texttt{Run} rechts oben.  Der Cursor
 landet dann wieder in der REPL, wo Du das Programm ausprobieren
 kannst:
 %
@@ -310,7 +313,7 @@ welcher der Cursor steht, wird die Einrückung korrigiert.
 Wenn Du einen Abschnitt im Programm markierst und dann Tab drückst,
 wird der ganze Abschnitt neu eingerückt.  
 Es gibt
-außerdem einen Menüpunkt \texttt{Racket $\rightarrow$ Alles einrücken} (bzw.\
+außerdem einen Menüpunkt \texttt{Racket $\rightarrow$ Alles einrücken} (beziehungsweise
 \texttt{Racket $\rightarrow$ Reindent All}), der das für das gesamte
 Programm macht.
 
@@ -343,10 +346,9 @@ den Knopf mit dem Diskettensymbol
 Computerprogramme können nicht nur mit Zahlen rechnen.  In diesem
 Abschnitt geht es um das Rechnen mit Text und das Rechnen mit Bildern.
 
-\subsection{Rechnen mit Zeichenketten}
+\subsection{Rechnen mit Text}
 
-Zum Beispiel gibt es auch Text, der in einem Programm immer von
-doppelten Anführungszeichen umschlossen ist, zum Beispiel:
+Aus Text\index{Text} kann durch doppelte Anführungszeichen ein Wert werden:
 %
 \begin{lstlisting}
 "Mike Sperber"
@@ -354,7 +356,7 @@ doppelten Anführungszeichen umschlossen ist, zum Beispiel:
 "Schreibe Dein Programm!"
 \end{lstlisting}
 %
-Diese Werte heißen \textit{Zeichenketten\index{Zeichenkette}}.
+Solche Text-Werte heißen \textit{Zeichenketten\index{Zeichenkette}}.
 
 Die einfachste Art, eine Zeichenkette herzustellen, ist, die
 Buchstaben hinzuschreiben, aus denen sie besteht.  Die
@@ -453,10 +455,12 @@ Zeichenketten, die diese darstellen:
 Programme können auch mit Bildern rechnen.  Dazu wird eine Erweiterung
 zu DrRacket benötigt, ein sogenanntes
 \textit{Teachpack}\index{Teachpack}: Wähle den Menüpunkt
-\texttt{Sprache $\rightarrow$ Teachpack hinzufügen} beziehungsweise
-\texttt{Language $\rightarrow$ Add Teachpack}.  In dem folgenden Dialog
+\texttt{Sprache $\rightarrow$ Teachpack hinzufügen}
+(\texttt{Language $\rightarrow$ Add Teachpack}).  In dem folgenden Dialog
 wähle \texttt{image.rkt} aus und drücke 
 \texttt{OK}.  Dann musst Du noch einmal auf \texttt{Start} drücken.
+Wenn alles geklappt hat, steht unten im REPL Fenster
+\texttt{Teachpack: image.rkt}.
 
 Das Teachpack \texttt{image.rkt} enthält zusätzliche vordefinierte
 Funktionen, mit denen wir Bilder herstellen können.  Zum Beispiel
@@ -505,6 +509,12 @@ mit Definitionen auch Namen dafür vergeben:
 (define p1 (star-polygon 20 10 3 "solid" "blue"))
 \end{lstlisting}
 %
+\begin{aufgabeinline}
+  Probiere diese Definitionen in der REPL aus, indem Du dort
+  \lstinline{s1}, \lstinline{c1} und \lstinline{p1} eingibst.  Was
+  passiert, wenn Du \lstinline{(s1)} eingibst?  Warum?
+\end{aufgabeinline}
+
 \begin{aufgabeinline}
   Du kannst auch Bilddateien oder Bilder von Webseiten in Dein Programm
   einfügen, wie in einem Textverarbeitsprogramm. Das geht so:
@@ -591,7 +601,7 @@ Dazu schreibst Du es erst einmal genauso hin, also mit \lstinline{a} und
 \lstinline{b}.  Wenn Du das Programm startet, erscheint folgende Meldung:
 %
 \begin{alltt}
-\color{red}a: Ungebundene Variable
+\color{red}a: Variable nicht definiert
 \end{alltt}
 %
 Na klar, es gibt ja auch keine Definition für \lstinline{a}.  Du könntest
@@ -622,11 +632,9 @@ vielleicht mehrmals) Werte einsetzen.">  Wenn Du das Programm jetzt
 startest, geht die Fehlermeldung weg und in der REPL erscheint:
 %
 \begin{lstlisting}
-#<function:...>
+#<function>
 \end{lstlisting}
 %
-(Der Text anstelle des \ldots{} variiert etwas von Fall zu Fall.)
-
 Das deutet darauf hin, dass bei dem \lstinline{lambda} eine Funktion
 herauskommt.  Um etwas damit anfzufangen, gib ihr einen Namen mit
 \lstinline{define}:
@@ -744,7 +752,8 @@ geben wie der \lstinline{lambda}-Ausdruck Variablen hat.
 Dann wertet DrRacket den Ausdruck wie folgt aus:
 %
 \begin{enumerate}
-\item Die Operanden werden ausgewertet und ergeben die sogenannten
+\item Die Operanden werden ausgewertet und ergeben die Eingaben für
+  die Funktion, die sogenannten
   \textit{Argumente\index{Argument}}.\label{sec:argument}
 \item Die Argumente werden für die
   Variablen des \lstinline{lambda}-Ausdrucks~-- die sogenannten
@@ -767,12 +776,12 @@ Dann wertet DrRacket den Ausdruck wie folgt aus:
   Eine \textit{Applikation} einer Funktion hat folgende Form:
   %
 \begin{lstlisting}
-($p$ $a\sb{1}$ $\ldots$ $a\sb{n}$)
+($f$ $a\sb{1}$ $\ldots$ $a\sb{n}$)
 \end{lstlisting}
   %
-  $p$ ist ein Ausdruck, der eine Funktion ergeben muss, die $a_i$ sind
+  $f$ ist ein Ausdruck, der eine Funktion ergeben muss, die $a_i$ sind
   ebenfalls Ausdrücke, die \textit{Argumente}\index{Argument}.  Bei
-  der Auswertung einer Applikation werden zunächst $p$ und die $a_i$
+  der Auswertung einer Applikation werden zunächst $f$ und die $a_i$
   ausgewertet; danach geht es mit der Auswertung des Rumpfes der
   Funktion weiter, wobei für die Parameter $p_i$ jeweils die Werte der
   Argumente $a_i$ eingesetzt werden.
