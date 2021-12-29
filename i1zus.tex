@@ -171,6 +171,7 @@ Seite~\pageref{sec:information-daten}) herstellt:
 
 gamer
 |\evalsto| #<record:computer "Cell" 4 1000>
+
 ; Xeon, 2 Gbyte RAM, 500 Gbyte Festplatte
 (define workstation (make-computer "Xeon" 2 500))
 
@@ -694,7 +695,7 @@ Damit können wir den Rumpf vervollständigen:
 |\evalsto| #<record:wallclock-time 6 30>
 (make-wallclock-time-12h 6 30 "PM")
 |\evalsto| #<record:wallclock-time 18 30>
-(make-wallclock-time-12h 12 00 "PM")
+(make-wallclock-time-12h 12 0 "PM")
 |\evalsto| #<record:wallclock-time 12 0>
 (make-wallclock-time-12h 12 00 "AM")
 |\evalsto| #<record:wallclock-time 0 0>
