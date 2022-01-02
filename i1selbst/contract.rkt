@@ -37,21 +37,7 @@
   one?
   (one-currency currency))
 
-; Bezeichnet eine Zahl einen Monat?
-(: month? (natural -> boolean))
-
-(check-expect (month? 1) #t)
-(check-expect (month? 6) #t)
-(check-expect (month? 12) #t)
-(check-expect (month? 0) #f)
-(check-expect (month? 13) #f)
-
-(define month?
-  (lambda (n)
-    (and (>= n 1)
-         (<= n 12))))
-
-(define month (signature (predicate month?)))
+(define month (signature (integer-from-to 1 12)))
 
 ; Ein Datum besteht aus:
 ; - Jahr

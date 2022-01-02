@@ -325,7 +325,7 @@
           search-tree-insert
           elements)))
 
-; Gilt ein Prädikat für alle Elemente einer Liste?
+; Liefert eine Funktion für alle Elemente einer Liste #t?
 (: every? ((%a -> boolean) (list-of %a) -> boolean))
 
 (check-expect (every? even? (list 2 4 6)) #t)

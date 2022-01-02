@@ -848,38 +848,13 @@ Die Definition von \texttt{date} liegt zum Glück recht nahe:
 %
 \begin{aufgabeinline}
   Wir haben für alle Felder von \lstinline{date} die Signatur
-  \lstinline{natural} verwendet. Diese Signatur ist sehr unpräzise.
-  Eine Möglichkeit, sie zu verbessern ist, eine
-  \textit{Prädikat-Signatur}\index{Prädikat-Signatur} zu definieren.
-  Dafür brauchen wir ein Prädikat, das einen korrekten Monat
-  identifiziert:
-  %
-\begin{lstlisting}
-; Bezeichnet eine Zahl einen Monat?
-(: month? (natural -> boolean))
+  \lstinline{natural} verwendet. Diese Signatur ist sehr unpräzise,
+  zumindest für \lstinline{date-month} und \lstinline{date-day}.
 
-(check-expect (month? 1) #t)
-(check-expect (month? 6) #t)
-(check-expect (month? 12) #t)
-(check-expect (month? 0) #f)
-(check-expect (month? 13) #f)
-
-(define month?
-  (lambda (n)
-    (and (>= n 1)
-         (<= n 12))))  
-\end{lstlisting}
-  %
-  Mit diesem Prädikat können wir eine Signatur definieren, die genau
-  dann passt, wenn das Prädikat \lstinline{#t} liefert.  Dazu benutzen wir
-  einen neuen Konstruktor für Signaturen, \lstinline{predicate}\index{predicate@\texttt{predicate}}:\label{page:predicate}
-\begin{lstlisting}
-(define month (signature (predicate month?)))
-\end{lstlisting}
-%
-  Ändere die Definition von \lstinline{date}, so dass sie
-  \lstinline{month} benutzt!  Mache eine entsprechende Änderung für
-  \lstinline{date-day}!
+  Verbessere die Signaturen von \lstinline{date-month} und
+  \lstinline{date-day} mit Hilfe von lstinline{integer-from-to}
+  aus Abschnitt~\ref{function:integer-from-to} auf
+  Seite~\pageref{function:integer-from-to}!
 \end{aufgabeinline}
 %
 Bevor es weitergeht, definieren wir noch zwei Beispiele für das Datum:

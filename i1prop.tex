@@ -1359,7 +1359,7 @@ Die Funktion \lstinline{every?} haben wir extra für diesen Testfall
 programmiert~-- strikt nach Konstruktionsanleitung für Listen:
 %
 \begin{lstlisting}
-; Gilt ein Prädikat für alle Elemente einer Liste?
+; Liefert eine Funktion für alle Elemente einer Liste #t?
 (: every? ((%a -> boolean) (list-of %a) -> boolean))
 
 (check-expect (every? even? (list 2 4 6)) #t)
@@ -1892,6 +1892,8 @@ und wiederum ein Element von $M$ zurückgeben.
 \end{mantra}
 
 \subsection{Eigenschaften von binären Prädikaten}
+
+FIXME: Begriff Prädikat
 
 Die Funktion \lstinline{=} passt nicht in das Schema der Eigenschaften
 des folgenden Abschnitts.  Sie hat folgende Signatur:

@@ -1846,11 +1846,16 @@ sie sich befindet.
 \section*{Aufgaben}
 
 \begin{aufgabe}
-  Schreibe eine Funktion \lstinline{any?}, die dann \lstinline{#t}
-  zurückgibt, wenn mindestens ein Element der Liste das Prädikat
-  erfüllt, sonst \lstinline{#f}.  Schreibe dann eine Funktion
-  \lstinline{every?}, die dann \lstinline{#t} zurückgibt, wenn alle
-  Elemente der Liste das Prädikat erfüllen, sonst \lstinline{#f}.
+  Schreibe eine Funktion \lstinline{any?}, die eine Liste akzeptiert
+  sowie eine Funktion, die für jedes Listenelement entweder
+  \lstinline{#t} oder \lstinline{#f} liefert.  \lstinline{Any?} soll
+  \lstinline{#t}
+  zurückgeben, wenn mindestens die Funktion für mindestens ein Element
+  der Liste \lstinline{#t} zurückgibt, sonst \lstinline{#f}.  
+
+  Schreibe eine analoge Funktion
+  \lstinline{every?}, die dann \lstinline{#t} zurückgibt, wenn die Funktion
+  für alle Elemente der Liste \lstinline{#t} zurückgibt, sonst \lstinline{#f}.
   Schreibe zunächst eine Fassung nach dem Muster von \lstinline{any?}.
   Schreibe eine zweite Fassung, die einfach \lstinline{any?} aufruft
   und selbst keine Rekursion benutzt.
@@ -1902,10 +1907,11 @@ sie sich befindet.
   \begin{enumerate}
   \item Schreibe eine Funktion \lstinline{list-map}, die eine Funktion auf jedes
     Element einer Liste anwendet.
-  \item Schreibe eine Funktion \lstinline{list-or}, die ein Prädikat auf alle
-    Elemente einer Liste anwendet und die Resultate mit \lstinline{or}
-    verknüpft.
-  \item Schreibe eine Funktion \lstinline{count-predicate}, die ein Prädikat auf
+  \item Schreibe eine Funktion \lstinline{list-or}, die eine Funktion
+    auf alle Elemente einer Liste anwendet, die jeweils ein Boolean
+    liefert, und die Resultate mit \lstinline{or} verknüpft.
+  \item Schreibe eine Funktion \lstinline{count-trues}, die ein
+    Funktion mit boolescher Rückgabe auf
     alle Elemente einer Liste anwendet und zählt, wie häufig \lstinline{#t}
     zurückgegeben wird.
   \item Schreibe eine Funktion \lstinline{contains?}, die feststellt, ob ein

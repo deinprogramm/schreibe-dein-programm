@@ -231,8 +231,24 @@ beziehungsweise Papageien von anderen Werten:
 |\evalsto| #f
 \end{lstlisting}
 %
-Die Prädikate können wir benutzen, um die Bedingungen aus der
-Schablone zu bestücken:
+Im allgemeinen ist ein Prädikat eine Funktion mit der Signatur
+\lstinline{(any -> boolean)}, die für eine bestimmte Sorte von Werten
+\lstinline{#t} liefert, für alle andere Werte aber \lstinline{#f}.  In
+diesem speziellen Fall identifizieren die Prädikate \lstinline{dillo?}
+und \lstinline{parrot?} jeweils alle Werte, die zu einem bestimmten
+Record-Typ gehören.  Prädikate müssen aber nicht zu einem Record-Typ
+gehören, wir können ein Prödikat auch selber schreiben.  Außerdem sind
+eine Reihe von Prädikaten vordefiniert~-- dazu mehr später in diesem
+Kapitel auf \pageref{scheme:predicates}.
+
+\begin{aufgabeinline}
+  Schreibe ein Prädikat namens \lstinline{animal?} für alle Tiere,
+  also alle Werte, die ein \lstinline{dillo}-Record oder ein
+  \lstinline{parrot}-Record sind.
+\end{aufgabeinline}
+%
+Die Prädikate \lstinline{dillo?}  und \lstinline{parrot?}  können wir
+benutzen, um die Bedingungen aus der Schablone zu bestücken:
 %
 \begin{lstlisting}
 (define animal-weight
@@ -1215,7 +1231,7 @@ Daten, das lohnt aber hier kaum.
   Wie muss jeweils die Signatur von \lstinline{slope} lauten?
   
   Wie könnte ein Programm dann nach einem Aufruf feststellen, ob es
-  keine Steigung gab?  Schreibe für beide Varianten ein Prädikat
+  keine Steigung gab?  Schreibe für beide Varianten einen Ersatz für das Prädikat
   \lstinline{no-slope?} diese Situation feststellt.
 
   Was haben die insgesamt drei Varianten für die Repräsentation von
