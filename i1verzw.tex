@@ -1612,8 +1612,8 @@ Tatsächlich ist \lstinline{if} "<primitiver"> als
 folgendem Schema:
 %
 \begin{lstlisting}
-(cond (|\(t\sb{1}\)| |\(a\sb{1}\)|) (|\(t\sb{2}\)| |\(a\sb{2}\)|) |\(\ldots\)| (|\(t\sb{n-1}\)| |\(a\sb{n-1}\)|) (else |\(a\sb{n}\)|))
-  |\(\mapsto\)| (if |\(t\sb{1}\)| |\(a\sb{1}\)| (if |\(t\sb{2}\)| |\(a\sb{2}\)| $\ldots$ (if |\(t\sb{n-1}\)| |\(a\sb{n-1}\)| |\(a\sb{n}\)|)$\ldots$))
+(cond ($t\sb{1}$ $a\sb{1}$) ($t\sb{2}$ $a\sb{2}$) $\ldots$ ($t\sb{n-1}$ $a\sb{n-1}$) (else $a\sb{n}$))
+  $\mapsto$ (if $t\sb{1}$ $a\sb{1}$ (if $t\sb{2}$ $a\sb{2}$ $\ldots$ (if ... (if $t\sb{n-1}$ $a\sb{n-1}$ $a\sb{n}$)$ \ldots$)))
 \end{lstlisting}
 %
 Die geschachtelte \lstinline{if}-Form auf der rechten Seite der
@@ -1653,8 +1653,8 @@ in eine Kaskade von \lstinline{if}-Ausdrücken übersetzt:
 \begin{lstlisting}
 (and a b c)
 |\(\mapsto{}\)| (if a (and b c) #f)
-|\(\mapsto{}\)| (if a (if b (and c) #f))
-|\(\mapsto{}\)| (if a (if b c #f))
+|\(\mapsto{}\)| (if a (if b (and c) #f) #f)
+|\(\mapsto{}\)| (if a (if b c #f) #f)
 \end{lstlisting}
 %
 Ebenso lassen sich \lstinline{or}-Ausdrücke immer in
