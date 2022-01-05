@@ -695,7 +695,7 @@ Definition~\ref{def:lambda-angewandt}:
 ;      (für eine primitive Applikation)
 \end{verbatim}
 %
-Hier die dazu passende Signaturdefinition:
+Hier die dazu passende Signatur-Definition:
 %
 \begin{verbatim}
 (define term
@@ -796,7 +796,7 @@ ist das folgende:
 %
 Bevor nun ein die SECD-Maschine einen Term verarbeiten kann, muß
 dieser erst in Maschinencode übersetzt werden.  Dabei entsteht aus
-Definition~\ref{def:secd-code} direkt Daten- und Signaturdefinitionen
+Definition~\ref{def:secd-code} direkt Daten- und Signatur-Definitionen
 für Instruktionen und Maschinencode:
 %
 \begin{verbatim}
@@ -1936,7 +1936,7 @@ Das dazu passende Prädikat ist das folgende:
 (define assignment (signature (predicate assignment?)))
 \end{verbatim}
 %
-Mit Hilfe dieser Definition kann die Signaturdefinition von
+Mit Hilfe dieser Definition kann die Signatur-Definition von
 \texttt{term} erweitert werden:
 %
 \begin{verbatim}
@@ -1975,7 +1975,7 @@ repräsentiert.  Hier sind Daten- und Record-Definition:
 (: make-:= (-> :=))
 \end{verbatim}
 %
-Die Signaturdefinition für Maschinen-Instruktionen kann um \texttt{:=}
+Die Signatur-Definition für Maschinen-Instruktionen kann um \texttt{:=}
 erweitert werden:
 %
 \begin{verbatim}

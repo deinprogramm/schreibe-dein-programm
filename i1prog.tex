@@ -936,8 +936,9 @@ weitergeht.  Immer.  Jedes Mal.
 \paragraph{Rumpf}
 
 Für das Berechnen des Rechnungsbetrags können wir eine Formel
-aufschreiben, indem wir auf die Grundgebühr das Produkt aus dem
-Verbrauchspreis addieren.  Entsprechend müssen wir den Rumpf\index{Rumpf} der
+aufschreiben: Er ist die Summe aus der Grundgebühr und
+dem Produkt aus Energie (in Kilowattstunden) und dem Preis einer Kilowattstunde.
+Entsprechend müssen wir den Rumpf\index{Rumpf} der
 Funktion ergänzen:
 %
 \begin{lstlisting}
@@ -1014,14 +1015,13 @@ Kurzbeschreibung kommen und sieht so aus:
 (: billig-strom (natural -> rational))
 \end{lstlisting}
 %
-Die Elemente \lstinline{natural} und \lstinline{rational} sind die
-Lehrsprachen-Namen für natürliche Zahlen respektive Brüche.
+Die Signatur \lstinline{natural} ist für die natürlichen Zahlen zuständig,
+\lstinline{rational} für Brüche.
 
 Diese Signatur-Deklaration besteht aus der Form \lstinline{(: ...)},
 dem Namen der Funktion und ihrer Signatur, \lstinline{(natural -> rational)}. 
-Wir werden noch einer Vielzahl von Signaturen begegnen,
-aber diese hier hat einen Pfeil \lstinline{->} in der Mitte und ist
-deshalb eine Signatur für eine Funktion: links vom Pfeil steht, was
+Diese Signatur hat einen Pfeil \lstinline{->} in der Mitte und steht
+deshalb für eine Funktion.  Links vom Pfeil steht, was
 die Funktion als Eingabe akzeptiert, rechts vom Pfeil die Ausgabe. Die
 Signatur-Deklaration ist also so zu lesen: "<\lstinline{Billig-strom} ist
 eine Funktion, die eine natürliche Zahl als Eingabe akzeptiert und
@@ -1047,7 +1047,7 @@ eine rationale Zahl als Ausgabe produziert.">
                                                          Zahlen\index{ganze
                                                          Zahlen} ($0, 1, -1, 2, -2, \ldots$)\\
       {\lstinline!rational!}\index{rational@\texttt{rational}} &
-                                                            Brüche\index{Bruch} / rationale Zahlen\index{rationale Zahlen} \\
+                                                            Brüche\index{Bruch} beziehungsweise rationale Zahlen\index{rationale Zahlen} \\
       {\lstinline!real!}\index{real@\texttt{real}} & reelle
                                                 Zahlen\index{reelle Zahlen}\\
       {\lstinline!number!}\index{number@\texttt{number}} & beliebige Zahlen
@@ -1147,6 +1147,9 @@ in stromtarif.rkt, Zeile 6, Spalte 0
 in stromtarif.rkt, Zeile 7, Spalte 0 
 \end{verbatim}
 %
+(Wir haben die den Code unter dem Namen \texttt{stromtarif.rkt}
+abgespeichert, darum taucht dieser Dateiname in den Fehlermeldungen auf.
+
 Die Tests weisen uns also auf mögliche Fehler hin.  Das ist so
 wertvoll, dass wir in Zukunft \emph{immer} Tests schreiben werden, und
 zwar nach der Signatur.  Insbesondere werden wir die Tests schreiben,
@@ -1203,9 +1206,10 @@ REPL kopieren in das Programm kopieren.  In der REPL könnte das so aussehen:
 \end{lstlisting}
 %
 Du kannst dann das Quadrat aus der REPL kopieren, also zum Beispiel
-mit der Maus markieren und dann mit \texttt{Ctrl-C} beziehungsweise
-\texttt{Command-C} kopieren und dann ins Programm mit \texttt{Ctrl-V}
-beziehungsweise \texttt{Command-V} einfügen und dann daraus folgenden
+mit der Maus markieren und dann mit \texttt{Ctrl-C} beziehungsweise \texttt{Strg-C}
+oder \texttt{Command-C} kopieren und dann ins Programm mit
+\texttt{Ctrl-V}
+beziehungsweise \texttt{Strg-V} oder \texttt{Command-V} einfügen und dann daraus folgenden
 Test machen:
 %
 \begin{lstlisting}
@@ -1309,7 +1313,7 @@ nach den Konstruktionsanleitungen vorgegangen bist.  Oft ist die
 Ursache des Problems, dass einer der Schritte fehlt.
 
 Zunächst einmal führen wir Konstruktionsanleitungen für die Schritte
-des Ablaufs ein, die wir schon eingeführt haben:
+des Ablaufs ein, die wir schon auf der Liste haben:
 
 \begin{konstruktionsanleitung}{Kurzbeschreibung}
   \index{Kurzbeschreibung}
@@ -1371,7 +1375,7 @@ Tests alles auswerten.
 \begin{konstruktionsanleitung}{Gerüst}
   \index{Gerüst}
   \label{ka:geruest}
-  Schreibe unter die Tests ein Gerüst für die Funktion: Dazu
+  Schreibe unter die Tests ein Gerüst für die Funktion. Dazu
   übernimmst Du den Namen aus der Signatur-Deklaration in eine
   Funktionsdefinition wie zum Beispiel:
   %
@@ -1390,6 +1394,9 @@ Tests alles auswerten.
   (lambda (kWh)
     ...))
 \end{lstlisting}
+  Für den Rumpf, schreibe zunächst drei Punkte \lstinline{...} (auch
+  genannt \textit{Ellipse}\index{Ellipse}) als Erinnerung daran, dass
+  Du hier später noch etwas ausfüllen musst.
 \end{konstruktionsanleitung}
 
 \begin{konstruktionsanleitung}{Rumpf}
@@ -1523,18 +1530,19 @@ sind auch beides rationale Zahlen, das sieht also so aus:
 \end{lstlisting}
 %
 Außerdem sollten wir Tests formulieren.  Diese können wir aus den
-Tests für \lstinline{billig-strom} und \lstinline{watt-für-wenig} gewinnen.
+Tests für \lstinline{billig-strom} und \lstinline{watt-für-wenig}
+abschreiben.
 Wir müssen nur jeweils zu den Argumenten noch die Grundgebühr
 beziehungsweise den Preis pro kWh hinzufügen:
 %
 \begin{lstlisting}
+(check-expect (stromtarif-rechnungsbetrag 4.90 0.19 0) 4.9)
+  ; Billig-Strom
 (check-expect (stromtarif-rechnungsbetrag 4.90 0.19 10) 6.8)  
   ; Billig-Strom
 (check-expect (stromtarif-rechnungsbetrag 4.90 0.19 20) 8.7)  
   ; Billig-Strom
 (check-expect (stromtarif-rechnungsbetrag 4.90 0.19 30) 10.6) 
-  ; Billig-Strom
-(check-expect (stromtarif-rechnungsbetrag 4.90 0.19 0) 4.9)
   ; Billig-Strom
 
 (check-expect (stromtarif-rechnungsbetrag 8.20 0.16 0) 8.2)
@@ -1563,7 +1571,7 @@ den Rechnungsbetrag ausrechnen, sondern dafür
 \end{lstlisting}
 %
 Zu dieser Technik werden wir in diesem Buch noch oft greifen.  Sie
-erspart nicht nur oft Arbeit und macht unsere Programme leichter zu
+erspart nicht nur Arbeit und macht unsere Programme leichter zu
 handhaben, sondern führt manchmal zu ganz neuen Erkenntnissen~--
 zu sehen zum Beispiel in Kapitel~\ref{cha:higher-order}.
 
@@ -1606,9 +1614,9 @@ verstehen~-- anstatt alles auf einmal. Außerdem gibt DrRacket (oder
 andere Programmierumgebungen) oft nützliche Rückmeldungen, die es sich
 zu lesen lohnt, auch wenn das manchmal mühsam ist.
 
-Die Konstruktionsanleitungen geben Hilfestellung dafür, \emph{wie} Du
-die Aufgabenstellung strukturiert lesen und in Deinem Programm
-schreiben kannst, was Du weißt.  Daraus folgt das nächste Mantra:
+Die Konstruktionsanleitungen geben Hilfestellung dabei,
+die Aufgabenstellung strukturiert zu lesen und in Deinem Programm
+zu schreiben, was Du weißt.  Daraus folgt das nächste Mantra:
 %
 \begin{restatable}{mantra}{mantraka}
   \label{mantra:ka}
@@ -1618,7 +1626,7 @@ schreiben kannst, was Du weißt.  Daraus folgt das nächste Mantra:
 \end{restatable}
 %
 \noindent Die Konstruktionsanleitungen helfen uns, Fortschritte zu machen, auch
-wenn wir noch nicht alles verstehen~-- zu lesen, was dort steht und
+wenn wir noch nicht alles verstehen, zu lesen, was dort steht und
 aufzuschreiben, was wir wissen.
 
 Das folgende Mantra haben wir schon in Abschnitt~\ref{sec:abstraktion}
@@ -1699,58 +1707,6 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
 
 \begin{aufgabe}
 
- Ein Boot überquert einen Fluss mit Strömung und
-  kommt durch die Strömung vom geplanten Kurs ab.  Dadurch wird die
-  Strecke, die das Boot tatsächlich zurücklegt, länger.
-
-  \begin{center}
-    \includegraphics{riverboat}
-  \end{center}
-
-  Gegeben ist die Breite des Flusses $a$, die Strömungsgeschwindigkeit
-  des Flusses $v_{\text{Fluss}}$ und die Geschwindigkeit des Bootes
-  $v_{\text{Boot}}$.  Berechne die Länge der Strecke, die das
-  Boot tatsächlich zurücklegt.  Programmiere dazu Funktionen, die
-  folgende Teilprobleme lösen:
-
-  \begin{enumerate}
-  \item Schreibe eine Funktion \lstinline{crossing-time}, welche die
-    Zeit berechnet, die für das Überqueren des Flusses benötigt wird:
-    %
-    \[t = \frac{a}{v_{\text{Boot}}}\]
-  \item Schreibe dann eine Funktion \lstinline{other-shore-offset},
-    die die Länge der Strecke berechnet, die das Boot abgetrieben wird
-    (also den Versatz am anderen Ufer, im Schaubild die Strecke $b$).
-    % Dazu musst Du die Breite des Flusses $a$ mit dem Verhältnis von
-    % $v_{\text{Fluss}}$ zu $v_{\text{Boot}}$ multiplizieren.
-
-  \item Um $c$ zu berechnen, brauchst Du den \textit{Satz des
-      Pythagoras}:
-    \begin{displaymath}
-      a^2 + b^2 = c^2
-    \end{displaymath}
-    Schreibe eine Funktion \lstinline{hypotenuse},
-    die $c$ der obigen Gleichung berechnet.
-
-    Um die Quadratwurzel einer Zahl zu berechnen,
-    kannst du \lstinline{sqrt} verwenden, die folgende
-    Signaturdeklaration hat:
-    %
-\begin{lstlisting}
-(: sqrt (number -> number))
-\end{lstlisting}
-    % 
-    Erkenne und abstrahiere weitere Teilprobleme!
-
-  \item Schreibe schließlich eine Funktion
-    \lstinline{boat-travel-distance}, die die tatsächliche Strecke
-    berechnet, die das Boot zurücklegt.  Benutze dafür die bisher
-    geschriebenen Funktionen.
-  \end{enumerate}
-\end{aufgabe}
-
-\begin{aufgabe}
-
   In den USA und in Europa gibt es unterschiedliche
   Maße für die Energieeffizienz von Kraftfahrzeugen:
   \begin{itemize}
@@ -1817,6 +1773,74 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
   \end{enumerate}
 
 \end{aufgabe}
+
+FIXME: Mehr Aufgaben
+
+% Christina:
+
+% Vielleicht könnte man was aus den folgenden Themen machen
+
+% Worte pro DinA4-Seite vs
+% Worte pro DinA5-Seite etc.
+
+% Verbrauch von Essen pro Tier
+
+% Geldumrechnung
+
+\begin{aufgabe}  (etwas schwwieriger, mit Physik)
+
+  Ein Boot überquert einen Fluss mit Strömung und
+  kommt durch die Strömung vom geplanten Kurs ab.  Dadurch wird die
+  Strecke, die das Boot tatsächlich zurücklegt, länger.
+
+  \begin{center}
+    \includegraphics{riverboat}
+  \end{center}
+
+  Gegeben ist die Breite des Flusses $a$, die Strömungsgeschwindigkeit
+  des Flusses $v_{\text{Fluss}}$ und die Geschwindigkeit des Bootes
+  $v_{\text{Boot}}$.  Berechne die Länge der Strecke, die das
+  Boot tatsächlich zurücklegt.  Programmiere dazu Funktionen, die
+  folgende Teilprobleme lösen:
+
+  \begin{enumerate}
+  \item Schreibe eine Funktion \lstinline{crossing-time}, welche die
+    Zeit berechnet, die für das Überqueren des Flusses benötigt wird:
+    %
+    \[t = \frac{a}{v_{\text{Boot}}}\]
+  \item Schreibe dann eine Funktion \lstinline{other-shore-offset},
+    die die Länge der Strecke berechnet, die das Boot abgetrieben wird
+    (also den Versatz am anderen Ufer, im Schaubild die Strecke $b$).
+    % Dazu musst Du die Breite des Flusses $a$ mit dem Verhältnis von
+    % $v_{\text{Fluss}}$ zu $v_{\text{Boot}}$ multiplizieren.
+
+  \item Um $c$ zu berechnen, brauchst Du den \textit{Satz des
+      Pythagoras}:
+    \begin{displaymath}
+      a^2 + b^2 = c^2
+    \end{displaymath}
+    Schreibe eine Funktion \lstinline{hypotenuse},
+    die $c$ der obigen Gleichung berechnet.
+
+    Um die Quadratwurzel einer Zahl zu berechnen,
+    kannst du \lstinline{sqrt} verwenden, die folgende
+    Signaturdeklaration hat:
+    %
+\begin{lstlisting}
+(: sqrt (number -> number))
+\end{lstlisting}
+    % 
+    Solltest Du auf weitere Teilprobleme stoßen, abstrahiere diese
+    Teilprobleme in eigene Funktionen.
+
+  \item Schreibe schließlich eine Funktion
+    \lstinline{boat-travel-distance}, die die tatsächliche Strecke
+    berechnet, die das Boot zurücklegt.  Benutze dafür die bisher
+    geschriebenen Funktionen.
+  \end{enumerate}
+\end{aufgabe}
+
+
 
 % In vielen Ländern sind die Benzinpreise ein Grund zur allgemeinen
 % Aufregung. In Deutschland wird immer die magische Marke von 1,50

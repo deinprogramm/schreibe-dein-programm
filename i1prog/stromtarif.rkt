@@ -36,10 +36,10 @@
 ; monatlichen Rechnungsbetrag für Stromtarif berechnen
 (: stromtarif-rechnungsbetrag (rational rational natural -> rational))
 
+(check-expect (stromtarif-rechnungsbetrag 4.90 0.19 0) 4.9)   ; Billig-Strom
 (check-expect (stromtarif-rechnungsbetrag 4.90 0.19 10) 6.8)  ; Billig-Strom
 (check-expect (stromtarif-rechnungsbetrag 4.90 0.19 20) 8.7)  ; Billig-Strom
 (check-expect (stromtarif-rechnungsbetrag 4.90 0.19 30) 10.6) ; Billig-Strom
-(check-expect (stromtarif-rechnungsbetrag 4.90 0.19 0) 4.9)   ; Billig-Strom
 
 (check-expect (stromtarif-rechnungsbetrag 8.20 0.16 0) 8.2)   ; Watt für wenig
 

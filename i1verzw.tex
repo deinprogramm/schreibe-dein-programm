@@ -15,9 +15,8 @@ Entscheidungen sind daran festgemacht, dass ein Wert zu einer von mehreren
 verschiedenen 
 Kategorien gehören kann~-- es handelt sich dann um eine sogenannte
 \textit{Fallunterscheidung\index{Fallunterscheidung}}; 
-mathematische Funktionen und Programm-Funktionen operieren auf Daten mit
+Funktionen operieren auf Daten mit
 Fallunterscheidung durch \textit{Verzweigungen\index{Verzweigung}}.
-Um diese geht es in diesem Kapitel.
 
 In diesem Kapitel werden wir zunächst zwei besonders einfache Arten
 von Fallunterscheidungen behandeln, nämlich \textit{Aufzählungen} und
@@ -38,7 +37,7 @@ vergleichen:
 %
 \lstinline{(< 0 5)} ist die Schreibweise für $0 < 5$.  Das
 \lstinline{#t} steht für "<true\index{true}"> oder "<wahr\index{wahr}">,
-denn die Aussage "<ist 0 kleiner als 5"> stimmt ja.
+denn die Aussage "<ist $0$ kleiner als $5$"> stimmt ja.
 Umgekehrt kommt natürlich nicht \lstinline{#t} heraus:
 %
 \begin{lstlisting}
@@ -81,7 +80,7 @@ Analog zu \lstinline{=} für Zahlen können Zeichenketten mit
 |\evalsto| #f
 \end{lstlisting}
 %
-\lstinline{#t} und \lstinline{#f} sind wie Zahlen Literale, können also
+\lstinline{#t} und \lstinline{#f} sind Literale, wie Zahlen. Sie können also
 auch in Programmen stehen:
 %
 \begin{lstlisting}
@@ -193,7 +192,7 @@ hat folgende Signatur:\index{say-number@\texttt{say-number}}
 %
 Die Signatur sagt leider nichts darüber aus, dass die Funktion nur bis
 Drei funktioniert~-- später werden wir noch beschreiben, wie die
-Signatur präziser werden kann.  Hier wollten wir uns jedoch erst
+Signatur präziser werden kann.  Hier wollen wir uns jedoch erst
 einmal auf die Funktionsdefinition konzentrieren.  Vorher machen wir
 aber die obigen Beispiele zu Testfällen:
 %
@@ -219,7 +218,7 @@ benötigen wir ein neues Programmelement, die
 dem Wort \lstinline{cond} und gehören zu den kompliziertesten
 Programmelementen, die wir in diesem Buch benutzen.  Aber keine Sorge,
 so schlimm wird es nicht.  Um eine Verzweigung zu schreiben, müssen
-wir wissen, \emph{wie viele} Fälle es gibt.  In diesem Fall sind das
+wir wissen, \emph{wie viele} Fälle es gibt.  In unserer Aufgabe sind das
 vier.  Die Verzweigung dafür hat folgende Form:
 %
 
@@ -297,11 +296,11 @@ und einer Obergrenze beschreibt.\label{function:integer-from-to}
 
 Vielleicht ist Dir bei der \lstinline{say-number}-Funktion aus dem
 vorigen Abschnitt aufgefallen, dass bei dem Programm unmittelbar, nachdem
-es gelaufen hat, zwei Zeilen farbig
+es gelaufen ist, zwei Zeilen farbig
 hinterlegt sind, wie in Abbildung~\ref{fig:coverage} zu sehen.  Das liegt
 daran, dass diese beiden Zeilen nie ausgewertet wurden, weil die
-Tests nur die ersten beiden Fälle 0 und 1 überprüfen.  Theoretisch
-könnte in den beiden letzten Zweigen für 2 und 3 noch ein Fehler
+Tests nur die ersten beiden Fälle überprüfen.  Theoretisch
+könnte in den beiden letzten Zweigen für $2$ und $3$ noch ein Fehler
 stecken, und die Tests würden es nicht bemerken.
 
 Wenn Du folgende Testfälle hinzufügst, geht die farbige Hinterlegung weg:
@@ -319,7 +318,7 @@ Seite~\pageref{page:abdeckung0} kurz diskutiert haben: Ein Ausdruck im
 Programm, der durch die Tests ausgewertet wird, heißt
 \textit{abgedeckt}.  Die farbig hinterlegten Ausdrücke sind also nicht
 abgedeckt.  Der letzte Satz von Konstruktionsanleitung~\ref{ka:tests}
-auf Seite~\pageref{ka:tests} zielt gerade darauf: Eine Funktion sollte
+auf Seite~\pageref{ka:tests} sagt genau das: Eine Funktion sollte
 durch ihre Tests vollständig abgedeckt werden.  Die Abdeckung ist also
 eine Minimalanforderung an unsere Tests.
 
@@ -555,7 +554,7 @@ Noch die Tests laufen lassen und fertig!
 \paragraph{Siedendes Wasser} Als Nächstes wollten wir berücksichtigen,
 dass Wasser nicht über 100\si{\degree}C heiß werden kann.  Die Kurzbeschreibung
 passen wir nur leicht an; die Signatur bleibt ebenfalls fast
-unverändert~-- wir ändern nur den Namen und machen aus der 0 eine 1:
+unverändert~-- wir ändern nur den Namen und machen aus der $0$ eine $1$:
 %
 \begin{lstlisting}
 ; Wassertemperatur nach Erhitzen berechnen, Sieden berücksichtigen
@@ -591,7 +590,7 @@ Da die Signatur die gleiche ist, ist auch das Gerüst identisch:
 %
 Ab 100\si{\degree}C muss die Funktion ihr Ergebnis also anders berechnen.  Oder,
 anders gesagt, die Eingaben fallen in zwei verschiedene Klassen: die,
-bei denen die Summe unter 100 liegt und die, bei denen sie darüber
+bei denen die Summe unter $100$ liegt und die, bei denen sie darüber
 liegt.
 Wir benötigen also ein \lstinline{cond} mit zwei
 Zweigen:
@@ -674,7 +673,7 @@ funktioniert nicht mehr:
 (check-expect (heat-water -10 20) 10)
 \end{lstlisting}
 %
-Das Aufwärmen des Wassers von -10\si{\degree}C auf 0\si{\degree}C erfordert nur 10\si{\degree}C
+Das Aufwärmen des Wassers von $-10$\si{\degree}C auf $0$\si{\degree}C erfordert nur $10$\si{\degree}C
 Wärmezufuhr, dann aber müssen erst einmal 80\si{\degree} weitere Wärme zugeführt
 werden, damit es weiter geht.  Den Testfall müssen wir also ändern:
 %
@@ -706,8 +705,8 @@ Wieder sollten wir darüber nachdenken, in welche Fälle unsere
 Eingaben zerfallen.  Da gibt es drei naheliegende Fälle:
 %
 \begin{enumerate}
-\item Die Anfangstemperatur ist unter 0\si{\degree}C, es wird also Eis erwärmt.
-\item Die Erwärmung würde die Wassertemperatur auf über 100\si{\degree}C erhöhen.
+\item Die Anfangstemperatur ist unter $0$\si{\degree}C, es wird also Eis erwärmt.
+\item Die Erwärmung würde die Wassertemperatur auf über $100$\si{\degree}C erhöhen.
 \item Alles andere~-- das Wasser fängt flüssig an und bleibt durch die
   Erwärmung flüssig.
 \end{enumerate}
@@ -715,13 +714,13 @@ Eingaben zerfallen.  Da gibt es drei naheliegende Fälle:
 Der erste Fall hat außerdem noch drei "<Unterfälle">:
 %
 \begin{itemize}
-\item Die Erwärmumg bleibt unter 0\si{\degree}C.
-\item Die Erwärmung bleibt bei  0\si{\degree}C "<stecken">
-\item Erwärmung erhöht Temperatur über den Nullpunkt hinaus.
+\item Die Erwärmumg bleibt unter $0$\si{\degree}C.
+\item Die Erwärmung bleibt bei  $0$\si{\degree}C "<stecken">
+\item Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.
 \end{itemize}
 %
 So komplizierte Fallunterscheidungen sind relativ selten. Wenn sie
-doch einmal auftauchen, ist besondere Sorgfalt gefragt: Darum
+doch einmal auftauchen, ist besondere Sorgfalt gefragt.  Deshalb
 exerzieren wir das hier als Beispiel durch.
 
 Fangen wir wieder mit dem Gerüst für die Funktion an:
@@ -745,8 +744,8 @@ Deshalb brauchen wir auch wieder ein \lstinline{cond} mit drei Zweigen.
 \end{lstlisting}
 %
 Jetzt ergänzen wir Bedingungen, die den drei Fällen entsprechen.  Um
-in diesem komplizierten Fall Leserinnen zu erleichtern, die
-Bedingungen den Fällen zuzuordnen, stehen diese jeweils als Kommentar darüber:
+in diesem komplizierten Fall die Zuordnung von Fällen und Bedingungen
+klar erkennbar zu machen, stehen diese jeweils als Kommentar darüber:
 %
 \begin{lstlisting}
 (define heat-water
@@ -762,7 +761,7 @@ Bedingungen den Fällen zuzuordnen, stehen diese jeweils als Kommentar darüber:
 %
 Jetzt können wir uns daran machen, die Zweige auszufüllen.  Da der
 erste Zweig (das Eis) komplizierter ist, schieben wir den erstmal vor
-uns her, denn beim zweiten Zweig kommt einfach 100\si{\degree}C raus.  Ebenso
+uns her.  Beim zweiten Zweig kommt einfach 100\si{\degree}C raus.  Ebenso
 einfach ist der dritte Zweig, bei dem das Wasser flüssig bleibt~-- die
 Antwort ist dort \lstinline{(+ temp heat)}.  Der Zwischenstand sieht so
 aus:
@@ -781,7 +780,7 @@ aus:
 \end{lstlisting}
 %
 Dass wir die leichten Fälle zuerst bearbeitet haben, mag wie Faulheit
-aussehen.  Ist es auch~-- aber es ist auch sinnvolle Strategie, die
+aussehen.  Ist es auch~-- aber es ist auch eine sinnvolle Strategie, die
 sich aus Mantra~\ref{mantra:schreib} ergibt:
 
 \mantraschreib*
@@ -839,14 +838,14 @@ Die Bedingungen sind jetzt noch komplizierter, aber erschließen sich
 hoffentlich durch genauere Betrachtungen:
 %
 \begin{itemize}
-\item "<Die Erwärmumg bleibt unter 0\si{\degree}C.">\\
+\item "<Die Erwärmumg bleibt unter $0$\si{\degree}C.">\\
   Das heißt, die Summe von
-  Anfangstemperatur und Erwärmung ist kleiner als 0\si{\degree}C.
+  Anfangstemperatur und Erwärmung ist kleiner als $0$\si{\degree}C.
 \item "<Die Erwärmung bleibt bei  0\si{\degree}C stecken.">\\
-  Das heißt, die Summe von Temperatur und Erwärmung muss zwischen 0\si{\degree}C
-  und 80\si{\degree}C liegen.
-\item "<Erwärmung erhöht Temperatur über den Nullpunkt hinaus.">\\
-  Das Summe von Temperatur und Erwärmung geht nicht nur über 0\si{\degree}C
+  Das heißt, die Summe von Temperatur und Erwärmung muss zwischen $0$\si{\degree}C
+  und $80$\si{\degree}C liegen.
+\item "<Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.">\\
+  Das Summe von Temperatur und Erwärmung geht nicht nur über $0$\si{\degree}C
   sondern auch über 80\si{\degree}C hinaus.
 \end{itemize}
 %
@@ -911,9 +910,9 @@ Funktionsweise der Auswertung von \lstinline{cond}-Ausdrücken zu ergründen:
   in einem \lstinline{cond}-Ausdruck ausgewertet werden.
 \end{aufgabeinline}
 %
-Wenn Du diese Aufgabe erledigt hast, wirst Du beobachtet haben, dass Racket
+Wenn Du diese Aufgabe erledigt hast, wirst Du beobachtet haben, dass DrRacket
 die Bedingungen in einem \lstinline{cond}-Ausdruck nacheinander
-auswertet.  Sobald eine davon \lstinline{#t} ergibt, macht Racket mit dem
+auswertet.  Sobald eine davon \lstinline{#t} ergibt, macht DrRacket mit dem
 Ausdruck dieses Zweiges weiter.  Die restlichen Zweige werden gar nicht
 mehr berücksichtigt, unabhängig davon, ob sie \lstinline{#t} ergeben
 könnten oder nicht.
@@ -930,7 +929,7 @@ Dazu betrachten wir die beiden ersten Bedingungen im "<inneren">
          |\ldots|)
 \end{lstlisting}
 %
-Wenn die erste Bedingung \lstinline{#f} ergeben hat, also nicht stimmt,
+Wenn die erste Bedingung in diesem Ausschnitt \lstinline{#f} ergeben hat, also nicht stimmt,
 dann ist \lstinline{(+ temp heat)} größer oder gleich 0.  Das heißt, der
 Teilausdruck \lstinline{(>= (+ temp heat) 0)} in der \emph{nächsten}
 Bedingung liefert \emph{immer} \lstinline{#t}.  Wir können also
@@ -1050,7 +1049,7 @@ und gibt eine Fehlermeldung aus.
 Damit haben wir die komplette Funktionsweise von \lstinline{cond}
 angewendet. Abbildung~\ref{scheme:cond} fasst sie noch einmal zusammen.
 
-Dann kannst Du auch von vornherein \lstinline{else} benutzen, wenn Du Dir
+Du kannst von vornherein \lstinline{else} benutzen, wenn Du Dir
 sicher bist, dass alle anderen Fälle schon in den vorigen Zweigen
 abgedeckt sind.  Im Zweifelsfall empfehlen wir aber immer den Weg über
 die Mathematik, damit die Funktion auch korrekt wird.
@@ -1279,12 +1278,12 @@ Die Vorgehensweise bei einer Datenanalyse sieht im allgemeinen so aus:
   offensichtlich.
 
   Wenn es für die Datendefinition noch keine Signatur gibt, schreibe
-  eine Signaturdefinition dazu.  Schreibe außerdem Beispiele auf und
+  eine Signatur-Definition dazu.  Schreibe außerdem Beispiele auf und
   schreibe jeweils einen Kommentar, der die Beziehung zwischen Daten
   und Information beschreibt.
 \end{konstruktionsanleitung}
 %
-\emph{Wie} Du die Signaturdefinition schreibst, dafür gibt es in
+\emph{Wie} Du die Signatur-Definition schreibst, dafür gibt es in
 diesem Buch eine Reihe spezialisierter Konstruktionsanleitungen.  Die
 Beziehung zwischen Daten und Information geht auf
 Abschnitt~\ref{sec:information-daten} auf
@@ -1297,7 +1296,7 @@ Wassertemperatur eine reelle Zahl ist, weil dies allgemein bekannt
 ist.
 
 Für die Formulierung der Datendefinition gibt es eine Reihe von
-typischen Mustern, die sich immer wiederfinden.  Eins ist bei der
+typischen Mustern, die sich immer wiederfinden.  Eines ist bei der
 Definition von "<Haustier"> ersichtlich, nämlich "<eins der
 folgenden">, das darauf hinweist, dass es sich bei "<Haustier"> um
 eine Fallunterscheidung handelt.  
@@ -1328,13 +1327,13 @@ Für den Sonderfall der Aufzählung haben wir folgende Konstruktionsanleitung:
   jeder der Fälle nur aus einem einzelnen Wert besteht, handelt es
   sich um eine \textit{Aufzählung\index{Aufzählung}}.
 
-  Schreibe für jede Aufzählung eine Signaturdefinition der Form:
+  Schreibe für jede Aufzählung eine Signatur-Definition der Form:
   % 
 \begin{lstlisting}
 (define |\(s\)| (signature (enum |\ldots|)))
 \end{lstlisting}
   %
-  Achte darauf, dass die Anzahl der Fälle der Signaturdefinition der
+  Achte darauf, dass die Anzahl der Fälle der Signatur-Definition der
   Anzahl der Fälle der Datendefinition entspricht.
 \end{konstruktionsanleitung}
 %
@@ -1351,22 +1350,22 @@ kommt später.)  Außerdem gibt sie uns Werkzeug an die Hand, wie wir
 die Erkenntnisse aus dem Lesen strukturieren und aufschreiben können.
 Insbesondere führt sie immer auch zu Elementen in unserem Programm.
 Bei der Funktion \lstinline{cute?} haben wir zum Beispiel aus der
-Datendefinition zunächst eine Signaturdefinition abgeleitet:
+Datendefinition zunächst eine Signatur-Definition abgeleitet:
 %
 \begin{lstlisting}
 (define pet
   (signature (enum "Katze" "Hund" "Schlange")))
 \end{lstlisting}
 %
-Bei Aufzählungen gibt es nur drei Beispiele, die schon in der
-Signaturdefinition stehen: Wir müssen also keine weiteren
-aufschreiben.
+Bei Aufzählungen stehen alle Beispiele schon in der
+Signatur-Definition stehen.  Wir müssen deshalb nicht noch separat
+Beispiele aufschreiben.
 
 Da die Datendefinition für "<Haustier"> drei Fälle hat, muss auch die
-Signaturdefinition drei Fälle haben.  Aus der Signaturdefinition
+Signatur-Definition drei Fälle haben.  Aus der Signatur-Definition
 ergibt sich direkt eine Verzweigung im Rumpf, die sich nur aus der
 Signatur \lstinline{(pet -> boolean)} beziehungsweise der
-Signaturdefinition von \lstinline{pet} als Aufzählung mit drei Fällen
+Signatur-Definition von \lstinline{pet} als Aufzählung mit drei Fällen
 ergibt:
 %
 \begin{lstlisting}
@@ -1466,6 +1465,9 @@ Parametern $t$ für \lstinline{temp} und $h$ für \lstinline{heat}:
     t + h & \text{falls } t \geq 0 \text{ und } t + h < 100
   \end{cases}
 \end{displaymath}
+%
+Etwas scher zu erkennen in dieser Schreibweise: Die Bedingung $t < 0$
+ist die Voraussetzung für die ersten vier Fälle.
 
 \section{Boolesche Fallunterscheidungen und binäre Verzweigungen}
 \label{sec:binaere-verzweigungen}
@@ -1492,9 +1494,9 @@ haben:\index{exchange-for-cute@\texttt{exchange-for-cute}}
 (: exchange-for-cute (pet -> pet))
 \end{lstlisting}
 %
-Es geht also das Haustier vor dem Umtausch als Eingabe in die Funktion
-hinein, und das nach dem Umtausch kommt heraus.  Als Testfälle bieten
-sich folgende an:
+Das alte Haustier ist also die Eingabe für die Funktion, und das
+Haustier nach dem Umtausch kommt heraus.  Als Testfälle bieten sich
+folgende an:
 %
 \begin{lstlisting}
 (check-expect (exchange-for-cute "Katze") "Katze")
@@ -1540,7 +1542,7 @@ Die Lücken sind einfach zu füllen:
 Diese boolesche Fallunterscheidungen bildet einen häufig auftretenden
 Spezialfall: Der zweite Fall ist gerade dadurch definiert, dass er
 nicht der erste ist, der entsprechende \lstinline{cond}-Ausdruck hat also
-immer einen Zweig mit Bedingung und einen mit \lstinline{else}-Zweig.
+immer zwei Zeige: einen mit Bedingung und einen mit \lstinline{else}.
 Weil solche binären Verzweigungen so häufg vorkommen, gibt es eine
 etwas kürzere Spezialform für das "<binäre \lstinline{cond} mit
 \lstinline{else}"> namens \lstinline{if}\index{if@\texttt{if}}.  Damit
@@ -1577,7 +1579,7 @@ oder der Wert der Alternative.
 \end{feature}
 %
 \begin{aufgabeinline}
-  In der Mathematik gibt es den Begriff des "<Absolutbetrags"> einer
+  In der Mathematik gibt den "<Absolutbetrag">\index{Absolutbetrag} einer
   Zahl: Für eine negative Zahl liefert es die entsprechende positive
   Zahl (aus $-5$ wird also $5$), alle anderen Zahlen bleiben
   unverändert.  Schreibe eine Funktion, die den Absolutbetrag einer
@@ -1604,7 +1606,7 @@ Konstruktionsanleitung:
 
 \section{Syntaktischer Zucker}
 
-Tatsächlich ist \lstinline{if} die "<primitivere"> Form als
+Tatsächlich ist \lstinline{if} "<primitiver"> als
 \lstinline{cond}: jede \lstinline{cond}-Form kann in eine äquivalente
 \lstinline{if}-Form übersetzt werden, und zwar nach
 folgendem Schema:
@@ -1618,7 +1620,7 @@ Die geschachtelte \lstinline{if}-Form auf der rechten Seite der
 Übersetzung wertet, genau wie die \lstinline{cond}-Form, nacheinander
 alle Bedingungen aus, bis eine \lstinline{#t} liefert.  Die rechte Seite des
 \lstinline{cond}-Zweigs ist dann gerade die Konsequente des \lstinline{if}s.
-Erst wenn alle Bedingungen fehlschlagen ist die Alternative des letzten
+Erst wenn alle Bedingungen fehlgeschlagen sind, ist die Alternative des letzten
 \lstinline{if}-Ausdrucks dran, nämlich $a_n$ aus dem \lstinline{else}-Zweig.
 
 Da sich mit Hilfe dieser Übersetzung jede \lstinline{cond}-Form durch
@@ -1698,8 +1700,8 @@ Bei Anfangstemperaturen über 100\si{\degree}C verhält sich die Funktion merkw�
 \end{lstlisting}
 %
 Das liegt daran, dass es gar kein vernünftiges Ergebnis gibt, wenn die
-Anfangstemperatur über 100\si{\degree}C liegt.  Die Funktion berechnet aber
-trotzdem munter eines.  Es wäre gut, wenn wir dem Benutzer sagen
+Anfangstemperatur über $100$\si{\degree}C liegt.  Die Funktion berechnet aber
+trotzdem munter eines.  Es wäre gut, wenn wir melden
 könnten, dass die Funktion unsinnige Eingaben bekommen hat.
 
 Dazu erweitern wir erst einmal die Verzweigung, gleich am Anfang:
@@ -1829,14 +1831,17 @@ folgende Konsequenz berechnet!
     
   \item Schreibe analog eine Funktion \lstinline{max-2} und \lstinline{max-3}.
     
-  \item \lstinline{min-of-three}, welche die kleinste von drei
-    gegebenen Zahlen ausgibt
-  \item \lstinline{is-min-of-three?}, die überprüft ob die erste
-    von drei gegebenen Zahlen das Minimum ist
-  \item \lstinline{valid-value?}, die überprüft ob die erste von
-    drei gegebenen Zahlen zwischen den beiden anderen liegt; gehe
+  \item Schreibe eine Funktion \lstinline{min-3}, welche die kleinste von drei
+    gegebenen Zahlen ausgibt.
+  \item Schreibe eine Funktion \lstinline{min-3?}, die überprüft ob die erste
+    von drei gegebenen Zahlen das Minimum ist.
+  \item Schreibe eine Funktion \lstinline{valid-value?}, die überprüft ob die erste von
+    drei gegebenen Zahlen zwischen den beiden anderen liegt.  Mit
+    "<zwischen"> ist gemaint, dass die erste Zahl auch gleich der
+    zweiten oder der dritten sein kann.
+    Gehe
     davon aus, dass der Aufruf immer \lstinline{(valid-value? value min max)}
-    lautet 
+    lautet.
   \item \lstinline{clamp}, die wie folgt definiert ist:
     
     \[\mathit{clamp}(x,\ \mathit{min},\ \mathit{max})=
@@ -1864,7 +1869,7 @@ folgende Konsequenz berechnet!
   \end{itemize}
   %
   Schreibe zunächst eine Datendefinition für Positionen und dann eine
-  passende Signaturdefinition mit dem Namen \lstinline{position}.
+  passende Signatur-Definition mit dem Namen \lstinline{position}.
   
   Schreibe nun eine Funktion mit folgender Signatur:
   %
@@ -1896,13 +1901,13 @@ folgende Konsequenz berechnet!
     Diese Verwarnungen sind wie folgt festgelegt:
     \begin{flushleft}
       \begin{tabular}{rl}
-    Überschreitung der Höchstparkdauer bis 30 Minuten & \euro{5}\\
+    Überschreitung der Höchstparkdauer bis 30 Minuten & \euro{$5$}\\
 %%% Ich denke, das führt zu normenungerechten Schreibweisen. In
 %%% Deutschland schreiben wir, glaube ich, 5 € und nicht €5
-    bis zu einer Stunde & \euro{10}\\
-    bis zu zwei Stunden & \euro{15}\\
-    bis zu drei Stunden & \euro{20}\\
-    länger als drei Stunden &  \euro{25}
+    bis zu einer Stunde & \euro{$10$}\\
+    bis zu zwei Stunden & \euro{$15$}\\
+    bis zu drei Stunden & \euro{$20$}\\
+    länger als drei Stunden &  \euro{$25$}
       \end{tabular}
     \end{flushleft}
     
@@ -1915,18 +1920,18 @@ folgende Konsequenz berechnet!
     den Funktionen, wie lange die Ampel schon rot war und ob eine
     Gefährdung oder Sachbeschädigung vorlag.
     
-    Die Bußgelder sind wie folgend definiert:
+    Die Bußgelder sind wie folgt definiert:
     \begin{itemize}
     \item Bei Rot über die Ampel innerhalb der ersten Sekunde			
-      \euro{50} und 3 Punkte.
+      \euro{$50$} und $3$ Punkte.
     \item Bei Rot über die Ampel innerhalb der ersten Sekunde mit
-      Gefährdung oder Sachbeschädigung \euro{125}, 4 		
-      Punkte und 1 Monat Fahrverbot.
-    \item Bei Rot über die Ampel nach der ersten Sekunde \euro{125},
-      4 Punkte und 1 Monat Fahrverbot.
+      Gefährdung oder Sachbeschädigung \euro{$125$}, $4$ 		
+      Punkte und $1$ Monat Fahrverbot.
+    \item Bei Rot über die Ampel nach der ersten Sekunde \euro{$125$},
+      $4$ Punkte und $1$ Monat Fahrverbot.
     \item Bei Rot über die Ampel nach der ersten Sekunde mit
-      Gefährdung oder Sachbeschädigung \euro{200}, 4
-      Punkte und 1 Monat Fahrverbot.
+      Gefährdung oder Sachbeschädigung \euro{$200$}, $4$
+      Punkte und $1$ Monat Fahrverbot.
     \end{itemize}
     
     

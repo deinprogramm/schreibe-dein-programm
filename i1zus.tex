@@ -10,7 +10,7 @@ aus mehreren Bestandteilen:
 %
 \begin{itemize}
 \item Ein Festessen besteht aus Vorspeise, Hauptgang und Nachspeise.
-\item Eine Uhrzeit besteht aus Stunde und Minute.
+\item Eine Uhrzeit besteht aus Stunden und Minuten.
 \item Eine Tür besteht aus Türblatt und Türgriff.
 \end{itemize}
 %
@@ -51,8 +51,8 @@ Anders gesagt, ein Computer\index{Computer} \emph{besteht aus}:
 %
 Natürlich besteht ein Computer auch noch aus anderen Teilen, die
 aber (zumindest in diesem Beispiel) immer gleich oder irrelevant sind.
-In einer Bestellung muss die Kundin also nur diese drei Bestandteile
-angeben.  Wir nehmen an, dass es beim Prozessor nur auf den Namen
+In einer Bestellung müssen also nur diese drei Bestandteile
+enthalten sein.  Wir nehmen an, dass es beim Prozessor nur auf den Namen
 ("<Athlon">, "<Xeon">, "<Cell">, \ldots) ankommt, beim RAM nur auf die
 Größe in Gigabyte, und auch bei der Festplatte nur auf die Größe in
 Gigabyte.
@@ -82,10 +82,10 @@ Tabelle dargestellt werden:
 \end{center}
 %
 Diese Tabelle steht demnach für einen Computer mit Cell-Prozessor, 8
-Gigabyte RAM und einer 250-Gigabyte-Festplatte~-- sie hat mehrere
-Bestandteile und ist damit zusammengesetzt.  Der Computerhändler wird
+Gigabyte RAM und einer 250-Gigabyte-Festplatte.  Sie hat also mehrere
+Bestandteile und ist damit zusammengesetzt.  Die Computerfirma wird
 viele Computer nach diesem Schema ausliefern, bei denen allesamt
-Prozessor, RAM und Festplatte von den Kundinnen bestimmt wird.  Solche
+jeweils Prozessor, RAM und Festplatte in der Bestellung stehen wird.  Solche
 Informationen, die alle dem gleichen Schema folgen, können also nach
 "<Typ"> sortiert werden, wobei der Typ
 festlegt, um was für eine Art Information es geht und aus welchen
@@ -99,7 +99,7 @@ sogenannte \textit{Records}\index{Records} ab.  Jeder Record gehört
 zu einem bestimmten
 \textit{Record-Typ\index{Record-Typ}}, der festlegt, was für eine
 Sorte Information repräsentiert wird und welche Felder die Records
-des Typs haben.
+des Record-Typs haben.
 
 Der Record-Typ für Computer sieht feste Felder\index{Feld}
 vor ("<Prozessor">, "<RAM"> und "<Festplatte">).  Ein einzelner Record
@@ -208,8 +208,8 @@ Genau genommen sind diese Signaturen redundant: In der
 Record-Definition steht ja schon, dass die Felder die Signaturen
 \lstinline{string}, \lstinline{natural} und \lstinline{natural} sind.  Jeder
 Selektor hat \lstinline{computer} als Eingabe und die jeweilige
-Feld-Signatur als Ausgabe.  Genauso ist es mit der Signatur des
-Konstruktors.
+Feld-Signatur als Ausgabe.  Auch die Signatur-Deklaration für den
+Konstruktor ist redundant.
 %
 \begin{aufgabeinline}
   Wie ist der Zusammenhang zwischen der Record-Definition und der
@@ -274,7 +274,7 @@ also wieder löschen:
     ... (computer-hard-drive c) ...))
 \end{lstlisting}
 %
-Der Gesamtspeicher ergibt sich aus Addition der beiden Komponenten:
+Der Gesamtspeicher ist die Summe der beiden Komponenten:
 %
 \begin{lstlisting}
 (define total-memory
@@ -370,7 +370,7 @@ wir dazu \lstinline{string=?}:
 In jedem Zweig müssen wir nun dafür sorgen, dass der entsprechende
 Computer hergestellt wird.  Für das Herstellen von Computer-Records
 ist der Konstruktor \lstinline{make-computer} zuständig.  Dementsprechend
-müssen wir in jedem Zweig einen Aufruf an \lstinline{make-computer}
+müssen wir in jedem Zweig einen Aufruf von \lstinline{make-computer}
 platzieren, jeweils mit drei Argumenten:
 %
 \begin{lstlisting}
@@ -460,7 +460,7 @@ dem Namen des Record-Typs ergibt.  Also:
   (wallclock-time-minute ...))
 \end{lstlisting}
 %
-Dass wir die untereinander schreiben, dient lediglich der
+Dass wir die Selektoren untereinander schreiben, dient lediglich der
 Übersichtlichkeit, ist also ebenfalls eine Konvention.  Es fehlen noch
 die Signaturen bei \lstinline{wallclock-time-hour} und
 \lstinline{wallclock-time-minute}.  Nicht nur die: Wir brauchen
@@ -475,7 +475,7 @@ Da es um ganze Zahlen ab 0 geht, könnten wir \lstinline{natural}
 verwenden, präziser ist es aber, wenn wir \lstinline{integer-from-to}
 aus Abschnitt~\ref{function:integer-from-to} auf
 Seite~\pageref{function:integer-from-to} benutzen und eigene
-Signaturdefinitionen einführen:
+Signatur-Definitionen einführen:
 %
 \begin{lstlisting}
 ; Eine Stunde ist eine ganze Zahl zwischen 0 und 23.
@@ -599,18 +599,18 @@ vervollständigen damit den Rumpf:
 %
 \begin{aufgabeinline}
   Schreibe eine Funktion, die für eine Uhrzeit zurückliefert, ob sich
-  diese am Vormittag oder am Nachmittag (also vor oder nach 12 Uhr
-  mittags) befindet.
+  diese auf den Vormittag oder den Nachmittag (also vor oder nach 12 Uhr
+  mittags) bezieht.
 \end{aufgabeinline}
 %
-Die Umrechnung können wir auch umdrehen, mit einer Funktion wie folgt:
+Die Funktion \lstinline{minutes-since-midnight} können wir auch umdrehen:
 %
 \begin{lstlisting}
 ; Aus Minuten seit Mitternacht die Uhrzeit berechnen
 (: minutes-since-midnight->wallclock-time (natural -> wallclock-time))
 \end{lstlisting}
 %
-Der Pfeil \lstinline{->} gehört zum Namen dazu und steht für die Umwandlung
+Der Pfeil in \lstinline{minutes-since-midnight->wallclock-time} gehört zum Namen dazu und steht für die Umwandlung
 einer Größe in eine andere.  Die Testfälle sind gegenüber
 \lstinline{minutes-since-midnight} umgedreht.
 %
@@ -786,7 +786,7 @@ Konstruktionsanleitung auswählen.
   folgendermaßen vor:
 %
 \begin{enumerate}
-\item Für jede dieser Komponenten, schreibe  \texttt{($\mathit{sel}$ $r$)} in die
+\item Für jede Komponente, schreibe  \texttt{($\mathit{sel}$ $r$)} in die
   Schablone, wobei $\mathit{sel}$ der Selektor der Komponente und $r$ der Name
   des Record-Parameters ist, also zum Beispiel:
 \begin{lstlisting}
@@ -830,7 +830,7 @@ aufrufen.  Die Schablone ergibt sich folgendermaßen:
 \section{Ein- und Ausgabe zusammengesetzter Daten}
 \label{sec:armadillo}
 
-In diesem Abschnitt kombinieren wir die Kombination von Ein- und
+In diesem Abschnitt kombinieren wir Ein- und
 Ausgabe zusammengesetzter Daten in einer einzigen Funktion.
 
 Im Beispiel dafür geht es um Gürteltiere in Texas:
@@ -852,7 +852,7 @@ Datendefinition übersetzen:
 ; - lebendig oder tot
 \end{lstlisting}
 %
-Wiederum handelt es sich sichtlich um zusammengesetzte Daten, wie
+Wiederum handelt es sich um zusammengesetzte Daten, wie
 aus der Formulierung "<hat"> ersichtlich ist.  Wir beschränken uns
 hier auf die beiden Eigenschaften, die für die Aufgabenstellung
 relevant sind.
@@ -929,8 +929,8 @@ stehende Signatur.
   Um Dir klarzumachen, welches \lstinline{dillo} zu welchem
   \lstinline{lambda} beziehungsweise zu welcher Definition gehört, kannst
   Du in \drscheme{} den Knopf \lstinline{Syntaxprüfung} drücken und
-  danach mit der Maus über die verschiedenen Vorkommen von
-  \lstinline{dillo} streichen.
+  danach den Maus-Zeiger über die verschiedenen Vorkommen von
+  \lstinline{dillo} bewegen.
 \end{aufgabeinline}
 %
 \lstinline{Feed-dillo} hat zusammengesetzte Daten sowohl als Eingabe
@@ -965,8 +965,8 @@ betrifft, die Gürteltiere in zwei verschiedene Gruppen fallen:
 \lstinline{Feed-dillo} verhält sich bei lebenden Gürteltieren anders als
 bei toten: eine Fallunterscheidung.
 
-Entsprechend brauchen wir eine Verzweigung im Rumpf, und zwar nach dem
-Wert von \lstinline{(dillo-alive? dillo)}, der glücklicherweise schon in der
+Entsprechend brauchen wir eine Verzweigung im Rumpf, und aufgrund
+des Wertes von \lstinline{(dillo-alive? dillo)}, der glücklicherweise schon in der
 Schablone steht.  Da \lstinline{dillo-alive?} einen booleschen Wert
 liefert, handelt es sich um eine boolesche Fallunterscheidung.
 Deshalb 
@@ -1155,10 +1155,10 @@ vorher, also entsprechend dem Ergebnis von \lstinline{dillo-alive?}:
 \end{lstlisting}
 %
 Diese Version ist genauso korrekt wie die erste, und keine ist
-offensichtlich "<besser"> als die andere.\footnote{Erfahrene
-Entwicklerinnen können hier anmerken, dass die erste Version im Fall
-  "<totes Gürteltier"> vermeidet, ein neues Gürteltier zu erzeugen.
-  Dafür ist die zweite Version kürzer.}
+offensichtlich "<besser"> als die andere.\footnote{Die erste Version im Fall
+  "<totes Gürteltier"> vermeidet, ein neues Gürteltier-Objekt zu erzeugen.
+  Dafür ist die zweite Version kürzer.  In der Praxis ist der
+  Unterschied unwichtig.}
 
 Bei der Kombination von Konstruktionsanleitungen ist es also oft
 möglich, mehrere unterschiedliche Wege zu beschreiten.  Meist
@@ -1177,7 +1177,7 @@ wäre an dieser Stelle möglich gewesen:
 \end{lstlisting}
 %
 Hier haben wir ziemlich vorschnell \lstinline{dillo} in der Alternative des
-\lstinline{if} geschrieben, weil es uns "<offensichtlich"> erschien, dass
+\lstinline{if}-Ausdrucks geschrieben, weil es uns "<offensichtlich"> erschien, dass
 der Zustand eines toten Gürteltiers nach dem Füttern genauso wie
 vorher ist.  Es wäre konsequenter gewesen, erst einmal die Schablonen
 vollständig anzuwenden:
@@ -1267,11 +1267,11 @@ Seite~\pageref{mantra:gleichungen}:
     Brüchen
   \end{itemize}
 %
-  \textbf{Hinweis:} Zur Lösung der Aufgabe brauchst Du die eingebaute
-  Funktion
+  \textbf{Hinweis:} Zur Lösung der Aufgabe ist die folgende eingebaute
+  Funktion hilfreich:
   % 
   \begin{center}
-    \lstinline{(: gcd (number number -> number))},
+    \lstinline{(: gcd (natural natural -> natural))},
   \end{center}
   % 
   die den größten gemeinsamen Teiler ("<greatest common divisor">) von
@@ -1300,8 +1300,8 @@ Seite~\pageref{mantra:gleichungen}:
 \end{lstlisting}
     (Dabei ist angenommen, dass die Record-Definition für ein Qux
     den Namen \lstinline{qux} hat.) Entwickele daraus Gerüst und
-    Schablone der zu schreibenden Funktion.  Identifiziere die dazu
-    benutzten Konstruktionsanleitungen.
+    Schablone der zu schreibenden Funktion mit Hilfe der
+    passenden Konstruktionsanleitungen.
   \end{enumerate}
 
 \end{aufgabe}
@@ -1451,7 +1451,7 @@ Seite~\pageref{mantra:gleichungen}:
     alle Fahrzeuge außer Stadtbusse gesperrt. Schreibe eine Funktion
     \lstinline{sonderrecht?}, die überprüft, ob ein gegebenes Fahrzeug die
     Mühlstraße in der gesperrten Richtung befahren darf.  
-  \item Bürgermeister Boris Palmer hat die Idee, den Tourismus
+  \item Der Stadtrat hat die Idee, den Tourismus
     dadurch anzukurbeln, dass Sonntags auch Reisebusse die Mühlstrasse in
     der gesperrten Richtunge befahren dürfen. Erweitere hierfür die
     Funktion \lstinline{sonderrecht?} um den Wochentag und lasse sonntags
