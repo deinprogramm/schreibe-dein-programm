@@ -7,7 +7,8 @@
     and, or
     quasiquote, quote, unquote, unquote-splicing,
     check-expect, check-property, check-within, for-all},
-  alsodigit=!\$\%&*+-./:<=>?@^_~,
+  showstringspaces=false,
+  alsodigit=!\$\%&*+./:<=>?@^_~,
   sensitive=true,
   morecomment=[l]{;},
   morecomment=[s]{\#|}{|\#},
@@ -21,9 +22,10 @@
   breakatwhitespace=false,
   keepspaces=true,
   columns=fullflexible,
+  % literate={-}{\penalty10000\mbox{-}\allowbreak}{1},
   % backquote, and allow breaking at hyphens, then umlauts
   % https://tex.stackexchange.com/questions/463693/listings-does-not-break-at-pure-hyphen-lines/464309
-  literate=({{(\penalty10000}}1 {`}{{`}}1 {-}{{\penalty10000-\allowbreak}}1 {ä}{{\"a}}1 {ö}{{\"o}}1 {ü}{{\"u}}1 {Ä}{{\"A}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1 {ß}{{\ss}}1,
+  literate={`}{{`}}{1} {ä}{{\"a}}{1} {ö}{{\"o}}{1} {ü}{{\"u}}{1} {Ä}{{\"A}}{1} {Ö}{{\"O}}{1} {Ü}{{\"U}}{1} {ß}{{\ss}}{1},
   escapechar=\|,
   mathescape=true
 }

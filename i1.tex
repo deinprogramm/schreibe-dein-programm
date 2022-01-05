@@ -264,6 +264,25 @@
   }
 \makeatother
 
+% Gross hacks for proper hyphenation with \lstlisting
+\makeatletter
+% Allow break after, but not before hyphen
+\def\lst@AppendHyphen#1{\lst@Append{-}\lst@Output\lst@letterfalse}
+\def\lst@ProcessHyphen{\lst@whitespacefalse \lst@AppendHyphen}
+\lst@CCPutMacro
+    \lst@ProcessHyphen {"2D}{\lst@ttfamily{-{}}{\textminus}}
+    \@empty\z@\@empty
+
+% make open paren a letter component of an identifier
+% (does not work for closed paren)
+\lst@CCPut \lst@ProcessLetter {"28} \z@
+
+% make closed paren a letter component of an identifier 
+\lst@AddToHook{SelectCharTable}
+  {\lst@ifbreaklines \lst@Def{`)}{\lst@ProcessLetter)}\fi}
+\makeatother
+
+
 \begin{document}
 \setcounter{tocdepth}{1}
 \begin{titlepage}
