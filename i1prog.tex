@@ -1684,7 +1684,27 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
 \section*{Aufgaben}
 
 \begin{aufgabe}
- Vervielfachung von Strings:
+  Sei $C$ eine Temperatur in Grad Celsius.  Die
+  entsprechende Temperatur $F$ in Grad Fahrenheit ergibt sich als:
+  \begin{displaymath}
+    F = {9 \over 5} C + 32
+  \end{displaymath}
+  
+  \begin{enumerate} 
+  \item Schreibe eine Funktion \lstinline{celsius->fahrenheit}, die als
+    Eingabe eine Temperatur in \si{\degree}C akzeptiert und eine
+    Temperatur in \si{\degree}F zurückgibt.  Benutze dazu die
+    Konstruktionsanleitung.
+    
+  \item Schreibe eine Funktion \lstinline{fahrenheit->celsius}, die als
+    Eingabe eine Temperatur in \si{\degree}F akzeptiert und eine
+    Temperatur in \si{\degree}C zurückgibt.  Benutze dazu
+    ebenfalls die Konstruktionsanleitung!
+  \end{enumerate}
+\end{aufgabe}  
+
+\begin{aufgabe}
+ Vervielfachung von Zeichenketten:
  \begin{itemize}
   \item Schreibe eine Funktion \lstinline{double-string}, die eine Zeichenkette akzeptiert und
     diese "<verdoppelt">, das heißt, für eine Eingabe \lstinline{"Sperber"} den
@@ -1703,6 +1723,24 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
 
 %Vermeide bei all diesen Aufgaben, Code mehrfach zu schreiben.
 
+\end{aufgabe}
+
+\begin{aufgabe} Die \textit{Internetzeit} ist ein alternatives Konzept
+  der Zeitmessung, bei dem der Tag nicht in 24 Stunden \`a 60 Minuten
+  \`a 60 Sekunden eingeteilt wird, sondern in 1000 sogenannte
+  \textit{.beats}.  Ein solcher .beat ist damit 1 Minute 26 Sekunden
+  und 4 Zehntelsekunden lang, zur weiteren Unterteilung sind
+  Nachkommawerte erlaubt.  Notiert wird die Zeit durch ein @-Symbol
+  vor dem Wert.  @0 ist gleichbedeutend mit 0 Uhr mitteleuropäischer
+  Zeit.
+
+  Schreibe eine Funktion \lstinline{time->beats}, die aus einer Uhrzeit
+  aus Stunden, Minuten, Sekunden und Zehntelsekunden die Internetzeit
+  in .beats berechnet.  Die Funktion bekommt vier Eingaben: Stunden,
+  Minuten, Sekunden und Zehntelsekunden.
+
+  Benutze Abstraktion und schreibe Hilfsfunktionen an den Stellen, an
+  denen Sie Teilprobleme lösen!
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1774,9 +1812,27 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
 
 \end{aufgabe}
 
-FIXME: Mehr Aufgaben
+\begin{aufgabe}
+In einem Betrieb wird eine Stechuhr aufgebaut, 
+die bei Arbeitsbeginn und bei Arbeitsende den aktuellen Zeitpunkt
+auf eine Karte stempelt. Ein Zeitpunkt wird durch Stunden, Minuten 
+und Sekunden beschrieben. Durch geschickte Verhandlungen des Betriebsrats
+sind Nachtschichten verboten. Arbeitsbeginn ist frühestens um 6 Uhr morgens
+und Arbeitsende ist spätestens um 22 Uhr. Jeder Arbeiter in diesem Betrieb verdient
+pro Stunde \EUR{$72$}.
 
-% Christina:
+Schreibe eine Funktion \lstinline{money-earned}, welche aus zwei
+gegebenen Zeitpunkten (Arbeitsbeginn und Arbeitsende) berechnet,
+wieviel Geld in dieser Zeit verdient wurde. Es genügt, wenn der Betrag
+in Cent angegeben wird.  Rechne die Uhrzeiten hierfür zunächst in
+Sekunden um. Die Funktion dafür hat sechs Eingaben: Stunde-Beginn,
+Minute-Beginn, Sekunde-Beginn, Stunde-Ende, Minute-Ende, Sekunde-Ende.
+
+Benutze Abstraktion und schreibe Hilfsfunktionen an den Stellen, an
+denen Sie Teilprobleme lösen!
+\end{aufgabe}
+
+% Christina Zeller:
 
 % Vielleicht könnte man was aus den folgenden Themen machen
 
