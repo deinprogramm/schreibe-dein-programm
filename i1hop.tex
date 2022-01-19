@@ -2123,7 +2123,7 @@ sie sich befindet.
   hat folgende Form:
   \begin{displaymath}
     p(x) = a_0 +
-    a_1 \cdot x + a_2 \cdot x^2 + \ldots + a_n \cdot x^n    
+    a_1 \times x + a_2 \times x^2 + \ldots + a_n \times x^n    
   \end{displaymath}
   %
   Ein Polynom wird also eindeutig durch die Koeffizienten $a_0$ bis
@@ -2139,9 +2139,9 @@ sie sich befindet.
      multipliziert. 
      Beispielsweise werden die Polynome $a_0+a_1 x$ und $b_0+b_1 x$ nach folgendem Schema multipliziert:
      \begin{eqnarray*}
-     & &a_0 \cdot (b_0+b_1x) \\
-     &+&a_1 x \cdot (b_0+b_1 x) \\ 
-     &=&a_0b_0+a_0b_1 x + a_1b_0x + a_1b_1x^2
+     & &a_0 \times (b_0+b_1\times x) \\
+     &+&a_1 x \times (b_0+b_1\times x) \\ 
+     &=&a_0\times b_0+a_0\times b_1 x + a_1\times b_0x + a_1\times b_1x^2
      \end{eqnarray*}	
      Schreibe ggf.\ zutreffende Eigenschaften auf und überprüfe diese!
    \item Schreibe eine Funktion \lstinline{polynomial-function}, die
@@ -2150,8 +2150,8 @@ sie sich befindet.
      $p$ aus der Definition entspricht. 
    \item Die Ableitung eines Polynoms $p$ wie oben ist bekanntlich durch
      \begin{displaymath}
-       p'(x) = a_1 + 2\cdot a_2 \cdot x + 3\cdot a_3\cdot x^2 + \ldots
-       + n \cdot a_n \cdot x^{n-1}
+       p'(x) = a_1 + 2\times a_2 \times x + 3\times a_3\times x^2 + \ldots
+       + n \times a_n \times x^{n-1}
      \end{displaymath}
      gegeben. Schreibe die Funktion
      \lstinline{polynomial-derivative}, die von einem gegebenen Polynom das abgeleitete Polynom

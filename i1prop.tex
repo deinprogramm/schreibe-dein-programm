@@ -1160,7 +1160,7 @@ für einen Knoten, dessen linker Teilbaum die Größe $l$
 und dessen rechter Teilbaum die Größe $r$ gilt, folgende Formel gilt:
 %
 \begin{displaymath}
-  \frac{l}{\mathtt{ratio}} \leq r \leq l \cdot \mathtt{ratio}
+  \frac{l}{\mathtt{ratio}} \leq r \leq l \times \mathtt{ratio}
 \end{displaymath}
 %
 Aus dieser Formel können wir eine Funktion machen, die einen Suchbaum
@@ -1244,7 +1244,7 @@ aus:
 \end{center}
 %
 Und in der Tat: Dieser Baum verletzt die Gleichung
-\[\frac{l}{\mathtt{ratio}} \leq r \leq l \cdot \mathtt{ratio}.\]
+\[\frac{l}{\mathtt{ratio}} \leq r \leq l \times \mathtt{ratio}.\]
 In diesem Fall ist $l=1$ und $r=0$.  So richtig schlimm unbalanciert
 ist das allerdings gar nicht.  Außerdem ist es gar nicht möglich, die
 Gleichung bei einem Suchbaum mit den Elementen 1 und 3 zu erfüllen.
@@ -1596,7 +1596,7 @@ gilt:
 %
 \begin{displaymath}
 \forall a \in \mathbb{C}, b \in \mathbb{C}, c \in \mathbb{C}:\
-a\cdot(b+c) = a\cdot b + b\cdot c
+a\times(b+c) = a\times b + b\times c
 \end{displaymath}
 %
 Auch dies lässt sich direkt in Code übersetzen, diesmal gleich mit
@@ -2780,7 +2780,7 @@ Mit der Induktionsannahme kann \lstinline{(factorial $\textnormal{\valof{k}}$)} 
 \begin{lstlisting}
 (* |\valof{k}| (factorial |\valof{l}|))
 $\Longrightarrow\ldots\Longrightarrow$ (* |\valof{k+1}| |\valof{k!}|)
-$\Longrightarrow$ |\valof{(k+1) \cdot k!}|
+$\Longrightarrow$ |\valof{(k+1) \times k!}|
 $=$ |\valof{(k+1)!}|
 \end{lstlisting}
 %
@@ -2874,13 +2874,13 @@ $\Longrightarrow$ (+ (f (- |\valof{k+1}| 1)) (/ 1 (* |\valof{k+1}| (+ |\valof{k+
 $\Longrightarrow$ (+ (f |\valof{k}|) (/ 1 (* |\valof{k+1}| (+ |\valof{k+1}| 1))))
 $\Longrightarrow\ldots\Longrightarrow$ (+ |\valof{\frac{k}{k+1}}| (/ 1 (* |\valof{k+1}| (+ |\valof{k+1}| 1))))
 $\Longrightarrow$ (+ |\valof{\frac{k}{k+1}}| (/ 1 (* |\valof{k+1}| |\valof{(k+1)+1}|)))
-$\Longrightarrow$ (+ |\valof{\frac{k}{k+1}}| (/ 1 |\valof{(k+1)\cdot((k+1)+1)}|))
-$\Longrightarrow$ (+ |\valof{\frac{k}{k+1}}| |\valof{\frac{1}{(k+1)\cdot((k+1)+1)}}|)
-$\Longrightarrow$ |\valof{\frac{k}{k+1} + \frac{1}{(k+1)\cdot((k+1)+1)}}|
-$=$ |\valof{\frac{k}{k+1} + \frac{1}{(k+1)\cdot(k+2)}}|
-$=$ |\valof{\frac{k\cdot(k+2) + 1}{(k+1)\cdot(k+2)}}|
-$=$ |\valof{\frac{k\sp{2} + 2k + 1}{(k+1)\cdot(k+2)}}|
-$=$ |\valof{\frac{(k+1)\sp{2}}{(k+1)\cdot(k+2)}}|
+$\Longrightarrow$ (+ |\valof{\frac{k}{k+1}}| (/ 1 |\valof{(k+1)\times((k+1)+1)}|))
+$\Longrightarrow$ (+ |\valof{\frac{k}{k+1}}| |\valof{\frac{1}{(k+1)\times((k+1)+1)}}|)
+$\Longrightarrow$ |\valof{\frac{k}{k+1} + \frac{1}{(k+1)\times((k+1)+1)}}|
+$=$ |\valof{\frac{k}{k+1} + \frac{1}{(k+1)\times(k+2)}}|
+$=$ |\valof{\frac{k\times(k+2) + 1}{(k+1)\times(k+2)}}|
+$=$ |\valof{\frac{k\sp{2} + 2k + 1}{(k+1)\times(k+2)}}|
+$=$ |\valof{\frac{(k+1)\sp{2}}{(k+1)\times(k+2)}}|
 $=$ |\valof{\frac{k+1}{k+2}}|
 $=$ |\valof{\frac{k+1}{(k+1)+1}}|
 \end{lstlisting}
@@ -2961,7 +2961,7 @@ beschrieben, geht die Fakultätsfunktion mit Akkumulator folgendermaßen
 vor, um \lstinline{(! 4)} auszurechnen:
 %
 \begin{displaymath}
-  (((1 \cdot 4)\cdot 3)\cdot 2)\cdot 1
+  (((1 \times 4)\times 3)\times 2)\times 1
 \end{displaymath}
 %
 Bei jedem rekursiven Aufruf lässt sich dieser Aufruf in "<geleistete
@@ -2971,7 +2971,7 @@ Aufruf \lstinline{(!-helper 2 12)}, bei der Akkumulator der Wert des
 unterstrichenen Teilaufrufs ist:
 %
 \begin{displaymath}
-  (\underline{((1 \cdot 4)\cdot 3)}\cdot 2)\cdot 1
+  (\underline{((1 \times 4)\times 3)}\times 2)\times 1
 \end{displaymath}
 %
 Es ist zu sehen, dass die noch zu leistende Arbeit gerade darin
@@ -2982,7 +2982,7 @@ Ende die Fakultät von $N$ berechnet werden soll, dann gilt bei jedem
 rekursiven Aufruf \lstinline{(!-helper $\textnormal{\valof{n}}$ $\textnormal{\valof{a}}$)} immer:
 %
 \begin{displaymath}
-  a \cdot k! = N!
+  a \times k! = N!
 \end{displaymath}
 %
 Dies ist die Invariante von \lstinline{!-helper} und heißt so, weil sie beim
@@ -2992,25 +2992,25 @@ folgt daraus automatisch die Korrektheit der Funktion, da bei $k=0$
 gilt:
 %
 \begin{displaymath}
-  a \cdot 0! = a \cdot 1 = a = N!
+  a \times 0! = a \times 1 = a = N!
 \end{displaymath}
 %
-Dass $a \cdot k! = N!$ tatsächlich die Invariante ist, lässt sich
+Dass $a \times k! = N!$ tatsächlich die Invariante ist, lässt sich
 folgendermaßen folgern:
 %
 \begin{itemize}
 \item Sie gilt für den ersten Aufruf von \lstinline{!-helper} von
   \lstinline{!}, da dort $k=N$ und $a=1$ gilt, also:
   \begin{displaymath}
-    a \cdot k! = 1 \cdot N! = N!
+    a \times k! = 1 \times N! = N!
   \end{displaymath}
 \item Jeder rekursive Aufruf erhält die Invariante.  Angenommen, sie
   gilt für $k$ und $a$, dann sind die neuen Werte für $k$ und $a$ im
   rekursiven Aufruf \lstinline{(!-helper (- $\textnormal{\valof{n}}$ 1) (* $\textnormal{\valof{a}}$ $\textnormal{\valof{k}}$))} gerade
-  $k\mapsto k-1$ und $a \mapsto a\cdot n$, die Invariante wäre also:
+  $k\mapsto k-1$ und $a \mapsto a\times n$, die Invariante wäre also:
   \begin{eqnarray*}
-    (a \cdot k) \cdot (k-1)! &=& a \cdot (k \cdot (k-1)!\\
-    &=& a\cdot k!\\
+    (a \times k) \times (k-1)! &=& a \times (k \times (k-1)!\\
+    &=& a\times k!\\
     &=& N!
   \end{eqnarray*}
 \end{itemize}
@@ -3040,22 +3040,22 @@ Die Funktion geht folgendermaßen vor, um das Ergebnis für eine Eingabe
 $n$ zu berechnen:
 %
 \begin{displaymath}
-  (\ldots ((\frac{1}{n \cdot (n + 1)}
-  + \frac{1}{(n - 1) \cdot ((n - 1) + 1)})
-  + \frac{1}{(n - 2) \cdot ((n - 2) + 1)})
+  (\ldots ((\frac{1}{n \times (n + 1)}
+  + \frac{1}{(n - 1) \times ((n - 1) + 1)})
+  + \frac{1}{(n - 2) \times ((n - 2) + 1)})
   + \ldots
-  + \frac{1}{1 \cdot (1 + 1)})
+  + \frac{1}{1 \times (1 + 1)})
 \end{displaymath}
 %
 Diese Summe ist bei jedem rekursiven Aufruf aufgeteilt als Summe von
 zwei Teilen, z.B.\ wie folgt:
 %
 \begin{displaymath}
-  (\ldots \underline{((\frac{1}{n \cdot (n + 1)}
-  + \frac{1}{(n - 1) \cdot ((n - 1) + 1)})
-  + \frac{1}{(n - 2) \cdot ((n - 2) + 1)})}
+  (\ldots \underline{((\frac{1}{n \times (n + 1)}
+  + \frac{1}{(n - 1) \times ((n - 1) + 1)})
+  + \frac{1}{(n - 2) \times ((n - 2) + 1)})}
   + \ldots
-  + \frac{1}{1 \cdot (1 + 1)})
+  + \frac{1}{1 \times (1 + 1)})
 \end{displaymath}
 %
 Der unterstrichene Teil ist gerade der Wert des Akkumulators, die
@@ -3065,7 +3065,7 @@ rechte Teil im Beispiel $(n-3)/((n-3)+1)$.  Damit ergibt
 sich die Invariante als $a + n/(n+1)$, wobei $a$ der Wert von
 \lstinline{acc} ist.  Um die Annahme zu beweisen, dass dies die Invariante
 ist, muss im wesentlichen folgende Gleichung bewiesen werden:
-\[a+ \frac{n}{n+1} = a + \frac{n-1}{n} + \frac{1}{n\cdot (n+1)}\]
+\[a+ \frac{n}{n+1} = a + \frac{n-1}{n} + \frac{1}{n\times (n+1)}\]
 Dies ist eine lohnende Fingerübung.
 
 \section{Korrektheit von Suchbäumen beweisen}
