@@ -208,10 +208,8 @@ Eigenschaft.  (Mehr dazu im nächsten Abschnitt.)
 
 \lstinline{Check-property} funktioniert nur für Eigenschaften, bei
 denen aus den Signaturen sinnvoll Werte generiert werden können.  Dies
-ist für die meisten Signaturen der Fall, aber nicht für \lstinline{any},
-Signaturvariablen und Signaturen, die mit \lstinline{predicate}
-(Abschnitt~\ref{page:predicate} auf Seite~\pageref{page:predicate})
-definiert wurden.
+ist für die meisten Signaturen der Fall, aber nicht für
+\lstinline{any} und Signaturvariablen definiert wurden.
 \end{feature}
 
 \begin{aufgabeinline}
@@ -1447,9 +1445,181 @@ korrekt arbeiten.
 \section{Algebraische Eigenschaften}
 \label{sec:algebraische-eigenschaften}
 
-In diesem Abschnitt wird die Formulierung und Überprüfung von
-Eigenschaften anhand von bekannten eingebauten Operationen wie
-\lstinline{+}, \lstinline{and}, \lstinline{=} etc.\ demonstriert.
+Hast Du das hier schonmal gesehen?
+%
+\begin{displaymath}
+  (a + b) + c = a + (b + c)
+\end{displaymath}
+%
+Oder das hier?
+%
+\begin{displaymath}
+  (a \times b) \times c = a \times (b \times c)
+\end{displaymath}
+%
+Diese Gleichungen sind unter dem Namen
+\textit{Assoziativität}\index{Assoziativität} bekannt, manchmal auch
+als "<Assoziativgesetz">.  Kurz kam das Wort schonmal auf
+Seite~\pageref{page:assoziativitaet} vor, und da steht folgende Gleichung:
+%
+\begin{displaymath}
+  {\rm cat}(u,{\rm cat}(v,w))  = {\rm cat}({\rm cat}(u,v),w).
+\end{displaymath}
+%
+Die Assoziativität ist eine äußerst nützliche Gleichung, weil sie
+aussagt, dass in einer Aneinanderreihung von $+$ oder $\times$ jeweils
+die Klammern vollkommen egal sind: Und wenn sie schon egal sind, kann
+man sie auch weglassen.
+
+Die Assoziativität ist nicht einfach eine Gleichung.  (Hier sind es ja
+schon drei.)  Tatsächlich ist die Assoziativität eine Eigenschaft~--
+aber wovon?  Zunächst einmal ist sie eine Eigenschaft von $+$ und
+$\times$ und cat.  Entsprechend kann man auch sagen "<$+$ ist
+assoziativ"> oder "<cat ist assoziativ">.  Die Funktionen $+$,
+$\times$ und cat haben allesamt etwas gemeinsam, nämlich die Struktur
+ihrer Signaturen.  Hier sind diese Signaturen, so als wenn sie in
+einem Programm stünden:
+%
+\begin{lstlisting}
+(: + (number number -> number))
+(: * (number number -> number))
+(: concatenate ((list-of %a) (list-of %a) -> (list-of %a)))
+\end{lstlisting}
+%
+(Statt der mathematischen Funktion cat haben wir die Funktion
+\lstinline{concatenate} aus Abschnitt~\ref{sec:concatenate} auf
+Seite~\pageref{sec:concatenate} aufgeführt.)
+%
+\begin{aufgabeinline}
+  Sind \lstinline{and} und \lstinline{or} assoziativ?  Wie passen ihre
+  Signaturen zu denen von den Funktionen oben?
+\end{aufgabeinline}
+%
+Diese Form von Signaturen haben wir schon gesehen, als es um
+Kombinatoren ging, in Kapitel~\ref{cha:selbstbezug} auf
+Seite~\pageref{cha:selbstbezug}.  Eine assoziative Funktion ist also
+eine spezielle Sorte Kombinator.\index{Kombinator}
+
+Assoziative Operationen gibt es so viele, dass es sich lohnt, auf
+Verdacht danach zu suchen, wenn Du eine eine neue Datendefinition
+erstellst.  Und wenn Du einen assoziativen Kombinator gefunden hast,
+lohnt es sich, diese Erkenntnis aufzuschreiben.  Im Gespräch mit
+anderen kannst Du dann einfach sagen "<cat ist assoziativ">, und im
+besten Fall wissen alle, was gemeint ist.
+
+Wir können die Assoziativität aber auch als Eigenschaft mit
+\lstinline{check-property} aufschreiben.  Wir machen das erstmal mit
+\lstinline{concatenate}, \lstinline{+} und \lstinline{*} kommen
+danach.
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((a (list integer))
+           (b (list integer))
+           (c (list integer)))
+   (expect (concatenate (concatenate a b) c)
+           (concatenate a (concatenate b c)))))
+\end{lstlisting}
+%
+Du fragst Dich vielleicht, warum \lstinline{(list integer)} als
+Signatur und nicht \lstinline{(list %a)},
+wie es in der Signaturdeklaration von \lstinline{concatenate} steht.
+Das liegt daran, dass bei Signaturen in \lstinline{for-all} keine
+Signaturvariablen stehen dürfen, damit DrRacket dafür vernünftig
+zufällige Werte generieren kann.  (Siehe dazu auch
+Abbildung~\ref{scheme:check-property} auf
+Seite~\pageref{scheme:check-property}.)
+%
+\begin{aufgabeinline}
+  Schreibe mit Hilfe des Teachpacks \texttt{image..rkt} Eigenschaften
+  für die Assoziativität der Kombinatoren aus Abschnitt
+  \ref{sec:image-combinators} auf Seite \ref{sec:image-combinators}~--\lstinline{overlay},
+  \lstinline{beside} und \lstinline{above}.
+\end{aufgabeinline}
+%
+Eine assoziative Funktion macht aus zwei "<Dingsen"> ein
+"<Dings">.  \lstinline{+} macht aus zwei Zahlen eine,
+\lstinline{concatenate} aus zwei Listen eine, \lstinline{and} aus zwei
+booleschen Werten einen.
+
+Über die Signaturdeklarationen von \lstinline{+}, \lstinline{*},
+\lstinline{concatenate} undsoweiter können wir abstrahieren; sie haben
+alle die folgende Form:
+%
+\begin{lstlisting}
+(: $\mathit{op}$ ($s$ $s$ -> $s$))
+\end{lstlisting}
+%
+Zur Assoziativität gehört also neben der Operation $op$ auch die
+Signatur $s$, so dass $op$ die Signatur \lstinline{($s$ $s$ -> $s$)}
+hat.  (Und natürlich die Assoziativitätsgleichung selbst.)
+
+Solche "<Dreigestirne"> aus "<Grundsignatur">, Operation (oder
+mehreren Operationen) und Gleichungen werden in der mathematischen
+Algebra\index{Algebra} studiert und klassifiziert.  (Dort wird statt
+mit Signaturen mit Mengen hantiert.)  Die besonders nützlichen,
+interessanten oder häufig vorkommenden dieser Dreigestirne~--
+algebraischer Strukturen~--bekommen eigene Namen.
+
+Eine Kombination aus Signatur, Kominator mit Signatur
+\lstinline{($s$ $s$ -> $s$)}
+und Assoziativgesetz heißt zum Beispiel
+\textit{Halbgruppe}.\index{Halbgruppe}\footnote{Wenn es "<Halbgruppen"> gibt,
+gibt es dann auch "<Gruppen">, magst Du fragen.  Gibt es, und in der
+Algebra gibt es einen großen Teilbereich namens "<Gruppentheorie">.
+Gruppen gibt es in der Programmierung aber viel seltener als
+Halbgruppen, darum konzentrieren wir uns auf letztere.}
+
+Viele Halbgruppen erfüllen noch eine weitere Eigenschaft: Sie besitzen
+einen Wert der Signatur, der "<nichts macht">, das sogenannte
+"<neutrale Element">.\index{neutrales Element} Das hat in
+Abschnitt~\ref{page:neutrales-element} auf
+Seite~\ref{page:neutrales-element} schonmal eine Rolle gespielt.
+Jetzt können wir es endlich richtig einordnen.
+
+Nennen wir das neutrale Element $n$.  Dann gilt folgende Eigenschaft:
+%
+\begin{lstlisting}
+(for-all ((a $s$))
+  (and (expect ($op$ a $n$) a)
+       (expect ($op$ $n$ a) a)))
+\end{lstlisting}
+%
+Das neutrale Element kann von Halbgruppe zu Halbgruppe varrieren,
+selbst wenn die Signatur $s$ immer die Gleiche ist.  Zum Beispiel ist
+$0$ das neutrale Element von $+$ und $1$ das neutrale Element von
+$\times$, auch wenn es beide Male um Zahlen geht.
+
+\begin{aufgabeinline}
+  Was ist das neutrale Element von \lstinline{or} beziehungsweise
+  \lstinline{and}?
+\end{aufgabeinline}
+%
+Bei \lstinline{concatenate} ist das neutrale Element die leere Liste.
+Das können wir mit \lstinline{check-property} festhalten:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((a (list integer)))
+   (and (expect (concatenate a empty) a)
+        (expect (concatenate empty a) a))))
+\end{lstlisting}
+%
+Auch für \lstinline{overlay}, \lstinline{beside} und \lstinline{above}
+gibt es ein neutrales Element.  Es heißt
+\lstinline{empty-image}\index{empty-image@\texttt{empty-image}}.
+%
+\begin{aufgabeinline}
+  Formuliere \lstinline{check-property}-Testfälle für die
+  Neutrales-Element-Eigenschaft von \lstinline{empty-image}.
+\end{aufgabeinline}
+%
+Wie Du siehst, haben alle Halbgruppen, die wir bisher betrachtet
+haben, ein neutrales Element.  In der Tat ist das meistens so.  Sogar
+so oft, dass, wenn bei Deiner Datenanalyse eine Halbgruppe
+herausgekommen ist, Du immer auch nach einem neutralen Element
+Ausschau halten solltest.  Eine Halbgruppe mit einem neutralen Element
+hat entsprechend auch einen Namen, nämlich \textit{Monoid}.\index{Monoid}
 
 \subsection{Binäre Operationen}
 \label{sec:eigenschaften-binaere-operationen}
