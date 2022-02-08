@@ -89,7 +89,7 @@ Definition~\ref{def:wert} die Basiswerte dazu:
 \end{definition}
 
 Damit die primitiven Operationen auch tatsächlich eine Bedeutung
-bekommen, muß eine spezielle Reduktionsregel für sie eingeführt
+bekommen, muss eine spezielle Reduktionsregel für sie eingeführt
 werden:
 %
 \begin{definition}[$\delta$-Reduktion]\index{delta-Reduktion@$\delta$-Reduktion}
@@ -128,7 +128,7 @@ Call-by-Value-Sprachen.  (Die Darstellung hier ist gegenüber Landins
 ursprünglicher Formulierung etwas modernisiert.)
 
 Damit ein Programm aus dem angewandten $\lambda$-Kalkül mit der
-SECD-Maschine ausgewertet werden kann, muß es erst einmal in einen
+SECD-Maschine ausgewertet werden kann, muss es erst einmal in einen
 speziellen \textit{Maschinencode\index{Maschinencode}} übersetzt oder
 "<compiliert"> werden.  Der Maschinencode besteht, anders als der
 $\lambda$-Kalkül, nicht aus geschachtelten Termen, sondern aus einer
@@ -436,7 +436,7 @@ Damit läßt sich die Evaluationsfunktion wie folgt definieren:
 Dieses Kapitel wird ab hier Gebrauch von einer weiteren
 Sprachebene\index{Sprachebene!fortgeschritten} in
 \drscheme{} machen, nämlich \texttt{Die Macht der Abstraktion -
-  fortgeschritten}.  Diese Ebene muß mit dem \drscheme{}-Menü \texttt{Sprache}
+  fortgeschritten}.  Diese Ebene muss mit dem \drscheme{}-Menü \texttt{Sprache}
 unter \texttt{Sprache auswählen} aktiviert sein, damit die
 Programme dieses Kapitels funktionieren.
 
@@ -794,7 +794,7 @@ ist das folgende:
 (define primitive (signature (predicate primitive?)))
 \end{verbatim}
 %
-Bevor nun ein die SECD-Maschine einen Term verarbeiten kann, muß
+Bevor nun ein die SECD-Maschine einen Term verarbeiten kann, muss
 dieser erst in Maschinencode übersetzt werden.  Dabei entsteht aus
 Definition~\ref{def:secd-code} direkt Daten- und Signatur-Definitionen
 für Instruktionen und Maschinencode:
@@ -884,7 +884,7 @@ Kurzbeschreibung, Signatur und Gerüst:
     ...))
 \end{verbatim}
 %
-Da es sich bei \texttt{term} um gemischte Daten handelt, muß~-- wie
+Da es sich bei \texttt{term} um gemischte Daten handelt, muss~-- wie
 immer~-- eine Verzweigung den Rumpf der Funktion bilden:
 %
 \begin{verbatim}
@@ -1133,7 +1133,7 @@ liefert.  Hier sind Kurzbeschreibung, Signatur und Gerüst:
     ...))
 \end{verbatim}
 %
-Entsprechend den Regeln der SECD-Maschine muß der Rumpf der Funktion
+Entsprechend den Regeln der SECD-Maschine muss der Rumpf der Funktion
 eine Verzeigung zwischen den verschiedenen Fällen bei der
 Code-Komponente von \texttt{state} sein.  Diese folgen den
 Konstruktionsanleitungen für Listen und für gemischte Daten.  Es ist
@@ -1381,7 +1381,7 @@ Hier ist der Code dazu:
        ...))
 \end{verbatim}
 %
-Damit die SECD-Maschine in Betrieb genommen werden kann, muß ein Term
+Damit die SECD-Maschine in Betrieb genommen werden kann, muss ein Term
 $e$ noch in einen Anfangszustand $(\epsilon, \varnothing, \llbracket
 e\rrbracket, \epsilon)$ übersetzt werden.  Das erledigt folgende
 Hilfsfunktion:
@@ -1477,7 +1477,7 @@ größer wird:
 %
 Damit ist die SECD-Maschine, so wie ist, als Ausführungsmodell für
 die Lehrsprachen ungeeignet.  Dieses Manko läßt sich zum Glück reparieren: Die
-SECD-Maschine muß endrekursive und "<normale"> Applikationen
+SECD-Maschine muss endrekursive und "<normale"> Applikationen
 unterschiedlich behandeln.  Dazu wird eine neue Instruktion namens
 $\mathtt{tailap}$ eingeführt, die wie $\mathtt{ap}$ eine Applikation
 durchführt, aber eine endrekursive Applikation signalisiert:
@@ -1487,7 +1487,7 @@ durchführt, aber eine endrekursive Applikation signalisiert:
   &&\cup \{ \mathtt{tailap} \}
 \end{eqnarray*}
 %
-Als Nächstes muß die Übersetzungsfunktion von Termen in Maschinencode
+Als Nächstes muss die Übersetzungsfunktion von Termen in Maschinencode
 geändert werden:  Applikationen, die Kontext um sich herum haben,
 sollen mit $\mathtt{ap}$ übersetzt werden, solche ohne Kontext mit
 $\mathtt{tailap}$.  Da der Applikation allein der Kontext nicht
@@ -1498,8 +1498,8 @@ weitere Funktion $\llbracket \underline{~} \rrbracket'$ wird immer
 dann aufgerufen, wenn \emph{kein} Kontext drumherum steht.
 
 Kontext entsteht seinerseits immer durch Funktionsapplikationen.  Bei
-der Auswertung eines Terms $(e_0~e_1)$ muß \emph{nach} $e_0$ noch
-$e_1$ ausgewertet werden, und nach Auswertung von $e_1$ muß noch die
+der Auswertung eines Terms $(e_0~e_1)$ muss \emph{nach} $e_0$ noch
+$e_1$ ausgewertet werden, und nach Auswertung von $e_1$ muss noch die
 Applikation durchgeführt werden.  Sowohl $e_0$ als auch $e_1$ stehen
 in Kontext.  Ähnlich ist es bei den Argumenten von primitiven
 Applikationen.
@@ -1538,7 +1538,7 @@ $\llbracket \underline{~} \rrbracket'$ hin und her:
 \end{eqnarray*}
 %
 Die Übersetzungsfunktion hat die eigentliche Arbeit geleistet: Jetzt
-muß nur noch eine Zustandsübergangsregel her, die $\mathtt{tailap}$
+muss nur noch eine Zustandsübergangsregel her, die $\mathtt{tailap}$
 verarbeitet.  Diese ergibt sich direkt aus den Regeln für
 $\mathtt{ap}$ und die Rückgabe eines Wertes:  $\mathtt{tailap}$
 funktioniert so, wie $\mathtt{ap}$ direkt gefolgt von der
@@ -1597,7 +1597,7 @@ Abschnitt~\ref{sec:assignment-problems} angedeutet, daß Zuweisungen
 die Formalisierung deutlich erschweren.  Möglich ist es trotzdem, und
 dieser Abschnitt zeigt, wie es geht.
 
-Als erstes muß wieder einmal die Sprache des $\lambda$-Kalküls
+Als erstes muss wieder einmal die Sprache des $\lambda$-Kalküls
 erweitert werden, diesmal um \texttt{set!}-Ausdrücke:
 %
 \begin{definition}[Sprache des angewandten $\lambda$-Kalküls mit Zustand
@@ -1658,7 +1658,7 @@ $X$:
 \end{eqnarray*}
 
 Um Reduktionsregeln für den $\lambda$-Kalkül mit Zustand zu
-formulieren, muß $\mathcal{L}_{\lambda{}S}$ noch erweitert werden,
+formulieren, muss $\mathcal{L}_{\lambda{}S}$ noch erweitert werden,
 damit die Adressen ins Spiel kommen: Adressen werden Terme und sind
 auf der linken Seite von Zuweisungen zulässig:
 %
@@ -1799,7 +1799,7 @@ komplizierter wird.
 \index{sec:SECDH-Maschine}
 
 Die SECD-Maschine ist nicht mächtig genug, um den $\lambda$-Kalkül mit
-Zustand zu modellieren: Es fehlt ein Speicher.  Darum muß das
+Zustand zu modellieren: Es fehlt ein Speicher.  Darum muss das
 Maschinen-Pendant zum $\lambda$-Kalkül mit Zustand um eine
 Speicher-Komponente erweitert werden: Heraus kommt die
 \textit{SECDH-Maschine}, um die es in diesem Abschnitt geht.
@@ -1895,7 +1895,7 @@ SECD-Maschine.  Zwei Hauptunterschiede gibt es dabei:
   (a\underline{s'}, e', \underline{c'}, \underline{d}, h)
 \end{eqnarray*}
 
-Entsprechend muß die Auswertungsfunktion das Endergebnis im Heap nachschauen:
+Entsprechend muss die Auswertungsfunktion das Endergebnis im Heap nachschauen:
 
 \begin{eqnarray*}
   \mathit{eval}_\mathit{SECD} & \in & \mathcal{L}_{\lambda{}S} \times Z\\
@@ -1915,7 +1915,7 @@ Entsprechend muß die Auswertungsfunktion das Endergebnis im Heap nachschauen:
 
 Für die Implementierung der SECDH-Maschine werden einige der
 Funktionen wiederverwendet, die für die SECD-Maschine programmiert
-wurden.  Zunächst einmal muß~-- genau wie bei der SECD-Maschine~--
+wurden.  Zunächst einmal muss~-- genau wie bei der SECD-Maschine~--
 erst einmal die Übersetzung von Termen in Maschinencode realisiert
 werden.  Zuweisungsterme haben wie in den Lehrsprachen die folgende Form:
 %
@@ -1951,7 +1951,7 @@ Mit Hilfe dieser Definition kann die Signatur-Definition von
 \end{verbatim}
 %
 Um zu vermeiden, daß Zuweisungen mit regulären Applikationen
-verwechselt werden, muß das Prädikat \texttt{application?} erweitert
+verwechselt werden, muss das Prädikat \texttt{application?} erweitert
 werden:
 %
 \begin{verbatim}
@@ -2076,7 +2076,7 @@ entsprechend der mathematischen Definition:
 \end{verbatim}
 %
 Die Ellipse steht für die nächste frische Adresse: Wenn die bisherige
-frische Adresse in \texttt{heap-store} belegt wird, so muß eine neue
+frische Adresse in \texttt{heap-store} belegt wird, so muss eine neue
 frische Adresse gewählt werden:
 %
 \begin{verbatim}

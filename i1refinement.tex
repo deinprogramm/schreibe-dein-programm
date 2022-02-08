@@ -11,7 +11,7 @@ der Praxis gelingt es nur selten, Programme erst vollständig zu planen
 und dann umzusetzen: Manchmal ist die Aufgabenstellung bei
 Entwicklungsbeginn noch nicht vollständig bekannt.  Manchmal ist die
 Aufgabenstellung zwar bekannt aber unübersichtlich. Manchmal ändert
-sich die Aufgabenstellung nachträglich.  Deshalb muß die Entwicklung
+sich die Aufgabenstellung nachträglich.  Deshalb muss die Entwicklung
 oft beginnen, bevor die gesamte Planung steht.  Das Programm wird dann
 bis zu einem bestimmten Grad entwickelt und dann \textit{schrittweise
   verfeinert}, um die noch vorher unbekannten Aspekte der
@@ -133,7 +133,7 @@ Besser wäre also, wenn beim Löschen soviel wie möglich des restlichen
 Baums intakt bleibt: das soll für die Überlegungen erst einmal die
 Maxime sein.  Hypothetisch wäre es möglich, daß dieser Ansatz nicht
 zum Ziel führt und diese Annahme wieder rückgängig gemacht werden
-muß.  Darum ist es sinnvoll, die Annahme deutlich sichtbar
+muss.  Darum ist es sinnvoll, die Annahme deutlich sichtbar
 zu dokumentieren:
 
 \begin{quote}
@@ -174,13 +174,13 @@ TBD
 % 
 Mit anderen Worten, es wird ein Element von weiter unten
 "<hochgezogen">.  Es bleibt die Frage, wie die Funktion das Element
-auswählen könnte, das hochgezogen werden muß.  Offensichtlich kann
+auswählen könnte, das hochgezogen werden muss.  Offensichtlich kann
 entweder ein Element aus dem linken oder aus dem rechten Teilbaum
 ausgewählt werden.  Ideal wäre, wenn der jeweils andere Teilbaum
-intakt bliebe.  Es muß also ein Element so hochgezogen werden, daß die
+intakt bliebe.  Es muss also ein Element so hochgezogen werden, daß die
 Suchbaumeigenschaft nicht verletzt wird.  Angenommen, das Element soll
-aus dem linken Teilbaum genommen werden: Dann muß es größer sein als
-alle anderen Elemente des linken Teilbaums.  (Es muß auch kleiner als
+aus dem linken Teilbaum genommen werden: Dann muss es größer sein als
+alle anderen Elemente des linken Teilbaums.  (Es muss auch kleiner als
 alle Elemente des rechten Teilbaums sein, aber dies ist automatisch
 gegeben, weil die Suchbaumeigenschaft im ursprünglichen Baum bereits
 gilt.)  Das hochzuziehende Element des linken Teilbaums wäre  also das
@@ -325,7 +325,7 @@ fehlenden Code im \texttt{else}-Zweig:
                          (make-node 20 the-empty-tree the-empty-tree)))
 \end{verbatim}
 %
-Für die Ellipse muß nun also das maximale Element des linken Teilbaums
+Für die Ellipse muss nun also das maximale Element des linken Teilbaums
 hochgezogen werden; der rechte Teilbaum bleibt unangetastet.  Das
 könnte etwa so aussehen:
 %
@@ -373,11 +373,11 @@ es sollte also durch ein \texttt{let} gebunden werden:
 Leider ist der Code so nicht richtig, da \texttt{(node-left-branch n)}
 kein \texttt{search-tree}-Wert ist, sondern nur ein
 \texttt{tree}-Wert: es gibt also eine Vertragsverletzung.  Der Baum
-\texttt{(node-left-branch n)} muß also noch in ein
+\texttt{(node-left-branch n)} muss also noch in ein
 \texttt{search-tree}-Record eingewickelt werden.  Außerdem kommt bei
 \texttt{search-tree-delete} wieder ein \texttt{search-tree}-Wert
 heraus, während \texttt{make-node} einen \texttt{tree}-Wert erwartet,
-der hinterher wieder ausgewickelt werden muß:
+der hinterher wieder ausgewickelt werden muss:
 %
 
 \begin{verbatim}
@@ -491,7 +491,7 @@ also ganz einfach zu schreiben.  Komplett sieht
 Beim Testen fällt auf, daß der rekursive Aufruf von
 \texttt{find-maximum} noch nicht abgedeckt ist.  (Daß der Aufruf von
 \texttt{violation} nicht abgedeckt ist, ist erwünscht~-- es soll ja
-nicht passieren.)  Es muß also noch ein Testfall konstruiert werden:
+nicht passieren.)  Es muss also noch ein Testfall konstruiert werden:
 %
 \begin{verbatim}
 (define s4
@@ -782,7 +782,7 @@ die Bewohner einer Wohnung präzise Adressen ausrechnen, etwa so:
               "Sams bei Taschenbier bei Rotkohl")
 \end{verbatim}
 %
-Die Funktion muß also gleichzeitig nach dem Bewohner suchen und die
+Die Funktion muss also gleichzeitig nach dem Bewohner suchen und die
 Adreßangabe konstruieren.  Wenn der gesuchte Bewohner gerade der
 "<Hauptbewohner"> der Wohnung ist, ist die Aufgabe einfach:
 %
@@ -853,7 +853,7 @@ Gerüst und Schablone:
 Beim Ausfüllen der Schablone wird sofort klar, daß ein geeigneter
 Rückgabewert für den \texttt{empty?}-Zweig noch fehlt: In diesem Fall
 ist der Bewohner gar nicht gefunden worden.  Für diesen Umstand (der
-in den Überlegungen bisher noch gar nicht auftauchte) muß
+in den Überlegungen bisher noch gar nicht auftauchte) muss
 ein Extra-Wert eingeführt werden:
 %
 \begin{verbatim}
@@ -865,7 +865,7 @@ ein Extra-Wert eingeführt werden:
 (define the-not-found (make-not-found))
 \end{verbatim}
 %
-Entsprechend muß der Vertrag von \texttt{sections-prefix} erweitert
+Entsprechend muss der Vertrag von \texttt{sections-prefix} erweitert
 werden:
 %
 \begin{verbatim}
@@ -936,7 +936,7 @@ funktioniert schon der erste Testfall.  Für die Alternative kann
 Damit sieht das Programm fast fertig aus. Allerdings ist der Änderung
 im Vertrag von \texttt{sections-prefix} noch nicht überall Rechnung
 getragen worden, namentlich nicht in \texttt{resident-address}:
-Einerseits muß \texttt{resident-address} eine Fallunterscheidung für
+Einerseits muss \texttt{resident-address} eine Fallunterscheidung für
 den Rückgabewert von \texttt{sections-prefix} einführen; dies heißt
 andererseits aber auch, daß \texttt{resident-address} selbst in die
 Lage kommen kann, daß der gesuchte Bewohner nicht gefunden wird.
