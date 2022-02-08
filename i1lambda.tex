@@ -62,7 +62,7 @@ $\lambda$-Kalkül aufgebaut.
 Die Intuition für die Bedeutung der $\lambda$-Terme ist ähnlich wie in
 Scheme: Eine Abstraktion steht für eine mathematische Funktion,
 speziell für eine solche Funktion, die sich durch ein Computerprogramm
-berechnen läßt.\footnote{Die Wahl des Buchstabens $\lambda$ für die
+berechnen lässt.\footnote{Die Wahl des Buchstabens $\lambda$ für die
   Notation von Abstraktionen war eher ein Unfall: Zur Zeit der
   Entstehung des Kalküls war der Ausdruck $2\hat{x}+1$ eine historische Notation für eine
   Funktion $f$ mit $f(x)\deq{}2x+1$.  \textsc{Alonzo Church},
@@ -101,7 +101,7 @@ folgende:
   \lambda f.\lambda x.f~x
 \end{displaymath}
 %
-Dieser Ausdruck läßt sich unterschiedlich
+Dieser Ausdruck lässt sich unterschiedlich
 klammern: $(\lambda f.((\lambda x.f)~x))$, $(\lambda
 f.(\lambda x.(f~x)))$ oder $((\lambda f.\lambda x.f)~x)$.  Bei
 solchen Mehrdeutigkeiten 
@@ -132,7 +132,7 @@ den Term \[(\lambda f.(\lambda x.(\lambda y.((f~x)~y))))\ .\]
 Bemerkenswert am $\lambda$-Kalkül ist, daß es dort \emph{nur}
 Funktionen gibt, noch nicht einmal Zahlen, boolesche Werte oder
 zusammengesetzte Daten.  Darum erscheint die Sprache des Kalküls auf den
-ersten Blick noch spartanisch und unintuitiv: So unmittelbar läßt sich
+ersten Blick noch spartanisch und unintuitiv: So unmittelbar lässt sich
 noch nicht einmal eine Funktion hinschreiben, die zwei Zahlen addiert~--
 schließlich gibt es keine Zahlen.  Wie sich jedoch weiter unten in
 Abschnitt~\ref{sec:lambdaprog} herausstellen wird, lassen sich all diese
@@ -167,7 +167,7 @@ Umgang mit Variablen, was eine Hilfsdefinition notwendig macht:
   \end{align*}
   %
   Außerdem ist \index{var@$\var$}$\var(e) \deq{} \free(e)\cup\bound(e)$ die \emph{Menge der
-    Variablen} von $e$.  (Es läßt sich leicht zeigen, daß diese Menge
+    Variablen} von $e$.  (Es lässt sich leicht zeigen, daß diese Menge
   alle vorkommenden Variablen eines $\lambda$-Terms enthält.)  Ein
   $\lambda$-Term $e$ heißt \emph{abgeschlossen\index{abgeschlossen}} beziehungsweise 
   \textit{Kombinator\index{Kombinator}}, falls $\free(e)=\varnothing$.
@@ -262,7 +262,7 @@ in $e_0$ bereits festgelegt ist: ein Vorkommen von $v$ in $e_0$ gehört
 entweder zu dieser Abstraktion oder einer anderen Abstraktion mit $v$
 als Parameter, die in $e_0$ weiter innen steht~-- $v$ ist in $(\lambda
 v.e_0)$ gebunden und $v\in\bound(\lambda v.e_0)$.
-Da die Substitution diese Zugehörigkeiten nicht verändern darf, läßt
+Da die Substitution diese Zugehörigkeiten nicht verändern darf, lässt
 sie das $v$ in Ruhe.
 
 Anders sieht es aus, wenn die Variable der Abstraktion eine andere
@@ -580,7 +580,7 @@ Konsequente und Alternative an:
   \mathit{if} \deq{} \lambda t x y.t~x~y
 \end{displaymath}
 %
-Daß $\mathit{if}$\index{if@$\mathit{if}$} tatsächlich so funktioniert wie angenommen, läßt
+Daß $\mathit{if}$\index{if@$\mathit{if}$} tatsächlich so funktioniert wie angenommen, lässt
 sich an einem Beispiel leicht sehen:
 %
 \begin{displaymath}
@@ -638,14 +638,14 @@ Der folgende Term bildet die Vorgängerfunktion ab\index{Vorgänger}\index{pred@
 Der Beweis dafür, daß sich $\mathit{pred}$ in bezug auf $\mathit{succ}$ wie die
 Vorgängerfunktion verhält, ist Übungsaufgabe~\ref{ex:pred}.
 
-In Verbindung mit den booleschen Werten läßt sich eine Zahl daraufhin
+In Verbindung mit den booleschen Werten lässt sich eine Zahl daraufhin
 testen, ob sie $0$ ist:\index{zerop@$\mathit{zerop}$}
 %
 \begin{displaymath}
   \mathit{zerop} \deq{} \lambda n.n~(\lambda x.\mathit{false})~\mathit{true}
 \end{displaymath}
 %
-Die Funktionsweise von $\mathit{zerop}$ läßt sich am einfachsten an
+Die Funktionsweise von $\mathit{zerop}$ lässt sich am einfachsten an
 einem Beispiel erkennen:
 %
 \begin{displaymath}
@@ -668,7 +668,7 @@ es im $\lambda$-Kalkül kein Pendant zu \texttt{define} oder
 \texttt{letrec} gibt: Es gibt keine direkte Möglichkeit, eine
 rekursive Bindung herzustellen.  Zur Realisierung von Rekursion ist
 deshalb ein Kunstgriff notwendig, der sich an der rekursiven
-Definition der Fakultät zeigen läßt.
+Definition der Fakultät zeigen lässt.
 Schön wäre eine Definition wie folgt, wobei Zahlen ohne $\lceil\:\rceil$ für
 ihre Church-Numerale stehen:\index{fac@$\mathit{fac}$}
 %
@@ -708,7 +708,7 @@ sieht so aus:
   \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}_0~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Da $\mathit{fac}_0$ keinen Selbstbezug enthält, läßt sich seine
+Da $\mathit{fac}_0$ keinen Selbstbezug enthält, lässt sich seine
 Definition einsetzen; das Ergebnis soll der Funktion entsprechend
 $\mathit{fac}_1$ heißen:
 %
@@ -716,14 +716,14 @@ $\mathit{fac}_1$ heißen:
   \mathit{fac}_1 \deq{} \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~((\lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(?~(\mathit{pred}~x))))~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Auf die gleiche Art und Weise läßt sich ein Term konstruieren, der
+Auf die gleiche Art und Weise lässt sich ein Term konstruieren, der
 alle Fakultäten bis 2 ausrechnen kann:
 %
 \begin{displaymath}
   \mathit{fac}_2 \deq{} \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}_1~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Dieses Muster läßt sich immer so weiter fortsetzen.  Leider entsteht
+Dieses Muster lässt sich immer so weiter fortsetzen.  Leider entsteht
 dabei trotzdem nie ein Term, der die Fakultäten \emph{aller}
 natürlichen Zahlen berechnen kann, da die Terme immer endlich groß
 bleiben.
@@ -756,7 +756,7 @@ Damit ist zwar die Notation weniger schreibintensiv geworden,
 aber das fundamentale Problem ist noch nicht gelöst: Eine korrekte
 Definition von $\mathit{fac}$ müsste eine unendliche
 Kette von Applikationen von $\mathit{FAC}$ enthalten.
-Da sich ein Term mit einer unendlichen Kette von Applikationen nicht aufschreiben läßt, hilft im Moment nur Wunschdenken weiter.
+Da sich ein Term mit einer unendlichen Kette von Applikationen nicht aufschreiben lässt, hilft im Moment nur Wunschdenken weiter.
 Dafür sei angenommen, $\mathit{fac}$ wäre bereits gefunden.  Dann gilt folgende
 Gleichung:
 %
@@ -865,7 +865,7 @@ möglich ist:
 %
 Der $\lambda$-Term $Y$\index{Y@$Y$}, der Fixpunkte
 berechnet, heißt
-\textit{Fixpunktkombinator\index{Fixpunktkombinator}}.  Mit seiner Hilfe läßt sich
+\textit{Fixpunktkombinator\index{Fixpunktkombinator}}.  Mit seiner Hilfe lässt sich
 die Fakultät definieren:
 %
 \begin{displaymath}
@@ -884,7 +884,7 @@ von Church/\linebreak[0]Rosser sind wichtige Meilensteine auf dem Weg zur
 Verwendung des $\lambda$-Kalküls als Basis für reale
 Programmiersprachen.  Leider hat die Anwendung des Satzes von
 Church/Rosser noch einen Haken in der Praxis: Er besagt zwar, daß sich
-die Äquivalenz von zwei Termen dadurch beweisen läßt, daß ihre
+die Äquivalenz von zwei Termen dadurch beweisen lässt, daß ihre
 Normalformen verglichen werden.  Leider sagt er nichts darüber,
 wie diese Normalformen gefunden werden.
 
@@ -1129,7 +1129,7 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
   \end{eqnarray*}
   und gibt eine eigene Definition für $=$ an.
   %
-  Dabei läßt sich die Korrektheit von $\mathit{add}$ direkt beweisen.
+  Dabei lässt sich die Korrektheit von $\mathit{add}$ direkt beweisen.
   Für $\mathit{mult}$ und $\mathit{exp}$ beweise und benutze dazu
   folgende Hilfslemmata:
   %
