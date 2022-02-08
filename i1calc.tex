@@ -10,7 +10,7 @@ einige weitere theoretische Grundlagen der
 Programmierung.
 
 Für die Informatik ist der Begriff des \emph{logischen Kalküls\index{Kalkül}\index{logischer Kalkül}} von zentraler Bedeutung.
-Ein Kalkül dient dazu, auf formale Art und Weise wahre Aussagen abzuleiten, ohne daß
+Ein Kalkül dient dazu, auf formale Art und Weise wahre Aussagen abzuleiten, ohne dass
 es dabei nötig wird, den Sinn der Aussagen zu begreifen.   
 Logische Kalküle bilden außerdem eine mathematische Grundlage, um die
 Bedeutung von Programmen präzise zu erklären.  Der $\lambda$-Kalkül,
@@ -53,9 +53,9 @@ Teilaussagen ab.  Die Wahrheit der zweiten und dritten Aussage ist
 allerdings völlig unabhängig von der Wahrheit der Teilaussagen: die
 zweite ist immer falsch, die dritte immer wahr.  Die vierte Aussage
 ist in manchen Welten nicht wahr: Axls Gesicht könnte grün mit
-blauen Punkten sein.  Sie wird höchstens dadurch wahr, daß zusätzlich postuliert
-wird, daß beide Teilaussagen nicht gleichzeitig wahr sein können,
-also daß, wenn Axl blau im Gesicht ist, er nicht grün im Gesicht ist,
+blauen Punkten sein.  Sie wird höchstens dadurch wahr, dass zusätzlich postuliert
+wird, dass beide Teilaussagen nicht gleichzeitig wahr sein können,
+also dass, wenn Axl blau im Gesicht ist, er nicht grün im Gesicht ist,
 und wenn er grün im Gesicht ist, er dann nicht blau im Gesicht ist.
 
 Es gibt also mindestens zwei Varianten der Wahrheit:
@@ -146,7 +146,7 @@ $\neg(L\vee M)$ sind in $\mathcal{L}_1$ nicht enthalten.  Das bedeutet
 keine ernsthafte Einschränkung, denn alle Ausdrücke lassen sich unter Erhaltung 
 ihres Wahrheitswerts
 mit Hilfe der DeMorgan'schen Gesetze (siehe Anhang~\ref{sec:aussagenlogik})
-so umformulieren, daß sie in $\mathcal{L}_1$ enthalten
+so umformulieren, dass sie in $\mathcal{L}_1$ enthalten
 sind (im Beispiel: $\neg L\wedge \neg M$; siehe auch
 Aufgabe~\ref{ex:negation}). 
 
@@ -260,7 +260,7 @@ $(P_1\wedge P_2)\vee(\neg P_1\vee \neg P_2)$:
 %
 Die verwendeten Axiome sowie Schlüsse sind durch ihre Nummern
 gekennzeichnet.  Bei der Anwendung von (\ref{S2}) in der rechten Hälfte wird
-deutlich, daß bei Sequenzen die Reihenfolge keine Rolle spielt.
+deutlich, dass bei Sequenzen die Reihenfolge keine Rolle spielt.
 
 Die Konstruktion eines Beweises geht
 von der zu beweisenden Formel beziehungsweise Sequenz aus und
@@ -274,10 +274,10 @@ oben angewendet.
 \label{sec:models}
 
 Die im vorangegangenen Abschnitt eingeführte Beweisbarkeit ist ein
-syntaktisches Konzept: Hier wird mit Formeln gearbeitet, ohne daß deren
+syntaktisches Konzept: Hier wird mit Formeln gearbeitet, ohne dass deren
 Bedeutung dabei eine Rolle spielt.  Der in
 Abschnitt~\ref{sec:truth-provability} bereits angesprochene Ansatz der
-Modelltheorie setzt dagegen voraus, daß jeder
+Modelltheorie setzt dagegen voraus, dass jeder
 Formel in der Sprache $\mathcal{L}_1$ eine Bedeutung gegeben wird:  
 
 \begin{definition}[Modell der Aussagenlogik]
@@ -379,7 +379,7 @@ beinhaltet, der $\top$ ebenso wie $\bot$ darstellt.
     
     In einem Beweisbaum haben deshalb zunächst alle Axiome~-- also alle
     Blätter~-- den Wahrheitswert $\mathrm{W}$.  Wahrheit vererbt sich in den Regeln
-    von oben nach unten; durch strukturelle Induktion folgt also, daß auch
+    von oben nach unten; durch strukturelle Induktion folgt also, dass auch
     die Sequenz ganz unten im Beweisbaum den Wahrheitswert $\mathrm{W}$ haben muss.
   \item[Vollständigkeit] Sei $\Gamma$ eine Sequenz mit
     $\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$ für alle Variablenbelegungen $f$.
@@ -402,7 +402,7 @@ beinhaltet, der $\top$ ebenso wie $\bot$ darstellt.
     $\neg P_j\in \Delta$.  Für deren Fortsetzung $\widehat{\mbox{$f'$}^*}$ gilt dann
     $\widehat{\mbox{$f'$}^*}(\Delta)=\mathrm{F}$ im Widerspruch zur Voraussetzung.
   \item[Konsistenz] Sei $A$ eine Formel mit $\vdash A$ und $\vdash
-    \neg A$.  Aus der Korrektheit folgt dann, daß für jede
+    \neg A$.  Aus der Korrektheit folgt dann, dass für jede
     Belegung $f$ gilt ${\hat{f}}(A) = \mathrm{W} =
     {\hat{f}}(\neg A)$.  Das ist aber unmöglich, da 
     \[{\hat{f}}(\neg A)
@@ -476,7 +476,7 @@ reduzieren:
 Auf
 diese Art und Weise bildet $\triangleright$ eine Relation auf
 $\mathcal{L}_1$.
-Es ist leicht zu beweisen~-- z.B.\ in SC$_1$~-- daß bei den
+Es ist leicht zu beweisen~-- z.B.\ in SC$_1$~-- dass bei den
 Reduktionsregeln jeweils linke und rechte Seite äquivalent sind.
 
 Leider lässt sich $E_2$ nicht weiter reduzieren~-- sie paßt auf
@@ -503,7 +503,7 @@ finden kann:
     Subterme}: Sei $A$ eine Formel aus $\mathcal{L}_1$, in der eine andere
   Formel $B$ an einer bestimmten Stelle vorkommt.  Sei $C$ eine Formel, für die
   $B\triangleright C$ gilt.  Wenn
-  $A\blacktriangleright D$ gilt, entsteht die Formel $D$ dadurch, daß in $A$
+  $A\blacktriangleright D$ gilt, entsteht die Formel $D$ dadurch, dass in $A$
   das Vorkommen von $B$ durch $C$ ersetzt wird.  
 \end{definition}
 %
@@ -575,7 +575,7 @@ dieser Form ist genau dann wahr, wenn alle Teilformeln
 wahr sind.  Eine solche Teilformel ist genau dann wahr, wenn sie
 entweder $\top$ enthält oder zwei Literale $L_l^{(j)}$ und $\neg L_m^{(j)}$
 mit $L_l^{(j)} = L_m^{(j)}$.  Genau diese beiden Fälle werden
-aber von den Regeln~(\ref{eq:e1}) und (\ref{eq:t}) abgedeckt, so daß sich
+aber von den Regeln~(\ref{eq:e1}) und (\ref{eq:t}) abgedeckt, so dass sich
 diese Teilformeln zu $\top$ reduzieren lassen.  Regel~(\ref{eq:e2})
 besorgt dann den Rest.
 \end{beweis}
@@ -627,7 +627,7 @@ besorgt dann den Rest.
 \begin{aufgabe}\label{ex:negation}
  Eine aussagenlogische Formel mit Variablen $\neg
   F$, wobei $F$ selbst kein $\neg$ enthält, ist äquivalent zu $\eta(F)$, wobei $\eta(F)$ aus $F$ dadurch
-  entsteht, daß alle aussagenlogischen Konstanten und Variablen umgedreht werden
+  entsteht, dass alle aussagenlogischen Konstanten und Variablen umgedreht werden
   ($W\mapsto F, F\mapsto W$, $\neg X\mapsto X$, $X \mapsto \neg X$)
   und jeweils $\vee$ durch  $\wedge$ und umgekehrt ersetzt wird.  Zum
   Beispiel ist also $\neg(A\wedge(B\vee \neg C)) \equiv \neg A\vee (\neg B\wedge C)$.
@@ -636,7 +636,7 @@ besorgt dann den Rest.
   \item Schreibe eine induktive Definition für $\eta$.
   \item Beweise die Behauptung mittels struktureller Induktion und den
     DeMorgan'schen Gesetzen (Anhang~\ref{sec:aussagenlogik}).
-    \item Beweise in SC$_1$, daß $A,\eta(A)$ für
+    \item Beweise in SC$_1$, dass $A,\eta(A)$ für
     jede Formel $A$ beweisbar ist.
     Benutze dazu strukturelle Induktion über
     $A$!
@@ -709,7 +709,7 @@ besorgt dann den Rest.
     
 
   \item Schreibe eine Funktion \texttt{reorder-sequence}, welche eine
-    Sequenz so umsortiert, daß ein Nichtliteral vorn steht, oder
+    Sequenz so umsortiert, dass ein Nichtliteral vorn steht, oder
     \texttt{\#f} zurückgibt, falls das nicht möglich ist.
     
     Anleitung: Benutze dazu eine endrekursive mit \texttt{letrec}
@@ -748,8 +748,8 @@ besorgt dann den Rest.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Beweise, daß folgende Axiome beziehungsweise Regeln zu
-  SC$_1$ hinzugefügt werden können, ohne daß der Kalkül mächtiger
+  Beweise, dass folgende Axiome beziehungsweise Regeln zu
+  SC$_1$ hinzugefügt werden können, ohne dass der Kalkül mächtiger
   wird:
   %
     \begin{displaymath}
@@ -768,7 +768,7 @@ besorgt dann den Rest.
   %
   Betrachte dazu einen fiktiven Kalkül SC$_1'$, der diese zusätzlichen
   Regeln enthält.  Gib nun eine Anleitung an, wie sich ein Beweisbaum
-  in SC$_1'$ in einen Beweisbaum in SC$_1$ übersetzen lässt, so daß die
+  in SC$_1'$ in einen Beweisbaum in SC$_1$ übersetzen lässt, so dass die
   zusätzlichen Regeln dort nicht mehr vorkommen.
 \end{aufgabe}
 
@@ -805,7 +805,7 @@ besorgt dann den Rest.
   \begin{enumerate}
   \item Erweitere, wie bei der Modelltheorie für SC$_1$, eine
     Variablenbelegung sinnvoll zu einem Homomorphismus von
-    $\mathcal{L}_0$ nach $\{\mathrm{W}, \mathrm{F}\}$, so daß alle
+    $\mathcal{L}_0$ nach $\{\mathrm{W}, \mathrm{F}\}$, so dass alle
     Axiome den Wahrheitswert W bekommen und außerdem die Modus-Ponens-Regel
     gültig ist.  Gleichzeitig sollen nicht alle Formeln den
     Wahrheitswert W bekommen.

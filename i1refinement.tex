@@ -115,8 +115,8 @@ Wie könnte hier die 17 gelöscht werden? Es ist nicht möglich, den
 Teilbaum mit 17 an der Spitze einfach durch seinen linken oder rechten
 Teilbaum zu ersetzen, weil dann der jeweils andere Teilbaum unter den
 Tisch fiele.  Es ist also notwendig, die Baumstruktur zu
-reorganisieren.  Mit dieser Beoachtung ist klar, daß die Aufgabe nicht
-einfach dadurch zu lösen ist, daß die Konstruktionsanleitung einmal
+reorganisieren.  Mit dieser Beoachtung ist klar, dass die Aufgabe nicht
+einfach dadurch zu lösen ist, dass die Konstruktionsanleitung einmal
 befolgt wird: Stattdessen empfiehlt es sich, etwas nachzudenken und
 zumindest eine grobe Lösungsstrategie zu entwickeln, bevor mit dem
 Programmieren begonnen wird.
@@ -131,7 +131,7 @@ dauert, je größer der Suchbaum ist.
 
 Besser wäre also, wenn beim Löschen soviel wie möglich des restlichen
 Baums intakt bleibt: das soll für die Überlegungen erst einmal die
-Maxime sein.  Hypothetisch wäre es möglich, daß dieser Ansatz nicht
+Maxime sein.  Hypothetisch wäre es möglich, dass dieser Ansatz nicht
 zum Ziel führt und diese Annahme wieder rückgängig gemacht werden
 muss.  Darum ist es sinnvoll, die Annahme deutlich sichtbar
 zu dokumentieren:
@@ -142,7 +142,7 @@ zu dokumentieren:
   Rest soll gleichbleiben.
 \end{quote}
 
-Etwas Nachdenken ergibt, daß der oben beschriebene
+Etwas Nachdenken ergibt, dass der oben beschriebene
 Ansatz, nur den Teilbaum zu ersetzen, an dessen Spitze das zu
 löschende Element steht und den restlichen Baum unverändert zu lassen,
 auch hier funktioniert.  Es gibt zwei Möglichkeiten, dies zu tun:
@@ -177,7 +177,7 @@ Mit anderen Worten, es wird ein Element von weiter unten
 auswählen könnte, das hochgezogen werden muss.  Offensichtlich kann
 entweder ein Element aus dem linken oder aus dem rechten Teilbaum
 ausgewählt werden.  Ideal wäre, wenn der jeweils andere Teilbaum
-intakt bliebe.  Es muss also ein Element so hochgezogen werden, daß die
+intakt bliebe.  Es muss also ein Element so hochgezogen werden, dass die
 Suchbaumeigenschaft nicht verletzt wird.  Angenommen, das Element soll
 aus dem linken Teilbaum genommen werden: Dann muss es größer sein als
 alle anderen Elemente des linken Teilbaums.  (Es muss auch kleiner als
@@ -209,7 +209,7 @@ bereits zwei erkennbare Teilaufgaben:
 \end{enumerate}
 %
 Insbesondere müsste es leicht möglich sein, die zweite Teilaufgabe
-soweit zu lösen, daß die Lösch-Funktion zu zumindest für \texttt{s3}
+soweit zu lösen, dass die Lösch-Funktion zu zumindest für \texttt{s3}
 funktioniert:
 %
 \begin{verbatim}
@@ -488,7 +488,7 @@ also ganz einfach zu schreiben.  Komplett sieht
          (delete e (search-tree-tree s)))))))
 \end{verbatim}
 %
-Beim Testen fällt auf, daß der rekursive Aufruf von
+Beim Testen fällt auf, dass der rekursive Aufruf von
 \texttt{find-maximum} noch nicht abgedeckt ist.  (Daß der Aufruf von
 \texttt{violation} nicht abgedeckt ist, ist erwünscht~-- es soll ja
 nicht passieren.)  Es muss also noch ein Testfall konstruiert werden:
@@ -557,7 +557,7 @@ Diese naive Definition hat zwei Nachteile:
 %
 \begin{itemize}
 \item Es gibt unmittelbar kein eindeutiges Prädikat für Zimmer.
-\item Es ist klar, daß sich über ein Zimmer noch mehr Dinge sagen
+\item Es ist klar, dass sich über ein Zimmer noch mehr Dinge sagen
   lassen als die Grundfläche: Früher oder später werden Zimmer zu
   zusammengesetzten Daten.
 \end{itemize}
@@ -628,7 +628,7 @@ hätte die Grundfläche direkt einer Wohnung zugeordnet:
 %
 In diesem Fall würde der Selektor \texttt{apartment-area} sich nach
 außen genauso verhalten wie die Funktion \texttt{apartment-area}~--
-gleicher Vertrag. gleiche Funktion.  Die Tatsache, daß der
+gleicher Vertrag. gleiche Funktion.  Die Tatsache, dass der
 Record-Selektor eine reguläre Funktion ist, die sich von
 "<selbstgeschriebenen"> Funktionen nach außen nicht unterscheidet,
 isoliert Benutzer der Wohnungs-Funktionalität von den Unterschieden
@@ -636,7 +636,7 @@ zwischen den zwei Varianten.
 
 Aus Sicht eines Wohnungsbesitzers interessieren möglicherweise noch
 weitere Daten, zum Beispiel, ob ein Bewohner noch Untermieter hat.
-Es ist sogar möglich, daß Untermieter ihrerseits selbst Untermieter
+Es ist sogar möglich, dass Untermieter ihrerseits selbst Untermieter
 haben.  Dieser Idee ließe sich Rechnung tragen, indem eine Wohnung
 statt aus Zimmern aus "<Abschnitten"> besteht, und jeder Abschnitt
 entweder ein Zimmer oder ein untervermieter Wohnungsteil ist.  Die
@@ -698,8 +698,8 @@ Apartment, das es enthält:
          (make-room 30))))
 \end{verbatim}
 %
-Es kann nun sein, daß die "<Wohnungs-Funktionalität"> schon in ein
-größeres Programm eingebaut wurde, daß dessen Funktionen benutzt,
+Es kann nun sein, dass die "<Wohnungs-Funktionalität"> schon in ein
+größeres Programm eingebaut wurde, dass dessen Funktionen benutzt,
 insbesondere den Selektor \texttt{apartment-rooms}.  Der ist im Zuge
 der Erweiterung um Untermiete unter den Tisch gefallen.  Das Konzept
 der Zimmer einer Wohnungs ist aber immer noch sinnvoll; entsprechend
@@ -752,7 +752,7 @@ rekursiv ist.
 \texttt{apartment-rooms} und der neuen Funktion zur erkennen~-- die
 Schnittstelle ist gleich geblieben: Dies ist ein wichtiger Beitrag zur
 \textit{Modularität}\index{Modularität}, die es erlaubt, Änderungen an
-der Wohnungs-Funktionalität vorzunehmen, ohne daß andere
+der Wohnungs-Funktionalität vorzunehmen, ohne dass andere
 Programmteile, welche die Funktionalität benutzen, verändert werden
 müssen.
 
@@ -850,7 +850,7 @@ Gerüst und Schablone:
        ... (sections-prefix r (rest lis)) ...))))
 \end{verbatim}
 %
-Beim Ausfüllen der Schablone wird sofort klar, daß ein geeigneter
+Beim Ausfüllen der Schablone wird sofort klar, dass ein geeigneter
 Rückgabewert für den \texttt{empty?}-Zweig noch fehlt: In diesem Fall
 ist der Bewohner gar nicht gefunden worden.  Für diesen Umstand (der
 in den Überlegungen bisher noch gar nicht auftauchte) muss
@@ -938,8 +938,8 @@ im Vertrag von \texttt{sections-prefix} noch nicht überall Rechnung
 getragen worden, namentlich nicht in \texttt{resident-address}:
 Einerseits muss \texttt{resident-address} eine Fallunterscheidung für
 den Rückgabewert von \texttt{sections-prefix} einführen; dies heißt
-andererseits aber auch, daß \texttt{resident-address} selbst in die
-Lage kommen kann, daß der gesuchte Bewohner nicht gefunden wird.
+andererseits aber auch, dass \texttt{resident-address} selbst in die
+Lage kommen kann, dass der gesuchte Bewohner nicht gefunden wird.
 Damit werden neben der Erweiterung des Rumpfes der Funktion auch eine
 Änderung des Vertrags und ein neuer Testfall fällig:
 %
