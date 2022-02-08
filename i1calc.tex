@@ -65,7 +65,7 @@ Es gibt also mindestens zwei Varianten der Wahrheit:
 \item Eine Aussage ist wahr in allen Welten.
 \end{itemize}
 %
-Feststellen läßt sich die Wahrheit durch Einsetzen von
+Feststellen lässt sich die Wahrheit durch Einsetzen von
 Wahrheitswerten~-- wahr oder falsch~--
 für die elementaren Aussagen wie in
 Anhang~\ref{sec:aussagenlogik}.  In der
@@ -296,7 +296,7 @@ Formel in der Sprache $\mathcal{L}_1$ eine Bedeutung gegeben wird:
   \[ \widehat{\mbox{$f$}^*}(A_1,\dots,A_n) = \hat{f}(A_1)\vee\dots\vee\hat{f}(A_n)\]
 \end{definition}
 
-Mit diesen Grundlagen läßt sich nun folgendes definieren:
+Mit diesen Grundlagen lässt sich nun folgendes definieren:
 
 \begin{definition}
   Eine Sequenz $\Gamma$ heißt \emph{wahr\index{wahr} im Modell} $f$, geschrieben
@@ -383,20 +383,20 @@ beinhaltet, der $\top$ ebenso wie $\bot$ darstellt.
     die Sequenz ganz unten im Beweisbaum den Wahrheitswert $\mathrm{W}$ haben muss.
   \item[Vollständigkeit] Sei $\Gamma$ eine Sequenz mit
     $\widehat{\mbox{$f$}^*}(\Gamma)=\mathrm{W}$ für alle Variablenbelegungen $f$.
-    Dann läßt sich mit $\Gamma$ als Wurzel ein 
+    Dann lässt sich mit $\Gamma$ als Wurzel ein 
     Beweisbaum konstruieren, indem systematisch alle Formeln durch Anwendung
     der Regeln (\ref{Sc}) und (\ref{Sd}) zerlegt werden, bis nur noch Literale
     übrig sind.
     Analog zum Beweis für die Korrektheit wird Wahrheit
     auch von unten nach oben vererbt, wie sich anhand der
-    Regeln sehen läßt.
+    Regeln sehen lässt.
     
     Die Blätter des Baums haben also unter allen Variablenbelegungen den
     Wahrheitswert $\mathrm{W}$.  Angenommen, ein solches Blatt $\Delta$ hätte weder die
     Form (\ref{S1}) noch die Form (\ref{S2}).  Dann besteht es nur aus $\bot$
     und Literalen der Form $P_i$ und Literalen der Form $\neg P_j$, wobei
     für ein $i$ die Literale $P_i$ und $\neg P_i$ nicht gleichzeitig auftreten.
-    ($\bot$ allein ist offensichtlich nicht möglich.)  Dann läßt sich aber eine
+    ($\bot$ allein ist offensichtlich nicht möglich.)  Dann lässt sich aber eine
     Belegung $f'$ konstruieren mit $f'(P_i) = \mathrm{F}$ für
     $P_i\in \Delta$ und $f'(P_j) = \mathrm{W}$ für
     $\neg P_j\in \Delta$.  Für deren Fortsetzung $\widehat{\mbox{$f'$}^*}$ gilt dann
@@ -450,7 +450,7 @@ die Formel eine Tautologie.  Hier sind die Regeln von RC$_1$:
 \end{eqnarray}
 \end{definition}
 %
-Eine logische Formel läßt sich
+Eine logische Formel lässt sich
 mit Hilfe einer Reduktionsregel dann vereinfachen, wenn sie der Form
 der linken Seite der Regel entspricht.  (Formal gesagt muss die Formel
 auf die linke Seite einer Regel \textit{passen\index{paßt auf}}.)  
@@ -463,7 +463,7 @@ Entsprechung der rechten Regelseite ersetzt.  Hier ein Beispiel:
     P_1\vee \neg P_2)
 \end{displaymath}
 %
-Diese Formel hat die Form der linken Seite von Regel~(\ref{eq:d1}) und läßt
+Diese Formel hat die Form der linken Seite von Regel~(\ref{eq:d1}) und lässt
 sich folgendermaßen mit $A=P_1$,
 $B=P_2$ und $C=(\neg P_1\vee\neg{P_2})$
 reduzieren:
@@ -479,9 +479,9 @@ $\mathcal{L}_1$.
 Es ist leicht zu beweisen~-- z.B.\ in SC$_1$~-- daß bei den
 Reduktionsregeln jeweils linke und rechte Seite äquivalent sind.
 
-Leider läßt sich $E_2$ nicht weiter reduzieren~-- sie paßt auf
+Leider lässt sich $E_2$ nicht weiter reduzieren~-- sie paßt auf
 keine linke Regelseite.  Das ist insbesondere deswegen bedauerlich, weil es sich
-um eine Tautologie handelt.  Jedoch läßt sich $E_2$ als $E_2 = E_2^{(1)} \wedge
+um eine Tautologie handelt.  Jedoch lässt sich $E_2$ als $E_2 = E_2^{(1)} \wedge
 E_2^{(2)}$ schreiben und beide \textit{Teilformeln} $E_2^{(1)}$ und $E_2^{(2)}$
 passen auf die Regel~(\ref{eq:t}).  Nach Anwendung von Regel~(\ref{eq:t}) auf die beiden
 Teilformeln kommt folgende Formel heraus:
@@ -490,7 +490,7 @@ Teilformeln kommt folgende Formel heraus:
     E_3 \deq{} \top \wedge \top
   \end{displaymath}
 %
-  Diese läßt sich wiederum mit Regel~(\ref{eq:e2}) zu $\top$ reduzieren,
+  Diese lässt sich wiederum mit Regel~(\ref{eq:e2}) zu $\top$ reduzieren,
   und fertig ist der Beweis.
 
 Zu $\triangleright$ gehört eine abgeleitete
@@ -525,7 +525,7 @@ gemäß $\triangleright$ reduziert und ersetzt.
 \end{figure}
 
 
-Nun läßt sich Beweisbarkeit in RC$_1$ definieren:
+Nun lässt sich Beweisbarkeit in RC$_1$ definieren:
 %
 \begin{definition}[Beweisbarkeit in RC$_1$]
   Eine Formel $A$ ist \textit{in RC$_1$ beweisbar} (geschrieben
@@ -768,7 +768,7 @@ besorgt dann den Rest.
   %
   Betrachte dazu einen fiktiven Kalkül SC$_1'$, der diese zusätzlichen
   Regeln enthält.  Gib nun eine Anleitung an, wie sich ein Beweisbaum
-  in SC$_1'$ in einen Beweisbaum in SC$_1$ übersetzen läßt, so daß die
+  in SC$_1'$ in einen Beweisbaum in SC$_1$ übersetzen lässt, so daß die
   zusätzlichen Regeln dort nicht mehr vorkommen.
 \end{aufgabe}
 

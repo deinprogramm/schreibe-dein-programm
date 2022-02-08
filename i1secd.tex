@@ -17,7 +17,7 @@ Kapitel stellt zunächst den \textit{angewandten $\lambda$-Kalkül} vor,
 der den normalen $\lambda$-Kalkül um primitive Werte und Operationen
 erweitert, und dann die \textit{SECD-Maschine}, ein klassisches
 Auswertungsmodell für die Call-by-Value-Reduktion.  Angenehmerweise
-läßt sich die SECD-Maschine auch als Programm implementieren,
+lässt sich die SECD-Maschine auch als Programm implementieren,
 was ebenfalls in diesem Kapitel geschieht.  Die SECD-Maschine
 kennt keine Zuweisungen; es folgt darum noch die Darstellung der
 \textit{SECDH-Maschine}, die auch einen \textit{Speicher} kennt und
@@ -405,7 +405,7 @@ Diese Definition hat jedoch zwei Haken:
 Der erste Haken sorgt dafür, daß die Auswertungsfunktion nur eine
 Relation im Sinne einer "<partiellen Funktion"> ist.  Meist wird
 trotzdem von einer Auswertungsfunktion gesprochen.  Beim zweiten
-Haken, wenn $x$ eine Closure ist, läßt sich mit dem Resultat nicht
+Haken, wenn $x$ eine Closure ist, lässt sich mit dem Resultat nicht
 viel anfangen: Um die genaue Bedeutung der Closure herauszubekommen,
 müsste sie angewendet werden~-- das Programm ist aber schon fertig
 gelaufen.  Es ist also gar nicht sinnvoll, zwischen verschiedenen
@@ -417,7 +417,7 @@ definiert, die einen designierten Spezialwert für Closures enthält:
   Z = B \cup \{ \texttt{function} \}
 \end{displaymath}
 %
-Damit läßt sich die Evaluationsfunktion wie folgt definieren:
+Damit lässt sich die Evaluationsfunktion wie folgt definieren:
 %
 \begin{eqnarray*}
   \mathit{eval}_\mathit{SECD} & \in & \mathcal{L}_{\lambda{}A} \times Z\\
@@ -657,7 +657,7 @@ Definition spezifiziert, was ein repräsentierbarer Wert ist:
 \section{Implementierung der SECD-Maschine}
 
 Die SECD-Maschine ist ein Modell für die Implementierung des
-$\lambda$-Kalküls.  Eine solche Implementierung läßt sich in
+$\lambda$-Kalküls.  Eine solche Implementierung lässt sich in
 einfach bauen~-- dieser Abschnitt zeigt, wie.  Der grobe
 Fahrplan ergibt sich dabei aus der Struktur der SECD-Maschine selbst:
 Nach den obligatorischen Datendefinitionen müssen zunächst Terme in
@@ -670,7 +670,7 @@ die Reihe.
 
 Die erste Aufgabe ist dabei zunächst, wie immer, die Datenanalyse: Am
 Anfang stehen die Terme des angewandten $\lambda$-Kalküls.  Eine
-geeignete Repräsentation mit Listen und Symbolen läßt dabei die Terme
+geeignete Repräsentation mit Listen und Symbolen lässt dabei die Terme
 in der "<fortgeschrittenen"> Sprachebene genau wie entsprechenden
 Programm-Terme aussehen:
 
@@ -744,7 +744,7 @@ werden.
 (define primitive-application (signature (predicate primitive-application?)))
 \end{verbatim}
 %
-Die Definition läßt noch offen, was genau ein "<Basiswert"> und was ein
+Die Definition lässt noch offen, was genau ein "<Basiswert"> und was ein
 "<Primitiv"> ist.  Auch hierfür werden noch Datendefinitionen
 benötigt, zuerst für Basiswerte.  Der Einfachheit halber beschränkt
 sich die Implementierung erst einmal auf boolesche Werte und Zahlen:
@@ -1397,7 +1397,7 @@ Hilfsfunktion:
                empty)))
 \end{verbatim}
 %
-Damit läßt sich die Maschine schon ausprobieren:
+Damit lässt sich die Maschine schon ausprobieren:
 %
 \begin{alltt}
 (secd-step (inject-secd '(+ 1 2)))
@@ -1476,7 +1476,7 @@ größer wird:
 \end{displaymath}
 %
 Damit ist die SECD-Maschine, so wie ist, als Ausführungsmodell für
-die Lehrsprachen ungeeignet.  Dieses Manko läßt sich zum Glück reparieren: Die
+die Lehrsprachen ungeeignet.  Dieses Manko lässt sich zum Glück reparieren: Die
 SECD-Maschine muss endrekursive und "<normale"> Applikationen
 unterschiedlich behandeln.  Dazu wird eine neue Instruktion namens
 $\mathtt{tailap}$ eingeführt, die wie $\mathtt{ap}$ eine Applikation
@@ -2397,7 +2397,7 @@ SECD-Maschine realisiert wird:
 \end{aufgabe}
 
 \begin{aufgabe}
-  \texttt{Begin} läßt sich im angewandten $\lambda$-Kalkül als
+  \texttt{Begin} lässt sich im angewandten $\lambda$-Kalkül als
   syntaktischer Zucker auffassen: Wie müssten \texttt{begin}-Ausdrücke
   in die Sprache des Kalküls übersetzt werden?
 \end{aufgabe}
