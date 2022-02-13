@@ -17,7 +17,7 @@ Kapitel stellt zunächst den \textit{angewandten $\lambda$-Kalkül} vor,
 der den normalen $\lambda$-Kalkül um primitive Werte und Operationen
 erweitert, und dann die \textit{SECD-Maschine}, ein klassisches
 Auswertungsmodell für die Call-by-Value-Reduktion.  Angenehmerweise
-läßt sich die SECD-Maschine auch als Programm implementieren,
+lässt sich die SECD-Maschine auch als Programm implementieren,
 was ebenfalls in diesem Kapitel geschieht.  Die SECD-Maschine
 kennt keine Zuweisungen; es folgt darum noch die Darstellung der
 \textit{SECDH-Maschine}, die auch einen \textit{Speicher} kennt und
@@ -28,13 +28,13 @@ Ab diesem Kapitel wird die Sprachebene \texttt{Schreibe
 
 \section{Der angewandte $\lambda$-Kalkül}
 
-Abschnitt~\ref{sec:lambdaprog} zeigte bereits, daß sich auch boolesche
+Abschnitt~\ref{sec:lambdaprog} zeigte bereits, dass sich auch boolesche
 Werte und Zahlen im $\lambda$-Kalkül durch $\lambda$-Terme darstellen
 lassen.  Das ist zwar aus theoretischer Sicht gut zu wissen, auf Dauer
 aber etwas mühsam: Darum ist es sinnvoll, mit einer erweiterten
 Version des $\lambda$-Kalküls zu arbeiten, die solche "<primitiven">
 Werte direkt kennt.  Abschnitt~\ref{sec:lambdaprog} hat gezeigt,
-daß eine solche Erweiterung nur syntaktischer Zucker ist,
+dass eine solche Erweiterung nur syntaktischer Zucker ist,
 also die Ausdruckskraft des Kalküls nicht wirklich erhöht.  Alle
 Erkenntnisse aus dem normalen $\lambda$-Kalkül bleiben also erhalten.
 
@@ -66,7 +66,7 @@ Ein solcher erweiterter $\lambda$-Kalkül heißt auch
     \> \| (\meta{$\Sigma^n$}~\meta{$\mathcal{L}_{\lambda{}A}$}~\ldots~\meta{$\mathcal{L}_{\lambda{}A}$}) \quad \textrm{($n$-mal)}
   \end{grammar}
   Die Grammatik ist abgekürzt notiert: Die letzen Klauseln besagen,
-  daß es für jede Stelligkeit $i$ eine Klausel mit \meta{$\Sigma^i$} gibt,
+  dass es für jede Stelligkeit $i$ eine Klausel mit \meta{$\Sigma^i$} gibt,
   bei der jeweils $i$ Wiederholungen von
   \meta{$\mathcal{L}_{\lambda{}A}$}~-- entsprechend der Stelligkeit
   der Primitiva in $\Sigma^i$.
@@ -89,7 +89,7 @@ Definition~\ref{def:wert} die Basiswerte dazu:
 \end{definition}
 
 Damit die primitiven Operationen auch tatsächlich eine Bedeutung
-bekommen, muß eine spezielle Reduktionsregel für sie eingeführt
+bekommen, muss eine spezielle Reduktionsregel für sie eingeführt
 werden:
 %
 \begin{definition}[$\delta$-Reduktion]\index{delta-Reduktion@$\delta$-Reduktion}
@@ -99,7 +99,7 @@ werden:
 \end{displaymath}
 \end{definition}
 %
-Diese Regel besagt, daß eine primitive Applikation, wenn alle
+Diese Regel besagt, dass eine primitive Applikation, wenn alle
 Operanden Werte sind, durch Anwendung der entsprechenden Operation 
 reduziert werden kann.  Damit wird z.B.\ der
 obige Beispielterm folgendermaßen reduziert:
@@ -128,7 +128,7 @@ Call-by-Value-Sprachen.  (Die Darstellung hier ist gegenüber Landins
 ursprünglicher Formulierung etwas modernisiert.)
 
 Damit ein Programm aus dem angewandten $\lambda$-Kalkül mit der
-SECD-Maschine ausgewertet werden kann, muß es erst einmal in einen
+SECD-Maschine ausgewertet werden kann, muss es erst einmal in einen
 speziellen \textit{Maschinencode\index{Maschinencode}} übersetzt oder
 "<compiliert"> werden.  Der Maschinencode besteht, anders als der
 $\lambda$-Kalkül, nicht aus geschachtelten Termen, sondern aus einer
@@ -171,7 +171,7 @@ Funktion in Maschinencode übersetzt:
 %
 Die Übersetzungsfunktion "<linearisiert"> einen $\lambda$-Term.  Zum
 Beispiel bedeutet die Übersetzung $\llbracket e_0\rrbracket~\llbracket
-e_1\rrbracket~\mathtt{ap}$ für einen Term $(e_0~e_1)$, daß zuerst
+e_1\rrbracket~\mathtt{ap}$ für einen Term $(e_0~e_1)$, dass zuerst
 $e_0$ ausgewertet wird, danach wird $e_1$ ausgewertet, und schließlich wird die
 eigentliche Applikation ausgeführt:  Entsprechend steht $\mathtt{ap}$
 für "<Applikation ausführen"> und $\mathtt{prim}_{F^k}$ für "<Primitiv
@@ -244,7 +244,7 @@ die Werte der zuletzt ausgewerteten Terme, wobei der zuletzt
 ausgewertete Term vorn beziehungsweise "<oben"> steht.  Die Umgebung ist eine
 partielle Abbildung von Variablen auf Werte: sie ersetzt die
 Substitution in der Reduktionsrelation des $\lambda$-Kalküls.  Anstatt
-daß Werte für Variablen eingesetzt werden, merkt sich die Umgebung
+dass Werte für Variablen eingesetzt werden, merkt sich die Umgebung
 einfach, an welche Werte die Variablen gebunden sind.  Erst wenn der
 Wert einer Variablen benötigt wird, holt ihn die Maschine aus der
 Umgebung.  Der Dump schließlich ist eine Liste früherer Zustände der
@@ -353,7 +353,7 @@ folgt:
   eine Bindung für die Variable~-- und dem Code aus der Closure fort.
 \item Regel~\ref{secd:return} ist die
   \textit{Rückkehrregel\index{Rückkehrregel}}: Sie ist anwendbar,
-  wenn das Ende des Codes erreicht ist.  Das heißt, daß gerade
+  wenn das Ende des Codes erreicht ist.  Das heißt, dass gerade
   die Auswertung einer Applikation fertig ist.  Auf dem Dump liegt
   aber noch ein gesicherter Zustand, der jetzt "<zurückgeholt"> wird.
 \end{itemize}
@@ -395,17 +395,17 @@ Diese Definition hat jedoch zwei Haken:
 \begin{itemize}
 \item Die Auswertung von $\lambda$-Termen terminiert nicht immer (wie
   zum Beispiel für den "<Endlos"=Term"> $(\lambda x.(x~x))~(\lambda x.(x~x))$), es kommt
-  also nicht immer dazu, daß die Zustandsübergangsrelation bei einem
+  also nicht immer dazu, dass die Zustandsübergangsrelation bei einem
   Zustand der Form $(\epsilon, \varnothing, \llbracket e\rrbracket,
   \epsilon)$ terminiert.
 \item Das $x$ aus dieser Definition ist nicht immer ein Basiswert~--
   es kann auch eine Closure sein.
 \end{itemize}
 %
-Der erste Haken sorgt dafür, daß die Auswertungsfunktion nur eine
+Der erste Haken sorgt dafür, dass die Auswertungsfunktion nur eine
 Relation im Sinne einer "<partiellen Funktion"> ist.  Meist wird
 trotzdem von einer Auswertungsfunktion gesprochen.  Beim zweiten
-Haken, wenn $x$ eine Closure ist, läßt sich mit dem Resultat nicht
+Haken, wenn $x$ eine Closure ist, lässt sich mit dem Resultat nicht
 viel anfangen: Um die genaue Bedeutung der Closure herauszubekommen,
 müsste sie angewendet werden~-- das Programm ist aber schon fertig
 gelaufen.  Es ist also gar nicht sinnvoll, zwischen verschiedenen
@@ -417,7 +417,7 @@ definiert, die einen designierten Spezialwert für Closures enthält:
   Z = B \cup \{ \texttt{function} \}
 \end{displaymath}
 %
-Damit läßt sich die Evaluationsfunktion wie folgt definieren:
+Damit lässt sich die Evaluationsfunktion wie folgt definieren:
 %
 \begin{eqnarray*}
   \mathit{eval}_\mathit{SECD} & \in & \mathcal{L}_{\lambda{}A} \times Z\\
@@ -436,7 +436,7 @@ Damit läßt sich die Evaluationsfunktion wie folgt definieren:
 Dieses Kapitel wird ab hier Gebrauch von einer weiteren
 Sprachebene\index{Sprachebene!fortgeschritten} in
 \drscheme{} machen, nämlich \texttt{Die Macht der Abstraktion -
-  fortgeschritten}.  Diese Ebene muß mit dem \drscheme{}-Menü \texttt{Sprache}
+  fortgeschritten}.  Diese Ebene muss mit dem \drscheme{}-Menü \texttt{Sprache}
 unter \texttt{Sprache auswählen} aktiviert sein, damit die
 Programme dieses Kapitels funktionieren.
 
@@ -490,7 +490,7 @@ Listen zu formulieren:
 In der neuen Sprachebene benutzen die Literale und die ausgedruckten
 externen Repräsentationen für Listen also die gleiche
 Notation\index{Repräsentation}.  Sie unterscheiden sich nur dadurch,
-daß beim Literal der Apostroph voransteht.  Der Apostroph funktioniert
+dass beim Literal der Apostroph voransteht.  Der Apostroph funktioniert
 auch bei Zahlen, Zeichenketten und booleschen Werten:
 %
 \begin{alltt}
@@ -508,7 +508,7 @@ genauso ausgedruckt, wie es im Programm steht.  (Abgesehen von
 Leerzeichen und Zeilenumbrüchen.)  Der Apostroph heißt auf englisch
 "<quote">\index{quote@\texttt{quote}}, und deshalb ist diese
 Literalschreibweise auch unter diesem Namen bekannt.  Bei Zahlen,
-Zeichenketten und booleschen Literalen ist auch ohne Quote klar, daß
+Zeichenketten und booleschen Literalen ist auch ohne Quote klar, dass
 es sich um Literale handelt.  Das Quote ist darum bei ihnen rein
 optional; sie heißen 
 \textit{selbstquotierend}\index{selbstquotierend}.
@@ -527,7 +527,7 @@ beginnen: \footnote{Tatsächlich ist die neue Schreibweise für externe
 %
 Mit der Einführung von Quote kommt noch eine völlig neue Sorte Werte
 hinzu: die \textit{Symbole\index{Symbol}}.  Symbole sind Werte ähnlich wie Zeichenketten und
-bestehen aus Text.  Sie unterscheiden sich allerdings dadurch, daß sie
+bestehen aus Text.  Sie unterscheiden sich allerdings dadurch, dass sie
 als Literal mit Quote geschrieben und in der REPL ohne
 Anführungszeichen ausgedruckt werden:
 %
@@ -657,7 +657,7 @@ Definition spezifiziert, was ein repräsentierbarer Wert ist:
 \section{Implementierung der SECD-Maschine}
 
 Die SECD-Maschine ist ein Modell für die Implementierung des
-$\lambda$-Kalküls.  Eine solche Implementierung läßt sich in
+$\lambda$-Kalküls.  Eine solche Implementierung lässt sich in
 einfach bauen~-- dieser Abschnitt zeigt, wie.  Der grobe
 Fahrplan ergibt sich dabei aus der Struktur der SECD-Maschine selbst:
 Nach den obligatorischen Datendefinitionen müssen zunächst Terme in
@@ -670,7 +670,7 @@ die Reihe.
 
 Die erste Aufgabe ist dabei zunächst, wie immer, die Datenanalyse: Am
 Anfang stehen die Terme des angewandten $\lambda$-Kalküls.  Eine
-geeignete Repräsentation mit Listen und Symbolen läßt dabei die Terme
+geeignete Repräsentation mit Listen und Symbolen lässt dabei die Terme
 in der "<fortgeschrittenen"> Sprachebene genau wie entsprechenden
 Programm-Terme aussehen:
 
@@ -744,7 +744,7 @@ werden.
 (define primitive-application (signature (predicate primitive-application?)))
 \end{verbatim}
 %
-Die Definition läßt noch offen, was genau ein "<Basiswert"> und was ein
+Die Definition lässt noch offen, was genau ein "<Basiswert"> und was ein
 "<Primitiv"> ist.  Auch hierfür werden noch Datendefinitionen
 benötigt, zuerst für Basiswerte.  Der Einfachheit halber beschränkt
 sich die Implementierung erst einmal auf boolesche Werte und Zahlen:
@@ -767,7 +767,7 @@ Termen unterschieden werden können, wird ein Prädikat benötigt:
 \end{verbatim}
 %
 Als Nächstes sind Primitive gefragt: Am obigen Beispiel ist zu
-erkennen, daß z.B.\ \texttt{+} ein Primitiv sein sollte.  Die
+erkennen, dass z.B.\ \texttt{+} ein Primitiv sein sollte.  Die
 Datendefinition für eine kleine beispielhafte Menge von Primitiven ist
 wie folgt:
 %
@@ -794,7 +794,7 @@ ist das folgende:
 (define primitive (signature (predicate primitive?)))
 \end{verbatim}
 %
-Bevor nun ein die SECD-Maschine einen Term verarbeiten kann, muß
+Bevor nun ein die SECD-Maschine einen Term verarbeiten kann, muss
 dieser erst in Maschinencode übersetzt werden.  Dabei entsteht aus
 Definition~\ref{def:secd-code} direkt Daten- und Signatur-Definitionen
 für Instruktionen und Maschinencode:
@@ -884,7 +884,7 @@ Kurzbeschreibung, Signatur und Gerüst:
     ...))
 \end{verbatim}
 %
-Da es sich bei \texttt{term} um gemischte Daten handelt, muß~-- wie
+Da es sich bei \texttt{term} um gemischte Daten handelt, muss~-- wie
 immer~-- eine Verzweigung den Rumpf der Funktion bilden:
 %
 \begin{verbatim}
@@ -1133,11 +1133,11 @@ liefert.  Hier sind Kurzbeschreibung, Signatur und Gerüst:
     ...))
 \end{verbatim}
 %
-Entsprechend den Regeln der SECD-Maschine muß der Rumpf der Funktion
+Entsprechend den Regeln der SECD-Maschine muss der Rumpf der Funktion
 eine Verzeigung zwischen den verschiedenen Fällen bei der
 Code-Komponente von \texttt{state} sein.  Diese folgen den
 Konstruktionsanleitungen für Listen und für gemischte Daten.  Es ist
-bereits an den Regeln abzulesen, daß alle Regeln Zugriff auf die
+bereits an den Regeln abzulesen, dass alle Regeln Zugriff auf die
 Komponenten von \texttt{state} benötigen.  Für diese werden gleich am
 Anfang lokale Variablen angelegt:
 %
@@ -1253,7 +1253,7 @@ Aufgabe~\ref{ex:kartenspiel} geforderte Funktion:
 Die \texttt{take-reverse}-Funktion ist das Pendant zu \texttt{drop},
 das die ersten $n$ Elemente einer Liste in umgekehrter Reihenfolge
 liefert.  Dies ist am einfachsten über eine endrekursive Hilfsfunktion
-zu erledigen~-- aus Kapitel~\ref{cha:accu} ist ja bekannt, daß bei
+zu erledigen~-- aus Kapitel~\ref{cha:accu} ist ja bekannt, dass bei
 endrekursiver Konstruktion von Listen gerade immer die Reihenfolge
 umgedreht wird:
 %
@@ -1381,7 +1381,7 @@ Hier ist der Code dazu:
        ...))
 \end{verbatim}
 %
-Damit die SECD-Maschine in Betrieb genommen werden kann, muß ein Term
+Damit die SECD-Maschine in Betrieb genommen werden kann, muss ein Term
 $e$ noch in einen Anfangszustand $(\epsilon, \varnothing, \llbracket
 e\rrbracket, \epsilon)$ übersetzt werden.  Das erledigt folgende
 Hilfsfunktion:
@@ -1397,7 +1397,7 @@ Hilfsfunktion:
                empty)))
 \end{verbatim}
 %
-Damit läßt sich die Maschine schon ausprobieren:
+Damit lässt sich die Maschine schon ausprobieren:
 %
 \begin{alltt}
 (secd-step (inject-secd '(+ 1 2)))
@@ -1453,7 +1453,7 @@ Die SECD-Maschine hat einen Schönheitsfehler: Bei endkursiven
 Applikationen sollte sie eigentlich, wie in Lehrsprachen-Programmen, keinerlei
 zusätzlichen Platz verbrauchen, da kein Kontext anfällt.  Folgende
 Beispielauswertung für den Term $(\lambda x.x~x)~(\lambda x.x~x)$
-zeigt aber, daß der Zustand mit fortschreitender Auswertung immer
+zeigt aber, dass der Zustand mit fortschreitender Auswertung immer
 größer wird:
 %
 % (secd-step*/tex (inject-secd '((lambda (x) (x x)) (lambda (x) (x x)))))
@@ -1476,8 +1476,8 @@ größer wird:
 \end{displaymath}
 %
 Damit ist die SECD-Maschine, so wie ist, als Ausführungsmodell für
-die Lehrsprachen ungeeignet.  Dieses Manko läßt sich zum Glück reparieren: Die
-SECD-Maschine muß endrekursive und "<normale"> Applikationen
+die Lehrsprachen ungeeignet.  Dieses Manko lässt sich zum Glück reparieren: Die
+SECD-Maschine muss endrekursive und "<normale"> Applikationen
 unterschiedlich behandeln.  Dazu wird eine neue Instruktion namens
 $\mathtt{tailap}$ eingeführt, die wie $\mathtt{ap}$ eine Applikation
 durchführt, aber eine endrekursive Applikation signalisiert:
@@ -1487,7 +1487,7 @@ durchführt, aber eine endrekursive Applikation signalisiert:
   &&\cup \{ \mathtt{tailap} \}
 \end{eqnarray*}
 %
-Als Nächstes muß die Übersetzungsfunktion von Termen in Maschinencode
+Als Nächstes muss die Übersetzungsfunktion von Termen in Maschinencode
 geändert werden:  Applikationen, die Kontext um sich herum haben,
 sollen mit $\mathtt{ap}$ übersetzt werden, solche ohne Kontext mit
 $\mathtt{tailap}$.  Da der Applikation allein der Kontext nicht
@@ -1498,8 +1498,8 @@ weitere Funktion $\llbracket \underline{~} \rrbracket'$ wird immer
 dann aufgerufen, wenn \emph{kein} Kontext drumherum steht.
 
 Kontext entsteht seinerseits immer durch Funktionsapplikationen.  Bei
-der Auswertung eines Terms $(e_0~e_1)$ muß \emph{nach} $e_0$ noch
-$e_1$ ausgewertet werden, und nach Auswertung von $e_1$ muß noch die
+der Auswertung eines Terms $(e_0~e_1)$ muss \emph{nach} $e_0$ noch
+$e_1$ ausgewertet werden, und nach Auswertung von $e_1$ muss noch die
 Applikation durchgeführt werden.  Sowohl $e_0$ als auch $e_1$ stehen
 in Kontext.  Ähnlich ist es bei den Argumenten von primitiven
 Applikationen.
@@ -1538,7 +1538,7 @@ $\llbracket \underline{~} \rrbracket'$ hin und her:
 \end{eqnarray*}
 %
 Die Übersetzungsfunktion hat die eigentliche Arbeit geleistet: Jetzt
-muß nur noch eine Zustandsübergangsregel her, die $\mathtt{tailap}$
+muss nur noch eine Zustandsübergangsregel her, die $\mathtt{tailap}$
 verarbeitet.  Diese ergibt sich direkt aus den Regeln für
 $\mathtt{ap}$ und die Rückgabe eines Wertes:  $\mathtt{tailap}$
 funktioniert so, wie $\mathtt{ap}$ direkt gefolgt von der
@@ -1593,11 +1593,11 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
 
 Der bisher vorgestellte $\lambda$-Kalkül liefert keinerlei Erklärung
 für das Verhalten von Zuweisungen.  Tatsächlich hat sich schon in
-Abschnitt~\ref{sec:assignment-problems} angedeutet, daß Zuweisungen
+Abschnitt~\ref{sec:assignment-problems} angedeutet, dass Zuweisungen
 die Formalisierung deutlich erschweren.  Möglich ist es trotzdem, und
 dieser Abschnitt zeigt, wie es geht.
 
-Als erstes muß wieder einmal die Sprache des $\lambda$-Kalküls
+Als erstes muss wieder einmal die Sprache des $\lambda$-Kalküls
 erweitert werden, diesmal um \texttt{set!}-Ausdrücke:
 %
 \begin{definition}[Sprache des angewandten $\lambda$-Kalküls mit Zustand
@@ -1658,7 +1658,7 @@ $X$:
 \end{eqnarray*}
 
 Um Reduktionsregeln für den $\lambda$-Kalkül mit Zustand zu
-formulieren, muß $\mathcal{L}_{\lambda{}S}$ noch erweitert werden,
+formulieren, muss $\mathcal{L}_{\lambda{}S}$ noch erweitert werden,
 damit die Adressen ins Spiel kommen: Adressen werden Terme und sind
 auf der linken Seite von Zuweisungen zulässig:
 %
@@ -1669,7 +1669,7 @@ auf der linken Seite von Zuweisungen zulässig:
 \end{grammar}
 %
 Adressen tauchen dabei nur als Zwischenschritte bei der Reduktion auf;
-sie sind nicht dafür gedacht, daß sie der Programmierer in ein
+sie sind nicht dafür gedacht, dass sie der Programmierer in ein
 Programm schreibt.
 
 Da das bisherige Substitutionsprinzip bei Zuweisungen nicht mehr funktioniert, reicht es
@@ -1696,7 +1696,7 @@ Arten der Reduktion gemacht:
     wobei $b_i = m(a_i) \in B$, $a$ frisch}
 \end{eqnarray*}
 %
-Die Formulierung "<$a$ frisch"> bedeutet dabei, daß $a$ eine Adresse
+Die Formulierung "<$a$ frisch"> bedeutet dabei, dass $a$ eine Adresse
 sein sollte, die in $m$ bisher noch nicht benutzt wurde.  Die Operation
 $m[a\mapsto x]$ ist ähnlich wie bei Umgebungen definiert: der alte
 Speicherinhalt bei $a$ wird zunächst entfernt, und dann eine neue
@@ -1791,7 +1791,7 @@ unterstrichen:
 }
 %
 Der Endausdruck steht für die Speicherzelle an Adresse ${\bf
-2}$, wo der Wert $13$ steht.  Es ist sichtbar, daß die
+2}$, wo der Wert $13$ steht.  Es ist sichtbar, dass die
 Auswertungsmaschinerie durch die Einführung von Zustand deutlich
 komplizierter wird.
 
@@ -1799,13 +1799,13 @@ komplizierter wird.
 \index{sec:SECDH-Maschine}
 
 Die SECD-Maschine ist nicht mächtig genug, um den $\lambda$-Kalkül mit
-Zustand zu modellieren: Es fehlt ein Speicher.  Darum muß das
+Zustand zu modellieren: Es fehlt ein Speicher.  Darum muss das
 Maschinen-Pendant zum $\lambda$-Kalkül mit Zustand um eine
 Speicher-Komponente erweitert werden: Heraus kommt die
 \textit{SECDH-Maschine}, um die es in diesem Abschnitt geht.
 
 Der Maschinencode für die SECDH-Maschine ist dabei genau wie bei der
-SECD-Maschine, nur daß eine spezielle Zuweisungsoperation hinzukommt:
+SECD-Maschine, nur dass eine spezielle Zuweisungsoperation hinzukommt:
 %
 \begin{grammar}
   \meta{I} \: \ldots
@@ -1895,7 +1895,7 @@ SECD-Maschine.  Zwei Hauptunterschiede gibt es dabei:
   (a\underline{s'}, e', \underline{c'}, \underline{d}, h)
 \end{eqnarray*}
 
-Entsprechend muß die Auswertungsfunktion das Endergebnis im Heap nachschauen:
+Entsprechend muss die Auswertungsfunktion das Endergebnis im Heap nachschauen:
 
 \begin{eqnarray*}
   \mathit{eval}_\mathit{SECD} & \in & \mathcal{L}_{\lambda{}S} \times Z\\
@@ -1915,7 +1915,7 @@ Entsprechend muß die Auswertungsfunktion das Endergebnis im Heap nachschauen:
 
 Für die Implementierung der SECDH-Maschine werden einige der
 Funktionen wiederverwendet, die für die SECD-Maschine programmiert
-wurden.  Zunächst einmal muß~-- genau wie bei der SECD-Maschine~--
+wurden.  Zunächst einmal muss~-- genau wie bei der SECD-Maschine~--
 erst einmal die Übersetzung von Termen in Maschinencode realisiert
 werden.  Zuweisungsterme haben wie in den Lehrsprachen die folgende Form:
 %
@@ -1950,8 +1950,8 @@ Mit Hilfe dieser Definition kann die Signatur-Definition von
            assignment)))
 \end{verbatim}
 %
-Um zu vermeiden, daß Zuweisungen mit regulären Applikationen
-verwechselt werden, muß das Prädikat \texttt{application?} erweitert
+Um zu vermeiden, dass Zuweisungen mit regulären Applikationen
+verwechselt werden, muss das Prädikat \texttt{application?} erweitert
 werden:
 %
 \begin{verbatim}
@@ -2028,7 +2028,7 @@ der Signatur von \texttt{make-binding}:
 \end{verbatim}
 
 %
-Bei der Repräsentation des Heaps ist wichtig, daß eine Operation zur
+Bei der Repräsentation des Heaps ist wichtig, dass eine Operation zur
 Beschaffung frischer Adressen eingebaut wird.  Aus diesem Grund
 enthält der Heap zusätzlich zu den Zellen auch noch einen Zähler mit
 der nächsten frischen Adresse:
@@ -2076,7 +2076,7 @@ entsprechend der mathematischen Definition:
 \end{verbatim}
 %
 Die Ellipse steht für die nächste frische Adresse: Wenn die bisherige
-frische Adresse in \texttt{heap-store} belegt wird, so muß eine neue
+frische Adresse in \texttt{heap-store} belegt wird, so muss eine neue
 frische Adresse gewählt werden:
 %
 \begin{verbatim}
@@ -2356,7 +2356,7 @@ SECD-Maschine realisiert wird:
   Die um Endrekursion erweiterte SECD-Maschine führt eine neue
   Maschinencode"=Instruktion \texttt{tailap} ein.  Dies ist aber nicht
   unbedingt nötig.  Formulieren Sie die Zustandsübergangsregeln der
-  SECD-Maschine mit Endrekursion so um, daß die Funktionalität, also
+  SECD-Maschine mit Endrekursion so um, dass die Funktionalität, also
   insbesondere die richtige Behandlung endrekursiver Applikationen,
   auch ohne das das zusätzliche Schlüsselwort \texttt{tailap}
   erhalten bleibt.
@@ -2364,7 +2364,7 @@ SECD-Maschine realisiert wird:
 
 \begin{aufgabe}
   Zeigen Sie in der um Endrekursion erweiterten
-  SECD-Maschine, daß \texttt{tailap} immer am Ende steht, also
+  SECD-Maschine, dass \texttt{tailap} immer am Ende steht, also
   tatsächlich keinen Kontext besitzt.
 \end{aufgabe}
 
@@ -2374,7 +2374,7 @@ SECD-Maschine realisiert wird:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Ändern Sie die Implementierung der SECDH-Maschine dahingehend, daß
+  Ändern Sie die Implementierung der SECDH-Maschine dahingehend, dass
   sie Endrekursion korrekt behandelt.
 \end{aufgabe}
 
@@ -2397,14 +2397,14 @@ SECD-Maschine realisiert wird:
 \end{aufgabe}
 
 \begin{aufgabe}
-  \texttt{Begin} läßt sich im angewandten $\lambda$-Kalkül als
+  \texttt{Begin} lässt sich im angewandten $\lambda$-Kalkül als
   syntaktischer Zucker auffassen: Wie müssten \texttt{begin}-Ausdrücke
   in die Sprache des Kalküls übersetzt werden?
 \end{aufgabe}
 
 \begin{aufgabe}
   Anstatt Umgebungen durch Listen von Bindungen zu repräsentieren, ist
-  es auch möglich, Funktionen zu verwenden, so daß
+  es auch möglich, Funktionen zu verwenden, so dass
   \texttt{lookup-environment} folgendermaßen aussieht:
 \begin{verbatim}
 (define lookup-environment

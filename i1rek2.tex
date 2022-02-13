@@ -19,7 +19,7 @@ transportierenden Artikeln, jeder mit einem bestimmten Gewicht, sind solche Arti
 auszuwählen, dass die Tragfähigkeit des Lastwagens möglichst gut ausgeschöpft
 wird.
 
-Für die Lösung muß erst einmal festgelegt werden, wie Ein- und Ausgabe
+Für die Lösung muss erst einmal festgelegt werden, wie Ein- und Ausgabe
 des Programms aussehen sollen.  Die elementare Größe im Problem ist
 ein \textit{Artikel}, der aus einer Artikelnummer und seinem Gewicht
 besteht.  Folgende Daten- und Record-Definition passen dazu:\index{title@\texttt{title}}
@@ -94,10 +94,10 @@ Die Funktion arbeitet auf Listen, was folgende Schablone nahelegt:
 Wenn keine Artikel da sind, kommen
 auch keine in den Lastwagen.  Die Liste im ersten Zweig ist also leer.  Der
 zweite Fall ist etwas komplizierter.
-Das liegt daran, daß es dort
+Das liegt daran, dass es dort
 eine weitere Fallunterscheidung gibt, je nach dem ersten Artikel
 \texttt{(first articles)}:
-die Funktion muß entscheiden, ob dieser erste
+die Funktion muss entscheiden, ob dieser erste
 Artikel schließlich in den Lastwagen kommen soll oder nicht.
 Ein erstes Ausschlußkriterium ist, wenn der Artikel schwerer ist als die
 Tragfähigkeit erlaubt:
@@ -114,10 +114,10 @@ Tragfähigkeit erlaubt:
 \end{alltt}
 %
 Damit ist die Frage, ob der erste Artikel im Lastwagen landet, aber immer
-noch nicht abschließend beantwortet.  Schließlich muß
+noch nicht abschließend beantwortet.  Schließlich muss
 \texttt{load-list} noch entscheiden, ob unter Verwendung dieses
 Artikels der Lastwagen optimal vollgepackt werden
-kann.  Dazu muß die Funktion vergleichen, wie ein Lastwagen \emph{mit}
+kann.  Dazu muss die Funktion vergleichen, wie ein Lastwagen \emph{mit}
 dem ersten Artikel und wie er \emph{ohne} diesen Artikel am besten
 vollgepackt werden würde.   Die Variante "<ohne"> wird mit folgendem
 Ausdruck ausgerechnet:
@@ -214,7 +214,7 @@ weiteren lokalen Variable macht die Funktion noch übersichtlicher:
 %
 Zurück zur eigentlichen Aufgabe: \texttt{articles-1} und
 \texttt{articles-2} sollen hinsichtlich ihres Gewichts verglichen werden.
-Dies muß natürlich berechnet werden.  Da dafür noch eine Funktion
+Dies muss natürlich berechnet werden.  Da dafür noch eine Funktion
 fehlt, kommt Wunschdenken zur Anwendung:\index{articles-weight@\texttt{articles-weight}}
 %
 \begin{alltt}
@@ -273,7 +273,7 @@ Artikel nur das Gewicht:
 \end{alltt}
 %
 Nach Induktionsannahme liefert \texttt{(articles-weight (rest articles))} das
-Gewicht der restlichen Artikel.  Das Gewicht des ersten Artikels muß also
+Gewicht der restlichen Artikel.  Das Gewicht des ersten Artikels muss also
 nur addiert werden:
 %
 \begin{alltt}
@@ -286,7 +286,7 @@ nur addiert werden:
          (articles-weight (rest articles)))))))
 \end{alltt}
 %
-Mit \texttt{articles-weight} läßt sich bestimmen, wie voll der
+Mit \texttt{articles-weight} lässt sich bestimmen, wie voll der
 Lastwagen beladen ist.  Im Falle von \texttt{stock} ist das
 Ergebnis sehr erfreulich; kein Platz wird verschenkt:
 %

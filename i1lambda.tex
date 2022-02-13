@@ -15,12 +15,12 @@ eine wichtige theoretische Grundlage der
 Programmierung.
 
 Für die Informatik ist der Begriff des \emph{logischen Kalküls\index{Kalkül}\index{logischer Kalkül}} von zentraler Bedeutung.
-Ein Kalkül dient dazu, auf formale Art und Weise wahre Aussagen abzuleiten, ohne daß
+Ein Kalkül dient dazu, auf formale Art und Weise wahre Aussagen abzuleiten, ohne dass
 es dabei nötig wird, über den Sinn der Aussagen nachzudenken.   
 Der $\lambda$-Kalkül ist ein logischer Kalkül, der als die Basis für
 eine formale Beschreibung des Verhaltens von Computerprogrammen dient.
 Die Lehrsprache baut direkt auf dem $\lambda$-Kalkül auf: es ist kein
-Zufall, daß das Schlüsselwort für die Abstraktion \texttt{lambda}
+Zufall, dass das Schlüsselwort für die Abstraktion \texttt{lambda}
 heißt.  Es gibt noch viele weitere Einsatzgebiete für den $\lambda$-Kalkül,
 insbesondere bei der Konstruktion von besonders effizienten
 Übersetzern für Programmiersprachen, in der Logik und der Linguistik,
@@ -52,7 +52,7 @@ wobei $x$ \textit{Parameter\index{Parameter}} der Abstraktion heißt und $e$
 einen $\lambda$-Term, $v$ und $x$ stehen für Variablen.
 \end{definition}
 %
-Es ist kein Zufall, daß die Lehrsprachen genau die gleichen Begriffe verwendet
+Es ist kein Zufall, dass die Lehrsprachen genau die gleichen Begriffe verwendet
 wie der $\lambda$-Kalkül.  Ein Lambda-Ausdruck mit einem
 Parameter entspricht einer Abstraktion im $\lambda$-Kalkül,
 und die Applikationen in den Lehrsprachen entsprechen den Applikationen im
@@ -62,7 +62,7 @@ $\lambda$-Kalkül aufgebaut.
 Die Intuition für die Bedeutung der $\lambda$-Terme ist ähnlich wie in
 Scheme: Eine Abstraktion steht für eine mathematische Funktion,
 speziell für eine solche Funktion, die sich durch ein Computerprogramm
-berechnen läßt.\footnote{Die Wahl des Buchstabens $\lambda$ für die
+berechnen lässt.\footnote{Die Wahl des Buchstabens $\lambda$ für die
   Notation von Abstraktionen war eher ein Unfall: Zur Zeit der
   Entstehung des Kalküls war der Ausdruck $2\hat{x}+1$ eine historische Notation für eine
   Funktion $f$ mit $f(x)\deq{}2x+1$.  \textsc{Alonzo Church},
@@ -91,7 +91,7 @@ $x$ an:
   (\lambda f.(\lambda x.(f~x)))
 \end{displaymath}
 %
-An diesem Beispiel wird deutlich, daß sich im $\lambda$-Kalkül, wie
+An diesem Beispiel wird deutlich, dass sich im $\lambda$-Kalkül, wie
 in den Lehrsprachen  auch, die Klammern schnell häufen, wenn die Terme größer
 werden.  Darum werden redundante Klammern beim Aufschreiben von
 $\lambda$-Termen oft weggelassen.  Damit wird aus dem obigen Term der
@@ -101,7 +101,7 @@ folgende:
   \lambda f.\lambda x.f~x
 \end{displaymath}
 %
-Dieser Ausdruck läßt sich unterschiedlich
+Dieser Ausdruck lässt sich unterschiedlich
 klammern: $(\lambda f.((\lambda x.f)~x))$, $(\lambda
 f.(\lambda x.(f~x)))$ oder $((\lambda f.\lambda x.f)~x)$.  Bei
 solchen Mehrdeutigkeiten 
@@ -129,10 +129,10 @@ in der Notation von $\lambda$-Termen:
 Dementsprechend ist $\lambda fxy.f~x~y$ eine andere Schreibweise für
 den Term \[(\lambda f.(\lambda x.(\lambda y.((f~x)~y))))\ .\]
 
-Bemerkenswert am $\lambda$-Kalkül ist, daß es dort \emph{nur}
+Bemerkenswert am $\lambda$-Kalkül ist, dass es dort \emph{nur}
 Funktionen gibt, noch nicht einmal Zahlen, boolesche Werte oder
 zusammengesetzte Daten.  Darum erscheint die Sprache des Kalküls auf den
-ersten Blick noch spartanisch und unintuitiv: So unmittelbar läßt sich
+ersten Blick noch spartanisch und unintuitiv: So unmittelbar lässt sich
 noch nicht einmal eine Funktion hinschreiben, die zwei Zahlen addiert~--
 schließlich gibt es keine Zahlen.  Wie sich jedoch weiter unten in
 Abschnitt~\ref{sec:lambdaprog} herausstellen wird, lassen sich all diese
@@ -167,7 +167,7 @@ Umgang mit Variablen, was eine Hilfsdefinition notwendig macht:
   \end{align*}
   %
   Außerdem ist \index{var@$\var$}$\var(e) \deq{} \free(e)\cup\bound(e)$ die \emph{Menge der
-    Variablen} von $e$.  (Es läßt sich leicht zeigen, daß diese Menge
+    Variablen} von $e$.  (Es lässt sich leicht zeigen, dass diese Menge
   alle vorkommenden Variablen eines $\lambda$-Terms enthält.)  Ein
   $\lambda$-Term $e$ heißt \emph{abgeschlossen\index{abgeschlossen}} beziehungsweise 
   \textit{Kombinator\index{Kombinator}}, falls $\free(e)=\varnothing$.
@@ -192,7 +192,7 @@ gebunden vorkommen:
   \bound(\lambda x.y~(\lambda y.y)) &=& \{ x, y\}
 \end{eqnarray*}
 %
-Entscheidend ist dabei, daß das $y$ einmal innerhalb und einmal
+Entscheidend ist dabei, dass das $y$ einmal innerhalb und einmal
 außerhalb einer bindenden Abstraktion auftaucht. Das Frei- und
 Gebundensein bezieht sich also immer auf bestimmte \emph{Vorkommen\index{Vorkommen}}
 einer Variablen in einem $\lambda$-Term.
@@ -234,7 +234,7 @@ Abstraktionen zu verändern.  Der Mechanismus dafür heißt auch hier
 %
 Die Definition der Substitution erscheint auf den ersten Blick
 kompliziert, folgt aber letztlich nur direkt dem Prinzip der
-lexikalischen Bindung.  Die erste Regel besagt, daß das Vorkommen
+lexikalischen Bindung.  Die erste Regel besagt, dass das Vorkommen
 einer Variable durch eine Substitution genau dieser Variablen ersetzt
 wird:
 %
@@ -242,7 +242,7 @@ wird:
       v[v\mapsto f] = f
 \end{displaymath}
 %
-Die zweite Regel besagt, daß das Vorkommen einer \emph{anderen}
+Die zweite Regel besagt, dass das Vorkommen einer \emph{anderen}
 Variable durch die Substitution nicht betroffen wird:
 %
 \begin{displaymath}
@@ -256,13 +256,13 @@ Die dritte Regel ist auf den ersten Blick etwas überraschend:
 \end{displaymath}
 %
 Ein $\lambda$-Ausdruck, dessen Parameter gerade die Variable ist, die
-substitutiert werden soll, bleibt unverändert.  Das liegt daran, daß
+substitutiert werden soll, bleibt unverändert.  Das liegt daran, dass
 mit dem $\lambda$-Ausdruck die Zugehörigkeit aller Vorkommen von $v$
 in $e_0$ bereits festgelegt ist: ein Vorkommen von $v$ in $e_0$ gehört
 entweder zu dieser Abstraktion oder einer anderen Abstraktion mit $v$
 als Parameter, die in $e_0$ weiter innen steht~-- $v$ ist in $(\lambda
 v.e_0)$ gebunden und $v\in\bound(\lambda v.e_0)$.
-Da die Substitution diese Zugehörigkeiten nicht verändern darf, läßt
+Da die Substitution diese Zugehörigkeiten nicht verändern darf, lässt
 sie das $v$ in Ruhe.
 
 Anders sieht es aus, wenn die Variable der Abstraktion eine andere
@@ -274,8 +274,8 @@ ist~-- die vierte Regel:
 \end{displaymath}
 %
 In diesem Fall wird die Substitution auf den Rumpf der Abstraktion
-angewendet.  Wichtig ist dabei, daß $x$ nicht frei in $f$ vorkommt~-- sonst
-könnte es vorkommen, daß beim Einsetzen von $f$ ein freies Vorkommen
+angewendet.  Wichtig ist dabei, dass $x$ nicht frei in $f$ vorkommt~-- sonst
+könnte es vorkommen, dass beim Einsetzen von $f$ ein freies Vorkommen
 von $x$ plötzlich durch die umschließende Abstraktion gebunden wird.
 Damit würde auch wieder die durch die lexikalische Bindung\index{lexikalische Bindung} definierte
 Zugehörigkeitsregel verletzt.
@@ -290,7 +290,7 @@ fünfte Regel:
   \end{array}
 \end{displaymath}
 %
-Hier kann es passieren, daß die freien $x$ in $f$ durch die
+Hier kann es passieren, dass die freien $x$ in $f$ durch die
 Abstraktion "<eingefangen"> werden.  Aus diesem Grund wird einfach das
 $x$ in der Abstraktion aus dem Weg geschafft und durch ein
 "<frisches"> $x'$ ersetzt, das noch nirgendwo frei vorkommt.
@@ -380,7 +380,7 @@ Operanden einer Applikation ersetzt werden.
 %\end{displaymath}
 %%
 %Wichtig ist dabei die Voraussetzung der $\eta$-Regel: $x$ darf nicht
-%frei in $e$ vorkommen, was dafür sorgt, daß die Substitution von $x$
+%frei in $e$ vorkommen, was dafür sorgt, dass die Substitution von $x$
 %durch $f$ in $e$ keinerlei Wirkung hat.
 %\end{comment}
 
@@ -431,7 +431,7 @@ $\beta$-Reduktion.  Der gewählte Redex ist jeweils unterstrichen:
 In diesem Beispiel kommt eine weitere
 $\beta$-Reduktion sowohl von $(\lambda x.z)~a$ als auch von $(\lambda
 y.y)~z$ zum gleichen Ergebnis $z$~-- ein Indiz
-dafür, daß schließlich alle Abfolgen von $\beta$-Reduktionen zum
+dafür, dass schließlich alle Abfolgen von $\beta$-Reduktionen zum
 gleichen Ergebnis kommen.  Eine solche Eigenschaft eines Kalküls heißt
 \textit{Normalformeigenschaft}.  Hier ist die Definition des
 Normalformbegriffs für den $\lambda$-Kalkül:
@@ -459,7 +459,7 @@ Beispiel:
 \end{displaymath}
 %
 Solche Terme ohne Normalformen lassen sich endlos weiterreduzieren,
-ohne daß der Prozeß jemals zum Schluß kommt.  Sie entsprechen damit
+ohne dass der Prozess jemals zum Schluß kommt.  Sie entsprechen damit
 Programmen, die endlos weiterrechnen.
 Dies ist kein spezieller Defekt des
 $\lambda$-Kalküls: Jeder Kalkül, der mächtig genug ist, um beliebige
@@ -510,14 +510,14 @@ Normalformen zum Finden von Beweisen im $\lambda$-Kalkül:
 %
   \begin{beweis}
     Angenommen, es gebe zwei unterschiedliche Normalformen $e_1$ und
-    $e_2$ von $e$.  Nach Satz~\ref{satz:church-rosser} muß es dann
+    $e_2$ von $e$.  Nach Satz~\ref{satz:church-rosser} muss es dann
     aber einen weiteren $\lambda$-Term $e'$ geben mit   $e_1\overset{\ast}{\rightarrow_\beta} e'$ und
   $e_2\overset{\ast}{\rightarrow_\beta} e'$.  Entweder sind $e_1$ und
     $e_2$ also nicht unterschiedlich, oder zumindest einer von
     beiden ist keine Normalform im Widerspruch zur Annahme.
   \end{beweis}
 %
-  Satz~\ref{satz:normalform} bestätigt, daß
+  Satz~\ref{satz:normalform} bestätigt, dass
   der $\lambda$-Kalkül ein sinnvoller Mechanismus für die Beschreibung
   des Verhaltens von Computerprogrammen ist: Bei einem $\lambda$-Term
   ist es gleichgültig, in welcher Reihenfolge die Reduktionen
@@ -527,7 +527,7 @@ Normalformen zum Finden von Beweisen im $\lambda$-Kalkül:
 \section{Der $\lambda$-Kalkül als Programmiersprache}
 \label{sec:lambdaprog}
 
-Mit dem Normalformsatz ist geklärt, daß Terme im
+Mit dem Normalformsatz ist geklärt, dass Terme im
 $\lambda$-Kalkül, die eine Normalform besitzen, so etwas wie einen
 "<Sinn"> haben, der unabhängig von der Reihenfolge der
 Reduktionsschritte ist.  Bleibt die Frage, ob der $\lambda$-Kalkül
@@ -537,8 +537,8 @@ Auf den ersten Blick erscheint das etwas unwahrscheinlich: In der Welt
 des $\lambda$-Kalküls gibt es direkt
 keine eingebauten booleschen Werte oder Zahlen.
 Diese lassen sich jedoch durch Funktionen nachbilden.  Das heißt,
-daß der $\lambda$-Kalkül ebenso mächtig wie eine ausgewachsene
-Programmiersprache ist.  Dadurch, daß er aber nur eine zentrale
+dass der $\lambda$-Kalkül ebenso mächtig wie eine ausgewachsene
+Programmiersprache ist.  Dadurch, dass er aber nur eine zentrale
 Reduktionsregel besitzt, eignet er sich aber viel besser als eine
 komplizierte Programmiersprache für die formale Manipulation.
 
@@ -573,14 +573,14 @@ das erste:
 \end{align*}
 %
 Damit hat die Verzweigung selbst nicht mehr viel zu tun; sie wendet
-einfach den Test, der einen booleschen Wert ergeben muß, auf
+einfach den Test, der einen booleschen Wert ergeben muss, auf
 Konsequente und Alternative an:
 %
 \begin{displaymath}
   \mathit{if} \deq{} \lambda t x y.t~x~y
 \end{displaymath}
 %
-Daß $\mathit{if}$\index{if@$\mathit{if}$} tatsächlich so funktioniert wie angenommen, läßt
+Daß $\mathit{if}$\index{if@$\mathit{if}$} tatsächlich so funktioniert wie angenommen, lässt
 sich an einem Beispiel leicht sehen:
 %
 \begin{displaymath}
@@ -635,17 +635,17 @@ Der folgende Term bildet die Vorgängerfunktion ab\index{Vorgänger}\index{pred@
   q.q~(p~y))~((\lambda x.\lambda y.x)~z)~(\lambda x.x)
 \end{displaymath}
 %
-Der Beweis dafür, daß sich $\mathit{pred}$ in bezug auf $\mathit{succ}$ wie die
+Der Beweis dafür, dass sich $\mathit{pred}$ in bezug auf $\mathit{succ}$ wie die
 Vorgängerfunktion verhält, ist Übungsaufgabe~\ref{ex:pred}.
 
-In Verbindung mit den booleschen Werten läßt sich eine Zahl daraufhin
+In Verbindung mit den booleschen Werten lässt sich eine Zahl daraufhin
 testen, ob sie $0$ ist:\index{zerop@$\mathit{zerop}$}
 %
 \begin{displaymath}
   \mathit{zerop} \deq{} \lambda n.n~(\lambda x.\mathit{false})~\mathit{true}
 \end{displaymath}
 %
-Die Funktionsweise von $\mathit{zerop}$ läßt sich am einfachsten an
+Die Funktionsweise von $\mathit{zerop}$ lässt sich am einfachsten an
 einem Beispiel erkennen:
 %
 \begin{displaymath}
@@ -663,12 +663,12 @@ einem Beispiel erkennen:
 \subsection{Rekursion und Fixpunktsatz}
 \label{sec:fixpunktsatz}
 %
-Schließlich fehlt noch die Rekursion\index{Rekursion}.  Das Hauptproblem dabei ist, daß
+Schließlich fehlt noch die Rekursion\index{Rekursion}.  Das Hauptproblem dabei ist, dass
 es im $\lambda$-Kalkül kein Pendant zu \texttt{define} oder
 \texttt{letrec} gibt: Es gibt keine direkte Möglichkeit, eine
 rekursive Bindung herzustellen.  Zur Realisierung von Rekursion ist
 deshalb ein Kunstgriff notwendig, der sich an der rekursiven
-Definition der Fakultät zeigen läßt.
+Definition der Fakultät zeigen lässt.
 Schön wäre eine Definition wie folgt, wobei Zahlen ohne $\lceil\:\rceil$ für
 ihre Church-Numerale stehen:\index{fac@$\mathit{fac}$}
 %
@@ -689,7 +689,7 @@ rechten Seite entfernt wird, bleibt folgender Term übrig:
   \lambda x.\mathit{if}~(\mathit{zerop}~x~1)~1~(\ast~x~(?~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Immerhin ist zu sehen, daß dieser Term korrekt die Fakultät von $0$
+Immerhin ist zu sehen, dass dieser Term korrekt die Fakultät von $0$
 ausrechnet, nämlich $1$.  Für alle Zahlen größer als $0$ ist es allerdings
 schlecht bestellt, da der Term "<$?$"> noch unbekannt ist.
 Weil der obige Term nur für $0$ taugt, sei er mit $\mathit{fac}_0$
@@ -708,7 +708,7 @@ sieht so aus:
   \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}_0~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Da $\mathit{fac}_0$ keinen Selbstbezug enthält, läßt sich seine
+Da $\mathit{fac}_0$ keinen Selbstbezug enthält, lässt sich seine
 Definition einsetzen; das Ergebnis soll der Funktion entsprechend
 $\mathit{fac}_1$ heißen:
 %
@@ -716,14 +716,14 @@ $\mathit{fac}_1$ heißen:
   \mathit{fac}_1 \deq{} \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~((\lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(?~(\mathit{pred}~x))))~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Auf die gleiche Art und Weise läßt sich ein Term konstruieren, der
+Auf die gleiche Art und Weise lässt sich ein Term konstruieren, der
 alle Fakultäten bis 2 ausrechnen kann:
 %
 \begin{displaymath}
   \mathit{fac}_2 \deq{} \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}_1~(\mathit{pred}~x)))
 \end{displaymath}
 %
-Dieses Muster läßt sich immer so weiter fortsetzen.  Leider entsteht
+Dieses Muster lässt sich immer so weiter fortsetzen.  Leider entsteht
 dabei trotzdem nie ein Term, der die Fakultäten \emph{aller}
 natürlichen Zahlen berechnen kann, da die Terme immer endlich groß
 bleiben.
@@ -749,14 +749,14 @@ $\mathit{fac}_n$-Funktionen mit Hilfe von $\mathit{FAC}$ einfacher beschreiben:
 \end{eqnarray*}
 %
 $\mathit{FAC}$ ist also eine Fabrik für Fakultätsfunktionen und
-teilt mit allen $\mathit{fac}_i$ die Eigenschaft, daß ihre
+teilt mit allen $\mathit{fac}_i$ die Eigenschaft, dass ihre
 Definition nicht rekursiv ist.
 
 Damit ist zwar die Notation weniger schreibintensiv geworden,
 aber das fundamentale Problem ist noch nicht gelöst: Eine korrekte
 Definition von $\mathit{fac}$ müsste eine unendliche
 Kette von Applikationen von $\mathit{FAC}$ enthalten.
-Da sich ein Term mit einer unendlichen Kette von Applikationen nicht aufschreiben läßt, hilft im Moment nur Wunschdenken weiter.
+Da sich ein Term mit einer unendlichen Kette von Applikationen nicht aufschreiben lässt, hilft im Moment nur Wunschdenken weiter.
 Dafür sei angenommen, $\mathit{fac}$ wäre bereits gefunden.  Dann gilt folgende
 Gleichung:
 %
@@ -831,7 +831,7 @@ macht diesen also auch nicht größer.  Damit ist aber $\mathit{fac}$ ein sogena
 \textit{Fixpunkt\index{Fixpunkt}} von $\mathit{FAC}$:  Wenn $\mathit{fac}$
 hineingeht, kommt es auch genauso wieder heraus.  Wenn es nun eine
 Möglichkeit gäbe, für einen $\lambda$-Term einen Fixpunkt zu finden,
-wäre das Problem gelöst.  Der folgende Satz zeigt, daß dies tatsächlich
+wäre das Problem gelöst.  Der folgende Satz zeigt, dass dies tatsächlich
 möglich ist:
 %
 \begin{satz}[Fixpunktsatz]\index{Fixpunktsatz}
@@ -865,7 +865,7 @@ möglich ist:
 %
 Der $\lambda$-Term $Y$\index{Y@$Y$}, der Fixpunkte
 berechnet, heißt
-\textit{Fixpunktkombinator\index{Fixpunktkombinator}}.  Mit seiner Hilfe läßt sich
+\textit{Fixpunktkombinator\index{Fixpunktkombinator}}.  Mit seiner Hilfe lässt sich
 die Fakultät definieren:
 %
 \begin{displaymath}
@@ -883,8 +883,8 @@ $3$ mit dieser Definition funktioniert.
 von Church/\linebreak[0]Rosser sind wichtige Meilensteine auf dem Weg zur
 Verwendung des $\lambda$-Kalküls als Basis für reale
 Programmiersprachen.  Leider hat die Anwendung des Satzes von
-Church/Rosser noch einen Haken in der Praxis: Er besagt zwar, daß sich
-die Äquivalenz von zwei Termen dadurch beweisen läßt, daß ihre
+Church/Rosser noch einen Haken in der Praxis: Er besagt zwar, dass sich
+die Äquivalenz von zwei Termen dadurch beweisen lässt, dass ihre
 Normalformen verglichen werden.  Leider sagt er nichts darüber,
 wie diese Normalformen gefunden werden.
 
@@ -984,7 +984,7 @@ Call-by-Name-Reduktion zuerst der äußere Redex reduziert:
 \end{displaymath}
 %
 Bei dieser Reduktionsfolge wurde der Subterm $((\lambda y.y)~z)$
-zunächst "<verdoppelt"> und mußte demnach auch zweimal reduziert
+zunächst "<verdoppelt"> und musste demnach auch zweimal reduziert
 werden.  Eine andere Auswertungsstrategie verspricht die Vermeidung
 solcher doppelter Arbeit:  Die meisten Programmiersprachen verwenden
 eine Strategie, die von der sogenannten \textit{Linksinnen-Reduktion},
@@ -1070,11 +1070,11 @@ Funktionanwendungen der Form \texttt{(\(p\) \(o\sb{1}\) \(\ldots\) \(o\sb{n}\))}
 %
 \begin{quote}
   [\ldots] Zunächst werden Operator $p$ und Operanden $o_1, \ldots, o_n$
-  ausgewertet.  Der Wert von $p$ muß eine Funktion sein. [\ldots]
+  ausgewertet.  Der Wert von $p$ muss eine Funktion sein. [\ldots]
 \end{quote}
 %
 Der entscheidende Satz ist dabei der letzte:
-Er bedeutet, daß innen zuerst ausgewertet wird;
+Er bedeutet, dass innen zuerst ausgewertet wird;
 treten bei der Auswertung von Operator und Operanden weitere
 Funktionanwendungen auf, wird das gleiche Prinzip rekursiv angewendet.
 Damit ist das Substitutionsmodell eng verwandt mit der
@@ -1091,7 +1091,7 @@ Sprachen wie z.B.\ Haskell,
 die auf der sogenannten \textit{lazy evaluation\index{lazy evaluation}} beruhen.  Ihre
 Auswertungsstrategie ist eng mit der Call-by-Name-Auswertung im
 $\lambda$-Kalkül verwandt.  Allerdings vermeiden diese Sprachen die
-mehrfache überflüssige Auswertung von Ausdrücken dadurch, daß sie den
+mehrfache überflüssige Auswertung von Ausdrücken dadurch, dass sie den
 Wert beim ersten Mal abspeichern und danach wiederverwenden.
 
 \section*{Übungsaufgaben}
@@ -1099,12 +1099,12 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
 
 
 \begin{aufgabe}\label{ex:pred}
-  Beweise, daß $\mathit{pred}$ den Vorgänger eines
+  Beweise, dass $\mathit{pred}$ den Vorgänger eines
   positiven Church-Numerals berechnet!
 \end{aufgabe}
 
 \begin{aufgabe}\label{ex:church}
-  Beweise, daß es Lambda-Terme für die folgenden arithmetischen
+  Beweise, dass es Lambda-Terme für die folgenden arithmetischen
   Operationen auf Church-Numeralen gibt:
   %
   \begin{eqnarray*}
@@ -1129,7 +1129,7 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
   \end{eqnarray*}
   und gibt eine eigene Definition für $=$ an.
   %
-  Dabei läßt sich die Korrektheit von $\mathit{add}$ direkt beweisen.
+  Dabei lässt sich die Korrektheit von $\mathit{add}$ direkt beweisen.
   Für $\mathit{mult}$ und $\mathit{exp}$ beweise und benutze dazu
   folgende Hilfslemmata:
   %
@@ -1153,10 +1153,10 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
      (lambda (x) (f (x x))))))
 \end{verbatim}
   %
-  Zeige durch Ausprobieren, daß \texttt{y} mit dieser Definition 
+  Zeige durch Ausprobieren, dass \texttt{y} mit dieser Definition 
   nicht funktioniert.  Warum ist das so?  Benutze für die
   Erklärung das Substitutionsmodell!
-  Zeige, daß die folgende Variante von \texttt{y} ein
+  Zeige, dass die folgende Variante von \texttt{y} ein
   Fixpunktkombinator ist, der funktioniert:
   %
 \begin{verbatim}
@@ -1170,7 +1170,7 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
 
 \end{aufgabe}
 \begin{aufgabe} (Quelle: Ralf Hinze, Bonn)
-  Zeige, daß $F$ mit der folgenden Definition ebenfalls ein
+  Zeige, dass $F$ mit der folgenden Definition ebenfalls ein
   Fixpunktkombinator ist:
   \begin{eqnarray*}
     F &\deq{}& G^{[26]}
