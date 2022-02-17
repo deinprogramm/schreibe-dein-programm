@@ -1154,7 +1154,7 @@ Die Tests weisen uns also auf mögliche Fehler hin.  Das ist so
 wertvoll, dass wir in Zukunft \emph{immer} Tests schreiben werden, und
 zwar nach der Signatur.  Insbesondere werden wir die Tests schreiben,
 \emph{bevor} wir die Definition angehen.  Das nervt manchmal, ist aber
-psychologisch sinnvoll, damit wir uns vorher überlegen wie das
+psychologisch sinnvoll, damit wir uns vorher überlegen, wie das
 richtige Verhalten der Funktion aussehen soll.  Wenn wir die Tests
 hinterher schreiben, ist die Versuchung groß, die Funktion einfach in
 der REPL aufzurufen und das tatsächliche Ergebnis in den Test zu
@@ -1174,7 +1174,7 @@ Hier können wir das Ergebnis direkt der Tabelle entnehmen.  Dieser
 ist aber so einfach zu schreiben, dass wir die Gelegenheit nicht
 auslassen sollten, ihn zu schreiben.
 
-Wieviele Tests sollte man schreiben?  Das hängt von der Komplexität
+Wie viele Tests sollte man schreiben?  Das hängt von der Komplexität
 der Funktion ab.  Aber drei sollten es bei einfachen Funktionen
 mindestens sein, bei komplizierteren mehr.  Ein einfaches weiteres
 Kriterium ist, dass jeder Teil des Programms, das wir geschrieben
@@ -1198,7 +1198,7 @@ Bei Programmen, die Bilder erzeugen, ist es in der Regel nicht
 möglich, die Testfälle vorher zu schreiben.  Du kannst aber Beispiele
 ausprobieren, die Du Dir vorher überlegt hast, und diese visuell überprüfen.
 Wenn Dir ein Ergebnis richtig erscheint, kannst Du das Bild aus der
-REPL kopieren in das Programm kopieren.  In der REPL könnte das so aussehen:
+REPL in das Programm kopieren.  In der REPL könnte das so aussehen:
 %
 \begin{lstlisting}
 (square 40 "solid" "red")
@@ -1305,7 +1305,7 @@ Für jeden dieser Schritte gibt es jeweils eine Konstruktionsanleitung,
 für manche mehrere je nach Situation.  Es mag Dir übermäßig
 bürokratisch vorkommen, immer die gleiche Reihenfolge einzuhalten und
 immer nach der jeweiligen Konstruktionsanleitung vorzugehen.
-Bürokratisch ist das in jedem Fall, ist aber eine wertvolle
+Bürokratisch ist das in jedem Fall, aber auch eine wertvolle
 Hilfestellung, die verhindert, dass Du in unnötige Sackgassen
 gerätst.  Wenn Du irgendwann beim Lösen einer Aufgabe in
 eine Sackgasse gerätst, solltest Du als erstes überprüfen, ob Du auch
@@ -1522,7 +1522,7 @@ den Parametern des \lstinline{lambda} hinzufügen:
 \end{lstlisting}
 %
 Wir ergänzen noch Kurzbeschreibung und Signatur.  Die neuen Parameter
-sind auch beides rationale Zahlen, das sieht also so aus:
+sind auch beide rationale Zahlen, das sieht also so aus:
 %
 \begin{lstlisting}
 ; monatlichen Rechnungsbetrag für Stromtarif berechnen
@@ -1586,10 +1586,10 @@ einführen.
 Es gibt aber einige übergreifende Prinzipien des Programmierens, die
 wir immer wieder aufgreifen werden.  Nicht alle sind jetzt schon
 relevant, aber wir listen sie hier einmal auf, damit sie an einer
-Stelle gesammelt sind und wir darauf in den folgenden Kapiteln bezug
+Stelle gesammelt sind und wir darauf in den folgenden Kapiteln Bezug
 nehmen können.
 
-Das erste Mantra soll einem Phänomen entgegenwirken, dass wir oft bei
+Das erste Mantra soll einem Phänomen entgegenwirken, das wir oft bei
 unseren Studierenden beobachtet haben, die manchmal bei einer Aufgabe
 aufgeben, bevor sie alles hingeschrieben haben, was sie wissen.
 %
@@ -1625,8 +1625,8 @@ zu schreiben, was Du weißt.  Daraus folgt das nächste Mantra:
   Konstruktionsanleitungen angewendet hast.
 \end{restatable}
 %
-\noindent Die Konstruktionsanleitungen helfen uns, Fortschritte zu machen, auch
-wenn wir noch nicht alles verstehen, zu lesen, was dort steht und
+\noindent Die Konstruktionsanleitungen helfen uns, Fortschritte zu machen~-- auch
+wenn wir noch nicht alles verstehen~-- zu lesen, was dort steht und
 aufzuschreiben, was wir wissen.
 
 Das folgende Mantra haben wir schon in Abschnitt~\ref{sec:abstraktion}
@@ -1665,8 +1665,8 @@ schwierig weiterzuentwickeln.  Wir sollten uns davor hüten:
 \begin{restatable}{mantra}{mantrakomplexitaet}
   \label{mantra:komplexitaet}
   Wenn Deine Funktion Dir kompliziert scheint, ist es wahrscheinlich,
-  dass sie Fehler enthält: Entweder, weil sie eigentlich einfacher
-  sein sollte, oder weil die Aufgabe kompliziert und damit ihre Lösung
+  dass sie Fehler enthält: Entweder weil sie eigentlich einfacher
+  sein sollte oder weil die Aufgabe kompliziert und damit ihre Lösung
   fehleranfällig ist.
 \end{restatable}
 %
@@ -1740,7 +1740,7 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
   Minuten, Sekunden und Zehntelsekunden.
 
   Benutze Abstraktion und schreibe Hilfsfunktionen an den Stellen, an
-  denen Sie Teilprobleme lösen!
+  denen sie Teilprobleme lösen!
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1823,13 +1823,13 @@ pro Stunde \EUR{$72$}.
 
 Schreibe eine Funktion \lstinline{money-earned}, welche aus zwei
 gegebenen Zeitpunkten (Arbeitsbeginn und Arbeitsende) berechnet,
-wieviel Geld in dieser Zeit verdient wurde. Es genügt, wenn der Betrag
+wie viel Geld in dieser Zeit verdient wurde. Es genügt, wenn der Betrag
 in Cent angegeben wird.  Rechne die Uhrzeiten hierfür zunächst in
 Sekunden um. Die Funktion dafür hat sechs Eingaben: Stunde-Beginn,
 Minute-Beginn, Sekunde-Beginn, Stunde-Ende, Minute-Ende, Sekunde-Ende.
 
 Benutze Abstraktion und schreibe Hilfsfunktionen an den Stellen, an
-denen Sie Teilprobleme lösen!
+denen sie Teilprobleme lösen!
 \end{aufgabe}
 
 % Christina Zeller:
@@ -1843,7 +1843,7 @@ denen Sie Teilprobleme lösen!
 
 % Geldumrechnung
 
-\begin{aufgabe}  (etwas schwwieriger, mit Physik)
+\begin{aufgabe}  (etwas schwieriger, mit Physik)
 
   Ein Boot überquert einen Fluss mit Strömung und
   kommt durch die Strömung vom geplanten Kurs ab.  Dadurch wird die
