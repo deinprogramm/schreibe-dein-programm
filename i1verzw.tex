@@ -52,7 +52,7 @@ Das \lstinline{#f} steht für "<false\index{false}"> oder
   Werte\index{boolescher Wert}} oder auch
 \textit{Wahrheitswerte\index{Wahrheitswert}}.\footnote{Die booleschen
   Werte sind benannt nach \textit{George Boole} (1815--1864), der als
-  erster einen algebraischen Ansatz für die Behandlung von Logik mit
+  Erster einen algebraischen Ansatz für die Behandlung von Logik mit
   den Werten "<wahr"> und "<falsch"> formulierte.}  Ein Ausdruck, bei
 dem ein boolescher Wert herauskommt, heißt dementsprechend auch
 \textit{boolescher Ausdruck\index{boolescher Ausdruck}}.
@@ -487,7 +487,7 @@ schreiben eine Funktion, die "<Wasser erhitzt">.
 Das heißt, wir fügen einer bestimmten Menge Wasser bei einer
 bestimmten Temperatur eine bestimmte Menge Wärme zu.  Wir wollen
 berechnen, wie warm das Wasser danach ist.  Der Einfachheit halber
-messen wir die zugefügte Wärme~- genau wie die Temperatur~-- in Grad
+messen wir die zugefügte Wärme~-- genau wie die Temperatur~-- in Grad
 Celsius (\si{\degree}C).\footnote{Wir vereinfachen schon sehr stark, aber 
   Temperaturerhöhung und Wärme sind über die Wärmekapazität verwandt.}
 Wir schreiben dazu drei Versionen der
@@ -554,7 +554,7 @@ Noch die Tests laufen lassen und fertig!
 \paragraph{Siedendes Wasser} Als Nächstes wollten wir berücksichtigen,
 dass Wasser nicht über 100\si{\degree}C heiß werden kann.  Die Kurzbeschreibung
 passen wir nur leicht an; die Signatur bleibt ebenfalls fast
-unverändert~-- wir ändern nur den Namen und machen aus der $0$ eine $1$:
+unverändert~-- wir ändern nur den Namen und machen aus der 0 eine 1:
 %
 \begin{lstlisting}
 ; Wassertemperatur nach Erhitzen berechnen, Sieden berücksichtigen
@@ -590,7 +590,7 @@ Da die Signatur die gleiche ist, ist auch das Gerüst identisch:
 %
 Ab 100\si{\degree}C muss die Funktion ihr Ergebnis also anders berechnen.  Oder,
 anders gesagt, die Eingaben fallen in zwei verschiedene Klassen: die,
-bei denen die Summe unter $100$ liegt und die, bei denen sie darüber
+bei denen die Summe unter 100 liegt und die, bei denen sie darüber
 liegt.
 Wir benötigen also ein \lstinline{cond} mit zwei
 Zweigen:
@@ -648,7 +648,7 @@ Fertig!
   funktioniert das Programm dann immer noch?
 \end{aufgabeinline}
 %
-\paragraph{Siendendes Wasser und Eis} Kommen wir zur "<Vollversion">.
+\paragraph{Siedendes Wasser und Eis} Kommen wir zur "<Vollversion">.
 Zur Erinnerung: Da müssen wir noch berücksichtigen, dass gefrorenem
 Wasser von 0\si{\degree}C eine Wärme von 80\si{\degree}C hinzugefügt werden muss, damit es
 schmilzt und dann immer noch 0\si{\degree}C hat.  
@@ -763,7 +763,7 @@ Jetzt können wir uns daran machen, die Zweige auszufüllen.  Da der
 erste Zweig (das Eis) komplizierter ist, schieben wir den erstmal vor
 uns her.  Beim zweiten Zweig kommt einfach 100\si{\degree}C raus.  Ebenso
 einfach ist der dritte Zweig, bei dem das Wasser flüssig bleibt~-- die
-Antwort ist dort \lstinline{(+ temp heat)}.  Der Zwischenstand sieht so
+Antwort ist dort \mbox{\lstinline{(+ temp heat)}}.  Der Zwischenstand sieht so
 aus:
 %
 \begin{lstlisting}
@@ -1054,7 +1054,7 @@ sicher bist, dass alle anderen Fälle schon in den vorigen Zweigen
 abgedeckt sind.  Im Zweifelsfall empfehlen wir aber immer den Weg über
 die Mathematik, damit die Funktion auch korrekt wird.
 
-A propos korrekt: Ist \lstinline{heat-water} korrekt?  Hier ist ein
+Apropos korrekt: Ist \lstinline{heat-water} korrekt?  Hier ist ein
 weiterer Testfall:
 %
 \begin{lstlisting}
@@ -1230,7 +1230,7 @@ und schreiben sicherheitshalber eine neue Funktion
 Wie können wir \lstinline{heat->temperature} und
 \lstinline{temperature->heat} einbringen?  Nun, wir können für
 \lstinline{temp} die zugehörige Wärme berechnen, \lstinline{heat}
-addieren, und das ganze wieder zurück in eine Temperatur wandeln:
+addieren, und das Ganze wieder zurück in eine Temperatur wandeln:
 %
 \begin{lstlisting}
 (define heat-water-2
@@ -1269,7 +1269,7 @@ Schritt der Konstruktionsanleitung: Ab sofort werden wir diesen
 Schritt immer durchführen, weil er zentral ist für die systematische
 Konstruktion von Programmen.
 
-Die Vorgehensweise bei einer Datenanalyse sieht im allgemeinen so aus:
+Die Vorgehensweise bei einer Datenanalyse sieht im Allgemeinen so aus:
 %
 \begin{konstruktionsanleitung}{Datenanalyse}
   Suche in der Aufgabenstellung nach problemrelevanten Größen;
@@ -1412,7 +1412,7 @@ folgendermaßen aus:
   \label{ka:fallunterscheidung-schablone}
   Wenn Du eine Funktion schreibst, die eine Fallunterscheidung als
   Eingabe verarbeitet, schreibe als Schablone in den Rumpf eine
-  Verzweigung mit sovielen Zweigen, wie es in der Fallunterscheidung
+  Verzweigung mit so vielen Zweigen, wie es in der Fallunterscheidung
   Fälle gibt, nach folgendem Muster:
   %
 \begin{lstlisting}
@@ -1518,7 +1518,7 @@ Fallunterscheidung mit drei Fällen als Grundlage nehmen.  Allerdings
 ist recht offensichtlich, dass sich das Ergebnis von
 \lstinline{exchange-for-cute} danach richtet, ob \lstinline{cute?} \lstinline{#t}
 oder \lstinline{#f} liefert.   \lstinline{#t} und \lstinline{#f} bilden hier eine
-Aufzählung mit nur zwei Fällen.  Wir könnten also eine Schablone mir
+Aufzählung mit nur zwei Fällen.  Wir könnten also eine Schablone mit
 nur zwei Fällen konstruieren:
 %
 \begin{lstlisting}
@@ -1727,7 +1727,7 @@ dann so aus:
     (cond
       ; Anfangstemperatur ist über 100|\si{\degree}|C, also unzulässig
       ((> temp 100)
-       (violation "Anfangstemperatür über 100|\si{\degree}|C"))
+       (violation "Anfangstemperatur über 100|\si{\degree}|C"))
       ; Anfangstemperatur ist unter 0|\si{\degree}|C, es wird also Eis erwärmt.
       ((< temp 0)
        (cond
@@ -1779,9 +1779,8 @@ Vorteil.
 \section*{Aufgaben}
 
 \begin{aufgabe}
-Zu den "<Flensburg">-Punkten, die es bei Verstößen gegen die
-Straßenverkehrsordnung gibt, hat eine Seite im Internet folgendes zu
-sagen:
+An die "<Flensburg">-Punkte, die es bei Verstößen gegen die
+Verkehrsvorschriften gibt, knüpft \S~4 des Straßenverkehrsgesetzes die folgenden Sanktionen:
 %
 \begin{center}
   \begin{tabular}{rl}
@@ -1833,11 +1832,11 @@ folgende Konsequenz berechnet!
     
   \item Schreibe eine Funktion \lstinline{min-3}, welche die kleinste von drei
     gegebenen Zahlen ausgibt.
-  \item Schreibe eine Funktion \lstinline{min-3?}, die überprüft ob die erste
+  \item Schreibe eine Funktion \lstinline{min-3?}, die überprüft, ob die erste
     von drei gegebenen Zahlen das Minimum ist.
-  \item Schreibe eine Funktion \lstinline{valid-value?}, die überprüft ob die erste von
+  \item Schreibe eine Funktion \lstinline{valid-value?}, die überprüft, ob die erste von
     drei gegebenen Zahlen zwischen den beiden anderen liegt.  Mit
-    "<zwischen"> ist gemaint, dass die erste Zahl auch gleich der
+    "<zwischen"> ist gemeint, dass die erste Zahl auch gleich der
     zweiten oder der dritten sein kann.
     Gehe
     davon aus, dass der Aufruf immer \lstinline{(valid-value? value min max)}
@@ -1868,7 +1867,7 @@ folgende Konsequenz berechnet!
   \item Alle anderen Rückennummern sind ungültig.
   \end{itemize}
   %
-  Schreibe zunächst eine Datendefinition für Positionen und dann eine
+  Schreibe zunächst eine Datendefinition für die Positionen und dann eine
   passende Signatur-Definition mit dem Namen \lstinline{position}.
   
   Schreibe nun eine Funktion mit folgender Signatur:
@@ -1889,14 +1888,15 @@ folgende Konsequenz berechnet!
 
 
 \begin{aufgabe}
-  Schreibe ein Programm, mit dem Bußgelder
+% Buß- und Verwarnungsgelder an BKatV anpassen?
+  Schreibe ein Programm, mit dem Buß- und Verwarnungsgelder
   automatisch bestimmt werden.
   
   \begin{enumerate}
   \item Programmiere eine Funktion \lstinline{zu-langes-parken}
     für die Bewertung von zu langem Parken auf einem kostenpflichtigen
     Parkplatz. Diese bekommt eine Zeitspanne übergeben und gibt das 
-    entsprechende Verwarngeld zurück.
+    entsprechende Verwarnungsgeld zurück.
     
     Diese Verwarnungen sind wie folgt festgelegt:
     \begin{flushleft}
