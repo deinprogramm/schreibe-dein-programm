@@ -122,7 +122,7 @@ Computer:\index{define-record@\texttt{define-record}}
 %
 Diese etwas komplizierte Form erläutern wir Schritt für Schritt.  Weil sie gleich mehrere
 Funktionen definiert, die mit Records zu tun haben, heißt
-sie \lstinline{define-record}.  Als erstes nach
+sie \lstinline{define-record}.  Als Erstes nach
 dem \lstinline{define-record} steht der Name der Signatur für
 die Werte des Record-Typs,
 \lstinline{computer}.  Diese Signatur nennen wir ab sofort die
@@ -801,7 +801,7 @@ Konstruktionsanleitung auswählen.
 %
 \end{konstruktionsanleitung}
 %
-Mit etwas Übung kannst Du nicht benötigte Selektor-Anwendung auch von
+Mit etwas Übung kannst Du nicht benötigte Selektor-Anwendungen auch von
 vornherein weglassen.  Gelegentlich deutet es aber auf einen Fehler
 hin, wenn eine fehlt: Darum ist es oft sinnvoll, sie zunächst
 hinzuschreiben, ganz im Sinne von Mantra~\ref{mantra:schreib} auf
@@ -889,12 +889,12 @@ Hier sind einige Exemplare als Daten plus Information:
 \end{lstlisting}
 %
 Fangen wir damit an, Gürteltiere zu füttern.  Die
-Standard-Futter-Portion ist dabei 500g, und das Gürteltier nimmt durch
+Standard-Futter-Portion ist dabei 500\,g, und das Gürteltier nimmt durch
 die Fütterung um das entsprechende Gewicht zu.  Hier Kurzbeschreibung
 und Signatur:
 %
 \begin{lstlisting}
-; Gürteltier mit 500g Futter füttern
+; Gürteltier mit 500 g Futter füttern
 (: feed-dillo (dillo -> dillo))
 \end{lstlisting}
 %
@@ -921,8 +921,8 @@ Hier das Gerüst der Funktion:
 %
 Für den Namen des Parameters verwenden wir auch \lstinline{dillo}, nicht
 zu verwechseln mit der Signatur, die ebenfalls \lstinline{dillo} heißt. Das
-\lstinline{lambda} sorgt dafür, dass \lstinline{dillo} innherhalb seines
-Rumpfes sich auf den Parameter bezieht, nicht auf die weiter außen
+\lstinline{lambda} sorgt dafür, dass \lstinline{dillo} sich innerhalb seines
+Rumpfes auf den Parameter bezieht, nicht auf die weiter außen
 stehende Signatur.
 
 \begin{aufgabeinline}
@@ -1359,10 +1359,10 @@ Seite~\pageref{mantra:gleichungen}:
     \lstinline{ingredients->dough} welche eine Anzahl an Eiern, eine
     Menge Mehl in Gramm, eine Menge Zucker in Gramm und eine
     Menge Wasser in Milliliter erhält und daraus einen Teig
-    herstellt. Gehe davon aus, dass jedes Ei 64g wiegt.
+    herstellt. Gehe davon aus, dass jedes Ei 64\,g wiegt.
   \item Schreibe eine Funktion \lstinline{bake-cake}. 
     Diese erhält einen Teig, eine Backdauer in Minuten und erstellt einen 
-    Kuchen.  Gehe davon aus, dass nach dem Backen noch 80\% des
+    Kuchen.  Gehe davon aus, dass nach dem Backen noch 80\,\% des
     Wassers im Kuchen sind.
   \end{enumerate}
   
