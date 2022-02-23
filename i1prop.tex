@@ -257,6 +257,7 @@ veröffentlicht worden~\cite{ClaessenHughes2000} und war ein
 großer Durchbruch bei der Effektivität von automatischen Tests.
 
 \section{Mehr Eigenschaften und inexakte Zahlen}
+\label{sec:inexakt}
 
 Es geht's weiter mit \lstinline{heat-water}:
 \lstinline{Heat->temperature} ist nur eine Hilfsfunktion dafür,
@@ -416,7 +417,20 @@ subtrahiert wird~-- da ist keine Spur von "<Runden">.  Wenn wir das
 %
 Das liegt daran, dass "<Inexaktheit"> ansteckend ist: Wenn beim Aufruf
 einer Rechenfunktion wie \lstinline{+} oder \lstinline{*} auch nur
-eine Eingabe inexakt ist, wird gerundet.  Bei unserer Eigenschaft
+eine Eingabe inexakt ist, wird gerundet.
+
+Weil diese Rundung manchmal überraschend ist, weigert sich übrigens
+\lstinline{check-expect}, inexakte Zahlen zu vergleichen.
+%
+\begin{aufgabeinline}
+  Probier's aus:
+  %
+\begin{lstlisting}
+(check-expect #i1 #i1)
+\end{lstlisting}
+\end{aufgabeinline}
+%
+Bei unserer Eigenschaft
 haben für \lstinline{temp} die Signatur \lstinline{real} angegeben: In
 dieser Signatur sind auch inexakte Zahlen enthalten, deshalb nimmt da
 das Problem seinen Anfang.  Wir können es auf zwei Arten angehen:
@@ -1514,24 +1528,51 @@ danach.
 %
 \begin{lstlisting}
 (check-property
- (for-all ((a (list integer))
-           (b (list integer))
-           (c (list integer)))
+ (for-all ((a (list-of integer))
+           (b (list-of integer))
+           (c (list-of integer)))
    (expect (concatenate (concatenate a b) c)
            (concatenate a (concatenate b c)))))
 \end{lstlisting}
 %
-Du fragst Dich vielleicht, warum \lstinline{(list integer)} als
-Signatur und nicht \lstinline{(list %a)},
+Du fragst Dich vielleicht, warum \lstinline{(list-of integer)} als
+Signatur und nicht \lstinline{(list-of %a)},
 wie es in der Signaturdeklaration von \lstinline{concatenate} steht.
 Das liegt daran, dass bei Signaturen in \lstinline{for-all} keine
 Signaturvariablen stehen dürfen, damit DrRacket dafür vernünftig
 zufällige Werte generieren kann.  (Siehe dazu auch
 Abbildung~\ref{scheme:check-property} auf
 Seite~\pageref{scheme:check-property}.)
+
+Und dann ist da noch was, nämlich die Funktion \lstinline{expect}: Die
+brauchen wir, um die beiden Listen zu vergleichen, die bei
+\lstinline{concatenate} herauskommen.  Bisher kennen wir ja nur
+Funktionen, die Zahlen vergleichen (\lstinline{=}), Zeichenketten
+(\lstinline{string=?}) und Booleans (\lstinline{boolean=?}).  Eine
+allgemeine Vergleichsfunktion für Listen gibt es nicht.
+\lstinline{Expect} liefert eine Eigenschaft, die beliebige Werten
+vergleicht~-- siehe Abbildung~\ref{scheme:expect}.
+%
+\begin{feature}{\lstinline{expect}}{scheme:expect}
+  \lstinline{Expect}\index{expect@\texttt{expect}} liefert eine
+  Eigenschaft analog zur Funktionsweise von
+  \lstinline{check-expect}.  Ein \lstinline{expect}-Ausdruck hat folgende
+  Form:
+  %
+\begin{lstlisting}
+(expect $e\sb{1}$  $e\sb{2}$)
+\end{lstlisting}
+%
+$e_1$ und $e_2$ sind Ausdrücke.  Die resultierende Eigenschaft ist
+erfüllt, wenn $e_1$ und $e_2$ den gleichen Wert liefern~-- der
+Vergleich wird dabei wie bei \lstinline{check-expect} angestellt.
+
+Da \lstinline{expect} wie \lstinline{check-expect} vergleicht,
+funktioniert es nicht auf inexakten Zahlen.
+\end{feature}
 %
 \begin{aufgabeinline}
-  Schreibe mit Hilfe des Teachpacks \texttt{image..rkt} Eigenschaften
+  Schreibe mit Hilfe des Teachpacks \texttt{image.rkt} Eigenschaften
   für die Assoziativität der Kombinatoren aus Abschnitt
   \ref{sec:image-combinators} auf Seite \ref{sec:image-combinators}~--\lstinline{overlay},
   \lstinline{beside} und \lstinline{above}.
@@ -1577,14 +1618,22 @@ Abschnitt~\ref{page:neutrales-element} auf
 Seite~\ref{page:neutrales-element} schonmal eine Rolle gespielt.
 Jetzt können wir es endlich richtig einordnen.
 
-Nennen wir das neutrale Element $n$.  Dann gilt folgende Eigenschaft:
+Nennen wir das neutrale Element $n$.  Dann gelten folgende
+Eigenschaften:
 %
 \begin{lstlisting}
 (for-all ((a $s$))
-  (and (expect ($op$ a $n$) a)
-       (expect ($op$ $n$ a) a)))
+  (expect ($op$ a $n$) a))
+
+(for-all ((a $s$))
+  (expect ($op$ $n$ a) a)))
 \end{lstlisting}
 %
+Falls Du Dich fragst, warum wir nicht einfach \lstinline{and}
+benutzen, um beide Eigenschaften zusammenzufassen.  Das liegt daran,
+dass \lstinline{and} nur auf Booleans funktioniert, \lstinline{expect}
+aber eine Eigenschaft liefert.
+
 Das neutrale Element kann von Halbgruppe zu Halbgruppe varrieren,
 selbst wenn die Signatur $s$ immer die Gleiche ist.  Zum Beispiel ist
 $0$ das neutrale Element von $+$ und $1$ das neutrale Element von
@@ -1600,9 +1649,12 @@ Das können wir mit \lstinline{check-property} festhalten:
 %
 \begin{lstlisting}
 (check-property
- (for-all ((a (list integer)))
-   (and (expect (concatenate a empty) a)
-        (expect (concatenate empty a) a))))
+ (for-all ((a (list-of integer)))
+   (expect (concatenate a empty) a)))
+
+(check-property
+ (for-all ((a (list-of integer)))
+   (expect (concatenate empty a) a)))
 \end{lstlisting}
 %
 Auch für \lstinline{overlay}, \lstinline{beside} und \lstinline{above}
@@ -1610,8 +1662,9 @@ gibt es ein neutrales Element.  Es heißt
 \lstinline{empty-image}\index{empty-image@\texttt{empty-image}}.
 %
 \begin{aufgabeinline}
-  Formuliere \lstinline{check-property}-Testfälle für die
-  Neutrales-Element-Eigenschaft von \lstinline{empty-image}.
+  Formuliere \lstinline{check-property}-Testfälle, die zeigen dass
+  \lstinline{empty-image} ein neutrales Element bezüglich
+  \lstinline{overlay}, \lstinline{beside} und \lstinline{above} ist.
 \end{aufgabeinline}
 %
 Wie Du siehst, haben alle Halbgruppen, die wir bisher betrachtet
@@ -1621,7 +1674,116 @@ herausgekommen ist, Du immer auch nach einem neutralen Element
 Ausschau halten solltest.  Eine Halbgruppe mit einem neutralen Element
 hat entsprechend auch einen Namen, nämlich \textit{Monoid}.\index{Monoid}
 
-\subsection{Binäre Operationen}
+Falls Dir die Assoziativität schon früher bekannt war, dann
+wahrscheinlich im Zusammenhang mit Zahlen.  Die können wir natürlich
+auch mit \lstinline{check-property} zum Ausdruck bringen:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((a number)
+           (b number)
+           (c number))
+    (= (+ a (+ b c))
+       (+ (+ a b) c))))
+\end{lstlisting}
+%
+Dabei gibt es aber eine Überraschung:
+%
+\begin{alltt}
+Eigenschaft falsifizierbar mit
+  a = \framebox{#i9.75} b = \framebox{-9} c = \framebox{#i-7.7}
+\end{alltt}
+%
+(Die genauen Zahlen lauten bei Dir vielleicht anders.)
+
+Und Tatsache, wenn wir das in der REPL ausprobieren, kommt bei den
+beiden Seiten der Gleichheit etwas unterschiedliches heraus:
+%
+\begin{lstlisting}
+(+ #i9.75 (+ -9 #i-7.7))
+|\evalsto| #i-6.949999999999999
+(+ (+ #i9.75 -9) #i-7.7)
+|\evalsto| #i-6.95
+\end{lstlisting}
+%
+Du erinnerst Dich an Abschnitt~\ref{sec:inexakt} auf
+Seite~\ref{sec:inexakt}: Das \lstinline{#i} steht für "<inexakt">, was
+bedeutet, dass die Addition bei diesen Zahlen rundet.  Leider macht
+das Runden auch die Assoziativität kaputt.  Es wird besser, wenn wir
+\lstinline{number} durch \lstinline{rational} ersetzen, denn beim
+Rechnen mit rationalen Zahlen wird nicht gerundet.
+
+Vorsicht also beim Verwenden von reellen Zahlen in Eigenschaften, also
+der Signaturen \lstinline{real} und \lstinline{number}.  Im
+Zweifelsfall lieber \lstinline{rational} benutzen!
+
+\section{Eigenschaften von Funktionen auf Listen}
+
+Listen bilden ja mit \lstinline{concatenate} eine Halbgruppe, was
+\lstinline{concatenate} eine besondere Bedeutung als Listenoperation
+zukommen lässt.  Die können wir ausspielen, wenn wir Tests auf
+Listenfunktionen formulieren wollen, indem wir sie im Zusammenhang mit
+\lstinline{concatenate} bringen.
+
+Zur Erinnerung, die \lstinline{list-sum}-Funktion hat folgende
+Signatur:
+%
+\begin{lstlisting}
+(: list-sum ((list-of number) -> number))
+\end{lstlisting}
+%
+Da die Funktion eine Liste als Eingabe hat, können wir untersuchen,
+was passiert, wenn die Liste durch \lstinline{concatenate} entsteht:
+%
+\begin{lstlisting}
+(check-property
+ (for-all ((a (list-of rational))
+           (b (list-of rational)))
+   (= (list-sum (concatenate a b))
+      (+ (list-sum a) (list-sum b)))))
+\end{lstlisting}
+%
+Dran denken: Bei \lstinline{for-all} nicht \lstinline{number},
+sondern \lstinline{rational} benutzen, um Problemen mit der Rundung
+aus dem Weg zu gehen.
+
+Was passiert hier?  Der Aufruf von \lstinline{list-sum} wird von der
+linken auf die rechte Seite der Gleichung "<nach innen"> gedrückt.
+Außerdem wird aus dem \lstinline{concatenate} auf Listen auf der
+linken Seite der Gleichung die Addition zweier Zahlen auf der rechten
+Seite.
+
+Nun bilden Listen mit \lstinline{concatenate} eine Halbgruppe, genauso
+wie Zahlen mit \lstinline{+}: Die \lstinline{list-sum}-Funktion bildet
+nicht nur Listen auf Zahlen ab, sondern macht auch aus
+\lstinline{concatenate} bei den Listen \lstinline{+} bei den Zahlen:
+Die Struktur der einen Halbgruppe wird mit \lstinline{list-sum} in die
+Struktur der anderen Halbgruppe abgebildet.  Eine Funktionen heißt in
+der Algebra \textit{Homomorphismus}.\index{Homomorphismus} Wenn man
+den Begriff verwendet, sollte man immer dazusagen, auf welche
+algebraische Struktur er sich bezieht.  Hier handelt es sich um einen
+\textit{Halbgruppen"=Homomorphismus}.  Wenn Du einen Homomorphismus in
+Deinem Code findest, ist das fast immer ein gutes Zeichen~-- Du bist
+wahrscheinlich einer nützlichen Einsicht auf der Spur.
+%
+\begin{aufgabeinline}
+  Zeige, dass \lstinline{list-sum} sogar ein Monoiden-Homomorphismus
+  ist, also aus dem neutralen Element in dem einen Monoiden das
+  neutrale Element in dem anderen Monoiden wird.  Schreibe dazu einen
+  \lstinline{check-property}-Testfall!
+\end{aufgabeinline}
+
+\begin{aufgabeinline}
+  Formuliere eine Eigenschaft von \lstinline{invert} mit Hilfe von
+  \lstinline{concatenate} und schreibe dazu einen
+  \lstinline{check-property}-Testfall!
+\end{aufgabeinline}
+
+\section{Funktionen beweisen}
+
+FIXME Assoziativität von \lstinline{concatenate}
+
+\section{Binäre Operationen}
 \label{sec:eigenschaften-binaere-operationen}
 
 Eine allgemein bekannte Eigenschaft der Addition ist die
