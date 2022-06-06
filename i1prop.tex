@@ -1779,9 +1779,253 @@ wahrscheinlich einer nützlichen Einsicht auf der Spur.
   \lstinline{check-property}-Testfall!
 \end{aufgabeinline}
 
-\section{Funktionen beweisen}
+\section{Exkurs: Eigenschaften beweisen}
 
-FIXME Assoziativität von \lstinline{concatenate}
+\lstinline{Check-property} ist ziemlich gut darin, Gegenbeispiele zu
+finden für Eigenschaften, die nicht gelten.  Aber würden wir
+\lstinline{check-property}~-- sagen wir mal~-- zutrauen, die
+Korrektheit der Steuersoftware für ein Flugzeug sicherzustellen?  
+Immerhin ist es möglich, dass bei den 100~Tests, die
+\lstinline{check-property} zufällig generiert, das eine Gegenbeispiel
+einfach nicht dabei ist.  
+
+Wenn also eine Eigenschaft wirklich unverzichtbar für den Einsatz
+einer Software ist, sollten wir die Sicherheit, dass kritische
+Eigenschaften gelten, noch weiter erhöhen.  Das geht zum Beispiel,
+indem wir mathematisch \emph{beweisen}, dass eine Eigenschaft gilt.
+Wie das gehen kann, zeigt dieser Abschnitt exemplarisch.  
+
+Wie wir sehen werden, ist das ganz schön mühsam: Wir haben ja schon
+Eigenschaften von Funktionen in Kapitel~\ref{cha:indu} bewiesen, zum
+Beispiel die Assoziativität von cat in
+Abschnitt~\ref{sec:sequence-induction} auf
+Seite~\pageref{sec:sequence-induction}.  Wir nehmen uns hier noch
+einmal die Assoziativität vor, allerdings diesmal nicht auf der
+mathematischen cat, sondern der programmierten Funktion
+\lstinline{concatenate}.  
+
+Wir wollen also folgendes beweisen: Für alle Listen $u$, $v$ und $w$ gilt:
+%
+\begin{lstlisting}
+(expect (concatenate $u$ (concatenate $v$ $w$))
+        (concatenate (concatenate $u$ $v$) $w$))
+\end{lstlisting}
+%
+Grundsätzlich führen wir den Beweis wie bei der mathematischen
+Funktion cat auch über Induktion.  Anders als dort können wir bei
+\lstinline{concatenate} aber nicht einfach beliebig Gleichungen
+einsetzen.  Wir müssen stattdessen bewesen, dass DrRacket bei der
+Auswertung für beide Seiten der \lstinline{expect}-"<Gleichung"> das
+gleiche Ergebnis berechnet.  Dabei müssen wir berücksichtigen, dass
+DrRacket die Auswertungsschritte für einen Aufruf von
+\lstinline{concatenate} in einer bestimmten Reihenfolge durchführt.
+Wir müssen also beim Beweis so vorgehen, wie es der Stepper tun würde.
+Eigentlich müssten wir diese Auswertungsstrategie sogar noch
+formalisieren, um wirklich einen Beweis zu führen.  Das machen wir im
+späteren Kapitel~\ref{chap:lambda} auf Seite~\pageref{chap:lambda}.
+Hier begnügen wir uns mit der Einsicht, dass bei einem Funktionsaufruf
+die Argumente ausgewertet werden, bevor es mit der Auswertung des
+Funktionsrumpfes weitergeht.
+
+Wir benutzen eine Induktionsschablone wie in
+Abschnitt~\ref{sec:sequence-induction} auf
+Seite~\pageref{sec:sequence-induction}.
+%
+\begin{enumerate}
+\item Wir entscheiden uns genau wie dort für eine Induktion über $u$.
+  Damit die Schablone passt, benutzen wir dafür den Namen $f$,
+  formulieren also die Eigenschaft so um:
+%
+\begin{lstlisting}
+(expect (concatenate $f$ (concatenate $v$ $w$))
+        (concatenate (concatenate $f$ $v$) $w$))
+\end{lstlisting}
+%
+\item Als nächstes betrachten wir den Fall, dass $f$ die leere Liste
+  \lstinline{#<empty-list>} ist.  Die Gleichung sieht dann so aus:
+\begin{lstlisting}
+(expect (concatenate #<empty-list> (concatenate $v$ $w$))
+        (concatenate (concatenate #<empty-list> $v$) $w$))
+\end{lstlisting}
+\item Diese Gleichung beweisen wir nun, angefangen mit der "<linken
+  Seite"> der Gleichung.  DrRacket würde bei der Auswertung zunächst
+  das erste \lstinline{concatenate} auswerten, also durch seine
+  Definition ersetzen sowie \lstinline{empty} zu
+  \lstinline{#<empty-list>} auswerten:
+\begin{lstlisting}
+(concatenate #<empty-list> (concatenate $v$ $w$))
+|\evalsto{}| (($\lambda$ (list1 list2) ...) #<empty-list> (concatenate $v$ $w$))
+\end{lstlisting}
+%
+(Wir haben $\lambda$ statt \lstinline{lambda} geschrieben um Platz zu
+sparen.)
+
+Als nächstes wird \lstinline{(concatenate $v$ $w$)} ausgwertet. Da wir
+gar nicht wissen, was $v$ und $w$ sind, wissen wir weder, was da
+herauskommt, noch, wie viele Schritte das benötigt.  Irgendwas wird
+aber herauskommen~-- wir nennen das $vw$:
+%
+\begin{lstlisting}
+|\evalsto{} $\ldots$ \evalsto{}| (($\lambda$ (list1 list2) ...) #<empty-list> $vw$)
+\end{lstlisting}
+%
+Jetzt können wir endlich mit dem Rumpf der Funktion weitermachen.  Wir
+setzen für \lstinline{list1} \lstinline{#<empty-list>} ein, für
+\lstinline{list2} $vw$:
+%
+\begin{lstlisting}
+|\evalsto{}| (cond ((empty? #<empty-list>) $vw$) ((cons? #<empty-list>) ...))
+\end{lstlisting}
+Beim \lstinline{cond} greift sofort der erste Zweig:
+\begin{lstlisting}
+|\evalsto{}| (cond (#t $vw$) ((cons? #<empty-list>) ...))
+|\evalsto{}| $vw$
+\end{lstlisting}
+%
+Weiter geht's hier nicht.  Wir nehmen uns deshalb die andere Seite der
+Gleichung vor:
+
+\begin{lstlisting}
+(concatenate (concatenate $f$ $v$) $w$)
+$=$ (concatenate (concatenate #<empty-list> $v$) $w$)
+\end{lstlisting}
+%
+Auch hier wird DrRacket für die beiden \lstinline{concatenate} jeweils
+die Definition einsetzen:
+%
+\begin{lstlisting}
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (concatenate #<empty-list> $v$) $w$) 
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (($\lambda$ (list1 list2) ...) #<empty-list> $v$) $w$)
+\end{lstlisting}
+%
+Hier wird der "<innere"> Aufruf von \lstinline{concatenate} zuerst ausgewertet:
+%
+\begin{lstlisting}
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (cond ((empty? #<empty-list>) $v$) ((cons? #<empty-list>) ...)) $w$) 
+|\evalsto{}| (($\lambda$ (list1 list2) ...) $v$ $w$)
+|\evalsto{} \ldots{} \evalsto{}| $vw$
+\end{lstlisting}
+%
+Es kommt also dasselbe heraus wie bei der linken Seite der Gleichung.
+Für die leere Liste ist die Eigenschaft also bewiesen.
+
+\item Als nächstes müssen wir die Induktionsvoraussetzung
+  formulieren.  Die sieht so aus:
+\begin{lstlisting}
+(expect (concatenate $f$ (concatenate $v$ $w$))
+        (concatenate (concatenate $f$ $v$) $w$))
+\end{lstlisting}
+
+\item Es folgt der Induktionsschluss.  Dafür müssen wir eine Liste
+  betrachten, die um "<eins länger"> ist als $f$, also aus einem
+  ersten Element $f_1$ und Rest $f$ besteht.  Wir nennen diese Liste
+  $f_1f$:
+  %
+\begin{lstlisting}
+(expect (concatenate $f_1f$ (concatenate $v$ $w$))
+        (concatenate (concatenate $f_1f$ $v$) $w$))
+\end{lstlisting}
+  %
+\item Um den Induktionsschluss zu beweisen, werten wir zunächst die
+  linke Seite aus.  Wir benutzen wieder den Namen $vw$ für das
+  Ergebnis von \lstinline{(concatenate $v$ $w$)}:
+  % 
+\begin{lstlisting}
+(concatenate $f_1f$ (concatenate $v$ $w$))
+|\evalsto{}| (($\lambda$ (list1 list2) ...) $f1_f$ (concatenate $v$ $w$))
+|\evalsto{} $\ldots$ \evalsto{}| (($\lambda$ (list1 list2) ...) $f_1f$ $vw$)
+|\evalsto{}| (cond ((empty? $f_1f$) $vw$) ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))))
+\end{lstlisting}
+  Diesmal ist der \lstinline{cons?}-Zweig dran, weil $f_1f$ nicht leer ist:
+  %
+\begin{lstlisting}
+|\evalsto{}| (cond (#f $vw$) ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))))
+|\evalsto{}| (cond ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))))
+|\evalsto{}| (cond (#t (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))))
+|\evalsto{}| (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))
+|\evalsto{}| (cons $f_1$ (concatenate (rest $f_1f$) $vw$))
+|\evalsto{}| (cons $f_1$ (concatenate (rest $f_1f$) $vw$))
+|\evalsto{}| (cons $f_1$ (($\lambda$ (list1 list2) ...) (rest $f_1f$) $vw$))
+|\evalsto{}| (cons $f_1$ (($\lambda$ (list1 list2) ...) $f$ $vw$))
+\end{lstlisting}
+  %
+  Wir kommen wieder nicht weiter, weil wir nicht wissen, was $f$ oder
+  $vw$ ist.  Wieder nehmen wir uns die rechte Seite vor:
+  %
+\begin{lstlisting}
+(concatenate (concatenate $f_1f$ $v$) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (concatenate $f_1f$ $v$) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (($\lambda$ (list1 list2) ...) $f_1f$ $v$) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (cond ((empty? $f_1f$) $v$) ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)))) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (cond (#f $v$) ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)))) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (cond ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)))) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (cond (#t (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)))) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (cons $f_1$ (concatenate (rest $f_1f$) $v$)) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (cons $f_1$ (($\lambda$ (list1 list2) ...) (rest $f_1f$) $v$)) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) (cons $f_1$ (($\lambda$ (list1 list2) ...) $f$ $v$)) $w$)
+\end{lstlisting}
+  %
+  Und wieder geht's scheinbar nicht weiter, weil wir nicht wissen, was $f$, $v$
+  und $w$ sind.  Wir können aber wieder annehmen, dass bei der
+  Auswertung von \lstinline{(($\lambda$ (list1 list2) ...) $f$ $v$)}
+  \emph{irgendetwas} herauskommt und dem den Namen $fv$ geben:
+  %
+\begin{lstlisting}
+|\evalsto{} $\ldots$ \evalsto{}| (($\lambda$ (list1 list2) ...) (cons $f_1$ $fv$) $w$)
+\end{lstlisting}
+  %
+  Dem Ergebnis von \lstinline{(cons $f_1$ $fv$)} können wir ebenfalls
+  einen Namen geben, wir nehmen wenig einfallsreich $f_1fv$.  Da diese
+  Liste ein erstes Element $f_1$ hat, ist sie nicht leer:
+%
+\begin{lstlisting}
+|\evalsto{}| (($\lambda$ (list1 list2) ...) $f_1fv$ $w$)
+|\evalsto{}| (cond ((empty? $f_1fv$) ...) ((cons? $f_1fv$) (cons (first $f_1fv$ (concatenate (rest $f_1fv$) $w$)))))
+|\evalsto{}| (cond (#f ...) ((cons? $f_1fv$) (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))))
+|\evalsto{}| (cond ((cons? $f_1fv$) (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))))
+|\evalsto{}| (cond (#t (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))))
+|\evalsto{}| (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))
+|\evalsto{}| (cons $f_1$ (concatenate (rest $f_1fv$) $w$))
+|\evalsto{}| (cons $f_1$ (($\lambda$ (list1 list2) ...) (rest $f_1fv$) $w$))
+|\evalsto{}| (cons $f_1$ (($\lambda$ (list1 list2) ...) $fv$ $w$))
+\end{lstlisting}
+  %
+  Jetzt geht es aber wirklich nicht mehr weiter.  Wir können das mit
+  dem Ergebnis der linken Seite vergleichen, die immerhin auch mit
+  \lstinline{(cons $f_1$ ...)} anfängt.  Ansonsten steht da links:
+  %
+\begin{lstlisting}
+(($\lambda$ (list1 list2) ...) $f$ $vw$)
+\end{lstlisting}
+  %
+  \ldots{} und rechts:
+\begin{lstlisting}
+((lambda (list1 list2) ...) $fv$ $w$)
+\end{lstlisting}
+  %
+  Um zu beweisen, dass diese beiden Ausdrücke das gleiche liefern,
+  ziehen wir die Induktionsvoraussetzung hinzu.  Hier ist sie zur
+  Erinnerung:
+\begin{lstlisting}
+(expect (concatenate $f$ (concatenate $v$ $w$))
+        (concatenate (concatenate $f$ $v$) $w$))
+\end{lstlisting}
+  %
+  Wir hatten den Namen $vw$ für das Ergebnis von
+  \lstinline{(concatenate $v$ $w$)} und den Namen $fv$ für das
+  Ergebnis von \lstinline{(concatenate $f$ $v$)}.  Außerdem steht
+  \lstinline{($\lambda$ (list1 list2) ...)} ja für
+  \lstinline{concatenate}.  Wenn wir das in die
+  Induktionsvoraussetzung einsetzen, steht da genau das, was wir
+  brauchen, nämlich dass linke und rechte Seite das gleiche Ergebnis haben.
+\end{enumerate}
+%
+Geschafft!  Aber das ist schon ziemlich viel Arbeit, und auch
+fehleranfällig.  In der Praxis funktioniert das nur für kleine
+Funktionen.  Wer Eigenschaften größerer Programme beweisen möchte,
+benutzt dafür in der Regel spezielle Werkzeuge, welche die Beweise
+überprüfen und in weiten Teilen auch automatisch herleiten können.
 
 \section{Binäre Operationen}
 \label{sec:eigenschaften-binaere-operationen}
