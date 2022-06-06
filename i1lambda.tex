@@ -467,14 +467,15 @@ Computerprogramme zu modellieren, hat diese Eigenschaft.
 
 \begin{figure}[tb]
   \begin{center}
-    {
-      \psfrag{*b}{$\overset{\ast}{\rightarrow_\beta}$}
-      \psfrag{e1}{$e_1$}
-      \psfrag{e2}{$e_2$}
-      \psfrag{e'}{$e'$}
-      \includegraphics[scale=0.7]{church-rosser}
-      }
-    \caption{Die Church/Rosser-Eigenschaft (FIXME)}
+    \begin{tikzpicture}
+      \node(e1) at (0,1) {$e_1$};
+      \node(e2) at (2,1) {$e_2$};
+      \node(eprime) at (1,0) {$e'$};
+      \draw[<->] (e1) -- (e2) node[midway,above]{$\overset{\ast}{\rightarrow_\beta}$};
+      \draw[->] (e1) -- (eprime) node[midway,left]{$\overset{\ast}{\rightarrow_\beta}$};
+      \draw[->] (e2) -- (eprime) node[midway,right]{$\overset{\ast}{\rightarrow_\beta}$};
+    \end{tikzpicture}
+    \caption{Die Church/Rosser-Eigenschaft}
     \label{fig:church-rosser}
   \end{center}
 \end{figure}
