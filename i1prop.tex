@@ -2046,16 +2046,16 @@ diese als Eigenschaften von \lstinline{/} auf.
 
 \begin{aufgabe}
   \label{aufgabe:boolean-distrib}
-  Für \lstinline{and} und \lstinline{or} gelten zwei Distributivgesetze
-  analog dem Distributivgesetz für \lstinline{*} und \lstinline{+}:
-  Formuliere diese als Eigenschaften und lasse sie \drscheme{}
-  sie überprüfen.
-
-  Abstrahiere dann über die nun insgesamt drei Distributivgesetze
-  analog zu \lstinline{commutativity} und \lstinline{associativity} und
-  formuliere die drei Distributivgesetze mit Hilfe der
-  Abstraktion neu.  Schreibe eine möglichst aussagekräftige
-  Signatur für Deine Abstraktion!
+  Für Multiplikation und Addition gilt das
+  \textit{Distibutivgesetz}\index{Distributivität}:
+  %
+  \begin{displaymath}
+    a\cdot(b + c) = a\cdot b + a \cdot c
+  \end{displaymath}
+  %
+  Auch dieses Gesetz ist nicht auf Zahlen beschränkt.  Für
+  \lstinline{and} und \lstinline{or} gilt es ebenfalls.  Formuliere
+  dieses als Eigenschaften und lasse sie \drscheme{} sie überprüfen.
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -2064,8 +2064,7 @@ diese als Eigenschaften von \lstinline{/} auf.
 \end{aufgabe}
 
 \begin{aufgabe}
-Beweise, dass die
-folgende Funktion natürliche Zahlen quadriert:
+Die folgende Funktion quadriert natürliche Zahlen:
 %
 \begin{lstlisting}
 ; Quadrat einer Zahl berechnen
@@ -2078,33 +2077,11 @@ folgende Funktion natürliche Zahlen quadriert:
            (- (+ n n) 1)))))
 \end{lstlisting}
 %
-Formuliere dazu auch eine Eigenschaft und überprüfe diese
-mit \lstinline{check-property}.
-%
-\end{aufgabe}
+Formuliere dies als Eigenschaft und überprüfe sie mit
+\lstinline{check-property}.
 
-\begin{aufgabe}
-Beweise, dass auch die folgende Funktion \lstinline{square}
-natürliche Zahlen quadriert.  Gib die Invariante von
-\lstinline{square-helper} an!
+Bonus: Beweise die Eigenschaft mit Induktion.
 %
-\begin{lstlisting}
-; Quadrat einer Zahl berechnen
-(: square (natural -> natural))
-(define square
-  (lambda (n)
-    (square-helper n 0)))
-
-(define square-helper
-  (lambda (n acc)
-    (if (= n 0)
-        acc
-        (square-helper (- n 1)
-                       (+ acc
-                          (- (+ n n) 1))))))
-\end{lstlisting}
-Formuliere dazu auch eine Eigenschaft und überprüfe diese
-mit \lstinline{check-property}.
 \end{aufgabe}
 
 %%% Local Variables: 
