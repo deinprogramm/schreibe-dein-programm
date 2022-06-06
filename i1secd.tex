@@ -2308,7 +2308,7 @@ SECD-Maschine realisiert wird:
 \section*{Übungsaufgaben}
 
 \begin{aufgabe}
-  Übersetzen Sie folgende Lambda-Terme in die Zwischenrepräsentation
+  Übersetze folgende Lambda-Terme in die Zwischenrepräsentation
   der SECD-Maschine:
   
   \begin{enumerate}
@@ -2326,7 +2326,7 @@ SECD-Maschine realisiert wird:
 \end{aufgabe}
 
 \begin{aufgabe}
- Betrachten Sie folgendes SECD-Programm:
+ Betrachte folgendes SECD-Programm:
  
  \newcommand{\tuple}[2]{\ensuremath{(#1,#2)}}
 
@@ -2335,27 +2335,27 @@ SECD-Maschine realisiert wird:
  \end{center}
  
  \begin{enumerate}
-   \item Übersetzen Sie das SECD-Programm in den entsprechenden
+   \item Übersetze das SECD-Programm in den entsprechenden
    $\mathcal{L}_{\lambda{}A}$-Term.
-   \item Werten Sie das SECD-Programm aus und geben Sie die einzelnen
+   \item Werte das SECD-Programm aus und gibt die einzelnen
      Auswertungsschritte an!
  \end{enumerate}
   
 \end{aufgabe}
 
 \begin{aufgabe}\label{aufgabe:secd-endekursiv-implementieren}
-  Erweitern Sie die Implementierung der SECD-Maschine um korrekte
-  Behandlung der Endrekursion!  Erweitern Sie dazu zunächst die
-  Datendefinition für Maschinencode. Implementieren Sie dann die
+  Erweitere die Implementierung der SECD-Maschine um korrekte
+  Behandlung der Endrekursion!  Erweitere dazu zunächst die
+  Datendefinition für Maschinencode. Implementiere dann die
   Übersetzung von $\lambda$-Termen für die endrekursive SECD-Maschine.
-  Erweitern Sie schließlich die Zustandsübergangsfunktion um einen
+  Erweitere schließlich die Zustandsübergangsfunktion um einen
   Fall für die $\mathtt{tailap}$-Instruktion.
 \end{aufgabe}
 
 \begin{aufgabe}
   Die um Endrekursion erweiterte SECD-Maschine führt eine neue
   Maschinencode"=Instruktion \texttt{tailap} ein.  Dies ist aber nicht
-  unbedingt nötig.  Formulieren Sie die Zustandsübergangsregeln der
+  unbedingt nötig.  Formuliere die Zustandsübergangsregeln der
   SECD-Maschine mit Endrekursion so um, dass die Funktionalität, also
   insbesondere die richtige Behandlung endrekursiver Applikationen,
   auch ohne das das zusätzliche Schlüsselwort \texttt{tailap}
@@ -2363,36 +2363,36 @@ SECD-Maschine realisiert wird:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Zeigen Sie in der um Endrekursion erweiterten
+  Zeige in der um Endrekursion erweiterten
   SECD-Maschine, dass \texttt{tailap} immer am Ende steht, also
   tatsächlich keinen Kontext besitzt.
 \end{aufgabe}
 
 \begin{aufgabe}\label{aufgabe:prim-arity}
-  Erweitern Sie die SECD-Maschine um Primitive anderer Stelligkeiten,
-  z.B.\ \texttt{abs} oder \texttt{odd?}.
+  Erweitere die SECD-Maschine um Primitive anderer Stelligkeiten,
+  zum Beispiel \texttt{abs} oder \texttt{odd?}.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Ändern Sie die Implementierung der SECDH-Maschine dahingehend, dass
+  Ändere die Implementierung der SECDH-Maschine dahingehend, dass
   sie Endrekursion korrekt behandelt.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Abstrahieren Sie über \texttt{remove-environment-binding} und
+  Abstrahiere über \texttt{remove-environment-binding} und
   \texttt{remove-cell}.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Erweitern Sie den angewandten $\lambda$-Kalkül um Abstraktionen und
-  Applikationen mit mehr als einem Parameter.  Erweitern Sie die
+  Erweiter den angewandten $\lambda$-Kalkül um Abstraktionen und
+  Applikationen mit mehr als einem Parameter.  Erweitere die
   SECD-Maschine und ihre Implementierung entsprechend.
 \end{aufgabe}
 
 
 \begin{aufgabe}
-  Erweitern Sie den angewandten $\lambda$-Kalkül um binäre
-  Verzweigungen analog zu \texttt{if}.  Erweitern Sie entsprechend die
+  Erweitere den angewandten $\lambda$-Kalkül um binäre
+  Verzweigungen analog zu \texttt{if}.  Erweitere entsprechend die
   SECD-Maschine und ihre Implementierung.
 \end{aufgabe}
 
@@ -2411,7 +2411,7 @@ SECD-Maschine realisiert wird:
   (lambda (e v)
     (e v)))
 \end{verbatim}
-  Ergänzen Sie eine passende Definition für
+  Ergänze eine passende Definition für
   \texttt{extend-environment}.
 \end{aufgabe}
 
@@ -2420,8 +2420,8 @@ SECD-Maschine realisiert wird:
   Auswertung einer Abstraktion die gesamte Umgebung in die Closure
   einzupacken.  Was würde sich ändern, wenn dieser Schritt weggelassen
   würde, Closures also nur Variable und Maschinencode für den Rumpf
-  enthalten würden?  Formulieren Sie die entsprechenden Regeln für die
-  SECD-Maschine und ändern Sie die Implementierung entsprechend.
+  enthalten würden?  Formuliere die entsprechenden Regeln für die
+  SECD-Maschine und ändere Sie die Implementierung entsprechend.
   Funktioniert die SECD-Maschine nach der Änderung noch korrekt?
 \end{aufgabe}
 
