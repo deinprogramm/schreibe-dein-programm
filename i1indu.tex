@@ -20,12 +20,162 @@ uns von der Korrektheit einer Funktion mit Hilfe eines sogenannten
 induktiven Beweises überzeugen.  Dieses Kapitel zeigt, was das ist und
 wie das geht.
 
+\section{Mengen}
+\label{sec:mengen}
+
+Bevor wir über induktiv definierte Mengen reden, reden wir erstmal
+über Mengen\index{Menge} als solche.  Dabei benutzen wir den
+Mengenbegriff aus der sogenannten "<naiven Mengenlehre">, die sich um
+eine stringente mathematische Formalisierung drückt, für unsere Zwecke
+aber ausreicht.  Uns geht es vor allem um die Notation für den Umgang
+mit Mengen, die wir in weiteren Exkursen benutzt werden.  Es kann gut
+sein, dass Du dies alles schon kennst.  Dann kannst Du diesen
+Abschnitt gern überspringen oder kurz überfliegen.
+
+In der naiven Mengenlehre herrscht die Grundannahme, dass die Welt aus
+Objekten besteht: Das kann alles mögliche sein, reale Dinge genauso
+wie eingebildete.  (Der Objektbegriff hier hat nichts mit dem
+Objektbegriff in der Programmierung zu tun, insbesondere nichts mit
+objektorientierter Programmierung.)  Wenn Du Dir nun einige dieser
+Objekte herauspickst, also eine Art Sammlung von Objekten, dann hast
+Du eine Menge.  Wichtig: Für jede Menge und jedes Objekte musst Du ein
+klares Kriterium haben, dass besagt, ob das Objekt in der Menge ist
+oder draußen.  Auch eine Menge ist ein Objekt, Du kannst also eine
+Menge definieren, deren Elemente selbst Mengen sind.\footnote{Wenn man
+  diesen Gedanken weiterführt, kommt man schnell zu Widersprüchen.
+  Die Menge aller Mengen enthält sich zum Beispiel selbst.  Aber was
+  ist mit der Menge aller Mengen, die sich \emph{nicht} selbst
+  enthalten~-- enthält die sich auch selbst?  Der Buchklassiker
+  \textit{Gödel, Escher, Bach}~\cite{Hofstadter1979} macht aus solchen
+  Fragen große Unterhaltung.}  Wichtig außerdem noch beim
+Mengenbegriff: Die Elemente einer Menge sind immer unterschiedlich,
+ein Element kann nur einmal in einer Menge enthalten sein.
+
+Die Objekte einer Menge $M$ heißen \textit{Elemente\index{Element}} von $M$. Die Notation
+$ x \in M$ \index{*@$\in$}\index{*@$\not\in$}
+bedeutet, dass $x$ ein Element von $M$ ist, $x \not \in M$, dass $x$ kein
+Element von $M$ ist.
+
+Häufig haben wir es mit Mengen von Zahlen zu tun: So bezeichnet
+$\enn$\index{N@$\enn$} die Menge der \emph{natürlichen
+  Zahlen\index{natürliche Zahl}}, entspricht also der Signatur
+\lstinline{natural} (siehe
+Seite~\pageref{page:natural}). $\zet$\index{Z@$\zet$} bezeichnet die
+Menge der \emph{ganzen Zahlen\index{ganze Zahlen}}, entspricht also
+der Signatur \lstinline{integer}. $\err$\index{R@$\err$} ist die Menge
+der \emph{reellen Zahlen\index{reelle Zahlen}}; die Signatur dazu ist
+\lstinline{real}.
+
+Endliche Mengen\index{Menge!endlich}\index{endliche Menge}, also Mengen mit endlich vielen Elementen
+schreiben wir als Aufreihung ihrer Elemente, 
+eingeschlossen in geschweirte Klammern geschlossen werden:
+\[M = \{ 11, 13, 17, 19\}.\]
+Häufig werden Mengen jedoch auch durch eine bestimmte Eigenschaft de"-fi"-niert,
+die ihre Elementen haben.  Das geht auch mit geschweiften Klammern und
+einem senkrechten Strich.  Hier ist ein Beispiel:
+%
+\[M = \{x\ |\ x\ \mbox{ist Primzahl}, 10 \le x \le 20\}.\]
+%
+Die \emph{leere Menge\index{leere Menge}} %\index{$\varnothing$}
+ist die Menge, die keine Elemente besitzt und wird
+durch $\varnothing$\index{*@$\varnothing$} bezeichnet.
+
+\emph{$A$ heißt Teilmenge\index{Teilmenge} von $B$}, geschrieben $A \subseteq B$, \index{*@$\subseteq$}
+wenn jedes Element von $A$ auch Element von $B$ ist.
+
+% FIXME: \diff, \Rightarrow
+Zwei Mengen sind gleich, wenn sie die gleichen Elemente besitzen.  Das
+ist der Fall, wenn die eine Menge Teilmenge der anderen ist und umgekehrt:
+%
+\[A \subseteq B \text{und} B \subseteq A\]
+%
+Daraus ergibt sich zum Beispiel folgende Gleichtung.
+%
+\[\{11,13,17,19\} =\{17,13,19,11\}\]
+%
+Die Reihenfolge, in der die Elemente in den geschweiften Klammern
+geschrieben sind, ist also unerheblich.  Außerdem spielt es keine
+Rolle, wenn ein Element mehrmals in den geschweiften Klammern
+auftaucht.  Wie oben schon gesagt: jedes Element ist in einer Menge
+nur einmal oder keinmal enthalten:
+\[\{11,13,17,19\} = \{11,13,11,17,17,11,13,19\}\]
+%
+Die Notation $A \not \subseteq B$ bedeutet, dass $A \subseteq B$ nicht gilt, $A
+\not = B$, dass $A = B$ nicht gilt. $A$ heißt \emph{echte Teilmenge\index{Teilmenge!echt}\index{echte Teilmenge}} von $B$,
+wenn $A \subseteq B$, aber $A \not = B$. Die Notation dafür ist $A \subset B$.
+\index{*@$\subset$}\index{*@$\supseteq$}\index{*@$\supset$}
+Es bedeutet $B \supseteq A$, dass $A \subseteq B$ gilt, ebenso für
+$B \supset A$. 
+
+Die \emph{Vereinigung\index{Vereinigung}} $A \cup B$ \index{*@$\cup$}
+zweier Mengen $A$ und $B$ ist so definiert:
+\[A \cup B  = \{a\ |\ a \in A \text{ oder } a \in B\}\]
+%
+Der \emph{Durchschnitt\index{Durchschnitt}} $A \cap B$ \index{*@$\cap$}
+zweier Mengen $A$ und $B$ ist so: 
+\[A \cap B = \{a\ |\ a \in A \text{ und } a \in B\}\]
+%
+Die \emph{Differenz\index{Differenz}} $A \setminus B$ \index{*@$\setminus$}
+zweier Mengen $A$ und $B$ ist so definiert:
+\[A \setminus B = \{a\ |\ a \in A \text{ und } a \not \in B\}\]
+%
+Das \emph{kartesische Produkt} 
+\index{kartesisches Produkt} \index{*@$\times$} $A \times B$ zweier Mengen 
+$A$ und $B$ ist definiert durch
+\[ A \times B = \{(a,b)\ |\ a \in A,\ b \in B\}\]
+%
+Warum heißt es "<Produkt">, fragst Du Dich vielleicht, und warum ist
+das Symbol $\times$ das gleiche wie beim Produkt zweiter Zahlen? Nun,
+wenn $A$ und $B$ endliche Mengen, also $A$ aus $m$ Elementen besteht
+und $B$, dann besteht $A\times B$ aus $m\times n$ Elementen.
+
+% Wenn das noch gebraucht wird, muss es später im Kapitel:
+% Für $n \geq 2$ Mengen
+% $A_1$, \ldots, $A_n$ ist definiert:
+% \[A_1 \times \cdots \times A_n\ \ 
+%      \deq \ \ \{(a_1,\ldots,a_n)\ |\ a_i \in A_i\}.\]
+% Für eine Menge $A$ und eine natürliche Zahl $n \geq 2$ ist
+% \[A^n \ \ \deq  \ \ A \times 
+%         \stackrel{\stackrel{n}{\frown}}{\cdots} \times A.\]
+% Um die Fälle $n=0$ und $n=1$
+% nicht immer ausschließen zu müssen,
+% wird außerdem definiert:
+% \begin{eqnarray*}
+% A^1 & \deq & A\\
+% A^0 & \deq & \{()\} \ .
+% \end{eqnarray*}
+% $A^0$ ist also eine einelementige Menge, deren einziges Element in
+% Über\-ein\-stim\-mung mit der Tupelschreibweise $(a_1,\ldots,a_n)$ mit $()$
+% bezeichnet wird.\index{*@$()$}
+
+
+% Es ist üblich,
+% Teilmengen $T \subseteq \mathcal{P}(A)$ durch sog.\ \emph{charakteristische
+% Funktionen} dar\-zu\-stel\-len:\index{charakteristische Funktion}
+
+% \begin{definition}\label{def:charfunction}
+%  Sei $A$ eine Menge, $T \in \mathcal{P}(A)$. Die \emph{charakteristische
+%     Funk\-tion von T} ist definiert durch\index{chiT@$\chi_T$}\index{*@$\chi_T$}
+%     \[ \chi_T:\ A \longrightarrow \{0,1\}\]
+
+%     \[\chi_T(x) \deq \left \{ \begin{array}{ll}
+%                                 1 & \textrm{falls\ } x \in T\\
+%                                 0 & \textrm{falls\ } x \not \in T
+%                               \end{array}
+%                      \right . \]
+%     Ist umgekehrt $f:\ A \rightarrow \{0,1\}$ eine (totale) Abbildung, so lässt
+%     sich hieraus eine Menge $T_f \in \mathcal{P}(A)$ ableiten durch
+%     \[ T_f \deq \{x \in A \mid f(x) = 1\} .\]
+% \end{definition}
+
+% \noindent Die Zuordnung $T \mapsto \chi_T$ ist bijektiv. 
+
 \section{Aussagen über natürliche Zahlen}
 \label{sec:mathematical-induction}
 \label{sec:gausssche-summenformel}
 
 In der Mathematik gibt es viele kuriose Aussagen über natürliche
-Zahlen.  Legendenstatus hat z.B.\ die Gaußsche
+Zahlen.  Legendenstatus hat zum Beispiel die Gaußsche
 Summenformel\index{Gaußsche Summenformel}.  Diese besagt, dass für
 eine natürliche Zahl $n$ die Summer aller Zahlen von 1 bis $n$ mit der
 Formel
@@ -1249,6 +1399,19 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
     Farbe in der Zwischenzeit nicht plötzlich gewechselt haben können, war es in beiden Fällen
     die gleiche Farbe, und alle $n+1$ Pferde haben diese Farbe.
 \end{beweis}
+\end{aufgabe}
+
+\begin{aufgabe}
+  Für boolesche Variablen $A$ und $B$ gelten die sogenannten \textit{DeMorgan'schen Gesetze}:
+  \index{DeMorgan'sches Gesetz}:
+  %
+  \begin{eqnarray*}
+   \neg(A \vee B) &=& \neg{A} \wedge \neg{B}\\
+   \neg(A \wedge B) &=& \neg{A} \vee \neg{B}
+  \end{eqnarray*}
+  %
+  Zeige, dass die Gesetzen gelten, indem Du alle möglichen Werte für
+  $A$ und $B$ durchprobierst.
 \end{aufgabe}
 
 \begin{aufgabe}
