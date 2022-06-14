@@ -5,29 +5,28 @@
 
 % FIXME: Referenz auf RC_1 / logische Kalküle
 % FIXME: "Reduktionskalkül" erklären
-\chapter{Der $\lambda$-Kalkül}
+\chapter{Exkurs: Der $\lambda$-Kalkül}
 \label{chap:lambda}
 
 \index{Lambda-Kalkül@$\lambda$-Kalkül}
 
-Nachdem die bisherigen Kapitel den Bogen von der praktischen Konstruktion
-einfacher Programme bis zur
-objektorientierten Programmierung geschlagen haben, beleuchtet dieses Kapitel
-eine wichtige theoretische Grundlage der
-Programmierung.
+Bisher ging es in diesem Buch immer um die \emph{Konstruktion} von
+Programmen.  In dieses Kapitel geht es hingegen um die
+\textit{Bedeutung} von Programmen.  Wir haben zwar erläutert, wie die
+Auswertung eines Programms funktioniert, aber bisher nur
+umgangssprachlich.  Dabei haben wir einige subtile Aspekte der
+Auswertung gar nicht oder nur unpräzise erläutert.  Das wollen wir in
+diesem Kapitel korrigieren und zwar mit Mathematik~-- wie immer, wenn
+es wirklich präzise sein muss.
 
-Für die Informatik ist der Begriff des \emph{logischen Kalküls\index{Kalkül}\index{logischer Kalkül}} von zentraler Bedeutung.
-Ein Kalkül dient dazu, auf formale Art und Weise wahre Aussagen abzuleiten, ohne dass
-es dabei nötig wird, über den Sinn der Aussagen nachzudenken.   
-Der $\lambda$-Kalkül ist ein logischer Kalkül, der als die Basis für
-eine formale Beschreibung des Verhaltens von Computerprogrammen dient.
-Die Lehrsprache baut direkt auf dem $\lambda$-Kalkül auf: es ist kein
-Zufall, dass das Schlüsselwort für die Abstraktion \texttt{lambda}
-heißt.  Es gibt noch viele weitere Einsatzgebiete für den $\lambda$-Kalkül,
-insbesondere bei der Konstruktion von besonders effizienten
-Übersetzern für Programmiersprachen, in der Logik und der Linguistik,
-und bei der Entwicklung und Sicherheitsüberprüfung von mobilem Code im
-Internet.
+Dazu benutzen wir den sogenannten \textit{$\lambda$-Kalkül},
+ausgeschrieben: \textit{Lambda-Kalkül}, der formal fasst, was der
+Stepper in DrRacket visualisiert.  Das "<Lambda"> im Namen des Kalküls
+ist die Vorlage für das \lstinline{lambda} in unseren Lehrsprachen.
+Der $\lambda$-Kalkül bricht die Elemente der Programmierung auf nur
+das absolut notwendige herunter, das macht ihn glücklicherweise
+ziemlich einfach.  Gleichzeitig kann er alles abbilden, was wir für
+die Programmierung so brauchen.
 
 \section{Sprache und Reduktionssemantik}
 \label{sec:sprache}
