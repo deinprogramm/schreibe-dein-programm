@@ -28,8 +28,29 @@ das absolut notwendige herunter, das macht ihn glücklicherweise
 ziemlich einfach.  Gleichzeitig kann er alles abbilden, was wir für
 die Programmierung so brauchen.
 
-\section{Sprache und Reduktionssemantik}
+\section{Die Sprache des $\lambda$-Kalküls}
 \label{sec:sprache}
+
+Ein mathematischer \textit{Kalkül}\index{Kalkül} dient im allgemeinen
+dazu, Aussagen hinzuschreiben und wahre Aussagen herzuleiten.  Wir
+wollen Aussagen über Programme machen und was sie bedeuten.  Damit es
+losgeht, benötigen zunächst eine \textit{Sprache} für den Kalkül, und
+den definieren wir mit Hilfe einer Grammatik.  (Du erinnerst Dich
+vielleicht, das ist eine Notation für induktive Definitionen, die wir
+in Abschnitt~\ref{sec:grammatik} auf Seite~\pageref{sec:grammatik}
+eingeführt haben.)
+
+Die folgenden Definition definiert als Grundlage für die Sprache des
+$\lambda$-Kalküls die Sprache der $\lambda$-Terme.  Wie wir sehen
+werden, entsprichen die Terme den Ausdrücken in unseren Programmen. 
+
+In der Definition taucht der Begriff \textit{abzählbare
+  Menge}\index{abzählbare Menge} auf.  Das Adjektiv "<abzählbar"> an
+einer Menge bedeutet, dass die Menge unendlich groß ist und dass die
+Menge durchnummeriert oder "<abgezählt"> werden kann.  Hier geht es um
+die abzählbare Menge der Variablen, welche den Variablen in Programmen
+entsprechen.  Die könnten wir auch durchnummerieren, indem wir den
+Buchstaben Nummern geben.
 
 \begin{definition}[Sprache des $\lambda$-Kalküls
   $\mathcal{L}_{\lambda}$]
