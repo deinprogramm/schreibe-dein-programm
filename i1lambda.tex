@@ -68,12 +68,11 @@ Buchstaben Nummern geben.
     \> \| ($\lambda$\meta{$V$}.$\mathcal{L}_{\lambda}$)
   \end{grammar}
 %
-Ein $\lambda$-Term der Form $(e_0~e_1)$ heißt 
-\textit{Applikation\index{Applikation}} mit \textit{Operator\index{Operator}} $e_0$ und \textit{Operand\index{Operand}}
-$e_1$.  Ein Term der Form $(\lambda x.e)$ heißt \textit{Abstraktion\index{Abstraktion}},
-wobei $x$ \textit{Parameter\index{Parameter}} der Abstraktion heißt und $e$
-\textit{Rumpf\index{Rumpf}}.  In diesem Kapitel steht $e$ immer für
-einen $\lambda$-Term, $u$, $v$ und $w$ sowie $x$, $y$ und $z$ stehen für Variablen.
+  Ein $\lambda$-Term der Form $(e_0~e_1)$ heißt
+  \textit{Applikation\index{Applikation}}. Ein Term der Form
+  $(\lambda v.e)$ heißt \textit{Abstraktion\index{Abstraktion}}, wobei
+  $v$ \textit{Parameter\index{Parameter}} der Abstraktion heißt und
+  $e$ \textit{Rumpf\index{Rumpf}}.
 \end{definition}
 %
 Hier sind ein paar Beispiele für $\lambda$-Terme:
@@ -82,12 +81,90 @@ Hier sind ein paar Beispiele für $\lambda$-Terme:
   \begin{array}{c}
     (\lrm f~\lrm x)
     (\lambda \lrm x.\lrm x)\\
+    (\lambda \lrm x.(\lambda \lrm y.(\lrm x~\lrm y))\\
     (\lambda \lrm x.(\lrm f~\lrm x))\\
     (\lambda \lrm x.(\lrm f~(\lambda \lrm x~\lrm x))
   \end{array}
 \end{displaymath}
+% 
+In diesen konkreten Beispielen haben wir als Variablen $\lrm x$, $\lrm y$ und
+$\lrm f$ verwendet.  Manchmal sprechen wir aber auch über
+$\lambda$-Terme einer bestimmten Form im Allgemeinen, zum Beispiel
+steht oben in der Definition "<$\lambda$-Term der Form
+$(e_0~e_1)$">. Damit sind \emph{alle} $\lambda$-Terme gemeint, die aus der
+zweiten Regel der Grammatik stammen, also $e_0$ und $e_1$ beliebige
+$\lambda$-Terme sein können.  Hier sind einige Beispiele für
+$\lambda$-Terme dieser Form:
+%
+\begin{displaymath}
+  \begin{array}{c}
+    (\lrm f~\lrm x)
+    (\lrm f~(\lambda \lrm x.\lrm x))
+    ((\lambda \lrm x.\lrm x)~(\lambda \lrm x.\lrm x))
+  \end{array}
+\end{displaymath}
+%
+In der Definition sind außerdem Terme der "<Form $(\lambda v.e)$>
+erwähnt, das könnte zum Beispiel sein:
+%
+\begin{displaymath}
+  \begin{array}{c}
+    (\lambda \lrm x.\lrm x)
+    (\lambda \lrm y.\lrm x)
+    (\lambda \lrm x.\lrm x~\lrm x)
+    (\lambda \lrm x.(\lrm f~\lrm x)~\lrm y)
+    (\lambda \lrm y.\lrm x)
+  \end{array}
+\end{displaymath}
+%
+Du sieht, der Buchstabe $v$ in der "<Form> steht für eine Variable,
+also für $\lrm x$, $\lrm y$ oder $\lrm f$.  Wenn Du genau hinschaust,
+siehst Du, dass beide sich typografisch unterscheiden: Die
+"<normalen"> Variablen $\lrm x$, $\lrm y$, $\lrm f$ sehen aus wie
+reguläre Buchstaben, während $v$ in sogenannten Italics gesetzt ist.
+Das $v$ ist also eine Variable, die für eine andere Variable steht~--
+eine sogenannte \textit{Metavariable}.\index{Metavariable}
 
-Es ist kein Zufall, dass die Lehrsprachen genau die gleichen Begriffe verwendet
+In diesem Kapitel steht die Variable $e$ immer für einen
+$\lambda$-Term, $u$, $v$ und $w$ sind immer Metavariablen.
+
+Anders als in den Lehrsprachen werden Klammern bei $\lambda$-Termen
+oft weggelassen.  Statt des vollständig geklammerten Terms
+
+\begin{displaymath}
+  (\lambda \lrm f.(\lambda \lrm x.(\lrm f~\lrm x)))
+\end{displaymath}
+%
+werden wir das hier schreiben: 
+%
+\begin{displaymath}
+  \lambda \lrm f.\lambda \lrm x.\lrm f~\lrm x
+\end{displaymath}
+%
+Prinzipiell lässt sich dieser Term unterschiedlich
+klammern: $(\lambda \lrm f.((\lambda \lrm x.\lrm f)~\lrm x))$, $(\lambda
+f.(\lambda \lrm x.(\lrm f~\lrm x)))$ oder $((\lambda \lrm f.\lambda
+\lrm x.\lrm f)~\lrm x)$.  Wir verwenden aber die gängige Konvention,
+dass der Rumpf einer Abstraktion sich so weit wie möglich nach
+rechts erstreckt.   Damit steht der ungeklammerte Term eindeutig für
+den vollständig geklammerten Term, der darüber steht.
+
+Die Terme der Form $\lambda v.e$ sind auf einen Parameter
+beschränkt.  Es gibt aber zwei weitere Abkürzungen
+in der Notation von $\lambda$-Termen:
+%
+\begin{itemize}
+\item $\lambda x_1 \ldots x_n.e$ steht für $\lambda x_1.(\lambda
+  x_2.(\ldots\lambda x_n.e)\ldots)$.
+\item $e_0 \ldots e_n$ steht für $(\ldots(e_0~e_1)~e_2) \ldots e_n)$.
+\end{itemize}
+%
+Dementsprechend ist $\lambda \lrm{fxy}.\lrm f~\lrm x~\lrm y$ eine andere Schreibweise für
+den Term \[(\lambda \lrm f.(\lambda \lrm x.(\lambda \lrm y.((\lrm f~\lrm x)~\lrm y))))\ .\]
+
+\section{$\lambda$-Intuition}
+
+Es ist kein Zufall, dass die Lehrsprachen genau die gleichen Begriffe verwenden
 wie der $\lambda$-Kalkül.  Ein Lambda-Ausdruck mit einem
 Parameter entspricht einer Abstraktion im $\lambda$-Kalkül,
 und die Applikationen in den Lehrsprachen entsprechen den Applikationen im
@@ -95,7 +172,7 @@ $\lambda$-Kalkül.  Die Lehrsprachen wurde bewusst auf dem
 $\lambda$-Kalkül aufgebaut.
 
 Die Intuition für die Bedeutung der $\lambda$-Terme ist ähnlich wie in
-Scheme: Eine Abstraktion steht für eine mathematische Funktion,
+den Lehrsprachen: Eine Abstraktion steht für eine mathematische Funktion,
 speziell für eine solche Funktion, die sich durch ein Computerprogramm
 berechnen lässt.\footnote{Die Wahl des Buchstabens $\lambda$ für die
   Notation von Abstraktionen war eher ein Unfall: Zur Zeit der
@@ -111,58 +188,11 @@ berechnen lässt.\footnote{Die Wahl des Buchstabens $\lambda$ für die
   $\lambda$-Kalkül war geboren.}  Eine Applikation steht gerade für
 die Applikation einer Funktion, und eine Variable bezieht sich auf den
 Parameter einer umschließenden Abstraktion und steht für den Operanden
-der Applikation.
+der Applikation.  
 
-Der einfachste $\lambda$-Term ist die Identität\index{Identität}:
-%
-\begin{displaymath}
-  (\lambda \lrm x.\lrm x)
-\end{displaymath}
-%
-Der folgende $\lambda$-Term wendet eine Funktion $f$ auf ein Argument
-$x$ an:
-%
-\begin{displaymath}
-  (\lambda \lrm f.(\lambda \lrm x.(\lrm f~\lrm x)))
-\end{displaymath}
-%
-An diesem Beispiel wird deutlich, dass sich im $\lambda$-Kalkül, wie
-in den Lehrsprachen  auch, die Klammern schnell häufen, wenn die Terme größer
-werden.  Darum werden redundante Klammern beim Aufschreiben von
-$\lambda$-Termen oft weggelassen.  Damit wird aus dem obigen Term der
-folgende:
-%
-\begin{displaymath}
-  \lambda \lrm f.\lambda \lrm x.\lrm f~\lrm x
-\end{displaymath}
-%
-Dieser Ausdruck lässt sich unterschiedlich
-klammern: $(\lambda \lrm f.((\lambda \lrm x.\lrm f)~\lrm x))$, $(\lambda
-f.(\lambda \lrm x.(\lrm f~\lrm x)))$ oder $((\lambda \lrm f.\lambda \lrm x.\lrm f)~\lrm x)$.  Bei
-solchen Mehrdeutigkeiten 
-erstreckt sich der Rumpf einer Abstraktion so weit wie möglich nach rechts.
-Die richtige Variante ist also  $(\lambda
-\lrm f.(\lambda \lrm x.(\lrm f~\lrm x)))$.
-
-Die Funktionen im
-$\lambda$-Kalkül sind auf einen Parameter
-beschränkt.  Dies ist keine wirkliche
-Einschränkung: Funktionen mit mehreren Parametern werden 
-geschönfinkelt\index{schönfinkeln}, um aus ihnen mehrstufige Funktionen mit jeweils einem
-Parameter zu machen, vgl.\ Abschnitt~\ref{sec:currying}.
-
-Wegen der Verwandtschaft zwischen Funktionen mit mehreren Parametern
-und ihren geschönfinkelten Pendants gibt es zwei weitere Abkürzungen
-in der Notation von $\lambda$-Termen:
-%
-\begin{itemize}
-\item $\lambda x_1 \ldots x_n.e$ steht für $\lambda x_1.(\lambda
-  x_2.(\ldots\lambda x_n.e)\ldots)$.
-\item $e_0 \ldots e_n$ steht für $(\ldots(e_0~e_1)~e_2) \ldots e_n)$.
-\end{itemize}
-%
-Dementsprechend ist $\lambda \lrm{fxy}.\lrm f~\lrm x~\lrm y$ eine andere Schreibweise für
-den Term \[(\lambda \lrm f.(\lambda \lrm x.(\lambda \lrm y.((\lrm f~\lrm x)~\lrm y))))\ .\]
+Wichtig ist aber: Das ist an diesem Punkt nur eine Intuition.  Wir
+haben bisher nur die Sprache des $\lambda$-Kalküls definiert, nicht
+aber, was die $\lambda$-Terme bedeuten oder wie sie sich verhalten.
 
 Bemerkenswert am $\lambda$-Kalkül ist, dass es dort \emph{nur}
 Funktionen gibt, noch nicht einmal Zahlen, boolesche Werte oder
@@ -172,6 +202,15 @@ noch nicht einmal eine Funktion hinschreiben, die zwei Zahlen addiert~--
 schließlich gibt es keine Zahlen.  Wie sich jedoch weiter unten in
 Abschnitt~\ref{sec:lambdaprog} herausstellen wird, lassen sich all diese
 Dinge durch Funktionen nachbilden.
+
+Noch etwas: Es gibt nur Funktionen, und die haben auch nur jeweils
+einen Parameter.  Dies ist aber keine wirkliche Einschränkung:
+Funktionen mit mehreren Parametern können wir
+schönfinkeln\index{schönfinkeln}, um aus ihnen mehrstufige
+Funktionen mit jeweils einem Parameter zu machen, wie schon in
+Abschnitt~\ref{sec:currying} auf Seite~\pageref{sec:currying}.
+
+\section{Wie funktionieren Variablen?}
 
 Der $\lambda$-Kalkül selbst legt das Verhalten von $\lambda$-Termen
 fest; er ist ein Reduktionskalkül, der beschreibt, wie ein
