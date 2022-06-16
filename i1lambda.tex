@@ -8,6 +8,8 @@
 \chapter{Exkurs: Der $\lambda$-Kalkül}
 \label{chap:lambda}
 
+\newcommand{\lrm}{\mathrm}
+
 \index{Lambda-Kalkül@$\lambda$-Kalkül}
 
 Bisher ging es in diesem Buch immer um die \emph{Konstruktion} von
@@ -71,9 +73,20 @@ Ein $\lambda$-Term der Form $(e_0~e_1)$ heißt
 $e_1$.  Ein Term der Form $(\lambda x.e)$ heißt \textit{Abstraktion\index{Abstraktion}},
 wobei $x$ \textit{Parameter\index{Parameter}} der Abstraktion heißt und $e$
 \textit{Rumpf\index{Rumpf}}.  In diesem Kapitel steht $e$ immer für
-einen $\lambda$-Term, $v$ und $x$ stehen für Variablen.
+einen $\lambda$-Term, $u$, $v$ und $w$ sowie $x$, $y$ und $z$ stehen für Variablen.
 \end{definition}
 %
+Hier sind ein paar Beispiele für $\lambda$-Terme:
+%
+\begin{displaymath}
+  \begin{array}{c}
+    (\lrm f~\lrm x)
+    (\lambda \lrm x.\lrm x)\\
+    (\lambda \lrm x.(\lrm f~\lrm x))\\
+    (\lambda \lrm x.(\lrm f~(\lambda \lrm x~\lrm x))
+  \end{array}
+\end{displaymath}
+
 Es ist kein Zufall, dass die Lehrsprachen genau die gleichen Begriffe verwendet
 wie der $\lambda$-Kalkül.  Ein Lambda-Ausdruck mit einem
 Parameter entspricht einer Abstraktion im $\lambda$-Kalkül,
@@ -103,14 +116,14 @@ der Applikation.
 Der einfachste $\lambda$-Term ist die Identität\index{Identität}:
 %
 \begin{displaymath}
-  (\lambda x.x)
+  (\lambda \lrm x.\lrm x)
 \end{displaymath}
 %
 Der folgende $\lambda$-Term wendet eine Funktion $f$ auf ein Argument
 $x$ an:
 %
 \begin{displaymath}
-  (\lambda f.(\lambda x.(f~x)))
+  (\lambda \lrm f.(\lambda \lrm x.(\lrm f~\lrm x)))
 \end{displaymath}
 %
 An diesem Beispiel wird deutlich, dass sich im $\lambda$-Kalkül, wie
@@ -120,16 +133,16 @@ $\lambda$-Termen oft weggelassen.  Damit wird aus dem obigen Term der
 folgende:
 %
 \begin{displaymath}
-  \lambda f.\lambda x.f~x
+  \lambda \lrm f.\lambda \lrm x.\lrm f~\lrm x
 \end{displaymath}
 %
 Dieser Ausdruck lässt sich unterschiedlich
-klammern: $(\lambda f.((\lambda x.f)~x))$, $(\lambda
-f.(\lambda x.(f~x)))$ oder $((\lambda f.\lambda x.f)~x)$.  Bei
+klammern: $(\lambda \lrm f.((\lambda \lrm x.\lrm f)~\lrm x))$, $(\lambda
+f.(\lambda \lrm x.(\lrm f~\lrm x)))$ oder $((\lambda \lrm f.\lambda \lrm x.\lrm f)~\lrm x)$.  Bei
 solchen Mehrdeutigkeiten 
 erstreckt sich der Rumpf einer Abstraktion so weit wie möglich nach rechts.
 Die richtige Variante ist also  $(\lambda
-f.(\lambda x.(f~x)))$.
+\lrm f.(\lambda \lrm x.(\lrm f~\lrm x)))$.
 
 Die Funktionen im
 $\lambda$-Kalkül sind auf einen Parameter
@@ -148,8 +161,8 @@ in der Notation von $\lambda$-Termen:
 \item $e_0 \ldots e_n$ steht für $(\ldots(e_0~e_1)~e_2) \ldots e_n)$.
 \end{itemize}
 %
-Dementsprechend ist $\lambda fxy.f~x~y$ eine andere Schreibweise für
-den Term \[(\lambda f.(\lambda x.(\lambda y.((f~x)~y))))\ .\]
+Dementsprechend ist $\lambda \lrm{fxy}.\lrm f~\lrm x~\lrm y$ eine andere Schreibweise für
+den Term \[(\lambda \lrm f.(\lambda \lrm x.(\lambda \lrm y.((\lrm f~\lrm x)~\lrm y))))\ .\]
 
 Bemerkenswert am $\lambda$-Kalkül ist, dass es dort \emph{nur}
 Funktionen gibt, noch nicht einmal Zahlen, boolesche Werte oder
@@ -585,14 +598,14 @@ wählt, abhängig vom Wert von $t$,
 entweder die Konsequente $k$ oder die Alternative $a$ aus.  Die Nachbildung im
 $\lambda$-Kalkül stellt dieses Prinzip auf den Kopf: die Maschinerie
 für die Auswahl zwischen Konsequente und Alternative wird in die
-booleschen Werte selbst gesteckt.  $\mathit{true}$\index{true@$\mathit{true}$} ist ein
+booleschen Werte selbst gesteckt.  $\mathbf{true}$\index{true@$\mathbf{true}$} ist ein
 $\lambda$-Term, der das erste von zwei Argumenten auswählt und das
-zweite verwirft; $\mathit{false}$\index{false@$\mathit{false}$} selektiert das zweite und verwirft
+zweite verwirft; $\mathbf{false}$\index{false@$\mathbf{false}$} selektiert das zweite und verwirft
 das erste:
 %
 \begin{align*}
-  \mathit{true} & \deq{} \lambda x y.x \\
-  \mathit{false} & \deq{} \lambda x y.y
+  \mathbf{true} & \deq{} \lambda x y.x \\
+  \mathbf{false} & \deq{} \lambda x y.y
 \end{align*}
 %
 Damit hat die Verzweigung selbst nicht mehr viel zu tun; sie wendet
@@ -600,25 +613,25 @@ einfach den Test, der einen booleschen Wert ergeben muss, auf
 Konsequente und Alternative an:
 %
 \begin{displaymath}
-  \mathit{if} \deq{} \lambda t x y.t~x~y
+  \mathbf{if} \deq{} \lambda t x y.t~x~y
 \end{displaymath}
 %
-Dass $\mathit{if}$\index{if@$\mathit{if}$} tatsächlich so funktioniert wie angenommen, lässt
+Dass $\mathbf{if}$\index{if@$\mathbf{if}$} tatsächlich so funktioniert wie angenommen, lässt
 sich an einem Beispiel leicht sehen:
 %
 \begin{displaymath}
   \begin{split}
-    \mathit{if}~\mathit{true}~e_1~e_2 & =
-    (\lambda t x y.t~x~y)~\mathit{true}~e_1~e_2
+    \mathbf{if}~\mathbf{true}~e_1~e_2 & =
+    (\lambda t x y.t~x~y)~\mathbf{true}~e_1~e_2
     \\
-    & \rightarrow_\beta (\lambda x y.\mathit{true}~x~y)~e_1~e_2\\
-    & \rightarrow_\beta^2 \mathit{true}~e_1~e_2\\
+    & \rightarrow_\beta (\lambda x y.\mathbf{true}~x~y)~e_1~e_2\\
+    & \rightarrow_\beta^2 \mathbf{true}~e_1~e_2\\
     & = (\lambda x y.x)~e_1~e_2\\
     & \rightarrow_\beta (\lambda y.e_1)~e_2\\
     & \rightarrow_\beta e_1  \end{split}
 \end{displaymath}
 %
-Für $\mathit{false}$ geht der Beweis analog.
+Für $\mathbf{false}$ geht der Beweis analog.
 
 \subsection{Natürliche Zahlen}
 
@@ -629,7 +642,7 @@ Church-Numeral $\lceil n\rceil$ einer natürlichen Zahl\index{natürliche Zahl}
 $n$ ist eine Funktion, die eine $n$-fache Applikation vornimmt.
 %
 \begin{displaymath}
-  \lceil n\rceil \deq{} \lambda f\lambda x.f^n(x)
+  \lceil n\rceil \deq{} \lambda \lrm f\lambda \lrm x.(\lrm{f}^n~\lrm x)
 \end{displaymath}
 Für einen $\lambda$-Term $f$ ist $f^n : \mathcal{L}_{\lambda}\rightarrow\mathcal{L}_{\lambda}$ folgendermaßen induktiv definiert:
 %
@@ -645,40 +658,40 @@ $\lceil 0\rceil$\index{*@$\lceil \:\rceil$} ist nach dieser Definition
 $\lambda f.\lambda x.x$, $\lceil 1\rceil$ ist $\lambda f.\lambda x.f~x$,
 $\lceil 2\rceil$ ist $\lambda f.\lambda x.f(f~x)$, usw.
 
-Die Nachfolgeroperation\index{Nachfolger} hängt eine zusätzliche Applikation an:\index{succ@$\mathit{succ}$}
+Die Nachfolgeroperation\index{Nachfolger} hängt eine zusätzliche Applikation an:\index{succ@$\mathbf{succ}$}
 %
 \begin{displaymath}
-  \mathit{succ} \deq{} \lambda n.\lambda f.\lambda x.n~f~(f~x)
+  \mathbf{succ} \deq{} \lambda \lrm n.\lambda \lrm f.\lambda \lrm x.\lrm n~\lrm f~(\lrm f~\lrm x)
 \end{displaymath}
 %
-Der folgende Term bildet die Vorgängerfunktion ab\index{Vorgänger}\index{pred@$\mathit{pred}$}:
+Der folgende Term bildet die Vorgängerfunktion ab\index{Vorgänger}\index{pred@$\mathbf{pred}$}:
 %
 \begin{displaymath}
-  \mathit{pred} \deq{} \lambda x.\lambda y.\lambda z.x~(\lambda p.\lambda
-  q.q~(p~y))~((\lambda x.\lambda y.x)~z)~(\lambda x.x)
+  \mathbf{pred} \deq{} \lambda \lrm x.\lambda \lrm y.\lambda \lrm z.\lrm x~(\lambda \lrm p.\lambda
+  \lrm q.\lrm q~(\lrm p~\lrm y))~((\lambda \lrm x.\lambda \lrm y.\lrm x)~\lrm z)~(\lambda \lrm x.\lrm x)
 \end{displaymath}
 %
-Der Beweis dafür, dass sich $\mathit{pred}$ in bezug auf $\mathit{succ}$ wie die
+Der Beweis dafür, dass sich $\mathbf{pred}$ in bezug auf $\mathbf{succ}$ wie die
 Vorgängerfunktion verhält, ist Übungsaufgabe~\ref{ex:pred}.
 
 In Verbindung mit den booleschen Werten lässt sich eine Zahl daraufhin
-testen, ob sie $0$ ist:\index{zerop@$\mathit{zerop}$}
+testen, ob sie $0$ ist:\index{zerop@$\mathbf{zerop}$}
 %
 \begin{displaymath}
-  \mathit{zerop} \deq{} \lambda n.n~(\lambda x.\mathit{false})~\mathit{true}
+  \mathbf{zerop} \deq{} \lambda \lrm n.\lrm n~(\lambda \lrm x.\mathbf{false})~\mathbf{true}
 \end{displaymath}
 %
-Die Funktionsweise von $\mathit{zerop}$ lässt sich am einfachsten an
+Die Funktionsweise von $\mathbf{zerop}$ lässt sich am einfachsten an
 einem Beispiel erkennen:
 %
 \begin{displaymath}
   \begin{split}
-    \mathit{zerop}~\lceil 0\rceil & =
-    (\lambda n.n~(\lambda x.\mathit{false})~\mathit{true})~\lceil 0\rceil\\
-    & \rightarrow_\beta \lceil 0\rceil~(\lambda x.\mathit{false})~\mathit{true}\\
-    & = (\lambda f.\lambda x.x)~(\lambda x.\mathit{false})~\mathit{true}\\
-    & \rightarrow_\beta (\lambda x.x)~\mathit{true}\\
-    & \rightarrow_\beta \mathit{true}
+    \mathbf{zerop}~\lceil 0\rceil & =
+    (\lambda \lrm n.\lrm n~(\lambda \lrm x.\mathbf{false})~\mathbf{true})~\lceil 0\rceil\\
+    & \rightarrow_\beta \lceil 0\rceil~(\lambda \lrm x.\mathbf{false})~\mathbf{true}\\
+    & = (\lambda \lrm f.\lambda \lrm x.\lrm x)~(\lambda \lrm x.\mathbf{false})~\mathbf{true}\\
+    & \rightarrow_\beta (\lambda \lrm x.\lrm x)~\mathbf{true}\\
+    & \rightarrow_\beta \mathbf{true}
   \end{split}
 \end{displaymath}
 %
@@ -693,57 +706,57 @@ rekursive Bindung herzustellen.  Zur Realisierung von Rekursion ist
 deshalb ein Kunstgriff notwendig, der sich an der rekursiven
 Definition der Fakultät zeigen lässt.
 Schön wäre eine Definition wie folgt, wobei Zahlen ohne $\lceil\:\rceil$ für
-ihre Church-Numerale stehen:\index{fac@$\mathit{fac}$}
+ihre Church-Numerale stehen:\index{fac@$\mathbf{fac}$}
 %
 \begin{displaymath}
-  \mathit{fac} \deq{} \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}~(\mathit{pred}~x)))
+  \mathbf{fac} \deq{} \lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~(\mathbf{fac}~(\mathbf{pred}~\lrm x)))
 \end{displaymath}
 %
 $=$ und $\ast$ stehen dabei für $\lambda$-Terme, die Church-Numerale
 vergleichen beziehungsweise multiplizieren.  (Ihre Formulierung ist Teil der
 Übungsaufgabe~\ref{ex:church}.)
 
-Leider ist diese Formulierung von $\mathit{fac}$ keine richtige
-Definition: $\mathit{fac}$ taucht sowohl auf der linken
-als auch auf der rechten Seite auf.  Wenn $\mathit{fac}$ aus der
+Leider ist diese Formulierung von $\mathbf{fac}$ keine richtige
+Definition: $\mathbf{fac}$ taucht sowohl auf der linken
+als auch auf der rechten Seite auf.  Wenn $\mathbf{fac}$ aus der
 rechten Seite entfernt wird, bleibt folgender Term übrig:
 %
 \begin{displaymath}
-  \lambda x.\mathit{if}~(\mathit{zerop}~x~1)~1~(\ast~x~(?~(\mathit{pred}~x)))
+  \lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x~1)~1~(\ast~\lrm x~(?~(\mathbf{pred}~\lrm x)))
 \end{displaymath}
 %
 Immerhin ist zu sehen, dass dieser Term korrekt die Fakultät von $0$
 ausrechnet, nämlich $1$.  Für alle Zahlen größer als $0$ ist es allerdings
 schlecht bestellt, da der Term "<$?$"> noch unbekannt ist.
-Weil der obige Term nur für $0$ taugt, sei er mit $\mathit{fac}_0$
+Weil der obige Term nur für $0$ taugt, sei er mit $\mathbf{fac}_0$
 benannt:
 %
 \begin{displaymath}
-  \mathit{fac}_0 \deq \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(?~(\mathit{pred}~x)))
+  \mathbf{fac}_0 \deq \lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~(?~(\mathbf{pred}~\lrm x)))
 \end{displaymath}
 %
 Nun wäre es schön, einen Term zu haben, der zumindest auch die
-Fakultät von $1$ ausrechnen kann.  Dazu wird $\mathit{fac}_0$ in
+Fakultät von $1$ ausrechnen kann.  Dazu wird $\mathbf{fac}_0$ in
 seine eigene Definition anstelle des $?$ eingesetzt.  Das Ergebnis
 sieht so aus:
 %
 \begin{displaymath}
-  \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}_0~(\mathit{pred}~x)))
+  \lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~(\mathbf{fac}_0~(\mathbf{pred}~\lrm x)))
 \end{displaymath}
 %
-Da $\mathit{fac}_0$ keinen Selbstbezug enthält, lässt sich seine
+Da $\mathbf{fac}_0$ keinen Selbstbezug enthält, lässt sich seine
 Definition einsetzen; das Ergebnis soll der Funktion entsprechend
-$\mathit{fac}_1$ heißen:
+$\mathbf{fac}_1$ heißen:
 %
 \begin{displaymath}
-  \mathit{fac}_1 \deq{} \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~((\lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(?~(\mathit{pred}~x))))~(\mathit{pred}~x)))
+  \mathbf{fac}_1 \deq{} \lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~((\lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~(?~(\mathbf{pred}~\lrm x))))~(\mathbf{pred}~\lrm x)))
 \end{displaymath}
 %
 Auf die gleiche Art und Weise lässt sich ein Term konstruieren, der
 alle Fakultäten bis 2 ausrechnen kann:
 %
 \begin{displaymath}
-  \mathit{fac}_2 \deq{} \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}_1~(\mathit{pred}~x)))
+  \mathbf{fac}_2 \deq{} \lambda x.\mathbf{if}~(\mathbf{zerop}~x)~1~(\ast~x~(\mathbf{fac}_1~(\mathbf{pred}~x)))
 \end{displaymath}
 %
 Dieses Muster lässt sich immer so weiter fortsetzen.  Leider entsteht
@@ -751,93 +764,93 @@ dabei trotzdem nie ein Term, der die Fakultäten \emph{aller}
 natürlichen Zahlen berechnen kann, da die Terme immer endlich groß
 bleiben.
 
-Immerhin aber enthalten alle $\mathit{fac}_n$-Terme das
+Immerhin aber enthalten alle $\mathbf{fac}_n$-Terme das
 gleiche Muster und unterscheiden sich nur durch Aufruf von
-$\mathit{fac}_{n-1}$.  Also ist es sinnvoll, Abstraktion
+$\mathbf{fac}_{n-1}$.  Also ist es sinnvoll, Abstraktion
 das Problem anzuwenden:
 %
 \begin{displaymath}
-  \lambda\mathit{fac}.\lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(\mathit{fac}~(\mathit{pred}~x)))
+  \lambda\mathbf{fac}.\lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~(\mathbf{fac}~(\mathbf{pred}~\lrm x)))
 \end{displaymath}
 %
-Dieser Term soll $\mathit{FAC}$\index{FAC@$\mathit{FAC}$} heißen.  Nun lassen sich die
-$\mathit{fac}_n$-Funktionen mit Hilfe von $\mathit{FAC}$ einfacher beschreiben:
+Dieser Term soll $\mathbf{FAC}$\index{FAC@$\mathbf{FAC}$} heißen.  Nun lassen sich die
+$\mathbf{fac}_n$-Funktionen mit Hilfe von $\mathbf{FAC}$ einfacher beschreiben:
 %
 \begin{eqnarray*}
-   \mathit{fac}_0 &\deq{}& \lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~(?~(\mathit{pred}~x)))\\
-   \mathit{fac}_1 &\deq{}& \mathit{FAC}~\mathit{fac}_0\\
-   \mathit{fac}_2 &\deq{}& \mathit{FAC}~\mathit{fac}_1\\
-   \mathit{fac}_3 &\deq{}& \mathit{FAC}~\mathit{fac}_2\\
+   \mathbf{fac}_0 &\deq{}& \lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~(?~(\mathbf{pred}~\lrm x)))\\
+   \mathbf{fac}_1 &\deq{}& \mathbf{FAC}~\mathbf{fac}_0\\
+   \mathbf{fac}_2 &\deq{}& \mathbf{FAC}~\mathbf{fac}_1\\
+   \mathbf{fac}_3 &\deq{}& \mathbf{FAC}~\mathbf{fac}_2\\
    &\ldots&
 \end{eqnarray*}
 %
-$\mathit{FAC}$ ist also eine Fabrik für Fakultätsfunktionen und
-teilt mit allen $\mathit{fac}_i$ die Eigenschaft, dass ihre
+$\mathbf{FAC}$ ist also eine Fabrik für Fakultätsfunktionen und
+teilt mit allen $\mathbf{fac}_i$ die Eigenschaft, dass ihre
 Definition nicht rekursiv ist.
 
 Damit ist zwar die Notation weniger schreibintensiv geworden,
 aber das fundamentale Problem ist noch nicht gelöst: Eine korrekte
-Definition von $\mathit{fac}$ müsste eine unendliche
-Kette von Applikationen von $\mathit{FAC}$ enthalten.
+Definition von $\mathbf{fac}$ müsste eine unendliche
+Kette von Applikationen von $\mathbf{FAC}$ enthalten.
 Da sich ein Term mit einer unendlichen Kette von Applikationen nicht aufschreiben lässt, hilft im Moment nur Wunschdenken weiter.
-Dafür sei angenommen, $\mathit{fac}$ wäre bereits gefunden.  Dann gilt folgende
+Dafür sei angenommen, $\mathbf{fac}$ wäre bereits gefunden.  Dann gilt folgende
 Gleichung:
 %
 \begin{displaymath}
-  \mathit{fac} \equiv \mathit{FAC}~\mathit{fac}
+  \mathbf{fac} \equiv \mathbf{FAC}~\mathbf{fac}
 \end{displaymath}
 
 \begin{figure}[!tb]
   \begin{center}
     \scriptsize
     \begin{eqnarray*}
-    \mathit{fac}~3 &=& Y~\mathit{FAC}~3\\
+    \mathbf{fac}~3 &=& \mathbf{Y}~\mathbf{FAC}~3\\
     \text{(Satz~\ref{satz:fixpunkt})} &\overset{\ast}{\rightarrow_{\beta}}&
-    \mathit{FAC}~(Y~\mathit{FAC})~3\\
+    \mathbf{FAC}~(\mathbf{Y}~\mathbf{FAC})~3\\
     &\rightarrow_{\beta}&
-    (\lambda x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~((Y~\mathit{FAC})~(\mathit{pred}~x))))~3\\
+    (\lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~((\mathbf{Y}~\mathbf{FAC})~(\mathbf{pred}~\lrm x))))~3\\
     &\rightarrow_{\beta}&
-    \mathit{if}~(\mathit{zerop}~ 3)~1~(\ast~3~((Y~\mathit{FAC})~(\mathit{pred}~3)))
+    \mathbf{if}~(\mathbf{zerop}~ 3)~1~(\ast~3~((\mathbf{Y}~\mathbf{FAC})~(\mathbf{pred}~3)))
     \\
     &\overset{\ast}{\rightarrow_{\beta}}&
-    \mathit{if}~\mathit{false}~1~(\ast~3~((Y~\mathit{FAC})~2))\\
+    \mathbf{if}~\mathbf{false}~1~(\ast~3~((\mathbf{Y}~\mathbf{FAC})~2))\\
     &\overset{\ast}{\rightarrow_{\beta}}&
-    \ast~3~((Y~\mathit{FAC})~2)\\
+    \ast~3~((\mathbf{Y}~\mathbf{FAC})~2)\\
     \text{(Satz~\ref{satz:fixpunkt})} &\overset{\ast}{\rightarrow_{\beta}}&
-    \ast~3~(\mathit{FAC}~(Y~\mathit{FAC})~2)\\
+    \ast~3~(\mathbf{FAC}~(\mathbf{Y}~\mathbf{FAC})~2)\\
     &\rightarrow_{\beta}&
     \ast~3~((\lambda
-    x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~((Y~\mathit{FAC})~(\mathit{pred}~x))))~2)\\
+    \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~((\mathbf{Y}~\mathbf{FAC})~(\mathbf{pred}~\lrm x))))~2)\\
     &\rightarrow_{\beta}&
-    \ast~3~(\mathit{if}~(\mathit{zerop}~ 2)~1~(\ast~2~((Y~\mathit{FAC})~(\mathit{pred}~2))))\\
+    \ast~3~(\mathbf{if}~(\mathbf{zerop}~ 2)~1~(\ast~2~((\mathbf{Y}~\mathbf{FAC})~(\mathbf{pred}~2))))\\
     &\overset{\ast}{\rightarrow_{\beta}}&
-    \ast~3~(\mathit{if}~\mathit{false}~1~(\ast~2~((Y~\mathit{FAC})~1)))\\
+    \ast~3~(\mathbf{if}~\mathbf{false}~1~(\ast~2~((\mathbf{Y}~\mathbf{FAC})~1)))\\
     &\overset{\ast}{\rightarrow_{\beta}}&
-    \ast~3~(\ast~2~((Y~\mathit{FAC})~1))\\
+    \ast~3~(\ast~2~((\mathbf{Y}~\mathbf{FAC})~1))\\
     \text{(Satz~\ref{satz:fixpunkt})} &\overset{\ast}{\rightarrow_{\beta}}&
-    \ast~3~(\ast~2~(\mathit{FAC}~(Y~\mathit{FAC})~1))\\
+    \ast~3~(\ast~2~(\mathbf{FAC}~(\mathbf{Y}~\mathbf{FAC})~1))\\
     &\rightarrow_{\beta}&
     \ast~3~(\ast~2~((\lambda
-    x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~((Y~\mathit{FAC})~(\mathit{pred}~x))))~1))\\
+    \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~((\mathbf{Y}~\mathbf{FAC})~(\mathbf{pred}~\lrm x))))~1))\\
 %
 %
     &\rightarrow_{\beta}&
-    \ast~3~(\ast~2~(\mathit{if}~(\mathit{zerop}~1)~1~(\ast~1~((Y~\mathit{FAC})~(\mathit{pred}~1)))))\\
+    \ast~3~(\ast~2~(\mathbf{if}~(\mathbf{zerop}~1)~1~(\ast~1~((\mathbf{Y}~\mathbf{FAC})~(\mathbf{pred}~1)))))\\
     &\overset{\ast}{\rightarrow_{\beta}}&
-    \ast~3~(\ast~2~(\mathit{if}~\mathit{false}~1~(\ast~1~((Y~\mathit{FAC})~0))))\\
+    \ast~3~(\ast~2~(\mathbf{if}~\mathbf{false}~1~(\ast~1~((\mathbf{Y}~\mathbf{FAC})~0))))\\
     &\overset{\ast}{\rightarrow_{\beta}}&
-    \ast~3~(\ast~2~(\ast~1~((Y~\mathit{FAC})~0)))\\
+    \ast~3~(\ast~2~(\ast~1~((\mathbf{Y}~\mathbf{FAC})~0)))\\
     \text{(Satz~\ref{satz:fixpunkt})} &\overset{\ast}{\rightarrow_{\beta}}&
-    \ast~3~(\ast~2~(\ast~1~(\mathit{FAC}~(Y~\mathit{FAC})~0)))\\
+    \ast~3~(\ast~2~(\ast~1~(\mathbf{FAC}~(\mathbf{Y}~\mathbf{FAC})~0)))\\
     &\rightarrow_{\beta}&
     \ast~3~(\ast~2~(\ast~1~((\lambda
-    x.\mathit{if}~(\mathit{zerop}~x)~1~(\ast~x~((Y~\mathit{FAC})~(\mathit{pred}~x))))~0)))\\
+    \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~((\mathbf{Y}~\mathbf{FAC})~(\mathbf{pred}~\lrm x))))~0)))\\
 %
 %
     &\rightarrow_{\beta}&
-    \ast~3~(\ast~2~(\ast~1~(\mathit{if}~(\mathit{zerop}~0)~1~(\ast~1~((Y~\mathit{FAC})~(\mathit{pred}~0))))))\\
+    \ast~3~(\ast~2~(\ast~1~(\mathbf{if}~(\mathbf{zerop}~0)~1~(\ast~1~((\mathbf{Y}~\mathbf{FAC})~(\mathbf{pred}~0))))))\\
     &\overset{\ast}{\rightarrow_{\beta}}&
-    \ast~3~(\ast~2~(\ast~1~(\mathit{if}~\mathit{true}~1~(\ast~1~((Y~\mathit{FAC})~(\mathit{pred}~0))))))\\
+    \ast~3~(\ast~2~(\ast~1~(\mathbf{if}~\mathbf{true}~1~(\ast~1~((\mathbf{Y}~\mathbf{FAC})~(\mathbf{pred}~0))))))\\
     &\overset{\ast}{\rightarrow_{\beta}}&
     \ast~3~(\ast~2~(\ast~1~1))\\
     &\overset{\ast}{\rightarrow_{\beta}}&
@@ -848,10 +861,10 @@ Gleichung:
   \end{center}
 \end{figure}
 
-Die eine zusätzliche Applikation, die $\mathit{FAC}$ vornimmt, landet
+Die eine zusätzliche Applikation, die $\mathbf{FAC}$ vornimmt, landet
 auf einem ohnehin schon unendlichen Stapel,
-macht diesen also auch nicht größer.  Damit ist aber $\mathit{fac}$ ein sogenannter
-\textit{Fixpunkt\index{Fixpunkt}} von $\mathit{FAC}$:  Wenn $\mathit{fac}$
+macht diesen also auch nicht größer.  Damit ist aber $\mathbf{fac}$ ein sogenannter
+\textit{Fixpunkt\index{Fixpunkt}} von $\mathbf{FAC}$:  Wenn $\mathbf{fac}$
 hineingeht, kommt es auch genauso wieder heraus.  Wenn es nun eine
 Möglichkeit gäbe, für einen $\lambda$-Term einen Fixpunkt zu finden,
 wäre das Problem gelöst.  Der folgende Satz zeigt, dass dies tatsächlich
@@ -863,36 +876,36 @@ möglich ist:
   $F~X\equiv X$.
 \end{satz}
 \begin{beweis}
-  Wähle $X \deq{} Y~F$, wobei
+  Wähle $X \deq{} \mathbf{Y}~F$, wobei
   %
   \begin{displaymath}
-    Y \deq{} \lambda f.(\lambda x.f~(x~x))~(\lambda x.f~(x~x)).
+    \mathbf{Y} \deq{} \lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)).
   \end{displaymath}
   %
   Dann gilt:
   %
   \begin{displaymath}
     \begin{split}
-      Y~F & = (\lambda f.(\lambda x.f~(x~x))~(\lambda x.f~(x~x)))~F
+      \mathbf{Y}~F & = (\lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)))~F
       \\ & \rightarrow_\beta
-      (\lambda x.F~(x~x))~(\lambda x.F~(x~x))
+      (\lambda \lrm x.F~(\lrm x~\lrm x))~(\lambda \lrm x.F~(\lrm x~\lrm x))
       \\ & \rightarrow_\beta
-      F~((\lambda x.F~(x~x))~(\lambda x.F~(x~x)))
+      F~((\lambda \lrm x.F~(\lrm x~\lrm x))~(\lambda \lrm x.F~(\lrm x~\lrm x)))
       \\ & \leftarrow_\beta
-      F~((\lambda f.(\lambda x.f~(x~x))~(\lambda x.f~(x~x)))~F)
+      F~((\lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)))~\lrm F)
       \\ & =
-      F~(Y~F)
+      F~(\mathbf{Y}~F)
     \end{split}
   \end{displaymath}
 \end{beweis}
 %
-Der $\lambda$-Term $Y$\index{Y@$Y$}, der Fixpunkte
+Der $\lambda$-Term $\mathbf{Y}$\index{Y@$\mathbf{Y}$}, der Fixpunkte
 berechnet, heißt
 \textit{Fixpunktkombinator\index{Fixpunktkombinator}}.  Mit seiner Hilfe lässt sich
 die Fakultät definieren:
 %
 \begin{displaymath}
-  \mathit{fac} \deq{} Y~\mathit{FAC}
+  \mathbf{fac} \deq{} \mathbf{Y}~\mathbf{FAC}
 \end{displaymath}
 %
 
@@ -994,19 +1007,19 @@ Call-by-Name-Reduktion zuerst der äußere Redex reduziert:
 %
 \begin{displaymath}
   \begin{array}{rl}
-  (\lambda x.x~x)~((\lambda y.y)~z)
+  (\lambda \lrm x.\lrm x~\lrm x)~((\lambda \lrm y.\lrm y)~\lrm z)
   \rightarrow_{\beta o} & 
-  ((\lambda y.y)~z)~((\lambda y.y)~z)
+  ((\lambda \lrm y.\lrm y)~\lrm z)~((\lambda \lrm y.\lrm y)~\lrm z)
   \\
   \rightarrow_{\beta o} & 
-  z~((\lambda y.y)~z)
+  \lrm z~((\lambda \lrm y.\lrm y)~\lrm z)
   \\
   \rightarrow_{\beta o} & 
-  z~z
+  \lrm z~\lrm z
 \end{array}
 \end{displaymath}
 %
-Bei dieser Reduktionsfolge wurde der Subterm $((\lambda y.y)~z)$
+Bei dieser Reduktionsfolge wurde der Subterm $((\lambda \lrm y.\lrm y)~\lrm z)$
 zunächst "<verdoppelt"> und musste demnach auch zweimal reduziert
 werden.  Eine andere Auswertungsstrategie verspricht die Vermeidung
 solcher doppelter Arbeit:  Die meisten Programmiersprachen verwenden
@@ -1033,34 +1046,34 @@ zunächst das Argument der äußeren Applikation ausgewertet wird:
 %
 \begin{displaymath}
   \begin{array}{rl}
-  (\lambda x.x~x)~((\lambda y.y)~(\lambda z.z))
+  (\lambda \lrm x.\lrm x~\lrm x)~((\lambda \lrm y.\lrm y)~(\lambda \lrm z.\lrm z))
   \rightarrow_{\beta i} & 
-  (\lambda x.x~x)~(\lambda z.z)
+  (\lambda \lrm x.\lrm x~\lrm x)~(\lambda \lrm z.\lrm z)
   \\
   \rightarrow_{\beta i} & 
-  (\lambda z.z)~(\lambda z.z)
+  (\lambda \lrm z.\lrm z)~(\lambda \lrm z.\lrm z)
   \\
   \rightarrow_{\beta i} & 
-  (\lambda z.z)
+  (\lambda \lrm z.\lrm z)
 \end{array}
 \end{displaymath}
 %
 Leider führt die Linksinnen-Reduktion nicht immer zu einer Normalform,
 selbst wenn es die Linksaußen-Reduktion tut.  Der Term
-\[ (\lambda x.\lambda y.y)~((\lambda z.z~z)~(\lambda z.z~z)) \]
+\[ (\lambda \lrm x.\lambda \lrm y.\lrm y)~((\lambda \lrm z.\lrm z~\lrm z)~(\lambda \lrm z.\lrm z~\lrm z)) \]
 zum Beispiel hat zwei Redexe, einmal den ganzen Term und dann noch
-\[(\lambda z.z~z)~(\lambda z.z~z).\]  Die Linksinnen-Strategie wählt
+\[(\lambda \lrm z.\lrm z~\lrm z)~(\lambda \lrm z.\lrm z~\lrm z).\]  Die Linksinnen-Strategie wählt
 den inneren Subterm als ersten Redex aus:
 %
 \begin{displaymath}
-  (\lambda z.z~z)~(\lambda z.z~z)
+  (\lambda \lrm z.\lrm z~\lrm z)~(\lambda \lrm z.\lrm z~\lrm z)
 \rightarrow_{\beta i}
-  (\lambda z.z~z)~(\lambda z.z~z).
+  (\lambda \lrm z.\lrm z~\lrm z)~(\lambda \lrm z.\lrm z~\lrm z).
 \end{displaymath}
 %
 Damit läuft die Linksinnen-Reduktion unendlich im Kreis, während
 die Linksaußen"=Reduktion sofort den gesamten Term reduziert und die
-Normalform $\lambda y.y$ liefert.
+Normalform $\lambda \lrm y.\lrm y$ liefert.
 
 Eine Ableitung der Linksinnen-Reduktion, die in den meisten
 Programmiersprachen Anwendung findet, ist die
@@ -1122,7 +1135,7 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
 
 
 \begin{aufgabe}\label{ex:pred}
-  Beweise, dass $\mathit{pred}$ den Vorgänger eines
+  Beweise, dass $\mathbf{pred}$ den Vorgänger eines
   positiven Church-Numerals berechnet!
 \end{aufgabe}
 
@@ -1131,29 +1144,29 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
   Operationen auf Church-Numeralen gibt:
   %
   \begin{eqnarray*}
-    \mathit{add} \lceil m\rceil \lceil n\rceil &=& \lceil m+n\rceil
+    \mathbf{add} \lceil m\rceil \lceil n\rceil &=& \lceil m+n\rceil
     \\
-    \mathit{mult} \lceil m\rceil \lceil n\rceil &=& \lceil mn\rceil
+    \mathbf{mult} \lceil m\rceil \lceil n\rceil &=& \lceil mn\rceil
     \\
-    \mathit{exp} \lceil m\rceil \lceil n\rceil &=& \lceil m^n\rceil
+    \mathbf{exp} \lceil m\rceil \lceil n\rceil &=& \lceil m^n\rceil
     \textrm{ für } m>0\\
-    \mathit{=}\lceil m\rceil \lceil n\rceil &=&
+    \mathbf{=}\lceil m\rceil \lceil n\rceil &=&
     \begin{cases}
-      \mathit{true} & \text{falls } m = n\\
-      \mathit{false} & \text{sonst}
+      \mathbf{true} & \text{falls } m = n\\
+      \mathbf{false} & \text{sonst}
     \end{cases}
   \end{eqnarray*}
   %
   Benutze dazu die folgenden Definitionen:
   \begin{eqnarray*}
-    \mathit{add} &\deq{}& \lambda x.\lambda y.\lambda p.\lambda q.xp(ypq)\\
-    \mathit{mult} &\deq{}& \lambda x.\lambda y.\lambda z.x(yz)\\
-    \mathit{exp} &\deq{}& \lambda x.\lambda y.y x
+    \mathbf{add} &\deq{}& \lambda x.\lambda y.\lambda p.\lambda q.xp(ypq)\\
+    \mathbf{mult} &\deq{}& \lambda x.\lambda y.\lambda z.x(yz)\\
+    \mathbf{exp} &\deq{}& \lambda x.\lambda y.y x
   \end{eqnarray*}
   und gibt eine eigene Definition für $=$ an.
   %
-  Dabei lässt sich die Korrektheit von $\mathit{add}$ direkt beweisen.
-  Für $\mathit{mult}$ und $\mathit{exp}$ beweise und benutze dazu
+  Dabei lässt sich die Korrektheit von $\mathbf{add}$ direkt beweisen.
+  Für $\mathbf{mult}$ und $\mathbf{exp}$ beweise und benutze dazu
   folgende Hilfslemmata:
   %
   \begin{displaymath}
@@ -1166,7 +1179,7 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
   \end{displaymath}
 \end{aufgabe}
 \begin{aufgabe}
-  Der Y-Kombinator ließe sich auch programmieren
+  Der $\mathbf{Y}$-Kombinator ließe sich auch programmieren
   als:
  %
 \begin{verbatim}
