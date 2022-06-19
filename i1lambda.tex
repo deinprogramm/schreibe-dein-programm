@@ -657,8 +657,8 @@ zweite verwirft; $\mathbf{false}$\index{false@$\mathbf{false}$} selektiert das z
 das erste:
 %
 \begin{align*}
-  \mathbf{true} & \deq{} \lambda x y.x \\
-  \mathbf{false} & \deq{} \lambda x y.y
+  \mathbf{true} & \deq{} \lambda \lrm x \lrm y.\lrm x \\
+  \mathbf{false} & \deq{} \lambda \lrm x \lrm y.\lrm y
 \end{align*}
 %
 Damit hat die Verzweigung selbst nicht mehr viel zu tun; sie wendet
@@ -666,7 +666,7 @@ einfach den Test, der einen booleschen Wert ergeben muss, auf
 Konsequente und Alternative an:
 %
 \begin{displaymath}
-  \mathbf{if} \deq{} \lambda t x y.t~x~y
+  \mathbf{if} \deq{} \lambda \lrm t \lrm x \lrm y.\lrm t~\lrm x~\lrm y
 \end{displaymath}
 %
 Dass $\mathbf{if}$\index{if@$\mathbf{if}$} tatsächlich so funktioniert wie angenommen, lässt
@@ -675,12 +675,12 @@ sich an einem Beispiel leicht sehen:
 \begin{displaymath}
   \begin{split}
     \mathbf{if}~\mathbf{true}~e_1~e_2 & =
-    (\lambda t x y.t~x~y)~\mathbf{true}~e_1~e_2
+    (\lambda \lrm t \lrm x \lrm y.t~\lrm x~\lrm y)~\mathbf{true}~e_1~e_2
     \\
-    & \rightarrow_\beta (\lambda x y.\mathbf{true}~x~y)~e_1~e_2\\
+    & \rightarrow_\beta (\lambda \lrm x \lrm y.\mathbf{true}~\lrm x~\lrm y)~e_1~e_2\\
     & \rightarrow_\beta^2 \mathbf{true}~e_1~e_2\\
-    & = (\lambda x y.x)~e_1~e_2\\
-    & \rightarrow_\beta (\lambda y.e_1)~e_2\\
+    & = (\lambda \lrm x \lrm y.\lrm x)~e_1~e_2\\
+    & \rightarrow_\beta (\lambda \lrm y.e_1)~e_2\\
     & \rightarrow_\beta e_1  \end{split}
 \end{displaymath}
 %
