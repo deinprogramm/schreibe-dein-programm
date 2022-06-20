@@ -675,7 +675,7 @@ sich an einem Beispiel leicht sehen:
 \begin{displaymath}
   \begin{split}
     \mathbf{if}~\mathbf{true}~e_1~e_2 & =
-    (\lambda \lrm t \lrm x \lrm y.t~\lrm x~\lrm y)~\mathbf{true}~e_1~e_2
+    (\lambda \lrm t \lrm x \lrm y.\lrm t~\lrm x~\lrm y)~\mathbf{true}~e_1~e_2
     \\
     & \rightarrow_\beta (\lambda \lrm x \lrm y.\mathbf{true}~\lrm x~\lrm y)~e_1~e_2\\
     & \rightarrow_\beta^2 \mathbf{true}~e_1~e_2\\
@@ -1212,9 +1212,9 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
   %
   Benutze dazu die folgenden Definitionen:
   \begin{eqnarray*}
-    \mathbf{add} &\deq{}& \lambda x.\lambda y.\lambda p.\lambda q.xp(ypq)\\
-    \mathbf{mult} &\deq{}& \lambda x.\lambda y.\lambda z.x(yz)\\
-    \mathbf{exp} &\deq{}& \lambda x.\lambda y.y x
+    \mathbf{add} &\deq{}& \lambda \lrm x.\lambda \lrm y.\lambda \lrm p.\lambda \lrm q.\lrm x\lrm p(\lrm y\lrm p\lrm q)\\
+    \mathbf{mult} &\deq{}& \lambda \lrm x.\lambda \lrm y.\lambda \lrm z.\lrm x(\lrm y\lrm z)\\
+    \mathbf{exp} &\deq{}& \lambda \lrm x.\lambda \lrm y.\lrm y \lrm x
   \end{eqnarray*}
   und gibt eine eigene Definition für $=$ an.
   %
@@ -1259,17 +1259,17 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
 
 \end{aufgabe}
 \begin{aufgabe} (Quelle: Ralf Hinze, Bonn)
-  Zeige, dass $F$ mit der folgenden Definition ebenfalls ein
+  Zeige, dass $\mathbf{F}$ mit der folgenden Definition ebenfalls ein
   Fixpunktkombinator ist:
   \begin{eqnarray*}
-    F &\deq{}& G^{[26]}
+    \mathbf{F} &\deq{}& \mathbf{G}^{[26]}
     \\
-    G &\deq{}& \lambda abcdefghijklmnopqstuvwxyzr.r(dasisteinfixpunktkombinator)
+    \mathbf{G} &\deq{}& \lambda \lrm a\lrm b\lrm c\lrm d\lrm e\lrm f\lrm g\lrm h\lrm i\lrm j\lrm k\lrm l\lrm m\lrm n\lrm o\lrm p\lrm q\lrm s\lrm t\lrm u\lrm v\lrm w\lrm x\lrm y\lrm z\lrm r.\lrm r(\lrm d\lrm a\lrm s\lrm i\lrm s\lrm t\lrm e\lrm i\lrm n\lrm f\lrm i\lrm x\lrm p\lrm u\lrm n\lrm k\lrm t\lrm k\lrm o\lrm m\lrm b\lrm i\lrm n\lrm a\lrm t\lrm o\lrm r)
   \end{eqnarray*}
   %
-  Dabei steht $G^{[26]}$ für den Lambda-Term, der durch 26faches
-  Hintereinanderschreiben von $G$ entsteht, also $GG\ldots G = (\ldots
-  ((G G) G)\ldots G)$.
+  Dabei steht $\mathbf{G}^{[26]}$ für den Lambda-Term, der durch 26faches
+  Hintereinanderschreiben von $\mathbf{G}$ entsteht, also $\mathbf{G}\mathbf{G}\ldots \mathbf{G} = (\ldots
+  ((\mathbf{G} \mathbf{G}) \mathbf{G})\ldots \mathbf{G})$.
   
 
 \end{aufgabe}
