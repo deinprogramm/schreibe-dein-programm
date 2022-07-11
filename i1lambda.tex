@@ -25,26 +25,47 @@ Dazu benutzen wir den sogenannten \textit{$\lambda$-Kalkül},
 ausgeschrieben: \textit{Lambda-Kalkül}, der formal fasst, was der
 Stepper in DrRacket visualisiert.  Das "<Lambda"> im Namen des Kalküls
 ist die Vorlage für das \lstinline{lambda} in unseren Lehrsprachen.
-Der $\lambda$-Kalkül bricht die Elemente der Programmierung auf nur
-das absolut notwendige herunter, das macht ihn glücklicherweise
-ziemlich einfach.  Gleichzeitig kann er alles abbilden, was wir für
-die Programmierung so brauchen.
 
 \section{Die Sprache des $\lambda$-Kalküls}
 \label{sec:sprache}
 
-Ein mathematischer \textit{Kalkül}\index{Kalkül} dient im allgemeinen
-dazu, Aussagen hinzuschreiben und wahre Aussagen herzuleiten.  Wir
-wollen Aussagen über Programme machen und was sie bedeuten.  Damit es
-losgeht, benötigen zunächst eine \textit{Sprache} für den Kalkül, und
-den definieren wir mit Hilfe einer Grammatik.  (Du erinnerst Dich
-vielleicht, das ist eine Notation für induktive Definitionen, die wir
-in Abschnitt~\ref{sec:grammatik} auf Seite~\pageref{sec:grammatik}
-eingeführt haben.)
+Der $\lambda$-Kalkül bricht die Elemente der Programmierung auf nur
+das absolut notwendige herunter: Je weniger Elemente wir haben, desto
+weniger müssen wir erklären und definieren, wenn wir über die
+Bedeutung von Programmen sprechen wollen.
 
-Die folgenden Definition definiert als Grundlage für die Sprache des
-$\lambda$-Kalküls die Sprache der $\lambda$-Terme.  Wie wir sehen
-werden, entsprichen die Terme den Ausdrücken in unseren Programmen. 
+Was also ist an unseren Lehrsprachen absolut notwendig?  In
+Kapitel~\ref{cha:whats-programming} haben wir angefangen mit einer
+Zahl.  Brauchen wir also Zahlen?  Wir haben viele Programme ohne
+Zahlen gesschrieben.  Außerdem werden wir später sehen, dass wir
+Zahlen mit anderen Elementen der Sprache nachbilden können.
+
+Das nächste war eine Summe von zwei Zahlen, also eine Anwendung der
+Funktion \lstinline{+}.  Die Addition ist hier nicht wesentlich (es
+gibt Programme ohne Zahlen), aber Funktionsanwendungen gab es nun
+wirklich in jedem Programm.  Funktionsanwendungen wiederum machen nur
+dann Sinn, wenn wir auch Funktionen herstellen können: Wir brauchen
+also Abstraktionen.  Und da zu jeder Abstraktion auch eine oder
+mehrere Variablen gehören, brauchen wir auch Variablen.  Das sind die
+drei fundamentalen Ideen aus dem $\lambda$-Kalkül:
+%
+\begin{itemize}
+\item Funktionsanwendung
+\item Abstraktion
+\item Variable
+\end{itemize}
+%
+Wir beschränken und bei Anwendung und Abstraktion sogar auf einen
+einzelnen Parameter.  Und wir werden sehen, dass das reicht: Alle
+anderen Elemente unserer Programmiersprachen können wir nachbilden,
+indem wir sie in diese drei Konstrukte übersetzen.  Darum bilden sie
+das Rückgrad des $\lambda$-Kalküls.
+
+Damit es losgeht, benötigen zunächst eine \textit{Sprache} für den
+Kalkül, und den definieren wir mit Hilfe einer Grammatik.  (Das ist
+eine Notation für induktive Definitionen, die wir in
+Abschnitt~\ref{sec:grammatik} auf Seite~\pageref{sec:grammatik}
+eingeführt haben.)
 
 In der Definition taucht der Begriff \textit{abzählbare
   Menge}\index{abzählbare Menge} auf.  Das Adjektiv "<abzählbar"> an
