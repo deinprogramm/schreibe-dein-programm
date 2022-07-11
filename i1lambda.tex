@@ -125,7 +125,7 @@ $\lambda$-Terme dieser Form:
   \end{array}
 \end{displaymath}
 %
-In der Definition sind außerdem Terme der "<Form $(\lambda v.e)$>
+In der Definition sind außerdem Terme der "<Form $(\lambda v.e)$">
 erwähnt, das könnte zum Beispiel sein:
 %
 \begin{displaymath}
@@ -272,8 +272,8 @@ zwei Hilfsfunktionen für den Umgang mit Variablen.
   \end{align*}
   %
   Ein
-  $\lambda$-Term $e$ heißt \emph{abgeschlossen\index{abgeschlossen}} beziehungsweise 
-  \textit{Kombinator\index{Kombinator}}, falls $\free(e)=\varnothing$.
+  $\lambda$-Term $e$ heißt \emph{abgeschlossen\index{abgeschlossen}}
+  falls $\free(e)=\varnothing$.
 \end{definition}
 %
 Einige Beispiele:
@@ -440,12 +440,16 @@ Namensvettern zu vermeiden.
 
 \section{Reduktion im $\lambda$-Kalkül}
 
-FIXME
-
-Mit Hilfe der Definition der Substitution ist es möglich,
-die Reduktionsregeln des $\lambda$-Kalküls zu formulieren. 
-%\footnote{Warum die Reduktionen ausgerechnet $\alpha$,
-%  $\beta$ und $\eta$ heißen, ist leider nicht mehr bekannt.}:
+Der $\lambda$-Kalkül ist ein sogenannter
+\textit{Reduktionskalkül}.\index{Reduktionskalkül} Das heißt, er legt
+Regeln fest, wie ein $\lambda$-Term in einen anderen $\lambda$-Term
+überführt beziehungsweise \textit{reduziert} wird.  ("<Reduzieren">
+klingt so, als würde der Term dabei kleiner werden.  Manchmal wird er
+auch kleiner, manchmal aber auch größer.)  Ein Beispiel für einen
+Reduktionskalkül haben wir bereits gesehen, nämlich den Stepper im
+DrRacket, der auch jeweils einen Ausdruck "<links"> in einen Ausdruck
+"<rechts"> überführt.  Hier sind die wichtigsten Reduktionsregeln im
+$\lambda$-Kalkül, auch mit griechischen Buchstaben benannt:
 %
 \begin{definition}[Reduktionsregeln]\index{beta-Reduktion@$\beta$-Reduktion}\index{alpha-Reduktion@$\alpha$-Reduktion}\index{*@$\rightarrow_{\alpha}$}\index{*@$\rightarrow_{\beta}$}
   Die Reduktionsregeln im $\lambda$"=Kalkül sind
@@ -461,23 +465,66 @@ die Reduktionsregeln des $\lambda$-Kalküls zu formulieren.
 %    (\lambda x.e~x) & \rightarrow_{\eta} e \quad & x\not\in\free(e)
   \end{alignat*}
   %
-  Für $x\in\{\alpha,\beta\}$ ist $\overset{\ast}{\rightarrow_x}$
-  jeweils der reflexiv-transitive Abschluss der Relation.  (Siehe dazu
-  Definition~\ref{def:relation-closure}). %too verbose % in
-  % Abschnitt~\ref{sec:relationen} in Anhang~\ref{cha:math}.)  
-  Außerdem ist
-  $\leftrightarrow_x$ jeweils der symmetrische Abschluss, und
-  $\overset{\ast}{\leftrightarrow_x}$ der
-  reflexiv-transitiv-symmetrische Abschluss.
 \end{definition}
 %
 Die $\alpha$-Reduktion (oft auch \textit{$\alpha$-Konversion} genannt)
-benennt eine gebundene Variable in eine andere um.
-
-Die $\beta$-Reduktion, die zentrale Regel des $\lambda$-Kalküls, steht für
+benennt eine gebundene Variable in eine andere um.  Hier sind einige
+Beispiele:
+%
+\begin{eqnarray*}
+  \lambda \lrm a.\lrm a & \rightarrow_{\alpha} & \lrm c.c\\
+  \lambda \lrm a.\lrm a~\lrm b & \rightarrow_{\alpha} & \lrm c.c~b\\
+  \lambda \lrm a.(\lambda \lrm a.\lrm a~\lrm a)~\lrm a & \rightarrow_{\alpha} & 
+  \lambda \lrm c.(\lambda \lrm a'.\lrm a'~\lrm a')~\lrm c
+\end{eqnarray*}
+%
+Die $\beta$-Reduktion ist die zentrale Regel des $\lambda$-Kalküls und steht für
 Funktionsapplikation: eine Abstraktion
 wird angewendet, indem die Vorkommen ihres Parameters durch den
-Operanden einer Applikation ersetzt werden.
+Operanden einer Applikation ersetzt werden.  Hier sind zwei
+Beispiele:
+%
+\begin{eqnarray*}
+  (\lambda \lrm x.\lrm x)~\lrm y & \rightarrow_{\beta} & \lrm y\\
+  (\lambda \lrm a.\lrm a~\lrm a)~(\lambda \lrm x.\lrm x) & \rightarrow_{\beta}
+  & (\lambda \lrm x.\lrm x)~(\lambda \lrm x.\lrm x)
+\end{eqnarray*}
+%
+In den obigen Beispielen wird jeweils die Reduktionsregel auf einen
+ganzen $\lambda$-Termin angewendet.  Es ist allerdings auch erlaubt,
+eine Reduktionsregel auf einen Teilterm anzuwenden:
+%
+\begin{eqnarray*}
+  \lambda \lrm b.\lambda \lrm a.\lrm a & \rightarrow_{\alpha} & \lrm b.\lrm c.c\\
+  \lambda \lrm z.(\lambda \lrm x.\lrm x)~\lrm y & \rightarrow_{\beta}
+                                                              & \lambda \lrm z.\lrm y
+\end{eqnarray*}
+%
+Das ist bei jedem Reduktionskalkül so, gehört also zum Begriff
+"<Reduktion"> an sich.  Du kennst das Prinzip vom ganz normalen
+Rechnen:
+%
+\begin{displaymath}
+  y \times (x + x + x) = y \times (3\times x)
+\end{displaymath}
+%
+Der Stepper zeigt, das auch in den Lehrsprachen Reduktion auf
+Teiltermen arbeitet: Dieser wird ja farblich markiert.  Allerdings
+gibt es einen Unterschied: Beim Rechnen und im $\lambda$-Kalkül darf
+auf \emph{jedem} Teilterm reduziert werden.  Unter Umständen sind
+mehrere verschiedene Reduktionen möglich:
+%
+\begin{eqnarray*}
+  (\lambda \lrm v .\lrm v~\lrm v)~\underline{((\lambda \lrm u.\lrm u)~\lrm w)}
+  & \rightarrow_{\beta} & (\lambda \lrm v .\lrm v~\lrm v)~\lrm w\\
+  \underline{(\lambda \lrm v .\lrm v~\lrm v)~((\lambda \lrm u.\lrm u)~\lrm w)}
+  & \rightarrow_{\beta} & ((\lambda \lrm u.\lrm u)~\lrm w)~((\lambda \lrm u.\lrm u)~\lrm w)
+\end{eqnarray*}
+%
+Wir haben jeweils unterstrichten, welcher Teilterm reduziert wird:
+Dieser Teilterm heißt \textit{Redex}.\index{Redex}  Bei den
+Lehrsprachen ist immer genau vorgeschrieben, welcher Teilterm der
+Redex ist.  Die Regeln dafür werden wir noch kennenlernen.
 
 %\begin{comment}
 %Die $\eta$-Regel ist eine Art vorweggenommene $\beta$-Reduktion:  Ein
@@ -493,21 +540,59 @@ Operanden einer Applikation ersetzt werden.
 %durch $f$ in $e$ keinerlei Wirkung hat.
 %\end{comment}
 
-Wie in anderen Reduktionskalkülen auch, also zum Beispiel wie in
-RC$_1$, werden die Regeln auf Subterme fortgesetzt.  So gilt zum
-Beispiel:
+Wenn Du beim letzten Beispiel weiterreduzierst, dann sieht das so aus:
 %
-\begin{displaymath}
-  \lambda x.(\lambda y.y)~x \rightarrow_{\beta} \lambda x.x
-\end{displaymath}
+\begin{eqnarray*}
+  \underline{(\lambda \lrm v .\lrm v~\lrm v)~\lrm w} & \rightarrow_{\beta} & \lrm w~\lrm w\\
+  \underline{((\lambda \lrm u.\lrm u)~\lrm w)}~((\lambda \lrm u.\lrm u)~\lrm w)
+  & \rightarrow_{\beta} & 
+  \lrm w~\underline{((\lambda \lrm u.\lrm u)~\lrm w)} \\
+  & \rightarrow_{\beta} & \lrm w~\lrm w
+\end{eqnarray*}
 %
-Auch der Begriff des Redex ist im $\lambda$-Kalkül analog zu RC$_1$
-und bezeichnet einen reduzierbaren Subterm.  Im obigen Beispiel ist
-der Redex gerade $(\lambda y.y)~x$.
+\begin{aufgabeinline}
+  Kannst Du die bei diesem Beispiel auch noch auf einem anderen Weg
+  reduzieren, den Redex also bei mindestens einem anderen Schritt
+  anders wählen?  Wenn ja, kommt auch dann das gleiche Ergebnis
+  heraus, wenn Du weiterreduzierst?
+\end{aufgabeinline}
+%
+Wenn wir mehrere Schritte benötigen, um von einem Term zum anderen zu
+kommen, werden wir die folgende Notation "<mit Sternchen"> benutzen:
+%
+\begin{eqnarray*}
+  e \overset{\ast}{\rightarrow_\alpha} e'\\
+  e \overset{\ast}{\rightarrow_\beta} e'\\
+\end{eqnarray*}
+%
+Das bedeutet, das wir in mehreren Reduktionsschritten (es können auch
+0 Schritte sein, also $e = e'$) jeweils von $e$ nach $e'$ kommen.
+Diese Konstruktion~-- "<0 oder mehr Schritte">~-- heißt auch
+\textit{transitiv-reflexiver Abschluss}.\index{transitiv-reflexiver
+  Abschluss}\index{Abschluss!transitiv-reflexiv}  Das "<reflexiv">
+bedeutet, dass auch 0 Schritte möglich sind, das "<transitiv">, dass
+es mehrere Schritte sein können.
 
-Als Reduktionskalkül ist die Hauptaufgabe des $\lambda$-Kalküls der
-Beweis von Gleichungen: Zwei Terme gelten als äquivalent wenn
-sie durch Reduktionen ineinander überführt werden können.\index{Äquivalenz!im $\lambda$-Kalkül}
+Wir werden außerdem die Notation $\rightarrow_{\alpha,\beta}$
+benutzen, um auszudrücken, dass es eine $\alpha$- oder eine
+$\beta$-Reduktion ist.  Entsprechend ist
+$\overset{\ast}{\rightarrow_{\alpha,\beta}}$ eine Folge von $\alpha$-
+und $\beta$-Reduktionen, die sich beliebig abwechseln können.  Wir
+setzen noch eins drauf: $\leftrightarrow_\beta$ bedeutet, dass die
+Reduktion auch "<rückwärts"> laufen kann.  Entsprechend gibt es auch
+$\leftrightarrow_{\alpha, \beta}$ und
+$\overset{\ast}{\leftrightarrow_{\alpha,\beta}}$.
+$\leftrightarrow_{\alpha, \beta}$ heißt \textit{symmetrischer
+  Abschluss}\index{symmetrischer
+  Abschluss}\index{Abschluss!symmetrisch} von $\rightarrow_{\alpha,
+  \beta}$ ("<symmetrisch">, weil die Reduktion in beide Richtungen
+gleich funktioniert), $\overset{\ast}{\leftrightarrow_{\alpha,\beta}}$
+der \textit{reflexiv-transitiv-symmetrische Abschluss}\index{reflexiv-transitiv-symmetrischer Abschluss}\index{Abschluss!reflexiv-transitiv-symmetrisch}.
+
+Wenn wir mit $\overset{\ast}{\leftrightarrow_{\alpha,\beta}}$ einen
+$\lambda$-Term in einen anderen überführen können, so nennen wir diese
+beiden Terme im $\lambda$-Kalkül 
+\textit{äquivalent}:
 %
 \begin{definition}[Äquivalenz im $\lambda$-Kalkül]
   Zwei Terme $e_1, e_2\in\mathcal{L}_{\lambda}$ heißen
@@ -516,8 +601,7 @@ sie durch Reduktionen ineinander überführt werden können.\index{Äquivalenz!i
   %
   \(e_1 \overset{\ast}{\leftrightarrow_{\alpha,\beta}} e_2\)
   %
-  gilt, wobei \(\leftrightarrow_{\alpha,\beta} \deq{}
-  \leftrightarrow_{\alpha} \cup \leftrightarrow_{\beta}\).
+  gilt.
 
   Die Schreibweise dafür ist \(e_1\equiv e_2\).
 \end{definition}
@@ -526,24 +610,23 @@ sie durch Reduktionen ineinander überführt werden können.\index{Äquivalenz!i
 \label{sec:normalformen}
 
 \index{Normalform}
-Im $\lambda$-Kalkül ist es erlaubt,
-jederzeit beliebige Teilausdrücke zu reduzieren, solange sie nur
-$\alpha$- oder $\beta$-Redexe sind.  Zum Beispiel gibt es für den
-folgenden $\lambda$-Term zwei verschiedene Möglichkeiten zur
-$\beta$-Reduktion.  Der gewählte Redex ist jeweils unterstrichen:
+
+Im letzten Abschnitt haben wir anhand des Beispiels
+\begin{displaymath}
+(\lambda \lrm v .\lrm v~\lrm v)~((\lambda \lrm u.\lrm u)~\lrm w)
+\end{displaymath}
 %
-\begin{eqnarray*}
-  ((\lambda x.\underline{(\lambda y.y)~z)}~a) &\rightarrow_{\beta}& (\lambda x.z)~a\\
-  \underline{((\lambda x.(\lambda y.y)~z)~a)} &\rightarrow_{\beta}& (\lambda y.y)~z
-\end{eqnarray*}
-%
-In diesem Beispiel kommt eine weitere
-$\beta$-Reduktion sowohl von $(\lambda x.z)~a$ als auch von $(\lambda
-y.y)~z$ zum gleichen Ergebnis $z$~-- ein Indiz
-dafür, dass schließlich alle Abfolgen von $\beta$-Reduktionen zum
-gleichen Ergebnis kommen.  Eine solche Eigenschaft eines Kalküls heißt
-\textit{Normalformeigenschaft}.  Hier ist die Definition des
-Normalformbegriffs für den $\lambda$-Kalkül:
+gesehen, dass es von ein und demselben $\lambda$-Term aus mehrere
+mögliche Reduktionsfolgen gibt.  Wenn Du jede mit $\beta$-Reduktionen
+bis zum Ende weiterführst, stellst Du fest, dass am Ende jedesmal der
+gleiche Term herauskommt.  Das heißt nicht ganz: Der Term hat am Ende
+immer die gleiche Struktur, aber unter Umständen unterschiedliche
+Namen für die Variablen.  Diese kannst aber mit Hilfe der
+$\alpha$-Reduktion die Variablen so umbennen, dass auch sie gleich sind.
+
+Um über diese Eigenschaft des $\lambda$-Kalküls zu sprechen, brauchen
+wir den Begriff der \textit{Normalform}, der Terme beschreibt, die
+nicht mehr weiter reduziert werden können:
 %
 \begin{definition}[Normalform]
   Sei $e$ ein $\lambda$-Term.  Ein $\lambda$-Term $e'$ ist eine
@@ -553,26 +636,20 @@ Normalformbegriffs für den $\lambda$-Kalkül:
   $e'\rightarrow_\beta e''$.
 \end{definition}
 %
-Nun wäre es schön, wenn Normalformen dazu benutzt werden könnten, um
-den Beweis von Gleichungen im Kalkül zu erleichtern: Der Beweis von
-$e_1 \equiv e_2$ erfordert dann lediglich den Vergleich der
-Normalformen von $e_1$ und $e_2$ ~-- wenn diese
-$\alpha$-äquivalent sind, dann gilt $e_1\equiv e_2$, sonst nicht.
+Normalformen können wir dazu benutzen, um den Beweis von Gleichungen
+im Kalkül zu erleichtern: Wenn jemand behauptet, dass $e_1 \equiv e_2$
+gilt, wissen wir ja nicht, welche Abfolge von $\alpha$- und
+$\beta$-Reduktionen den einen in den anderen Term überführt hat.  Es
+könnte sein, dass wir viele Reduktionsfolgen probieren müssen, um eine
+richtige zu finden.
 
-Leider haben manche
-$\lambda$-Terme überhaupt keine Normalform.  Hier ein
-Beispiel:
-%
-\begin{displaymath}
-  (\lambda x.x~x)(\lambda x.x~x) \rightarrow_\beta (\lambda x.x~x)~(\lambda x.x~x)
-\end{displaymath}
-%
-Solche Terme ohne Normalformen lassen sich endlos weiterreduzieren,
-ohne dass der Prozess jemals zum Schluss kommt.  Sie entsprechen damit
-Programmen, die endlos weiterrechnen.
-Dies ist kein spezieller Defekt des
-$\lambda$-Kalküls: Jeder Kalkül, der mächtig genug ist, um beliebige
-Computerprogramme zu modellieren, hat diese Eigenschaft.
+Glücklicherweise ist der Beweis für $e_1 \equiv e_2$ einfacher, wenn
+wir beide jeweils zu einer Normalform reduzieren können.  Dann müssen
+wir nur schauen, ob wir die Normalformen durch $\alpha$-Reduktionen
+ineinander überführen können.  Wenn ja, dann sind $e_1$ und $e_2$
+äquivalent, sonst nicht.  Für diese Situation werden auch die
+Sprechweisen "<die Normalformen sind $\alpha$-äquivalent"> oder "<die
+Normalformen sind gleich modulo $\alpha$-Reduktion">\index{modulo} benutzt.
 
 \begin{figure}[tb]
   \begin{center}
@@ -618,24 +695,41 @@ Normalformen zum Finden von Beweisen im $\lambda$-Kalkül:
   $\alpha$-Reduktion.
 \end{satz}
 %
-  \begin{beweis}
-    Angenommen, es gebe zwei unterschiedliche Normalformen $e_1$ und
-    $e_2$ von $e$.  Nach Satz~\ref{satz:church-rosser} muss es dann
-    aber einen weiteren $\lambda$-Term $e'$ geben mit   $e_1\overset{\ast}{\rightarrow_\beta} e'$ und
+\begin{beweis}
+  Angenommen, es gebe zwei unterschiedliche Normalformen $e_1$ und
+  $e_2$ von $e$.  Nach Satz~\ref{satz:church-rosser} muss es dann
+  aber einen weiteren $\lambda$-Term $e'$ geben mit   $e_1\overset{\ast}{\rightarrow_\beta} e'$ und
   $e_2\overset{\ast}{\rightarrow_\beta} e'$.  Entweder sind $e_1$ und
-    $e_2$ also nicht unterschiedlich, oder zumindest einer von
-    beiden ist keine Normalform im Widerspruch zur Annahme.
-  \end{beweis}
+  $e_2$ also nicht unterschiedlich, oder zumindest einer von
+  beiden ist keine Normalform im Widerspruch zur Annahme.
+\end{beweis}
+  % 
+Satz~\ref{satz:normalform} bestätigt, dass
+der $\lambda$-Kalkül ein sinnvoller Mechanismus für die Beschreibung
+des Verhaltens von Computerprogrammen ist: Bei einem $\lambda$-Term
+ist es gleichgültig, in welcher Reihenfolge die Reduktionen
+angewendet werden: Jede Reduktionsfolge, die zu einer Normalform
+führt, führt immer zur gleichen Normalform.
+
+Manche
+$\lambda$-Terme haben leider keine Normalform.  Hier ein
+Beispiel:
 %
-  Satz~\ref{satz:normalform} bestätigt, dass
-  der $\lambda$-Kalkül ein sinnvoller Mechanismus für die Beschreibung
-  des Verhaltens von Computerprogrammen ist: Bei einem $\lambda$-Term
-  ist es gleichgültig, in welcher Reihenfolge die Reduktionen
-  angewendet werden: Jede Reduktionsfolge, die zu einer Normalform
-  führt, führt immer zur gleichen Normalform.
+\begin{displaymath}
+  (\lambda \lrm x.\lrm x~\lrm x)(\lambda \lrm x.\lrm x~\lrm x) \rightarrow_\beta (\lambda \lrm x.\lrm x~\lrm x)~(\lambda x.\lrm x~\lrm x)
+\end{displaymath}
+%
+Solche Terme ohne Normalformen lassen sich endlos weiterreduzieren,
+ohne dass der Prozess jemals zum Schluss kommt.  Sie entsprechen damit
+Programmen, die endlos weiterrechnen.
+Dies ist kein spezieller Defekt des
+$\lambda$-Kalküls: Jeder Kalkül, der mächtig genug ist, um beliebige
+Computerprogramme zu modellieren, hat diese Eigenschaft.
 
 \section{Der $\lambda$-Kalkül als Programmiersprache}
 \label{sec:lambdaprog}
+
+FIXME
 
 Mit dem Normalformsatz ist geklärt, dass Terme im
 $\lambda$-Kalkül, die eine Normalform besitzen, so etwas wie einen
