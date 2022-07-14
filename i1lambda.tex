@@ -470,8 +470,8 @@ benennt eine gebundene Variable in eine andere um.  Hier sind einige
 Beispiele:
 %
 \begin{eqnarray*}
-  \lambda \lrm a.\lrm a & \rightarrow_{\alpha} & \lrm c.\lrm c\\
-  \lambda \lrm a.\lrm a~\lrm b & \rightarrow_{\alpha} & \lrm c.c~\lrm b\\
+  \lambda \lrm a.\lrm a & \rightarrow_{\alpha} & \lambda \lrm c.\lrm c\\
+  \lambda \lrm a.\lrm a~\lrm b & \rightarrow_{\alpha} & \lambda \lrm c.\lrm c~\lrm b\\
   \lambda \lrm a.(\lambda \lrm a.\lrm a~\lrm a)~\lrm a & \rightarrow_{\alpha} & 
   \lambda \lrm c.(\lambda \lrm a'.\lrm a'~\lrm a')~\lrm c
 \end{eqnarray*}
