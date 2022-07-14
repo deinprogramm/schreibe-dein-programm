@@ -686,7 +686,7 @@ Die Datendefinition dafür orientiert sich direkt an
 Definition~\ref{def:lambda-angewandt}:
 %
 \begin{lstlisting}
- Ein Lambda-Term ist eins der folgenden:
+; Ein Lambda-Term ist eins der folgenden:
 ; - ein Symbol (für eine Variable)
 ; - eine zweielementige Liste (für eine reguläre Applikation)
 ; - eine Liste der Form (lambda (x) e) (für eine Abstraktion)
@@ -759,7 +759,6 @@ Termen unterschieden werden können, wird ein Prädikat benötigt:
 %
 \begin{lstlisting}
 ; Prädikat für Basiswerte
-(: base? (%a -> boolean))
 (: base? (any -> boolean))
 (define base?
   (lambda (term)
@@ -784,7 +783,7 @@ ist das folgende:
 %
 \begin{lstlisting}
 ; Prädikat für Primitive
-(: primitive? (%a -> boolean))
+(: primitive? (any -> boolean))
 (define primitive?
   (lambda (term)
     (or (equal? '+ term)
@@ -1264,8 +1263,6 @@ umgedreht wird:
 %
 \begin{lstlisting}
 ; die ersten Elemente einer Liste in umgekehrter Reihenfolge berechnen
-(: take-reverse (natural (list-of %a) -> (list-of %a)))
-
 (: take-reverse (natural (list-of %a) -> (list-of %a)))
 
 (check-expect (take-reverse 2 '(1 2 3 4 5)) '(2 1))
