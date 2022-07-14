@@ -9,7 +9,7 @@ die Formalisierung deutlich erschweren.  Möglich ist es trotzdem, und
 dieser Abschnitt zeigt, wie es geht.
 
 Als erstes muss wieder einmal die Sprache des $\lambda$-Kalküls
-erweitert werden, diesmal um \texttt{set!}-Ausdrücke:
+erweitert werden, diesmal um \lstinline{set!}-Ausdrücke:
 %
 \begin{definition}[Sprache des angewandten $\lambda$-Kalküls mit Zustand
   $\mathcal{L}_{\lambda{}S}$]\index{angewandter $\lambda$-Kalkül}\index{Zustand}
@@ -41,8 +41,8 @@ erweitert werden, diesmal um \texttt{set!}-Ausdrücke:
   %
 \end{definition}
 %
-Der \texttt{void}-Wert wird als Rückgabewert von
-\texttt{set!}-Ausdrücken dienen.
+Der \lstinline{void}-Wert wird als Rückgabewert von
+\lstinline{set!}-Ausdrücken dienen.
 
 Um Reduktionsregeln für Zuweisungen zu bilden, ist es notwendig, den
 Begriff des \textit{Speichers\index{Speicher}} in den $\lambda$-Kalkül
@@ -224,7 +224,7 @@ SECD-Maschine, nur dass eine spezielle Zuweisungsoperation hinzukommt:
 \end{grammar}
 %
 Die Übersetzungsfunktion produziert diese neue Instruktion bei
-\texttt{set!}-Ausdrücken:
+\lstinline{set!}-Ausdrücken:
 %
 \begin{eqnarray*}
   \llbracket e \rrbracket &\deq&
@@ -315,7 +315,7 @@ Entsprechend muss die Auswertungsfunktion das Endergebnis im Heap nachschauen:
     h(a) & \textrm{falls } (\epsilon, \varnothing, \llbracket
     e\rrbracket, \epsilon, \varnothing)
     \hookrightarrow^* (a, e, \epsilon, \epsilon, h), h(a) \in B\\
-    \texttt{proc} & \textrm{falls } (\epsilon, \varnothing, \llbracket e\rrbracket, \epsilon,\varnothing)
+    \texttt{function} & \textrm{falls } (\epsilon, \varnothing, \llbracket e\rrbracket, \epsilon,\varnothing)
     \hookrightarrow^* (a, e, \epsilon, \epsilon, h), h(a) = (v, \underline{c}, e')\\
   \end{cases}
 \end{eqnarray*}
@@ -336,21 +336,21 @@ werden.  Zuweisungsterme haben wie in den Lehrsprachen die folgende Form:
 %
 Das dazu passende Prädikat ist das folgende:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Prädikat für Zuweisungen
 (: assignment? (%a -> boolean))
 (define assignment?
-  (lambda (t)
-    (and (cons? t)
-         (equal? 'set! (first t)))))
+  (lambda (term)
+    (and (cons? term)
+         (equal? 'set! (first term)))))
 
 (define assignment (signature (predicate assignment?)))
-\end{verbatim}
+\end{lstlisting}
 %
 Mit Hilfe dieser Definition kann die Signatur-Definition von
-\texttt{term} erweitert werden:
+\lstinline{term} erweitert werden:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define term
   (signature
     (mixed symbol
@@ -359,37 +359,36 @@ Mit Hilfe dieser Definition kann die Signatur-Definition von
            base
            primitive-application
            assignment)))
-\end{verbatim}
+\end{lstlisting}
 %
 Um zu vermeiden, dass Zuweisungen mit regulären Applikationen
-verwechselt werden, muss das Prädikat \texttt{application?} erweitert
+verwechselt werden, muss das Prädikat \lstinline{application?} erweitert
 werden:
 %
-\begin{verbatim}
+\begin{lstlisting}
+(: application? (any -> boolean))
 (define application?
-  (lambda (t)
-    (and (cons? t)
-         (not (equal? 'set! (first t)))
-         (not (equal? 'lambda (first t)))
-         (not (primitive? (first t))))))
-\end{verbatim}
+  (lambda (term)
+    (and (cons? term)
+         (not (equal? 'set! (first term)))
+         (not (equal? 'lambda (first term)))
+         (not (primitive? (first term))))))
+\end{lstlisting}
 %
 Als Nächstes wird die zusätzliche $\mathtt{:=}$-Instruktion
 repräsentiert.  Hier sind Daten- und Record-Definition:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Eine Zuweisungs-Instruktion ist ein Wert
 ;  (make-:=)
-(define-record-procedures :=
-  make-:= :=?
-  ())
-(: make-:= (-> :=))
-\end{verbatim}
+(define-record :=
+  make-:= :=?)
+\end{lstlisting}
 %
-Die Signatur-Definition für Maschinen-Instruktionen kann um \texttt{:=}
+Die Signatur-Definition für Maschinen-Instruktionen kann um \lstinline{:=}
 erweitert werden:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define instruction
   (signature
     (mixed base
@@ -399,29 +398,29 @@ erweitert werden:
            prim
            abs
            :=)))
-\end{verbatim}
+\end{lstlisting}
 
 Bei der Übersetzung in Maschinencode kommt in
-\texttt{term->machine-code} ein weiterer Zweig hinzu:
+\lstinline{term->machine-code} ein weiterer Zweig hinzu:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Term in Maschinencode übersetzen
 (: term->machine-code (term -> machine-code))
 (define term->machine-code
-  (lambda (e)
+  (lambda (term)
     (cond
       ...
-      ((assignment? e)
-       (cons (first (rest e))
-                  (append (term->machine-code (first (rest (rest e))))
-                          (list (make-:=))))))))
-\end{verbatim}
+      ((assignment? term)
+       (cons (first (rest term))
+             (append (term->machine-code (first (rest (rest term))))
+                     (list (make-:=))))))))
+\end{lstlisting}
 %
 Wie bei der SECD-Maschine werden die verschiedenen Mengendefinitionen
 erst einmal in Daten- und Record-Definitionen übersetzt.  Das ist für
 Stacks, Umgebungen und Speicheradressen ganz einfach:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Stack ist eine Liste aus Adressen.
 (define stackh (signature (list-of address)))
 
@@ -429,14 +428,14 @@ Stacks, Umgebungen und Speicheradressen ganz einfach:
 
 ; Eine Adresse ist eine ganze Zahl.
 (define address (signature natural))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Änderung in der Definition von Umgebungen bedingt eine Änderung
-der Signatur von \texttt{make-binding}:
+der Signatur von \lstinline{make-binding}:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (: make-binding (symbol address -> binding))
-\end{verbatim}
+\end{lstlisting}
 
 %
 Bei der Repräsentation des Heaps ist wichtig, dass eine Operation zur
@@ -444,252 +443,250 @@ Beschaffung frischer Adressen eingebaut wird.  Aus diesem Grund
 enthält der Heap zusätzlich zu den Zellen auch noch einen Zähler mit
 der nächsten frischen Adresse:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Heap ist ein Wert
 ;   (make-heap s n)
 ; wobei n die nächste freie Adresse ist und s eine Liste
 ; von Zellen.
-(define-record-procedures heap
+(define-record heap
   make-heap heap?
-  (heap-cells heap-next))
-(: make-heap ((list-of cell) natural -> heap))
-\end{verbatim}
+  (heap-cells (list-of cell))
+  (heap-next natural))
+\end{lstlisting}
 %
 Der leere Heap wird schon einmal vorfabriziert:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define the-empty-heap (make-heap empty 0))
-\end{verbatim}
+\end{lstlisting}
 %
 Jede Zelle ordnet einer Adresse einen Wert zu:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Eine Zelle ist ein Wert
 ;   (make-cell a w)
 ; wobei a eine Adresse und w ein Wert ist
-(define-record-procedures cell
+(define-record cell
   make-cell cell?
-  (cell-address cell-value))
-(: make-cell (address value -> cell))
-\end{verbatim}
+  (cell-address address)
+  (cell-value value))
+\end{lstlisting}
 %
-Die Funktion \texttt{heap-store}, erweitert den Heap um eine Zelle
+Die Funktion \lstinline{heap-store}, erweitert den Heap um eine Zelle
 entsprechend der mathematischen Definition:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Wert im Speicher ablegen
 (: heap-store (heap address value -> heap))
 (define heap-store
-  (lambda (h a w)
-    (make-heap (cons (make-cell a w)
-                          (remove-cell a (heap-cells h)))
+  (lambda (heap address value)
+    (make-heap (cons (make-cell address value)
+                     (remove-cell address (heap-cells heap)))
                ...)))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Ellipse steht für die nächste frische Adresse: Wenn die bisherige
-frische Adresse in \texttt{heap-store} belegt wird, so muss eine neue
+frische Adresse in \lstinline{heap-store} belegt wird, so muss eine neue
 frische Adresse gewählt werden:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define heap-store
-  (lambda (h a w)
-    (make-heap (cons (make-cell a w)
-                          (remove-cell a (heap-cells h)))
-               (let ((next (heap-next h)))
-                 (if (= a next)
-                     (+ next 1)
-                     next)))))
-\end{verbatim}
+  (lambda (heap address value)
+    (define next (heap-next heap))
+    (make-heap (cons (make-cell address value)
+                     (remove-cell address (heap-cells heap)))
+               (if (= address next)
+                   (+ next 1)
+                   next))))
+\end{lstlisting}
 %
-Es fehlt noch die Hilfsfunktion \texttt{remove-cell}:
+Es fehlt noch die Hilfsfunktion \lstinline{remove-cell}:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Zelle zu einer Adresse entfernen
 (: remove-cell (address (list-of cell) -> (list-of cell)))
 (define remove-cell
-  (lambda (a c)
+  (lambda (address cell)
     (cond
-      ((empty? c) empty)
-      ((cons? c)
-       (if (= a (cell-address (first c)))
-           (rest c)
-           (cons (first c)
-                      (remove-cell a (rest c))))))))
-\end{verbatim}
+      ((empty? cell) empty)
+      ((cons? cell)
+       (if (= address (cell-address (first cell)))
+           (rest cell)
+           (cons (first cell)
+                 (remove-cell address (rest cell))))))))
+\end{lstlisting}
 %
 Als Nächstes ist die Operation an der Reihe, die den Wert, der an einer
-Adresse im Heap gespeichert ist.  Die Funktion \texttt{heap-lookup} benutzt
-eine Hilfsfunktion \texttt{cells-lookup}, um in der Liste von Zellen
+Adresse im Heap gespeichert ist.  Die Funktion \lstinline{heap-lookup} benutzt
+eine Hilfsfunktion \lstinline{cells-lookup}, um in der Liste von Zellen
 nach der richtigen zu suchen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; den Wert an einer Adresse im Heap nachschauen
 (: heap-lookup (heap address -> value))
 (define heap-lookup
-  (lambda (h a)
-    (cells-lookup (heap-cells h) a)))
+  (lambda (heap address)
+    (cells-lookup (heap-cells heap) address)))
 
 ; den Wert an einer Adresse in einer Liste von Zellen nachschauen
 (: cells-lookup ((list-of cell) address -> value))
 (define cells-lookup
-  (lambda (c a)
+  (lambda (cells address)
     (cond
-      ((empty? c) (violation "unassigned address"))
-      ((cons? c)
-       (if (= a (cell-address (first c)))
-           (cell-value (first c))
-           (cells-lookup (rest c) a))))))
-\end{verbatim}
+      ((empty? cells) (violation "unassigned address"))
+      ((cons? cells)
+       (if (= address (cell-address (first cells)))
+           (cell-value (first cells))
+           (cells-lookup (rest cells) address))))))
+\end{lstlisting}
 %
 Schließlich fehlt noch eine Repräsentation für den $\mathtt{void}$-Wert:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein void-Wert ist ein Wert
 ;  (make-void)
-(define-record-procedures void
-  make-void void?
-  ())
-(: make-void (-> void))
-\end{verbatim}
+(define-record void
+  make-void void?)
+\end{lstlisting}
 %
 Auch hier wird nur ein $\mathtt{void}$-Wert benötigt, der 
 vorfabriziert wird:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define the-void (make-void))
-\end{verbatim}
+\end{lstlisting}
 %
 Der Zustand für die SECDH-Maschine wird genau wie bei der
 SECD-Maschine repräsentiert, ergänzt um die Komponente für den Heap:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein SECDH-Zustand ist ein Wert
 ;   (make-secd s e c d h)
 ; wobei s ein Stack, e eine Umgebung, c Maschinencode,
 ; d ein Dump und h ein Speicher ist.
-(define-record-procedures secdh
+(define-record secdh
   make-secdh secdh?
-  (secdh-stack secdh-environment secdh-code secdh-dump secdh-heap))
-(: make-secdh (stackh environment machine-code dump heap -> secdh))
-\end{verbatim}
+  (secdh-stack stackh)
+  (secdh-environment environment)
+  (secdh-code machine-code)
+  (secdh-dump dump)
+  (secdh-heap heap))
+\end{lstlisting}
 %
 Die Implementierung der Zustandsübergangsfunktion hat exakt die
 gleiche Struktur wie die Implementierung der SECD-Maschine und hält
 sich eng an die mathematische Definition der Regeln:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; eine Zustandstransition berechnen
 (: secdh-step (secdh -> secdh))
 (define secdh-step
   (lambda (state)
-    (let ((stack (secdh-stack state))
-          (environment (secdh-environment state))
-          (code (secdh-code state))
-          (dump (secdh-dump state))
-          (heap (secdh-heap state)))
-      (cond
-        ((cons? code)
-         (cond
-           ((base? (first code))
-            (let ((a (heap-next heap)))
-              (make-secdh
-               (cons a stack)
-               environment
-               (rest code)
-               dump
-               (heap-store heap a (first code)))))
-           ((symbol? (first code))
-            (make-secdh
-             (cons (lookup-environment environment (first code))
-                        stack)
-             environment
-             (rest code)
-             dump
-             heap))
-           ((prim? (first code))
-            (let ((a (heap-next heap)))
-              (make-secdh
-               (cons a
-                          (drop (prim-arity (first code)) stack))
-               environment
-               (rest code)
-               dump
-               (heap-store heap a
-                           (apply-primitive
-                            (prim-operator (first code))
-                            (map (lambda (address)
-                                   (heap-lookup heap address))
-                                 (take-reverse (prim-arity (first code)) stack)))))))
-           ((:=? (first code))
-            (let ((a (heap-next heap)))
-              (make-secdh
-               (cons a (rest (rest stack)))
-               environment
-               (rest code)
-               dump
-               (heap-store
-                (heap-store heap
-                            (first (rest stack)) 
-                            (heap-lookup heap (first stack)))
-                a the-void))))
-           ((abs? (first code))
-            (let ((a (heap-next heap)))
-              (make-secdh
-               (cons a stack)
-               environment
-               (rest code)
-               dump
-               (heap-store heap a
-                           (make-closure (abs-variable (first code))
-                                         (abs-code (first code))
-                                         environment)))))
-           ((ap? (first code))
-            (let ((closure (heap-lookup heap (first (rest stack))))
-                  (a (heap-next heap)))
-              (make-secdh empty
-                          (extend-environment
-                           (closure-environment closure)
-                           (closure-variable closure)
-                           a)
-                          (closure-code closure)
-                          (cons
-                           (make-frame (rest (rest stack)) environment (rest code))
-                           dump)
-                          (heap-store heap a (heap-lookup heap (first stack))))))
-           ((tailap? (first code))
-            (let ((closure (heap-lookup heap (first (rest stack))))
-                  (a (heap-next heap)))
-              (make-secdh (rest (rest stack))
-                          (extend-environment
-                           (closure-environment closure)
-                           (closure-variable closure)
-                           a)
-                          (closure-code closure)
-                          dump
-                          (heap-store heap a
-                                      (heap-lookup heap (first stack))))))))
-        ((empty? code)
-         (let ((f (first dump)))
-           (make-secdh
-            (cons (first stack)
-                       (frame-stack f))
-            (frame-environment f)
-            (frame-code f)
-            (rest dump)
-            heap)))))))
-\end{verbatim}    
-%
+    (define stack (secdh-stack state))
+    (define environment (secdh-environment state))
+    (define code (secdh-code state))
+    (define dump (secdh-dump state))
+    (define heap (secdh-heap state))
+    (cond
+      ((cons? code)
+       (cond
+         ((base? (first code))
+          (define address (heap-next heap))
+          (make-secdh
+           (cons address stack)
+           environment
+           (rest code)
+           dump
+           (heap-store heap address (first code))))
+         ((symbol? (first code))
+          (make-secdh
+           (cons (lookup-environment environment (first code)) stack)
+           environment
+           (rest code)
+           dump
+           heap))
+         ((prim? (first code))
+          (define address (heap-next heap))
+          (make-secdh
+           (cons address
+                 (drop (prim-arity (first code)) stack))
+           environment
+           (rest code)
+           dump
+           (heap-store heap address
+                       (apply-primitive
+                        (prim-operator (first code))
+                        (map (lambda (address)
+                               (heap-lookup heap address))
+                             (take-reverse (prim-arity (first code)) stack))))))
+         ((:=? (first code))
+          (define address (heap-next heap))
+          (make-secdh
+           (cons address (rest (rest stack)))
+           environment
+           (rest code)
+           dump
+           (heap-store
+            (heap-store heap
+                        (first (rest stack)) 
+                        (heap-lookup heap (first stack)))
+            address the-void)))
+         ((abs? (first code))
+          (define address (heap-next heap))
+          (make-secdh
+           (cons address stack)
+           environment
+           (rest code)
+           dump
+           (heap-store heap address
+                       (make-closure (abs-variable (first code))
+                                     (abs-code (first code))
+                                     environment))))
+         ((ap? (first code))
+          (define closure (heap-lookup heap (first (rest stack))))
+          (define address (heap-next heap))
+          (make-secdh empty
+                      (extend-environment
+                       (closure-environment closure)
+                       (closure-variable closure)
+                       address)
+                      (closure-code closure)
+                      (cons
+                       (make-frame (rest (rest stack)) environment (rest code))
+                       dump)
+                      (heap-store heap address (heap-lookup heap (first stack)))))
+         ((tailap? (first code))
+          (define closure (heap-lookup heap (first (rest stack))))
+          (define address (heap-next heap))
+          (make-secdh (rest (rest stack))
+                      (extend-environment
+                       (closure-environment closure)
+                       (closure-variable closure)
+                       address)
+                      (closure-code closure)
+                      dump
+                      (heap-store heap address (heap-lookup heap (first stack)))))))
+      ((empty? code)
+       (define frame (first dump))
+       (make-secdh
+        (cons (first stack)
+              (frame-stack frame))
+        (frame-environment frame)
+        (frame-code frame)
+        (rest dump)
+        heap)))))
+\end{lstlisting}
 Es bleibt die Auswertungsfunktion, die ebenfalls genau wie bei der
 SECD-Maschine realisiert wird:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; aus Term SECDH-Anfangszustand machen
 (: inject-secdh (term -> secdh))
 (define inject-secdh
-  (lambda (e)
+  (lambda (term)
     (make-secdh empty
                 the-empty-environment
-                (term->machine-code e)
+                (term->machine-code term)
                 empty
                the-empty-heap)))
 
@@ -702,16 +699,20 @@ SECD-Maschine realisiert wird:
         state
         (secdh-step* (secdh-step state)))))
 
-
 ; Evaluationsfunktion zur SECD-Maschine berechnen
-(: eval-secdh (term -> (mixed value (enum 'function))))
+(: eval-secdh (term -> (mixed value (one-of 'function))))
+
+(check-expect (eval-secdh '(+ 1 2)) 3)
+(check-expect (eval-secdh '(((lambda (x) (lambda (y) (+ x y))) 1) 2)) 3)
+(check-expect (eval-secdh '((lambda (x) ((lambda (y) x) (set! x (+ x 1)))) 12)) 13)
+
 (define eval-secdh
-  (lambda (e)
-    (let ((final (secdh-step* (inject-secdh e))))
-      (let ((val (heap-lookup (secdh-heap final)
-                              (first (secdh-stack final)))))
-        (if (base? val)
-            val
-            'proc)))))
-\end{verbatim}
+  (lambda (term)
+    (define final (secdh-step* (inject-secdh term)))
+    (define value (heap-lookup (secdh-heap final)
+                               (first (secdh-stack final))))
+    (if (base? value)
+        value
+        'function)))
+\end{lstlisting}
 

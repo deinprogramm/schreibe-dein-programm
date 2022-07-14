@@ -446,21 +446,21 @@ ermöglicht, die Programme des Interpreters, die als Werte
 repräsentiert sind, korrekt auszudrucken.)  Bei Zahlen, Zeichenketten
 und booleschen Werten bleibt alles beim alten:
 %
-\begin{alltt}
+\begin{lstlisting}
 5
-\evalsto{} 5
+|\evalsto| 5
 "Mike ist doof"
-\evalsto{} "Mike ist doof"
+|\evalsto| "Mike ist doof"
 #t
-\evalsto{} #t
-\end{alltt}
+|\evalsto| #t
+\end{lstlisting}
 %
 Bei Listen sieht es allerdings anders aus:
 %
-\begin{alltt}
+\begin{lstlisting}
 (list 1 2 3 4 5 6)
-\evalsto{} (1 2 3 4 5 6)
-\end{alltt}
+|\evalsto| (1 2 3 4 5 6)
+\end{lstlisting}
 %
 Die REPL druckt also eine Liste aus, indem sie zuerst eine öffnende
 Klammer ausdruckt, dann die Listenelemente (durch Leerzeichen
@@ -468,24 +468,24 @@ getrennt) und dann eine schließende Klammer.
 
 Das funktioniert auch für die leere Liste:
 %
-\begin{alltt}
+\begin{lstlisting}
 empty
-\evalsto{} ()
-\end{alltt}
+|\evalsto| ()
+\end{lstlisting}
 %
 Mit der neuen Sprachebene bekommt außerdem der Apostroph, der dem
 Literal\index{Literal} für die leere Liste voransteht, eine erweiterte Bedeutung.
 Unter anderem kann der Apostroph benutzt werden, um Literale für
 Listen zu formulieren:
 %
-\begin{alltt}
+\begin{lstlisting}
 '(1 2 3 4 5 6)
-\evalsto{} (1 2 3 4 5 6)
+|\evalsto| (1 2 3 4 5 6)
 '(1 #t "Mike" (2 3) "doof" 4 #f 17)
-\evalsto{} (1 #t "Mike" (2 3) "doof" 4 #f 17)
+|\evalsto| (1 #t "Mike" (2 3) "doof" 4 #f 17)
 '()
-\evalsto{} ()
-\end{alltt}
+|\evalsto| ()
+\end{lstlisting}
 %
 In der neuen Sprachebene benutzen die Literale und die ausgedruckten
 externen Repräsentationen für Listen also die gleiche
@@ -493,20 +493,20 @@ Notation\index{Repräsentation}.  Sie unterscheiden sich nur dadurch,
 dass beim Literal der Apostroph voransteht.  Der Apostroph funktioniert
 auch bei Zahlen, Zeichenketten und booleschen Werten:
 %
-\begin{alltt}
+\begin{lstlisting}
 '5
-\evalsto{} 5
+|\evalsto| 5
 '"Mike ist doof"
-\evalsto{} "Mike ist doof"
+|\evalsto| "Mike ist doof"
 '#t
-\evalsto{} #t
-\end{alltt}
+|\evalsto| #t
+\end{lstlisting}
 %
 Der Apostroph am Anfang eines Ausdrucks
 kennzeichnet diesen also als Literal.  Der Wert des Literals wird 
 genauso ausgedruckt, wie es im Programm steht.  (Abgesehen von
 Leerzeichen und Zeilenumbrüchen.)  Der Apostroph heißt auf englisch
-"<quote">\index{quote@\texttt{quote}}, und deshalb ist diese
+"<quote">\index{quote@\lstinline{quote}}, und deshalb ist diese
 Literalschreibweise auch unter diesem Namen bekannt.  Bei Zahlen,
 Zeichenketten und booleschen Literalen ist auch ohne Quote klar, dass
 es sich um Literale handelt.  Das Quote ist darum bei ihnen rein
@@ -519,11 +519,11 @@ beginnen: \footnote{Tatsächlich ist die neue Schreibweise für externe
   früheren Sprachebenen benutzten die alternative Schreibweise, um die
   Verwirrung zwischen Listenliteralen und zusammengesetzten Formen zu
   vermeiden.}
-\begin{alltt}
+\begin{lstlisting}
 (1 2 3 4 5 6)
-\evalsto{} procedure application: expected procedure, given: 1;
+|\evalsto| function application: expected function, given: 1;
      arguments were: 2 3 4 5 6
-\end{alltt}
+\end{lstlisting}
 %
 Mit der Einführung von Quote kommt noch eine völlig neue Sorte Werte
 hinzu: die \textit{Symbole\index{Symbol}}.  Symbole sind Werte ähnlich wie Zeichenketten und
@@ -531,114 +531,114 @@ bestehen aus Text.  Sie unterscheiden sich allerdings dadurch, dass sie
 als Literal mit Quote geschrieben und in der REPL ohne
 Anführungszeichen ausgedruckt werden:
 %
-\begin{alltt}
+\begin{lstlisting}
 'mike
-\evalsto{} mike
+|\evalsto| mike
 'doof
-\evalsto{} doof
-\end{alltt}
+|\evalsto| doof
+\end{lstlisting}
 %
 Symbole lassen sich mit dem Prädikat
-\texttt{symbol?\index{symbol@\texttt{symbol?}}} von anderen Werten
+\lstinline{symbol?}\index{symbol@\texttt{symbol?}} von anderen Werten
 unterscheiden:
 %
-\begin{alltt}
+\begin{lstlisting}
 (symbol? 'mike)
-\evalsto{} #t
+|\evalsto| #t
 (symbol? 5)
-\evalsto{} #f
+|\evalsto| #f
 (symbol? "Mike")
-\evalsto{} #f
-\end{alltt}
+|\evalsto| #f
+\end{lstlisting}
 %
-Vergleichen lassen sich Symbole mit \texttt{equal?} (siehe
+Vergleichen lassen sich Symbole mit \lstinline{equal?} (siehe
 Abbildung~\ref{scheme:equalp}):
 
-\begin{alltt}
+\begin{lstlisting}
 (equal? 'mike 'herb)
-\evalsto{} #f
+|\evalsto| #f
 (equal? 'mike 'mike)
-\evalsto{} #t
-\end{alltt}
+|\evalsto| #t
+\end{lstlisting}
 
 Symbole können nicht aus beliebigem Text bestehen.  
 Leerzeichen sind zum Beispiel verboten.  Tatsächlich entsprechen die
 Namen der zulässigen Symbole genau den Namen von Variablen:
 %
-\begin{alltt}
+\begin{lstlisting}
 'karl-otto
-\evalsto{} karl-otto
+|\evalsto| karl-otto
 'mehrwertsteuer
-\evalsto{} mehrwertsteuer
+|\evalsto| mehrwertsteuer
 'duftmarke
-\evalsto{} duftmarke
+|\evalsto| duftmarke
 'lambda
-\evalsto{} lambda
+|\evalsto| lambda
 '+
-\evalsto{} +
+|\evalsto| +
 '*
-\evalsto{} *
-\end{alltt}
+|\evalsto| *
+\end{lstlisting}
 %
 Diese Entsprechung wird in diesem Kapitel noch eine entscheidene Rolle
 spielen.  Symbole können natürlich auch in Listen und damit auch in
 Listenliteralen vorkommen:
 %
-\begin{alltt}
+\begin{lstlisting}
 '(karl-otto mehrwertsteuer duftmarke)
-\evalsto{} (karl-otto mehrwertsteuer duftmarke)
-\end{alltt}
+|\evalsto| (karl-otto mehrwertsteuer duftmarke)
+\end{lstlisting}
 %
 Mit Hilfe von Symbolen können Werte konstruiert werden, die in der REPL
 ausgedruckt wie Ausdrücke aussehen:
 %
-\begin{alltt}
+\begin{lstlisting}
 '(+ 1 2)
-\evalsto{} (+ 1 2)
+|\evalsto| (+ 1 2)
 '(lambda (n) (+ n 1))
-\evalsto{} (lambda (n) (+ n 1))
-\end{alltt}
+|\evalsto| (lambda (n) (+ n 1))
+\end{lstlisting}
 %
 Auch wenn diese Werte wie Ausdrücke so aussehen, sind sie doch ganz
 normale Listen: der Wert von \verb|'(+ 1 2)| ist eine Liste mit drei
-Elementen: das Symbol \verb|+|, die Zahl \texttt{1} und die Zahl
-\texttt{2}.  Der Wert von \verb|'(lambda (n) (+ n 1))| ist ebenfalls
+Elementen: das Symbol \verb|+|, die Zahl \lstinline{1} und die Zahl
+\lstinline{2}.  Der Wert von \verb|'(lambda (n) (+ n 1))| ist ebenfalls
 eine Liste mit drei Elementen: das Symbol \verb|lambda|, eine Liste
-mit einem einzelnen Element, nämlich dem Symbol \texttt{n}, und einer
-weiteren Liste mit drei Elementen: dem Symbol \verb|+|, dem Symbol
-\texttt{n} und der Zahl \texttt{1}.
+mit einem einzelnen Element, nämlich dem Symbol \lstinline{n}, und einer
+weiteren Liste mit drei Elementen: dem Symbol \lstinline{+}, dem Symbol
+\lstinline{n} und der Zahl \lstinline{1}.
 
 Quote hat noch eine weitere verwirrende Eigenheit:
 %
-\begin{alltt}
+\begin{lstlisting}
 ''()
-\evalsto{} '()
-\end{alltt}
+|\evalsto| '()
+\end{lstlisting}
 %
 Dieses Literal bezeichnet nicht die leere Liste (dann würde nur
-\texttt{()} ausgedruckt, ohne Quote), sondern etwas anderes:
+\lstinline{()} ausgedruckt, ohne Quote), sondern etwas anderes:
 %
-\begin{alltt}
+\begin{lstlisting}
 (cons? ''())
-\evalsto{} #t
+|\evalsto| #t
 (first ''())
-\evalsto{} quote
+|\evalsto| quote
 (rest ''())
-\evalsto{} (())
-\end{alltt}
+|\evalsto| (())
+\end{lstlisting}
 %
 Der Wert des Ausdrucks \verb|''()| ist also eine Liste mit zwei
-Elementen: das erste Element ist das Symbol \texttt{quote} und das
-zweite Element ist die leere Liste.  \texttt{'$t$}
-ist selbst also nur syntaktischer Zucker, und zwar für \texttt{(quote
-  $t$)}:
+Elementen: das erste Element ist das Symbol \lstinline{quote} und das
+zweite Element ist die leere Liste.  \lstinline{'$t$}
+ist selbst also nur syntaktischer Zucker, und zwar für
+\lstinline{(quote $t$)}:
 %
-\begin{alltt}
+\begin{lstlisting}
 (equal? (quote ()) '())
-\evalsto{} #t
+|\evalsto| #t
 (equal? (quote (quote ())) ''())
-\evalsto{} #t
-\end{alltt}
+|\evalsto| #t
+\end{lstlisting}
 %
 Quote erlaubt die Konstruktion von Literalen für viele Werte, aber
 nicht für alle.  Ein Wert, für den Quote ein Literal konstruieren kann,
@@ -676,16 +676,16 @@ Programm-Terme aussehen:
 
 \noindent\begin{tabular}{lll}
   \texttt{(+ 1 2)} & steht für & $(+~1~2)$\\
-  \texttt{(lambda (x) x)} & steht für & $\lambda x.x$\\
+  \texttt{(lambda (x) x)} & steht für & $\lambda \lrm x.\lrm x$\\
   \texttt{((lambda (x) (x x)) (lambda (x) (x x)))} & steht für &
-  $(\lambda x.(x~x))~(\lambda x.(x~x))$\\
+  $(\lambda \lrm x.(\lrm x~\lrm x))~(\lambda \lrm x.(\lrm x~\lrm x))$\\
   etc.
 \end{tabular}
 
 Die Datendefinition dafür orientiert sich direkt an
 Definition~\ref{def:lambda-angewandt}:
 %
-\begin{verbatim}
+\begin{lstlisting}
  Ein Lambda-Term ist eins der folgenden:
 ; - ein Symbol (für eine Variable)
 ; - eine zweielementige Liste (für eine reguläre Applikation)
@@ -693,11 +693,11 @@ Definition~\ref{def:lambda-angewandt}:
 ; - ein Basiswert
 ; - eine Liste mit einem Primitiv als erstem Element
 ;      (für eine primitive Applikation)
-\end{verbatim}
+\end{lstlisting}
 %
 Hier die dazu passende Signatur-Definition:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define term
   (signature
     (mixed symbol
@@ -705,101 +705,103 @@ Hier die dazu passende Signatur-Definition:
            abstraction
            base
            primitive-application)))
-\end{verbatim}
+\end{lstlisting}
 %
-Die Signaturen für \texttt{application} etc.\ müssen noch definiert
+Die Signaturen für \lstinline{application} etc.\ müssen noch definiert
 werden.
 
-Um Verzweigungen über die Sorte \texttt{term} zu ermöglichen, müssen
+Um Verzweigungen über die Sorte \lstinline{term} zu ermöglichen, müssen
 Prädikate für die einzelnen Teilsorten geschrieben werden.  Diese
 können dann für die Definition der entsprechenden Signaturen benutzt
 werden.
 %
-\begin{verbatim}
-(: application? (%a -> boolean))
+\begin{lstlisting}
+; Prädikat für reguläre Applikationen
+(: application? (any -> boolean))
 (define application?
-  (lambda (t)
-    (and (cons? t)
-         (not (equal? 'lambda (first t)))
-         (not (primitive? (first t))))))
+  (lambda (term)
+    (and (cons? term)
+         (not (equal? 'lambda (first term)))
+         (not (primitive? (first term))))))
 
 (define application (signature (predicate application?)))
 
 ; Prädikat für Abstraktionen
-(: abstraction? (%a -> boolean))
+(: abstraction? (any -> boolean))
 (define abstraction?
-  (lambda (t)
-    (and (cons? t)
-         (equal? 'lambda (first t)))))
+  (lambda (term)
+    (and (cons? term)
+         (equal? 'lambda (first term)))))
 
 (define abstraction (signature (predicate abstraction?)))
 
 ; Prädikat für primitive Applikationen
-(: primitive-application? (%a -> boolean))
+(: primitive-application? (any -> boolean))
 (define primitive-application?
-  (lambda (t)
-    (and (cons? t)
-         (primitive? (first t)))))
+  (lambda (term)
+    (and (cons? term)
+         (primitive? (first term)))))
 
 (define primitive-application (signature (predicate primitive-application?)))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Definition lässt noch offen, was genau ein "<Basiswert"> und was ein
 "<Primitiv"> ist.  Auch hierfür werden noch Datendefinitionen
 benötigt, zuerst für Basiswerte.  Der Einfachheit halber beschränkt
 sich die Implementierung erst einmal auf boolesche Werte und Zahlen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Basiswert ist ein boolescher Wert oder eine Zahl
-\end{verbatim}
+\end{lstlisting}
 %
 Damit Basiswerte in Fallunterscheidungen von den anderen Arten von
 Termen unterschieden werden können, wird ein Prädikat benötigt:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Prädikat für Basiswerte
 (: base? (%a -> boolean))
+(: base? (any -> boolean))
 (define base?
-  (lambda (v)
-    (or (boolean? v) (number? v))))
+  (lambda (term)
+    (or (boolean? term) (number? term))))
 
 (define base (signature (predicate base?)))
-\end{verbatim}
+\end{lstlisting}
 %
 Als Nächstes sind Primitive gefragt: Am obigen Beispiel ist zu
-erkennen, dass z.B.\ \texttt{+} ein Primitiv sein sollte.  Die
+erkennen, dass zum Beispiel \lstinline{+} ein Primitiv sein sollte.  Die
 Datendefinition für eine kleine beispielhafte Menge von Primitiven ist
 wie folgt:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Primitiv ist eins der Symbole +, -, *, /, =
-\end{verbatim}
+\end{lstlisting}
 %
 Da die Primitive genau wie die Variablen Symbole sind, stehen die
 Primitive als Variablen nicht mehr zur Verfügung:  Alle Symbole, die
 keine Primitive sind, sind also Variablen.  Das dazugehörige Prädikat
 ist das folgende:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Prädikat für Primitive
 (: primitive? (%a -> boolean))
 (define primitive?
-  (lambda (s)
-    (or (equal? '+ s)
-        (equal? '- s)
-        (equal? '* s)
-        (equal? '/ s)
-        (equal? '= s))))
+  (lambda (term)
+    (or (equal? '+ term)
+        (equal? '- term)
+        (equal? '* term)
+        (equal? '/ term)
+        (equal? '= term))))
 
 (define primitive (signature (predicate primitive?)))
-\end{verbatim}
+\end{lstlisting}
 %
 Bevor nun ein die SECD-Maschine einen Term verarbeiten kann, muss
 dieser erst in Maschinencode übersetzt werden.  Dabei entsteht aus
 Definition~\ref{def:secd-code} direkt Daten- und Signatur-Definitionen
 für Instruktionen und Maschinencode:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Eine Instruktion ist eins der folgenden:
 ; - ein Basiswert
 ; - eine Variable
@@ -817,7 +819,7 @@ für Instruktionen und Maschinencode:
 
 ; Eine Maschinencode-Programm ist eine Liste von Instruktionen.
 (define machine-code (signature (list-of instruction)))
-\end{verbatim}
+\end{lstlisting}
 %
 Bei der Definition von Instruktionen ist wieder einiges Wunschdenken
 im Spiel.  Basiswerte und Variablen sind wie bei den Termen.  Die
@@ -825,12 +827,11 @@ restlichen Fälle werden durch eigene Datendefinitionen abgebildet.
 Wie schon bei den leeren Bäumen sind Record-Definitionen ohne Felder
 im Spiel, die Fallunterscheidungen möglich machen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Eine Applikations-Instruktion ist ein Wert
 ;   (make-ap)
-(define-record-procedures ap
-  make-ap ap?
-  ())
+(define-record ap
+  make-ap ap?)
 (: make-ap (-> ap))
 
 ; Die Instruktion für eine primitive Applikation
@@ -838,34 +839,34 @@ im Spiel, die Fallunterscheidungen möglich machen:
 ;   (real-make-prim op arity)
 ; wobei op ein Symbol und arity die Stelligkeit
 ; ist
-(define-record-procedures prim
+(define-record prim
   real-make-prim prim?
-  (prim-operator prim-arity))
-(: make-prim (symbol natural -> prim))
+  (prim-operator symbol)
+  (prim-arity natural))
 
 ; Eine Abstraktions-Instruktion ist ein Wert
 ;  (make-abs v c)
 ; wobei v ein Symbol (für eine Variable) und c
 ; Maschinencode ist
-(define-record-procedures abs
+(define-record abst
   make-abs abs?
-  (abs-variable abs-code))
-(: make-abs (symbol machine-code -> abs))
-\end{verbatim}
+  (abs-variable symbol)
+  (abs-code machine-code))
+\end{lstlisting}
 %
 Da die Stelligkeit eines Primitivs dem Primitiv fest zugeordnet
 ist, ist eine Hilfsfunktion nützlich, die bei der Erzeugung eines
-Werts der Sorte \texttt{prim} die Stelligkeit ergänzt.
+Werts der Sorte \lstinline{prim} die Stelligkeit ergänzt.
 Glücklicherweise haben alle oben eingeführten Primitive die gleiche
-Stelligkeit:
+Stelligkeit:  FIXME
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Primitiv erzeugen
 (: make-prim (symbol -> prim))
 (define make-prim
-  (lambda (s)
-    (real-make-prim s 2)))
-\end{verbatim}
+  (lambda (operator)
+    (real-make-prim operator 2))) ; alle haben derzeit Stelligkeit 2
+\end{lstlisting}
 %
 Die Einführung von Primitive mit anderen Stelligkeiten ist Gegenstand
 von Aufgabe~\ref{aufgabe:prim-arity}.
@@ -876,101 +877,101 @@ Nun, da sowohl Terme als auch der Maschinencode Datendefinitionen
 haben, ist es möglich, die Übersetzung zu programmieren.  Hier sind
 Kurzbeschreibung, Signatur und Gerüst:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Term in Maschinencode übersetzen
 (: term->machine-code (term -> machine-code))
 (define term->machine-code
-  (lambda (e)
+  (lambda (term)
     ...))
-\end{verbatim}
+\end{lstlisting}
 %
-Da es sich bei \texttt{term} um gemischte Daten handelt, muss~-- wie
+Da es sich bei \lstinline{term} um gemischte Daten handelt, muss~-- wie
 immer~-- eine Verzweigung den Rumpf der Funktion bilden:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define term->machine-code
-  (lambda (e)
+  (lambda (term)
     (cond
-      ((symbol? e) ...)
-      ((application? e) ...)
-      ((abstraction? e) ...)
-      ((base? e) ...)
-      ((primitive-application? e) ...))))
-\end{verbatim}
+      ((symbol? term) ...)
+      ((application? term) ...)
+      ((abstraction? term) ...)
+      ((base? term) ...)
+      ((primitive-application? term) ...))))
+\end{lstlisting}
 %
 Die Implementierung entspricht in den einzelnen Fällen genau der
 Übersetzungsfunktion $\llbracket\underline{~}\rrbracket$. Die Fälle
 für Variablen und Basiswerte sind, genau wie dort, trivial:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define term->machine-code
-  (lambda (e)
+  (lambda (term)
     (cond
-      ((symbol? e) (list e))
-      ((base? e) (list e))
+      ((symbol? term) (list term))
+      ((base? term) (list term))
       ...)))
-\end{verbatim}
+\end{lstlisting}
 %
 Bei regulären Applikationen werden
 Operator und Operand übersetzt, und das ganze zusammen mit einer
-\texttt{ap}-Instruktion zu einer Liste zusammengesetzt:
+\lstinline{ap}-Instruktion zu einer Liste zusammengesetzt:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define term->machine-code
-  (lambda (e)
+  (lambda (term)
     (cond
       ...
-      ((application? e)
-       (append (term->machine-code (first e))
-               (append (term->machine-code (first (rest e)))
+      ((application? term)
+       (append (term->machine-code (first term))
+               (append (term->machine-code (first (rest term)))
                        (list (make-ap)))))
       ...)))
-\end{verbatim}
+\end{lstlisting}
 %
 Bei den primitiven Applikationen werden erst einmal die Operanden in
 Maschinencode übersetzt, die Resultate aneinandergehängt, und
-schließlich kommt noch eine \texttt{prim}-Instruktion ans Ende:
+schließlich kommt noch eine \lstinline{prim}-Instruktion ans Ende:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define term->machine-code
-  (lambda (e)
+  (lambda (term)
     (cond
       ...
-      ((primitive-application? e)
+      ((primitive-application? term)
        (append
         (append-lists
-         (map term->machine-code (rest e)))
-        (list (make-prim (first e)))))
+         (map term->machine-code (rest term)))
+        (list (make-prim (first term)))))
       ...)))
-\end{verbatim}
+\end{lstlisting}
 %
-Dieses Stück Code benutzt die Hilfsfunktion \texttt{append-lists}, die
+Dieses Stück Code benutzt die Hilfsfunktion \lstinline{append-lists}, die
 aus einer Liste von Listen eine einzelne Liste macht, indem die
 Elemente aneinandergehängt werden:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; die Elemente einer Liste von Listen aneinanderhängen
 (: append-lists ((list-of (list-of %a)) -> (list-of %a)))
 (define append-lists
-  (lambda (l)
-    (fold '() append l)))
-\end{verbatim}
+  (lambda (list)
+    (fold '() append list)))
+\end{lstlisting}
 %
 Zurück zur Übersetzung: Eine Abstraktionen wird direkt in eine
-\texttt{abs}-Instruktion übersetzt, wobei der Rumpf selbst
+\lstinline{abs}-Instruktion übersetzt, wobei der Rumpf selbst
 noch in Maschinencode übersetzt wird:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define term->machine-code
-  (lambda (e)
+  (lambda (term)
     (cond
       ...
-      ((abstraction? e)
+      ((abstraction? term)
        (list
-        (make-abs (first (first (rest e)))
+        (make-abs (first (first (rest term)))
                   (term->machine-code
-                   (first (rest (rest e))))))))))
-\end{verbatim}
+                   (first (rest (rest term))))))))))
+\end{lstlisting}
 %
 
 \subsection{Zustandsübergang und Auswertung}
@@ -981,10 +982,10 @@ werden können, ist jetzt die eigentliche SECD-Maschine an der Reihe.
 Hier sind erst einmal einige neue Datendefinitionen fällig.  Zunächst
 einmal die Menge $S$ der Stacks:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Stack ist eine Liste von Werten
 (define stack (signature (list-of value)))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Definition von Werten $W$ kommt etwas später an die Reihe.
 
@@ -993,7 +994,7 @@ Tupeln.  In der Implementierung werden sie dargestellt aus Listen von
 \textit{Bindungen\index{Bindung}}, wobei jede Bindung einem Tupel aus
 der mathematischen Definition entspricht:
 
-\begin{verbatim}
+\begin{lstlisting}
 ; Eine Umgebung ist eine Liste von Bindungen.
 ; Dabei gibt es für jede Variable nur eine Bindung.
 (define environment (signature (list-of binding)))
@@ -1002,19 +1003,19 @@ der mathematischen Definition entspricht:
 ;  (make-binding v x)
 ; wobei v der Name einer Variablen und x der dazugehörige Wert ist.
 
-(define-record-procedures binding
+(define-record binding
   make-binding binding?
-  (binding-variable binding-value))
-(: make-binding (symbol value -> binding))
-\end{verbatim}
+  (binding-variable symbol)
+  (binding-value value))
+\end{lstlisting}
 % 
 Die leere Umgebung wird öfter benötigt und wird darum schon
 vordefiniert:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; die leere Umgebung
 (define the-empty-environment empty)
-\end{verbatim}
+\end{lstlisting}
 %
 Zwei Operationen gibt es für eine Umgebung $e$: die Erweiterung um
 eine Bindung $e[v\mapsto w]$ und das Nachschauen einer Bindung
@@ -1023,67 +1024,68 @@ genau der mathematischen Definition: zunächst wird eine eventuell
 vorhandene Bindung für $v$ entfernt, dann eine neue Bindung
 hinzugefügt:
 % 
-\begin{verbatim}
+\begin{lstlisting}
 ; eine Umgebung um eine Bindung erweitern
 (: extend-environment (environment symbol value -> environment))
 (define extend-environment
-  (lambda (e v w)
-    (cons (make-binding v w)
-               (remove-environment-binding e v))))
-\end{verbatim}
+  (lambda (environment variable value)
+    (cons (make-binding variable value)
+          (remove-environment-binding environment variable))))
+\end{lstlisting}
 %
 Für das Entfernen der alten Bindung ist die Hilfsfunktion
-\texttt{remove-environment-binding} zuständig.  Sie folgt einmal mehr
+\lstinline{remove-environment-binding} zuständig.  Sie folgt einmal mehr
 strikt der Konstruktionsanleitung für Funktionen, die Listen akzeptieren:
 % FIXME: Konstruktionsanleitung
-\begin{verbatim}
+\begin{lstlisting}
 ; die Bindung für eine Variable aus einer Umgebung entfernen
 (: remove-environment-binding (environment symbol -> environment))
 (define remove-environment-binding
-  (lambda (e v)
+  (lambda (environment variable)
     (cond
-      ((empty? e) empty)
-      ((cons? e)
-       (if (equal? v (binding-variable (first e)))
-           (rest e)
-           (cons (first e)
-                      (remove-environment-binding (rest e) v)))))))
-\end{verbatim} 
+      ((empty? environment) empty)
+      ((cons? environment)
+       (if (equal? variable (binding-variable (first environment)))
+           (rest environment)
+           (cons (first environment)
+                 (remove-environment-binding (rest environment) variable)))))))
+\end{lstlisting} 
 %
 Auch die zweite Operation, das Nachschauen einer Bindung in der
 Umgebung, folgt der Konstruktionsanleitung:
 %
 % FIXME: Konstruktionsanleitung
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; die Bindung für eine Variable in einer Umgebung finden
 (: lookup-environment (environment symbol -> value))
 (define lookup-environment
-  (lambda (e v)
+  (lambda (environment variable)
     (cond
-      ((empty? e) (violation "unbound variable"))
-      ((cons? e)
-       (if (equal? v (binding-variable (first e)))
-           (binding-value (first e))
-           (lookup-environment (rest e) v))))))
-\end{verbatim}
+      ((empty? environment) (violation "unbound variable"))
+      ((cons? environment)
+       (if (equal? variable (binding-variable (first environment)))
+           (binding-value (first environment))
+           (lookup-environment (rest environment) variable))))))
+\end{lstlisting}
 %
 Damit sind die Operationen auf Umgebungen abgeschlossen.  Als Nächstes
 sind Dumps an der Reihe: $D$ ist als Folge von Tupeln $S\times E\times
 C$ definiert, auch genannt \textit{Frames\index{Frame}}.  Hier sind
 Daten- und Record-Definition:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein Dump ist eine Liste von Frames
 
 ; Ein Frame ist ein Wert
 ;  (make-frame s e c)
 ; wobei s ein Stack, e eine Umgebung und c Maschinencode ist.
-(define-record-procedures frame
+(define-record frame
   make-frame frame?
-  (frame-stack frame-environment frame-code))
-(: make-frame (stack environment machine-code -> frame))
-\end{verbatim}
+  (frame-stack stack)
+  (frame-environment environment)
+  (frame-code machine-code))
+\end{lstlisting}
 %
 Schließlich fehlt noch eine Repräsentation für die Menge $W$ der
 Werte:  Ein Wert ist entweder ein Basiswert oder eine Closure.
@@ -1091,7 +1093,7 @@ Basiswerte wurden bereits in Abschnitt~\ref{sec:secd-datenanalyse}
 definiert; es fehlen noch Closures, die Tupel aus $V\times C\times E$
 sind.  Hier sind die entsprechenden Definitionen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein SECD-Wert ist ein Basiswert oder eine Closure
 (define value (signature (mixed base closure)))
 
@@ -1100,64 +1102,67 @@ sind.  Hier sind die entsprechenden Definitionen:
 ; wobei v die Variable der Lambda-Abstraktion,
 ; c der Code der Lambda-Abstraktion
 ; und e ein Environment ist.
-(define-record-procedures closure
+(define-record closure
   make-closure closure?
-  (closure-variable closure-code closure-environment))
-(: make-closure (symbol machine-code environment -> closure))
-\end{verbatim}
+  (closure-variable symbol)
+  (closure-code machine-code)
+  (closure-environment environment))
+\end{lstlisting}
 %
 Mit Hilfe dieser Definitionen ist es möglich, eine Daten- und eine
 Record-Definition für die Zustände der SECD-Maschine anzugeben, also
 die Tupel aus $S\times E\times C\times D$:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Ein SECD-Zustand ist ein Wert
 ;  (make-secd s e c d)
 ; wobei s ein Stack, e eine Umgebung, c Maschinencode
 ; und d ein Dump ist
-(define-record-procedures secd
+(define-record secd
   make-secd secd?
-  (secd-stack secd-environment secd-code secd-dump))
-(: make-secd (stack environment machine-code dump -> secd))
-\end{verbatim}
+  (secd-stack stack)
+  (secd-environment environment)
+  (secd-code machine-code)
+  (secd-dump dump))
+\end{lstlisting}
 %
 Damit kann es an die Zustandsübergangsfunktion gehen.   Sie wird als
 Funktion realisiert, die einen SECD-Zustand akzeptiert und einen neuen
 liefert.  Hier sind Kurzbeschreibung, Signatur und Gerüst:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Zustandsübergang berechnen
 (: secd-step (secd -> secd))
 (define secd-step
   (lambda (state)
     ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Entsprechend den Regeln der SECD-Maschine muss der Rumpf der Funktion
 eine Verzeigung zwischen den verschiedenen Fällen bei der
-Code-Komponente von \texttt{state} sein.  Diese folgen den
+Code-Komponente von \lstinline{state} sein.  Diese folgen den
 Konstruktionsanleitungen für Listen und für gemischte Daten.  Es ist
 bereits an den Regeln abzulesen, dass alle Regeln Zugriff auf die
-Komponenten von \texttt{state} benötigen.  Für diese werden gleich am
+Komponenten von \lstinline{state} benötigen.  Für diese werden gleich am
 Anfang lokale Variablen angelegt:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define secd-step
   (lambda (state)
-    (let ((stack (secd-stack state))
-          (environment (secd-environment state))
-          (code (secd-code state))
-          (dump (secd-dump state)))
-      (cond
-        ((cons? code)
-         (cond
-           ((base? (first code)) ...)
-           ((symbol? (first code)) ...)
-           ((prim? (first code)) ...)
-           ((abs? (first code)) ...)
-           ((ap? (first code)) ...)))
-        ((empty? code) ...)))))
-\end{verbatim}
+    (define stack (secd-stack state))
+    (define environment (secd-environment state))
+    (define code (secd-code state))
+    (define dump (secd-dump state))
+    (cond
+      ((cons? code)
+       (cond
+         ((base? (first code)) ...)
+         ((symbol? (first code)) ...)
+         ((prim? (first code)) ...)
+         ((abs? (first code)) ...)
+         ((ap? (first code)) ...)))
+      ((empty? code) ...))))
+\end{lstlisting}
 %
 In diesem Gerüst werden nun die Regeln direkt abgebildet.  Hier zur
 Erinnerung noch einmal die erste Regel für Basiswerte:
@@ -1170,7 +1175,7 @@ Erinnerung noch einmal die erste Regel für Basiswerte:
 %
 Hier der passende Code dafür:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define secd-step
   (lambda (state)
       ...
@@ -1182,7 +1187,7 @@ Hier der passende Code dafür:
                       dump))
            ...)
       ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Hier die Regel für Variablen:
 \begin{displaymath}
@@ -1193,7 +1198,7 @@ Hier die Regel für Variablen:
 %
 Hier der entsprechende Code:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define secd-step
   (lambda (state)
       ...
@@ -1207,7 +1212,7 @@ Hier der entsprechende Code:
                       dump))
           ...)
       ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Regel für primitive Applikationen ist etwas aufwendiger:
 %
@@ -1223,7 +1228,7 @@ Argumente vom Stack holen und in der Reihenfolge umdrehen, die
 Argumente vom Stack entfernen und schließlich die eigentliche
 $\delta$-Transition berechnen:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define secd-step
   (lambda (state)
       ...
@@ -1240,59 +1245,72 @@ $\delta$-Transition berechnen:
                       dump))
            ...)
        ...))
-\end{verbatim}
+\end{lstlisting}
 %
-Die Funktion \texttt{drop} ist gerade die in
+Die Funktion \lstinline{drop} ist gerade die in
 Aufgabe~\ref{ex:drop} auf Seite~\pageref{ex:drop} geforderte Funktion:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; die ersten Elemente einer Liste weglassen
 (: drop (natural (list-of %a) -> (list-of %a)))
-\end{verbatim}
+\end{lstlisting}
 %
-Die \texttt{take-reverse}-Funktion ist das Pendant zu \texttt{drop},
+Die \lstinline{take-reverse}-Funktion ist das Pendant zu \lstinline{drop},
 das die ersten $n$ Elemente einer Liste in umgekehrter Reihenfolge
 liefert.  Dies ist am einfachsten über eine endrekursive Hilfsfunktion
 zu erledigen~-- aus Kapitel~\ref{cha:accu} ist ja bekannt, dass bei
 endrekursiver Konstruktion von Listen gerade immer die Reihenfolge
 umgedreht wird:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; die ersten Elemente einer Liste in umgekehrter Reihenfolge berechnen
 (: take-reverse (natural (list-of %a) -> (list-of %a)))
+
+(: take-reverse (natural (list-of %a) -> (list-of %a)))
+
+(check-expect (take-reverse 2 '(1 2 3 4 5)) '(2 1))
+(check-expect (take-reverse 0 '(1 2 3 4 5)) '())
+(check-expect (take-reverse 5 '(1 2 3 4 5)) '(5 4 3 2 1))
+
 (define take-reverse
-  (lambda (n l)
-    ;; (: loop (natural (list-of %a) (list-of %a) -> (list-of %a)))
-    (letrec ((loop (lambda (n l r)
-                     (if (= n 0)
-                         r
-                         (loop (- n 1) (rest l) (cons (first l) r))))))
-      (loop n l '()))))
-\end{verbatim}
+  (lambda (n list0)
+    ;; (: loop (natural (list-of a) (list-of a) -> (list-of a)))
+    (define accumulate
+      (lambda (n list acc)
+        (cond
+          ((zero? n) acc)
+          ((positive? n)
+           (accumulate (- n 1) (rest list) (cons (first list) acc))))))
+    (accumulate n list0 '())))
+\end{lstlisting}
 %
 Aus einem Primitiv und einer Liste von Argumenten berechnet
-\texttt{apply-primitive} das Resultat der primitiven Applikation.
-Dabei handelt es sich bei \texttt{primitive} um eine
+\lstinline{apply-primitive} das Resultat der primitiven Applikation.
+Dabei handelt es sich bei \lstinline{primitive} um eine
 Fallunterscheidung, der Rumpf der Funktion ist also eine entsprechende
 Verzweigung:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Delta-Transition berechnen
 (: apply-primitive (primitive (list-of value) -> value))
+
+(check-expect (apply-primitive '+ '(1 2)) 3)
+(check-expect (apply-primitive '- '(2 1)) 1)
+
 (define apply-primitive
-  (lambda (p args)
+  (lambda (primitive args)
     (cond
-      ((equal? p '+)
+      ((equal? primitive '+)
        (+ (first args) (first (rest args))))
-      ((equal? p '-)
+      ((equal? primitive '-)
        (- (first args) (first (rest args))))
-      ((equal? p '=)
+      ((equal? primitive '=)
        (= (first args) (first (rest args))))
-      ((equal? p '*)
+      ((equal? primitive '*)
        (* (first args) (first (rest args))))
-      ((equal? p '/)
+      ((equal? primitive '/)
        (/ (first args) (first (rest args)))))))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Regel für Abstraktionen macht aus einer Abstraktion eine Closure:
 \begin{displaymath}
@@ -1303,7 +1321,7 @@ Die Regel für Abstraktionen macht aus einer Abstraktion eine Closure:
 %
 Der Code macht dies genauso:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define secd-step
   (lambda (state)
       ...
@@ -1319,7 +1337,7 @@ Der Code macht dies genauso:
                       (rest code)
                       dump)))
        ...)))
-\end{verbatim}
+\end{lstlisting}
 %
 Hier die Regel für die Applikation:
 %
@@ -1331,27 +1349,26 @@ Hier die Regel für die Applikation:
 %
 Hier der Code dazu:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define secd-step
   (lambda (state)
       ...
         (cond
           ...
-          ((ap? (first code))
-           (let ((closure (first (rest stack))))
-             (make-secd empty  
-                        (extend-environment
-                         (closure-environment closure)
-                         (closure-variable closure)
-                         (first stack))
-                        (closure-code closure)
-                        (cons
-                         (make-frame (rest (rest stack))
-                                     environment (rest code))
-                         dump))))
+         ((ap? (first code))
+          (define closure (first (rest stack)))
+          (make-secd empty  
+                     (extend-environment
+                      (closure-environment closure)
+                      (closure-variable closure)
+                      (first stack))
+                     (closure-code closure)
+                     (cons
+                      (make-frame (rest (rest stack)) environment (rest code))
+                      dump)))
           ...)
       ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Schließlich bleibt noch der Code für die Rückgabe eines Wertes von
 einer Funktion.  Hier ist die Regel:
@@ -1364,55 +1381,55 @@ einer Funktion.  Hier ist die Regel:
 %
 Hier ist der Code dazu:
 %
-\begin{verbatim}
+\begin{lstlisting}
 (define secd-step
   (lambda (state)
       ...
       (cond
         ...
-        ((empty? code)
-         (let ((f (first dump)))
-           (make-secd
-            (cons (first stack)
-                       (frame-stack f))
-            (frame-environment f)
-            (frame-code f)
-            (rest dump)))))
+      ((empty? code)
+       (define frame (first dump))
+       (make-secd
+        (cons (first stack)
+              (frame-stack frame))
+        (frame-environment frame)
+        (frame-code frame)
+        (rest dump))))
        ...))
-\end{verbatim}
+\end{lstlisting}
 %
 Damit die SECD-Maschine in Betrieb genommen werden kann, muss ein Term
 $e$ noch in einen Anfangszustand $(\epsilon, \varnothing, \llbracket
 e\rrbracket, \epsilon)$ übersetzt werden.  Das erledigt folgende
 Hilfsfunktion:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Aus Term SECD-Anfangszustand machen
 (: inject-secd (term -> secd))
 (define inject-secd
-  (lambda (e)
+  (lambda (term)
     (make-secd empty
                the-empty-environment
-               (term->machine-code e)
+               (term->machine-code/t term)
                empty)))
-\end{verbatim}
+\end{lstlisting}
 %
 Damit lässt sich die Maschine schon ausprobieren:
 %
-\begin{alltt}
+\begin{lstlisting}
 (secd-step (inject-secd '(+ 1 2)))
-\evalsto{}#<record:secd (1) () (2 #<record:prim + 2>) ()>
+|\evalsto| #<record:secd (1) () (2 #<record:prim + 2>) ()>
 (secd-step (secd-step (inject-secd '(+ 1 2))))
-\evalsto{}#<record:secd (2 1) () (#<record:prim + 2>) ()>
+|\evalsto| #<record:secd (2 1) () (#<record:prim + 2>) ()>
 (secd-step (secd-step (secd-step (inject-secd '(+ 1 2)))))
-\evalsto{}#<record:secd (3) () () ()>
-\end{alltt}
+|\evalsto| #<record:secd (3) () () ()>
+\end{lstlisting}
 %
 Es fehlt noch die Auswertungsfunktion $\mathrm{eval}_\mathrm{SECD}$,
 die eine Hilfsfunktion benötigt, um die reflexiv-transitive Hülle des
 Zustandsübergangs $\hookrightarrow^*$ benötigt:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; bis zum Ende Zustandsübergänge berechnen
 (: secd-step* (secd -> secd))
 (define secd-step*
@@ -1421,31 +1438,35 @@ Zustandsübergangs $\hookrightarrow^*$ benötigt:
              (empty? (secd-dump state)))
         state
         (secd-step* (secd-step state)))))
-\end{verbatim}
+\end{lstlisting}
 %
 Die Auswertungsfunktion orientiert sich direkt an der mathematischen
 Definition:
 %
-\begin{verbatim}
+\begin{lstlisting}
 ; Evaluationsfunktion zur SECD-Maschine berechnen
 (: eval-secd (term -> (mixed value (enum 'function))))
+
+(check-expect (eval-secd '(+ 1 2)) 3)
+(check-expect (eval-secd '(((lambda (x) (lambda (y) (+ x y))) 1) 2)) 3)
+
 (define eval-secd
-  (lambda (e)
-    (let ((val (first
-                (secd-stack
-                 (secd-step* 
-                  (inject-secd e))))))
-      (if (base? val)
-          val
-          'proc))))
-\end{verbatim}
+  (lambda (term)
+    (define value (first
+                   (secd-stack
+                    (secd-step* 
+                     (inject-secd term)))))
+    (if (base? value)
+        value
+        'function)))
+\end{lstlisting}
 %
 Damit läuft die SECD-Maschine:
 %
-\begin{alltt}
+\begin{lstlisting}
 (eval-secd '(((lambda (x) (lambda (y) (+ x y))) 1) 2))
-\evalsto{}3
-\end{alltt}
+|\evalsto| 3
+\end{lstlisting}
 
 \section{Die endrekursive SECD-Maschine}
 
@@ -1604,8 +1625,8 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
 
   \end{enumerate}
 
-  Dabei steht $!$ für das boolesche \texttt{not} und $\&\&$ für das
-  boolesche \texttt{and}.
+  Dabei steht $!$ für das boolesche \lstinline{not} und $\&\&$ für das
+  boolesche \lstinline{and}.
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1637,23 +1658,23 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
 
 \begin{aufgabe}
   Die um Endrekursion erweiterte SECD-Maschine führt eine neue
-  Maschinencode"=Instruktion \texttt{tailap} ein.  Dies ist aber nicht
+  Maschinencode"=Instruktion \lstinline{tailap} ein.  Dies ist aber nicht
   unbedingt nötig.  Formuliere die Zustandsübergangsregeln der
   SECD-Maschine mit Endrekursion so um, dass die Funktionalität, also
   insbesondere die richtige Behandlung endrekursiver Applikationen,
-  auch ohne das das zusätzliche Schlüsselwort \texttt{tailap}
+  auch ohne das das zusätzliche Schlüsselwort \lstinline{tailap}
   erhalten bleibt.
 \end{aufgabe}
 
 \begin{aufgabe}
   Zeige in der um Endrekursion erweiterten
-  SECD-Maschine, dass \texttt{tailap} immer am Ende steht, also
+  SECD-Maschine, dass \lstinline{tailap} immer am Ende steht, also
   tatsächlich keinen Kontext besitzt.
 \end{aufgabe}
 
 \begin{aufgabe}\label{aufgabe:prim-arity}
   Erweitere die SECD-Maschine um Primitive anderer Stelligkeiten,
-  zum Beispiel \texttt{abs} oder \texttt{odd?}.
+  zum Beispiel \lstinline{abs} oder \lstinline{odd?}.
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1662,8 +1683,8 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
 \end{aufgabe}
 
 \begin{aufgabe}
-  Abstrahiere über \texttt{remove-environment-binding} und
-  \texttt{remove-cell}.
+  Abstrahiere über \lstinline{remove-environment-binding} und
+  \lstinline{remove-cell}.
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -1675,27 +1696,27 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
 
 \begin{aufgabe}
   Erweitere den angewandten $\lambda$-Kalkül um binäre
-  Verzweigungen analog zu \texttt{if}.  Erweitere entsprechend die
+  Verzweigungen analog zu \lstinline{if}.  Erweitere entsprechend die
   SECD-Maschine und ihre Implementierung.
 \end{aufgabe}
 
 \begin{aufgabe}
-  \texttt{Begin} lässt sich im angewandten $\lambda$-Kalkül als
-  syntaktischer Zucker auffassen: Wie müssten \texttt{begin}-Ausdrücke
+  \lstinline{Begin} lässt sich im angewandten $\lambda$-Kalkül als
+  syntaktischer Zucker auffassen: Wie müssten \lstinline{begin}-Ausdrücke
   in die Sprache des Kalküls übersetzt werden?
 \end{aufgabe}
 
 \begin{aufgabe}
   Anstatt Umgebungen durch Listen von Bindungen zu repräsentieren, ist
   es auch möglich, Funktionen zu verwenden, so dass
-  \texttt{lookup-environment} folgendermaßen aussieht:
-\begin{verbatim}
+  \lstinline{lookup-environment} folgendermaßen aussieht:
+\begin{lstlisting}
 (define lookup-environment
-  (lambda (e v)
-    (e v)))
-\end{verbatim}
+  (lambda (environment variable)
+    (environment variable)))
+\end{lstlisting}
   Ergänze eine passende Definition für
-  \texttt{extend-environment}.
+  \lstinline{extend-environment}.
 \end{aufgabe}
 
 \begin{aufgabe}

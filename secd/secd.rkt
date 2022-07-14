@@ -23,8 +23,8 @@
 ; Prädikat für Basiswerte
 (: base? (any -> boolean))
 (define base?
-  (lambda (v)
-    (or (boolean? v) (number? v))))
+  (lambda (term)
+    (or (boolean? term) (number? term))))
 
 (define base (signature (predicate base?)))
 
@@ -36,50 +36,50 @@
 (check-expect (primitive? 'foo) #f)
 
 (define primitive?
-  (lambda (s)
-    (or (equal? '+ s)
-        (equal? '- s)
-        (equal? '* s)
-        (equal? '/ s)
-        (equal? '= s))))
+  (lambda (term)
+    (or (equal? '+ term)
+        (equal? '- term)
+        (equal? '* term)
+        (equal? '/ term)
+        (equal? '= term))))
 
 (define primitive (signature (predicate primitive?)))
 
 ; Prädikat für reguläre Applikationen
 (: application? (any -> boolean))
 (define application?
-  (lambda (t)
-    (and (cons? t)
-         (not (equal? 'set! (first t)))
-         (not (equal? 'lambda (first t)))
-         (not (primitive? (first t))))))
+  (lambda (term)
+    (and (cons? term)
+         (not (equal? 'set! (first term)))
+         (not (equal? 'lambda (first term)))
+         (not (primitive? (first term))))))
 
 (define application (signature (predicate application?)))
 
 ; Prädikat für Abstraktionen
 (: abstraction? (any -> boolean))
 (define abstraction?
-  (lambda (t)
-    (and (cons? t)
-         (equal? 'lambda (first t)))))
+  (lambda (term)
+    (and (cons? term)
+         (equal? 'lambda (first term)))))
 
 (define abstraction (signature (predicate abstraction?)))
 
 ; Prädikat für primitive Applikationen
 (: primitive-application? (any -> boolean))
 (define primitive-application?
-  (lambda (t)
-    (and (cons? t)
-         (primitive? (first t)))))
+  (lambda (term)
+    (and (cons? term)
+         (primitive? (first term)))))
 
 (define primitive-application (signature (predicate primitive-application?)))
 
 ; Prädikat für Zuweisungen
 (: assignment? (any -> boolean))
 (define assignment?
-  (lambda (t)
-    (and (cons? t)
-         (equal? 'set! (first t)))))
+  (lambda (term)
+    (and (cons? term)
+         (equal? 'set! (first term)))))
 
 (define assignment (signature (predicate assignment?)))
 
@@ -134,8 +134,8 @@
 ; Primitiv erzeugen
 (: make-prim (symbol -> prim))
 (define make-prim
-  (lambda (s)
-    (real-make-prim s 2))) ; alle haben derzeit Stelligkeit 2
+  (lambda (operator)
+    (real-make-prim operator 2))) ; alle haben derzeit Stelligkeit 2
 
 ; Eine Abstraktions-Instruktion ist ein Wert
 ;  (make-abs v c)
@@ -155,60 +155,60 @@
               (list 1 2 (make-prim '+)))
 
 (define term->machine-code
-  (lambda (e)
+  (lambda (term)
     (cond
-      ((symbol? e) (list e))
-      ((application? e)
-       (append (term->machine-code (first e))
-               (append (term->machine-code (first (rest e)))
+      ((symbol? term) (list term))
+      ((base? term) (list term))
+      ((application? term)
+       (append (term->machine-code (first term))
+               (append (term->machine-code (first (rest term)))
                        (list (make-ap)))))
-      ((abstraction? e)
+      ((abstraction? term)
        (list
-        (make-abs (first (first (rest e)))
+        (make-abs (first (first (rest term)))
                   (term->machine-code
-                   (first (rest (rest e)))))))
-      ((base? e) (list e))
-      ((primitive-application? e)
+                   (first (rest (rest term)))))))
+      ((primitive-application? term)
        (append
         (append-lists
-         (map term->machine-code (rest e)))
-        (list (make-prim (first e)))))
-      ((assignment? e)
-       (cons (first (rest e))
-             (append (term->machine-code (first (rest (rest e))))
+         (map term->machine-code (rest term)))
+        (list (make-prim (first term)))))
+      ((assignment? term)
+       (cons (first (rest term))
+             (append (term->machine-code (first (rest (rest term))))
                      (list (make-:=))))))))
 
 ; die Elemente einer Liste von Listen aneinanderhängen
 (: append-lists ((list-of (list-of %a)) -> (list-of %a)))
 (define append-lists
-  (lambda (l)
-    (fold '() append l)))
+  (lambda (list)
+    (fold '() append list)))
 
 ; Term in Maschinencode übersetzen
 ;  in nicht-endrekursivem Kontext
 (: term->machine-code/t (term -> machine-code))
 (define term->machine-code/t
-  (lambda (e)
+  (lambda (term)
     (cond
-      ((symbol? e) (list e))
-      ((application? e)
-       (append (term->machine-code/t (first e))
-               (append (term->machine-code/t (first (rest e)))
+      ((symbol? term) (list term))
+      ((application? term)
+       (append (term->machine-code/t (first term))
+               (append (term->machine-code/t (first (rest term)))
                        (list (make-ap)))))
-      ((abstraction? e)
+      ((abstraction? term)
        (list
-        (make-abs (first (first (rest e)))
+        (make-abs (first (first (rest term)))
                   (term->machine-code/t-t
-                   (first (rest (rest e)))))))
-      ((base? e) (list e))
-      ((primitive-application? e)
+                   (first (rest (rest term)))))))
+      ((base? term) (list term))
+      ((primitive-application? term)
        (append
         (append-lists
-         (map term->machine-code/t (rest e)))
-        (list (make-prim (first e)))))
-      ((assignment? e)
-       (cons (first (rest e))
-             (append (term->machine-code/t (first (rest (rest e))))
+         (map term->machine-code/t (rest term)))
+        (list (make-prim (first term)))))
+      ((assignment? term)
+       (cons (first (rest term))
+             (append (term->machine-code/t (first (rest (rest term))))
                      (list (make-:=))))))))
 
 ; Term in Maschinencode übersetzen
@@ -221,27 +221,27 @@
               (list 1 2 (make-prim '+)))
 
 (define term->machine-code/t-t
-  (lambda (e)
+  (lambda (term)
     (cond
-      ((symbol? e) (list e))
-      ((application? e)
-       (append (term->machine-code/t (first e))
-               (append (term->machine-code/t (first (rest e)))
+      ((symbol? term) (list term))
+      ((application? term)
+       (append (term->machine-code/t (first term))
+               (append (term->machine-code/t (first (rest term)))
                        (list (make-tailap)))))
-      ((abstraction? e)
+      ((abstraction? term)
        (list
-        (make-abs (first (first (rest e)))
+        (make-abs (first (first (rest term)))
                   (term->machine-code/t-t
-                   (first (rest (rest e)))))))
-      ((base? e) (list e))
-      ((primitive-application? e)
+                   (first (rest (rest term)))))))
+      ((base? term) (list term))
+      ((primitive-application? term)
        (append
         (append-lists
-         (map term->machine-code/t (rest e)))
-        (list (make-prim (first e)))))
-      ((assignment? e)
-       (cons (first (rest e))
-             (append (term->machine-code/t (first (rest (rest e))))
+         (map term->machine-code/t (rest term)))
+        (list (make-prim (first term)))))
+      ((assignment? term)
+       (cons (first (rest term))
+             (append (term->machine-code/t (first (rest (rest term))))
                      (list (make-:=))))))))
 
 ; Ein Stack ist eine Liste von Werten
@@ -267,32 +267,32 @@
 ; eine Umgebung um eine Bindung erweitern
 (: extend-environment (environment symbol value -> environment))
 (define extend-environment
-  (lambda (e v w)
-    (cons (make-binding v w)
-          (remove-environment-binding e v))))
+  (lambda (environment variable value)
+    (cons (make-binding variable value)
+          (remove-environment-binding environment variable))))
 
 ; die Bindung für eine Variable aus einer Umgebung entfernen
 (: remove-environment-binding (environment symbol -> environment))
 (define remove-environment-binding
-  (lambda (e v)
+  (lambda (environment variable)
     (cond
-      ((empty? e) empty)
-      ((cons? e)
-       (if (equal? v (binding-variable (first e)))
-           (rest e)
-           (cons (first e)
-                 (remove-environment-binding (rest e) v)))))))
+      ((empty? environment) empty)
+      ((cons? environment)
+       (if (equal? variable (binding-variable (first environment)))
+           (rest environment)
+           (cons (first environment)
+                 (remove-environment-binding (rest environment) variable)))))))
   
 ; die Bindung für eine Variable in einer Umgebung finden
 (: lookup-environment (environment symbol -> value))
 (define lookup-environment
-  (lambda (e v)
+  (lambda (environment variable)
     (cond
-      ((empty? e) (violation "unbound variable"))
-      ((cons? e)
-       (if (equal? v (binding-variable (first e)))
-           (binding-value (first e))
-           (lookup-environment (rest e) v))))))
+      ((empty? environment) (violation "unbound variable"))
+      ((cons? environment)
+       (if (equal? variable (binding-variable (first environment)))
+           (binding-value (first environment))
+           (lookup-environment (rest environment) variable))))))
 
 ; Ein Dump ist eine Liste von Frames.
 (define dump (signature (list-of frame)))
@@ -334,67 +334,67 @@
 (: secd-step (secd -> secd))
 (define secd-step
   (lambda (state)
-    (let ((stack (secd-stack state))
-          (environment (secd-environment state))
-          (code (secd-code state))
-          (dump (secd-dump state)))
-      (cond
-        ((cons? code)
-         (cond
-           ((base? (first code))
-            (make-secd (cons (first code) stack)
-                       environment
-                       (rest code)
-                       dump))
-           ((symbol? (first code))
-            (make-secd (cons (lookup-environment environment (first code)) stack)
-                       environment
-                       (rest code)
-                       dump))
-           ((prim? (first code))
-            (make-secd (cons
-                        (apply-primitive (prim-operator (first code))
-                                         (take-reverse (prim-arity (first code)) stack))
-                        (drop (prim-arity (first code)) stack))
-                       environment
-                       (rest code)
-                       dump))
-           ((abs? (first code))
-            (make-secd (cons (make-closure (abs-variable (first code))
-                                           (abs-code (first code))
-                                           environment)
-                                  stack)
-                       environment
-                       (rest code)
-                       dump))
-           ((ap? (first code))
-            (let ((closure (first (rest stack))))
-              (make-secd empty  
-                         (extend-environment
-                          (closure-environment closure)
-                          (closure-variable closure)
-                          (first stack))
-                         (closure-code closure)
-                         (cons
-                          (make-frame (rest (rest stack)) environment (rest code))
-                          dump))))
-           ((tailap? (first code))
-            (let ((closure (first (rest stack))))
-              (make-secd (rest (rest stack))
-                         (extend-environment
-                          (closure-environment closure)
-                          (closure-variable closure)
-                          (first stack))
-                         (closure-code closure)
-                         dump)))))
-        ((empty? code)
-         (let ((f (first dump)))
-           (make-secd
-            (cons (first stack)
-                  (frame-stack f))
-            (frame-environment f)
-            (frame-code f)
-            (rest dump))))))))
+    (define stack (secd-stack state))
+    (define environment (secd-environment state))
+    (define code (secd-code state))
+    (define dump (secd-dump state))
+    (cond
+      ((cons? code)
+       (cond
+         ((base? (first code))
+          (make-secd (cons (first code) stack)
+                     environment
+                     (rest code)
+                     dump))
+         ((symbol? (first code))
+          (make-secd (cons (lookup-environment environment (first code)) stack)
+                     environment
+                     (rest code)
+                     dump))
+         ((prim? (first code))
+          (make-secd (cons
+                      (apply-primitive (prim-operator (first code))
+                                       (take-reverse (prim-arity (first code)) stack))
+                      (drop (prim-arity (first code)) stack))
+                     environment
+                     (rest code)
+                     dump))
+         ((abs? (first code))
+          (make-secd (cons (make-closure (abs-variable (first code))
+                                         (abs-code (first code))
+                                         environment)
+                           stack)
+                     environment
+                     (rest code)
+                     dump))
+         ((ap? (first code))
+          (define closure (first (rest stack)))
+          (make-secd empty  
+                     (extend-environment
+                      (closure-environment closure)
+                      (closure-variable closure)
+                      (first stack))
+                     (closure-code closure)
+                     (cons
+                      (make-frame (rest (rest stack)) environment (rest code))
+                      dump)))
+         ((tailap? (first code))
+          (define closure (first (rest stack)))
+          (make-secd (rest (rest stack))
+                     (extend-environment
+                      (closure-environment closure)
+                      (closure-variable closure)
+                      (first stack))
+                     (closure-code closure)
+                     dump))))
+      ((empty? code)
+       (define frame (first dump))
+       (make-secd
+        (cons (first stack)
+              (frame-stack frame))
+        (frame-environment frame)
+        (frame-code frame)
+        (rest dump))))))
 
 
 ; Delta-Transition berechnen
@@ -404,17 +404,17 @@
 (check-expect (apply-primitive '- '(2 1)) 1)
 
 (define apply-primitive
-  (lambda (p args)
+  (lambda (primitive args)
     (cond
-      ((equal? p '+)
+      ((equal? primitive '+)
        (+ (first args) (first (rest args))))
-      ((equal? p '-)
+      ((equal? primitive '-)
        (- (first args) (first (rest args))))
-      ((equal? p '=)
+      ((equal? primitive '=)
        (= (first args) (first (rest args))))
-      ((equal? p '*)
+      ((equal? primitive '*)
        (* (first args) (first (rest args))))
-      ((equal? p '/)
+      ((equal? primitive '/)
        (/ (first args) (first (rest args)))))))
 
 ; die ersten Elemente einer Liste in umgekehrter Reihenfolge berechnen
@@ -425,13 +425,15 @@
 (check-expect (take-reverse 5 '(1 2 3 4 5)) '(5 4 3 2 1))
 
 (define take-reverse
-  (lambda (n l)
+  (lambda (n list0)
     ;; (: loop (natural (list-of a) (list-of a) -> (list-of a)))
-    (letrec ((loop (lambda (n l r)
-                     (if (= n 0)
-                         r
-                         (loop (- n 1) (rest l) (cons (first l) r))))))
-      (loop n l '()))))
+    (define accumulate
+      (lambda (n list acc)
+        (cond
+          ((zero? n) acc)
+          ((positive? n)
+           (accumulate (- n 1) (rest list) (cons (first list) acc))))))
+    (accumulate n list0 '())))
 
 ; die ersten Elemente einer Liste weglassen
 (: drop (natural (list-of %a) -> (list-of %a)))
@@ -441,18 +443,19 @@
 (check-expect (drop 5 '(1 2 3 4 5)) '())
 
 (define drop
-  (lambda (n l)
-    (if (= n 0)
-        l
-        (drop (- n 1) (rest l)))))
+  (lambda (n list)
+    (cond
+      ((zero? n) list)
+      ((positive? n)
+       (drop (- n 1) (rest list))))))
 
 ; Aus Term SECD-Anfangszustand machen
 (: inject-secd (term -> secd))
 (define inject-secd
-  (lambda (e)
+  (lambda (term)
     (make-secd empty
                the-empty-environment
-               (term->machine-code/t e)
+               (term->machine-code/t term)
                empty)))
 
 ; bis zum Ende Zustandsübergänge berechnen
@@ -472,14 +475,14 @@
 (check-expect (eval-secd '(((lambda (x) (lambda (y) (+ x y))) 1) 2)) 3)
 
 (define eval-secd
-  (lambda (e)
-    (let ((val (first
-                (secd-stack
-                 (secd-step* 
-                  (inject-secd e))))))
-      (if (base? val)
-          val
-          'function))))
+  (lambda (term)
+    (define value (first
+                   (secd-stack
+                    (secd-step* 
+                     (inject-secd term)))))
+    (if (base? value)
+        value
+        'function)))
 
 (define write-secd/tex
   (lambda (state)
@@ -528,85 +531,85 @@
          (write-string ")"))))))
 
 (define write-environment/tex
-  (lambda (e)
+  (lambda (environment)
     (cond
-      ((empty? e) (write-string "\\varnothing"))
-      ((cons? e)
+      ((empty? environment) (write-string "\\varnothing"))
+      ((cons? environment)
        (begin
          (write-string "\\{")
-         (write-binding/tex (first e))
-         (for-each (lambda (b)
+         (write-binding/tex (first environment))
+         (for-each (lambda (binding)
                      (begin
                        (write-string ", ")
-                       (write-binding/tex b)))
-                   (rest e))
+                       (write-binding/tex binding)))
+                   (rest environment))
          (write-string "\\}"))))))
 
 (define write-binding/tex
-  (lambda (b)
+  (lambda (binding)
     (begin
       (write-string "(")
-      (write-string (symbol->string (binding-variable b)))
+      (write-string (symbol->string (binding-variable binding)))
       (write-string ", ")
-      (write-value/tex (binding-value b))
+      (write-value/tex (binding-value binding))
       (write-string ")"))))
 
 (define write-code/tex
-  (lambda (c)
+  (lambda (code)
     (cond
-      ((empty? c) (write-string "\\epsilon"))
-      ((cons? c)
+      ((empty? code) (write-string "\\epsilon"))
+      ((cons? code)
        (begin
-         (write-instruction/tex (first c))
-         (for-each (lambda (i)
+         (write-instruction/tex (first code))
+         (for-each (lambda (instruction)
                      (begin
                        (write-string "~")
-                       (write-instruction/tex i)))
-                   (rest c)))))))
+                       (write-instruction/tex instruction)))
+                   (rest code)))))))
 
 (define write-instruction/tex
-  (lambda (i)
+  (lambda (instruction)
     (cond
-      ((base? i) (write-value/tex i))
-      ((symbol? i) (write-string (symbol->string i)))
-      ((prim? i)
+      ((base? instruction) (write-value/tex instruction))
+      ((symbol? instruction) (write-string (symbol->string instruction)))
+      ((prim? instruction)
        (begin
          (write-string "\\mathtt{prim}_")
-         (write-string (symbol->string (prim-operator i)))))
-      ((abs? i)
+         (write-string (symbol->string (prim-operator instruction)))))
+      ((abs? instruction)
        (begin
          (write-string "(")
-         (write-string (symbol->string (abs-variable i)))
+         (write-string (symbol->string (abs-variable instruction)))
          (write-string ", ")
-         (write-code/tex (abs-code i))
+         (write-code/tex (abs-code instruction))
          (write-string ")")))
-      ((ap? i)
+      ((ap? instruction)
        (write-string "\\mathtt{ap}"))
-      ((tailap? i)
+      ((tailap? instruction)
        (write-string "\\mathtt{tailap}")))))
 
 (define write-dump/tex
-  (lambda (d)
+  (lambda (dump)
     (cond
-      ((empty? d) (write-string "\\epsilon"))
-      ((cons? d)
+      ((empty? dump) (write-string "\\epsilon"))
+      ((cons? dump)
        (begin
-         (write-frame/tex (first d))
-         (for-each (lambda (f)
+         (write-frame/tex (first dump))
+         (for-each (lambda (frame)
                      (begin
                        (write-string "~")
-                       (write-frame/tex f)))
-                   (rest d)))))))
+                       (write-frame/tex frame)))
+                   (rest dump)))))))
 
 (define write-frame/tex
-  (lambda (f)
+  (lambda (frame)
     (begin
       (write-string "(")
-      (write-stack/tex (frame-stack f))
+      (write-stack/tex (frame-stack frame))
       (write-string ", ")
-      (write-environment/tex (frame-environment f))
+      (write-environment/tex (frame-environment frame))
       (write-string ", ")
-      (write-code/tex (frame-code f))
+      (write-code/tex (frame-code frame))
       (write-string ")"))))
 
 (define secd-step*/tex
@@ -651,42 +654,42 @@
 ; Wert im Speicher ablegen
 (: heap-store (heap address value -> heap))
 (define heap-store
-  (lambda (h a w)
-    (make-heap (cons (make-cell a w)
-                     (remove-cell a (heap-cells h)))
-               (let ((next (heap-next h)))
-                 (if (= a next)
-                     (+ next 1)
-                     next)))))
+  (lambda (heap address value)
+    (define next (heap-next heap))
+    (make-heap (cons (make-cell address value)
+                     (remove-cell address (heap-cells heap)))
+               (if (= address next)
+                   (+ next 1)
+                   next))))
 
 ; Zelle zu einer Adresse entfernen
 (: remove-cell (address (list-of cell) -> (list-of cell)))
 (define remove-cell
-  (lambda (a c)
+  (lambda (address cell)
     (cond
-      ((empty? c) empty)
-      ((cons? c)
-       (if (= a (cell-address (first c)))
-           (rest c)
-           (cons (first c)
-                 (remove-cell a (rest c))))))))
+      ((empty? cell) empty)
+      ((cons? cell)
+       (if (= address (cell-address (first cell)))
+           (rest cell)
+           (cons (first cell)
+                 (remove-cell address (rest cell))))))))
 
 ; den Wert an einer Adresse im Heap nachschauen
 (: heap-lookup (heap address -> value))
 (define heap-lookup
-  (lambda (h a)
-    (cells-lookup (heap-cells h) a)))
+  (lambda (heap address)
+    (cells-lookup (heap-cells heap) address)))
 
 ; den Wert an einer Adresse in einer Liste von Zellen nachschauen
 (: cells-lookup ((list-of cell) address -> value))
 (define cells-lookup
-  (lambda (c a)
+  (lambda (cells address)
     (cond
-      ((empty? c) (violation "unassigned address"))
-      ((cons? c)
-       (if (= a (cell-address (first c)))
-           (cell-value (first c))
-           (cells-lookup (rest c) a))))))
+      ((empty? cells) (violation "unassigned address"))
+      ((cons? cells)
+       (if (= address (cell-address (first cells)))
+           (cell-value (first cells))
+           (cells-lookup (rest cells) address))))))
 
 ; Ein void-Wert ist ein Wert
 ;  (make-void)
@@ -712,99 +715,99 @@
 (: secdh-step (secdh -> secdh))
 (define secdh-step
   (lambda (state)
-    (let ((stack (secdh-stack state))
-          (environment (secdh-environment state))
-          (code (secdh-code state))
-          (dump (secdh-dump state))
-          (heap (secdh-heap state)))
-      (cond
-        ((cons? code)
-         (cond
-           ((base? (first code))
-            (let ((a (heap-next heap)))
-              (make-secdh
-               (cons a stack)
-               environment
-               (rest code)
-               dump
-               (heap-store heap a (first code)))))
-           ((symbol? (first code))
-            (make-secdh
-             (cons (lookup-environment environment (first code)) stack)
-             environment
-             (rest code)
-             dump
-             heap))
-           ((prim? (first code))
-            (let ((a (heap-next heap)))
-              (make-secdh
-               (cons a
-                     (drop (prim-arity (first code)) stack))
-               environment
-               (rest code)
-               dump
-               (heap-store heap a
-                           (apply-primitive
-                            (prim-operator (first code))
-                            (map (lambda (address)
-                                   (heap-lookup heap address))
-                                 (take-reverse (prim-arity (first code)) stack)))))))
-           ((:=? (first code))
-            (let ((a (heap-next heap)))
-              (make-secdh
-               (cons a (rest (rest stack)))
-               environment
-               (rest code)
-               dump
-               (heap-store
-                (heap-store heap
-                            (first (rest stack)) 
-                            (heap-lookup heap (first stack)))
-                a the-void))))
-           ((abs? (first code))
-            (let ((a (heap-next heap)))
-              (make-secdh
-               (cons a stack)
-               environment
-               (rest code)
-               dump
-               (heap-store heap a
-                           (make-closure (abs-variable (first code))
-                                         (abs-code (first code))
-                                         environment)))))
-           ((ap? (first code))
-            (let ((closure (heap-lookup heap (first (rest stack))))
-                  (a (heap-next heap)))
-              (make-secdh empty
-                          (extend-environment
-                           (closure-environment closure)
-                           (closure-variable closure)
-                           a)
-                          (closure-code closure)
-                          (cons
-                           (make-frame (rest (rest stack)) environment (rest code))
-                           dump)
-                          (heap-store heap a (heap-lookup heap (first stack))))))
-           ((tailap? (first code))
-            (let ((closure (heap-lookup heap (first (rest stack))))
-                  (a (heap-next heap)))
-              (make-secdh (rest (rest stack))
-                          (extend-environment
-                           (closure-environment closure)
-                           (closure-variable closure)
-                           a)
-                          (closure-code closure)
-                          dump
-                          (heap-store heap a (heap-lookup heap (first stack))))))))
-        ((empty? code)
-         (let ((f (first dump)))
-           (make-secdh
-            (cons (first stack)
-                  (frame-stack f))
-            (frame-environment f)
-            (frame-code f)
-            (rest dump)
-            heap)))))))
+    (define stack (secdh-stack state))
+    (define environment (secdh-environment state))
+    (define code (secdh-code state))
+    (define dump (secdh-dump state))
+    (define heap (secdh-heap state))
+    (cond
+      ((cons? code)
+       (cond
+         ((base? (first code))
+          (define address (heap-next heap))
+          (make-secdh
+           (cons address stack)
+           environment
+           (rest code)
+           dump
+           (heap-store heap address (first code))))
+         ((symbol? (first code))
+          (make-secdh
+           (cons (lookup-environment environment (first code)) stack)
+           environment
+           (rest code)
+           dump
+           heap))
+         ((prim? (first code))
+          (define address (heap-next heap))
+          (make-secdh
+           (cons address
+                 (drop (prim-arity (first code)) stack))
+           environment
+           (rest code)
+           dump
+           (heap-store heap address
+                       (apply-primitive
+                        (prim-operator (first code))
+                        (map (lambda (address)
+                               (heap-lookup heap address))
+                             (take-reverse (prim-arity (first code)) stack))))))
+         ((:=? (first code))
+          (define address (heap-next heap))
+          (make-secdh
+           (cons address (rest (rest stack)))
+           environment
+           (rest code)
+           dump
+           (heap-store
+            (heap-store heap
+                        (first (rest stack)) 
+                        (heap-lookup heap (first stack)))
+            address the-void)))
+         ((abs? (first code))
+          (define address (heap-next heap))
+          (make-secdh
+           (cons address stack)
+           environment
+           (rest code)
+           dump
+           (heap-store heap address
+                       (make-closure (abs-variable (first code))
+                                     (abs-code (first code))
+                                     environment))))
+         ((ap? (first code))
+          (define closure (heap-lookup heap (first (rest stack))))
+          (define address (heap-next heap))
+          (make-secdh empty
+                      (extend-environment
+                       (closure-environment closure)
+                       (closure-variable closure)
+                       address)
+                      (closure-code closure)
+                      (cons
+                       (make-frame (rest (rest stack)) environment (rest code))
+                       dump)
+                      (heap-store heap address (heap-lookup heap (first stack)))))
+         ((tailap? (first code))
+          (define closure (heap-lookup heap (first (rest stack))))
+          (define address (heap-next heap))
+          (make-secdh (rest (rest stack))
+                      (extend-environment
+                       (closure-environment closure)
+                       (closure-variable closure)
+                       address)
+                      (closure-code closure)
+                      dump
+                      (heap-store heap address (heap-lookup heap (first stack)))))))
+      ((empty? code)
+       (define frame (first dump))
+       (make-secdh
+        (cons (first stack)
+              (frame-stack frame))
+        (frame-environment frame)
+        (frame-code frame)
+        (rest dump)
+        heap)))))
     
 ; bis zum Ende Zustandsübergänge berechnen
 (: secdh-step* (secdh -> secdh))
@@ -818,10 +821,10 @@
 ; aus Term SECDH-Anfangszustand machen
 (: inject-secdh (term -> secdh))
 (define inject-secdh
-  (lambda (e)
+  (lambda (term)
     (make-secdh empty
                 the-empty-environment
-                (term->machine-code e)
+                (term->machine-code term)
                 empty
                the-empty-heap)))
 
@@ -833,13 +836,13 @@
 (check-expect (eval-secdh '((lambda (x) ((lambda (y) x) (set! x (+ x 1)))) 12)) 13)
 
 (define eval-secdh
-  (lambda (e)
-    (let ((final (secdh-step* (inject-secdh e))))
-      (let ((val (heap-lookup (secdh-heap final)
-                              (first (secdh-stack final)))))
-        (if (base? val)
-            val
-            'function)))))
+  (lambda (term)
+    (define final (secdh-step* (inject-secdh term)))
+    (define value (heap-lookup (secdh-heap final)
+                               (first (secdh-stack final))))
+    (if (base? value)
+        value
+        'function)))
 
 (define write-secdh/tex
   (lambda (state)
@@ -863,55 +866,55 @@
       ((cons? stack)
        (begin
          (write-address/tex (first stack))
-         (for-each (lambda (val)
+         (for-each (lambda (value)
                      (begin
                        (write-string "~")
-                       (write-address/tex val)))
+                       (write-address/tex value)))
                    (rest stack)))))))
 
 (define write-address/tex
-  (lambda (addr)
+  (lambda (address)
     (begin
       (write-string "\\langle{}")
-      (write-string (number->string addr))
+      (write-string (number->string address))
       (write-string "\\rangle{}"))))
 
 (define write-environmenth/tex
-  (lambda (e)
+  (lambda (environment)
     (cond
-      ((empty? e) (write-string "\\varnothing"))
-      ((cons? e)
+      ((empty? environment) (write-string "\\varnothing"))
+      ((cons? environment)
        (begin
          (write-string "\\{")
-         (write-bindingh/tex (first e))
-         (for-each (lambda (b)
+         (write-bindingh/tex (first environment))
+         (for-each (lambda (binding)
                      (begin
                        (write-string ", ")
-                       (write-bindingh/tex b)))
-                   (rest e))
+                       (write-bindingh/tex binding)))
+                   (rest environment))
          (write-string "\\}"))))))
 
 (define write-bindingh/tex
-  (lambda (b)
+  (lambda (binding)
     (begin
       (write-string "(")
-      (write-string (symbol->string (binding-variable b)))
+      (write-string (symbol->string (binding-variable binding)))
       (write-string ", ")
-      (write-address/tex (binding-value b))
+      (write-address/tex (binding-value binding))
       (write-string ")"))))
 
 (define write-codeh/tex
-  (lambda (c)
+  (lambda (code)
     (cond
-      ((empty? c) (write-string "\\epsilon"))
-      ((cons? c)
+      ((empty? code) (write-string "\\epsilon"))
+      ((cons? code)
        (begin
-         (write-instructionh/tex (first c))
-         (for-each (lambda (i)
+         (write-instructionh/tex (first code))
+         (for-each (lambda (instruction)
                      (begin
                        (write-string "~")
-                       (write-instructionh/tex i)))
-                   (rest c)))))))
+                       (write-instructionh/tex instruction)))
+                   (rest code)))))))
 
 (define write-instructionh/tex
   (lambda (i)
@@ -954,16 +957,16 @@
 
 (define write-heap/tex
   (lambda (h)
-    (let ((cells (heap-cells h)))
-      (if (empty? cells)
-	  (write-string "\\varnothing")
-	  (begin
-	    (write-cell/tex (first cells))
-	    (for-each (lambda (cell)
-                        (begin
-                          (write-string ", ")
-                          (write-cell/tex cell)))
-		      (rest cells)))))))
+    (define cells (heap-cells h))
+    (if (empty? cells)
+        (write-string "\\varnothing")
+        (begin
+          (write-cell/tex (first cells))
+          (for-each (lambda (cell)
+                      (begin
+                        (write-string ", ")
+                        (write-cell/tex cell)))
+                    (rest cells))))))
 
 (define write-cell/tex
   (lambda (c)
