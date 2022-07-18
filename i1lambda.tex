@@ -11,7 +11,7 @@
 \index{Lambda-Kalkül@$\lambda$-Kalkül}
 
 Bisher ging es in diesem Buch immer um die \emph{Konstruktion} von
-Programmen.  In dieses Kapitel geht es hingegen um die
+Programmen.  In diesem Kapitel geht es hingegen um die
 \textit{Bedeutung} von Programmen.  Wir haben zwar erläutert, wie die
 Auswertung eines Programms funktioniert, aber bisher nur
 umgangssprachlich.  Dabei haben wir einige subtile Aspekte der
@@ -35,7 +35,7 @@ Bedeutung von Programmen sprechen wollen.
 Was also ist an unseren Lehrsprachen absolut notwendig?  In
 Kapitel~\ref{cha:whats-programming} haben wir angefangen mit einer
 Zahl.  Brauchen wir also Zahlen?  Wir haben viele Programme ohne
-Zahlen gesschrieben.  Außerdem werden wir später sehen, dass wir
+Zahlen geschrieben.  Außerdem werden wir später sehen, dass wir
 Zahlen mit anderen Elementen der Sprache nachbilden können.
 
 Das nächste war eine Summe von zwei Zahlen, also eine Anwendung der
@@ -53,14 +53,14 @@ drei fundamentalen Ideen aus dem $\lambda$-Kalkül:
 \item Variable
 \end{itemize}
 %
-Wir beschränken und bei Anwendung und Abstraktion sogar auf einen
+Wir beschränken uns bei Anwendung und Abstraktion sogar auf einen
 einzelnen Parameter.  Und wir werden sehen, dass das reicht: Alle
 anderen Elemente unserer Programmiersprachen können wir nachbilden,
 indem wir sie in diese drei Konstrukte übersetzen.  Darum bilden sie
-das Rückgrad des $\lambda$-Kalküls.
+das Rückgrat des $\lambda$-Kalküls.
 
-Damit es losgeht, benötigen zunächst eine \textit{Sprache} für den
-Kalkül, und den definieren wir mit Hilfe einer Grammatik.  (Das ist
+Damit es losgeht, benötigen wir zunächst eine \textit{Sprache} für den
+Kalkül, und die definieren wir mit Hilfe einer Grammatik.  (Das ist
 eine Notation für induktive Definitionen, die wir in
 Abschnitt~\ref{sec:grammatik} auf Seite~\pageref{sec:grammatik}
 eingeführt haben.)
@@ -90,7 +90,7 @@ Buchstaben Nummern geben.
   Ein $\lambda$-Term der Form $(e_0~e_1)$ heißt
   \textit{Applikation\index{Applikation}}. Ein Term der Form
   $(\lambda v.e)$ heißt \textit{Abstraktion\index{Abstraktion}}, wobei
-  $v$ \textit{Parameter\index{Parameter}} der Abstraktion heißt und
+  $v$ \textit{Parameter\index{Parameter} der Abstraktion} heißt und
   $e$ \textit{Rumpf\index{Rumpf}}.
 \end{definition}
 %
@@ -98,8 +98,8 @@ Hier sind ein paar Beispiele für $\lambda$-Terme:
 %
 \begin{displaymath}
   \begin{array}{c}
-    (\lrm f~\lrm x)
-    (\lambda \lrm x.\lrm x)\\
+    ((\lrm f~\lrm x)
+    (\lambda \lrm x.\lrm x))\\
     (\lambda \lrm x.(\lambda \lrm y.(\lrm x~\lrm y))\\
     (\lambda \lrm x.(\lrm f~\lrm x))\\
     (\lambda \lrm x.(\lrm f~(\lambda \lrm x~\lrm x))
@@ -117,8 +117,8 @@ $\lambda$-Terme dieser Form:
 %
 \begin{displaymath}
   \begin{array}{c}
-    (\lrm f~\lrm x)
-    (\lrm f~(\lambda \lrm x.\lrm x))
+    (\lrm f~\lrm x),
+    (\lrm f~(\lambda \lrm x.\lrm x)),
     ((\lambda \lrm x.\lrm x)~(\lambda \lrm x.\lrm x))
   \end{array}
 \end{displaymath}
@@ -128,18 +128,21 @@ erwähnt, das könnte zum Beispiel sein:
 %
 \begin{displaymath}
   \begin{array}{c}
-    (\lambda \lrm x.\lrm x)
-    (\lambda \lrm y.\lrm x)
-    (\lambda \lrm x.\lrm x~\lrm x)
-    (\lambda \lrm x.(\lrm f~\lrm x)~\lrm y)
+    (\lambda \lrm x.\lrm x),
+    (\lambda \lrm y.\lrm x),
+    (\lambda \lrm x.\lrm x~\lrm x),
+    (\lambda \lrm x.(\lrm f~\lrm x)~\lrm y),
     (\lambda \lrm y.\lrm x)
   \end{array}
 \end{displaymath}
 %
+
+% Hier ist mit "<Form> was kaputt
 Du sieht, der Buchstabe $v$ in der "<Form> steht für eine Variable,
 also für $\lrm x$, $\lrm y$ oder $\lrm f$.  Wenn Du genau hinschaust,
 siehst Du, dass beide sich typografisch unterscheiden: Die
 "<normalen"> Variablen $\lrm x$, $\lrm y$, $\lrm f$ sehen aus wie
+% Italics erläutern? Oder "kursiv"? Italics ist nicht geläufig
 reguläre Buchstaben, während $v$ in sogenannten Italics gesetzt ist.
 Das $v$ ist also eine Variable, die für eine andere Variable steht~--
 eine sogenannte \textit{Metavariable}.\index{Metavariable}
@@ -187,7 +190,7 @@ Es ist kein Zufall, dass die Lehrsprachen genau die gleichen Begriffe verwenden
 wie der $\lambda$-Kalkül.  Ein Lambda-Ausdruck mit einem
 Parameter entspricht einer Abstraktion im $\lambda$-Kalkül,
 und die Applikationen in den Lehrsprachen entsprechen den Applikationen im
-$\lambda$-Kalkül.  Die Lehrsprachen wurde bewusst auf dem
+$\lambda$-Kalkül.  Die Lehrsprachen wurden bewusst auf dem
 $\lambda$-Kalkül aufgebaut.
 
 Die Intuition für die Bedeutung der $\lambda$-Terme ist ähnlich wie in
@@ -470,6 +473,8 @@ benennt eine gebundene Variable in eine andere um.  Hier sind einige
 Beispiele:
 %
 \begin{eqnarray*}
+  % Zumindest im verlinkten PDF auf der Website wird das Lambda auf
+  % der rechten Seite in den ersten beiden Beispielen nicht gerendert...?!
   \lambda \lrm a.\lrm a & \rightarrow_{\alpha} & \lambda \lrm c.\lrm c\\
   \lambda \lrm a.\lrm a~\lrm b & \rightarrow_{\alpha} & \lambda \lrm c.\lrm c~\lrm b\\
   \lambda \lrm a.(\lambda \lrm a.\lrm a~\lrm a)~\lrm a & \rightarrow_{\alpha} & 
@@ -506,7 +511,7 @@ Rechnen:
   y \times (x + x + x) = y \times (3\times x)
 \end{displaymath}
 %
-Der Stepper zeigt, das auch in den Lehrsprachen Reduktion auf
+Der Stepper zeigt, dass auch in den Lehrsprachen Reduktion auf
 Teiltermen arbeitet: Dieser wird ja farblich markiert.  Allerdings
 gibt es einen Unterschied: Beim Rechnen und im $\lambda$-Kalkül darf
 auf \emph{jedem} Teilterm reduziert werden.  Unter Umständen sind
@@ -519,7 +524,7 @@ mehrere verschiedene Reduktionen möglich:
   & \rightarrow_{\beta} & ((\lambda \lrm u.\lrm u)~\lrm w)~((\lambda \lrm u.\lrm u)~\lrm w)
 \end{eqnarray*}
 %
-Wir haben jeweils unterstrichten, welcher Teilterm reduziert wird:
+Wir haben jeweils unterstrichen, welcher Teilterm reduziert wird:
 Dieser Teilterm heißt \textit{Redex}.\index{Redex}  Bei den
 Lehrsprachen ist immer genau vorgeschrieben, welcher Teilterm der
 Redex ist.  Die Regeln dafür werden wir in
@@ -566,7 +571,8 @@ kommen, werden wir die folgende Notation "<mit Sternchen"> benutzen:
   e \overset{\ast}{\rightarrow_\beta} e'\\
 \end{eqnarray*}
 %
-Das bedeutet, das wir in mehreren Reduktionsschritten (es können auch
+Das bedeutet, dass wir in mehreren Reduktionsschritten (es können auch
+% die "0" sieht im gerenderten PDF bescheiden aus... (wie ein "o")
 0 Schritte sein, also $e = e'$) jeweils von $e$ nach $e'$ kommen.
 Diese Konstruktion~-- "<0 oder mehr Schritte">~-- heißt auch
 \textit{transitiv-reflexiver Abschluss}.\index{transitiv-reflexiver
@@ -618,11 +624,12 @@ Im letzten Abschnitt haben wir anhand des Beispiels
 \end{displaymath}
 %
 gesehen, dass es von ein und demselben $\lambda$-Term aus mehrere
+% wenn du jede ... jede was?
 mögliche Reduktionsfolgen gibt.  Wenn Du jede mit $\beta$-Reduktionen
 bis zum Ende weiterführst, stellst Du fest, dass am Ende jedesmal der
 gleiche Term herauskommt.  Das heißt nicht ganz: Der Term hat am Ende
 immer die gleiche Struktur, aber unter Umständen unterschiedliche
-Namen für die Variablen.  Diese kannst aber mit Hilfe der
+Namen für die Variablen.  Du kannst aber mit Hilfe der
 $\alpha$-Reduktion die Variablen so umbennen, dass auch sie gleich sind.
 
 Um über diese Eigenschaft des $\lambda$-Kalküls zu sprechen, brauchen
@@ -755,6 +762,7 @@ Eine populäre Auswertungsstrategie ist die Linksaußen-Reduktion\index{Linksau�
   der möglichst weit links außen steht.  Das bedeutet konkret:
   %
   \begin{enumerate}
+    % Das Lambda im PDF wird wieder nicht angezeigt
   \item Wenn der $\lambda$-Term die Form $(\lambda v.e)~f$ hat, so
     ist der ganze Term der nächste Redex~-- also \emph{außen}.
   \item Wenn der $\lambda$-Term die Form $e~f$ hat, und $e$
@@ -837,7 +845,7 @@ auch genannt \emph{applicative-order reduction\index{applicative-order reduction
 \emph{leftmost-innermost reduction\index{leftmost-innermost reduction}}:
 %
 \begin{definition}[Linksinnen-Reduktion]\index{Linksinnen-Reduktion}
-  Bei der Linksaußen-Reduktion wird immer der $\beta$-Redex reduziert,
+  Bei der Linksinnen-Reduktion wird immer der $\beta$-Redex reduziert,
   der möglichst weit links innen steht.  Das bedeutet konkret:
   \begin{enumerate}
   \item Wenn der $\lambda$-Term die Form $e~f$ hat, so suche nach dem Redex innerhalb
@@ -930,9 +938,9 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
 
 Bisher muss es für Dich so ausgesehen haben, als könne man mit dem
 $\lambda$-Kalkül eigentlich nichts anfangen: Die drei Arten von
-$\lambda$-Term entsprechen zwar den Abstraktionen, Applikationen und
+$\lambda$-Termen entsprechen zwar den Abstraktionen, Applikationen und
 Variablen aus den Lehrsprachen, aber alles andere fehlt.  Dazu gehört
-zum Beispiel das Rechnen mit Zahlen, aberr auch boolesche Werte und
+zum Beispiel das Rechnen mit Zahlen, aber auch boolesche Werte und
 Verzweigungen. Wir könnten das alles zum $\lambda$-Kalkül hinzufügen,
 was aber den Kalkül komplizierter macht und damit auch erschwert,
 wichtige Eigenschaften des Kalküls zu zeigen.
@@ -962,7 +970,7 @@ Die binäre Verzweigung\index{Verzweigung} in den Lehrsprachen
 booleschen Wert\index{boolescher Wert} $b$, entweder die Konsequente
 $k$ oder die Alternative $a$ aus.
 
-Verzweigungen ergeben als nur im Doppelpack mit booleschen Werten
+Verzweigungen ergeben also nur im Doppelpack mit booleschen Werten
 Sinn.  Anders gesagt: Ein boolescher Wert hat als primäre Funktion,
 zwischen der Konsequente und der Alternative einer Verzweigung
 auszuwählen.  Diese Idee können wir in $\lambda$-Termen ausdrücken:
@@ -1101,7 +1109,7 @@ geschrieben haben, dann war das immer im Zusammenhang mit
 \lstinline{define}, damit die Funktion überhaupt einen Namen bekommt.
 Das geht auch $\lambda$-Kalkül, ist aber etwas aufwendiger.
 
-Zunächst einmal: Einfaches \lstinline{define} können wir in eine
+Zunächst einmal: Das einfache \lstinline{define} können wir in eine
 Kombination aus Abstraktion und Applikation übersetzen.  Aus einem
 Programm dieser Form:
 %
@@ -1125,18 +1133,19 @@ Schön wäre eine Definition wie folgt:\index{fac@$\mathbf{fac}$}
   x)~\lceil 1\rceil ~(\ast~\lrm x~(\mathbf{fac}~(\mathbf{pred}~\lrm x)))
 \end{displaymath}
 %
+% "=" kommt hier nicht vor, meinst du "zerop" ?
 $=$ und $\ast$ stehen dabei für $\lambda$-Terme, die Church-Numerale
 vergleichen beziehungsweise multiplizieren.  Wir tun mal so, als
 hätten wir die schon definiert~-- ihre Formulierung ist Teil der
 Übungsaufgabe~\ref{ex:church}.
 
-Leider das keine richtige Definition für $\mathbf{fac}$:
+Leider ist das keine richtige Definition für $\mathbf{fac}$:
 $\mathbf{fac}$ taucht sowohl auf der linken
 als auch auf der rechten Seite auf.  Wenn $\mathbf{fac}$ aus der
 rechten Seite entfernt wird, bleibt folgender Term übrig:
 %
 \begin{displaymath}
-  \lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x~\lceil 1\rceil)~\lceil 1\rceil~(\ast~\lrm x~(?~(\mathbf{pred}~\lrm x)))
+  \lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~\lceil 1\rceil~(\ast~\lrm x~(?~(\mathbf{pred}~\lrm x)))
 \end{displaymath}
 %
 Immerhin ist zu sehen, dass dieser Term korrekt die Fakultät von $0$
@@ -1384,7 +1393,7 @@ spielt.\index{berechenbare Funktionen}
     \mathbf{mult} &\deq{}& \lambda \lrm x.\lambda \lrm y.\lambda \lrm z.\lrm x~(\lrm y~\lrm z)\\
     \mathbf{exp} &\deq{}& \lambda \lrm x.\lambda \lrm y.\lrm y\lrm x
   \end{eqnarray*}
-  und gibt eine eigene Definition für $=$ an.
+  und gib eine eigene Definition für $=$ an.
   %~
   Die Korrektheit von $\mathbf{add}$ lässt sich direkt beweisen.
   Für $\mathbf{mult}$ und $\mathbf{exp}$ kannst Du
