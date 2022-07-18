@@ -1030,16 +1030,77 @@ Daten, das lohnt aber hier kaum.
 \end{aufgabe}
 
 \begin{aufgabe}
-  \label{aufgabe:knaubichler2}
-  Erweitere die Lösung von Aufgabe~\ref{aufgabe:knaubichler} aus
-  dem vorigen Kapitel (Seite~\pageref{aufgabe:knaubichler}):
+  \label{aufgabe:knaubichler}
+  Auf seinen Reisen um die Welt trifft Dr.~Sperber
+  viele interessante und skurrile Zeitgenossen. Unter ihnen
+  Dr.~Knaubichler, ein Experte auf dem Gebiet der Kreuzung von
+  mystischen Kreaturen.  Es gibt drei klassische Grundkreaturen:
+
+  \begin{itemize}
+  \item Der Garnolaf, der Stärke besitzt.
+  \item Das Ronugor, das Wissen besitzt.
+  \item Der Tschipotol, der Risikobereitschaft besitzt.
+  \end{itemize}
+  %
+  Die Merkmale der Kreaturen sind unterschiedlich ausgeprägt.  Die
+  Knaubichler"=Kreaturenmerkmal"=Skala geht von 0 bis 100.  Die
+  Grundkreaturen haben jeweils nur ein Merkmal, keine besitzt ein
+  Merkmal einer anderen Grundkreatur.
+
+  Nun kreuzt Dr.~Knaubichler die Grundkreaturen miteinander. Es
+  entstehen also
+  \begin{itemize}
+  \item Das Ronulaf, mit Wissen und Stärke.
+  \item Der Tschigor, mit Wissen und Risikobereitschaft.
+  \item Das Lapotol, mit Stärke und Risikobereitschaft.
+  \item Der Tschirgaronu, Wissen, Stärke und Risikobereitschaft.
+  \end{itemize}
+  %
+  Leider erben die Kreuzungen nicht die vollen Merkmale beider
+  Grundkreaturen.
+
+  Bei der Kreuzung unterschiedlicher Grunkreaturen gilt folgendes:
+  Bei der Kreuzung von Ronugor und Tschipotol wird
+  das übernommene Wissen um 10\% veringert; bei Tschipotol und
+  Garnolaf hingegen nimmt die Risikobereitschaft um 5\% ab, aber die
+  Stärke legt um 8\% zu. Garnolaf und Ronugor lassen die Stärke um 5\%
+  zulegen. Kreuzt man alle drei Grundkreaturen, nimmt jede Eigenschaft
+  um 3\% ab.
+  
+  Werden zwei Kreaturen der gleichen Sorte gekreuzt, so entsteht eine
+  neue Kreatur mit $\frac{2}{3}$ der addierten Eigenschaften der
+  beiden Grundkreaturen. Man kann nur Grundkreaturen kreuzen.
+
+  In jedem Fall kann eine Eigenschaft maximal den Wert 100
+  haben.
+    
+  Dr.~Knaubichler braucht ein Programm, welches die neue Kreatur
+  berechnet, bevor er die Kreuzungen durchführt.  Hilf ihm
+  dabei!
   
   \begin{enumerate}
-  \item Schreibe nun eine Funktion, die zwei
+
+  \item Mache eine Datenanalyse und erstelle
+    passende Daten- und Record-Definitionen.  Gib alle
+    Signaturen der Record-Funktionen an!
+
+  \item Schreibe für jede der oben aufgelisteten
+    Kreuzungen von zwei Grundkreaturen eine Funktion, die die Kreuzung
+    vornimmt und eine neue Kreatur zurückgibt.
+  \end{enumerate}
+\end{aufgabe}
+
+
+\begin{aufgabe}
+  \label{aufgabe:knaubichler2}
+  Erweitere die Lösung von Aufgabe~\ref{aufgabe:knaubichler}:
+  
+  \begin{enumerate}
+  \item Schreibe eine Funktion, die zwei
     Grundkreaturen in beliebiger Reihenfolge akzeptiert, die Kreuzung
     vornimmt und eine neue Kreatur zurückgibt.
     
-  \item Schreibe nun eine
+  \item Schreibe eine
     Funktion, die drei Grundkreaturen in beliebiger Reihenfolge
     akzeptiert, die Kreuzung vornimmt und eine neue Kreatur
     zurückgibt.
@@ -1232,7 +1293,7 @@ Daten, das lohnt aber hier kaum.
   
   Wie könnte ein Programm dann nach einem Aufruf feststellen, ob es
   keine Steigung gab?  Schreibe für beide Varianten einen Ersatz für das Prädikat
-  \lstinline{no-slope?} diese Situation feststellt.
+  \lstinline{no-slope?}, das diese Situation feststellt.
 
   Was haben die insgesamt drei Varianten für die Repräsentation von
   "<keine Steigung"> jeweils für Vor- und Nachteile?
