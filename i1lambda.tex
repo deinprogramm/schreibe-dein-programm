@@ -473,8 +473,6 @@ benennt eine gebundene Variable in eine andere um.  Hier sind einige
 Beispiele:
 %
 \begin{eqnarray*}
-  % Zumindest im verlinkten PDF auf der Website wird das Lambda auf
-  % der rechten Seite in den ersten beiden Beispielen nicht gerendert...?!
   \lambda \lrm a.\lrm a & \rightarrow_{\alpha} & \lambda \lrm c.\lrm c\\
   \lambda \lrm a.\lrm a~\lrm b & \rightarrow_{\alpha} & \lambda \lrm c.\lrm c~\lrm b\\
   \lambda \lrm a.(\lambda \lrm a.\lrm a~\lrm a)~\lrm a & \rightarrow_{\alpha} & 
@@ -762,7 +760,6 @@ Eine populäre Auswertungsstrategie ist die Linksaußen-Reduktion\index{Linksau�
   der möglichst weit links außen steht.  Das bedeutet konkret:
   %
   \begin{enumerate}
-    % Das Lambda im PDF wird wieder nicht angezeigt
   \item Wenn der $\lambda$-Term die Form $(\lambda v.e)~f$ hat, so
     ist der ganze Term der nächste Redex~-- also \emph{außen}.
   \item Wenn der $\lambda$-Term die Form $e~f$ hat, und $e$
