@@ -317,7 +317,7 @@ Zugehörigkeit von Variablenvorkommen und den dazu passenden
 Abstraktionen zu verändern.  Der Mechanismus dafür heißt auch hier
 \textit{Substitution}:
 %
-\begin{definition}[Substitution]\index{Substitution}
+\begin{definition}[Substitution]\index{Substitution}\label{def:substitution}
   Für $e,f\in \mathcal{L}_{\lambda}$ ist $e[v\mapsto f]$~-- in $e$ wird $v$ durch $f$
   \textit{substituiert}~-- induktiv definiert:\index{*@$\mapsto$}
 
@@ -891,6 +891,7 @@ Damit läuft die Linksinnen-Reduktion unendlich im Kreis, während
 die Linksaußen"=Reduktion sofort den gesamten Term reduziert und die
 Normalform $\lambda \lrm y.\lrm y$ liefert.
 
+\label{page:call-by-value}
 Eine Variante der Linksinnen-Reduktion, die in den meisten
 Programmiersprachen Anwendung findet, ist die
 \textit{Call-by-Value-Reduktion\index{Call-by-Value-Reduktion}}:

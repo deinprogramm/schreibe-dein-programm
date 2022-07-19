@@ -3,56 +3,74 @@
 % "Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International (CC BY-SA 4.0)"
 % https://creativecommons.org/licenses/by-sa/4.0/deed.de
 
-\chapter{Die SECD-Maschine}\label{cha:secd}
+% FIXME: Mehr Inline-Aufgaben
 
+\chapter{Exkurs: Die SECD-Maschine}\label{cha:secd}
+
+Dieses Kapitel baut auf dem $\lambda$-Kalkül aus dem vorigen Kapitel auf.
 Der $\lambda$-Kalkül ist als theoretisches Modell für berechenbare
 Funktionen lange vor der Erfindung des Computers entwickelt worden.
-Die Reduktionsregeln dienen dabei der Entwicklung von Beweisen über
-die Äquivalenz von $\lambda$-Termen.  Damit der $\lambda$-Kalkül auch
-als Modell für die tatsächliche Ausführung von Programmen, auf dem
-Computer geeignet ist, fehlen noch zwei Zutaten: die direkte
-Definition von "<eingebauten"> Werten und Operationen wie Zahlen und
-booleschen Werten sowie ein formales Auswertungsmodell.  Dieses
-Kapitel stellt zunächst den \textit{angewandten $\lambda$-Kalkül} vor,
-der den normalen $\lambda$-Kalkül um primitive Werte und Operationen
-erweitert, und dann die \textit{SECD-Maschine}, ein klassisches
-Auswertungsmodell für die Call-by-Value-Reduktion.  Angenehmerweise
-lässt sich die SECD-Maschine auch als Programm implementieren,
-was ebenfalls in diesem Kapitel geschieht.  Die SECD-Maschine
-kennt keine Zuweisungen; es folgt darum noch die Darstellung der
-\textit{SECDH-Maschine}, die auch einen \textit{Speicher} kennt und
-damit Zuweisungen korrekt modelliert.
+Er bildet zwar die Grundlage für unsere Lehrsprachen, erklärt aber
+nicht, wie diese eigentlich auf einem "<echten"> Computer ablaufen.
+Moderne Mikroprozessoren werden in einer \textit{Maschinensprache}
+programmiert, die sich erheblich vom $\lambda$-Kalkül unterscheidet.
+Damit unsere Programme auf so einem Prozessor laufen können, müssen
+sie in die Maschinensprache\index{Maschinensprache} übersetzt werden,
+mit einem sogenannten \textit{Compiler}.
 
-Ab diesem Kapitel wird die Sprachebene \texttt{Schreibe
-  Dein Programm! - fortgeschritten} benötigt. 
+In diesem Kapitel beschreiben wir eine idealisierte Maschine, die zwar
+so nie gebaut wurde, dessen Maschinensprache aber auf den gleichen
+Prinzipien basiert~-- die \textit{SECD-Maschine}.  Das machen wir
+zunächst auf der Ebene des $\lambda$-Kalküls.  Dann aber schreiben wir
+tatsächlich einen echten Compiler und außerdem eine sogenannte
+\textit{virtuelle Maschine}, die es uns erlaubt, die compilierten
+Programme auch laufenzulassen.
 
 \section{Der angewandte $\lambda$-Kalkül}
 
-Abschnitt~\ref{sec:lambdaprog} zeigte bereits, dass sich auch boolesche
-Werte und Zahlen im $\lambda$-Kalkül durch $\lambda$-Terme darstellen
-lassen.  Das ist zwar aus theoretischer Sicht gut zu wissen, auf Dauer
-aber etwas mühsam: Darum ist es sinnvoll, mit einer erweiterten
-Version des $\lambda$-Kalküls zu arbeiten, die solche "<primitiven">
-Werte direkt kennt.  Abschnitt~\ref{sec:lambdaprog} hat gezeigt,
-dass eine solche Erweiterung nur syntaktischer Zucker ist,
-also die Ausdruckskraft des Kalküls nicht wirklich erhöht.  Alle
-Erkenntnisse aus dem normalen $\lambda$-Kalkül bleiben also erhalten.
+Abschnitt~\ref{sec:lambdaprog} auf Seite~\pageref{sec:lambdaprog}
+zeigte bereits, dass sich auch boolesche Werte und Zahlen im
+$\lambda$-Kalkül durch $\lambda$-Terme darstellen lassen.  Das ist
+zwar aus theoretischer Sicht gut zu wissen.  Für die Praxis ist es
+aber zu mühsam, immer mit Church-Numeralen zu arbeiten. Darum
+erweitern wir den $\lambda$-Kalkül um einige Extras, so dass er mit
+Zahlen und Booleans direkt umgehen kann.
+Abschnitt~\ref{sec:lambdaprog} hat Dich hoffentlich überzeugt, dass
+wir jederzeit auf die neuen Elemente verzichten könnten.
 
-Ein solcher erweiterter $\lambda$-Kalkül heißt auch
+Der resultierende erweiterte $\lambda$-Kalkül heißt 
 \textit{angewandter $\lambda$-Kalkül}:
 
 \begin{definition}[Sprache des angewandten $\lambda$-Kalküls
   $\mathcal{L}_{\lambda{}A}$]\index{angewandter $\lambda$-Kalkül}\label{def:lambda-angewandt}
   
-  Sei $V$ eine abzählbare Menge von Variablen.  Sei $B$ eine Menge von
-  \textit{Basiswerten\index{Basiswert}}.  Sei für eine natürliche
-  Zahl $n$ und $i \in \{1, \ldots, n\}$ jeweils $\Sigma^i$ eine Menge
-  von \textit{$i$-stelligen Primitiva\index{Primitivum}}~-- die Namen
-  von "<eingebauten Operationen">.  Jedem $F^i\in\Sigma^i$ ist eine
-  $i$-stellige Funktion $F_B^i: B\times\ldots\times B \rightarrow
-  B$~-- ihre \textit{Operation}~--
-  zugordnet.  Die Sprache des angewandten $\lambda$"=Kalküls, die
-  Menge der \textit{angewandten $\lambda$-Terme},
+  Sei $V$ eine abzählbare Menge von Variablen, wie im
+  $\lambda$-Kalkül.
+
+  Sei $B$ eine Menge von \textit{Basiswerten\index{Basiswert}}.  Zu
+  den Basiswerten gehören mindestens die booleschen Werte und die
+  natürlichen Zahlen, also:
+  %
+  \begin{displaymath}
+    B \deq{} \{ \texttt{\#f}, \texttt{\#t}, 0, 1, 2, \ldots \}
+  \end{displaymath}
+  %
+  Sei für eine natürliche Zahl $i$ jeweils $\Sigma^i$ eine Menge von
+  \textit{$i$-stelligen Primitiva\index{Primitivum}}~-- die Namen von
+  "<eingebauten Operationen">.  Jedem $F\in\Sigma^i$ ist eine
+  $i$-stellige Funktion $F^{\textrm{op}}$~-- ihre \textit{Operation}~--
+  zugordnet.
+
+  Zum Beispiel könnte die Addition eine primitive Operation
+  $+\in \Sigma^2$ sein.  Die Operation dazu wäre:
+  %
+  \begin{displaymath}
+    +^{\textrm{op}}(a, b) \deq a + b
+  \end{displaymath}
+  %
+  Die Sprache des angewandten
+  $\lambda$"=Kalküls, die Menge der \textit{angewandten
+    $\lambda$-Terme},
   $\mathcal{L}_{\lambda{}A}$\index{L@$\mathcal{L}_{\lambda{}A}$}, ist
   durch folgende Grammatik definiert:
   \begin{grammar}
@@ -70,72 +88,77 @@ Ein solcher erweiterter $\lambda$-Kalkül heißt auch
   bei der jeweils $i$ Wiederholungen von
   \meta{$\mathcal{L}_{\lambda{}A}$}~-- entsprechend der Stelligkeit
   der Primitiva in $\Sigma^i$.
-  %
-Dabei heißen Terme der Form $(F^k~e_1~\ldots~e_k)$ auch
-\textit{primitive Applikationen\index{primitive Applikation}}.
+
+  Terme der Form $(F^i~e_1~\ldots~e_i)$ heißen
+  \textit{primitive Applikationen\index{primitive Applikation}}.
 \end{definition}
 %
-In diesem Kapitel dienen normalerweise die Zahlen als Basiswerte mit
-den üblichen Operationen wie $+$, $-$, $\ast$, $/$ etc.  Damit sind
-Terme wie zum Beispiel $(+~(-~5~3)~17)$ möglich.
-
-Im angewandten $\lambda$-Kalkül kommen zu den Werten aus
-Definition~\ref{def:wert} die Basiswerte dazu:
+Im angewandten $\lambda$-Kalkül sind also
+Terme wie zum Beispiel $(+~(-~5~3)~17)$ möglich, wenn $+$ und $-$ in
+$\Sigma^2$ enthalten sind.
 %
 \begin{definition}[Werte im angewandten $\lambda$-Kalkül]\label{def:wert-angewandt}
-  Im angewandten $\lambda$-Kalkül heißen die Abstraktionen und
-  Basiswerte kollektiv \textit{Werte}.  Ein $\lambda$-Term, der kein
-  Wert\index{Wert} ist, heißt \textit{Nichtwert\index{Nichtwert}}.
+  Die Vereinigung aus Abstraktionen und
+  Basiswerten heißt \textit{Werte}.
 \end{definition}
-
+%
 Damit die primitiven Operationen auch tatsächlich eine Bedeutung
 bekommen, muss eine spezielle Reduktionsregel für sie eingeführt
 werden:
 %
 \begin{definition}[$\delta$-Reduktion]\index{delta-Reduktion@$\delta$-Reduktion}
 \begin{displaymath}
-  (F^k~e_1~\ldots~e_k) \rightarrow_{\delta} F_B^k(e_1, \ldots, e_k)
-  \quad e_1, \ldots, e_k \in B
+  (F^i~e_1~\ldots~e_i) \rightarrow_{\delta} F^{\textrm{op}}(e_1, \ldots, e_k)
+  \quad e_1, \ldots, e_i \in B
 \end{displaymath}
 \end{definition}
 %
 Diese Regel besagt, dass eine primitive Applikation, wenn alle
 Operanden Werte sind, durch Anwendung der entsprechenden Operation 
-reduziert werden kann.  Damit wird z.B.\ der
+reduziert werden kann.  Damit wird zum Beispiel der
 obige Beispielterm folgendermaßen reduziert:
 %
 \begin{displaymath}
-  (+~(-~5~3)~17) \rightarrow_{\delta} (+~2~17) \rightarrow_{\delta} 19
+  (+~\underline{(-~5~3)}~17) \rightarrow_{\delta} \underline{(+~2~17)} \rightarrow_{\delta} 19
 \end{displaymath}
+%
+\begin{aufgabeinline}
+  Kannst Du auch $\mathbf{if}$ durch eine $\delta$-Regel beschreiben?
 
-\section{Die einfache SECD-Maschine}
+  Zur Beantwortung dieser Frage Schreibe zunächst eine Definition der
+  dazugehörigen Funktion $F^\mathbf{if}$ hin.  Bedenke nun, dass die
+  $\delta$-Reduktion erst dann greift, wenn alle Argumente von
+  $\mathbf{if}$ Werte sind.  Könntest Du mit diesem $\mathbf{if}$ zum
+  Beispiel die Fakultät aus Abschnitt~\ref{sec:fixpunktsatz} auf
+  Seite~\pageref{sec:fixpunktsatz} definieren?
+\end{aufgabeinline}
 
-Wie schon in Abschnitt~\ref{sec:scheme-auswertung} erwähnt, ist 
-der Call-by-Value-$\lambda$-Kalkül\index{Call-by-Value-Reduktion}
-ein Modell für die Auswertung der Lehrsprachen und viele andere
-Programmiersprachen .
-Allerdings ist Definition~\ref{def:call-by-value} strenggenommen etwas
-vage: Es wird immer nur der Subterm reduziert, der
-"<möglichst weit links innen steht">, aber was das heißt, ist nicht
-genau definiert.  Außerdem ist Reduktion zwar ein
-mächtiges formales Modell, entspricht aber nicht der
-Ausführungsmethode tatsächlicher Programmiersprachen auf echten
-Prozessoren.  Ein präzises und echten Maschinen deutlich näheres
-Modell ist die \textit{SECD-Maschine\index{SECD-Maschine}}, erfunden
-schon in den 60er Jahren von Peter Landin~\cite{Landin1964}, und
-seitdem die Grundlage für zahllose Implementierungen von
-Call-by-Value-Sprachen.  (Die Darstellung hier ist gegenüber Landins
-ursprünglicher Formulierung etwas modernisiert.)
+% FIXME: Aufgabe zur Definition von $\mathbf{if}$
 
-Damit ein Programm aus dem angewandten $\lambda$-Kalkül mit der
-SECD-Maschine ausgewertet werden kann, muss es erst einmal in einen
-speziellen \textit{Maschinencode\index{Maschinencode}} übersetzt oder
-"<compiliert"> werden.  Der Maschinencode besteht, anders als der
-$\lambda$-Kalkül, nicht aus geschachtelten Termen, sondern aus einer
-Folge von \textit{Instruktionen\index{Instruktion}}.  
+\section{Die SECD-Maschine}
 
-\begin{definition}[Maschinencode]\label{def:secd-code}
-  In der folgenden Definition ist $I$ die Menge der Instruktionen:
+Leider läuft auf handelsüblichen Prozessoren der $\lambda$-Kalkül
+nicht direkt.\footnote{Es gibt allerdings durchaus Spezialprozessoren
+  für den $\lambda$-Kalkül.} Stattdessen führen diese Prozessoren
+sogenannte \textit{Maschinensprache}\index{Maschinensprache} aus.  
+Maschinensprache besteht aus einzelnen Anweisungen, die hintereinander
+im Speicher abgelegt und auch hintereinander ausgeführt werden.  Das
+unterscheidet die Maschinensprache von unseren Lehrsprachen, die auf
+dem  all-by-Value-$\lambda$-Kalkül\index{Call-by-Value-Reduktion}
+aufbauen: Dort läuft die Auswertung von innen nach außen.
+
+Um die Brücke zwischen beiden Ideen zu schlagen, erfand Peter Landin
+die SECD-Maschine~\cite{Landin1964}.  Die SECD-Maschine ist zwar über
+50~Jahre alt, aber auch auf modernen Maschinen immer noch die
+Grundlage für das Zusammenspiel zwischen Programmiersprache und
+Maschinensprache.  Die Sprache der SECD-Maschine ist eine idealisierte
+Maschinensprache, die auch aus Anweisungen besteht, die
+hintereinander ausgeführt werden.  Viele Details echter
+Maschinensprachen lässt die SECD-Maschine aber weg.
+
+\begin{definition}[Sprache der SECD-Machine]\label{def:secd-code}
+  Die Anweisungen der SECD-Maschine heißen
+  \textit{Instruktionen}\index{Instruktion} und sind durch folgende Grammatik definiert:
   \begin{grammar}
     \meta{I} \: \meta{B}
     \> \| \meta{V}
@@ -144,48 +167,128 @@ Folge von \textit{Instruktionen\index{Instruktion}}.
     \> \| (\meta{V}, \meta{C})
   \end{grammar}
   %
-  Ein Maschinencode-Programm ist eine Folge von Instruktionen:
+  Ein Maschinensprachen-Programm ist eine Folge von Instruktionen:
   %
   \begin{displaymath}
     C = I^\ast
   \end{displaymath}
 \end{definition}
-
-Ein Term aus dem angewandten $\lambda$-Kalkül wird mit Hilfe folgender
-Funktion in Maschinencode übersetzt:
+%
+Diie SECD-Maschine operiert aber auf sogenannten
+\textit{Maschinenzuständen}.  Ein Maschinenzustand ist ein 4-Tupel aus der
+Menge $S\times E\times C\times D$ (daher der Name der Maschine).  Die
+Buchstaben sind deshalb so gewählt, weil $S$ der sogenannte
+\textit{Stack\index{Stack}}, $E$ die sogenannte
+\textit{Umgebung\index{Umgebung}} beziehungsweise auf englisch das
+\textit{Environment\index{Environment}}, $C$ der schon bekannte
+Maschinencode beziehungsweise \textit{Code\index{Code}} und $D$ der
+sogenannte \textit{Dump\index{Dump}} ist.  Die formalen Definitionen
+dieser Mengen sind wie folgt; dabei ist $W$ die Menge der Werte:
 %
 \begin{eqnarray*}
-  \llbracket \underline{~} \rrbracket &:& \mathcal{L}_{\lambda{}A}
-  \rightarrow C\\
+  S &=& W^\ast\\
+  E &\subseteq& V\times W\\
+  D &=& (S\times E \times C)^\ast\\
+  W &=& B \cup (V\times C\times E)
+\end{eqnarray*}
+%
+Der Stack ist eine Folge von Werten.  In der Maschine sind dies
+die Werte der zuletzt ausgewerteten Terme, wobei der zuletzt
+ausgewertete Term vorn beziehungsweise "<oben"> steht.  Die Umgebung ist eine
+partielle Abbildung von Variablen auf Werte: sie ersetzt die
+Substitution in der Reduktionsrelation des $\lambda$-Kalküls.  Anstatt
+dass Werte für Variablen eingesetzt werden, merkt sich die Umgebung
+einfach, an welche Werte die Variablen gebunden sind.  Erst wenn der
+Wert einer Variablen benötigt wird, holt ihn die Maschine aus der
+Umgebung.  Der Dump schließlich ist eine Liste früherer Zustände der
+Maschine: er entspricht dem Kontext\index{Kontext} im
+Substitutionsmodell.
+
+Die Menge $W$ schließlich entspricht dem Wertebegriff aus
+Definition~\ref{def:wert-angewandt}: Die Basiswerte gehören dazu,
+außerdem Tripel aus $(V\times C\times E)$.  Ein solches Tripel,
+genannt \textit{Closure}\index{Closure}, repräsentiert den Wert
+einer Abstraktion.  Eine Closure besteht aus der Variable einer Abstraktion,
+dem Maschinencode ihres Rumpfs und der Umgebung, die notwendig ist, um
+die Abstraktion anzuwenden: Die Umgebung wird benötigt, damit die
+freien Variablen der Abstraktion entsprechend der lexikalischen
+Bindung\index{lexikalische Bindung} ausgewertet werden können.  Dies
+ist anders als im Stepper, wo Variablen bei der
+Applikation direkt ersetzt werden und damit verschwinden.
+
+Die SECD-Maschine überführt einen Maschinenzustand durch einen
+Auswertungsschritt in einen neuen Maschinenzustand.
+
+Im Verlauf der Auswertung werden Umgebungen häufig um neue Bindungen
+von einer Variable an einen Wert erweitert.  Dazu ist die Notation
+$e[v\mapsto w]$ nützlich.  $e[v\mapsto w]$ konstruiert aus einer
+Umgebung $e$ eine neue Umgebung, in der die Variable $v$ an den Wert
+$w$ gebunden ist.  Hier ist die Definition:
+%
+\begin{displaymath}
+  e[v\mapsto w] \deq (e \setminus \{ (v, w') | (v, w') \in e \}) \cup \{
+    (v, w) \}
+\end{displaymath}
+%
+Es wird also zunächst eine eventuell vorhandene alte Bindung entfernt
+und dann eine neue hinzugefügt.
+
+\emph{Achtung:} Die Notation $e[v\mapsto w]$ haben wir schonmal im
+letzten Kapitel benutzt, nämlich für die Substitution beim
+$\lambda$-Kalkül in Definition~\ref{def:substitution} auf
+Seite~\pageref{def:substitution}.  In diesem Kontext~-- bei der
+SECD-Maschine~-- bedeutet die Notation etwas anderes.  Lass Dich nicht
+verwirren!
+
+Um einen $\lambda$-Term $e$ in die SECD-Maschine zu "<injizieren">,
+wird der Term in eine Folge von Instruktionen $c$ übersetzt~-- die
+$C$-Komponente der SECD-Maschine.  Daraus wird ein Anfangszustand
+$(\epsilon, \varnothing, c, \epsilon)$ gemacht.  Dann wird dieser
+Zustand wiederholt in einen neuen Zustand überführt, und zwar indem
+die erste Instruktion in $c$ "<abgearbeitet"> wird.  Diese Überführung
+schreiben wir mit dem Symbol $\hookrightarrow$, also $(s, e, c, d)
+\hookrightarrow (s', e', c', d')$, wenn die SECD-Maschine den Zustand
+$(s, e, c, d)$ in den Zustand $(s', e', c', d')$ überführt.
+
+Um die Maschine zu verstehen, ist es sinnvoll, erst einmal zu
+verstehen, wie $\lambda$-Terme in SECD-Code umgewandelt werden.  
+Ein Term $e$ aus dem angewandten $\lambda$-Kalkül wird mit Hilfe der
+Funktion $\llbracket \cdot\rrbracket$ in ein Maschinensprache-Programm
+$\llbracket e\rrbracket$ übersetzt.
+%
+\begin{eqnarray*}
   \llbracket e \rrbracket &\deq&
   \begin{cases}
     b & \textrm{falls $e = b \in B$}\\
     v & \textrm{falls $e = v \in V$}\\
     \llbracket e_0\rrbracket~\llbracket e_1\rrbracket~\mathtt{ap}
     & \textrm{falls $e = (e_0~e_1)$}\\
-    \llbracket e_1\rrbracket~\ldots~\llbracket e_k\rrbracket~\mathtt{prim}_{F^k}
-    & \textrm{falls $e = (F~e_1~\ldots~e_k)$}\\
+    \llbracket e_1\rrbracket~\ldots~\llbracket e_k\rrbracket~\mathtt{prim}_{F^i}
+    & \textrm{falls $e = (F~e_1~\ldots~e_i)$}\\
     (v, \llbracket e_0\rrbracket) & \textrm{falls $e = \lambda v.e_0$}
   \end{cases}
 \end{eqnarray*}
 %
-Die Übersetzungsfunktion "<linearisiert"> einen $\lambda$-Term.  Zum
-Beispiel bedeutet die Übersetzung $\llbracket e_0\rrbracket~\llbracket
-e_1\rrbracket~\mathtt{ap}$ für einen Term $(e_0~e_1)$, dass zuerst
-$e_0$ ausgewertet wird, danach wird $e_1$ ausgewertet, und schließlich wird die
-eigentliche Applikation ausgeführt:  Entsprechend steht $\mathtt{ap}$
-für "<Applikation ausführen"> und $\mathtt{prim}_{F^k}$ für "<Primitiv
-$F$ ausführen">.  Basiswerte und Variablen werden im Maschinencode
-belassen.  Ein $\lambda$-Term wird übersetzt in ein Tupel aus seiner
-Variable und dem Maschinencode für seinen Rumpf.
+Zum Beispiel bedeutet die Übersetzung
+$\llbracket e_0\rrbracket~\llbracket e_1\rrbracket~\mathtt{ap}$ für
+einen Term $(e_0~e_1)$, dass $e_0$ und $e_1$ separat übersetzt werden.
+Die Instruktionen der beiden Übersetzungen werden aneinandergehängt,
+so dass die SECD-Maschine sie später auch hintereinander ausführt,
+also erst $e_0$ auswertet, dann $e_1$.  Wie wir sehen werden, wird die
+SECD-Maschine die Ergebnisse der Auswertung von $e_0$ und $e_1$ auf
+dem Stack plazieren.  Die Instruktion $\mathtt{ap}$, die noch hinten
+dazukommt, sorgt dann dafür, dass die SECD-Maschine die Ergebnisse von
+$e_0$ (das muss die Funktion sein) und das Ergebnis von $e_1$ vom
+Stack holt und das eine auf das andere anwendet.  Entsprechend steht
+$\mathtt{ap}$ für "<Applikation ausführen">.  Außerdem steht
+$\mathtt{prim}_{F^k}$ für "<Primitiv $F$ ausführen">.
 
-Durch die Linearisierung sind die Instruktionen schon in einer Liste in der
-Reihenfolge ihrer Ausführung aufgereiht.  Insbesondere hat die
-Linearisierung den Begriff "<links innen"> formalisiert: der jeweils
-am weitesten links innen stehende Redex steht in der Liste der
-Instruktionen vorn.
+Basiswerte und Variablen werden direkt in Maschinencode übersetzt.
+Eine Abstraktion wird übersetzt in ein Tupel aus seiner Variable und
+dem Maschinencode für seinen Rumpf.  Alle diese Anweisungen
+hinterlassen ihr Ergebnis jeweils auf dem Stack.
 
-Beispiel:
+Hier ist ein Beispiel für die Übersetzung:
 %
 \begin{eqnarray*}
   \llbracket \lambda f.\lambda x.\lambda y.f~(+~x~(*~y~2))\rrbracket
@@ -213,78 +316,15 @@ Beispiel:
 \end{eqnarray*}
 %
 Das Beispiel zeigt deutlich, wie der Rumpf der innersten Abstraktion
-in eine lineare Folge von Instruktionen übersetzt wird, die genau der
-Call-by-Value-Reduktionsstrategie entspricht: erst $f$ auswerten, dann
-$x$, dann $y$, dann das Primitiv $*$ anwenden, dann $+$, und
-schließlich die Applikation durchführen.
+in eine Folge von Instruktionen übersetzt wird, die der Reihenfolge
+nach der Call-by-Value-Reduktionsstrategie entspricht: erst $f$
+auswerten, dann $x$, dann $y$, dann das Primitiv $*$ anwenden, dann
+$+$, und schließlich die Applikation durchführen.
 
-Nun zur eigentlichen SECD-Maschine~-- sie funktioniert ähnlich wie ein
-Reduktionskalkül, operiert aber auf sogenannten
-\textit{Maschinenzuständen}: die Maschine überführt also einen
-Maschinenzustand durch einen Auswertungsschritt in einen neuen
-Maschinenzustand.  Ein Maschinenzustand ist dabei ein 4-Tupel aus der
-Menge $S\times E\times C\times D$ (daher der Name der Maschine).  Die
-Buchstaben sind deshalb so gewählt, weil $S$ der sogenannte
-\textit{Stack\index{Stack}}, $E$ die sogenannte
-\textit{Umgebung\index{Umgebung}} beziehungsweise auf englisch das
-\textit{Environment\index{Environment}}, $C$ der schon bekannte
-Maschinencode beziehungsweise \textit{Code\index{Code}} und $D$ der
-sogenannte \textit{Dump\index{Dump}} ist.  Die formalen Definitionen
-dieser Mengen sind wie folgt; dabei ist $W$ die Menge der Werte:
-%
-\begin{eqnarray*}
-  S &=& W^\ast\\
-  E &=& \mathcal{P}(V\times W)\\
-  D &=& (S\times E \times C)^\ast\\
-  W &=& B \cup (V\times C\times E)
-\end{eqnarray*}
-%
-Der Stack ist dabei eine Folge von Werten.  In der Maschine sind dies
-die Werte der zuletzt ausgewerteten Terme, wobei der zuletzt
-ausgewertete Term vorn beziehungsweise "<oben"> steht.  Die Umgebung ist eine
-partielle Abbildung von Variablen auf Werte: sie ersetzt die
-Substitution in der Reduktionsrelation des $\lambda$-Kalküls.  Anstatt
-dass Werte für Variablen eingesetzt werden, merkt sich die Umgebung
-einfach, an welche Werte die Variablen gebunden sind.  Erst wenn der
-Wert einer Variablen benötigt wird, holt ihn die Maschine aus der
-Umgebung.  Der Dump schließlich ist eine Liste früherer Zustände der
-Maschine: er entspricht dem Kontext\index{Kontext} im
-Substitutionsmodell.
-
-Die Menge $W$ schließlich entspricht dem Wertebegriff aus
-Definition~\ref{def:wert-angewandt}: Die Basiswerte gehören dazu,
-außerdem Tripel aus $(V\times C\times E)$.  Ein solches Tripel,
-genannt \textit{Closure\index{Closure}}~-- repräsentiert den Wert
-einer Abstraktion~-- es besteht aus der Variable einer Abstraktion,
-dem Maschinencode ihres Rumpfs und der Umgebung, die notwendig ist, um
-die Abstraktion anzuwenden: Die Umgebung wird benötigt, damit die
-freien Variablen der Abstraktion entsprechend der lexikalischen
-Bindung\index{lexikalische Bindung} ausgewertet werden können.  Dies
-ist anders als im Substitutionsmodell, wo Variablen bei der
-Applikation direkt ersetzt werden und damit verschwinden.  Eine
-Closure ist also einfach die Repräsentation einer Funktion.
-
-Im Verlauf der Auswertung werden Umgebungen häufig um neue Bindungen
-von einer Variable an einen Wert erweitert.  Dazu ist die Notation
-$e[v\mapsto w]$ nützlich.  $e[v\mapsto w]$ konstruiert aus einer
-Umgebung $e$ eine neue Umgebung, in der die Variable $v$ an den Wert
-$w$ gebunden ist.  Hier ist die Definition:
-%
-\begin{displaymath}
-  e[v\mapsto w] \deq (e \setminus \{ (v, w') | (v, w') \in e \}) \cup \{
-    (v, w) \}
-\end{displaymath}
-%
-Es wird also zunächst eine eventuell vorhandene alte Bindung entfernt
-und dann eine neue hinzugefügt.
-
-Um einen $\lambda$-Term $e$ in die SECD-Maschine zu "<injizieren">,
-wird er in einen Anfangszustand $(\epsilon, \varnothing, \llbracket
-e\rrbracket, \epsilon)$ übersetzt.  Dann wird dieser Zustand
-wiederholt in die Zustandsübergangsrelation $\hookrightarrow$
-gefüttert.  In der folgenden Definition von $\hookrightarrow$ sind
-Bezeichner mit einem Unterstrich versehen, wenn es sich um Folgen
-handelt, also z.B.\ \underline{s} für einen Stack:
+Wir definieren nun die SECD-Maschine selbst. In der folgenden
+Definition von $\hookrightarrow$ sind Bezeichner mit einem Unterstrich
+versehen, wenn es sich um Folgen handelt, also zum Beispiel \underline{s} für
+einen Stack:
 %
 \begin{eqnarray}
   \hookrightarrow &\in& \mathcal{P}((S\times E\times C\times D) \times (S\times E\times C\times D))\notag\\
@@ -379,7 +419,7 @@ $(((\lambda x.\lambda y.(+~x~y))~1)~2)$:
   \end{array}
 \end{displaymath}
 %
-Die Zustandsübergangsrelation $\hookrightarrow$ ist nun die Grundlage
+Die Zustandsübergangsrelation $\hookrightarrow$ ist die Grundlage
 für die \textit{Auswertungsfunktion\index{Auswertungsfunktion}} der
 SECD-Maschine, die für einen $\lambda$-Term dessen Bedeutung
 ausrechnet.  Dies ist scheinbar ganz einfach:
@@ -417,7 +457,7 @@ definiert, die einen designierten Spezialwert für Closures enthält:
   Z = B \cup \{ \texttt{function} \}
 \end{displaymath}
 %
-Damit lässt sich die Evaluationsfunktion wie folgt definieren:
+Damit können wir die Evaluationsfunktion wie folgt definieren:
 %
 \begin{eqnarray*}
   \mathit{eval}_\mathit{SECD} & \in & \mathcal{L}_{\lambda{}A} \times Z\\
@@ -435,15 +475,13 @@ Damit lässt sich die Evaluationsfunktion wie folgt definieren:
 
 Dieses Kapitel wird ab hier Gebrauch von einer weiteren
 Sprachebene\index{Sprachebene!fortgeschritten} in
-\drscheme{} machen, nämlich \texttt{Die Macht der Abstraktion -
+\drscheme{} machen, nämlich \texttt{Schreibe Dein Programm! -
   fortgeschritten}.  Diese Ebene muss mit dem \drscheme{}-Menü \texttt{Sprache}
 unter \texttt{Sprache auswählen} aktiviert sein, damit die
 Programme dieses Kapitels funktionieren.
 
 Die entscheidende Änderung gegenüber den früheren Sprachebenen ist
-die Art, mit der die REPL Werte ausdruckt.  (Diese neue Schreibweise,
-ermöglicht, die Programme des Interpreters, die als Werte
-repräsentiert sind, korrekt auszudrucken.)  Bei Zahlen, Zeichenketten
+die Art, mit der die REPL Werte ausdruckt.  Bei Zahlen, Zeichenketten
 und booleschen Werten bleibt alles beim alten:
 %
 \begin{lstlisting}
@@ -465,7 +503,6 @@ Bei Listen sieht es allerdings anders aus:
 Die REPL druckt also eine Liste aus, indem sie zuerst eine öffnende
 Klammer ausdruckt, dann die Listenelemente (durch Leerzeichen
 getrennt) und dann eine schließende Klammer.
-
 Das funktioniert auch für die leere Liste:
 %
 \begin{lstlisting}
@@ -515,7 +552,7 @@ optional; sie heißen
 Bei Listen hingegen sind Missverständnisse mit anderen
 zusammengesetzten Formen möglich, die ja auch mit einer öffnenden Klammer
 beginnen: \footnote{Tatsächlich ist die neue Schreibweise für externe
-  Repräsentationen die Standard-Repräsentation in Scheme.  Die
+  Repräsentationen die Standard-Repräsentation in Racket.  Die
   früheren Sprachebenen benutzten die alternative Schreibweise, um die
   Verwirrung zwischen Listenliteralen und zusammengesetzten Formen zu
   vermeiden.}
@@ -538,7 +575,7 @@ Anführungszeichen ausgedruckt werden:
 |\evalsto| doof
 \end{lstlisting}
 %
-Symbole lassen sich mit dem Prädikat
+Symbole können wir mit dem Prädikat
 \lstinline{symbol?}\index{symbol@\texttt{symbol?}} von anderen Werten
 unterscheiden:
 %
@@ -551,8 +588,34 @@ unterscheiden:
 |\evalsto| #f
 \end{lstlisting}
 %
-Vergleichen lassen sich Symbole mit \lstinline{equal?} (siehe
+Vergleichen können wir Symbole mit der eingebauten Funktion \lstinline{equal?} (siehe
 Abbildung~\ref{scheme:equalp}):
+\begin{feature}{\texttt{equal?}}{scheme:equalp}
+  Die Funktion \texttt{equal?\index{equal?@\texttt{equal?}}} vergleicht beliebige Werte:
+  \texttt{Equal?} vergleicht Booleans, Zeichen und Zeichenketten.
+  Bei Listen werden die Elemente verglichen und bei Records die Komponenten. 
+%
+\begin{lstlisting}
+(equal? 23 23)
+|\evalsto| #t
+(equal? #t #f)
+|\evalsto| #f
+(equal? "Axl" "Slash")
+|\evalsto| #f
+(equal? "Axl" "Axl")
+|\evalsto| #t
+(equal? (list "Axl" "Slash") (list "Axl "Slash"))
+|\evalsto| #t
+(equal? (list "Axl" "Slash") (list "Axl "Slash" "Duff"))
+|\evalsto| #f
+(equal? (make-wallclock-time 12 24) (make-wallclock-time 12 24)
+|\evalsto| #t
+(equal? (make-wallclock-time 12 24) (make-wallclock-time 12 25)
+|\evalsto| #f
+(equal? (make-wallclock-time 12 24) (list "Axl" "Slash")
+|\evalsto| #f
+\end{lstlisting}
+\end{feature}
 
 \begin{lstlisting}
 (equal? 'mike 'herb)
@@ -560,7 +623,7 @@ Abbildung~\ref{scheme:equalp}):
 (equal? 'mike 'mike)
 |\evalsto| #t
 \end{lstlisting}
-
+%
 Symbole können nicht aus beliebigem Text bestehen.  
 Leerzeichen sind zum Beispiel verboten.  Tatsächlich entsprechen die
 Namen der zulässigen Symbole genau den Namen von Variablen:
@@ -643,18 +706,19 @@ ist selbst also nur syntaktischer Zucker, und zwar für
 Quote erlaubt die Konstruktion von Literalen für viele Werte, aber
 nicht für alle.  Ein Wert, für den Quote ein Literal konstruieren kann,
 heißt \textit{repräsentierbarer
-  Wert\index{repräsentierbarer Wert}}.  Die folgende induktive
-Definition spezifiziert, was ein repräsentierbarer Wert ist:
+  Wert\index{repräsentierbarer Wert}}.  Ein repräsentierbarer Wert ist
+eins der folgenden:
 %
 \begin{itemize}
 \item Zahlen, boolesche Werte, Zeichenketten und Symbole sind
   repräsentierbare Werte.
 \item Eine Liste aus repräsentierbaren Werten ist ihrerseits ein
   repräsentierbarer Wert. 
-\item Nichts sonst ist ein repräsentierbarer Wert.
 \end{itemize}
 
-\section{Implementierung der SECD-Maschine}
+\section{Ein Compiler für die SECD-Maschine}
+
+FIXME: "<Compiler"> erklären
 
 Die SECD-Maschine ist ein Modell für die Implementierung des
 $\lambda$-Kalküls.  Eine solche Implementierung lässt sich in
@@ -664,6 +728,9 @@ Nach den obligatorischen Datendefinitionen müssen zunächst Terme in
 Maschinencode übersetzt werden.  Dann kommt die
 Zustandsübergangsfunktion und schließlich die Auswertungsfunktion an
 die Reihe.
+
+
+
 
 \subsection{Datenanalyse}
 \label{sec:secd-datenanalyse}
@@ -973,8 +1040,10 @@ noch in Maschinencode übersetzt wird:
 \end{lstlisting}
 %
 
-\subsection{Zustandsübergang und Auswertung}
+\subsection{Die virtuelle SECD-Maschine}
 \label{sec:secd-transition}
+
+FIXME: "<virtuelle Maschine"> erklären
 
 Da nun alle $\lambda$-Terme in Maschinencode-Programme übersetzt
 werden können, ist jetzt die eigentliche SECD-Maschine an der Reihe.
