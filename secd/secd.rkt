@@ -15,8 +15,8 @@
    (mixed symbol
 	  application
 	  abstraction
-	  base
 	  primitive-application
+          base
 	  assignment)))
 
 ; Ein Basiswert ist ein boolescher Wert oder eine Zahl
@@ -105,11 +105,9 @@
 
 (define machine-code (signature (list-of instruction)))
 
-; Eine Applikations-Instruktion ist ein Wert
-;   (make-ap)
+; Applikations-Instruktion
 (define-record ap
   make-ap ap?)
-(: make-ap (-> ap))
 
 ; Eine endrekursive Applikations-Instruktion ist ein Wert
 ;   (make-tailap)
@@ -121,26 +119,18 @@
 (define-record :=
   make-:= :=?)
 
-; Die Instruktion für eine primitive Applikation
-; ist ein Wert
-;   (real-make-prim op arity)
-; wobei op ein Symbol und arity die Stelligkeit
-; ist
+; Eine Instruktion für eine primitive Applikation hat folgende
+; Eigenschaften:
+; - Operator
+; - Stelligkeit
 (define-record prim
-  real-make-prim prim?
+  make-prim prim?
   (prim-operator symbol)
   (prim-arity natural))
 
-; Primitiv erzeugen
-(: make-prim (symbol -> prim))
-(define make-prim
-  (lambda (operator)
-    (real-make-prim operator 2))) ; alle haben derzeit Stelligkeit 2
-
-; Eine Abstraktions-Instruktion ist ein Wert
-;  (make-abs v c)
-; wobei v ein Symbol (für eine Variable) und c
-; Maschinencode ist
+; Eine Abstraktions-Instruktion hat folgende Eigenschaften:
+; - Parameter (eine Variable)
+; - Code für den Rumpf
 (define-record abst
   make-abs abs?
   (abs-variable symbol)
@@ -149,10 +139,10 @@
 ; Term in Maschinencode übersetzen
 (: term->machine-code (term -> machine-code))
 
+(check-expect (term->machine-code '(+ 1 2))
+              (list 1 2 (make-prim '+ 2)))
 (check-expect (term->machine-code '((lambda (x) (x x)) (lambda (x) (x x))))
               (list (make-abs 'x (list 'x 'x (make-ap))) (make-abs 'x (list 'x 'x (make-ap))) (make-ap)))
-(check-expect (term->machine-code '(+ 1 2))
-              (list 1 2 (make-prim '+)))
 
 (define term->machine-code
   (lambda (term)
@@ -172,7 +162,7 @@
        (append
         (append-lists
          (map term->machine-code (rest term)))
-        (list (make-prim (first term)))))
+        (list (make-prim (first term) (length (rest term))))))
       ((assignment? term)
        (cons (first (rest term))
              (append (term->machine-code (first (rest (rest term))))
@@ -205,7 +195,7 @@
        (append
         (append-lists
          (map term->machine-code/t (rest term)))
-        (list (make-prim (first term)))))
+        (list (make-prim (first term) (length (rest term))))))
       ((assignment? term)
        (cons (first (rest term))
              (append (term->machine-code/t (first (rest (rest term))))
@@ -218,7 +208,7 @@
 (check-expect (term->machine-code/t '((lambda (x) (x x)) (lambda (x) (x x))))
               (list (make-abs 'x (list 'x 'x (make-tailap))) (make-abs 'x (list 'x 'x (make-tailap))) (make-ap)))
 (check-expect (term->machine-code/t '(+ 1 2))
-              (list 1 2 (make-prim '+)))
+              (list 1 2 (make-prim '+ 2)))
 
 (define term->machine-code/t-t
   (lambda (term)
@@ -238,7 +228,7 @@
        (append
         (append-lists
          (map term->machine-code/t (rest term)))
-        (list (make-prim (first term)))))
+        (list (make-prim (first term) (length (rest term))))))
       ((assignment? term)
        (cons (first (rest term))
              (append (term->machine-code/t (first (rest (rest term))))
@@ -251,10 +241,9 @@
 ; Dabei gibt es für jede Variable nur eine Bindung.
 (define environment (signature (list-of binding)))
 
-; Eine Bindung (Name: binding) ist ein Wert
-;  (make-binding v x)
-; wobei v der Name einer Variablen und x der dazugehörige Wert ist.
-
+; Eine Bindung besteht aus:
+; - Variable
+; - Wert
 (define-record binding
   make-binding binding?
   (binding-variable symbol)
@@ -297,9 +286,10 @@
 ; Ein Dump ist eine Liste von Frames.
 (define dump (signature (list-of frame)))
 
-; Ein Frame ist ein Wert
-;  (make-frame s e c)
-; wobei s ein Stack, e eine Umgebung und c Maschinencode ist.
+; Ein Frame besteht aus:
+; - Stack
+; - Umgebung
+; - Code
 (define-record frame
   make-frame frame?
   (frame-stack stack)
@@ -309,10 +299,10 @@
 ; Ein SECD-Wert ist ein Basiswert oder eine Closure
 (define value (signature (mixed base closure void)))
 
-; Eine Closure ist ein Wert
-;  (make-closure v c e)
-; wobei v die Variable der Lambda-Abstraktion, c der Code der Lambda-Abstraktion
-; und e ein Environment ist.
+; Eine Closure besteht aus:
+; - Variable
+; - Code
+; - Umgebung
 (define-record closure
   make-closure closure?
   (closure-variable symbol)

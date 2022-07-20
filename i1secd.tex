@@ -200,13 +200,17 @@ Substitution in der Reduktionsrelation des $\lambda$-Kalküls.  Anstatt
 dass Werte für Variablen eingesetzt werden, merkt sich die Umgebung
 einfach, an welche Werte die Variablen gebunden sind.  Erst wenn der
 Wert einer Variablen benötigt wird, holt ihn die Maschine aus der
-Umgebung.  Der Dump schließlich ist eine Liste früherer Zustände der
-Maschine: er entspricht dem Kontext\index{Kontext} im
-Substitutionsmodell.
+Umgebung.
+
+Der Dump schließlich ist eine Liste früherer Zustände der Maschine:
+Jeder Zustand ist ein Tupel aus Stack, Umgebung und Code, auch genannt
+\textit{Frame}.\index{Frame} Ein Dump speichert den den
+Kontext\index{Kontext}, dem wir in Abschnitt~\ref{sec:kontext} auf
+Seite~\pageref{sec:kontext} begegnet sind.
 
 Die Menge $W$ schließlich entspricht dem Wertebegriff aus
 Definition~\ref{def:wert-angewandt}: Die Basiswerte gehören dazu,
-außerdem Tripel aus $(V\times C\times E)$.  Ein solches Tripel,
+außerdem 3-Tupel aus $(V\times C\times E)$.  Ein solches Tripel,
 genannt \textit{Closure}\index{Closure}, repräsentiert den Wert
 einer Abstraktion.  Eine Closure besteht aus der Variable einer Abstraktion,
 dem Maschinencode ihres Rumpfs und der Umgebung, die notwendig ist, um
@@ -218,6 +222,9 @@ Applikation direkt ersetzt werden und damit verschwinden.
 
 Die SECD-Maschine überführt einen Maschinenzustand durch einen
 Auswertungsschritt in einen neuen Maschinenzustand.
+
+Bei Umgebungen benutzen wir die Notation $e(v)$: Die steht für Wert
+$w$ des Tupels $(v, w)$ in $e$.
 
 Im Verlauf der Auswertung werden Umgebungen häufig um neue Bindungen
 von einer Variable an einen Wert erweitert.  Dazu ist die Notation
@@ -254,7 +261,7 @@ Um die Maschine zu verstehen, ist es sinnvoll, erst einmal zu
 verstehen, wie $\lambda$-Terme in SECD-Code umgewandelt werden.  
 Ein Term $e$ aus dem angewandten $\lambda$-Kalkül wird mit Hilfe der
 Funktion $\llbracket \cdot\rrbracket$ in ein Maschinensprache-Programm
-$\llbracket e\rrbracket$ übersetzt.
+$\llbracket e\rrbracket$ übersetzt.\label{page:secd-translation}
 %
 \begin{eqnarray*}
   \llbracket e \rrbracket &\deq&
@@ -716,24 +723,16 @@ eins der folgenden:
   repräsentierbarer Wert. 
 \end{itemize}
 
-\section{Ein Compiler für die SECD-Maschine}
-
-FIXME: "<Compiler"> erklären
+\section{Die Sprache der SECD-Maschine}
+\label{sec:secd-datenanalyse}
 
 Die SECD-Maschine ist ein Modell für die Implementierung des
-$\lambda$-Kalküls.  Eine solche Implementierung lässt sich in
-einfach bauen~-- dieser Abschnitt zeigt, wie.  Der grobe
-Fahrplan ergibt sich dabei aus der Struktur der SECD-Maschine selbst:
-Nach den obligatorischen Datendefinitionen müssen zunächst Terme in
-Maschinencode übersetzt werden.  Dann kommt die
-Zustandsübergangsfunktion und schließlich die Auswertungsfunktion an
-die Reihe.
-
-
-
-
-\subsection{Datenanalyse}
-\label{sec:secd-datenanalyse}
+$\lambda$-Kalküls.  Eine solche Implementierung lässt sich in einfach
+bauen~-- dieser Abschnitt zeigt, wie.  Der grobe Fahrplan ergibt sich
+dabei aus der Struktur der SECD-Maschine selbst: Nach den
+obligatorischen Datendefinitionen übersetzen wir Terme in
+Maschinencode.  Dann kommt die Zustandsübergangsfunktion und
+schließlich die Auswertungsfunktion an die Reihe.
 
 Die erste Aufgabe ist dabei zunächst, wie immer, die Datenanalyse: Am
 Anfang stehen die Terme des angewandten $\lambda$-Kalküls.  Eine
@@ -770,17 +769,50 @@ Hier die dazu passende Signatur-Definition:
     (mixed symbol
            application
            abstraction
-           base
-           primitive-application)))
+           primitive-application
+           base)))
 \end{lstlisting}
 %
-Die Signaturen für \lstinline{application} etc.\ müssen noch definiert
-werden.
-
-Um Verzweigungen über die Sorte \lstinline{term} zu ermöglichen, müssen
-Prädikate für die einzelnen Teilsorten geschrieben werden.  Diese
-können dann für die Definition der entsprechenden Signaturen benutzt
-werden.
+Die Signaturen für \lstinline{application}, \lstinline{abstraction},
+\lstinline{primitive-application} und \lstinline{base} müssen wir noch
+definieren.  Da es sich nicht um Record-Typen handelt, müssen wir das
+selbst machen, und zwar, indem wir jeweils ein Prädikat definieren.
+Hier ist das Prädikat für \lstinline{abstraction}:
+%
+\begin{lstlisting}
+; Prädikat für Abstraktionen
+(: abstraction? (any -> boolean))
+(define abstraction?
+  (lambda (term)
+    (and (cons? term)
+         (equal? 'lambda (first term)))))
+\end{lstlisting}
+%
+Aus diesem Prädikat können wir eine Signatur machen, indem wir die
+neue Signatur-Sorte \lstinline{predicate} verwenden.  Siehe dazu
+Abbildung~\ref{feature:predicate}.  Hier ist die Definition:
+%
+\begin{lstlisting}
+(define abstraction (signature (predicate abstraction?)))
+\end{lstlisting}
+%
+\begin{feature}{\texttt{predicate}}{feature:predicate}
+  Bei einer Signatur der Form
+\begin{lstlisting}
+(predicate $p$)
+\end{lstlisting}
+  muss $p$ ein Prädikat, also eine Funktion mit folgender Signatur sein:
+\begin{lstlisting}
+(any -> boolean)
+\end{lstlisting}
+  Diese Signatur passt für alle Werte, bei denen das Prädikat
+  \lstinline{#t} liefert.
+\end{feature}
+%
+Entsprechend definieren wir die anderen Signaturen.  Bei
+\lstinline{application} müssen wir ein bisschen aufpassen, damit wir
+bei den "<normalen"> Applikationen keine Applikationen von Primitiven
+erwischen:
 %
 \begin{lstlisting}
 ; Prädikat für reguläre Applikationen
@@ -792,63 +824,14 @@ werden.
          (not (primitive? (first term))))))
 
 (define application (signature (predicate application?)))
-
-; Prädikat für Abstraktionen
-(: abstraction? (any -> boolean))
-(define abstraction?
-  (lambda (term)
-    (and (cons? term)
-         (equal? 'lambda (first term)))))
-
-(define abstraction (signature (predicate abstraction?)))
-
-; Prädikat für primitive Applikationen
-(: primitive-application? (any -> boolean))
-(define primitive-application?
-  (lambda (term)
-    (and (cons? term)
-         (primitive? (first term)))))
-
-(define primitive-application (signature (predicate primitive-application?)))
 \end{lstlisting}
 %
-Die Definition lässt noch offen, was genau ein "<Basiswert"> und was ein
-"<Primitiv"> ist.  Auch hierfür werden noch Datendefinitionen
-benötigt, zuerst für Basiswerte.  Der Einfachheit halber beschränkt
-sich die Implementierung erst einmal auf boolesche Werte und Zahlen:
-%
-\begin{lstlisting}
-; Ein Basiswert ist ein boolescher Wert oder eine Zahl
-\end{lstlisting}
-%
-Damit Basiswerte in Fallunterscheidungen von den anderen Arten von
-Termen unterschieden werden können, wird ein Prädikat benötigt:
-%
-\begin{lstlisting}
-; Prädikat für Basiswerte
-(: base? (any -> boolean))
-(define base?
-  (lambda (term)
-    (or (boolean? term) (number? term))))
-
-(define base (signature (predicate base?)))
-\end{lstlisting}
-%
-Als Nächstes sind Primitive gefragt: Am obigen Beispiel ist zu
-erkennen, dass zum Beispiel \lstinline{+} ein Primitiv sein sollte.  Die
-Datendefinition für eine kleine beispielhafte Menge von Primitiven ist
-wie folgt:
+Hier ist die dort benutzte Funktion \lstinline{primitive?} mit den
+allernötigsten primitiven Operationen:
 %
 \begin{lstlisting}
 ; Ein Primitiv ist eins der Symbole +, -, *, /, =
-\end{lstlisting}
-%
-Da die Primitive genau wie die Variablen Symbole sind, stehen die
-Primitive als Variablen nicht mehr zur Verfügung:  Alle Symbole, die
-keine Primitive sind, sind also Variablen.  Das dazugehörige Prädikat
-ist das folgende:
-%
-\begin{lstlisting}
+
 ; Prädikat für Primitive
 (: primitive? (any -> boolean))
 (define primitive?
@@ -858,8 +841,41 @@ ist das folgende:
         (equal? '* term)
         (equal? '/ term)
         (equal? '= term))))
+\end{lstlisting}
+%
+Die Definition von \lstinline{primitive-application} entspricht
+\lstinline{application}, nur dass hier nur Primitive erwünscht sind:
+%
+\begin{lstlisting}
+; Prädikat für primitive Applikationen
+(: primitive-application? (any -> boolean))
+(define primitive-application?
+  (lambda (term)
+    (and (cons? term)
+         (primitive? (first term)))))
 
-(define primitive (signature (predicate primitive?)))
+(define primitive-application 
+  (signature (predicate primitive-application?)))
+\end{lstlisting}
+%
+Es fehlt noch die Definition von \lstinline{base}.  Der Einfachheit
+halber beschränken wir uns auf boolesche Werte und Zahlen:
+%
+\begin{lstlisting}
+; Ein Basiswert ist ein boolescher Wert oder eine Zahl
+\end{lstlisting}
+%
+Auch dafür schreiben wir zunächst ein Prädikat und definieren damit
+eine Signatur:
+%
+\begin{lstlisting}
+; Prädikat für Basiswerte
+(: base? (any -> boolean))
+(define base?
+  (lambda (term)
+    (or (boolean? term) (number? term))))
+
+(define base (signature (predicate base?)))
 \end{lstlisting}
 %
 Bevor nun ein die SECD-Maschine einen Term verarbeiten kann, muss
@@ -879,7 +895,6 @@ für Instruktionen und Maschinencode:
     (mixed base
            symbol
            ap
-           tailap
            prim
            abs))
 
@@ -887,61 +902,57 @@ für Instruktionen und Maschinencode:
 (define machine-code (signature (list-of instruction)))
 \end{lstlisting}
 %
-Bei der Definition von Instruktionen ist wieder einiges Wunschdenken
-im Spiel.  Basiswerte und Variablen sind wie bei den Termen.  Die
-restlichen Fälle werden durch eigene Datendefinitionen abgebildet.
-Wie schon bei den leeren Bäumen sind Record-Definitionen ohne Felder
-im Spiel, die Fallunterscheidungen möglich machen:
+Basiswerte und Variablen sind wie bei den Termen.
+Für \lstinline{ap}, \lstinline{prim} und \lstinline{abs} machen wir
+jeweils eigene Datendefinitionen.
+Wie schon bei den leeren Listen hat auch die Applikations-Instruktion
+keine Eigenschaften:
 %
 \begin{lstlisting}
-; Eine Applikations-Instruktion ist ein Wert
-;   (make-ap)
+; Applikations-Instruktion
 (define-record ap
   make-ap ap?)
-(: make-ap (-> ap))
-
-; Die Instruktion für eine primitive Applikation
-; ist ein Wert
-;   (real-make-prim op arity)
-; wobei op ein Symbol und arity die Stelligkeit
-; ist
+\end{lstlisting}
+%
+Die Instruktion für die primitive Applikation \texttt{prim}$_{F^i}$
+hat als Eigenschaften den Namen des Operators $F$ und dessen Anzahl
+von Argumenten $i$, auch \textit{Stelligkeit}\index{Stelligkeit}.
+Stelligkeit heißt auf Englisch "<arity">.  Entsprechend sehen Daten-
+und Record-Definition so aus:
+%
+\begin{lstlisting}
+; Eine Instruktion für eine primitive Applikation hat folgende
+; Eigenschaften:
+; - Operator
+; - Stelligkeit
 (define-record prim
-  real-make-prim prim?
+  make-prim prim?
   (prim-operator symbol)
   (prim-arity natural))
-
-; Eine Abstraktions-Instruktion ist ein Wert
-;  (make-abs v c)
-; wobei v ein Symbol (für eine Variable) und c
-; Maschinencode ist
+\end{lstlisting}
+%
+Die Abstraktions-Instruktion der Form (\meta{V}, \meta{C}) hat als
+Eigenschaften sichtlich den Parameter und den Code für den Rumpf,
+das übersetzen wir direkt in Daten- und Record-Definition:
+%
+\begin{lstlisting}
+; Eine Abstraktions-Instruktion hat folgende Eigenschaften:
+; - Parameter (eine Variable)
+; - Code für den Rumpf
 (define-record abst
   make-abs abs?
   (abs-variable symbol)
   (abs-code machine-code))
 \end{lstlisting}
-%
-Da die Stelligkeit eines Primitivs dem Primitiv fest zugeordnet
-ist, ist eine Hilfsfunktion nützlich, die bei der Erzeugung eines
-Werts der Sorte \lstinline{prim} die Stelligkeit ergänzt.
-Glücklicherweise haben alle oben eingeführten Primitive die gleiche
-Stelligkeit:  FIXME
-%
-\begin{lstlisting}
-; Primitiv erzeugen
-(: make-prim (symbol -> prim))
-(define make-prim
-  (lambda (operator)
-    (real-make-prim operator 2))) ; alle haben derzeit Stelligkeit 2
-\end{lstlisting}
-%
-Die Einführung von Primitive mit anderen Stelligkeiten ist Gegenstand
-von Aufgabe~\ref{aufgabe:prim-arity}.
 
-\subsection{Übersetzung in Maschinencode}
+\section{Ein Compiler für die SECD-Maschine}
 
 Nun, da sowohl Terme als auch der Maschinencode Datendefinitionen
-haben, ist es möglich, die Übersetzung zu programmieren.  Hier sind
-Kurzbeschreibung, Signatur und Gerüst:
+haben, ist es möglich, die Übersetzung vom angewandten
+$\lambda$-Kalkül in die Maschinensprache der SECD-Maschine zu
+programmieren.  Solch eine Übersetzung heißt \textit{Compiler}.\index{Compiler}
+
+Hier sind Kurzbeschreibung, Signatur und Gerüst des Compilers:
 %
 \begin{lstlisting}
 ; Term in Maschinencode übersetzen
@@ -949,6 +960,18 @@ Kurzbeschreibung, Signatur und Gerüst:
 (define term->machine-code
   (lambda (term)
     ...))
+\end{lstlisting}
+%
+Hier sind zwei Testfälle:
+%
+\begin{lstlisting}
+(check-expect (term->machine-code '(+ 1 2))
+              (list 1 2 (make-prim '+ 2)))
+(check-expect (term->machine-code 
+                '((lambda (x) (x x)) (lambda (x) (x x))))
+              (list (make-abs 'x (list 'x 'x (make-ap)))
+                    (make-abs 'x (list 'x 'x (make-ap)))
+                    (make-ap)))
 \end{lstlisting}
 %
 Da es sich bei \lstinline{term} um gemischte Daten handelt, muss~-- wie
@@ -966,8 +989,21 @@ immer~-- eine Verzweigung den Rumpf der Funktion bilden:
 \end{lstlisting}
 %
 Die Implementierung entspricht in den einzelnen Fällen genau der
-Übersetzungsfunktion $\llbracket\underline{~}\rrbracket$. Die Fälle
-für Variablen und Basiswerte sind, genau wie dort, trivial:
+Übersetzungsfunktion $\llbracket\underline{~}\rrbracket$ in
+Abschnitt~\ref{page:secd-translation} auf
+Seite~\pageref{page:secd-translation}. Zur Erinnerung sind hier die Fälle für Variablen und
+Basiswerte:
+\begin{eqnarray*}
+    \llbracket e \rrbracket &\deq&
+  \begin{cases}
+    b & \textrm{falls $e = b \in B$}\\
+    v & \textrm{falls $e = v \in V$}\\
+  \end{cases}
+\end{eqnarray*}
+%
+Der Code dafür entspricht dem direkt~-- wir müssen nur daran denken,
+immer eine Liste zu produzieren, auch wenn nur eine einzelne
+Instruktion herauskommt:
 %
 \begin{lstlisting}
 (define term->machine-code
@@ -978,9 +1014,18 @@ für Variablen und Basiswerte sind, genau wie dort, trivial:
       ...)))
 \end{lstlisting}
 %
-Bei regulären Applikationen werden
-Operator und Operand übersetzt, und das ganze zusammen mit einer
-\lstinline{ap}-Instruktion zu einer Liste zusammengesetzt:
+Bei regulären Applikationen sieht die Übersetzungsfunktion so aus:
+%
+\begin{eqnarray*}
+  \llbracket e \rrbracket &\deq&
+  \begin{cases}
+    \llbracket e_0\rrbracket~\llbracket e_1\rrbracket~\mathtt{ap}
+    & \textrm{falls $e = (e_0~e_1)$}\\
+  \end{cases}
+\end{eqnarray*}
+
+Es werden also Operator und Operand übersetzt, und das ganze zusammen
+mit einer \lstinline{ap}-Instruktion zu einer Liste zusammengesetzt:
 %
 \begin{lstlisting}
 (define term->machine-code
@@ -994,9 +1039,21 @@ Operator und Operand übersetzt, und das ganze zusammen mit einer
       ...)))
 \end{lstlisting}
 %
-Bei den primitiven Applikationen werden erst einmal die Operanden in
-Maschinencode übersetzt, die Resultate aneinandergehängt, und
-schließlich kommt noch eine \lstinline{prim}-Instruktion ans Ende:
+Bei den primitiven Applikationen sieht die Übersetzungsfunktion so
+aus:
+%
+\begin{eqnarray*}
+  \llbracket e \rrbracket &\deq&
+  \begin{cases}
+    \llbracket e_1\rrbracket~\ldots~\llbracket e_k\rrbracket~\mathtt{prim}_{F^i}
+    & \textrm{falls $e = (F~e_1~\ldots~e_i)$}\\
+    (v, \llbracket e_0\rrbracket) & \textrm{falls $e = \lambda v.e_0$}
+  \end{cases}
+\end{eqnarray*}
+%
+Hier werden erst einmal die Operanden in Maschinencode übersetzt, die
+Resultate aneinandergehängt, und schließlich kommt noch eine
+\lstinline{prim}-Instruktion ans Ende:
 %
 \begin{lstlisting}
 (define term->machine-code
@@ -1007,13 +1064,13 @@ schließlich kommt noch eine \lstinline{prim}-Instruktion ans Ende:
        (append
         (append-lists
          (map term->machine-code (rest term)))
-        (list (make-prim (first term)))))
+        (list (make-prim (first term) (length (rest term))))))
       ...)))
 \end{lstlisting}
 %
 Dieses Stück Code benutzt die Hilfsfunktion \lstinline{append-lists}, die
 aus einer Liste von Listen eine einzelne Liste macht, indem die
-Elemente aneinandergehängt werden:
+Elemente aneinandergehängt werden~-- das geht mit \lstinline{fold}:
 %
 \begin{lstlisting}
 ; die Elemente einer Liste von Listen aneinanderhängen
@@ -1023,9 +1080,15 @@ Elemente aneinandergehängt werden:
     (fold '() append list)))
 \end{lstlisting}
 %
-Zurück zur Übersetzung: Eine Abstraktionen wird direkt in eine
+Zurück zur Übersetzung: Eine Abstraktion wird direkt in eine
 \lstinline{abs}-Instruktion übersetzt, wobei der Rumpf selbst
 noch in Maschinencode übersetzt wird:
+\begin{eqnarray*}
+  \llbracket e \rrbracket &\deq&
+  \begin{cases}
+    (v, \llbracket e_0\rrbracket) & \textrm{falls $e = \lambda v.e_0$}
+  \end{cases}
+\end{eqnarray*}
 %
 \begin{lstlisting}
 (define term->machine-code
@@ -1039,62 +1102,110 @@ noch in Maschinencode übersetzt wird:
                    (first (rest (rest term))))))))))
 \end{lstlisting}
 %
+Fertig ist der Compiler!
 
-\subsection{Die virtuelle SECD-Maschine}
+\section{SECD-Code ausführen}
 \label{sec:secd-transition}
 
-FIXME: "<virtuelle Maschine"> erklären
+Eine SECD-Maschine gibt's leider nicht zu kaufen, wir simulieren sie
+deshalb mit einem weiteren Programm, einer sogenannten
+\textit{virtuellen Maschine}.\index{virtuelle Maschine}
 
-Da nun alle $\lambda$-Terme in Maschinencode-Programme übersetzt
-werden können, ist jetzt die eigentliche SECD-Maschine an der Reihe.
-Hier sind erst einmal einige neue Datendefinitionen fällig.  Zunächst
-einmal die Menge $S$ der Stacks:
+Zunächst sind Datendefinitionen für die vier Bestandteile der
+Maschine~-- $S$, $E$, $C$ und $D$ fällig.  Zunächst einmal die Menge
+$S$ der Stacks.  Mathematisch hatten wir sie so definiert:
+%
+\begin{eqnarray*}
+    S &=& W^\ast
+\end{eqnarray*}
+%
+Entsprechend definieren wir den Stack als eine Liste von Werten:
 %
 \begin{lstlisting}
 ; Ein Stack ist eine Liste von Werten
 (define stack (signature (list-of value)))
 \end{lstlisting}
 %
-Die Definition von Werten $W$ kommt etwas später an die Reihe.
+Die Definition von Werten \lstinline{value}, entsprechend der
+mathematischen Definition für $W$, kommt etwas später an die Reihe.
 
 Umgebungen aus der Menge $E$ sind mathematisch gesehen Mengen aus
-Tupeln.  In der Implementierung werden sie dargestellt aus Listen von
+Tupeln:
+%
+\begin{eqnarray*}
+  E &\subseteq& V\times W
+\end{eqnarray*}
+%
+Im Code werden Umgebungen dargestellt aus Listen von
 \textit{Bindungen\index{Bindung}}, wobei jede Bindung einem Tupel aus
 der mathematischen Definition entspricht:
-
+%
 \begin{lstlisting}
 ; Eine Umgebung ist eine Liste von Bindungen.
 ; Dabei gibt es für jede Variable nur eine Bindung.
 (define environment (signature (list-of binding)))
 
-; Eine Bindung (Name: binding) ist ein Wert
-;  (make-binding v x)
-; wobei v der Name einer Variablen und x der dazugehörige Wert ist.
-
+; Eine Bindung besteht aus:
+; - Variable
+; - Wert
 (define-record binding
   make-binding binding?
   (binding-variable symbol)
   (binding-value value))
 \end{lstlisting}
 % 
-Die leere Umgebung wird öfter benötigt und wird darum schon
-vordefiniert:
+Die leere Umgebung wird öfter benötigt; wir definieren sie darum schon
+vor:
 %
 \begin{lstlisting}
 ; die leere Umgebung
 (define the-empty-environment empty)
 \end{lstlisting}
 %
+(Aber \lstinline{empty} ist doch kürzer, könntest Du einwenden.  Ja,
+aber dann sehen wir dem \lstinline{empty} nicht an, ob es eine leere
+Liste von Instruktionen oder eine Umgebung oder eine ganz andere Liste
+ist.)
+
+Hier ist ein Beispiel für eine Umgebung:
+%
+\begin{lstlisting}
+(define env1 (list (make-binding 'slash 57) (make-binding 'axl 60)))
+\end{lstlisting}
+%
 Zwei Operationen gibt es für eine Umgebung $e$: die Erweiterung um
-eine Bindung $e[v\mapsto w]$ und das Nachschauen einer Bindung
-$e(v)$.  Zunächst die Erweiterung: die Implementierung entspricht
-genau der mathematischen Definition: zunächst wird eine eventuell
-vorhandene Bindung für $v$ entfernt, dann eine neue Bindung
-hinzugefügt:
+eine Bindung $e[v\mapsto w]$ und das Nachschauen einer Bindung $e(v)$.
+Zunächst die Erweiterung: die Implementierung entspricht genau der
+mathematischen Definition.  Hier Kurzbeschreibung und Signatur:
 % 
 \begin{lstlisting}
 ; eine Umgebung um eine Bindung erweitern
 (: extend-environment (environment symbol value -> environment))
+\end{lstlisting}
+%
+Hier sind ein paar Testfälle:
+%
+\begin{lstlisting}
+(check-expect (extend-environment the-empty-environment 'axl 59)
+              (list (make-binding 'axl 59)))
+(check-expect (extend-environment
+               (extend-environment
+                the-empty-environment
+                'axl 60)
+               'slash 57)
+              (list (make-binding 'slash 57) (make-binding 'axl 60)))
+(check-expect (extend-environment
+               (extend-environment
+                the-empty-environment
+                'axl 59)
+               'axl 60)
+              (list (make-binding 'axl 60)))
+\end{lstlisting}
+%
+Die Definition entfernt zunächst eine eventuell vorhandene Bindung
+für $v$ und fügt eine neue Bindung hinzu:
+%
+\begin{lstlisting}
 (define extend-environment
   (lambda (environment variable value)
     (cons (make-binding variable value)
@@ -1102,12 +1213,45 @@ hinzugefügt:
 \end{lstlisting}
 %
 Für das Entfernen der alten Bindung ist die Hilfsfunktion
-\lstinline{remove-environment-binding} zuständig.  Sie folgt einmal mehr
-strikt der Konstruktionsanleitung für Funktionen, die Listen akzeptieren:
-% FIXME: Konstruktionsanleitung
+\lstinline{remove-environment-binding} zuständig.  Sie folgt der
+Konstruktionsanleitung.  Hier die Schablone:
+%
 \begin{lstlisting}
 ; die Bindung für eine Variable aus einer Umgebung entfernen
 (: remove-environment-binding (environment symbol -> environment))
+(define remove-environment-binding
+  (lambda (environment variable)
+    (cond
+      ((empty? environment) ...)
+      ((cons? environment)
+       ...
+       (first environment)
+       (remove-environment-binding (rest environment) variable)
+       ...))))))
+\end{lstlisting}
+%
+Da es sich bei \lstinline{(first environment)} um eine Bindung, also
+zusammengesetzte Daten handelt, können wir Aufrufe für die Selektoren
+in die Schablone aufnehmen:
+%
+\begin{lstlisting}
+(define remove-environment-binding
+  (lambda (environment variable)
+    (cond
+      ((empty? environment) ...)
+      ((cons? environment)
+       ...
+       (first environment)
+       (binding-variable (first environment))
+       (binding-value (first environment))
+       (remove-environment-binding (rest environment) variable)
+       ...))))))
+\end{lstlisting}
+%
+Bei der Bindung interessiert uns, ob zur gesuchten Variable gehört.
+Entsprechend vervollständigen wir die Schablone:
+%
+\begin{lstlisting}
 (define remove-environment-binding
   (lambda (environment variable)
     (cond
@@ -1120,13 +1264,38 @@ strikt der Konstruktionsanleitung für Funktionen, die Listen akzeptieren:
 \end{lstlisting} 
 %
 Auch die zweite Operation, das Nachschauen einer Bindung in der
-Umgebung, folgt der Konstruktionsanleitung:
-%
-% FIXME: Konstruktionsanleitung
+Umgebung, folgt der Konstruktionsanleitung.  Hier sind
+Kurzbeschreibung, Signatur und Testfälle:
 %
 \begin{lstlisting}
 ; die Bindung für eine Variable in einer Umgebung finden
 (: lookup-environment (environment symbol -> value))
+
+(check-expect (lookup-environment env1 'axl) 60)
+(check-expect (lookup-environment env1 'slash) 57)
+\end{lstlisting}
+%
+Hier ist die Schablone:
+%
+\begin{lstlisting}
+(define lookup-environment
+  (lambda (environment variable)
+    (cond
+      ((empty? environment) ...)
+      ((cons? environment)
+       ...
+       (first environment)
+       (binding-variable (first environment))
+       (binding-value (first environment))
+       (lookup-environment (rest environment) variable)
+       ...)))))
+\end{lstlisting}
+%
+Wie bei \lstinline{remove-environment-binding} vergleicht die Funktion
+die Variable der Bindung mit der gesuchten Variable.  Hier ist die
+fertige Funktion:
+%
+\begin{lstlisting}
 (define lookup-environment
   (lambda (environment variable)
     (cond
@@ -1137,17 +1306,26 @@ Umgebung, folgt der Konstruktionsanleitung:
            (lookup-environment (rest environment) variable))))))
 \end{lstlisting}
 %
+%
 Damit sind die Operationen auf Umgebungen abgeschlossen.  Als Nächstes
-sind Dumps an der Reihe: $D$ ist als Folge von Tupeln $S\times E\times
-C$ definiert, auch genannt \textit{Frames\index{Frame}}.  Hier sind
-Daten- und Record-Definition:
+sind Dumps an der Reihe: $D$ ist als Folge von Frames definiert:
+%
+\begin{eqnarray*}
+  D &=& (S\times E \times C)^\ast
+\end{eqnarray*}
 %
 \begin{lstlisting}
 ; Ein Dump ist eine Liste von Frames
-
-; Ein Frame ist ein Wert
-;  (make-frame s e c)
-; wobei s ein Stack, e eine Umgebung und c Maschinencode ist.
+(define dump (signature (list-of frame)))
+\end{lstlisting}
+%
+Aus dem Frame-Tripeln machen wir eine Daten- und eine Record-Definition:
+%
+\begin{lstlisting}
+; Ein Frame besteht aus:
+; - Stack
+; - Umgebung
+; - Code
 (define-record frame
   make-frame frame?
   (frame-stack stack)
@@ -1156,20 +1334,21 @@ Daten- und Record-Definition:
 \end{lstlisting}
 %
 Schließlich fehlt noch eine Repräsentation für die Menge $W$ der
-Werte:  Ein Wert ist entweder ein Basiswert oder eine Closure.
-Basiswerte wurden bereits in Abschnitt~\ref{sec:secd-datenanalyse}
-definiert; es fehlen noch Closures, die Tupel aus $V\times C\times E$
-sind.  Hier sind die entsprechenden Definitionen:
+Werte: Ein Wert ist entweder ein Basiswert oder eine Closure.
+Basiswerte wurden bereits in Abschnitt~\ref{sec:secd-datenanalyse} auf
+Seite~\pageref{sec:secd-datenanalyse} definiert; es fehlen noch
+Closures, also Tupel $V\times C\times E$ sind.  Hier sind die
+entsprechenden Definitionen:
+FIXME
 %
 \begin{lstlisting}
 ; Ein SECD-Wert ist ein Basiswert oder eine Closure
 (define value (signature (mixed base closure)))
 
-; Eine Closure ist ein Wert
-;  (make-closure v c e)
-; wobei v die Variable der Lambda-Abstraktion,
-; c der Code der Lambda-Abstraktion
-; und e ein Environment ist.
+; Eine Closure besteht aus:
+; - Variable
+; - Code
+; - Umgebung
 (define-record closure
   make-closure closure?
   (closure-variable symbol)
@@ -1357,6 +1536,9 @@ Fallunterscheidung, der Rumpf der Funktion ist also eine entsprechende
 Verzweigung:
 %
 \begin{lstlisting}
+FIXME: Signatur erläutern
+(define primitive (signature (predicate primitive?)))
+
 ; Delta-Transition berechnen
 (: apply-primitive (primitive (list-of value) -> value))
 
