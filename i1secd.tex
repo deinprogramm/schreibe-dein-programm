@@ -124,7 +124,6 @@ obige Beispielterm folgendermaßen reduziert:
 %
 \begin{aufgabeinline}
   Kannst Du auch $\mathbf{if}$ durch eine $\delta$-Regel beschreiben?
-
   Zur Beantwortung dieser Frage Schreibe zunächst eine Definition der
   dazugehörigen Funktion $F^\mathbf{if}$ hin.  Bedenke nun, dass die
   $\delta$-Reduktion erst dann greift, wenn alle Argumente von
@@ -330,6 +329,26 @@ nach der Call-by-Value-Reduktionsstrategie entspricht: erst $f$
 auswerten, dann $x$, dann $y$, dann das Primitiv $*$ anwenden, dann
 $+$, und schließlich die Applikation durchführen.
 
+\begin{aufgabeinline}
+  Übersetze folgende $\lambda$-Terme in die Zwischenrepräsentation
+  der SECD-Maschine:
+  %
+  \begin{enumerate}
+  \item \((\lambda \lrm x \lrm y.(+\:\lrm x\:\lrm y))\:(*\:5\:6)\:23\)
+
+  \item \((\lambda \lrm x.(!\:\lrm x))\:(\lambda \lrm x\lrm
+    y.(\&\&\:\lrm x\:\lrm y))\:((\lambda \lrm x\lrm y.(>\:\lrm x\:\lrm
+    y))\:23~42)\:\mathbf{true}\)
+   
+  \item \((\lambda \lrm x\lrm y.\:\lrm y\:\lrm x\:\lrm x)\:(\lambda
+    \lrm z.\:\lrm z)\:(\lambda \lrm y\lrm z.\:(\lrm y\:\lrm y)\:(\lrm
+    y\:\lrm z))\)
+  \end{enumerate}
+  %
+  Dabei steht $!$ für das boolesche \lstinline{not} und $\&\&$ für das
+  boolesche \lstinline{and}.
+\end{aufgabeinline}
+%
 Wir definieren nun die SECD-Maschine selbst. In der folgenden
 Definition von $\hookrightarrow$ sind Bezeichner mit einem Unterstrich
 versehen, wenn es sich um Folgen handelt, also zum Beispiel \underline{s} für
@@ -428,6 +447,23 @@ $(((\lambda x.\lambda y.(+~x~y))~1)~2)$:
   \end{array}
 \end{displaymath}
 %
+\begin{aufgabeinline}
+ Betrachte folgendes SECD-Programm:
+ 
+ \newcommand{\tuple}[2]{\ensuremath{(#1,#2)}}
+
+ \begin{center}
+   \tuple{f}{\tuple{x}{\tuple{y}{f\:x\:\texttt{ap}\:y\:\texttt{ap}}}}\:\tuple{a}{\tuple{b}{a\:b\:\texttt{prim}_+}}\:\texttt{ap}\:23\:\texttt{ap}\:42\:\texttt{ap}
+ \end{center}
+ 
+ \begin{enumerate}
+   \item Übersetze das SECD-Programm in den entsprechenden
+   $\mathcal{L}_{\lambda{}A}$-Term.
+   \item Werte das SECD-Programm aus und schreibe die einzelnen
+     Auswertungsschritte auf!
+ \end{enumerate}
+\end{aufgabeinline}
+
 Die Zustandsübergangsrelation $\hookrightarrow$ ist die Grundlage
 für die \textit{Auswertungsfunktion\index{Auswertungsfunktion}} der
 SECD-Maschine, die für einen $\lambda$-Term dessen Bedeutung
@@ -728,6 +764,7 @@ eins der folgenden:
 \item Eine Liste aus repräsentierbaren Werten ist ihrerseits ein
   repräsentierbarer Wert. 
 \end{itemize}
+%
 
 \section{Datendefinitionen für den $\lambda$-Kalkül}
 \label{sec:datendefinitionen-lambda}
@@ -1992,41 +2029,6 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
 
 \section*{Übungsaufgaben}
 
-\begin{aufgabe}
-  Übersetze folgende Lambda-Terme in die Zwischenrepräsentation
-  der SECD-Maschine:
-  
-  \begin{enumerate}
-  \item \((\lambda xy.(+\:x\:y))\:(*\:5\:6)\:23\)
-
-  \item \((\lambda x.(!\:x))\:(\lambda xy.(\&\&\:x\:y))\:((\lambda xy.(>\:x\:y))\:23~42)\:true\)
-
-   
-  \item \((\lambda xy.\:y\:x\:x)\:(\lambda z.\:z)\:(\lambda yz.\:(y\:y)\:(y\:z))\)
-
-  \end{enumerate}
-
-  Dabei steht $!$ für das boolesche \lstinline{not} und $\&\&$ für das
-  boolesche \lstinline{and}.
-\end{aufgabe}
-
-\begin{aufgabe}
- Betrachte folgendes SECD-Programm:
- 
- \newcommand{\tuple}[2]{\ensuremath{(#1,#2)}}
-
- \begin{center}
-   \tuple{f}{\tuple{x}{\tuple{y}{f\:x\:\texttt{ap}\:y\:\texttt{ap}}}}\:\tuple{a}{\tuple{b}{a\:b\:\texttt{prim}_+}}\:\texttt{ap}\:23\:\texttt{ap}\:42\:\texttt{ap}
- \end{center}
- 
- \begin{enumerate}
-   \item Übersetze das SECD-Programm in den entsprechenden
-   $\mathcal{L}_{\lambda{}A}$-Term.
-   \item Werte das SECD-Programm aus und gibt die einzelnen
-     Auswertungsschritte an!
- \end{enumerate}
-  
-\end{aufgabe}
 
 \begin{aufgabe}\label{aufgabe:secd-endekursiv-implementieren}
   Erweitere die Implementierung der SECD-Maschine um korrekte
