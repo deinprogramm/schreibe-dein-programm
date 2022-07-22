@@ -1880,7 +1880,7 @@ größer wird:
   \end{array}
 \end{displaymath}
 %
-Dieses Manko lässt sich zum Glück reparieren: Die
+Dieses Manko können wir zum Glück reparieren: Die
 SECD-Maschine muss endrekursive und "<normale"> Applikationen
 unterschiedlich behandeln.  Dazu wird eine neue Instruktion namens
 $\mathtt{tailap}$ eingeführt, die wie $\mathtt{ap}$ eine Applikation
@@ -1917,7 +1917,6 @@ beiden Funktionen $\llbracket \underline{~} \rrbracket$ und
 $\llbracket \underline{~} \rrbracket'$ hin und her:
 %
 \begin{eqnarray*}
-  \llbracket \underline{~} \rrbracket &:& \mathcal{L}_{\lambda{}A} \rightarrow C\\
   \llbracket e \rrbracket &\deq&
   \begin{cases}
     b & \textrm{falls $e = b \in B$}\\
@@ -1928,7 +1927,6 @@ $\llbracket \underline{~} \rrbracket'$ hin und her:
     & \textrm{falls $e = (F~e_1~\ldots~e_k)$}\\
     (v, \llbracket e_0\rrbracket') & \textrm{falls $e = \lambda v.e_0$}
   \end{cases}\\[1ex]
-  \llbracket \underline{~} \rrbracket' &:& \mathcal{L}_{\lambda{}A} \rightarrow C\\
   \llbracket e \rrbracket' &\deq&
   \begin{cases}
     b & \textrm{falls $e = b \in B$}\\
@@ -1941,8 +1939,8 @@ $\llbracket \underline{~} \rrbracket'$ hin und her:
   \end{cases}
 \end{eqnarray*}
 %
-Die Übersetzungsfunktion hat die eigentliche Arbeit geleistet: Jetzt
-muss nur noch eine Zustandsübergangsregel her, die $\mathtt{tailap}$
+Jetzt brauchen wir
+noch eine Zustandsübergangsregel her, die $\mathtt{tailap}$
 verarbeitet.  Diese ergibt sich direkt aus den Regeln für
 $\mathtt{ap}$ und die Rückgabe eines Wertes:  $\mathtt{tailap}$
 funktioniert so, wie $\mathtt{ap}$ direkt gefolgt von der
@@ -2066,12 +2064,7 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
 \end{aufgabe}
 
 \begin{aufgabe}
-  Abstrahiere über \lstinline{remove-environment-binding} und
-  \lstinline{remove-cell}.
-\end{aufgabe}
-
-\begin{aufgabe}
-  Erweiter den angewandten $\lambda$-Kalkül um Abstraktionen und
+  Erweitere den angewandten $\lambda$-Kalkül um Abstraktionen und
   Applikationen mit mehr als einem Parameter.  Erweitere die
   SECD-Maschine und ihre Implementierung entsprechend.
 \end{aufgabe}
@@ -2081,12 +2074,6 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
   Erweitere den angewandten $\lambda$-Kalkül um binäre
   Verzweigungen analog zu \lstinline{if}.  Erweitere entsprechend die
   SECD-Maschine und ihre Implementierung.
-\end{aufgabe}
-
-\begin{aufgabe}
-  \lstinline{Begin} lässt sich im angewandten $\lambda$-Kalkül als
-  syntaktischer Zucker auffassen: Wie müssten \lstinline{begin}-Ausdrücke
-  in die Sprache des Kalküls übersetzt werden?
 \end{aufgabe}
 
 \begin{aufgabe}
