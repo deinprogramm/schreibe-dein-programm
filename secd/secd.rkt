@@ -132,9 +132,9 @@
 ; - Parameter (eine Variable)
 ; - Code für den Rumpf
 (define-record abst
-  make-abs abs?
-  (abs-variable symbol)
-  (abs-code machine-code))
+  make-abst abs?
+  (abst-variable symbol)
+  (abst-code machine-code))
 
 ; Term in Maschinencode übersetzen
 (: term->machine-code (term -> machine-code))
@@ -142,7 +142,7 @@
 (check-expect (term->machine-code '(+ 1 2))
               (list 1 2 (make-prim '+ 2)))
 (check-expect (term->machine-code '((lambda (x) (x x)) (lambda (x) (x x))))
-              (list (make-abs 'x (list 'x 'x (make-ap))) (make-abs 'x (list 'x 'x (make-ap))) (make-ap)))
+              (list (make-abst 'x (list 'x 'x (make-ap))) (make-abst 'x (list 'x 'x (make-ap))) (make-ap)))
 
 (define term->machine-code
   (lambda (term)
@@ -155,7 +155,7 @@
                        (list (make-ap)))))
       ((abstraction? term)
        (list
-        (make-abs (first (first (rest term)))
+        (make-abst (first (first (rest term)))
                   (term->machine-code
                    (first (rest (rest term)))))))
       ((primitive-application? term)
@@ -187,7 +187,7 @@
                        (list (make-ap)))))
       ((abstraction? term)
        (list
-        (make-abs (first (first (rest term)))
+        (make-abst (first (first (rest term)))
                   (term->machine-code/t-t
                    (first (rest (rest term)))))))
       ((base? term) (list term))
@@ -206,7 +206,7 @@
 (: term->machine-code/t-t (term -> machine-code))
 
 (check-expect (term->machine-code/t '((lambda (x) (x x)) (lambda (x) (x x))))
-              (list (make-abs 'x (list 'x 'x (make-tailap))) (make-abs 'x (list 'x 'x (make-tailap))) (make-ap)))
+              (list (make-abst 'x (list 'x 'x (make-tailap))) (make-abst 'x (list 'x 'x (make-tailap))) (make-ap)))
 (check-expect (term->machine-code/t '(+ 1 2))
               (list 1 2 (make-prim '+ 2)))
 
@@ -220,7 +220,7 @@
                        (list (make-tailap)))))
       ((abstraction? term)
        (list
-        (make-abs (first (first (rest term)))
+        (make-abst (first (first (rest term)))
                   (term->machine-code/t-t
                    (first (rest (rest term)))))))
       ((base? term) (list term))
@@ -255,6 +255,22 @@
 
 ; eine Umgebung um eine Bindung erweitern
 (: extend-environment (environment symbol value -> environment))
+
+(check-expect (extend-environment the-empty-environment 'axl 59)
+              (list (make-binding 'axl 59)))
+(check-expect (extend-environment
+               (extend-environment
+                the-empty-environment
+                'axl 60)
+               'slash 57)
+              (list (make-binding 'slash 57) (make-binding 'axl 60)))
+(check-expect (extend-environment
+               (extend-environment
+                the-empty-environment
+                'axl 59)
+               'axl 60)
+              (list (make-binding 'axl 60)))
+
 (define extend-environment
   (lambda (environment variable value)
     (cons (make-binding variable value)
@@ -274,6 +290,16 @@
   
 ; die Bindung für eine Variable in einer Umgebung finden
 (: lookup-environment (environment symbol -> value))
+
+(check-expect
+ (lookup-environment (list (make-binding 'slash 57) (make-binding 'axl 60))
+                     'axl)
+ 60)
+(check-expect
+ (lookup-environment (list (make-binding 'slash 57) (make-binding 'axl 60))
+                     'slash)
+ 57)
+
 (define lookup-environment
   (lambda (environment variable)
     (cond
@@ -309,10 +335,11 @@
   (closure-code machine-code)
   (closure-environment environment))
 
-; Ein SECD-Zustand ist ein Wert
-;  (make-secd s e c d)
-; wobei s ein Stack, e eine Umgebung, c Maschinencode
-; und d ein Dump ist
+; Ein SECD-Zustand besteht aus:
+; - Stack
+; - Umgebung
+; - Code
+; - Dump
 (define-record secd
   make-secd secd?
   (secd-stack stack)
@@ -322,6 +349,44 @@
 
 ; Zustandsübergang berechnen
 (: secd-step (secd -> secd))
+
+(check-expect
+ (secd-step
+  (make-secd empty the-empty-environment (list 5) empty))
+ (make-secd (list 5) the-empty-environment empty empty))
+(check-expect
+ (secd-step
+  (make-secd empty (list (make-binding 'axl 60)) (list 'axl) empty))
+ (make-secd (list 60) (list (make-binding 'axl 60)) empty empty))
+(check-expect
+ (secd-step
+  (make-secd (list 23 42) the-empty-environment
+                          (list (make-prim '+ 2))
+                          empty))
+ (make-secd (list 65) the-empty-environment empty empty))
+(check-expect
+ (secd-step
+  (make-secd empty (list (make-binding 'slash 57))
+             (list (make-abst 'axl (list 'axl 'slash (make-prim '+ 2))))
+             empty))
+ (make-secd (list (make-closure 'axl
+                                (list 'axl 'slash (make-prim '+ 2))
+                                (list (make-binding 'slash 57))))
+            (list (make-binding 'slash 57))
+            empty empty))
+(check-expect
+ (secd-step
+  (make-secd (list 60
+                   (make-closure 'axl
+                                 (list 'axl 'slash (make-prim '+ 2))
+                                 (list (make-binding 'slash 57))))
+             the-empty-environment
+             (list (make-ap)) empty))
+ (make-secd empty
+            (list (make-binding 'axl 60) (make-binding 'slash 57))
+            (list 'axl 'slash (make-prim '+ 2))
+            (list (make-frame empty the-empty-environment empty))))
+
 (define secd-step
   (lambda (state)
     (define stack (secd-stack state))
@@ -350,8 +415,8 @@
                      (rest code)
                      dump))
          ((abs? (first code))
-          (make-secd (cons (make-closure (abs-variable (first code))
-                                         (abs-code (first code))
+          (make-secd (cons (make-closure (abst-variable (first code))
+                                         (abst-code (first code))
                                          environment)
                            stack)
                      environment
@@ -569,9 +634,9 @@
       ((abs? instruction)
        (begin
          (write-string "(")
-         (write-string (symbol->string (abs-variable instruction)))
+         (write-string (symbol->string (abst-variable instruction)))
          (write-string ", ")
-         (write-code/tex (abs-code instruction))
+         (write-code/tex (abst-code instruction))
          (write-string ")")))
       ((ap? instruction)
        (write-string "\\mathtt{ap}"))
@@ -762,8 +827,8 @@
            (rest code)
            dump
            (heap-store heap address
-                       (make-closure (abs-variable (first code))
-                                     (abs-code (first code))
+                       (make-closure (abst-variable (first code))
+                                     (abst-code (first code))
                                      environment))))
          ((ap? (first code))
           (define closure (heap-lookup heap (first (rest stack))))
@@ -914,9 +979,9 @@
       ((abs? i)
        (begin
          (write-string "(")
-         (write-string (symbol->string (abs-variable i)))
+         (write-string (symbol->string (abst-variable i)))
          (write-string ", ")
-         (write-codeh/tex (abs-code i))
+         (write-codeh/tex (abst-code i))
          (write-string ")")))
       (else
        (write-instruction/tex i)))))

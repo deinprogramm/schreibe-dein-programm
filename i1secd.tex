@@ -167,10 +167,12 @@ Maschinensprachen lässt die SECD-Maschine aber weg.
     \> \| (\meta{V}, \meta{C})
   \end{grammar}
   %
-  Ein Maschinensprachen-Programm ist eine Folge von Instruktionen:
+  Ein Maschinensprachen-Programm~-- auch genannt
+  \textit{Maschinencode}\index{Maschinencode} oder
+  \textit{Code}\index{Code} ist eine Folge von Instruktionen:
   %
   \begin{displaymath}
-    C = I^\ast
+    C \deq I^\ast
   \end{displaymath}
 \end{definition}
 %
@@ -181,15 +183,15 @@ Buchstaben sind deshalb so gewählt, weil $S$ der sogenannte
 \textit{Stack\index{Stack}}, $E$ die sogenannte
 \textit{Umgebung\index{Umgebung}} beziehungsweise auf englisch das
 \textit{Environment\index{Environment}}, $C$ der schon bekannte
-Maschinencode beziehungsweise \textit{Code\index{Code}} und $D$ der
+Code und $D$ der
 sogenannte \textit{Dump\index{Dump}} ist.  Die formalen Definitionen
 dieser Mengen sind wie folgt; dabei ist $W$ die Menge der Werte:
 %
 \begin{eqnarray*}
-  S &=& W^\ast\\
+  S &\deq& W^\ast\\
   E &\subseteq& V\times W\\
-  D &=& (S\times E \times C)^\ast\\
-  W &=& B \cup (V\times C\times E)
+  D &\deq& (S\times E \times C)^\ast\\
+  W &\deq& B \cup (V\times C\times E)
 \end{eqnarray*}
 %
 Der Stack ist eine Folge von Werten.  In der Maschine sind dies
@@ -461,7 +463,7 @@ Auswertungsfunktion eine Menge $Z$ der \textit{Antworten\index{Antwort}}
 definiert, die einen designierten Spezialwert für Closures enthält:
 %
 \begin{displaymath}
-  Z = B \cup \{ \texttt{function} \}
+  Z \deq{} B \cup \{ \texttt{function} \}
 \end{displaymath}
 %
 Damit können wir die Evaluationsfunktion wie folgt definieren:
@@ -476,6 +478,10 @@ Damit können wir die Evaluationsfunktion wie folgt definieren:
     \hookrightarrow^* ((v, \underline{c}, e'), e, \epsilon, \epsilon)\\
   \end{cases}
 \end{eqnarray*}
+%
+So eine rein mathematische Maschine macht nicht so richtig Spaß: Wir
+wollen sie laufen sehen.  Dafür programmieren wir die mathematischen
+Definitionen im Rest des Kapitels nach.
 
 \section{\texttt{Quote} und Symbole}
 \label{sec:quote}
@@ -723,8 +729,8 @@ eins der folgenden:
   repräsentierbarer Wert. 
 \end{itemize}
 
-\section{Die Sprache der SECD-Maschine}
-\label{sec:secd-datenanalyse}
+\section{Datendefinitionen für den $\lambda$-Kalkül}
+\label{sec:datendefinitionen-lambda}
 
 Die SECD-Maschine ist ein Modell für die Implementierung des
 $\lambda$-Kalküls.  Eine solche Implementierung lässt sich in einfach
@@ -811,7 +817,7 @@ Abbildung~\ref{feature:predicate}.  Hier ist die Definition:
 %
 Entsprechend definieren wir die anderen Signaturen.  Bei
 \lstinline{application} müssen wir ein bisschen aufpassen, damit wir
-bei den "<normalen"> Applikationen keine Applikationen von Primitiven
+bei den "<normalen"> Applikationen keine Applikationen von Primitiva
 erwischen:
 %
 \begin{lstlisting}
@@ -827,12 +833,12 @@ erwischen:
 \end{lstlisting}
 %
 Hier ist die dort benutzte Funktion \lstinline{primitive?} mit den
-allernötigsten primitiven Operationen:
+allernötigsten primitiven Operationen:\label{page:primitivep}
 %
 \begin{lstlisting}
 ; Ein Primitiv ist eins der Symbole +, -, *, /, =
 
-; Prädikat für Primitive
+; Prädikat für Primitivum
 (: primitive? (any -> boolean))
 (define primitive?
   (lambda (term)
@@ -844,7 +850,7 @@ allernötigsten primitiven Operationen:
 \end{lstlisting}
 %
 Die Definition von \lstinline{primitive-application} entspricht
-\lstinline{application}, nur dass hier nur Primitive erwünscht sind:
+\lstinline{application}, nur dass hier nur Primitiva erwünscht sind:
 %
 \begin{lstlisting}
 ; Prädikat für primitive Applikationen
@@ -859,7 +865,7 @@ Die Definition von \lstinline{primitive-application} entspricht
 \end{lstlisting}
 %
 Es fehlt noch die Definition von \lstinline{base}.  Der Einfachheit
-halber beschränken wir uns auf boolesche Werte und Zahlen:
+halber beschränken wir uns auf boolesche Werte und Zahlen:\label{page:basiswert}
 %
 \begin{lstlisting}
 ; Ein Basiswert ist ein boolescher Wert oder eine Zahl
@@ -877,7 +883,9 @@ eine Signatur:
 
 (define base (signature (predicate base?)))
 \end{lstlisting}
-%
+
+\section{Datendefinition für Maschinensprache}
+% 
 Bevor nun ein die SECD-Maschine einen Term verarbeiten kann, muss
 dieser erst in Maschinencode übersetzt werden.  Dabei entsteht aus
 Definition~\ref{def:secd-code} direkt Daten- und Signatur-Definitionen
@@ -940,9 +948,9 @@ das übersetzen wir direkt in Daten- und Record-Definition:
 ; - Parameter (eine Variable)
 ; - Code für den Rumpf
 (define-record abst
-  make-abs abs?
-  (abs-variable symbol)
-  (abs-code machine-code))
+  make-abst abs?
+  (abst-variable symbol)
+  (abst-code machine-code))
 \end{lstlisting}
 
 \section{Ein Compiler für die SECD-Maschine}
@@ -969,8 +977,8 @@ Hier sind zwei Testfälle:
               (list 1 2 (make-prim '+ 2)))
 (check-expect (term->machine-code 
                 '((lambda (x) (x x)) (lambda (x) (x x))))
-              (list (make-abs 'x (list 'x 'x (make-ap)))
-                    (make-abs 'x (list 'x 'x (make-ap)))
+              (list (make-abst 'x (list 'x 'x (make-ap)))
+                    (make-abst 'x (list 'x 'x (make-ap)))
                     (make-ap)))
 \end{lstlisting}
 %
@@ -1097,9 +1105,9 @@ noch in Maschinencode übersetzt wird:
       ...
       ((abstraction? term)
        (list
-        (make-abs (first (first (rest term)))
-                  (term->machine-code
-                   (first (rest (rest term))))))))))
+        (make-abst (first (first (rest term)))
+                   (term->machine-code
+                    (first (rest (rest term))))))))))
 \end{lstlisting}
 %
 Fertig ist der Compiler!
@@ -1116,7 +1124,7 @@ Maschine~-- $S$, $E$, $C$ und $D$ fällig.  Zunächst einmal die Menge
 $S$ der Stacks.  Mathematisch hatten wir sie so definiert:
 %
 \begin{eqnarray*}
-    S &=& W^\ast
+    S &\deq& W^\ast
 \end{eqnarray*}
 %
 Entsprechend definieren wir den Stack als eine Liste von Werten:
@@ -1167,12 +1175,6 @@ aber dann sehen wir dem \lstinline{empty} nicht an, ob es eine leere
 Liste von Instruktionen oder eine Umgebung oder eine ganz andere Liste
 ist.)
 
-Hier ist ein Beispiel für eine Umgebung:
-%
-\begin{lstlisting}
-(define env1 (list (make-binding 'slash 57) (make-binding 'axl 60)))
-\end{lstlisting}
-%
 Zwei Operationen gibt es für eine Umgebung $e$: die Erweiterung um
 eine Bindung $e[v\mapsto w]$ und das Nachschauen einer Bindung $e(v)$.
 Zunächst die Erweiterung: die Implementierung entspricht genau der
@@ -1271,8 +1273,14 @@ Kurzbeschreibung, Signatur und Testfälle:
 ; die Bindung für eine Variable in einer Umgebung finden
 (: lookup-environment (environment symbol -> value))
 
-(check-expect (lookup-environment env1 'axl) 60)
-(check-expect (lookup-environment env1 'slash) 57)
+(check-expect
+ (lookup-environment (list (make-binding 'slash 57) (make-binding 'axl 60)) 
+                     'axl)
+ 60)
+(check-expect
+ (lookup-environment (list (make-binding 'slash 57) (make-binding 'axl 60))
+                     'slash)
+ 57)
 \end{lstlisting}
 %
 Hier ist die Schablone:
@@ -1311,7 +1319,7 @@ Damit sind die Operationen auf Umgebungen abgeschlossen.  Als Nächstes
 sind Dumps an der Reihe: $D$ ist als Folge von Frames definiert:
 %
 \begin{eqnarray*}
-  D &=& (S\times E \times C)^\ast
+  D &\deq& (S\times E \times C)^\ast
 \end{eqnarray*}
 %
 \begin{lstlisting}
@@ -1335,11 +1343,10 @@ Aus dem Frame-Tripeln machen wir eine Daten- und eine Record-Definition:
 %
 Schließlich fehlt noch eine Repräsentation für die Menge $W$ der
 Werte: Ein Wert ist entweder ein Basiswert oder eine Closure.
-Basiswerte wurden bereits in Abschnitt~\ref{sec:secd-datenanalyse} auf
-Seite~\pageref{sec:secd-datenanalyse} definiert; es fehlen noch
-Closures, also Tupel $V\times C\times E$ sind.  Hier sind die
+Basiswerte wurden bereits in Abschnitt~\ref{page:basiswert} auf
+Seite~\pageref{page:basiswert} definiert; es fehlen noch
+Closures, also Tupel aus der Menge $V\times C\times E$.  Hier sind die
 entsprechenden Definitionen:
-FIXME
 %
 \begin{lstlisting}
 ; Ein SECD-Wert ist ein Basiswert oder eine Closure
@@ -1361,10 +1368,11 @@ Record-Definition für die Zustände der SECD-Maschine anzugeben, also
 die Tupel aus $S\times E\times C\times D$:
 %
 \begin{lstlisting}
-; Ein SECD-Zustand ist ein Wert
-;  (make-secd s e c d)
-; wobei s ein Stack, e eine Umgebung, c Maschinencode
-; und d ein Dump ist
+; Ein SECD-Zustand besteht aus:
+; - Stack
+; - Umgebung
+; - Code
+; - Dump
 (define-record secd
   make-secd secd?
   (secd-stack stack)
@@ -1373,19 +1381,133 @@ die Tupel aus $S\times E\times C\times D$:
   (secd-dump dump))
 \end{lstlisting}
 %
-Damit kann es an die Zustandsübergangsfunktion gehen.   Sie wird als
-Funktion realisiert, die einen SECD-Zustand akzeptiert und einen neuen
-liefert.  Hier sind Kurzbeschreibung, Signatur und Gerüst:
+Damit können wir endlich die Zustandsübergangsfunktion schreiben.  Sie
+akzeptiert einen SECD-Zustand und liefert auch wieder einen.  Hier
+sind Kurzbeschreibung und Signatur:
 %
 \begin{lstlisting}
 ; Zustandsübergang berechnen
 (: secd-step (secd -> secd))
-(define secd-step
-  (lambda (state)
-    ...))
 \end{lstlisting}
 %
-Entsprechend den Regeln der SECD-Maschine muss der Rumpf der Funktion
+Testfälle brauch wir auch noch.  Wir machen einen Testfall pro Regel
+für $\hookrightarrow$.  Hier ist die erste Regel, für Basiswerte:
+%
+\begin{displaymath}
+  (\underline{s}, e, b\underline{c}, \underline{d})
+  \hookrightarrow
+  (b\underline{s}, e, \underline{c}, \underline{d})
+\end{displaymath}
+%
+Um es zu testen, legen wir einen SECD-Zustand an, der als Code nur den
+Basiswert hat.  Der müsste hinterher auf dem Stack gelandet sein:
+%
+\begin{lstlisting}
+(check-expect
+ (secd-step
+  (make-secd empty the-empty-environment (list 5) empty))
+ (make-secd (list 5) the-empty-environment empty empty))
+\end{lstlisting}
+%
+Hier der Regel für Variablen:
+%
+\begin{displaymath}
+  (\underline{s}, e, v\underline{c}, \underline{d})
+  \hookrightarrow
+  (e(v)\underline{s}, e, \underline{c}, \underline{d})
+\end{displaymath}
+%
+Falls also der Code mit einer Variable anfängt, muss die SECD-Maschine
+sie in der Umgebung nachschauen.  Wir stecken also eine Variable
+namens \lstinline{axl} in den Code und legen eine Umgebung mit einer
+Bindung für \lstinline{axl} bei.  Der Wert der Bindung muss dann auf
+dem Stack landen:
+%
+\begin{lstlisting}
+(check-expect
+ (secd-step
+  (make-secd empty (list (make-binding 'axl 60)) (list 'axl) empty))
+ (make-secd (list 60) (list (make-binding 'axl 60)) empty empty))
+\end{lstlisting}
+%
+Hier die Regel für Primitiva:
+%
+\begin{eqnarray*}
+  (b_k\ldots b_1 \underline{s}, e, \mathtt{prim}_{F^k}\underline{c}, \underline{d})
+  &\hookrightarrow&
+  (b\underline{s}, e, \underline{c}, \underline{d})
+  \\ && \textrm{wobei $F^k\in\Sigma^k$ und $F_B(b_1,\ldots,b_k) = b$}
+\end{eqnarray*}
+%
+Für den Test nehmen wir als Primitivum die Addition.  Damit sie
+arbeiten kann, benötigt sie die beiden Summanden auf dem Stack:
+%
+\begin{lstlisting}
+(check-expect
+ (secd-step
+  (make-secd (list 23 42) the-empty-environment
+             (list (make-prim '+ 2))
+             empty))
+ (make-secd (list 65) the-empty-environment empty empty))
+\end{lstlisting}
+%
+Als nächstes ist die Abstraktionsregel dran:
+%
+\begin{displaymath}
+  (\underline{s}, e, (v, \underline{c'}) \underline{c}, \underline{d})
+  \hookrightarrow
+  ((v, \underline{c'}, e) \underline{s}, e, \underline{c}, \underline{d})
+\end{displaymath}
+%
+Für den Test bauen wir eine Abstraktion mit Parameter \lstinline{axl}
+und freier Variable \lstinline{slash}.  Die Umgebung enthält 
+eine Bindung für \lstinline{slash}~-- diese sollte dann in die Closure
+eingepackt werden:
+%
+\begin{lstlisting}
+(check-expect
+ (secd-step
+  (make-secd empty (list (make-binding 'slash 57))
+             (list (make-abst 'axl (list 'axl 'slash (make-prim '+ 2))))
+             empty))
+ (make-secd (list (make-closure 'axl
+                                (list 'axl 'slash (make-prim '+ 2))
+                                (list (make-binding 'slash 57))))
+            (list (make-binding 'slash 57))
+            empty empty))
+\end{lstlisting}
+%
+Schließlich bleibt noch die Applikationsregel:
+%
+\begin{displaymath}
+  (w (v,\underline{c'}, e') \underline{s}, e, \mathtt{ap}~\underline{c}, \underline{d})
+  \hookrightarrow
+  (\epsilon, e'[v\mapsto w], \underline{c'}, (\underline{s}, e, \underline{c}) \underline{d})
+\end{displaymath}
+%
+Um sie zu testen, legen wir die Closure aus dem vorigen Testfall auf
+den Stack, zusammen mit einem Argument.  Danach sollte der Stack leer
+sein, die Umgebung sollte aus der Closure übernommen worden sein, im
+Code sollte es mit dem Code der Closure weitergehen und der Dump
+sollte ein Frame enthalten:
+%
+\begin{lstlisting}
+(check-expect
+ (secd-step
+  (make-secd (list 60
+                   (make-closure 'axl
+                                 (list 'axl 'slash (make-prim '+ 2))
+                                 (list (make-binding 'slash 57))))
+             the-empty-environment
+             (list (make-ap)) empty))
+ (make-secd empty
+            (list (make-binding 'axl 60) (make-binding 'slash 57))
+            (list 'axl 'slash (make-prim '+ 2))
+            (list (make-frame empty the-empty-environment empty))))
+\end{lstlisting}
+%
+Entsprechend den Regeln der SECD-Maschine muss der Rumpf von
+\lstinline{secd-step}
 eine Verzeigung zwischen den verschiedenen Fällen bei der
 Code-Komponente von \lstinline{state} sein.  Diese folgen den
 Konstruktionsanleitungen für Listen und für gemischte Daten.  Es ist
@@ -1502,10 +1624,11 @@ Aufgabe~\ref{ex:drop} auf Seite~\pageref{ex:drop} geforderte Funktion:
 (: drop (natural (list-of %a) -> (list-of %a)))
 \end{lstlisting}
 %
-Die \lstinline{take-reverse}-Funktion ist das Pendant zu \lstinline{drop},
-das die ersten $n$ Elemente einer Liste in umgekehrter Reihenfolge
-liefert.  Dies ist am einfachsten über eine endrekursive Hilfsfunktion
-zu erledigen~-- aus Kapitel~\ref{cha:accu} ist ja bekannt, dass bei
+Die \lstinline{take-reverse}-Funktion ist das Pendant zu
+\lstinline{drop}, das die ersten $n$ Elemente einer Liste in
+umgekehrter Reihenfolge liefert.  Dies machen wir mit einer
+endrekursiven Hilfsfunktion.  Aus Abschnitt~\ref{sec:umgedrehte-liste}
+auf Seite~\pageref{sec:umgedrehte-liste} wissen wir, dass bei
 endrekursiver Konstruktion von Listen gerade immer die Reihenfolge
 umgedreht wird:
 %
@@ -1529,14 +1652,24 @@ umgedreht wird:
     (accumulate n list0 '())))
 \end{lstlisting}
 %
-Aus einem Primitiv und einer Liste von Argumenten berechnet
+\begin{aufgabeinline}
+  Programmiere eine andere Version von \lstinline{take-reverse}, indem
+  Du zunächst eine endrekursive Funktion \lstinline{take} schreibst,
+  welche für eine Zahl $n$ die ersten $n$ Elemente der Liste liefert.
+  Schreibe dann \lstinline{take-reverse} als Kombination von
+  \lstinline{take} und \lstinline{reverse}.  Was sind die Vor- und
+  Nachteile beider Versionen von \lstinline{take-reverse}?
+\end{aufgabeinline}
+%
+Aus einem Primitivum und einer Liste von Argumenten berechnet
 \lstinline{apply-primitive} das Resultat der primitiven Applikation.
 Dabei handelt es sich bei \lstinline{primitive} um eine
 Fallunterscheidung, der Rumpf der Funktion ist also eine entsprechende
-Verzweigung:
+Verzweigung.  Für die Signatur von \lstinline{apply-primitive}
+benötigen wir noch eine Signatur \lstinline{primitive}, passend zum
+Prädikat \lstinline{primitive?} auf Seite~\pageref{page:primitivep}:
 %
 \begin{lstlisting}
-FIXME: Signatur erläutern
 (define primitive (signature (predicate primitive?)))
 
 ; Delta-Transition berechnen
@@ -1577,8 +1710,8 @@ Der Code macht dies genauso:
           ...
           ((abs? (first code))
            (make-secd (cons
-                        (make-closure (abs-variable (first code))
-                                      (abs-code (first code))
+                        (make-closure (abst-variable (first code))
+                                      (abst-code (first code))
                                       environment)
                         stack)
                       environment
@@ -1595,7 +1728,8 @@ Hier die Regel für die Applikation:
   (\epsilon, e'[v\mapsto w], \underline{c'}, (\underline{s}, e, \underline{c}) \underline{d})
 \end{displaymath}
 %
-Hier der Code dazu:
+Für $e'[v\mapsto w]$ benutzen wir die Funktion
+\lstinline{extend-environment}, die wir weiter oben geschrieben haben:
 %
 \begin{lstlisting}
 (define secd-step
@@ -1662,7 +1796,7 @@ Hilfsfunktion:
                empty)))
 \end{lstlisting}
 %
-Damit lässt sich die Maschine schon ausprobieren:
+Nun können wir die Maschine ausprobieren:
 %
 \begin{lstlisting}
 (secd-step (inject-secd '(+ 1 2)))
@@ -1674,8 +1808,8 @@ Damit lässt sich die Maschine schon ausprobieren:
 \end{lstlisting}
 %
 Es fehlt noch die Auswertungsfunktion $\mathrm{eval}_\mathrm{SECD}$,
-die eine Hilfsfunktion benötigt, um die reflexiv-transitive Hülle des
-Zustandsübergangs $\hookrightarrow^*$ benötigt:
+die eine Hilfsfunktion benötigt, um den reflexiv-transitiven Abschluss des
+Zustandsübergangs $\hookrightarrow^*$ zu berechnen:
 %
 \begin{lstlisting}
 ; bis zum Ende Zustandsübergänge berechnen
@@ -1716,13 +1850,15 @@ Damit läuft die SECD-Maschine:
 |\evalsto| 3
 \end{lstlisting}
 
+% FIXME: Ausprobieren, Aufgaben
+
 \section{Die endrekursive SECD-Maschine}
 
 Die SECD-Maschine hat einen Schönheitsfehler: Bei endkursiven
 Applikationen sollte sie eigentlich, wie in Lehrsprachen-Programmen, keinerlei
 zusätzlichen Platz verbrauchen, da kein Kontext anfällt.  Folgende
 Beispielauswertung für den Term $(\lambda x.x~x)~(\lambda x.x~x)$
-zeigt aber, dass der Zustand mit fortschreitender Auswertung immer
+zeigt aber, dass der Dump mit fortschreitender Auswertung immer
 größer wird:
 %
 % (secd-step*/tex (inject-secd '((lambda (x) (x x)) (lambda (x) (x x)))))
@@ -1744,15 +1880,14 @@ größer wird:
   \end{array}
 \end{displaymath}
 %
-Damit ist die SECD-Maschine, so wie ist, als Ausführungsmodell für
-die Lehrsprachen ungeeignet.  Dieses Manko lässt sich zum Glück reparieren: Die
+Dieses Manko lässt sich zum Glück reparieren: Die
 SECD-Maschine muss endrekursive und "<normale"> Applikationen
 unterschiedlich behandeln.  Dazu wird eine neue Instruktion namens
 $\mathtt{tailap}$ eingeführt, die wie $\mathtt{ap}$ eine Applikation
 durchführt, aber eine endrekursive Applikation signalisiert:
 %
 \begin{eqnarray*}
-  I &=& \ldots\\
+  I &\deq& \ldots\\
   &&\cup \{ \mathtt{tailap} \}
 \end{eqnarray*}
 %
@@ -1921,7 +2056,7 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
 \end{aufgabe}
 
 \begin{aufgabe}\label{aufgabe:prim-arity}
-  Erweitere die SECD-Maschine um Primitive anderer Stelligkeiten,
+  Erweitere die SECD-Maschine um Primitiva anderer Stelligkeiten,
   zum Beispiel \lstinline{abs} oder \lstinline{odd?}.
 \end{aufgabe}
 
