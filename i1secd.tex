@@ -607,14 +607,13 @@ beginnen: \footnote{Tatsächlich ist die neue Schreibweise für externe
   vermeiden.}
 \begin{lstlisting}
 (1 2 3 4 5 6)
-|\evalsto| function application: expected function, given: 1;
-     arguments were: 2 3 4 5 6
+|\evalsto| Operator darf keine Zahl sein, ist aber 1
 \end{lstlisting}
 %
 Mit der Einführung von Quote kommt noch eine völlig neue Sorte Werte
 hinzu: die \textit{Symbole\index{Symbol}}.  Symbole sind Werte ähnlich wie Zeichenketten und
 bestehen aus Text.  Sie unterscheiden sich allerdings dadurch, dass sie
-als Literal mit Quote geschrieben und in der REPL ohne
+als Literal mit Quote statt Anführungszeichen geschrieben und in der REPL ohne
 Anführungszeichen ausgedruckt werden:
 %
 \begin{lstlisting}
