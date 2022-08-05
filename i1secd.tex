@@ -636,8 +636,8 @@ unterscheiden:
 |\evalsto| #f
 \end{lstlisting}
 %
-Vergleichen können wir Symbole mit der eingebauten Funktion \lstinline{equal?} (siehe
-Abbildung~\ref{scheme:equalp}):
+Vergleichen können wir Symbole mit der eingebauten Funktion
+\lstinline{equal?}~-- siehe dazu Abbildung~\ref{scheme:equalp}):
 \begin{feature}{\texttt{equal?}}{scheme:equalp}
   Die Funktion \texttt{equal?\index{equal?@\texttt{equal?}}} vergleicht beliebige Werte:
   \texttt{Equal?} vergleicht Booleans, Zeichen und Zeichenketten.
@@ -652,15 +652,15 @@ Abbildung~\ref{scheme:equalp}):
 |\evalsto| #f
 (equal? "Axl" "Axl")
 |\evalsto| #t
-(equal? (list "Axl" "Slash") (list "Axl "Slash"))
+(equal? (list "Axl" "Slash") (list "Axl" "Slash"))
 |\evalsto| #t
-(equal? (list "Axl" "Slash") (list "Axl "Slash" "Duff"))
+(equal? (list "Axl" "Slash") (list "Axl" "Slash" "Duff"))
 |\evalsto| #f
-(equal? (make-wallclock-time 12 24) (make-wallclock-time 12 24)
+(equal? (make-wallclock-time 12 24) (make-wallclock-time 12 24))
 |\evalsto| #t
-(equal? (make-wallclock-time 12 24) (make-wallclock-time 12 25)
+(equal? (make-wallclock-time 12 24) (make-wallclock-time 12 25))
 |\evalsto| #f
-(equal? (make-wallclock-time 12 24) (list "Axl" "Slash")
+(equal? (make-wallclock-time 12 24) (list "Axl" "Slash"))
 |\evalsto| #f
 \end{lstlisting}
 \end{feature}
