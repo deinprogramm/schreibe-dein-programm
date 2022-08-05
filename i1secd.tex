@@ -672,7 +672,7 @@ Vergleichen können wir Symbole mit der eingebauten Funktion
 |\evalsto| #t
 \end{lstlisting}
 %
-Symbole können nicht aus beliebigem Text bestehen.  
+Symbole können nicht aus beliebigem Text bestehen;  
 Leerzeichen sind zum Beispiel verboten.  Tatsächlich entsprechen die
 Namen der zulässigen Symbole genau den Namen von Variablen:
 %
@@ -710,7 +710,7 @@ ausgedruckt wie Ausdrücke aussehen:
 |\evalsto| (lambda (n) (+ n 1))
 \end{lstlisting}
 %
-Auch wenn diese Werte wie Ausdrücke so aussehen, sind sie doch ganz
+Auch wenn diese Werte wie Ausdrücke aussehen, sind sie doch ganz
 normale Listen: der Wert von \verb|'(+ 1 2)| ist eine Liste mit drei
 Elementen: das Symbol \verb|+|, die Zahl \lstinline{1} und die Zahl
 \lstinline{2}.  Der Wert von \verb|'(lambda (n) (+ n 1))| ist ebenfalls
@@ -758,12 +758,204 @@ heißt \textit{repräsentierbarer
 eins der folgenden:
 %
 \begin{itemize}
-\item Zahlen, boolesche Werte, Zeichenketten und Symbole sind
-  repräsentierbare Werte.
-\item Eine Liste aus repräsentierbaren Werten ist ihrerseits ein
-  repräsentierbarer Wert. 
+\item eine Zahl
+\item ein boolescher Wert
+\item eine Zeichenketten
+\item ein Symbol
+\item eine Liste aus repräsentierbaren Werten
 \end{itemize}
 %
+Mit Symbolen und Quote können wir sowas wie einen Taschenrechner
+programmieren, der den Wert von Ausdrücken wir \lstinline{(+ 23 65)}
+ausrechnen kann.  Wir legen dafür folgende Datendefinition zugrunde:
+%
+\begin{lstlisting}
+; Ein Ausdruck ist eins der folgenden:
+; - eine Zahl
+; - eine Liste der Form (+ Ausdruck Ausdruck)
+; - eine Liste der Form (* Ausdruck Ausdruck)
+\end{lstlisting}
+%
+Es handelt sich entsprechend der Formulierung "<eins der folgenden">
+um gemischte Daten.
+Um dafür
+eine passende Signatur zu definieren, benötigen wir Signaturen
+für alle Fälle.  Für den ersten Fall tut es \lstinline{number}.  Für
+die beiden anderen ist es nicht ganz so einfach, weil es kein
+\lstinline{define-record} gibt, das die Signatur einfach für uns
+definiert.  Wir müssen also die Signatur selbst definieren und machen
+das mit Hilfe von Prädikaten für die beiden Fälle, die wir selbst schreiben.
+
+Zur Erinnerung: Ein Prädikat\index{Prädikat} ist eine Funktion, die
+einen beliebigen Wert akzeptiert, auf eine bestimmte Eigenschaft
+testet und entsprechend entweder \lstinline{#t} oder \lstinline{#f}
+zurückgibt.  So etwas brauchen wir für die beiden Fälle, die mit
+"<eine Liste der Form"> beginnen.  Zunächst die Addition:
+%
+\begin{lstlisting}
+; Ist ein Wert ein Additionsausdruck?
+(: addition? (any -> boolean))
+
+(check-expect (addition? '5) #f)
+(check-expect (addition? '(+ 1 2)) #t)
+(check-expect (addition? '(* 1 2)) #f)
+
+(define addition?
+  (lambda (x)
+    (and (cons? x)
+         (equal? '+ (first x)))))
+\end{lstlisting}
+%
+Beim Prädikat \lstinline{addition?} haben wir nur das nötigste
+programmiert, um Additionen von den anderen Fällen zu unterscheiden:
+\begin{aufgabeinline}
+  In der Datendefinition oben steht "<\texttt{eine Liste der Form (+
+    Ausdruck Ausdruck)}">.  Gibt es Eingaben, bei denen
+  \lstinline{addition?} als Ergebnis \lstinline{#t} liefert, obwohl es
+  sich nicht um Listen genau dieser Form handelt?
+\end{aufgabeinline}
+%
+\begin{feature}{\texttt{predicate}}{feature:predicate}
+  Bei einer Signatur der Form
+\begin{lstlisting}
+(predicate $p$)
+\end{lstlisting}
+  muss $p$ ein Prädikat, also eine Funktion mit folgender Signatur sein:
+\begin{lstlisting}
+(any -> boolean)
+\end{lstlisting}
+  Diese Signatur passt für alle Werte, bei denen das Prädikat
+  \lstinline{#t} liefert.
+\end{feature}
+%
+Aus dem Prädikat \lstinline{addition?} können wir eine Signatur
+\lstinline{addition} machen mit Hilfe einer
+\lstinline{predicate}-Signatur.  Das ist neu; siehe dazu
+Abbildung~\ref{feature:predicate}.  Hier ist die Definition von
+\lstinline{addition}:
+%
+\begin{lstlisting}
+(define addition
+  (signature (predicate addition?)))
+\end{lstlisting}
+%
+Entsprechend machen wir das für Multiplikationen:
+%
+\begin{lstlisting}
+; Ist ein Wert ein Multiplikationsausdruck?
+(: multiplication? (any -> boolean))
+
+(check-expect (multiplication? '5) #f)
+(check-expect (multiplication? '(* 1 2)) #t)
+(check-expect (multiplication? '(+ 1 2)) #f)
+
+(define multiplication?
+  (lambda (x)
+    (and (cons? x)
+         (equal? '* (first x)))))
+(define multiplication
+  (signature (predicate multiplication?)))
+\end{lstlisting}
+%
+Nun haben wir Signaturen für die drei Fälle und können damit eine
+Signatur für Ausdrücke definieren:
+%
+\begin{lstlisting}
+(define expression
+  (signature (mixed number addition multiplication)))
+\end{lstlisting}
+%
+Jetzt können wir den "<Taschenrechner"> programmieren.  Hier sind
+Kurzbeschreibung, Signatur und Testfälle:
+%
+\begin{lstlisting}
+; Wert eines Ausdrucks berechnen
+(: compute (expression -> number))
+
+(check-expect (compute '23) 23)
+(check-expect (compute '(+ 23 42)) 65)
+(check-expect (compute '(+ 23 (* 6 7))) 65)
+\end{lstlisting}
+%
+Die Funktionsdefinition geht strikt nach Konstruktionsanleitung.  Hier
+die Schablone:
+%
+\begin{lstlisting}
+(define compute
+  (lambda (exp)
+    (cond
+      ((number? exp) ...)
+      ((addition? exp) ...)
+      ((multiplication? exp) ...))))
+\end{lstlisting}
+%
+Beim ersten Zweig ist \lstinline{exp} schon eine Zahl~-- die muss die
+Funktion nur zurückgeben:
+%
+\begin{lstlisting}
+(define compute
+  (lambda (exp)
+    (cond
+      ((number? exp) exp)
+      ((addition? exp) ...)
+      ((multiplication? exp) ...))))
+\end{lstlisting}
+%
+Beim \lstinline{addition}-Fall ist \lstinline{exp} eine Liste, deren
+zweites und drittes Element jeweils wieder ein Ausdruck ist.  Es
+handelt sich also um zusammengesetzte Daten, allerdings nicht mit
+einem Record definiert.  Die Komponenten extrahieren wir mit
+\lstinline{first} und \lstinline{rest}:
+%
+\begin{lstlisting}
+(define compute
+  (lambda (exp)
+    (cond
+      ((number? exp) exp)
+      ((addition? exp)
+       ... (first (rest exp)) ...
+       ... (first (rest (rest exp))) ...)
+      ((multiplication? exp) ...)))))
+\end{lstlisting}
+%
+Außerdem haben wir es jeweils mit Selbstbezügen zu tun, also müssen noch
+rekursive Aufrufe in die Schablone:
+%
+\begin{lstlisting}
+(define compute
+  (lambda (exp)
+    (cond
+      ((number? exp) exp)
+      ((addition? exp)
+       ... (compute (first (rest exp))) ...
+       ... (compute (first (rest (rest exp)))) ...)
+      ((multiplication? exp) ...)))))
+\end{lstlisting}
+%
+Die beiden rekursiven Aufrufe liefern jeweils den Wert der beiden
+Operanden der Addition; die muss die Funktion nur noch addieren.  Bei
+der Multiplikation läuft es genauso:
+%
+\begin{lstlisting}
+(define compute
+  (lambda (exp)
+    (cond
+      ((number? exp) exp)
+      ((addition? exp)
+       (+ (compute (first (rest exp)))
+          (compute (first (rest (rest exp))))))
+      ((multiplication? exp)
+       (* (compute (first (rest exp)))
+          (compute (first (rest (rest exp)))))))))
+\end{lstlisting}
+% 
+Fertig!
+%
+\begin{aufgabeinline}
+  Ändere die Datendefinitionen so, dass Addition und Multiplikation
+  jeweils eine beliebige Anzahl von Argumenten akzeptiert, nicht nur
+  zwei.  Ändere \lstinline{compute} entsprechend!
+\end{aufgabeinline}
 
 \section{Datendefinitionen für den $\lambda$-Kalkül}
 \label{sec:datendefinitionen-lambda}
@@ -830,26 +1022,13 @@ Hier ist das Prädikat für \lstinline{abstraction}:
          (equal? 'lambda (first term)))))
 \end{lstlisting}
 %
-Aus diesem Prädikat können wir eine Signatur machen, indem wir die
-neue Signatur-Sorte \lstinline{predicate} verwenden.  Siehe dazu
-Abbildung~\ref{feature:predicate}.  Hier ist die Definition:
+Aus diesem Prädikat machen wir eine Signatur mit
+\lstinline{predicate}.Hier ist die Definition:
 %
 \begin{lstlisting}
 (define abstraction (signature (predicate abstraction?)))
 \end{lstlisting}
 %
-\begin{feature}{\texttt{predicate}}{feature:predicate}
-  Bei einer Signatur der Form
-\begin{lstlisting}
-(predicate $p$)
-\end{lstlisting}
-  muss $p$ ein Prädikat, also eine Funktion mit folgender Signatur sein:
-\begin{lstlisting}
-(any -> boolean)
-\end{lstlisting}
-  Diese Signatur passt für alle Werte, bei denen das Prädikat
-  \lstinline{#t} liefert.
-\end{feature}
 %
 Entsprechend definieren wir die anderen Signaturen.  Bei
 \lstinline{application} müssen wir ein bisschen aufpassen, damit wir
