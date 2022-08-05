@@ -1009,7 +1009,8 @@ Hier die dazu passende Signatur-Definition:
 %
 Die Signaturen für \lstinline{application}, \lstinline{abstraction},
 \lstinline{primitive-application} und \lstinline{base} müssen wir noch
-definieren.  Da es sich nicht um Record-Typen handelt, müssen wir das
+definieren, wie bei den Ausdrücken des vorigen Abschnitts.
+Da es sich nicht um Record-Typen handelt, müssen wir das
 selbst machen, und zwar, indem wir jeweils ein Prädikat definieren.
 Hier ist das Prädikat für \lstinline{abstraction}:
 %
@@ -2236,11 +2237,6 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
 \begin{aufgabe}\label{aufgabe:prim-arity}
   Erweitere die SECD-Maschine um Primitiva anderer Stelligkeiten,
   zum Beispiel \lstinline{abs} oder \lstinline{odd?}.
-\end{aufgabe}
-
-\begin{aufgabe}
-  Ändere die Implementierung der SECDH-Maschine dahingehend, dass
-  sie Endrekursion korrekt behandelt.
 \end{aufgabe}
 
 \begin{aufgabe}
