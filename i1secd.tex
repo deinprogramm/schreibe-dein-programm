@@ -20,9 +20,10 @@ mit einem sogenannten \textit{Compiler}.
 
 In diesem Kapitel beschreiben wir eine idealisierte Maschine, die zwar
 so nie gebaut wurde, dessen Maschinensprache aber auf den gleichen
-Prinzipien basiert~-- die \textit{SECD-Maschine}.  Das machen wir
-zunächst auf der Ebene des $\lambda$-Kalküls.  Dann aber schreiben wir
-tatsächlich einen echten Compiler und außerdem eine sogenannte
+Prinzipien basiert wie reale Maschinen~-- die \textit{SECD-Maschine}.
+Dann schreiben wir
+einen Compiler vom $\lambda$-Kalkül in die SECD-Maschinensprache
+und außerdem eine sogenannte
 \textit{virtuelle Maschine}, die es uns erlaubt, die compilierten
 Programme auch laufenzulassen.
 
@@ -36,7 +37,8 @@ aber zu mühsam, immer mit Church-Numeralen zu arbeiten. Darum
 erweitern wir den $\lambda$-Kalkül um einige Extras, so dass er mit
 Zahlen und Booleans direkt umgehen kann.
 Abschnitt~\ref{sec:lambdaprog} hat Dich hoffentlich überzeugt, dass
-wir jederzeit auf die neuen Elemente verzichten könnten.
+wir jederzeit auf die neuen Elemente verzichten könnten, indem wir sie
+in die Terme aus Abschnitt~\ref{sec:lambdaprog} übersetzen.
 
 Der resultierende erweiterte $\lambda$-Kalkül heißt 
 \textit{angewandter $\lambda$-Kalkül}:
@@ -84,11 +86,8 @@ Der resultierende erweiterte $\lambda$-Kalkül heißt
     \> \| (\meta{$\Sigma^n$}~\meta{$\mathcal{L}_{\lambda{}A}$}~\ldots~\meta{$\mathcal{L}_{\lambda{}A}$}) \quad \textrm{($n$-mal)}
   \end{grammar}
   Die Grammatik ist abgekürzt notiert: Die letzen Klauseln besagen,
-  dass es für jede Stelligkeit $i$ eine Klausel mit \meta{$\Sigma^i$} gibt,
-  bei der jeweils $i$ Wiederholungen von
-  \meta{$\mathcal{L}_{\lambda{}A}$}~-- entsprechend der Stelligkeit
-  der Primitiva in $\Sigma^i$.
-
+  dass es für jede Menge von Primitiva \meta{$\Sigma^i$} mit
+  Stelligkeit $i$ eine entsprechende Klausel mit $i$ Operanden gibt.
   Terme der Form $(F^i~e_1~\ldots~e_i)$ heißen
   \textit{primitive Applikationen\index{primitive Applikation}}.
 \end{definition}
@@ -137,8 +136,7 @@ obige Beispielterm folgendermaßen reduziert:
 \section{Die SECD-Maschine}
 
 Leider läuft auf handelsüblichen Prozessoren der $\lambda$-Kalkül
-nicht direkt.\footnote{Es gibt allerdings durchaus Spezialprozessoren
-  für den $\lambda$-Kalkül.} Stattdessen führen diese Prozessoren
+nicht direkt.  Stattdessen führen diese Prozessoren
 sogenannte \textit{Maschinensprache}\index{Maschinensprache} aus.  
 Maschinensprache besteht aus einzelnen Anweisungen, die hintereinander
 im Speicher abgelegt und auch hintereinander ausgeführt werden.  Das
@@ -146,8 +144,8 @@ unterscheidet die Maschinensprache von unseren Lehrsprachen, die auf
 dem  all-by-Value-$\lambda$-Kalkül\index{Call-by-Value-Reduktion}
 aufbauen: Dort läuft die Auswertung von innen nach außen.
 
-Um die Brücke zwischen beiden Ideen zu schlagen, erfand Peter Landin
-die SECD-Maschine~\cite{Landin1964}.  Die SECD-Maschine ist zwar über
+Um eine Brücke zwischen beiden Ideen zu schlagen, entwickelte Peter Landin
+die SECD"=Maschine~\cite{Landin1964}.  Die SECD-Maschine ist zwar über
 50~Jahre alt, aber auch auf modernen Maschinen immer noch die
 Grundlage für das Zusammenspiel zwischen Programmiersprache und
 Maschinensprache.  Die Sprache der SECD-Maschine ist eine idealisierte
@@ -203,7 +201,7 @@ einfach, an welche Werte die Variablen gebunden sind.  Erst wenn der
 Wert einer Variablen benötigt wird, holt ihn die Maschine aus der
 Umgebung.
 
-Der Dump schließlich ist eine Liste früherer Zustände der Maschine:
+Der Dump ist eine Liste früherer Zustände der Maschine:
 Jeder Zustand ist ein Tupel aus Stack, Umgebung und Code, auch genannt
 \textit{Frame}.\index{Frame} Ein Dump speichert den den
 Kontext\index{Kontext}, dem wir in Abschnitt~\ref{sec:kontext} auf
@@ -224,7 +222,7 @@ Applikation direkt ersetzt werden und damit verschwinden.
 Die SECD-Maschine überführt einen Maschinenzustand durch einen
 Auswertungsschritt in einen neuen Maschinenzustand.
 
-Bei Umgebungen benutzen wir die Notation $e(v)$: Die steht für Wert
+Bei Umgebungen benutzen wir die Notation $e(v)$: Das steht für den Wert
 $w$ des Tupels $(v, w)$ in $e$.
 
 Im Verlauf der Auswertung werden Umgebungen häufig um neue Bindungen
@@ -248,20 +246,10 @@ Seite~\pageref{def:substitution}.  In diesem Kontext~-- bei der
 SECD-Maschine~-- bedeutet die Notation etwas anderes.  Lass Dich nicht
 verwirren!
 
-Um einen $\lambda$-Term $e$ in die SECD-Maschine zu "<injizieren">,
-wird der Term in eine Folge von Instruktionen $c$ übersetzt~-- die
-$C$-Komponente der SECD-Maschine.  Daraus wird ein Anfangszustand
-$(\epsilon, \varnothing, c, \epsilon)$ gemacht.  Dann wird dieser
-Zustand wiederholt in einen neuen Zustand überführt, und zwar indem
-die erste Instruktion in $c$ "<abgearbeitet"> wird.  Diese Überführung
-schreiben wir mit dem Symbol $\hookrightarrow$, also $(s, e, c, d)
-\hookrightarrow (s', e', c', d')$, wenn die SECD-Maschine den Zustand
-$(s, e, c, d)$ in den Zustand $(s', e', c', d')$ überführt.
-
 Um die Maschine zu verstehen, ist es sinnvoll, erst einmal zu
-verstehen, wie $\lambda$-Terme in SECD-Code umgewandelt werden.  
+sehen, wie $\lambda$-Terme in SECD-Code umgewandelt werden.  
 Ein Term $e$ aus dem angewandten $\lambda$-Kalkül wird mit Hilfe der
-Funktion $\llbracket \cdot\rrbracket$ in ein Maschinensprache-Programm
+Funktion $\llbracket \underline{~}\rrbracket$ in ein Maschinensprache-Programm
 $\llbracket e\rrbracket$ übersetzt.\label{page:secd-translation}
 %
 \begin{eqnarray*}
@@ -349,14 +337,22 @@ $+$, und schließlich die Applikation durchführen.
   boolesche \lstinline{and}.
 \end{aufgabeinline}
 %
-Wir definieren nun die SECD-Maschine selbst. In der folgenden
+Wir definieren nun die SECD-Maschine selbst.  Diese macht immer einen
+Schritt auf einmal und überführt einen Zustand $S$, $E$, $C$ und $D$
+einen neuen Zustand, und zwar indem die erste Instruktion in $c$
+"<abgearbeitet"> wird.  Diese Überführung schreiben wir mit dem Symbol
+$\hookrightarrow$, also
+$(s, e, c, d) \hookrightarrow (s', e', c', d')$, wenn die
+SECD-Maschine den Zustand $(s, e, c, d)$ in den Zustand
+$(s', e', c', d')$ überführt.
+
+In der folgenden
 Definition von $\hookrightarrow$ sind Bezeichner mit einem Unterstrich
 versehen, wenn es sich um Folgen handelt, also zum Beispiel \underline{s} für
 einen Stack:
 %
 \begin{eqnarray}
-  \hookrightarrow &\in& \mathcal{P}((S\times E\times C\times D) \times (S\times E\times C\times D))\notag\\
-  (\underline{s}, e, b\underline{c}, \underline{d})
+çü  (\underline{s}, e, b\underline{c}, \underline{d})
   &\hookrightarrow& 
   (b\underline{s}, e, \underline{c}, \underline{d})
   \label{secd:base}
@@ -388,6 +384,11 @@ einen Stack:
   \label{secd:return}
 \end{eqnarray}
 %
+Um einen $\lambda$-Term $e$ in die SECD-Maschine zu "<injizieren">,
+wird der Term in eine Folge von Instruktionen $c$ übersetzt~-- die
+$C$-Komponente der SECD-Maschine.  Daraus wird ein Anfangszustand
+$(\epsilon, \varnothing, c, \epsilon)$ gemacht.
+
 Die Regeln definieren eine Fallunterscheidung nach der ersten
 Instruktion der Code"=Komponente des Zustands, beziehungsweise greift die letzte
 Regel, wenn der Code leer ist.  Der Reihe nach arbeiten die Regeln wie
@@ -457,13 +458,13 @@ $(((\lambda x.\lambda y.(+~x~y))~1)~2)$:
  \end{center}
  
  \begin{enumerate}
-   \item Übersetze das SECD-Programm in den entsprechenden
+   \item Übersetze das SECD-Programm "<rückwärts"> in den entsprechenden
    $\mathcal{L}_{\lambda{}A}$-Term.
    \item Werte das SECD-Programm aus und schreibe die einzelnen
      Auswertungsschritte auf!
  \end{enumerate}
 \end{aufgabeinline}
-
+%
 Die Zustandsübergangsrelation $\hookrightarrow$ ist die Grundlage
 für die \textit{Auswertungsfunktion\index{Auswertungsfunktion}} der
 SECD-Maschine, die für einen $\lambda$-Term dessen Bedeutung
@@ -488,12 +489,11 @@ Diese Definition hat jedoch zwei Haken:
 \end{itemize}
 %
 Der erste Haken sorgt dafür, dass die Auswertungsfunktion nur eine
-Relation im Sinne einer "<partiellen Funktion"> ist.  Meist wird
-trotzdem von einer Auswertungsfunktion gesprochen.  Beim zweiten
+eine "<parziellen Funktion"> ist.  Beim zweiten
 Haken, wenn $x$ eine Closure ist, lässt sich mit dem Resultat nicht
 viel anfangen: Um die genaue Bedeutung der Closure herauszubekommen,
 müsste sie angewendet werden~-- das Programm ist aber schon fertig
-gelaufen.  Es ist also gar nicht sinnvoll, zwischen verschiedenen
+gelaufen.  Es ist deshalb nicht sinnvoll, zwischen verschiedenen
 Closures zu unterscheiden.  Darum wird für die Zwecke der
 Auswertungsfunktion eine Menge $Z$ der \textit{Antworten\index{Antwort}}
 definiert, die einen designierten Spezialwert für Closures enthält:
@@ -515,14 +515,15 @@ Damit können wir die Evaluationsfunktion wie folgt definieren:
   \end{cases}
 \end{eqnarray*}
 %
-So eine rein mathematische Maschine macht nicht so richtig Spaß: Wir
-wollen sie laufen sehen.  Dafür programmieren wir die mathematischen
-Definitionen im Rest des Kapitels nach.
+Diese Funktion wollen wir natürlich auch laufen sehen.  Dafür
+programmieren wir die mathematischen Definitionen im Rest des Kapitels
+nach.
 
 \section{\texttt{Quote} und Symbole}
 \label{sec:quote}
 
-Dieses Kapitel wird ab hier Gebrauch von einer weiteren
+Um die Definitionen möglichst elegant nachzuprogrammieren, machen wir ab hier
+Gebrauch von einer weiteren
 Sprachebene\index{Sprachebene!fortgeschritten} in
 \drscheme{} machen, nämlich \texttt{Schreibe Dein Programm! -
   fortgeschritten}.  Diese Ebene muss mit dem \drscheme{}-Menü \texttt{Sprache}
@@ -598,18 +599,15 @@ Zeichenketten und booleschen Literalen ist auch ohne Quote klar, dass
 es sich um Literale handelt.  Das Quote ist darum bei ihnen rein
 optional; sie heißen 
 \textit{selbstquotierend}\index{selbstquotierend}.
+
 Bei Listen hingegen sind Missverständnisse mit anderen
 zusammengesetzten Formen möglich, die ja auch mit einer öffnenden Klammer
-beginnen: \footnote{Tatsächlich ist die neue Schreibweise für externe
+beginnen.\footnote{Tatsächlich ist die neue Schreibweise für externe
   Repräsentationen die Standard-Repräsentation in Racket.  Die
   früheren Sprachebenen benutzten die alternative Schreibweise, um die
   Verwirrung zwischen Listenliteralen und zusammengesetzten Formen zu
-  vermeiden.}
-\begin{lstlisting}
-(1 2 3 4 5 6)
-|\evalsto| Operator darf keine Zahl sein, ist aber 1
-\end{lstlisting}
-%
+  vermeiden.} 
+
 Mit der Einführung von Quote kommt noch eine völlig neue Sorte Werte
 hinzu: die \textit{Symbole\index{Symbol}}.  Symbole sind Werte ähnlich wie Zeichenketten und
 bestehen aus Text.  Sie unterscheiden sich allerdings dadurch, dass sie
@@ -636,6 +634,14 @@ unterscheiden:
 |\evalsto| #f
 \end{lstlisting}
 %
+Symbole sind auch der Grund, warum Listen nicht selbstquotierend sind.
+Andernfalls wäre
+missverständlich, ob  \lstinline{(run-over-dillo d1)} eine Literal für
+eine Liste
+ergibt (mit den Symbolen \lstinline{run-over-dillo} und \lstinline{d1}
+als Elementen) oder den Aufruf der Funktion
+\lstinline{run-over-dillo}.  Deswegen ist ein Quote notwendig.
+
 Vergleichen können wir Symbole mit der eingebauten Funktion
 \lstinline{equal?}~-- siehe dazu Abbildung~\ref{scheme:equalp}):
 \begin{feature}{\texttt{equal?}}{scheme:equalp}
@@ -765,9 +771,10 @@ eins der folgenden:
 \item eine Liste aus repräsentierbaren Werten
 \end{itemize}
 %
-Mit Symbolen und Quote können wir sowas wie einen Taschenrechner
-programmieren, der den Wert von Ausdrücken wir \lstinline{(+ 23 65)}
-ausrechnen kann.  Wir legen dafür folgende Datendefinition zugrunde:
+Um zu demonstrieren, wozu Symbolen und Quote gut sind,
+programmieren wir sowas wie einen Taschenrechner.
+Der kann den Wert von Ausdrücken wir \lstinline{(+ 23 65)}
+ausrechnen.  Wir legen dafür folgende Datendefinition zugrunde:
 %
 \begin{lstlisting}
 ; Ein Ausdruck ist eins der folgenden:
@@ -1247,7 +1254,7 @@ Bei regulären Applikationen sieht die Übersetzungsfunktion so aus:
     & \textrm{falls $e = (e_0~e_1)$}\\
   \end{cases}
 \end{eqnarray*}
-
+%
 Es werden also Operator und Operand übersetzt, und das ganze zusammen
 mit einer \lstinline{ap}-Instruktion zu einer Liste zusammengesetzt:
 %
@@ -1266,14 +1273,11 @@ mit einer \lstinline{ap}-Instruktion zu einer Liste zusammengesetzt:
 Bei den primitiven Applikationen sieht die Übersetzungsfunktion so
 aus:
 %
-\begin{eqnarray*}
-  \llbracket e \rrbracket &\deq&
-  \begin{cases}
+\begin{displaymath}
+  \llbracket e \rrbracket \deq
     \llbracket e_1\rrbracket~\ldots~\llbracket e_k\rrbracket~\mathtt{prim}_{F^i}
-    & \textrm{falls $e = (F~e_1~\ldots~e_i)$}\\
-    (v, \llbracket e_0\rrbracket) & \textrm{falls $e = \lambda v.e_0$}
-  \end{cases}
-\end{eqnarray*}
+     \quad\textrm{falls $e = (F~e_1~\ldots~e_i)$}
+\end{displaymath}
 %
 Hier werden erst einmal die Operanden in Maschinencode übersetzt, die
 Resultate aneinandergehängt, und schließlich kommt noch eine
@@ -1307,12 +1311,10 @@ Elemente aneinandergehängt werden~-- das geht mit \lstinline{fold}:
 Zurück zur Übersetzung: Eine Abstraktion wird direkt in eine
 \lstinline{abs}-Instruktion übersetzt, wobei der Rumpf selbst
 noch in Maschinencode übersetzt wird:
-\begin{eqnarray*}
-  \llbracket e \rrbracket &\deq&
-  \begin{cases}
-    (v, \llbracket e_0\rrbracket) & \textrm{falls $e = \lambda v.e_0$}
-  \end{cases}
-\end{eqnarray*}
+\begin{displaymath}
+  \llbracket e \rrbracket \deq
+    (v, \llbracket e_0\rrbracket) \quad \textrm{falls $e = \lambda v.e_0$}
+\end{displaymath}
 %
 \begin{lstlisting}
 (define term->machine-code
@@ -1478,7 +1480,8 @@ Entsprechend vervollständigen wir die Schablone:
        (if (equal? variable (binding-variable (first environment)))
            (rest environment)
            (cons (first environment)
-                 (remove-environment-binding (rest environment) variable)))))))
+                 (remove-environment-binding (rest environment)
+                                             variable)))))))
 \end{lstlisting} 
 %
 Auch die zweite Operation, das Nachschauen einer Bindung in der
@@ -1490,11 +1493,13 @@ Kurzbeschreibung, Signatur und Testfälle:
 (: lookup-environment (environment symbol -> value))
 
 (check-expect
- (lookup-environment (list (make-binding 'slash 57) (make-binding 'axl 60)) 
+ (lookup-environment (list (make-binding 'slash 57)
+                           (make-binding 'axl 60)) 
                      'axl)
  60)
 (check-expect
- (lookup-environment (list (make-binding 'slash 57) (make-binding 'axl 60))
+ (lookup-environment (list (make-binding 'slash 57)
+                           (make-binding 'axl 60))
                      'slash)
  57)
 \end{lstlisting}
@@ -1684,7 +1689,8 @@ eingepackt werden:
 (check-expect
  (secd-step
   (make-secd empty (list (make-binding 'slash 57))
-             (list (make-abst 'axl (list 'axl 'slash (make-prim '+ 2))))
+             (list (make-abst 'axl 
+                              (list 'axl 'slash (make-prim '+ 2))))
              empty))
  (make-secd (list (make-closure 'axl
                                 (list 'axl 'slash (make-prim '+ 2))
@@ -1823,7 +1829,8 @@ $\delta$-Transition berechnen:
            (make-secd (cons
                        (apply-primitive
                          (prim-operator (first code))
-                         (take-reverse (prim-arity (first code)) stack))
+                         (take-reverse (prim-arity (first code)) 
+                                       stack))
                        (drop (prim-arity (first code)) stack))
                       environment
                       (rest code)
@@ -1864,7 +1871,8 @@ umgedreht wird:
         (cond
           ((zero? n) acc)
           ((positive? n)
-           (accumulate (- n 1) (rest list) (cons (first list) acc))))))
+           (accumulate (- n 1) (rest list)
+                       (cons (first list) acc))))))
     (accumulate n list0 '())))
 \end{lstlisting}
 %
@@ -2046,7 +2054,8 @@ Definition:
 (: eval-secd (term -> (mixed value (enum 'function))))
 
 (check-expect (eval-secd '(+ 1 2)) 3)
-(check-expect (eval-secd '(((lambda (x) (lambda (y) (+ x y))) 1) 2)) 3)
+(check-expect (eval-secd '(((lambda (x) (lambda (y) (+ x y))) 1) 2))
+              3)
 
 (define eval-secd
   (lambda (term)
@@ -2079,8 +2088,8 @@ größer wird:
 %
 % (secd-step*/tex (inject-secd '((lambda (x) (x x)) (lambda (x) (x x)))))
 \begin{displaymath}\tiny
-  \begin{array}{l@{}llll}
-&(\epsilon, &\varnothing, &(x, x~x~\mathtt{ap})~(x, x~x~\mathtt{ap})~\mathtt{ap}, &\epsilon)\\
+  \begin{array}{l@{}l@{}l@{}l@{}l}
+&(\epsilon, &\varnothing, &(x, x~x~\mathtt{ap})\\ &&& (x, x~x~\mathtt{ap}) \\ &&&\mathtt{ap}, &\epsilon)\\
 \hookrightarrow{}&((x, x~x~\mathtt{ap}, \varnothing), &\varnothing, &(x, x~x~\mathtt{ap})~\mathtt{ap}, &\epsilon)\\
 \hookrightarrow{}&((x, x~x~\mathtt{ap}, \varnothing)~(x, x~x~\mathtt{ap}, \varnothing), &\varnothing, &\mathtt{ap}, &\epsilon)\\
 \hookrightarrow{}&(\epsilon, &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &x~x~\mathtt{ap}, &(\epsilon, \varnothing, \epsilon))\\
@@ -2218,22 +2227,6 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
   Fall für die $\mathtt{tailap}$-Instruktion.
 \end{aufgabe}
 
-\begin{aufgabe}
-  Die um Endrekursion erweiterte SECD-Maschine führt eine neue
-  Maschinencode"=Instruktion \lstinline{tailap} ein.  Dies ist aber nicht
-  unbedingt nötig.  Formuliere die Zustandsübergangsregeln der
-  SECD-Maschine mit Endrekursion so um, dass die Funktionalität, also
-  insbesondere die richtige Behandlung endrekursiver Applikationen,
-  auch ohne das das zusätzliche Schlüsselwort \lstinline{tailap}
-  erhalten bleibt.
-\end{aufgabe}
-
-\begin{aufgabe}
-  Zeige in der um Endrekursion erweiterten
-  SECD-Maschine, dass \lstinline{tailap} immer am Ende steht, also
-  tatsächlich keinen Kontext besitzt.
-\end{aufgabe}
-
 \begin{aufgabe}\label{aufgabe:prim-arity}
   Erweitere die SECD-Maschine um Primitiva anderer Stelligkeiten,
   zum Beispiel \lstinline{abs} oder \lstinline{odd?}.
@@ -2245,7 +2238,27 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
   SECD-Maschine und ihre Implementierung entsprechend.
 \end{aufgabe}
 
+\begin{aufgabe}
+  Zeige in der um Endrekursion erweiterten
+  SECD-Maschine, dass \lstinline{tailap} immer am Ende steht, also
+  tatsächlich keinen Kontext besitzt.
+\end{aufgabe}
 
+\begin{aufgabe}
+  Die um Endrekursion erweiterte SECD-Maschine führt eine neue
+  Maschinencode"=Instruktion \lstinline{tailap} ein.  Dies ist aber nicht
+  unbedingt nötig, weil man die endrekursiven
+  \lstinline{ap}-Instruktionen auch daran erkennen kann, dass sie am
+  Ende vom Code stehen.
+
+  Formuliere die Zustandsübergangsregeln der
+  SECD-Maschine mit Endrekursion so um, dass die Funktionalität, also
+  insbesondere die richtige Behandlung endrekursiver Applikationen, so
+  dass sie auch mit dem Ergebnis des normalen Compilers funktioniert,
+  der keine \lstinline{tailap}-Instruktion generiert.
+  \end{aufgabe}
+
+  % FIXME: durchs Kapitel ziehen
 \begin{aufgabe}
   Erweitere den angewandten $\lambda$-Kalkül um binäre
   Verzweigungen analog zu \lstinline{if}.  Erweitere entsprechend die
