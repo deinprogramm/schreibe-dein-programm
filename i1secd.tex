@@ -3,8 +3,6 @@
 % "Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International (CC BY-SA 4.0)"
 % https://creativecommons.org/licenses/by-sa/4.0/deed.de
 
-% FIXME: Mehr Inline-Aufgaben
-
 \chapter{Exkurs: Die SECD-Maschine}\label{cha:secd}
 
 Dieses Kapitel baut auf dem $\lambda$-Kalkül aus dem vorigen Kapitel auf.
@@ -122,16 +120,35 @@ obige Beispielterm folgendermaßen reduziert:
 \end{displaymath}
 %
 \begin{aufgabeinline}
-  Kannst Du auch $\mathbf{if}$ durch eine $\delta$-Regel beschreiben?
-  Zur Beantwortung dieser Frage Schreibe zunächst eine Definition der
-  dazugehörigen Funktion $F^\mathbf{if}$ hin.  Bedenke nun, dass die
+  Leider ist es nicht möglich, Verzweigungen nicht mit einer
+  $\delta$-Regel zu beschreiben.  Aber warum?  Zur Beantwortung dieser
+  Frage Schreibe zunächst eine mögliche Definition der dazugehörigen
+  Funktion $F^\mathbf{if}$ hin.  Bedenke nun, dass die
   $\delta$-Reduktion erst dann greift, wenn alle Argumente von
   $\mathbf{if}$ Werte sind.  Könntest Du mit diesem $\mathbf{if}$ zum
   Beispiel die Fakultät aus Abschnitt~\ref{sec:fixpunktsatz} auf
   Seite~\pageref{sec:fixpunktsatz} definieren?
 \end{aufgabeinline}
+%
+In den folgenden Abschnitten werden wir SECD-Maschine und Compiler
+für den angewandten $\lambda$-Kalkül ohne binäre Verzweigungen
+definieren.  Wir wissen ja, wie wir sie mit den Mitteln aus
+Abschnitt~\ref{sec:booleans} auf Seite~\pageref{sec:booleans}
+definieren können.
 
-% FIXME: Aufgabe zur Definition von $\mathbf{if}$
+Wir werden aber Dich bitten, binäre Verzweigungen als Ergänzung
+direkt zu realisieren in einer Reihe von Übungsaufgaben.  Hier ist die
+erste davon:
+%
+\begin{aufgabeinline}
+  \begin{enumerate}
+  \item Erweitere den erweiterten $\lambda$-Kalkül um eine
+    Grammatik-Klausel für binäre Verzweigungen.
+  \item Definiere eine Reduktionsregel für binäre Verzweigungen,
+    analog zur $\delta$-Reduktion.  (Du kannst Sie $\iota$-Reduktion
+    nennen~-- $\iota$ ist der griechische Buchstabe "<iota">.)
+  \end{enumerate}
+\end{aufgabeinline}
 
 \section{Die SECD-Maschine}
 
@@ -518,6 +535,21 @@ Damit können wir die Evaluationsfunktion wie folgt definieren:
 Diese Funktion wollen wir natürlich auch laufen sehen.  Dafür
 programmieren wir die mathematischen Definitionen im Rest des Kapitels
 nach.
+
+\begin{aufgabeinline}
+  Fahre fort mit der Realisierung von binären Verzweigungen:
+  \begin{enumerate}
+  \item Erweitere die Grammatik für SECD-Instruktionen um eine
+    Instruktion für binäre Verzweigungen.  Die muss den Code für die
+    beiden Zweige des \lstinline{if}-Ausdrucks enthalten.
+  \item Erweitere die Funktion $\llbracket \underline{~}\rrbracket$
+    um eine Klausel für \lstinline{if}-Ausdrücke: Sie sollte zunächst
+    den Code für die Bedingung liefern, gefolgt von der neuen
+    Instruktion.
+  \item Erweitere die Definition von $\hookrightarrow$ um die neue
+    Instruktion.
+  \end{enumerate}
+\end{aufgabeinline}
 
 \section{\texttt{Quote} und Symbole}
 \label{sec:quote}
@@ -1107,6 +1139,14 @@ eine Signatur:
 (define base (signature (predicate base?)))
 \end{lstlisting}
 
+\begin{aufgabeinline}
+  Erweitere die Definition von \lstinline{term} um binäre
+  Verzweigungen in Form von \lstinline{if}-Ausdrücken.  Schreibe dafür
+  zunächst ein Prädikat \lstinline{binary-conditional?} und definiere
+  mit Hilfe davon eine Signatur \lstinline{binary-condition}.
+  Erweitere \lstinline{term} um \lstinline{binary-conditional}.
+\end{aufgabeinline}
+
 \section{Datendefinition für Maschinensprache}
 % 
 Bevor nun ein die SECD-Maschine einen Term verarbeiten kann, muss
@@ -1175,6 +1215,13 @@ das übersetzen wir direkt in Daten- und Record-Definition:
   (abst-variable symbol)
   (abst-code machine-code))
 \end{lstlisting}
+%
+\begin{aufgabeinline}
+  Erweitere die Definition von \lstinline{instruction} um eine
+  Instruktion für binäre Verzweigungen.  Schreibe dazu eine Daten- und
+  eine Record-Definition, die zur Erweiterung der Grammatik für
+  SECD-Instruktionen passt.  Erweitere \lstinline{instruction} damit.
+\end{aufgabeinline}
 
 \section{Ein Compiler für die SECD-Maschine}
 
@@ -1329,6 +1376,11 @@ noch in Maschinencode übersetzt wird:
 \end{lstlisting}
 %
 Fertig ist der Compiler!
+%
+\begin{aufgabeinline}
+  Erweitere den Compiler \lstinline{term->machine-code} um
+  binäre Verzweigungen.  Vergiss nicht ein paar Tests!
+\end{aufgabeinline}
 
 \section{SECD-Code ausführen}
 \label{sec:secd-transition}
@@ -2074,8 +2126,13 @@ Damit läuft die SECD-Maschine:
 (eval-secd '(((lambda (x) (lambda (y) (+ x y))) 1) 2))
 |\evalsto| 3
 \end{lstlisting}
-
-% FIXME: Ausprobieren, Aufgaben
+%
+Fertig!
+%
+\begin{aufgabeline}
+  Erweitere die Definition von \lstinline{secd-step} um die 
+  Instruktion für binäre Verzweigungen.
+\end{aufgabeline}
 
 \section{Die endrekursive SECD-Maschine}
 
@@ -2257,13 +2314,6 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
   dass sie auch mit dem Ergebnis des normalen Compilers funktioniert,
   der keine \lstinline{tailap}-Instruktion generiert.
   \end{aufgabe}
-
-  % FIXME: durchs Kapitel ziehen
-\begin{aufgabe}
-  Erweitere den angewandten $\lambda$-Kalkül um binäre
-  Verzweigungen analog zu \lstinline{if}.  Erweitere entsprechend die
-  SECD-Maschine und ihre Implementierung.
-\end{aufgabe}
 
 \begin{aufgabe}
   Anstatt Umgebungen durch Listen von Bindungen zu repräsentieren, ist
