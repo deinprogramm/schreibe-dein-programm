@@ -24,7 +24,7 @@ eine Linux-Distribution.}
 
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=\textwidth]{i1prog/drracket-start}
+  \includegraphics[width=\textwidth]{elemente/drracket-start}
   \caption{DrRacket nach dem ersten Start}
   \label{fig:drracket-start}
 \end{figure}
@@ -52,7 +52,7 @@ zugeschnitten sind.
 
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=\textwidth]{i1prog/drracket-deinprogramm}
+  \includegraphics[width=\textwidth]{elemente/drracket-deinprogramm}
   \caption{DrRacket mit ausgewählter Lehrsprache}
   \label{fig:drracket-deinprogramm}
 \end{figure}
@@ -339,7 +339,7 @@ Tab-Taste korrekt einrücken.
 %
 Den Inhalt des Definitionsfenster kannst Du abspeichern, indem Du auf
 den Knopf mit dem Diskettensymbol
-\raisebox{-1ex}{\includegraphics[height=12pt]{i1prog/save}} drückst.
+\raisebox{-1ex}{\includegraphics[height=12pt]{elemente/save}} drückst.
 
 \section{Rechnen ohne Zahlen}
 
@@ -468,11 +468,11 @@ Funktionen, mit denen wir Bilder herstellen können.  Zum Beispiel
 %
 \begin{lstlisting}
 (square 40 "solid" "red")
-|\evalsto| |\includegraphics[height=24pt]{i1prog/square}|
+|\evalsto| |\includegraphics[height=24pt]{elemente/square}|
 (circle 20 "solid" "green")
-|\evalsto| |\includegraphics[height=24pt]{i1prog/circle}|
+|\evalsto| |\includegraphics[height=24pt]{elemente/circle}|
 (star-polygon 20 10 3 "solid" "blue")
-|\evalsto| |\includegraphics[height=24pt]{i1prog/starpolygon}|
+|\evalsto| |\includegraphics[height=24pt]{elemente/starpolygon}|
 \end{lstlisting}
 %
 Schauen wir uns das eingebaute \lstinline{star-polygon} etwas näher an:
@@ -487,7 +487,7 @@ Seite übersprungen wird.  Danach kommen zwei Zeichenketten~--
 % filename can't contain hyphen because of alltt
 \begin{lstlisting}
 (star-polygon 20 10 3 "outline" "blue")
-|\evalsto| |\includegraphics[height=24pt]{i1prog/starpolygon_outline}|
+|\evalsto| |\includegraphics[height=24pt]{elemente/starpolygon_outline}|
 \end{lstlisting}
 %
 \begin{aufgabeinline}
@@ -538,11 +538,11 @@ Mit Bildern kann DrRacket auch rechnen:\label{function:beside-above}
 %
 \begin{lstlisting}
 (beside s1 p1)
-|\evalsto| |\includegraphics[height=24pt]{i1prog/beside.png}|
+|\evalsto| |\includegraphics[height=24pt]{elemente/beside.png}|
 (above s1 c1)
-|\evalsto| |\includegraphics[width=24pt]{i1prog/above.png}|
+|\evalsto| |\includegraphics[width=24pt]{elemente/above.png}|
 (above (beside s1 p1) (beside p1 c1))
-|\evalsto| |\includegraphics[width=48pt]{i1prog/abovebeside.png}|
+|\evalsto| |\includegraphics[width=48pt]{elemente/abovebeside.png}|
 \end{lstlisting}
 %
 \begin{aufgabeinline}
@@ -573,12 +573,12 @@ zu einem Muster kombinieren:
 (above
  (beside s1 p1)
  (beside p1 s1))
-|\evalsto| |\includegraphics[width=48pt]{i1prog/tile1}|
+|\evalsto| |\includegraphics[width=48pt]{elemente/tile1}|
 
 (above
  (beside p1 c1)
  (beside c1 p1))
-|\evalsto| |\includegraphics[width=48pt]{i1prog/tile2}|
+|\evalsto| |\includegraphics[width=48pt]{elemente/tile2}|
 \end{lstlisting}
 %
 Beide Ausdrücke folgen dem gleichen Muster, sie "<kacheln"> jeweils zwei
@@ -655,10 +655,10 @@ verwenden:
 %
 \begin{lstlisting}
 (tile s1 p1)
-|\evalsto| |\includegraphics[width=48pt]{i1prog/tile1}|
+|\evalsto| |\includegraphics[width=48pt]{elemente/tile1}|
 
 (tile p1 c1)
-|\evalsto| |\includegraphics[width=48pt]{i1prog/tile2}|
+|\evalsto| |\includegraphics[width=48pt]{elemente/tile2}|
 \end{lstlisting}
 %
 Was ist da passiert?  Am einfachsten kann man das in einem speziellen
@@ -686,7 +686,7 @@ DrRacket-Fenster.  Es erscheint ein neues Fenster, das so aussieht:
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\textwidth]{i1prog/stepper-0}
+  \includegraphics[width=0.6\textwidth]{elemente/stepper-0}
   \caption{Der Stepper in Aktion}
   \label{fig:stepper-0}
 \end{figure}
@@ -697,7 +697,7 @@ ein paar Schritte vorwärts gehst, sieht das so aus:
 %
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{i1prog/stepper-1}
+  \includegraphics[width=0.8\textwidth]{elemente/stepper-1}
   \caption{Stepper: Variable ersetzen}
   \label{fig:stepper-1}
 \end{figure}
@@ -711,7 +711,7 @@ auch mit den Definitionen von \lstinline{s1} und \lstinline{p1}:
 %
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{i1prog/stepper-2}
+  \includegraphics[width=0.8\textwidth]{elemente/stepper-2}
   \caption{Stepper: Variable}
   \label{fig:stepper-2}
 \end{figure}
@@ -724,7 +724,7 @@ und der Stern für \lstinline{b}:
 %
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{i1prog/stepper-3}
+  \includegraphics[width=0.8\textwidth]{elemente/stepper-3}
   \caption{Stepper: Applikation}
   \label{fig:stepper-3}
 \end{figure}
@@ -1202,7 +1202,7 @@ REPL in das Programm kopieren.  In der REPL könnte das so aussehen:
 %
 \begin{lstlisting}
 (square 40 "solid" "red")
-|\evalsto| |\includegraphics[height=24pt]{i1prog/square}|
+|\evalsto| |\includegraphics[height=24pt]{elemente/square}|
 \end{lstlisting}
 %
 Du kannst dann das Quadrat aus der REPL kopieren, also zum Beispiel
@@ -1213,7 +1213,7 @@ beziehungsweise \texttt{Strg-V} oder \texttt{Command-V} einfügen und dann darau
 Test machen:
 %
 \begin{lstlisting}
-(check-expect (square 40 "solid" "red") |\includegraphics[height=24pt]{i1prog/square})|
+(check-expect (square 40 "solid" "red") |\includegraphics[height=24pt]{elemente/square})|
 \end{lstlisting}
 
 \begin{aufgabeinline}
@@ -1850,7 +1850,7 @@ denen sie Teilprobleme lösen!
   Strecke, die das Boot tatsächlich zurücklegt, länger.
 
   \begin{center}
-    \includegraphics{riverboat}
+    \includegraphics{elemente/riverboat}
   \end{center}
 
   Gegeben ist die Breite des Flusses $a$, die Strömungsgeschwindigkeit

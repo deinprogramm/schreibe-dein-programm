@@ -67,7 +67,7 @@ entsprechend angezeigt wird wie andere Werte auch.  Beispiel:
 %
 \begin{lstlisting}
 (rectangle 100 30 "outline" "brown")
-|\evalsto| |\includegraphics[scale=0.5]{i1world/rectangle}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/rectangle}|
 \end{lstlisting}
 %
 Als Farbe geht übrigens auch \lstinline{"transparent"}, die das Bild
@@ -90,7 +90,7 @@ Beispiel:
 %
 \begin{lstlisting}
 (circle 50 "solid" "red")
-|\evalsto| |\includegraphics[scale=0.5]{i1world/circle}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/circle}|
 \end{lstlisting}
 %
 \begin{lstlisting}
@@ -103,7 +103,7 @@ Beispiel:
 %
 \begin{lstlisting}
 (ellipse 50 100 "solid" "green")
-|\evalsto| |\includegraphics[scale=0.5]{i1world/ellipse}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/ellipse}|
 \end{lstlisting}
 %
 \begin{lstlisting}
@@ -116,7 +116,7 @@ Seitenlänge angibt.  Beispiel:
 %
 \begin{lstlisting}
 (triangle 50 "solid" "gold")
-|\evalsto| |\includegraphics[scale=0.5]{i1world/triangle}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/triangle}|
 \end{lstlisting}
 %
 \begin{lstlisting}
@@ -132,9 +132,9 @@ oder von $h$ umdrehen.  Beispiele:
 %
 \begin{lstlisting}
 (line 150 100 "blue")
-|\evalsto| |\includegraphics[scale=0.5]{i1world/line1}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/line1}|
 (line -150 100 "blue")
-|\evalsto| |\includegraphics[scale=0.5]{i1world/line2}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/line2}|
 \end{lstlisting}
 %
 Wir können auch ein Bild erzeugen, in dem Text steht, und zwar mit der
@@ -148,7 +148,7 @@ Die Zahl ist die Höhe der Buchstaben.  Beispiel:
 %
 \begin{lstlisting}
 (text "Schreibe Dein Programm!" 20 "red")
-|\evalsto| |\includegraphics[scale=0.5]{i1world/text}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/text}|
 \end{lstlisting}
 %
 Manchmal reichen einfache Rechtecke und Kreise nicht aus und wir
@@ -185,7 +185,7 @@ Eckpunkten:
                (make-posn -20 -40))
          "solid"
          "plum")
-|\evalsto| |\includegraphics[scale=0.5]{i1world/polygon1}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/polygon1}|
 \end{lstlisting}
 %
 Bei \lstinline{posn}-Eckpunkten sind die Kanten also alles gerade
@@ -216,7 +216,7 @@ Punkt~-- die \emph{ausgehende} Kante.
 \begin{figure}[tb]
   \centering
   \def\svgwidth{0.4\textwidth}
-  \input{i1world/pulled-point.pdf_tex}
+  \input{videospiele/pulled-point.pdf_tex}
   \caption{Funktionsweise von \lstinline{pulled-point}}
   \label{fig:pulled-point}
 \end{figure}
@@ -239,12 +239,12 @@ typischerweise Zahlen zwischen 0 und 1.
                (make-posn -20 -40))
          "solid"
          "plum")
-|\evalsto| |\includegraphics[scale=0.5]{i1world/polygon2}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/polygon2}|
 \end{lstlisting}
 %
 \begin{figure}[tb]
   \centering
-  \includegraphics[height=0.4\textheight]{i1world/insert-image}
+  \includegraphics[height=0.4\textheight]{videospiele/insert-image}
   \caption{Bilddatei in Programm einbetten}
   \label{fig:image-insert}
 \end{figure}
@@ -288,7 +288,7 @@ Beispiel:
 (overlay
   (circle 50 "solid" "gold")
   (rectangle 100 100 "solid" "blue"))
-|\evalsto| |\includegraphics[scale=0.5]{i1world/overlay}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/overlay}|
 \end{lstlisting}
 %
 Mittig ist nicht immer das richtige Arrangement für zwei Bilder, die
@@ -308,7 +308,7 @@ Beispiel:
   (circle 50 "solid" "gold")
   10 -20
   (rectangle 100 100 "solid" "blue"))
-|\evalsto| |\includegraphics[scale=0.5]{i1world/overlayxy}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/overlayxy}|
 \end{lstlisting}
 %
 Das Beispiel zeigt, das auch \lstinline{overlay/xy} das Ergebnisbild
@@ -340,7 +340,7 @@ ausgehend von der oberen linken Ecke des ersten Bildes.  Beispiel:
   (circle 50 "solid" "gold")
   40 70
   (rectangle 100 100 "solid" "blue"))
-|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/place-image}|
 \end{lstlisting}
 %
 Die Funktion \lstinline{place-image} hat noch eine große Schwester
@@ -370,27 +370,27 @@ oder in der Mitte:
   (circle 20 "solid" "gold")
   40 70 "left" "center"
   (rectangle 100 100 "solid" "blue"))
-|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image-align1}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/place-image-align1}|
 (place-image/align
   (circle 20 "solid" "gold")
   40 70 "right" "center"
   (rectangle 100 100 "solid" "blue"))
-|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image-align2}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/place-image-align2}|
 (place-image/align
   (circle 20 "solid" "gold")
   40 70 "center" "center"
   (rectangle 100 100 "solid" "blue"))
-|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image-align3}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/place-image-align3}|
 (place-image/align
   (circle 20 "solid" "gold")
   40 70 "center" "top"
   (rectangle 100 100 "solid" "blue"))
-|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image-align4}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/place-image-align4}|
 (place-image/align
   (circle 20 "solid" "gold")
   40 70 "center" "bottom"
   (rectangle 100 100 "solid" "blue"))
-|\evalsto| |\includegraphics[scale=0.5]{i1world/place-image-align5}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/place-image-align5}|
 \end{lstlisting}
 %
 Die folgenden Funktionen \lstinline{above} und \lstinline{beside}
@@ -420,7 +420,7 @@ Beispiel:
         (scale 1.5 c)
         (scale 2 c)
         (scale 3 c))
-|\evalsto| |\includegraphics[scale=0.5]{i1world/scale}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/scale}|
 \end{lstlisting}
 
 \section{Modelle und Ansichten}
@@ -490,7 +490,7 @@ wir solch eine Funktion benötigen:
 %
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=0.6\textwidth]{i1world/dillo}
+  \includegraphics[width=0.6\textwidth]{videospiele/dillo}
   \caption{Umriss eines Gürteltiers}
   \label{fig:dillo-body}
 \end{figure}
@@ -555,7 +555,7 @@ Hintergrund montiert haben.  So sieht das Ergebnis aus:
 %
 \begin{lstlisting}
 dillo-body
-|\evalsto| |\includegraphics[scale=0.5]{i1world/dillo-body}|
+|\evalsto| |\includegraphics[scale=0.5]{videospiele/dillo-body}|
 \end{lstlisting}
 %
 Jetzt wollen wir ja nicht jedes Gürteltier genau gleich darstellen,
@@ -621,7 +621,7 @@ Fertig ist die Gürteltier-Darstellung!
 
 \begin{figure}[tb]
   \centering
-  \includegraphics[height=0.4\textheight]{i1world/dillo-world}
+  \includegraphics[height=0.4\textheight]{videospiele/dillo-world}
   \caption{Gürteltiere auf der Straße}
   \label{fig:dillo-world}
 \end{figure}
@@ -1128,7 +1128,7 @@ ausprobieren, am einfachsten bei 0 Ticks, also am Anfang des Spiels:
 %
 \begin{lstlisting}
 (place-image-on-road (road-window 0) 0 car (make-position 0 "left"))
-|\evalsto{} \includegraphics[height=1.5cm]{i1world/car-bottom}
+|\evalsto{} \includegraphics[height=1.5cm]{videospiele/car-bottom}
 \end{lstlisting}
 %
 Da ist noch ein Problem!  Das Auto ist am unteren Rand und nur zur
@@ -1948,7 +1948,7 @@ Wenn die spezifiziert ist, wird ein "<Game-Pad"> angezeigt, das so
 aussieht:
 %
 \begin{center}
-  \includegraphics[width=0.6\textwidth]{i1world/gamepad}
+  \includegraphics[width=0.6\textwidth]{videospiele/gamepad}
 \end{center}
 %
 Die Funktion hat folgende Signatur:

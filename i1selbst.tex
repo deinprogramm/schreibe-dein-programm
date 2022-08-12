@@ -492,9 +492,9 @@ Seite \pageref{sec:rechnen-mit-bildern}?  Da haben wir mit Hilfe des
 (define c1 (circle 40 "solid" "green"))
 (define p1 (star-polygon 20 10 3 "solid" "blue"))
 (beside s1 p1)
-|\evalsto{} \includegraphics[height=24pt]{i1prog/beside.png}|
+|\evalsto{} \includegraphics[height=24pt]{elemente/beside.png}|
 (above s1 c1)
-|\evalsto{} \includegraphics[width=24pt]{i1prog/above.png}|
+|\evalsto{} \includegraphics[width=24pt]{elemente/above.png}|
 \end{lstlisting}
 %
 Bei beiden Funktionen war es möglich, die Ergebnisse wieder als Bilder
@@ -502,7 +502,7 @@ zu verwenden:
 %
 \begin{lstlisting}
 (above (beside s1 p1) (beside p1 c1))
-|\evalsto{} \includegraphics[width=48pt]{i1prog/abovebeside.png}|
+|\evalsto{} \includegraphics[width=48pt]{elemente/abovebeside.png}|
 \end{lstlisting}
 %
 Für Bilder ist die Signatur \lstinline{image} zuständig; mir ihrer

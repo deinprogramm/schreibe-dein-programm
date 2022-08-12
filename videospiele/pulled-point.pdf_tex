@@ -53,7 +53,7 @@
   \begin{picture}(1,1.03185469)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
-    \put(0,0){\includegraphics[width=\unitlength,page=1]{i1world/pulled-point.pdf}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{videospiele/pulled-point.pdf}}%
     \put(-0.00229772,0.00438622){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1\end{tabular}}}}%
     \put(0.95553196,0.48723308){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2\end{tabular}}}}%
     \put(-0.00387052,0.96850704){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}3\end{tabular}}}}%
