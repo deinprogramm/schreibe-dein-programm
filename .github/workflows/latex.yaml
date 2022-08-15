@@ -11,14 +11,7 @@ jobs:
       steps:
         - run: sudo apt-get -qq update && sudo apt-get install -y --no-install-recommends texlive-full
         - uses: actions/checkout@v2
-        - run: touch includeonly.tex
-        - run: pdflatex -interaction=nonstopmode -halt-on-error i1
-        - run: bibtex i1
-        - run: pdflatex -interaction=nonstopmode -halt-on-error i1
-        - run: sed -i 's/\\"/"/g' i1.idx
-        - run: sed -i 's/\\eingebaut/eingebaut/g' i1.idx
-        - run: makeindex -c -s i1.mst -g i1
-        - run: pdflatex -interaction=nonstopmode -halt-on-error i1 
+        - run: make all
 
         - name: Create Release
           id: create_release
@@ -32,7 +25,7 @@ jobs:
             prerelease: false
 
         - name: Upload Release Asset
-          id: upload-release-asset 
+          id: upload-pdf
           uses: actions/upload-release-asset@v1
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -42,4 +35,13 @@ jobs:
             asset_name: i1.pdf
             asset_content_type: application/pdf
 
-            
+        - name: Upload Release Asset
+          id: upload-zip
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing its ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+            asset_path: ./sdp-code.zip
+            asset_name: sdp-code.zip
+            asset_content_type: application/zip
