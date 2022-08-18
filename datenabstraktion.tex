@@ -1,0 +1,31 @@
+% Diese Datei ist Teil des Buchs "Schreibe Dein Programm!"
+% Das Buch ist lizensiert unter der Creative-Commons-Lizenz
+% "Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International (CC BY-SA 4.0)"
+% https://creativecommons.org/licenses/by-sa/4.0/deed.de
+
+\chapter{Datenabstraktion}
+\label{chap:datenabstraktion}
+
+In Kapitel~\ref{cha:trees} haben gesehen, dass Bäume beim Suchen
+helfen können, und zwar in einer Vielzahl von Situationen: Ob es nun
+um Mitgliedschaft in einer Band geht, das Finden von Telefonnummern
+oder Steuerunterlagen.  Dass aber ausgerechnet Bäume dafür
+verantwortlich sind, Daten effizient zu finden, ist aber aus Sicht der
+konkreten Anwendung nebensächlich.  Es gibt neben Bäumen eine Vielzahl
+von Datenstrukturen für effiziente Suche.  Je nach Anwendung könnte es
+sogar sinnvoll sein, nachträglich eine Datenstruktur durch eine andere
+zu ersetzen, etwa weil sie schneller ist oder weniger Speicherplatz
+verbraucht.  So wie wir bisher programmiert haben, ist das aber recht
+aufwendig, unter anderem weil Funktionen wie
+\lstinline{search-tree-insert} die Datenstruktur im Namen tragen.  In
+diesem Kapitel geht es darum, es leicher zu machen, eine Datenstruktur
+durch eine andere zu ersetzen~-- mit einer Technik namens
+\textit{Datenabstraktion}.\index{Datenabstraktion}
+
+Dieses Kapitel befindet sich noch in der Entstehung.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "i1"
+%%% End: 
+
