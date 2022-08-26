@@ -96,7 +96,7 @@ Daraus ergibt sich zum Beispiel folgende Gleichtung.
 Die Reihenfolge, in der die Elemente in den geschweiften Klammern
 geschrieben sind, ist also unerheblich.  Außerdem spielt es keine
 Rolle, wenn ein Element mehrmals in den geschweiften Klammern
-auftaucht.  Wie oben schon gesagt: jedes Element ist in einer Menge
+auftaucht.  Wie oben schon gesagt, jedes Element ist in einer Menge
 nur einmal oder keinmal enthalten:
 \[\{11,13,17,19\} = \{11,13,11,17,17,11,13,19\}\]
 %
@@ -347,7 +347,7 @@ Es \emph{ist} so, dass folgende Gleichung stimmt:
 %
 \[ (n+1)^2 = \dfrac{(n+1)(n+2)(2n+3)}{6} - \dfrac{n(n+1)(2n+1)}{6}\]
 %
-Wenn also die Gleichung, die so scheint, stimmen würde, dann folgte
+Wenn also die erste Gleichung ("<schien so">), stimmen würde, dann folgte
 daraus diese Gleichung:
 %
 \begin{displaymath}
@@ -501,7 +501,7 @@ herausgekommen und die Behauptung ist bewiesen.
 
 Die vollständige Induktion aus dem vorigen Abschnitt ist nur für die
 Menge der natürlichen Zahlen geeignet.  Sie funktioniert aber nicht für alle
-Mengen: Für die reellen Zahlen $\mathbb{R}$ z.B.\ erreicht die
+Mengen: Für die reellen Zahlen $\mathbb{R}$ zum Beispiel erreicht die
 Konstruktion "<bei $0$ anfangen und dann immer um $1$ hochzählen"> einfach
 nicht alle Elemente der Menge.%\footnote{Bei den ganzen Zahlen
 %  $\mathbb{Z}$ und den rationalen Zahlen $\mathbb{Q}$ ist das anders,
@@ -583,24 +583,22 @@ Kapitel werden wir noch ein solches Beispiel sehen.
 
 Die natürlichen Zahlen sind nicht die einzige induktiv definierte
 Menge.  Ein weiteres Beispiel sind die \index{Folge}\index{endliche
-  Folge}\textit{endlichen Folgen}, die den Listen entsprechen:
+  Folge}\textit{endlichen Folgen}, die den Listen entsprechen.  Beim
+Programmieren verwenden die Notation \lstinline{(list-of $s$)}
+verwenden, um die Signatur für Listen hinzuschreiben, die aus Werten
+der Signature $s$s bestehen.  Das Gegenstück in der Mathematik ist die
+Notation $M^\star$, die Menge der Folgen mit Elementen aus der Menge
+$M$.
 
 \begin{definition}
   \label{def:finite-sequences}
   Sei $M$ eine beliebige Menge.  Die Menge $M^\ast$ der \textit{endlichen
-    Folgen} über $M$ ist folgendermaßen definiert:\index{*@$M^\ast$}
+    Folgen über $M$} ist folgendermaßen definiert:\index{*@$M^\ast$}
     \begin{enumerate}
-    \item Es gibt eine \textit{leere Folge}\footnote{In
-        Kapitel~\ref{cha:list} wurde bereits erklärt, wieso es sinnvoll
-        ist, mit der leeren Folge anzufangen.}
-        % Auf den ersten
-        % Blick scheint das Konzept einer leeren Folge, die keine
-        % Elemente enthält, merkwürdig. Die Informatik hat aber die
-        % Erfahrung gemacht, dass allzu oft Programme abstürzen, weil
-        % sie irgendwo "<nichts"> vorfinden, wo sie doch mindestens
-        % "<etwas"> erwarteten. Auf den zweiten Blick ist die leere
-        % Folge aber das Analog zu der $0$ bei den natürlichen Zahlen.}
-     $\epsilon \in
+    \item Es gibt eine \textit{leere Folge}
+      $\epsilon\footnote{Dieser griechische Buchstabe
+        $\epsilon$ ist ein kleines Epsilon, in der Mathematik oft für
+        Dinge verwendet, die "<leer"> oder "<klein"> sind.} \in
       M^\ast$.\index{*@$\epsilon$}\index{leere Folge}
     \item Wenn $f \in M^\ast$ eine Folge ist und $m \in M$, so ist $mf
       \in M^\ast$, also auch eine Folge.
@@ -626,9 +624,9 @@ Klausel bildet den induktiven Abschluss.
 \label{sec:functions-on-finite-sequences}
 
 Dieser Abschnitt demonstriert, wie mathematische Funktionen auf endlichen Folgen
-formuliert werden.  Als Beispiel ist eine Funktion $s :
-\err^\ast \rightarrow \err$ gefragt, die für eine Folge deren Summe
-ausrechnet, also z.B.:
+formuliert werden.
+Als Beispiel ist eine Funktion namens $s$ gefragt, die für eine Folge deren Summe
+ausrechnet, also zum Beispiel:
 %
 \begin{displaymath}
   \begin{split}
@@ -648,11 +646,24 @@ die zwischen den beiden Sorten unterscheidet:
   s(f) \deq
   \begin{cases}
     ? & \textrm{falls $f = \epsilon$}\\
-    ? & \textrm{falls $f = mf'$, $m\in M, f'\in M^\ast$}
+    ? & \textrm{falls $f = mf'$, $m\in M, f'\in
+        M^\ast$}\footnotemark
   \end{cases}
 \end{displaymath}
+\footnotetext{Vielleicht irritiert Dich das Apostroph bei $f'$, weil
+  es in der Schulanalysis für "<Ableitung"> steht.  Das ist in diesem
+  Buch~-- und in vielen anderen Bereichen der Mathematik~-- nicht so:
+  $f'$ ist nur eine weitere Variable, gesprochen "<f strich">.}
 %
-Es fehlen nur noch die Teile der Definition, wo Fragezeichen stehen:
+Diese Definition hat eine Verzweigung mit zwei Zweigen.  Der erste
+Zweig greift, wenn $f$ die leere Folge ist.  Der zweite Zweig greift
+entsprechend, wenn $f$ nicht leer ist.  Das ist verklausuliert
+als $f =mf'$, was heißt, dass $f$ die \emph{Form} $mf'$ hat, also
+aus einem ersten Element $m$ und einer Restfolge $f'$ besteht.  Wenn
+also zum Beispiel $f$ die Folge $abcd\epsilon$ ist, dann ist $m = a$
+und $f' =bcd$.
+
+Es fehlen noch die Teile der Definition, wo Fragezeichen stehen:
 
 Die Summe der leeren Folge ist $0$:  Wenn es sich um eine andere
 Zahl $m \neq 0$ handeln würde, ließe sich schließlich die Summe einer
@@ -823,10 +834,11 @@ $u,v,w \in M^{\ast}$ gilt
   Du raten, über welche Folge die Induktion geht und gegebenenfalls
   alle Möglichkeiten durchprobieren.  Wir entscheiden uns für die
   erste Folge $u$ und benennen sie in $f$ um, damit der Beweis auf die
-  Anleitung passt:
+  Anleitung passt.  Außerdem müssen wir bei der Anwendung der
+  Definition von $\textrm{cat}$ für $f_1$ dieses $f$ einsetzen.
   %
   \begin{displaymath}
-    \forall f\in M^\ast:\forall v,w\in M^\ast: {\rm cat}(f,{\rm cat}(v,w))  =  {\rm cat}({\rm cat}(f,v),w)
+    \forall f\in M^\ast \forall v,w\in M^\ast: {\rm cat}(f,{\rm cat}(v,w))  =  {\rm cat}({\rm cat}(f,v),w)
   \end{displaymath}
 \item
   $f=\epsilon$: Hier gilt
@@ -1064,7 +1076,8 @@ einen Ausdruck genau wie in der Arithmetik mit Klammern:
 Jeder solche Ausdruck hat einen Wahrheitswert, also
 "<wahr"> oder "<falsch">, und eine strukturell rekursive Funktion kann
 diesen Wahrheitswert errechnen.  Diese Funktion "<heißt"> $\llbracket
-\underline{~}\rrbracket$\index{*@$\llbracket\underline{~}\rrbracket$}~--
+\underline{~}\rrbracket$\index{*@$\llbracket\underline{~}\rrbracket$}\footnote{Eine
+  elegante mündliche Aussprache gibt es dafür leider nicht.}~--
 für einen Ausdruck $e$ liefert $\llbracket e\rrbracket$ den Wert $1$,
 falls der Ausdruck "<wahr"> ist und $1$, falls "<falsch">.  Die
 doppelten eckigen Klammern heißen in der Fachsprache "<Semantikklammern">\index{Semantikklammern}
@@ -1345,9 +1358,12 @@ Aus 1.\ und 2.\ folgt, dass es natürliche Zahlen
   $0, 0', 0'', 0''', 0'''',\ldots$
 \end{quote}
 gibt.  Ohne die $0$ am Anfang entsteht die Darstellung der natürlichen Zahlen
-durch Striche.  Die Axiome 3 und 4 besagen, dass jede Zahl nur eine Strichdarstellung 
-besitzt: jedes Anfügen eines Striches "<$\,'\,$"> erzeugt eine
-völlig neue Zahl.
+durch Striche.  Die Axiome 3 und 4 besagen, dass es für jede Zahl nur
+eine einzige Strichdarstellung 
+gibt: jedes Anfügen eines Striches "<$\,'\,$"> erzeugt eine
+völlig neue Zahl.  Ohne Klausel~4 könnte man theoretisch auf die Idee
+kommen, dass es zwei unterschiedliche Zahlen gibt, die beide den
+gleichen Nachfolger haben.
 
 Die Peano-Formulierung ist zwar ähnlich zu Definition~\ref{def:N},
 weist aber auch interessante Unterschiede auf:
