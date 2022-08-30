@@ -255,7 +255,7 @@ nach dem Namen einer Bilddatei, die dann in den Programmtext da
 eingefügt wird, wo der Cursor steht.  Alternativ ist es möglich,
 Bilder in anderen Applikationen auszuwählen und zu kopieren und dann
 in DrRacket einzufügen.  Die eingefügten Bilder dienen dann als
-Literale für Bild-Objekte.  Abbildung~\ref{fig:image-insert} zeigt ein
+Literale für Bild-Werte.  Abbildung~\ref{fig:image-insert} zeigt ein
 Beispiel.
 
 Schließlich ermitteln die folgenden Funktionen Breite und Höhe
@@ -315,7 +315,7 @@ Das Beispiel zeigt, das auch \lstinline{overlay/xy} das Ergebnisbild
 gerade so groß macht, dass die beiden Eingabebilder hineinpassen.
 
 Manchmal macht auch \lstinline{overlay/xy} nicht das richtige, nämlich
-wenn einfach nur ein Objekt in eine "<Szene"> platziert werden soll,
+wenn einfach nur ein Bild in eine "<Szene"> platziert werden soll,
 zum Beispiel das Gürteltier auf einem Straßenabschnitt.  In dem Fall
 wollen wir genau wie bei \lstinline{overlay/xy} kontrollieren, an
 welchen Koordinaten das daraufgelegte Bild erscheint, aber das Bild
@@ -463,7 +463,7 @@ begegnet.  Zur Erinnerung, hier ist der relevante Code dazu:
 Die Datendefinition mit dem zugehörigen Code hält zwar einige Eigenschaften
 von Gürteltieren fest, für ein Videospiel fehlt aber noch eine
 grafische Darstellung.  Ebenso definiert \lstinline{run-over-dillo}
-eine Operation auf Gürteltier-Objekten fest, aber auch die sagt nichts
+eine Operation auf Gürteltier-Werten fest, aber auch die sagt nichts
 zu einer grafischen Darstellung.  Eine solche Repräsentation mit
 zugehörigen Operationen heißt in der Softwararchitektur auch
 \textit{Modell}\index{Modell} oder auch
@@ -1027,9 +1027,9 @@ Wir benötigen außerdem noch:
 Letzteres überrascht Dich vielleicht. Ist das Bild der Straße nicht
 immer das gleiche?  Nein, ist es nicht!  Zunächst einmal ist die
 Position des Mittelstreifens je nach Zeit immer unterschiedlich.
-Außerdem wollen wir ja nicht nur ein Objekt auf der Straße platzieren,
+Außerdem wollen wir ja nicht nur ein Bild auf der Straße platzieren,
 sondern viele.  Dafür füttern wir das Ergebnis der Funktion wieder in
-die Funktion hinein, um ein weiteres Objekt zu platzieren.
+die Funktion hinein, um ein weiteres Bild zu platzieren.
 
 Kurzbeschreibung, Signatur und Gerüst sehen entsprechend aus wie
 folgt:
@@ -1360,8 +1360,8 @@ Besser wird es mit \lstinline{animate}.  Dafür brauchen wir eine
 Funktion mit Signatur \lstinline{(natural -> image)}.  Da wir schon
 \lstinline{world->image} mit der Signatur \lstinline{(world -> image)}
 haben, brauchen wir noch eine Funktion mit Signatur
-\lstinline{(natural -> world)}, die ein passendes
-\lstinline{world}-Objekt erzeugt:
+\lstinline{(natural -> world)}, die einen passenden
+\lstinline{world}-Wert erzeugt:
 %
 \begin{lstlisting}
 ; Statische Welt zu einem bestimmten Zeitpunkt darstellen

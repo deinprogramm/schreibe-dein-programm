@@ -1171,7 +1171,7 @@ vorher, also entsprechend dem Ergebnis von \lstinline{dillo-alive?}:
 %
 Diese Version ist genauso korrekt wie die erste, und keine ist
 offensichtlich "<besser"> als die andere.\footnote{Die erste Version im Fall
-  "<totes Gürteltier"> vermeidet, ein neues Gürteltier-Objekt zu erzeugen.
+  "<totes Gürteltier"> vermeidet, einen neuen Gürteltier-Wert zu erzeugen.
   Dafür ist die zweite Version kürzer.  In der Praxis ist der
   Unterschied unwichtig.}
 
@@ -1394,14 +1394,14 @@ Seite~\pageref{mantra:gleichungen}:
 
   \begin{enumerate}
   \item Schreibe eine Funktion \lstinline{date-ok?}, die feststellt,
-    ob ein Datums-Objekt einem tatsächlichen Kalenderdatum entspricht,
+    ob ein Datums-Wert einem tatsächlichen Kalenderdatum entspricht,
     also korrekte Daten wie 1.1.1970 von unsinnigen wie 34.17.2006
     unterscheidet. Lasse dazu Schaltjahre außer Acht. Beachte
     die Monate mit 28, 30 und 31 Tagen.
   \item Schreibe eine Funktion \lstinline{date-equal?}, die
-    vergleicht, ob zwei Datums-Objekte gleich sind.
+    vergleicht, ob zwei Datums-Werte gleich sind.
   \item Schreibe eine Funktion \lstinline{time-ok?}, die feststellt,
-    ob ein Zeit-Objekt einer tatsächlichen Uhrzeit entspricht.
+    ob ein Zeit-Wert einer tatsächlichen Uhrzeit entspricht.
   \item Schreibe eine Funktion \lstinline{time-overlap?}, die
     überprüft, ob sich zwei Zeiten mit einer jeweils gegebenen Dauer
     (in Minuten) überschneiden. Gehe davon aus, dass es sich um
@@ -1429,7 +1429,7 @@ Seite~\pageref{mantra:gleichungen}:
     Fahrzeugscheins sinnvoll in Untergruppen und erstelle für diese
     Untergruppen eigene Daten- und Record-Definitionen.  Benutze
     sprechende Bezeichner für Records und Felder!  Gib ein
-    Beispiel an, indem Du ein Fahrzeugschein-Objekt mit allen Einträgen
+    Beispiel an, indem Du einen Fahrzeugschein-Wert mit allen Einträgen
     erzeugst.
     
     
