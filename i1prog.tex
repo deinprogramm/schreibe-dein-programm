@@ -7,20 +7,11 @@
 \label{cha:whats-programming}
 
 Dieses Kapitel gibt einen Überblick über das wichtigste Handwerkszeug
-des Programmierens: Welche Software Du dafür brauchst, wie Du diese
-Software bedienst, wie kleine Programme aussehen und aus welchen
-Elementen sie bestehen.
+des Programmierens.   Für den Einstieg solltest Du Racket
+heruntergeladen haben.  Die Koordinaten dafür sind in
+Abschnitt~\ref{sec:racket} auf Seite~\pageref{sec:racket}.
 
 \section{DrRacket}
-
-Zunächst einmal benötigst Du die Software \textit{Racket}\index{Racket}, die es zum
-kostenlosen Download auf der Seite \url{https://racket-lang.org/} für
-alle gängigen Plattformen gibt.  Auf der Seite ist ein
-\texttt{Download}-Knopf~-- folge den dortigen Instruktionen für die
-Installation.\footnote{Achte darauf, dass Du mindestens Version 8.0
-bekommst~-- das ist besonders relevant, wenn Du einen anderen
-Installationsweg wählst, wie zum Beispiel einen Package-Manager für
-eine Linux-Distribution.}
 
 \begin{figure}[tb]
   \centering
@@ -40,11 +31,13 @@ starten; dann sollten die Menüs auf Deutsch sein.
 
 DrRacket ist eine \textit{Entwicklungsumgebung}, mit der Du Programme
 schreiben und ausführen kannst.  DrRacket unterstützt nicht nur eine
-Programmiersprache, darum musst Du die richtige Programmiersprache für
-dieses Buch noch auswählen.  Dazu wählst Du den Menüpunkt
+einzige Programmiersprache, sondern viele.
+Darum musst Du die richtige Programmiersprache für
+dieses Buch noch auswählen.  Dazu wähle den Menüpunkt
 \texttt{Sprache $\rightarrow$ Sprache auswählen} (beziehungsweise
 \texttt{Language $\rightarrow$ Choose language} in der englischen
-Fassung), worauf ein Dialog erscheint.  In dem Dialog gibt es eine
+Fassung), worauf ein neues Fenster mit einem Dialog erscheint.
+In dem Dialog gibt es eine
 Abteilung \texttt{Lehrsprachen\index{Lehrsprachen}}, und darunter eine
 Überschrift namens \texttt{DeinProgramm}, unterhalb dessen mehrere
 Einträge erscheinen, die speziell auf die Kapitel dieses Buchs
@@ -79,16 +72,15 @@ Das DrRacket-Fenster besteht aus zwei Teilen:
   sogenannten \textit{REPL\index{REPL}}\footnote{"<REPL"> steht für
     "<Read-Eval-Print-Loop">~-- wir werden später zeigen, warum.}
   werden die Ausgaben des Programms angezeigt.  Außerdem kannst Du
-  hier "<Fragen"> an das Programm stellen, um einzelne Programmteile
-  gezielt auszuprobieren.
+  einzelne Programmteile gezielt testen.
 \end{enumerate}
 %
 
 \section{Ausdrücke und die REPL}
 
 Fangen wir mit der REPL an: Wenn Du gerade \texttt{Start} gedrückt
-hast, dann erscheint der Cursor rechts von dem \lstinline{>}-Zeichen: Du
-kannst da etwas eingeben und Return drücken~-- DrRacket zeigt dann
+hast, dann erscheint der Cursor rechts von dem \lstinline{>}-Zeichen:
+Hier kannst Du etwas eingeben und Return drücken.  DrRacket zeigt dann
 das Ergebnis darunter an.
 
 Wenn Du zum Beispiel \lstinline{123} eintippst, zeigt DrRacket gleich
@@ -100,26 +92,26 @@ Zum Beispiel so:
 (+ 123 42)
 \end{lstlisting}
 %
-Wenn Du das in die REPL tippst, zeigt DrRacket \lstinline{165} an, die
+Wenn Du das in die REPL eingibst, zeigt DrRacket \lstinline{165} an, die
 \textit{Summe}\index{Summe} von 123 und 42.  Diese "<Rechenaufgabe">
 ist ein sogenannter \textit{Ausdruck\index{Ausdruck}}.  Ausdrücke, die
 etwas ausrechnen sollten, haben in den Lehrsprachen immer die gleiche
-Form, und die sieht so aus:
+Form:
 %
 \begin{lstlisting}
 (|\textnormal{\textit{Operator}}| |\textnormal{\textit{Operand}}| |\ldots|)
 \end{lstlisting}
 %
-Das heißt, da stehen \emph{immer} Klammern\index{Klammer} drumherum
-(und die können auch nirgendwo sonst stehen).  Dann steht da der
+Es stehen \emph{immer} Klammern\index{Klammer} drumherum
+(und die können auch nirgendwo sonst stehen).  Dann folgt der
 \textit{Operator\index{Operator}}, der bestimmt, \emph{was} gemacht
-wird, also die \textit{Operation}.  Danach kommen die
+wird (die \textit{Operation}).  Danach kommen die
 \textit{Operanden\index{Operand}}, welche die Eingaben\index{Eingabe}
 für die Operation bestimmen.
 
 Zum Merken ist es hilfreich, Ausdrücke entsprechend vorzulesen: Also
-nicht mehr "<Hundertdreiundzwanzig plus zweiundvierzig">, sondern
-"<die \emph{Summe} von Hundertdreiundzwanzig und zweiundvierzig">.
+nicht mehr "<hundertdreiundzwanzig plus zweiundvierzig">, sondern
+"<die \emph{Summe} von hundertdreiundzwanzig und zweiundvierzig">.
 
 Wie schon gesagt, die Klammern sind wichtig.  Wenn Du sie vergisst,
 können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
@@ -133,14 +125,14 @@ können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
 \end{alltt}
 %
 Das liegt daran, dass ohne Klammern \lstinline{+ 123 32} aus \emph{drei}
-Ausdrücken besteht und die REPL darum auch drei Ergebnisse ausdruckt:
+Ausdrücken besteht und die REPL deshalb auch drei Ergebnisse ausdruckt:
 Die Funktion \lstinline{+}, dann die \lstinline{123}, dann \lstinline{42}.
 (Die Operation \lstinline{+} ist eine sogenannte Funktion~-- das
 erläutern wir später noch genauer.)  Ähnlich verhält es sich mit
 \lstinline{123 + 42}~-- probiere es aus!
 
-Wenn Du versehentlich den Operator dazwischen schreibst, erscheint
-in der REPL eine Fehlermeldung:
+Wenn Du versehentlich die Klammern setzt, aber den Operator dazwischen
+schreibst, erscheint in der REPL eine Fehlermeldung:
 %
 \begin{alltt}
 > ({\color{green}123} + {\color{green}42})
@@ -169,8 +161,9 @@ DrRacket-REPL:
 |\evalsto| 165
 \end{lstlisting}
 %
-Es gehen natürlich nicht nur Summen, sonderen auch Differenzen,
-Produkte und Quotienten:
+So lassen sich natürlich nicht nur Summen, sonderen auch Differenzen,
+Produkte (mit dem Operator \lstinline{*}) und Quotienten (mit dem
+Operator \lstinline{/}) ausrechnen:
 %
 \begin{lstlisting}
 (- 123 42)
@@ -192,7 +185,7 @@ nicht mit Komma geschrieben werden.  Der Überstrich bei
 %
 Die REPL funktioniert also folgendermaßen: Sie \emph{liest} einen
 Ausdruck ein (auf Englisch "<read">), berechnet dessen Wert oder \emph{wertet}
-diesen \emph{aus} ("<eval">) und zeigt das Ergebnis an
+diesen \emph{aus} ("<eval">, kurz für "<evaluate">) und zeigt das Ergebnis an
 oder \emph{druckt} dieses \emph{aus} ("<print">)~-- und dann geht es
 von vorn los, wie in einer Schleife ("<loop">).  Die Abfolge
 \emph{Read-Eval-Print-Loop} gibt der REPL ihren Namen.
@@ -206,7 +199,8 @@ Ausdrücke können auch kombiniert werden, zum Beispiel so:
 |\evalsto| 5166
 \end{lstlisting}
 %
-Bei der Kombination ist wichtig, dass um jeden Teilausdruck wieder ein
+Bei der Kombination verschiedener Ausdrücker ist es wichtig,
+dass um jeden Teilausdruck wieder ein
 Klammernpaar kommt.  Ist das nicht der Fall, erscheinen gelegentlich
 auch mal Fehlermeldungen wie diese hier:
 %
@@ -269,10 +263,9 @@ alles
 |\evalsto| 42
 \end{lstlisting}
 %
-Ein Name, der in einem Programm so definiert ist, heißt
-\textit{Variable\index{Variable}}.
+Ein solcher Name in einem Programm heißt \textit{Variable\index{Variable}}.
 
-Hier sind ein paar weitere Beispiele für Definitionen:
+Hier sind ein paar weitere Beispiele für Definitionen von Variablen:
 %
 \begin{lstlisting}
 (define one 1)
@@ -281,10 +274,23 @@ Hier sind ein paar weitere Beispiele für Definitionen:
 (define michael-ballack 13)
 \end{lstlisting}
 %
-Bei der Gestaltung eines Namens gibt es weitgehende
-Freiheiten.\footnote{Anders als in anderen Programmiersprachen sind
-  auch Bindestriche in Namen möglich.}  Nur Leerzeichen sind nicht
-erlaubt.
+Du kannst also auch diese Namen in die REPL eingeben und bekommst
+jeweils den dazugehörigen Wert, wenn Du Return drückst:
+%
+\begin{lstlisting}
+one
+|\evalsto| 1
+temperature
+|\evalsto| 23
+birgit-prinz
+|\evalsto| 9
+michael-ballack
+|\evalsto| 13
+\end{lstlisting}
+%
+Bei der Gestaltung eines Namens gibt es weitgehende Freiheiten. Anders
+als in anderen Programmiersprachen sind auch Bindestriche in Namen
+möglich.  Nur Leerzeichen sind nicht erlaubt.
 
 Groß- und Kleinschreibung ist bei Namen egal.  Es funktioniert also
 auch:
@@ -353,7 +359,11 @@ Tab-Taste korrekt einrücken.
 %
 Den Inhalt des Definitionsfenster kannst Du abspeichern, indem Du auf
 den Knopf mit dem Diskettensymbol
-\raisebox{-1ex}{\includegraphics[height=12pt]{elemente/save}} drückst.
+\raisebox{-1ex}{\includegraphics[height=12pt]{elemente/save}}\footnote{Disketten
+wurden im 20.~Jahrhundert verwendet, um Daten zu speichern.  Es gab
+damals noch keine Speicherkarten oder USB-Sticks.}
+drückst.  Du bekommst dann ein Dialogfenster, in dem Du einen
+Dateinamen vergeben kannst.
 
 \section{Rechnen ohne Zahlen}
 
@@ -396,7 +406,7 @@ Beispiel:
 \end{lstlisting}
 %
 Das Anführungszeichen (\lstinline{"}) kann nicht "<ungeschützt"> vorkommen, da es das Ende der
-Zeichenkette markiert. Es wird als Zeichen innerhalb einer Zeichenkette
+Zeichenkette markiert. Es wird als "<echtes"> Anführungszeichen innerhalb einer Zeichenkette
 durch \lstinline{\"} dargestellt:
 %
 \begin{lstlisting}
@@ -531,7 +541,7 @@ mit Definitionen auch Namen dafür vergeben:
 
 \begin{aufgabeinline}
   Du kannst auch Bilddateien oder Bilder von Webseiten in Dein Programm
-  einfügen, wie in einem Textverarbeitsprogramm. Das geht so:
+  einfügen, wie in einem Textverarbeitungsprogramm. Das geht so:
   %
   \begin{itemize}
     \item Um eine Bilddatei einzufügen, wähle den Menüpunkt
@@ -560,7 +570,7 @@ Mit Bildern kann DrRacket auch rechnen:\label{function:beside-above}
 \end{lstlisting}
 %
 \begin{aufgabeinline}
-  Probiere in der der REPL folgende Ausdrücke aus:
+  Probiere in der REPL folgende Ausdrücke aus:
 \begin{lstlisting}
 (triangle 50 "outline" "red")
 (square 100 "solid" "blue")
@@ -571,10 +581,10 @@ Mit Bildern kann DrRacket auch rechnen:\label{function:beside-above}
   berechnet.
 \end{aufgabeinline}
 %
-Das heißt, \lstinline{beside} akzeptiert als Eingabe zwei (oder mehr)
+Das heißt, \lstinline{above} akzeptiert als Eingabe zwei (oder mehr)
 Bilder und macht daraus wieder ein Bild, in dem die Teilbilder
-nebeneinander stehen.  Das gleiche gilt für \lstinline{above}, nur dass
-die Bilder übereinander angeordnet werden.  Selbstverständlich können
+übereinander stehen.  Das gleiche gilt für \lstinline{beside}, nur dass
+die Bilder nebeneinander angeordnet werden.  Selbstverständlich können
 \lstinline{above} und \lstinline{beside} auch kombiniert werden.
 
 \section{Abstraktion und Applikation}
@@ -607,21 +617,21 @@ hinschreiben:
  (beside b a))
 \end{lstlisting}
 %
-Das erste Beispiel entsteht dann, indem für \lstinline{a} \lstinline{s1}
+Das erste Beispiel entsteht, indem für \lstinline{a} \lstinline{s1}
 eingesetzt wird und für \lstinline{b} \lstinline{p1}, im zweiten für \lstinline{a}
 \lstinline{p1} und für \lstinline{b} dann \lstinline{c1}.
 
 Dieses Muster kannst Du in ein Programm gießen.  Dann müssen wir nicht
 jedesmal \lstinline{above} ~\ldots~ \lstinline{beside} ~\ldots~ \lstinline{beside} eintippen.
 Dazu schreibst Du es erst einmal genauso hin, also mit \lstinline{a} und
-\lstinline{b}.  Wenn Du das Programm startet, erscheint folgende Meldung:
+\lstinline{b}.  Wenn es startet, erscheint folgende Meldung:
 %
 \begin{alltt}
 \color{red}a: Variable nicht definiert
 \end{alltt}
 %
-Na klar, es gibt ja auch keine Definition für \lstinline{a}.  Du könntest
-eine hinschreiben, zum Beispiel:
+Das bedeutet, dass es keine Definition für \lstinline{a} gibt.
+Du könntest eine hinschreiben, zum Beispiel:
 %
 \begin{lstlisting}
 (define a s1)
@@ -652,7 +662,7 @@ startest, geht die Fehlermeldung weg und in der REPL erscheint:
 \end{lstlisting}
 %
 Das deutet darauf hin, dass bei dem \lstinline{lambda} eine Funktion
-herauskommt.  Um etwas damit anfzufangen, gib ihr einen Namen mit
+herauskommt.  Um etwas damit anzufangen, gib ihr einen Namen mit
 \lstinline{define}:
 %
 \begin{lstlisting}
@@ -663,7 +673,7 @@ herauskommt.  Um etwas damit anfzufangen, gib ihr einen Namen mit
      (beside b a))))
 \end{lstlisting}
 %
-(Alles schön richtig einrücken! "<Tile"> heißt auf Deutsch
+(Alles schön richtig einrücken! "<To tile"> heißt auf Deutsch
 "<kacheln">.)
 
 Dadurch ist eine neue Operation entstanden.  Die kannst Du direkt
@@ -679,8 +689,8 @@ verwenden:
 %
 Was ist da passiert?  Am einfachsten kann man das in einem speziellen
 Werkzeug sehen, dem \textit{Stepper\index{Stepper}}.  Um ihn zum
-Einsatz zu bringen, sorge dafür, dass im Definitionsfenster folgendes
-Programm steht, also das, was weiter oben schon steht:
+Einsatz zu bringen, stelle sicher, dass im Definitionsfenster folgendes
+Programm steht:
 %
 \begin{lstlisting}
 (define s1 (square 40 "solid" "red"))
@@ -697,7 +707,8 @@ Programm steht, also das, was weiter oben schon steht:
 (tile p1 c1)
 \end{lstlisting}
 %
-Dann drück auf den \texttt{Stepper}-Knopf oben rechts im
+Dann drück auf den \texttt{Stepper}-Knopf (beziehungsweise
+\texttt{Step} in der englischen Fassung) oben rechts im
 DrRacket-Fenster.  Es erscheint ein neues Fenster, das so aussieht:
 
 \begin{figure}[H]
@@ -707,9 +718,10 @@ DrRacket-Fenster.  Es erscheint ein neues Fenster, das so aussieht:
   \label{fig:stepper-0}
 \end{figure}
 %
-\noindent Du kannst jetzt mit den Knöpfen mit dem Vorwärts- beziehungsweise dem
-Rückwärts-Pfeil zusehen, wie DrRacket Dein Programm ausführt.  Wenn Du
-ein paar Schritte vorwärts gehst, sieht das so aus:
+\noindent Wenn Du jetzt den Knopf mit dem Vorwärts- beziehungsweise
+dem Rückwärts-Pfeil drückst, kannst Du zusehen, wie DrRacket Dein
+Programm ausführt.  Wenn Du ein paar Schritte vorwärts gehst, sieht
+das so aus:
 %
 \begin{figure}[H]
   \centering
@@ -718,7 +730,7 @@ ein paar Schritte vorwärts gehst, sieht das so aus:
   \label{fig:stepper-1}
 \end{figure}
 %
-\noindent Du kannst sehen, wie DrRacket jeweils einen Ausdruck einen Schritt auf
+\noindent Du kannst sehen, wie DrRacket jeweils einen Schritt auf
 einmal auswertet~-- der ist auf der linken Seite grün~-- und dann
 rechts durch das Resultat ersetzt.  Oben kannst Du sehen, wie der
 Stepper die Variable \lstinline{tile} durch den \lstinline{lambda}-Ausdruck
@@ -754,7 +766,7 @@ und der Stern für \lstinline{b}:
 \end{aufgabeinline}
 %
 \lstinline{(tile s1 p1)} ist eine sogenannte
-\textit{Applikation\index{Applikation}}: Das ist ein Ausdruck mit
+\textit{Applikation\index{Applikation}}: ein Ausdruck mit
 (natürlich) Klammern drum.  Der Operator und die Operanden der
 Applikation sind ebenfalls Ausdrücke.  Der Operator ergibt eine
 Funktion~-- entweder eingebaut oder aus einem
@@ -816,7 +828,8 @@ dabei herauskommt.  Wir verwenden im Buch aber häufig den Begriff
 Abstraktion herauskommt.
 
 \begin{aufgabeinline}
-  Kannst Du das Ergebnis von \lstinline{tile} wieder als Eingabe für
+  Kannst Du das Ergebnis einer Applikation von
+  \lstinline{tile} wieder als Eingabe für ein erneutes
   \lstinline{tile} benutzen?  Probier es aus!
 \end{aufgabeinline}
 

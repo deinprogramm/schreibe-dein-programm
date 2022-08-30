@@ -12,7 +12,7 @@ Einführung in die Programmierung deutlich unterscheidet.
 
 Bevor es mit dem eigentlichen Stoff losgeht, enthält dieses Kapitel
 einige Hinweise dazu, wie Du am effektivsten damit umgehst, damit Du
-möglichst schnell Deine eigenen Programme selbst entwickeln kannst
+möglichst schnell Deine eigenen Programme selbst schreiben kannst
 
 \section{Vorkenntnisse}
 
@@ -37,6 +37,7 @@ schreiben, die wir uns für Dich ausgedacht haben.  Wenn das Buch Dich
 mit "<Du"> anspricht, haben wir ein konkretes Anliegen für Dich.
 
 \section{Software}
+\label{sec:racket}
 
 Die Programmierbeispiele dieses Buchs bauen auf der
 Programmierumgebung \drscheme{}\index{\drscheme{}} auf, die speziell
@@ -48,6 +49,10 @@ für die Programmierausbildung entwickelt wurde.
 \end{center}
 %
 erhältlich und läuft auf Windows-, Mac- und Unix-/Linux-Rechnern.
+
+Achte darauf, dass Du mindestens Version 8.6 bekommst.   Das ist
+besonders relevant, wenn Du einen anderen Installationsweg wählst, wie
+zum Beispiel einen Package-Manager für eine Linux-Distribution.
 
 \section{Programmiersprache}
 
@@ -63,10 +68,10 @@ Kenntnisse voraus, die Du ja erst noch lernen willst.
 Aus diesem Grund verwendet der vorliegende Text eine Serie von
 speziell für die Lehre entwickelten Programmiersprachen, die auf
 \textit{Racket\index{Racket}} und \textit{Scheme\index{Scheme}}
-basieren und beim Racket-System mitgeliefert.
-Diese Lehrsprachen sind über die
-\drscheme"=Entwicklungsumgebung Anfängerinnen und Anfängern besonders
-gut zugänglich.
+basieren und beim Racket-System mitgeliefert.  Im Lieferumfang von
+Racket ist die Entwicklungsumgebung \textit{DrRacket} enthalten, die
+es Dir erlaubt, einfach Programme in diesen Sprachen zu schreiben und
+laufen zu lassen.
 
 \section{Englisch}
 
@@ -84,7 +89,7 @@ Außerdem haben wir noch nicht alle Fehlermeldungen ins Deutsche
 
 \section{Exkurse}
 
-Generell wurde das Buch so geschrieben, dass die Kapitel und
+Generell wurde das Buch so geschrieben, dass die Kapitel und die
 Abschnitte innerhalb der Kapitel aufeinander aufbauen.  Ab und zu
 jedoch gibt es Abschnitte (in der Regel solche mit Mathematik), die
 wir interessant finden, die aber nicht notwendig sind, um das darauf
@@ -97,17 +102,16 @@ Das Buch enthält viele Übungsaufgaben.  Es ist unerlässlich, dass Du
 zumindest einige davon bearbeitest, wenn Du lernen willst,
 eigenständig zu programmieren.
 
-In jedem Kapitel gibt es Aufgaben am Ende: Davon kannst Du Dir die
-aussuchen, die Dir gefallen.  Es gibt aber auch Aufgaben mittendrin,
-die sich auf den unmittelbar vorangehenden Stoff beziehen.  (Das
-Zeichen \(\square\) markiert jeweils, wenn die Aufgabe zu Ende ist und es
-mit dem Text weitergeht.)  Diese
-solltest Du bearbeiten, um sicherzustellen, das Du diesen Stoff
-verstanden hast.
+Jedes Kapitel enthält in den Text eingebettet Aufgaben, die sich auf
+den unmittelbar vorangehenden Stoff beziehen.  (Das Zeichen
+\(\square\) markiert jeweils, wenn die Aufgabe zu Ende ist und es mit
+dem Text weitergeht.)  Diese solltest Du bearbeiten, um
+sicherzustellen, dass Du diesen Stoff verstanden hast.  Von den
+Aufgaben am Kapitelende kannst Du Dir die aussuchen, die Dir gefallen.
 
 \section{Zusatzmaterial}
 
-Das Buch ist aus dem \textsc{DeinProgramm}-Projekt entstanden, dass
+Das Buch ist aus dem \textsc{DeinProgramm}-Projekt entstanden, das
 sich allgemein mit der effektiven Ausbildung im Programmieren
 beschäftigt.  Das Projekt hat seine Homepage hier:
 %
@@ -148,11 +152,11 @@ kommuniziert.  Der Lernaufwand lohnt sich also.
 Aber niemand hat Freude daran, bei der Lösung einer Programmieraufgabe
 steckenzubleiben und in einer Sackgasse zu landen.  Wir wollen Dir
 darum mit diesem Buch nicht einfach nur schöne Beispielprogramme
-präsentieren und sagen "<jetzt mach halt selber">, sondern Dir Schritt
-für Schritt vermitteln, \emph{wie} das geht.
+präsentieren, sondern Dir Schritt für Schritt vermitteln, \emph{wie}
+sie geschrieben wurden und~-- vor allem~-- wie Du Deine eigenen schreibst.
 
-Die Methode, die wir dafür entwickelt haben und die erfolgreich
-hunderten von Programmieranfängerinnen und -anfängern angewendet
+Die Methode, die wir dafür entwickelt haben und erfolgreich
+bei Hunderten von Programmieranfängerinnen und -anfängern angewendet
 haben, wird Dir auf den ersten Augenblick enorm bürokratisch
 erscheinen: Dieses Buch behandelt sozusagen die deutsche
 Beamtenmethode des Programmierens.
@@ -160,7 +164,7 @@ Beamtenmethode des Programmierens.
 Gelegentlich wirst Du Dich gegängelt fühlen und vielleicht auch etwas
 genervt.  Aber Du wirst (hoffentlich!) diese Techniken nach und nach
 einsetzen können, um nicht nur Übungsaufgaben anderer zu lösen, sondern
-auch Deine eigenen Ideen umsetzen und Deiner eigenen Kreativität freien Lauf zu
+auch Deine eigenen Ideen umzusetzen und Deiner eigenen Kreativität freien Lauf zu
 lassen: Dafür brauchst Du die Methoden dieses Buchs, inklusive der
 Bürokratie.
 
