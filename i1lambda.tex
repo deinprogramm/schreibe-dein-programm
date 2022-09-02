@@ -10,19 +10,106 @@
 
 \index{Lambda-Kalkül@$\lambda$-Kalkül}
 
-Bisher ging es in diesem Buch immer um die \emph{Konstruktion} von
-Programmen.  In diesem Kapitel geht es hingegen um die
-\textit{Bedeutung} von Programmen.  Wir haben zwar erläutert, wie die
-Auswertung eines Programms funktioniert, aber bisher nur
-umgangssprachlich.  Dabei haben wir einige subtile Aspekte der
+In diesem Kapitel geht es um eine wichtige Grundlage
+für die Programmierung, die unter anderem erklärt, wie die Auswertung
+eines Programms funktioniert.  Das haben wir bisher nur
+umgangssprachlich gemacht und dabei einige subtile Aspekte der
 Auswertung gar nicht oder nur unpräzise erläutert.  Das wollen wir in
-diesem Kapitel korrigieren und zwar mit Mathematik~-- wie immer, wenn
-es wirklich präzise sein muss.
+diesem Kapitel korrigieren.
 
 Dazu benutzen wir den sogenannten \textit{$\lambda$-Kalkül},
 ausgeschrieben: \textit{Lambda-Kalkül}, der formal fasst, was der
 Stepper in DrRacket visualisiert.  Das "<Lambda"> im Namen des Kalküls
 ist die Vorlage für das \lstinline{lambda} in unseren Lehrsprachen.
+
+\section{Was hat ein alter "<Kalkül"> mit Programmieren zu tun?}
+
+Vielleicht hast Du Dich schon gefragt, warum \lstinline{lambda}
+eigentlich so heißt und nicht \lstinline{function} oder so.  In Wort
+"<Lambda"> steckt der historische Schlüssel für viele Aspekte der
+Programmierung heute.  Bevor wir in die Technik dazu einsteigen, fasst
+dieser Abschnitt kurz die Historie zusammen, die erklärt, warum der
+$\lambda$-Kalkül so große Bedeutung für das Programmieren hat.
+
+Als in den 1940er Jahren die ersten Programmiersprachen entwickelt
+wurden, haben ihre Erfinderinnen und Erfinder nach Inspiration in
+existierenden "<Sprachen"> gesucht.  Es gab zwei naheliegende
+Ausgangspunkte:
+%
+\begin{itemize}
+\item schriftliche natürliche Sprachen
+\item Mathematik
+\end{itemize}
+%
+Beide Ansätze haben zu unterschiedlichen Traditionen in der
+Entwicklung von Programmiersprachen geführt, die sich gegenseitig
+beeinflusst haben.
+
+Die Mathematik ist deswegen eine wichtige Inspiration, weil die
+Menschheit sie schon Jahrhunderte vor der Erfindung von Computern
+benutzt hat, um Sachverhalte unmissverständlich und eindeutig zu
+beschreiben: So etwas benötigen wir auch für die Programmierung.
+
+Mit unseren Lehrsprachen befinden wir uns in der Tradition der
+Mathematik.  Der heute berühmte Informatiker John McCarthy arbeitete
+den späten 1950er Jahren an einem System, das "<gesunden
+Menschenverstand"> abbilden sollte.
+
+Als Teil dieses Projekts entwickelte er die Programmiersprache
+LISP~\cite{McCarthy1960}.  Als ausgebildeter Mathematiker suchte
+McCarthy dafür Inspiration in der Mathematik.  Mathematische Notation
+hat das Problem, dass sie schrecklich vielfältig ist.  Die gleiche
+Notation wird in unterschiedlichen Kontexten für unterschiedliche
+Zwecke benutzt.  Allgemein mathematische Notation für den Computer
+verständlich zu machen, ist darum extrem aufwendig und war für
+McCarthy undenkbar, der es mit Computern zu tun hatte, die nur einen
+winzigen Bruchteil der heutigen Rechen- und Speicherkapazität haben.
+
+McCarthy brauchte deshalb einen besonders einfachen mathematischen
+Formalismus, der trotzdem mächtig genug war, mathematische Funktionen
+ausdrücken zu können.  McCarthy stellte fest, dass die Notation eines
+mathematischen Kalküls aus den 1930er Jahren diese Kriterien erfüllte
+und entwickelte LISP deshalb auf Grundlage dieses Kalküls.
+
+Dieser Kalkül war der $\lambda$-Kalkül des Mathematikers Alonzo
+Church~\cite{Church1941}, der ihn als Beitrag zu den Grundlagen der
+Logik entwickelt hatte.  (Das $\lambda$ selbst war durch einen Unfall
+entstanden, weil Churchs Schriftsetzer bei der Notation $\hat{x}$
+fälschlicherweise glaubte, statt des "<Dachs"> ein $\lambda$ zu
+erkennen.)  Die Computer der damaligen Zeit konnten nur römische
+Buchstaben darstellen, deshalb schrieb der das $\lambda$ als Wort
+\lstinline{lambda} aus.
+
+LISP hatte bereits eine Notation, die der Notation der Lehrsprachen
+sehr ähnelt: Alles wurde vollständig geklammert, und der Operator
+stand immer vorn.  (McCarthy hatte auch noch eine andere Notation
+entwickelt, die sich aber als unpopulär erwies.)  Auch die Idee der
+Listen wie wir sie heute kennen war damals schon genauso vorhanden.
+("<LISP"> steht für "<list processing">.)
+
+Der $\lambda$-Kalkül fiel noch anderen als mögliche Grundlage für die
+Entwicklung von Programmiersprachen auf.  Besonders einflussreich war
+Peter Landins Aufsatz mit dem großspurigen Titel \textit{The next 700
+  programming languages}~\cite{Landin1966}, in dem er vorschlug, den
+$\lambda$-Kalkül als Grundlage für eine ganze Familie von
+Programmiersprachen zu benutzen.
+
+LISP und die in Landins Aufsatz vorgeschlagene Sprache ISWIM ("<If you
+See What I Mean">) standen Patin für fast alle modernen
+Programmiersprachen.  Es gab zwar seit den 1960er Jahren viele
+alternative Ansätze für Programmiersprachen mit anderen Grundlagen
+(zum Beispiel die objektorientierte Programmierung), bei deren
+Entwicklung auf den $\lambda$-Kalkül verzichtet wurde.  Bei fast allen
+von ihnen stellten ihre Entwicklerinnen und Entwickler aber später
+fest, dass die Elemente des $\lambda$-Kalküls beziehungsweise der
+darauf aufbauenden Programmiersprachen eine Bereicherung sind und
+fügten sie hinzu.
+
+Wenn Du also den $\lambda$-Kalkül kennst, kennst Du die Grundlage für
+die moderne Programmierung.  Der Weg dahin benötigt etwas Geduld.
+Insbesondere müssen wir noch etwas mehr mathematische Notation
+einführen, die Dir aber helfen wird, falls Du mal einen der
+einschlägigen Aufsätze oder Bücher zu diesem Thema verstehen möchtest.
 
 \section{Die Sprache des $\lambda$-Kalküls}
 \label{sec:sprache}
