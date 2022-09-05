@@ -67,8 +67,11 @@ winzigen Bruchteil der heutigen Rechen- und Speicherkapazität haben.
 
 McCarthy brauchte deshalb einen besonders einfachen mathematischen
 Formalismus, der trotzdem mächtig genug war, mathematische Funktionen
-ausdrücken zu können.  McCarthy stellte fest, dass die Notation eines
-mathematischen Kalküls aus den 1930er Jahren diese Kriterien erfüllte
+ausdrücken zu können.  Für die Definition von Funktionen war (und ist)
+mathematische Notation aber besonders vielfältig.  (Manche würden
+"<schlampig"> sagen.)  McCarthy stellte fest, dass ein
+mathematischer Kalküls aus den 1930er Jahren ihm gerade die benötigte
+Notation für die Definition von Funktionen und ihrer Anwendung gab
 und entwickelte LISP deshalb auf Grundlage dieses Kalküls.
 
 Dieser Kalkül war der $\lambda$-Kalkül des Mathematikers Alonzo
@@ -77,7 +80,7 @@ Logik entwickelt hatte.  (Das $\lambda$ selbst war durch einen Unfall
 entstanden, weil Churchs Schriftsetzer bei der Notation $\hat{x}$
 fälschlicherweise glaubte, statt des "<Dachs"> ein $\lambda$ zu
 erkennen.)  Die Computer der damaligen Zeit konnten nur römische
-Buchstaben darstellen, deshalb schrieb der das $\lambda$ als Wort
+Buchstaben darstellen, deshalb schrieb McCarthy das $\lambda$ als Wort
 \lstinline{lambda} aus.
 
 LISP hatte bereits eine Notation, die der Notation der Lehrsprachen
@@ -118,6 +121,10 @@ Der $\lambda$-Kalkül bricht die Elemente der Programmierung auf nur
 das absolut notwendige herunter: Je weniger Elemente wir haben, desto
 weniger müssen wir erklären und definieren, wenn wir über die
 Bedeutung von Programmen sprechen wollen.
+
+FIXME Namen und deren Bedeutungen
+
+FIXME: Bedeutung
 
 Was also ist an unseren Lehrsprachen absolut notwendig?  In
 Kapitel~\ref{cha:whats-programming} haben wir angefangen mit einer
@@ -160,6 +167,8 @@ die abzählbare Menge der Variablen, welche den Variablen in Programmen
 entsprechen.  Die könnten wir auch durchnummerieren, indem wir den
 Buchstaben Nummern geben.
 
+FIXME: erstmal ignorieren
+
 \begin{definition}[Sprache des $\lambda$-Kalküls
   $\mathcal{L}_{\lambda}$]
   
@@ -181,10 +190,12 @@ Buchstaben Nummern geben.
   $e$ \textit{Rumpf\index{Rumpf}}.
 \end{definition}
 %
-Hier sind ein paar Beispiele für $\lambda$-Terme:
+Hier sind ein paar Beispiele für $\lambda$-Terme, 
 %
 \begin{displaymath}
   \begin{array}{c}
+    \lrm x\\
+    (\lrm f~\lrm x)\\
     ((\lrm f~\lrm x)
     (\lambda \lrm x.\lrm x))\\
     (\lambda \lrm x.(\lambda \lrm y.(\lrm x~\lrm y))\\
@@ -192,9 +203,16 @@ Hier sind ein paar Beispiele für $\lambda$-Terme:
     (\lambda \lrm x.(\lrm f~(\lambda \lrm x~\lrm x))
   \end{array}
 \end{displaymath}
+
+FIXME: Aufgabe klassifizieren, vorher Beispiele durchgehen
+
 % 
 In diesen konkreten Beispielen haben wir als Variablen $\lrm x$, $\lrm y$ und
-$\lrm f$ verwendet.  Manchmal sprechen wir aber auch über
+$\lrm f$ verwendet.
+
+FIXME: Die Buchstaben haben keine besondere Bedeutung.
+
+Manchmal sprechen wir aber auch über
 $\lambda$-Terme einer bestimmten Form im Allgemeinen, zum Beispiel
 steht oben in der Definition "<$\lambda$-Term der Form
 $(e_0~e_1)$">. Damit sind \emph{alle} $\lambda$-Terme gemeint, die aus der
@@ -210,6 +228,9 @@ $\lambda$-Terme dieser Form:
   \end{array}
 \end{displaymath}
 %
+
+FIXME: noch mehr zu Namen haben keine Bedeutung
+
 In der Definition sind außerdem Terme "<der Form $(\lambda v.e)$">
 erwähnt, das könnte zum Beispiel sein:
 %
@@ -236,6 +257,8 @@ eine sogenannte \textit{Metavariable}.\index{Metavariable}
 
 In diesem Kapitel steht die Variable $e$ immer für einen
 $\lambda$-Term, $u$, $v$ und $w$ sind immer Metavariablen.
+
+FIXME: Faulheit
 
 Anders als in den Lehrsprachen werden Klammern bei $\lambda$-Termen
 oft weggelassen.  Statt des vollständig geklammerten Terms
@@ -271,6 +294,8 @@ in der Notation von $\lambda$-Termen:
 Dementsprechend ist $\lambda \lrm{fxy}.\lrm f~\lrm x~\lrm y$ eine andere Schreibweise für
 den folgenden Term \[(\lambda \lrm f.(\lambda \lrm x.(\lambda \lrm y.((\lrm f~\lrm x)~\lrm y))))\]
 
+FIXME: Aufgabe
+
 \section{$\lambda$-Intuition}
 
 Es ist kein Zufall, dass die Lehrsprachen genau die gleichen Begriffe verwenden
@@ -279,6 +304,8 @@ Parameter entspricht einer Abstraktion im $\lambda$-Kalkül,
 und die Applikationen in den Lehrsprachen entsprechen den Applikationen im
 $\lambda$-Kalkül.  Die Lehrsprachen wurden bewusst auf dem
 $\lambda$-Kalkül aufgebaut.
+
+% FIXME: "Bedeutung"
 
 Die Intuition für die Bedeutung der $\lambda$-Terme ist ähnlich wie in
 den Lehrsprachen: Eine Abstraktion steht für eine mathematische Funktion,
@@ -375,6 +402,8 @@ Einige Beispiele:
   \bound(\lambda \lrm x.\lambda \lrm y.\lambda \lrm x.\lrm x~(\lambda z.\lrm a~\lrm y)) &=& \{ \lrm x,\lrm y,\lrm z\}
 \end{eqnarray*}
 %
+FIXME: Aufgabe
+
 Die Intuition ist folgende: Eine Abstraktion in einem $\lambda$-Term
 \emph{bindet} eine Variable innerhalb seines Rumpfes.  Eine freie
 Variable hingegen ist eine, die nicht durch eine Abstraktion gebunden
@@ -412,7 +441,7 @@ Abstraktionen zu verändern.  Der Mechanismus dafür heißt auch hier
     e[v\mapsto f] \deq
     \begin{cases}
       f & \text{falls } e = v\\
-      x & \text{falls } e = x \text{ und } x \neq v\\
+      e & \text{falls } e \text{ eine Variable ist und } e \neq v\\
       \lambda v.e_0 & \text{falls } e = \lambda v.e_0\\
       \lambda u.(e_0[v\mapsto f]) & \text{falls } e = \lambda u.e_0 \text{
         und } u\neq v, u\not\in\free(f)\\
@@ -439,7 +468,7 @@ Die zweite Regel besagt, dass das Vorkommen einer \emph{anderen}
 Variable durch die Substitution nicht betroffen wird:
 %
 \begin{displaymath}
-    u[v\mapsto f] = u \qquad u\neq v
+    e[v\mapsto f] = e \qquad e \text{ ist eine Variable und } e \neq v
 \end{displaymath}
 %
 Die dritte Regel ist auf den ersten Blick etwas überraschend:
