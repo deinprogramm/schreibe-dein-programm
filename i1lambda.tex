@@ -265,14 +265,11 @@ erwähnt, das könnte zum Beispiel sein:
   \end{array}
 \end{displaymath}
 %
-
-% Hier ist mit "<Form> was kaputt
-Du sieht, der Buchstabe $v$ in der "<Form> steht für eine Variable,
-also für $\lrm x$, $\lrm y$ oder $\lrm f$.  Wenn Du genau hinschaust,
+Du sieht, der Buchstabe $v$ in $(\lambda v.e)$ steht für eine Variable,
+also zum Beispiel für $\lrm x$, $\lrm y$ oder $\lrm f$.  Wenn Du genau hinschaust,
 siehst Du, dass beide sich typografisch unterscheiden: Die
 "<normalen"> Variablen $\lrm x$, $\lrm y$, $\lrm f$ sehen aus wie
-% Italics erläutern? Oder "kursiv"? Italics ist nicht geläufig
-reguläre Buchstaben, während $v$ in sogenannten Italics gesetzt ist.
+reguläre Buchstaben, während $v$ in Kursivschrift gesetzt ist.
 Das $v$ ist also eine Variable, die für eine andere Variable steht~--
 eine sogenannte \textit{Metavariable}.\index{Metavariable}
 
@@ -354,8 +351,8 @@ $\lambda$-Kalkül aufgebaut.
 Die Intuition für die $\lambda$-Terme ist ähnlich wie in
 den Lehrsprachen: Eine Abstraktion steht für eine mathematische Funktion,
 speziell für eine solche Funktion, die sich durch ein Computerprogramm
-berechnen lässt.  Eine Applikation steht gerade für
-die Applikation einer Funktion, und eine Variable bezieht sich auf den
+berechnen lässt.  Eine Applikation steht für
+die Anwendung einer Funktion, und eine Variable bezieht sich auf den
 Parameter einer umschließenden Abstraktion und steht für den Operanden
 der Applikation.  
 
@@ -364,7 +361,8 @@ haben bisher nur die Sprache des $\lambda$-Kalküls definiert, nicht
 aber, was die $\lambda$-Terme bedeuten oder wie sie sich verhalten.
 
 Bemerkenswert am $\lambda$-Kalkül ist, dass es dort \emph{nur}
-Funktionen gibt, noch nicht einmal Zahlen, boolesche Werte oder
+Funktionen gibt, noch nicht einmal Zahlen, \lstinline{#t},
+\lstinline{#f} oder
 zusammengesetzte Daten.  Darum erscheint die Sprache des Kalküls auf den
 ersten Blick noch spartanisch und unintuitiv: So unmittelbar lässt sich
 noch nicht einmal eine Funktion hinschreiben, die zwei Zahlen addiert~--
@@ -372,7 +370,7 @@ schließlich gibt es keine Zahlen.  Wie sich jedoch weiter unten in
 Abschnitt~\ref{sec:lambdaprog} herausstellen wird, lassen sich all diese
 Dinge durch Funktionen nachbilden.
 
-Noch etwas: Es gibt nur Funktionen, und die haben auch nur jeweils
+Noch etwas: Die Funktionen haben auch nur jeweils
 einen Parameter.  Dies ist aber keine wirkliche Einschränkung:
 Funktionen mit mehreren Parametern können wir
 schönfinkeln\index{schönfinkeln}, um aus ihnen mehrstufige
@@ -441,11 +439,12 @@ Einige Beispiele:
 Die Intuition ist folgende: Eine Abstraktion in einem $\lambda$-Term
 \emph{bindet} eine Variable innerhalb seines Rumpfes.  Eine freie
 Variable hingegen ist eine, die nicht durch eine Abstraktion gebunden
-ist.  Darum subtrahiert $\free$ bei einer Abstraktion die gebundene
+ist.  Darum bildet $\free$ bei einer Abstraktion die Differenz aus den
+freien Variablen und der gebundenen
 Variable.  Dahingegen sammelt $\bound$ alle Variablen aus
 Abstraktionen auf.  Wenn man $\free$ und $\bound$ eines Terms als
 $\free(e)\cup\bound(e)$ zusammennimmt, bekommt man alle Variablen
-eines $\lambda$-Terms enthält.
+eines $\lambda$-Terms.
 
 In einem Term kann die gleiche Variable sowohl frei als auch gebunden
 vorkommen:
@@ -485,9 +484,10 @@ Abstraktionen zu verändern.  Der Mechanismus dafür heißt auch hier
 \textit{Substitution}:
 %
 \begin{definition}[Substitution]\index{Substitution}\label{def:substitution}
-  Für $e,f\in \mathcal{L}_{\lambda}$ ist $e[v\mapsto f]$~-- in $e$ wird $v$ durch $f$
-  \textit{substituiert}~-- induktiv definiert:\index{*@$\mapsto$}
-
+  Für $e,f\in \mathcal{L}_{\lambda}$ bedeutet $e[v\mapsto f]$, dass in
+  $e$ die Variable $v$ durch $f$
+  ersetzt oder \textit{substituiert} wird.  Die Funktion ist
+  folgendermaßen definiert:\index{*@$\mapsto$}
   \begin{displaymath}
     e[v\mapsto f] \deq
     \begin{cases}
