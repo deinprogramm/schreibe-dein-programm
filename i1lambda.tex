@@ -118,13 +118,8 @@ einschlägigen Aufsätze oder Bücher zu diesem Thema verstehen möchtest.
 \label{sec:sprache}
 
 Der $\lambda$-Kalkül bricht die Elemente der Programmierung auf nur
-das absolut notwendige herunter: Je weniger Elemente wir haben, desto
-weniger müssen wir erklären und definieren, wenn wir über die
-Bedeutung von Programmen sprechen wollen.
-
-FIXME Namen und deren Bedeutungen
-
-FIXME: Bedeutung
+das absolut notwendige herunter: Je weniger Elemente es gibt, desto
+weniger müssen wir erklären und definieren.
 
 Was also ist an unseren Lehrsprachen absolut notwendig?  In
 Kapitel~\ref{cha:whats-programming} haben wir angefangen mit einer
@@ -142,11 +137,16 @@ mehrere Variablen gehören, brauchen wir auch Variablen.  Das sind die
 drei fundamentalen Ideen aus dem $\lambda$-Kalkül:
 %
 \begin{itemize}
-\item Funktionsanwendung
+\item Applikation
 \item Abstraktion
 \item Variable
 \end{itemize}
 %
+Variablen sind Namen und alle drei Ideen des $\lambda$-Kalküls haben
+fundamental mit Variablen zu tun: Eine Abstraktion
+\emph{bindet} eine Variable, eine Applikation setzt für eine Variable
+etwas ein.
+
 Wir beschränken uns bei Anwendung und Abstraktion sogar auf einen
 einzelnen Parameter.  Und wir werden sehen, dass das reicht: Alle
 anderen Elemente unserer Programmiersprachen können wir nachbilden,
@@ -160,14 +160,16 @@ Abschnitt~\ref{sec:grammatik} auf Seite~\pageref{sec:grammatik}
 eingeführt haben.)
 
 In der Definition taucht der Begriff \textit{abzählbare
-  Menge}\index{abzählbare Menge} auf.  Das Adjektiv "<abzählbar"> an
+  Menge}\index{abzählbare Menge} auf.  Der Begriff "<abzählbar"> ist
+zwar technisch notwendig, Du benötigst ihn aber nicht für Verständnis
+und Intuition des $\lambda$-Kalküls, kannst ihn also ignorieren.
+
+Falls es Dich doch interessiert: Das Adjektiv "<abzählbar"> an
 einer Menge bedeutet, dass die Menge unendlich groß ist und dass die
 Menge durchnummeriert oder "<abgezählt"> werden kann.  Hier geht es um
 die abzählbare Menge der Variablen, welche den Variablen in Programmen
 entsprechen.  Die könnten wir auch durchnummerieren, indem wir den
 Buchstaben Nummern geben.
-
-FIXME: erstmal ignorieren
 
 \begin{definition}[Sprache des $\lambda$-Kalküls
   $\mathcal{L}_{\lambda}$]
@@ -190,28 +192,50 @@ FIXME: erstmal ignorieren
   $e$ \textit{Rumpf\index{Rumpf}}.
 \end{definition}
 %
-Hier sind ein paar Beispiele für $\lambda$-Terme, 
+Hier sind ein paar Beispiele für $\lambda$-Terme.  In diesen konkreten
+Beispielen haben wir als Variablen $\lrm x$, $\lrm y$ und $\lrm f$
+verwendet. Du solltest der Auswahl dieser Buchstaben keine Bedeutung
+beimessen.  Wir hätten genauso gut $\lrm a$, $\lrm b$ und $\lrm c$
+verwenden können.
 %
 \begin{displaymath}
-  \begin{array}{c}
-    \lrm x\\
-    (\lrm f~\lrm x)\\
-    ((\lrm f~\lrm x)
-    (\lambda \lrm x.\lrm x))\\
-    (\lambda \lrm x.(\lambda \lrm y.(\lrm x~\lrm y))\\
-    (\lambda \lrm x.(\lrm f~\lrm x))\\
-    (\lambda \lrm x.(\lrm f~(\lambda \lrm x~\lrm x))
+  \begin{array}{rl}
+    \lrm x & \textrm{Variable}\\
+    (\lrm f~\lrm x) & \textrm{Applikation}\\
+    ((\lrm f~\lrm x)~(\lambda\lrm x.\lrm x)) & \textrm{Applikation}\\
+    (\lambda \lrm x.(\lambda \lrm y.(\lrm x~\lrm y)) & \textrm{Abstraktion}\\
+    (\lambda \lrm x.(\lrm f~\lrm x)) & \textrm{Abstraktion}\\
+    (\lambda \lrm x.(\lrm f~(\lambda \lrm x~\lrm x)) & \textrm{Abstraktion}\\
+    ((\lambda \lrm x.\lrm x)~(\lambda \lrm x.\lrm x))& \textrm{Applikation}
   \end{array}
 \end{displaymath}
-
-FIXME: Aufgabe klassifizieren, vorher Beispiele durchgehen
-
+%
+Wir haben jeweils dazugeschrieben, um welche Art Term es sich handelt.  Das
+entspricht der Klausel der Grammatik für $\lambda$-Terme.  Bei der
+$\lrm x$ sollte klar sein, dass es sich um eine Variable handelt.
+Sowohl Applikationen als auch Abstraktionen fangen mit einer öffnenden
+Klammer an.  Bei Abstraktionen wird die Klammer aber direkt von einem
+$\lambda$ gefolgt: Entsprecht sind die nächsten beiden Terme
+Applikationen, die drei darauf Abstraktionen.  Der letzte Term ist
+eine Applikation~-- nach der öffnenden Klammer steht ein weitere
+Klammer, das $\lambda$ kommt erst danach.  Es handelt sich also um ene
+Applikation, aus zwei Abstraktionen.
+%
+\begin{aufgabeinline}
+  Klassifiziere die folgenden Terme danach, ob es sich um eine
+  Variable, eine Applikation oder eine Abstraktion handelt:
+  \begin{displaymath}
+    \begin{array}{c}
+      \lrm y\\
+      (\lrm x~\lrm y)\\
+      (\lambda \lrm x.\lrm y)\\
+      ((\lambda \lrm x.\lrm y)~f)\\
+      \lrm f\\
+      (\lrm f~(\lambda \lrm x.\lrm y))
+    \end{array}
+  \end{displaymath}
+\end{aufgabeinline}
 % 
-In diesen konkreten Beispielen haben wir als Variablen $\lrm x$, $\lrm y$ und
-$\lrm f$ verwendet.
-
-FIXME: Die Buchstaben haben keine besondere Bedeutung.
-
 Manchmal sprechen wir aber auch über
 $\lambda$-Terme einer bestimmten Form im Allgemeinen, zum Beispiel
 steht oben in der Definition "<$\lambda$-Term der Form
@@ -228,9 +252,6 @@ $\lambda$-Terme dieser Form:
   \end{array}
 \end{displaymath}
 %
-
-FIXME: noch mehr zu Namen haben keine Bedeutung
-
 In der Definition sind außerdem Terme "<der Form $(\lambda v.e)$">
 erwähnt, das könnte zum Beispiel sein:
 %
@@ -255,13 +276,15 @@ reguläre Buchstaben, während $v$ in sogenannten Italics gesetzt ist.
 Das $v$ ist also eine Variable, die für eine andere Variable steht~--
 eine sogenannte \textit{Metavariable}.\index{Metavariable}
 
-In diesem Kapitel steht die Variable $e$ immer für einen
-$\lambda$-Term, $u$, $v$ und $w$ sind immer Metavariablen.
+In diesem Kapitel steht die Metavariable $e$ für einen
+beliebigen $\lambda$-Term, $u$, $v$ und $w$ sind immer Metavariablen.
+Das ist aber reine Konvention: Wir hätten genauso gut irgendwelche
+anderen Buchstaben wählen können.
 
-FIXME: Faulheit
-
-Anders als in den Lehrsprachen werden Klammern bei $\lambda$-Termen
-oft weggelassen.  Statt des vollständig geklammerten Terms
+In Publikationen werden $\lambda$-Termen oft abgekürzt, entsprechend
+machen wir das hier.  Das geschieht vermutlich aus Faulheit, ist aber
+erstmal gewöhnungsbedürftig.  Die erste Form der Abkürzung lässt
+Klammern weg.  Statt des vollständig geklammerten Terms
 
 \begin{displaymath}
   (\lambda \lrm f.(\lambda \lrm x.(\lrm f~\lrm x)))
@@ -294,7 +317,30 @@ in der Notation von $\lambda$-Termen:
 Dementsprechend ist $\lambda \lrm{fxy}.\lrm f~\lrm x~\lrm y$ eine andere Schreibweise für
 den folgenden Term \[(\lambda \lrm f.(\lambda \lrm x.(\lambda \lrm y.((\lrm f~\lrm x)~\lrm y))))\]
 
-FIXME: Aufgabe
+Hier sind weitere Beispiele für Terme und ihre Abkürzungen:
+%
+\begin{displaymath}
+  \begin{array}{rl}
+    (\lrm f~\lrm x) &  \lrm f~\lrm x\\
+    (\lrm f~\lrm x)~\lrm y & \lrm f~\lrm x~\lrm y\\
+    (\lambda \lrm x.(\lrm x~\lrm~x)) & \lambda \lrm x.\lrm x~\lrm x\\
+    (\lambda \lrm x.((\lrm x~\lrm y)~\lrm z)) & \lambda \lrm x.\lrm
+                                                x~\lrm y~\lrm z\\
+    (\lambda \lrm x.(\lambda~\lrm y.(\lrm x~\lrm y))) & \lambda \lrm x\lrm y.\lrm x~\lrm y
+  \end{array}
+\end{displaymath}
+%
+\begin{aufgabeline}
+  Schreibe für die folgenden Abkürzungen die "<vollständigen">
+  $\lambda$-Terme auf:
+\begin{displaymath}
+  \begin{array}{c}
+    \lrm f~\lrm x~\lrm y~\lrm z\\
+    \lambda \lrm x\lrm y\lrm z.\lrm x~\lrm y~\lrm z\\
+    ((\lambda \lrm x\lrm y.\lrm x~\lrm y)~\lrm a~\lrm b)
+  \end{array}  
+\end{displaymath}
+\end{aufgabeline}
 
 \section{$\lambda$-Intuition}
 
@@ -305,23 +351,10 @@ und die Applikationen in den Lehrsprachen entsprechen den Applikationen im
 $\lambda$-Kalkül.  Die Lehrsprachen wurden bewusst auf dem
 $\lambda$-Kalkül aufgebaut.
 
-% FIXME: "Bedeutung"
-
-Die Intuition für die Bedeutung der $\lambda$-Terme ist ähnlich wie in
+Die Intuition für die $\lambda$-Terme ist ähnlich wie in
 den Lehrsprachen: Eine Abstraktion steht für eine mathematische Funktion,
 speziell für eine solche Funktion, die sich durch ein Computerprogramm
-berechnen lässt.\footnote{Die Wahl des Buchstabens $\lambda$ für die
-  Notation von Abstraktionen war eher ein Unfall: Zur Zeit der
-  Entstehung des Kalküls war der Ausdruck $2\hat{x}+1$ eine historische Notation für eine
-  Funktion $f$ mit $f(x)\deq{}2x+1$.  \textsc{Alonzo Church},
-  der Erfinder des $\lambda$-Kalküls, hatte ursprünglich
-  die Notation $\hat{x}.2x+1$ in der ersten Publikation über den
-  Kalkül vorgesehen.  Der Schriftsetzer konnte allerdings aus
-  technischen Gründen
-  das Hütchen nicht über dem $x$ positionieren und setzte es deshalb
-  davor, womit aus dem Ausdruck $\hat{~}\thinspace{}x.2x+1$ wurde.  Ein weiterer
-  Setzer machte aus dem einsamen Hütchen ein $\lambda$ und der
-  $\lambda$-Kalkül war geboren.}  Eine Applikation steht gerade für
+berechnen lässt.  Eine Applikation steht gerade für
 die Applikation einer Funktion, und eine Variable bezieht sich auf den
 Parameter einer umschließenden Abstraktion und steht für den Operanden
 der Applikation.  
@@ -352,7 +385,9 @@ Im $\lambda$-Kalkül dreht sich (fast) alles um Variablen.  Die
 funktionieren nach dem gleichen Prinzip wie bei den Lehrsprachen, der
 lexikalischen Bindung.  Die lexikalische Bindung haben wir in
 Abschnitt~\ref{sec:lexikalische-bindung} auf
-Seite~\pageref{sec:lexikalische-bindung} behandelt.  Kurz zur
+Seite~\pageref{sec:lexikalische-bindung} behandelt.
+
+Kurz zur
 Erinnerung:  Das
 Vorkommen einer Variable $v$ als $\lambda$-Term gehört immer zur
 innersten umschließenden Abstraktion $\lambda v.e$, deren Parameter
@@ -360,9 +395,10 @@ ebenfalls $v$ ist.  Bei $\lambda \lrm x.\lrm y~(\lambda \lrm y.\lrm y))$
 ist also das erste $y$ das freie, während das zweite $y$ durch
 die zweite Abstraktion gebunden wird.
 
-Dieses Prinzip erklärt aber nicht die Mechanik, wie für Variablen
-Werte eingesetzt werden.  Um die präzise zu definieren, brauchen wir
-zwei Hilfsfunktionen für den Umgang mit Variablen.
+Außerdem: Wenn es für eine Variable keine Abstraktion gibt, die diese
+bindet, heißt die Variable \textit{frei}.
+Um Bindung und "<Freiheit"> präzise zu definieren, brauchen wir zwei
+Hilfsfunktionen für den Umgang mit Variablen.
 %
 \begin{definition}[Freie und gebundene Variablen]
   Die Funktionen $\free$ und $\bound$ liefern für einen
@@ -402,8 +438,6 @@ Einige Beispiele:
   \bound(\lambda \lrm x.\lambda \lrm y.\lambda \lrm x.\lrm x~(\lambda z.\lrm a~\lrm y)) &=& \{ \lrm x,\lrm y,\lrm z\}
 \end{eqnarray*}
 %
-FIXME: Aufgabe
-
 Die Intuition ist folgende: Eine Abstraktion in einem $\lambda$-Term
 \emph{bindet} eine Variable innerhalb seines Rumpfes.  Eine freie
 Variable hingegen ist eine, die nicht durch eine Abstraktion gebunden
@@ -426,7 +460,24 @@ Das $\lrm y$ taucht einmal innerhalb und einmal außerhalb einer bindenden
 Abstraktion auftaucht. Das Frei- und Gebundensein bezieht sich also
 immer auf bestimmte Vorkommen\index{Vorkommen} einer Variablen in
 einem $\lambda$-Term.
-
+%
+\begin{aufgabeinline}
+  Schreibe auf, was bei folgenden Anwendungen von $\free$ und $\bound$
+  herauskommt, indem Du die Definitionen dieser Funktionen anwendest:
+  \begin{displaymath}
+    \begin{array}{c}
+      \free(\lrm x~\lrm y)\\
+      \free(\lambda \lrm x.\lrm x~\lrm y)\\
+      \free(\lambda \lrm x\lrm y.\lrm x~\lrm y)\\
+      \free((\lambda\lrm x.\lrm y)~\lrm x)\\
+      \bound(\lrm x~\lrm y)\\
+      \bound(\lambda \lrm x.\lrm x~\lrm y)\\
+      \bound(\lambda \lrm x\lrm y.\lrm x~\lrm y)\\
+      \bound((\lambda\lrm x.\lrm y)~\lrm x)
+    \end{array}
+  \end{displaymath}
+\end{aufgabeinline}
+%
 Der $\lambda$-Kalkül ist darauf
 angewiesen, Variablen durch andere zu ersetzen, ohne dabei die
 Zugehörigkeit von Variablenvorkommen und den dazu passenden
