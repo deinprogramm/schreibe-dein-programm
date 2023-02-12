@@ -1760,10 +1760,15 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
   der Zeitmessung, bei dem der Tag nicht in 24 Stunden \`a 60 Minuten
   \`a 60 Sekunden eingeteilt wird, sondern in 1000 sogenannte
   \textit{.beats}.  Ein solcher .beat ist damit 1 Minute 26 Sekunden
-  und 4 Zehntelsekunden lang, zur weiteren Unterteilung sind
-  Nachkommawerte erlaubt.  Notiert wird die Zeit durch ein @-Symbol
-  vor dem Wert.  @0 ist gleichbedeutend mit 0 Uhr mitteleuropäischer
-  Zeit.
+  und 4 Zehntelsekunden lang, zur weiteren Unterteilung gibt es zwei
+  Nachkommastellen, außer, wenn beide Nachkommastellen 0 sind: In
+  diesem Fall gibt es nur eine Nachkommastelle.
+
+  Notiert wird die Zeit durch ein @-Symbol vor dem Wert.
+  \texttt{@0.0} ist gleichbedeutend mit 0 Uhr mitteleuropäischer Zeit.
+
+  Zum Beispiel also entspricht die Uhrzeit 03:02, 9 Sekunden und 6
+  Zehntelsekunden \texttt{@126.50} .beats.
 
   Schreibe eine Funktion \lstinline{time->beats}, die aus einer Uhrzeit
   aus Stunden, Minuten, Sekunden und Zehntelsekunden die Internetzeit
@@ -1772,6 +1777,11 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
 
   Benutze Abstraktion und schreibe Hilfsfunktionen an den Stellen, an
   denen sie Teilprobleme lösen!
+
+  Bei der Lösung der Aufgabe sind die eingebauten Funktionen
+  \lstinline{floor} und \lstinline{round} hilfreich: Die erste
+  Funktion rundet ab, die zweite rundet auf oder ab, je nachdem ob die
+  letzte Ziffer unterhalb oder oberhalb von 5 lieft.
 \end{aufgabe}
 
 \begin{aufgabe}
