@@ -7,22 +7,22 @@
   make-set
   set?
   (set-representation any)
-  (set-insert-method ((set-of element) element -> (set-of element)))
-  (set-member?-method ((set-of element) element -> boolean)))
+  (set-insert-method (element (set-of element)-> (set-of element)))
+  (set-member?-method (element (set-of element)-> boolean)))
 
 ; Element in Menge einfügen
-(: set-insert ((set-of %a) %a -> (set-of %a)))
+(: set-insert (%a (set-of %a) -> (set-of %a)))
 
 (define set-insert
-  (lambda (set new-element)
-    ((set-insert-method set) set new-element)))
+  (lambda (value set)
+    ((set-insert-method set) value set)))
 
 ; Feststellen, ob Wert Element einer Menge ist
-(: set-member? ((set-of %a) %a -> boolean))
+(: set-member? (%a (set-of %a) -> boolean))
 
 (define set-member?
-  (lambda (set maybe-element)
-    ((set-member?-method set) set maybe-element)))
+  (lambda (value set)
+    ((set-member?-method set) value set)))
 
 ; Repräsentation einer Menge aktualisieren
 (: set-update-representation ((set-of %a) (any -> any) -> (set-of %a)))
@@ -47,28 +47,25 @@
 ; Menge mit Listenrepräsentation erzeugen
 (: make-list-set ((%a %a -> boolean) (list-of %a) -> (set-of %a)))
 
-(check-expect (set-member? list-set1 2) #t)
-(check-expect (set-member? list-set1 5) #f)
-(check-expect (set-member? list-set2 5) #t)
+(check-expect (set-member? 2 list-set1) #t)
+(check-expect (set-member? 5 list-set1) #f)
+(check-expect (set-member? 5 list-set2) #t)
 
 (define make-list-set
   (lambda (element-equal? list)
     (define insert
-      (lambda (set new-element)
-        (if (member? set new-element)
+      (lambda (value set)
+        (if (member? value set)
             set
-            (set-update-representation
-             set
-             (lambda (list)
-               (cons new-element list))))))
+            (make-set (cons value list)
+                      insert member?))))
     (define member?
-      (lambda (set maybe-element)
+      (lambda (value set)
         (any? (lambda (element)
-                       (element-equal? maybe-element element))
+                       (element-equal? value element))
                      (set-representation set))))
         
-    (make-set list
-              insert member?)))
+    (make-set listinsert member?)))
 
 ; Menge mit Elementen 1 2 3 4
 (define list-set1
@@ -76,4 +73,4 @@
 
 ; Menge mit Elementen 1 2 3 4 5
 (define list-set2
-  (set-insert list-set1 5))
+  (set-insert 5 list-set1))

@@ -26,6 +26,8 @@ durch eine andere zu ersetzen~-- mit einer Technik namens
 
 \section{So viele Mengen}
 
+\mentioncode{datenabstraktion/list-set.rkt}
+
 In Kapitel~\ref{cha:trees} auf Seite~\pageref{cha:trees} haben wir uns
 intensiv mit Bäumen beschäftigt in verschiedenen Ausprägungen.  Dazu
 gehörten Suchbäume, die wir in Abschnitt~\ref{sec:suchbaeume} auf
@@ -94,7 +96,7 @@ hier nicht noch einmal abdrucken:
 %
 \begin{lstlisting}
 ; Feststellen, ob Wert Element einer Menge ist
-(: list-set-member? (%a (list-set-of %a)-> boolean))
+(: list-set-member? (%a (list-set-of %a) -> boolean))
 
 (check-expect (list-set-member? 2 list-set1) #t)
 (check-expect (list-set-member? 5 list-set1) #f)
@@ -229,11 +231,271 @@ Wollen wir nun ändern, welche Implementierung von Mengen die Funktion
 \lstinline{friends-of-slash?}  benutzt, müssten wir sie ändern.  Wenn
 noch mehr Funktionen hinzukommen, die auf
 \lstinline{friends-of-slash-2001} zugreifen, müssten wir jede einzelne
-davon ändern.  Um das unnötig zu machen, benötigen wir eine andere Art
-von Abstraktion, bei der wir nicht primär über Funktionen
-abstrahieren, sondern über Daten: die
-Datenabstraktion.\index{Datenabstraktion}
+davon ändern.  Das können wir durch Abstraktion vermeiden.
 
+\section{Daten und Methoden}
+
+\mentioncode{datenabstraktion/set.rkt}
+
+Wir wollen also abstrahieren über Suchbäume, balancierte Suchbäume und
+Listenmengen.  Ähnlich sind jeweils die Signaturen der beiden
+Funktionen:
+%
+\begin{lstlisting}
+(: search-tree-member?
+   (%a (search-tree-of %a)       -> boolean))
+(: sized-search-tree-member?
+   (%a (sized-search-tree-of %a) -> boolean))
+(: list-set-member?
+   (%a (list-set-of %a)          -> boolean))
+
+(: search-tree-insert
+   (%a (search-tree-of %a)       -> (search-tree-of %a)))
+(: balanced-search-tree-insert
+   (%a (sized-search-tree-of %a) -> (sized-search-tree-of %a)))
+(: list-set-insert
+   (%a (list-set-of %a)          -> (list-set-of %a)))
+\end{lstlisting}
+%
+Wenn wir abstrahieren wollen, müssen wir für
+\lstinline{search-tree-of}, \lstinline{sized-search-tree-of} und
+\lstinline{list-set-of} einen neuen, abstrakten Namen finden.  Wir
+wollen also Funktionen mit folgenden Signaturen schreiben:
+%
+\begin{lstlisting}
+(: set-member? (%a (set-of %a) -> boolean))
+(: set-insert (%a (set-of %a) -> (set-of %a)))
+\end{lstlisting}
+%
+Ein Ansatz für die Vereinigung der drei Signaturen wäre, sie als
+gemischte Daten zu betrachten:
+%
+\begin{lstlisting}
+(define set-of
+  (lambda (element)
+    (mixed (search-tree-of element)
+           (sized-search-tree-of element)
+           (list-of-of element))))
+\end{lstlisting}
+%
+Entsprechend könnten wir dann \lstinline{set-member?} und
+\lstinline{set-insert} folgendermaßen programmieren:
+%
+\begin{lstlisting}
+; Feststellen, ob Wert Element einer Menge ist
+(: set-member? (%a (set-of %a) -> boolean))
+
+(define set-member?
+  (lambda (value set)
+    (cond
+      ((search-tree? set) (search-tree-member? value set))
+      ((sized-search-tree? set) (sized-search-tree-member? value set))
+      ((list-set? set) (list-set-member? value set)))))
+    
+
+; Element in Menge einfügen
+(: set-insert (%a (set-of %a) -> (set-of %a)))
+
+(define set-insert
+  (lambda (value set)
+    (cond
+      ((search-tree? set) (search-tree-insert value set))
+      ((sized-search-tree? set) (balanced-search-tree-insert value set))
+      ((list-set? set) (list-set-insert value set)))))
+\end{lstlisting}
+%
+Diese Methode erlaubt uns, die Einlassprüfung beim
+Guns-N'-Roses-Konzert unabhängig von der Implementierung von Mengen zu
+realisieren:
+%
+\begin{lstlisting}
+(define friend-of-slash?
+  (lambda (person)
+    (set-member? person friends-of-slash)))
+\end{lstlisting}
+%
+Diese Methode hat einen Nachteil: Wenn eine weitere Implementierung
+der Mengen-Idee hinzukommt, müssen wir alle diese Definitionen ändern.
+Das ist gar nicht so unwahrscheinlich, weil es noch andere
+Datenstrukturen gibt, die schnellen Umgang mit Mengen erlauben.
+
+Wir wollen darum eine andere Art von Abstraktion ausprobieren, bei der
+wir nicht primär über Funktionen abstrahieren, sondern über Daten: die
+Datenabstraktion.\index{Datenabstraktion}  Wir abstrahieren dafür über
+den Daten-Definitionen der verschiedenen Mengen-Implementierungen
+beziehungsweise den zugehörigen Record-Typen.  Hier sind sie:
+%
+\begin{lstlisting}
+(define-record (search-tree-of element)
+  make-search-tree search-tree?
+  (search-tree-label-=?-function (element element -> boolean))
+  (search-tree-label-<?-function (element element -> boolean))
+  (search-tree-tree (tree-of false element)))
+
+(define-record (sized-search-tree-of element)
+  make-sized-search-tree sized-search-tree?
+  (sized-search-tree-label-=?-function (element element -> boolean))
+  (sized-search-tree-label-<?-function (element element -> boolean))
+  (sized-search-tree-tree (sized-tree-of false element)))
+
+(define-record (list-set-of element)
+  make-list-set
+  list-set?
+  (element-=?-function (element element -> boolean))
+  (list-set-list (list-of element)))
+\end{lstlisting}
+%
+Wie immer bei der Abstraktion schauen wir darauf, was die Definitionen
+gemeinsam haben und wo Unterschiede sind:
+%
+\begin{itemize}
+\item Alle Definitionen enthalten eine Funktion, um zwei mögliche
+  Elemente auf Gleichheit zu testen.
+\item Die ersten beiden Definitionen enthalten außerdem noch eine
+  Funktion, um zwei mögliche Elemente zu ordnen.
+\item Alle Definitionen enthalten ein Feld, in dem die eigentliche
+  Datenstruktur mit den Elementen enthalten ist~-- die
+  \textit{Repräsentation} der Menge.  Allerdings ist die Signatur
+  dieses Felds jedesmal eine andere.
+\end{itemize}
+%
+Unterschiedlich sind die \lstinline{member?}- und
+\lstinline{insert}-Funktionen, die jeweils auf die Repräsentation und
+die Gleichheits- und die Ordnungs-Funktion zugreifen.  Die Funktionen
+stehen aber gar nicht direkt in der Record-Definition, greifen aber
+auf die Funktionen für Gleichheit und Ordnung zu.
+
+Die Lage ist also etwas unübersichtlich, und hier kommt die
+Datenabstraktion ins Spiel.  Sie besteht aus zwei Techniken:
+%
+\begin{itemize}
+\item Wir "<verstecken"> die Signatur der Repräsentation, damit unser
+  Programm nicht geändert werden muss, wenn die Implementierung und
+  damit auch diese Signatur geändert wird.
+\item Wir stecken die \lstinline{member?}- und
+  \lstinline{insert}-Funktionen selbst in den Record.  Im Kontext der
+  Datenabstraktion heißen diese Funktionen
+  \textit{Methoden}.\index{Methode}
+\end{itemize}
+% 
+Daraus wird folgende Daten-Definition mit zugehöriger
+Record-Definition:
+%
+\begin{lstlisting}
+; Eine Menge besteht aus:
+; - Repräsentation
+; - Methode, um Elemente einzufügen
+; - Methode, um festzustellen, ob Wert Element in Menge ist
+(define-record (set-of element)
+  make-set
+  set?
+  (set-representation any)
+  (set-insert-method (element (set-of element)-> (set-of element)))
+  (set-member?-method (element (set-of element)-> boolean)))
+\end{lstlisting}
+%
+Das Feld \lstinline{set-representation} wird später die
+Repräsentation, also den Suchbaum beziehungsweise die Liste enthalten.
+Die Signatur der Repräsentation hängt davon ab, welche Implementierung
+zum Suchbaum gehört. Die wissen wir an dieser Stelle allerdings nicht.
+Wir wollen außerdem keinen zusätzlichen Parameter zu
+\lstinline{set-of} hinzufügen, weil sie die Signatur der
+Repräsentation sichtbar machen für Funktionen sichtbar machen würde,
+die mit \lstinline{set-of} hantieren.  (Bei der Variante mit
+gemischten Daten wurde ja so ein Parameter auch nicht benötigt.)
+
+Es liegt nahe, die Gleichheits-Funktion, die alle drei
+Record-Definitionen gemeinsam haben, auch in die Definition von
+\lstinline{set-of} aufzunehmen.  Wir werden aber sehen, dass dies
+unnötig ist.
+
+Stellen wir also mal eine Menge her.  Der Einfachheit halber benutzen
+wir wieder Listen als Repräsentation.  Hier sind Kurzbeschreibung,
+Signatur und Schablone:
+%
+\begin{lstlisting}
+; Menge mit Listenrepräsentation erzeugen
+(: make-list-set ((%a %a -> boolean) (list-of %a) -> (set-of %a)))
+
+(define make-list-set
+  (lambda (element-=? list)
+    (make-set ... ... ...)))
+\end{lstlisting}
+%
+Die erste Eingabe von \lstinline{make-set} ist die Repräsentation, in
+diesem Fall also einfach \lstinline{list}.  Wir benötigen noch die
+beiden Methoden für \lstinline{insert} und \lstinline{member?}.  Die
+schreiben wir als lokale Definitionen und passen sie aus den
+Definitionen des ersten Abschnitts an:
+%
+\begin{lstlisting}
+(define make-list-set
+  (lambda (element-=? list)
+    (define list-set-insert
+      (lambda (value set)
+        (if (list-set-member? value set)
+            set
+            (make-set (cons value list)
+                      list-set-insert list-set-member?))))
+    (define list-set-member?
+      (lambda (value set)
+        (member? element-=?
+                 value
+                 (set-representation set))))
+        
+    (make-set list list-set-insert list-set-member?)))
+\end{lstlisting}
+%
+Das Testen der Funktion holen wir nach, weil wir dafür die Funktionen
+\lstinline{set-insert} und \lstinline{set-member?} brauchen.  Die
+kommen gleich.
+
+Hier ist ein Beispiel für einen Aufruf von \lstinline{make-list-set}:
+%
+\begin{lstlisting}
+; Menge mit Elementen 1 2 3 4
+(define list-set1
+  (make-list-set = (list 1 2 3 4)))
+\end{lstlisting}
+%
+Kommen wir nun zu \lstinline{set-insert} und \lstinline{set-member?}.
+Die rufen die entsprechenden Methoden auf:
+%
+\begin{lstlisting}
+; Element in Menge einfügen
+(: set-insert (%a (set-of %a) -> (set-of %a)))
+
+(define set-insert
+  (lambda (value set)
+    ((set-insert-method set) value set)))
+
+; Feststellen, ob Wert Element einer Menge ist
+(: set-member? (%a (set-of %a) -> boolean))
+
+(define set-member?
+  (lambda (value set)
+    ((set-member?-method set) value set)))
+\end{lstlisting}
+%
+Hier ist ein Beispiel für einen Aufruf von \lstinline{set-insert}:
+%
+\begin{lstlisting}
+; Menge mit Elementen 1 2 3 4 5
+(define list-set2
+  (set-insert 5 list-set1))
+\end{lstlisting}
+%
+Damit können wir auch \lstinline{make-list-set} rudimentär testen:
+%
+\begin{lstlisting}
+(check-expect (set-member? 2 list-set1) #t)
+(check-expect (set-member? 5 list-set1) #f)
+(check-expect (set-member? 5 list-set2) #t)
+\end{lstlisting}
+
+\section{Repräsentationswechsel}
+
+TBD
 
 %%% Local Variables: 
 %%% mode: latex

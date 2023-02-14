@@ -13,7 +13,7 @@
   (make-list-set = (list 1 2 3 4)))
 
 ; Feststellen, ob Wert Element einer Menge ist
-(: list-set-member? (%a (list-set-of %a)-> boolean))
+(: list-set-member? (%a (list-set-of %a) -> boolean))
 
 (check-expect (list-set-member? 2 list-set1) #t)
 (check-expect (list-set-member? 5 list-set1) #f)
