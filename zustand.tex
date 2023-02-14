@@ -5,30 +5,30 @@ kennt keine Zuweisungen; es folgt darum noch die Darstellung der
 \textit{SECDH-Maschine}, die auch einen \textit{Speicher} kennt und
 damit Zuweisungen korrekt modelliert.
 
-\section{Der $\lambda$-Kalkül mit Zustand}
+\section{Der $\lambda$-KalkÃ¼l mit Zustand}
 
-Der bisher vorgestellte $\lambda$-Kalkül liefert keinerlei Erklärung
-für das Verhalten von Zuweisungen.  Tatsächlich hat sich schon in
+Der bisher vorgestellte $\lambda$-KalkÃ¼l liefert keinerlei ErklÃ¤rung
+fÃ¼r das Verhalten von Zuweisungen.  TatsÃ¤chlich hat sich schon in
 Abschnitt~\ref{sec:assignment-problems} angedeutet, dass Zuweisungen
-die Formalisierung deutlich erschweren.  Möglich ist es trotzdem, und
+die Formalisierung deutlich erschweren.  MÃ¶glich ist es trotzdem, und
 dieser Abschnitt zeigt, wie es geht.
 
-Als erstes muss wieder einmal die Sprache des $\lambda$-Kalküls
-erweitert werden, diesmal um \lstinline{set!}-Ausdrücke:
+Als erstes muss wieder einmal die Sprache des $\lambda$-KalkÃ¼ls
+erweitert werden, diesmal um \lstinline{set!}-AusdrÃ¼cke:
 %
-\begin{definition}[Sprache des angewandten $\lambda$-Kalküls mit Zustand
-  $\mathcal{L}_{\lambda{}S}$]\index{angewandter $\lambda$-Kalkül}\index{Zustand}
-  Sei $V$ eine abzählbare Menge von Variablen.  Sei $B$ eine Menge von
+\begin{definition}[Sprache des angewandten $\lambda$-KalkÃ¼ls mit Zustand
+  $\mathcal{L}_{\lambda{}S}$]\index{angewandter $\lambda$-KalkÃ¼l}\index{Zustand}
+  Sei $V$ eine abzÃ¤hlbare Menge von Variablen.  Sei $B$ eine Menge von
   \textit{Basiswerten\index{Basiswert}} mit $\mathtt{void} \in B$.
-  Sei für eine natürliche Zahl $n$ und $i \in \{1, \ldots, n\}$
+  Sei fÃ¼r eine natÃ¼rliche Zahl $n$ und $i \in \{1, \ldots, n\}$
   jeweils $\Sigma^i$ eine Menge von \textit{$i$-stelligen
     Primitiva\index{Primitivum}}.  Jedem $F^i\in\Sigma^i$ ist eine
   $i$-stellige Funktion $F_B^i: B\times\ldots\times B \rightarrow
   B$~-- ihre \textit{Operation}~-- zugordnet.
-  Seit $A$ eine abzählbare Menge von Adressen mit $V\cap A =
+  Seit $A$ eine abzÃ¤hlbare Menge von Adressen mit $V\cap A =
   \varnothing$.\index{Adresse}. 
 
-  Die Sprache des angewandten $\lambda$"=Kalküls mit Zustand, die
+  Die Sprache des angewandten $\lambda$"=KalkÃ¼ls mit Zustand, die
   Menge der \textit{angewandten $\lambda$-Terme mit Zustand},
   $\mathcal{L}_{\lambda{}S}$\index{L@$\mathcal{L}_{\lambda{}S}$}, ist
   durch folgende Grammatik definiert:
@@ -46,25 +46,25 @@ erweitert werden, diesmal um \lstinline{set!}-Ausdrücke:
   %
 \end{definition}
 %
-Der \lstinline{void}-Wert wird als Rückgabewert von
-\lstinline{set!}-Ausdrücken dienen.
+Der \lstinline{void}-Wert wird als RÃ¼ckgabewert von
+\lstinline{set!}-AusdrÃ¼cken dienen.
 
-Um Reduktionsregeln für Zuweisungen zu bilden, ist es notwendig, den
-Begriff des \textit{Speichers\index{Speicher}} in den $\lambda$-Kalkül
-einzuführen: Im $\lambda$-Kalkül mit Zustand stehen Variablen nicht
-mehr für Werte, die für sie eingesetzt werden können, sondern für
+Um Reduktionsregeln fÃ¼r Zuweisungen zu bilden, ist es notwendig, den
+Begriff des \textit{Speichers\index{Speicher}} in den $\lambda$-KalkÃ¼l
+einzufÃ¼hren: Im $\lambda$-KalkÃ¼l mit Zustand stehen Variablen nicht
+mehr fÃ¼r Werte, die fÃ¼r sie eingesetzt werden kÃ¶nnen, sondern fÃ¼r
 \textit{Speicherzellen\index{Speicherzelle}}.  Eine Speicherzelle ist
 ein Ort im Speicher, der einen Wert aufnimmt, der auch wieder
-verändert werden kann.  Dabei wird jede Speicherzelle durch eine
+verÃ¤ndert werden kann.  Dabei wird jede Speicherzelle durch eine
 \textit{Adresse\index{Adresse}} identifiziert.  Eine Adresse ist eine
-abstrakte Größe, es kommt also gar nicht darauf an, um was für
+abstrakte GrÃ¶ÃŸe, es kommt also gar nicht darauf an, um was fÃ¼r
 eine Art Wert es sich handelt~-- im realen Computer ist eine Adresse
-in der Regel einfach eine Zahl.  In diesem Abschnitt steht $A$ für die
-Menge der Adressen, die abzählbar sein sollte.
+in der Regel einfach eine Zahl.  In diesem Abschnitt steht $A$ fÃ¼r die
+Menge der Adressen, die abzÃ¤hlbar sein sollte.
 
 Ein Speicher aus der Menge $M$ ist eine Zuordnung zwischen Adressen aus $A$
 und Werten\index{Wert}.  Die Werte sind wie schon im normalen
-$\lambda$-Kalkül die Basiswerte und die Abstraktionen~-- hier bekommen
+$\lambda$-KalkÃ¼l die Basiswerte und die Abstraktionen~-- hier bekommen
 sie, weil sie eine Rolle in den Reduktionsregeln spielen, den Namen
 $X$:
 %
@@ -73,10 +73,10 @@ $X$:
   X &=& B \cup \{ \lambda v.e | \lambda v.e \in \mathcal{L}_{\lambda{}S} \}
 \end{eqnarray*}
 
-Um Reduktionsregeln für den $\lambda$-Kalkül mit Zustand zu
+Um Reduktionsregeln fÃ¼r den $\lambda$-KalkÃ¼l mit Zustand zu
 formulieren, muss $\mathcal{L}_{\lambda{}S}$ noch erweitert werden,
 damit die Adressen ins Spiel kommen: Adressen werden Terme und sind
-auf der linken Seite von Zuweisungen zulässig:
+auf der linken Seite von Zuweisungen zulÃ¤ssig:
 %
 \begin{grammar}
   \meta{$\mathcal{L}_{\lambda{}S}$} \: \ldots
@@ -85,14 +85,14 @@ auf der linken Seite von Zuweisungen zulässig:
 \end{grammar}
 %
 Adressen tauchen dabei nur als Zwischenschritte bei der Reduktion auf;
-sie sind nicht dafür gedacht, dass sie der Programmierer in ein
+sie sind nicht dafÃ¼r gedacht, dass sie der Programmierer in ein
 Programm schreibt.
 
 Da das bisherige Substitutionsprinzip bei Zuweisungen nicht mehr funktioniert, reicht es
-nicht, die Reduktionsregeln für den $\lambda$-Kalkül mit Zustand
-einfach nur auf Termen auszudrücken: Ein Term, der ja Adressen
+nicht, die Reduktionsregeln fÃ¼r den $\lambda$-KalkÃ¼l mit Zustand
+einfach nur auf Termen auszudrÃ¼cken: Ein Term, der ja Adressen
 enthalten kann, ergibt nur Sinn, wenn er mit einem Speicher kombiniert
-wird.  Die Reduktionsregeln überführen somit immer ein Paar, bestehend aus
+wird.  Die Reduktionsregeln Ã¼berfÃ¼hren somit immer ein Paar, bestehend aus
 einem Term und einem Speicher in ein ebensolches Paar.  Hierbei wird der
 Einfachheit halber kein Unterschied mehr zwischen den verschiedenen
 Arten der Reduktion gemacht:
@@ -114,22 +114,22 @@ Arten der Reduktion gemacht:
 %
 Die Formulierung "<$a$ frisch"> bedeutet dabei, dass $a$ eine Adresse
 sein sollte, die in $m$ bisher noch nicht benutzt wurde.  Die Operation
-$m[a\mapsto x]$ ist ähnlich wie bei Umgebungen definiert: der alte
-Speicherinhalt bei $a$ wird zunächst entfernt, und dann eine neue
-Zuordnung für $a$ nach $x$ hinzugefügt:
+$m[a\mapsto x]$ ist Ã¤hnlich wie bei Umgebungen definiert: der alte
+Speicherinhalt bei $a$ wird zunÃ¤chst entfernt, und dann eine neue
+Zuordnung fÃ¼r $a$ nach $x$ hinzugefÃ¼gt:
 %
 \begin{displaymath}
   m[a\mapsto x] \deq (e \setminus \{ (a, x') | (a, x') \in m) \cup \{
     (a, x) \}
 \end{displaymath}
 %
-Die Regeln sind immer noch über Substitution definiert, allerdings
-werden für Variablen jetzt nicht mehr Werte sondern Adressen
-eingesetzt.  Sie werden, wie beim normalen Call-by-Value-Kalkül auch,
-auf Subterme fortgesetzt, die möglichst weit links innen stehen.
+Die Regeln sind immer noch Ã¼ber Substitution definiert, allerdings
+werden fÃ¼r Variablen jetzt nicht mehr Werte sondern Adressen
+eingesetzt.  Sie werden, wie beim normalen Call-by-Value-KalkÃ¼l auch,
+auf Subterme fortgesetzt, die mÃ¶glichst weit links innen stehen.
 
 Im folgenden Beispiel stehen fettgedruckte Zahlen ${\bf
-0}$, ${\bf 1}$ für Adressen. Die Redexe sind jeweils
+0}$, ${\bf 1}$ fÃ¼r Adressen. Die Redexe sind jeweils
 unterstrichen:
 %
 {\small
@@ -206,21 +206,21 @@ unterstrichen:
 \end{displaymath}
 }
 %
-Der Endausdruck steht für die Speicherzelle an Adresse ${\bf
+Der Endausdruck steht fÃ¼r die Speicherzelle an Adresse ${\bf
 2}$, wo der Wert $13$ steht.  Es ist sichtbar, dass die
-Auswertungsmaschinerie durch die Einführung von Zustand deutlich
+Auswertungsmaschinerie durch die EinfÃ¼hrung von Zustand deutlich
 komplizierter wird.
 
 \section{Die SECDH-Maschine}
 \index{sec:SECDH-Maschine}
 
-Die SECD-Maschine ist nicht mächtig genug, um den $\lambda$-Kalkül mit
+Die SECD-Maschine ist nicht mÃ¤chtig genug, um den $\lambda$-KalkÃ¼l mit
 Zustand zu modellieren: Es fehlt ein Speicher.  Darum muss das
-Maschinen-Pendant zum $\lambda$-Kalkül mit Zustand um eine
+Maschinen-Pendant zum $\lambda$-KalkÃ¼l mit Zustand um eine
 Speicher-Komponente erweitert werden: Heraus kommt die
 \textit{SECDH-Maschine}, um die es in diesem Abschnitt geht.
 
-Der Maschinencode für die SECDH-Maschine ist dabei genau wie bei der
+Der Maschinencode fÃ¼r die SECDH-Maschine ist dabei genau wie bei der
 SECD-Maschine, nur dass eine spezielle Zuweisungsoperation hinzukommt:
 %
 \begin{grammar}
@@ -228,8 +228,8 @@ SECD-Maschine, nur dass eine spezielle Zuweisungsoperation hinzukommt:
   \> \| :=
 \end{grammar}
 %
-Die Übersetzungsfunktion produziert diese neue Instruktion bei
-\lstinline{set!}-Ausdrücken:
+Die Ãœbersetzungsfunktion produziert diese neue Instruktion bei
+\lstinline{set!}-AusdrÃ¼cken:
 %
 \begin{eqnarray*}
   \llbracket e \rrbracket &\deq&
@@ -240,8 +240,8 @@ Die Übersetzungsfunktion produziert diese neue Instruktion bei
   \end{cases}
 \end{eqnarray*}  
 %
-Der Begriff der Adresse aus der Menge $A$ wird direkt aus dem Kalkül
-übernommen.  Ähnlich wie im Kalkül landen Zwischenergebnisse nicht
+Der Begriff der Adresse aus der Menge $A$ wird direkt aus dem KalkÃ¼l
+Ã¼bernommen.  Ã„hnlich wie im KalkÃ¼l landen Zwischenergebnisse nicht
 mehr direkt auf dem Stack, sondern stattdessen landen ihre Adressen im
 Speicher.  Dementsprechend bilden nun Umgebungen Variablen auf
 Adressen ab.  Die neue Komponente $H$ ist gerade der Speicher, auch
@@ -256,15 +256,15 @@ abbildet:
   W &=& B \cup (V\times C\times E)
 \end{eqnarray*}
 %
-Die Regeln für die SECDH-Maschine sind analog zu den Regeln für die
+Die Regeln fÃ¼r die SECDH-Maschine sind analog zu den Regeln fÃ¼r die
 SECD-Maschine.  Zwei Hauptunterschiede gibt es dabei:
 %
 \begin{itemize}
-\item Der Heap aus $H$ gehört nun zum Zustand dazu.  Anders als die
+\item Der Heap aus $H$ gehÃ¶rt nun zum Zustand dazu.  Anders als die
   Umgebung wird er nicht bei der Bildung von Closures "<eingepackt">:
   Stattdessen wird der Heap stets linear von links nach rechts durch
-  Regeln durchgefädelt.
-\item Zwischenergebnisse nehmen stets den Umweg über den Heap: Immer,
+  Regeln durchgefÃ¤delt.
+\item Zwischenergebnisse nehmen stets den Umweg Ã¼ber den Heap: Immer,
   wenn ein neues Zwischenergebnis entsteht, wird es bei einer neuen
   Adresse im Heap abgelegt. Auf dem Stack landen die
   Adressen der Zwischenergebnisse.
@@ -329,20 +329,20 @@ Entsprechend muss die Auswertungsfunktion das Endergebnis im Heap nachschauen:
 \section{Implementierung der SECDH-Maschine}
 
 
-Für die Implementierung der SECDH-Maschine werden einige der
-Funktionen wiederverwendet, die für die SECD-Maschine programmiert
-wurden.  Zunächst einmal muss~-- genau wie bei der SECD-Maschine~--
-erst einmal die Übersetzung von Termen in Maschinencode realisiert
+FÃ¼r die Implementierung der SECDH-Maschine werden einige der
+Funktionen wiederverwendet, die fÃ¼r die SECD-Maschine programmiert
+wurden.  ZunÃ¤chst einmal muss~-- genau wie bei der SECD-Maschine~--
+erst einmal die Ãœbersetzung von Termen in Maschinencode realisiert
 werden.  Zuweisungsterme haben wie in den Lehrsprachen die folgende Form:
 %
 \begin{alltt}
 (set! \(v\) \(e\))
 \end{alltt}
 %
-Das dazu passende Prädikat ist das folgende:
+Das dazu passende PrÃ¤dikat ist das folgende:
 %
 \begin{lstlisting}
-; Prädikat für Zuweisungen
+; PrÃ¤dikat fÃ¼r Zuweisungen
 (: assignment? (%a -> boolean))
 (define assignment?
   (lambda (term)
@@ -366,8 +366,8 @@ Mit Hilfe dieser Definition kann die Signatur-Definition von
            assignment)))
 \end{lstlisting}
 %
-Um zu vermeiden, dass Zuweisungen mit regulären Applikationen
-verwechselt werden, muss das Prädikat \lstinline{application?} erweitert
+Um zu vermeiden, dass Zuweisungen mit regulÃ¤ren Applikationen
+verwechselt werden, muss das PrÃ¤dikat \lstinline{application?} erweitert
 werden:
 %
 \begin{lstlisting}
@@ -380,8 +380,8 @@ werden:
          (not (primitive? (first term))))))
 \end{lstlisting}
 %
-Als Nächstes wird die zusätzliche $\mathtt{:=}$-Instruktion
-repräsentiert.  Hier sind Daten- und Record-Definition:
+Als NÃ¤chstes wird die zusÃ¤tzliche $\mathtt{:=}$-Instruktion
+reprÃ¤sentiert.  Hier sind Daten- und Record-Definition:
 %
 \begin{lstlisting}
 ; Eine Zuweisungs-Instruktion ist ein Wert
@@ -390,7 +390,7 @@ repräsentiert.  Hier sind Daten- und Record-Definition:
   make-:= :=?)
 \end{lstlisting}
 %
-Die Signatur-Definition für Maschinen-Instruktionen kann um \lstinline{:=}
+Die Signatur-Definition fÃ¼r Maschinen-Instruktionen kann um \lstinline{:=}
 erweitert werden:
 %
 \begin{lstlisting}
@@ -405,11 +405,11 @@ erweitert werden:
            :=)))
 \end{lstlisting}
 
-Bei der Übersetzung in Maschinencode kommt in
+Bei der Ãœbersetzung in Maschinencode kommt in
 \lstinline{term->machine-code} ein weiterer Zweig hinzu:
 %
 \begin{lstlisting}
-; Term in Maschinencode übersetzen
+; Term in Maschinencode Ã¼bersetzen
 (: term->machine-code (term -> machine-code))
 (define term->machine-code
   (lambda (term)
@@ -422,7 +422,7 @@ Bei der Übersetzung in Maschinencode kommt in
 \end{lstlisting}
 %
 Wie bei der SECD-Maschine werden die verschiedenen Mengendefinitionen
-erst einmal in Daten- und Record-Definitionen übersetzt.  Das ist für
+erst einmal in Daten- und Record-Definitionen Ã¼bersetzt.  Das ist fÃ¼r
 Stacks, Umgebungen und Speicheradressen ganz einfach:
 %
 \begin{lstlisting}
@@ -435,7 +435,7 @@ Stacks, Umgebungen und Speicheradressen ganz einfach:
 (define address (signature natural))
 \end{lstlisting}
 %
-Die Änderung in der Definition von Umgebungen bedingt eine Änderung
+Die Ã„nderung in der Definition von Umgebungen bedingt eine Ã„nderung
 der Signatur von \lstinline{make-binding}:
 %
 \begin{lstlisting}
@@ -443,15 +443,15 @@ der Signatur von \lstinline{make-binding}:
 \end{lstlisting}
 
 %
-Bei der Repräsentation des Heaps ist wichtig, dass eine Operation zur
+Bei der ReprÃ¤sentation des Heaps ist wichtig, dass eine Operation zur
 Beschaffung frischer Adressen eingebaut wird.  Aus diesem Grund
-enthält der Heap zusätzlich zu den Zellen auch noch einen Zähler mit
-der nächsten frischen Adresse:
+enthÃ¤lt der Heap zusÃ¤tzlich zu den Zellen auch noch einen ZÃ¤hler mit
+der nÃ¤chsten frischen Adresse:
 %
 \begin{lstlisting}
 ; Ein Heap ist ein Wert
 ;   (make-heap s n)
-; wobei n die nächste freie Adresse ist und s eine Liste
+; wobei n die nÃ¤chste freie Adresse ist und s eine Liste
 ; von Zellen.
 (define-record heap
   make-heap heap?
@@ -490,9 +490,9 @@ entsprechend der mathematischen Definition:
                ...)))
 \end{lstlisting}
 %
-Die Ellipse steht für die nächste frische Adresse: Wenn die bisherige
+Die Ellipse steht fÃ¼r die nÃ¤chste frische Adresse: Wenn die bisherige
 frische Adresse in \lstinline{heap-store} belegt wird, so muss eine neue
-frische Adresse gewählt werden:
+frische Adresse gewÃ¤hlt werden:
 %
 \begin{lstlisting}
 (define heap-store
@@ -521,7 +521,7 @@ Es fehlt noch die Hilfsfunktion \lstinline{remove-cell}:
                  (remove-cell address (rest cell))))))))
 \end{lstlisting}
 %
-Als Nächstes ist die Operation an der Reihe, die den Wert, der an einer
+Als NÃ¤chstes ist die Operation an der Reihe, die den Wert, der an einer
 Adresse im Heap gespeichert ist.  Die Funktion \lstinline{heap-lookup} benutzt
 eine Hilfsfunktion \lstinline{cells-lookup}, um in der Liste von Zellen
 nach der richtigen zu suchen:
@@ -545,7 +545,7 @@ nach der richtigen zu suchen:
            (cells-lookup (rest cells) address))))))
 \end{lstlisting}
 %
-Schließlich fehlt noch eine Repräsentation für den $\mathtt{void}$-Wert:
+SchlieÃŸlich fehlt noch eine ReprÃ¤sentation fÃ¼r den $\mathtt{void}$-Wert:
 %
 \begin{lstlisting}
 ; Ein void-Wert ist ein Wert
@@ -554,15 +554,15 @@ Schließlich fehlt noch eine Repräsentation für den $\mathtt{void}$-Wert:
   make-void void?)
 \end{lstlisting}
 %
-Auch hier wird nur ein $\mathtt{void}$-Wert benötigt, der 
+Auch hier wird nur ein $\mathtt{void}$-Wert benÃ¶tigt, der 
 vorfabriziert wird:
 %
 \begin{lstlisting}
 (define the-void (make-void))
 \end{lstlisting}
 %
-Der Zustand für die SECDH-Maschine wird genau wie bei der
-SECD-Maschine repräsentiert, ergänzt um die Komponente für den Heap:
+Der Zustand fÃ¼r die SECDH-Maschine wird genau wie bei der
+SECD-Maschine reprÃ¤sentiert, ergÃ¤nzt um die Komponente fÃ¼r den Heap:
 %
 \begin{lstlisting}
 ; Ein SECDH-Zustand ist ein Wert
@@ -578,8 +578,8 @@ SECD-Maschine repräsentiert, ergänzt um die Komponente für den Heap:
   (secdh-heap heap))
 \end{lstlisting}
 %
-Die Implementierung der Zustandsübergangsfunktion hat exakt die
-gleiche Struktur wie die Implementierung der SECD-Maschine und hält
+Die Implementierung der ZustandsÃ¼bergangsfunktion hat exakt die
+gleiche Struktur wie die Implementierung der SECD-Maschine und hÃ¤lt
 sich eng an die mathematische Definition der Regeln:
 %
 \begin{lstlisting}
@@ -695,7 +695,7 @@ SECD-Maschine realisiert wird:
                 empty
                the-empty-heap)))
 
-; bis zum Ende Zustandsübergänge berechnen
+; bis zum Ende ZustandsÃ¼bergÃ¤nge berechnen
 (: secdh-step* (secdh -> secdh))
 (define secdh-step*
   (lambda (state)
@@ -723,19 +723,19 @@ SECD-Maschine realisiert wird:
 
 
 \begin{aufgabe}
-  Abstrahiere Ã¼ber \lstinline{remove-environment-binding} und
+  Abstrahiere ÃƒÂ¼ber \lstinline{remove-environment-binding} und
   \lstinline{remove-cell}.
 \end{aufgabe}
 
 
 \begin{aufgabe}
-  \lstinline{Begin} lÃ¤sst sich im angewandten $\lambda$-KalkÃ¼l als
-  syntaktischer Zucker auffassen: Wie mÃ¼ssten \lstinline{begin}-AusdrÃ¼cke
-  in die Sprache des KalkÃ¼ls Ã¼bersetzt werden?
+  \lstinline{Begin} lÃƒÂ¤sst sich im angewandten $\lambda$-KalkÃƒÂ¼l als
+  syntaktischer Zucker auffassen: Wie mÃƒÂ¼ssten \lstinline{begin}-AusdrÃƒÂ¼cke
+  in die Sprache des KalkÃƒÂ¼ls ÃƒÂ¼bersetzt werden?
 \end{aufgabe}
 
 \begin{aufgabe}
-  Ã„ndere die Implementierung der SECDH-Maschine dahingehend, dass
+  ÃƒÂ„ndere die Implementierung der SECDH-Maschine dahingehend, dass
   sie Endrekursion korrekt behandelt.
 \end{aufgabe}
 
