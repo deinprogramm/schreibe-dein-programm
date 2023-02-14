@@ -649,7 +649,7 @@ mit Zeichenketten müssten wir \lstinline{string=?} verwenden.  Wir
 müssen also \lstinline{member?} über \lstinline{=} respektive
 \lstinline{string=?} abstrahieren, noch bevor die Funktion überhaupt
 fertig ist.  Wir brauchen wie immer einen weiteren Parameter und
-nennen ihn \lstinline{equals?}:
+nennen ihn \lstinline{equals?}:\label{func:memberp}
 %
 \begin{lstlisting}
 (define member?
@@ -717,7 +717,7 @@ Liste abklappern.
   ungünstigsten Fall?
 \end{aufgabeinline}
 %
-Kann irgendwie schneller herausfinden, ob ein Wert Element einer Menge
+Kann ein Programm irgendwie schneller herausfinden, ob ein Wert Element einer Menge
 ist oder nicht?  In der Tat ist das möglich, aber nicht mit Listen:
 Wir brauchen eine andere Struktur, um das Suchen zu beschleunigen~--
 Bäume.
@@ -1053,7 +1053,7 @@ folgende Datendefinition:
 %
 Um die Definition in Code umzusetzen, benutzen wir eine
 Record-Definition.  Diesmal abstrahieren wir über die Signatur der
-Elemente mit einem Signatur-Parameter namens \lstinline{element}:
+Elemente mit einem Signatur-Parameter namens \lstinline{element}:\label{func:search-tree-of}
 %
 \begin{lstlisting}
 (define-record (search-tree-of element)
@@ -1340,6 +1340,7 @@ wie wir dafür sorgen, dass Suchbäume immer möglichst voll besetzt
 sind.  Dazu kommen wir später.
 
 \section{Suchbäume balancieren}
+\label{sec:balancierte-suchbaeume}
 
 \begin{figure}[tb]
 \begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
@@ -2149,11 +2150,11 @@ einmal eine Aufgabe zur Vorbereitung:
 
 
 \begin{aufgabe}
-  Die Implementierung von Suchbäumen ist für viele Suchprobleme nicht
+  Die Suchbaum-Funktionen ist für viele Suchprobleme nicht
   mächtig genug, da \texttt{search-tree-member?} nur überprüft,
   \emph{ob} ein Element in einem Suchbaum vorhanden ist.  Das hilft
   nicht zum Beispiel beim Suchen von Telefonnummern zu gegebenen Namen.
-  Erweitere die Implementierung so, dass sie zum Beispiel auch zum Suchen
+  Erweitere die Funktionen so, dass sie zum Beispiel auch zum Suchen
   von Telefonnummern verwendet werden kann.  Realisiere 
   exemplarisch das Suchen nach Telefonnummern!
 
@@ -2309,7 +2310,7 @@ einmal eine Aufgabe zur Vorbereitung:
     in Code!
   \item Benötigst Du noch eine spearate Definition für Blätter?
   \item Man kann Rosenbäume verwenden, um eine spezielle Form von
-    Suchbaum zu implementieren, bei dem die Einträge Listen sind
+    Suchbaum zu programmieren, bei dem die Einträge Listen sind.
 
     Der Suchbaum hat für jeden Eintrag einen Pfad im Baum, bei dem die
     Knoten entlang des Pfades die Elemente der Liste sind.  Die

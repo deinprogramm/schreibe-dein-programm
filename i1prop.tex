@@ -916,6 +916,7 @@ ergänzen um Eigenschaften, die tatsächlich mit den Signaturen der zu
 testenden Funktionen zu tun haben.
 
 \section{Suchbäume testen}
+\label{sec:suchbaeume-testen}
 
 \mentioncode{baeume/binary-tree.rkt}
 %
@@ -1374,7 +1375,7 @@ aus einer Liste einen Suchbaum herzustellen und überprüfen, dass
 \end{lstlisting}
 %
 Die Funktion \lstinline{every?} haben wir extra für diesen Testfall
-programmiert~-- strikt nach Konstruktionsanleitung für Listen:
+programmiert~-- strikt nach Konstruktionsanleitung für Listen:\label{func:everyp}
 %
 \begin{lstlisting}
 ; Liefert eine Funktion für alle Elemente einer Liste #t?

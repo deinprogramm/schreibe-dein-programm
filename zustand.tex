@@ -326,11 +326,11 @@ Entsprechend muss die Auswertungsfunktion das Endergebnis im Heap nachschauen:
 \end{eqnarray*}
 
 
-\section{Implementierung der SECDH-Maschine}
+\section{Programmierung der SECDH-Maschine}
 
 
-Für die Implementierung der SECDH-Maschine werden einige der
-Funktionen wiederverwendet, die für die SECD-Maschine programmiert
+Um die SECDH-Maschine zu programmieren, verwenden wir einige der
+Funktionen wieder, die für die SECD-Maschine programmiert
 wurden.  Zunächst einmal muss~-- genau wie bei der SECD-Maschine~--
 erst einmal die Übersetzung von Termen in Maschinencode realisiert
 werden.  Zuweisungsterme haben wie in den Lehrsprachen die folgende Form:
@@ -578,8 +578,8 @@ SECD-Maschine repräsentiert, ergänzt um die Komponente für den Heap:
   (secdh-heap heap))
 \end{lstlisting}
 %
-Die Implementierung der Zustandsübergangsfunktion hat exakt die
-gleiche Struktur wie die Implementierung der SECD-Maschine und hält
+Die Zustandsübergangsfunktion hat exakt die
+gleiche Struktur wie die entsprechende Funktion der SECD-Maschine und hält
 sich eng an die mathematische Definition der Regeln:
 %
 \begin{lstlisting}
@@ -723,19 +723,19 @@ SECD-Maschine realisiert wird:
 
 
 \begin{aufgabe}
-  Abstrahiere Ã¼ber \lstinline{remove-environment-binding} und
+  Abstrahiere über \lstinline{remove-environment-binding} und
   \lstinline{remove-cell}.
 \end{aufgabe}
 
 
 \begin{aufgabe}
-  \lstinline{Begin} lÃ¤sst sich im angewandten $\lambda$-KalkÃ¼l als
-  syntaktischer Zucker auffassen: Wie mÃ¼ssten \lstinline{begin}-AusdrÃ¼cke
-  in die Sprache des KalkÃ¼ls Ã¼bersetzt werden?
+  \lstinline{Begin} lässt sich im angewandten $\lambda$-Kalkül als
+  syntaktischer Zucker auffassen: Wie müssten \lstinline{begin}-Ausdrücke
+  in die Sprache des Kalküls übersetzt werden?
 \end{aufgabe}
 
 \begin{aufgabe}
-  Ãndere die Implementierung der SECDH-Maschine dahingehend, dass
+  Ãndere die SECDH-Maschine dahingehend, dass
   sie Endrekursion korrekt behandelt.
 \end{aufgabe}
 
