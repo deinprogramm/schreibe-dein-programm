@@ -33,16 +33,25 @@
               (set-insert-method set)
               (set-member?-method set))))
 
-; Feststellen, ob ein Element mit erfülltem Prädikat in Liste ist
-(: any? ((%a -> boolean) (list-of %a) -> boolean))
+; ist Wert Element einer Liste?
+(: member? ((%a %a -> boolean) %a (list-of %a) -> boolean))
 
-(define any?
-  (lambda (p? list)
+(check-expect (member? = 5 empty) #f)
+(check-expect (member? = 5 (list 1 2 3)) #f)
+(check-expect (member? = 1 (list 1 2 3)) #t)
+(check-expect (member? = 2 (list 1 2 3)) #t)
+(check-expect (member? = 3 (list 1 2 3)) #t)
+(check-expect (member? string=? "Slash" (list "Axl" "Slash")) #t)
+(check-expect (member? string=? "Buckethead" (list "Axl" "Slash")) #f)
+
+(define member?
+  (lambda (equals? value list)
     (cond
       ((empty? list) #f)
       ((cons? list)
-       (or (p? (first list))
-           (any? p? (rest list)))))))
+       (if (equals? value (first list))
+           #t
+           (member? equals? value (rest list)))))))
 
 ; Menge mit Listenrepräsentation erzeugen
 (: make-list-set ((%a %a -> boolean) (list-of %a) -> (set-of %a)))
@@ -52,20 +61,20 @@
 (check-expect (set-member? 5 list-set2) #t)
 
 (define make-list-set
-  (lambda (element-equal? list)
-    (define insert
+  (lambda (element-=? list)
+    (define list-set-insert
       (lambda (value set)
-        (if (member? value set)
+        (if (list-set-member? value set)
             set
             (make-set (cons value list)
-                      insert member?))))
-    (define member?
+                      list-set-insert list-set-member?))))
+    (define list-set-member?
       (lambda (value set)
-        (any? (lambda (element)
-                       (element-equal? value element))
-                     (set-representation set))))
+        (member? element-=?
+                 value
+                 (set-representation set))))
         
-    (make-set listinsert member?)))
+    (make-set list list-set-insert list-set-member?)))
 
 ; Menge mit Elementen 1 2 3 4
 (define list-set1

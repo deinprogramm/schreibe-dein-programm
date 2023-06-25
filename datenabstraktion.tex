@@ -24,478 +24,478 @@ diesem Kapitel geht es darum, es leicher zu machen, eine Datenstruktur
 durch eine andere zu ersetzen~-- mit einer Technik namens
 \textit{Datenabstraktion}.\index{Datenabstraktion}
 
-\section{So viele Mengen}
+% \section{So viele Mengen}
 
-\mentioncode{datenabstraktion/list-set.rkt}
+% \mentioncode{datenabstraktion/list-set.rkt}
 
-In Kapitel~\ref{cha:trees} auf Seite~\pageref{cha:trees} haben wir uns
-intensiv mit Bäumen beschäftigt in verschiedenen Ausprägungen.  Dazu
-gehörten Suchbäume, die wir in Abschnitt~\ref{sec:suchbaeume} auf
-Seite~\pageref{ref:sec:suchbaeume} eingeführt haben und in
-Abschnitt~\ref{sec:balancierte-suchbaeume} auf
-Seite~\pageref{sec:balancierte-suchbaeume} dann nochmal balanciert
-haben.  Folgende Funktionen haben wir geschrieben:
-%
-\begin{itemize}
-\item \lstinline{search-tree-member?} und
-  \lstinline{search-tree-insert} für "<normale"> Suchbäume
-\item \lstinline{sized-search-tree-member?} und
-  \lstinline{balanced-search-tree-insert} für balancierte Suchbäume
-\end{itemize}
-%
-Von außen betrachtet machen die beiden Funktionspaare jeweils das
-gleiche: \lstinline{search-tree-member?} und
-\lstinline{sized-search-tree-member?} sowie
-\lstinline{search-tree-insert} und
-\lstinline{balanced-search-tree-insert} haben jeweils entsprechende
-Signaturen, mit dem einzigen Unterschied, dass dort einmal
-\lstinline{search-tree-of} und das andere Mal
-\lstinline{sized-search-tree-of} steht.
+% In Kapitel~\ref{cha:trees} auf Seite~\pageref{cha:trees} haben wir uns
+% intensiv mit Bäumen beschäftigt in verschiedenen Ausprägungen.  Dazu
+% gehörten Suchbäume, die wir in Abschnitt~\ref{sec:suchbaeume} auf
+% Seite~\pageref{ref:sec:suchbaeume} eingeführt haben und in
+% Abschnitt~\ref{sec:balancierte-suchbaeume} auf
+% Seite~\pageref{sec:balancierte-suchbaeume} dann nochmal balanciert
+% haben.  Folgende Funktionen haben wir geschrieben:
+% %
+% \begin{itemize}
+% \item \lstinline{search-tree-member?} und
+%   \lstinline{search-tree-insert} für "<normale"> Suchbäume
+% \item \lstinline{sized-search-tree-member?} und
+%   \lstinline{balanced-search-tree-insert} für balancierte Suchbäume
+% \end{itemize}
+% %
+% Von außen betrachtet machen die beiden Funktionspaare jeweils das
+% gleiche: \lstinline{search-tree-member?} und
+% \lstinline{sized-search-tree-member?} sowie
+% \lstinline{search-tree-insert} und
+% \lstinline{balanced-search-tree-insert} haben jeweils entsprechende
+% Signaturen, mit dem einzigen Unterschied, dass dort einmal
+% \lstinline{search-tree-of} und das andere Mal
+% \lstinline{sized-search-tree-of} steht.
 
-Beide Funktionspaare benutzen Bäume, um \textit{Mengen}\index{Menge}
-zu realisieren, also Datenstrukturen mit Elementen, bei denen nur
-zählt, ob ein Element "<drin"> ist oder eben nicht.  Man spricht auch
-davon, dass die Suchbäume die Idee der Menge
-\textit{implementieren}.\index{Implementation}
+% Beide Funktionspaare benutzen Bäume, um \textit{Mengen}\index{Menge}
+% zu realisieren, also Datenstrukturen mit Elementen, bei denen nur
+% zählt, ob ein Element "<drin"> ist oder eben nicht.  Man spricht auch
+% davon, dass die Suchbäume die Idee der Menge
+% \textit{implementieren}.\index{Implementation}
 
-Diesen beiden Implementationen der Mengenidee fügen wir nun noch eine
-deutlich einfachere hinzu, diesmal auf Basis von Listen~--
-"<Listenmengen"> sozusagen.\index{Listenmenge} Wir wollen auch
-diesesmal Funktionen schreiben, deren Signatur der Signatur von
-\lstinline{search-tree-member?} und \lstinline{search-tree-insert}
-entspricht.  Wir können nicht direkt die Funktion \lstinline{member?}
-aus Abschnitt~\ref{func:memberp} auf Seite~\ref{page:memberp}
-benutzen, weil sie als Eingabe die Gleichheitsfunktion auf den
-Elementen der Menge benötigt, und damit eine andere Signatur hat als
-\lstinline{search-tree-member?}.  Wir müssen deshalb, ähnlich wie bei
-der Definition von \lstinline{search-tree-of}, die Gleichheitsfunktion
-mit in die Datendefinition der Mengen aufnehmen.  Die sieht so aus:
-%
-\begin{lstlisting}
-; Eine Listenmenge besteht aus:
-; - Gleichheitsfunktion
-; - einer Liste der Elemente
-(define-record (list-set-of element)
-  make-list-set
-  list-set?
-  (element-=?-function (element element -> boolean))
-  (list-set-list (list-of element)))
-\end{lstlisting}
-%
-Hier eine Beispielmenge:
-%
-\begin{lstlisting}
-; Menge mit den Elementen 1 2 3 4
-(define list-set1
-  (make-list-set = (list 1 2 3 4)))
-\end{lstlisting}
-%
-Um festzustellen, ob ein Wert Element einer Listenmenge ist, benutzen
-wir die \lstinline{member?}-Funktion aus dem Bäume-Kapitel, die wir
-hier nicht noch einmal abdrucken:
-%
-\begin{lstlisting}
-; Feststellen, ob Wert Element einer Menge ist
-(: list-set-member? (%a (list-set-of %a) -> boolean))
+% Diesen beiden Implementationen der Mengenidee fügen wir nun noch eine
+% deutlich einfachere hinzu, diesmal auf Basis von Listen~--
+% "<Listenmengen"> sozusagen.\index{Listenmenge} Wir wollen auch
+% diesesmal Funktionen schreiben, deren Signatur der Signatur von
+% \lstinline{search-tree-member?} und \lstinline{search-tree-insert}
+% entspricht.  Wir können nicht direkt die Funktion \lstinline{member?}
+% aus Abschnitt~\ref{func:memberp} auf Seite~\ref{page:memberp}
+% benutzen, weil sie als Eingabe die Gleichheitsfunktion auf den
+% Elementen der Menge benötigt, und damit eine andere Signatur hat als
+% \lstinline{search-tree-member?}.  Wir müssen deshalb, ähnlich wie bei
+% der Definition von \lstinline{search-tree-of}, die Gleichheitsfunktion
+% mit in die Datendefinition der Mengen aufnehmen.  Die sieht so aus:
+% %
+% \begin{lstlisting}
+% ; Eine Listenmenge besteht aus:
+% ; - Gleichheitsfunktion
+% ; - einer Liste der Elemente
+% (define-record (list-set-of element)
+%   make-list-set
+%   list-set?
+%   (element-=?-function (element element -> boolean))
+%   (list-set-list (list-of element)))
+% \end{lstlisting}
+% %
+% Hier eine Beispielmenge:
+% %
+% \begin{lstlisting}
+% ; Menge mit den Elementen 1 2 3 4
+% (define list-set1
+%   (make-list-set = (list 1 2 3 4)))
+% \end{lstlisting}
+% %
+% Um festzustellen, ob ein Wert Element einer Listenmenge ist, benutzen
+% wir die \lstinline{member?}-Funktion aus dem Bäume-Kapitel, die wir
+% hier nicht noch einmal abdrucken:
+% %
+% \begin{lstlisting}
+% ; Feststellen, ob Wert Element einer Menge ist
+% (: list-set-member? (%a (list-set-of %a) -> boolean))
 
-(check-expect (list-set-member? 2 list-set1) #t)
-(check-expect (list-set-member? 5 list-set1) #f)
+% (check-expect (list-set-member? 2 list-set1) #t)
+% (check-expect (list-set-member? 5 list-set1) #f)
 
-(define list-set-member?
-  (lambda (value list-set)
-    (member? (element-=?-function list-set)
-             value (list-set-list list-set))))
-\end{lstlisting}
-%
-Bei der Funktion zum Einfügen von Wert unterscheiden wir zwischen
-Mengen, die den Wert schon enthalten und solchen, bei denen er noch
-kein Element ist:
-%
-\begin{lstlisting}
-; Element in Menge einfügen
-(: list-set-insert (%a (list-set-of %a) -> (list-set-of %a)))
+% (define list-set-member?
+%   (lambda (value list-set)
+%     (member? (element-=?-function list-set)
+%              value (list-set-list list-set))))
+% \end{lstlisting}
+% %
+% Bei der Funktion zum Einfügen von Wert unterscheiden wir zwischen
+% Mengen, die den Wert schon enthalten und solchen, bei denen er noch
+% kein Element ist:
+% %
+% \begin{lstlisting}
+% ; Element in Menge einfügen
+% (: list-set-insert (%a (list-set-of %a) -> (list-set-of %a)))
 
-(check-expect (list-set-member? 5 (list-set-insert 5 list-set1)) #t)
-(check-expect (list-set-member? 5 (list-set-insert 3 list-set1)) #f)
+% (check-expect (list-set-member? 5 (list-set-insert 5 list-set1)) #t)
+% (check-expect (list-set-member? 5 (list-set-insert 3 list-set1)) #f)
 
-(define list-set-insert
-  (lambda (value list-set)
-    (if (list-set-member? value list-set)
-        list-set
-        (make-list-set (element-=?-function list-set)
-                       (cons value (list-set-list list-set))))))
-\end{lstlisting}
-%
-Auf diese beiden Funktionen können wir auch Eigenschafts-Tests
-definieren.  Wir können zum Beispiel die Suchbaum-Tests aus
-Abschnitt~\ref{sec:suchbaeume-testen} auf
-Seite~\pageref{sec:suchbaeume-testen} übernehmen und anpassen.  Dazu
-benötigen wir eine Hilfsfunktion analog zu
-\lstinline{list->balanced-search-tree}, die sukzessive alle Elemente
-einer Liste in eine Listenmenge einfügt:
-%
-\begin{lstlisting}
-; Aus allen Elementen einer Liste eine Listenmenge machen
-(: list->list-set ((%a %a -> boolean)
-                   (list-of %a) -> (list-set-of %a)))
+% (define list-set-insert
+%   (lambda (value list-set)
+%     (if (list-set-member? value list-set)
+%         list-set
+%         (make-list-set (element-=?-function list-set)
+%                        (cons value (list-set-list list-set))))))
+% \end{lstlisting}
+% %
+% Auf diese beiden Funktionen können wir auch Eigenschafts-Tests
+% definieren.  Wir können zum Beispiel die Suchbaum-Tests aus
+% Abschnitt~\ref{sec:suchbaeume-testen} auf
+% Seite~\pageref{sec:suchbaeume-testen} übernehmen und anpassen.  Dazu
+% benötigen wir eine Hilfsfunktion analog zu
+% \lstinline{list->balanced-search-tree}, die sukzessive alle Elemente
+% einer Liste in eine Listenmenge einfügt:
+% %
+% \begin{lstlisting}
+% ; Aus allen Elementen einer Liste eine Listenmenge machen
+% (: list->list-set ((%a %a -> boolean)
+%                    (list-of %a) -> (list-set-of %a)))
 
-(define list->list-set
-  (lambda (= elements)
-    (fold (make-list-set = empty)
-          list-set-insert
-          elements)))
-\end{lstlisting}
-%
-Damit sehen die Tests (die auch die Hilfsfunktion \lstinline{every?}
-von Seite~\pageref{func:everyp} benutzen) so aus:
-%
-\begin{lstlisting}
-(check-property
- (for-all ((elements (list-of natural)))
-   (let ((list-set (list->list-set = elements)))
-     (every? (lambda (element)
-               (list-set-member? element list-set))
-             elements))))
+% (define list->list-set
+%   (lambda (= elements)
+%     (fold (make-list-set = empty)
+%           list-set-insert
+%           elements)))
+% \end{lstlisting}
+% %
+% Damit sehen die Tests (die auch die Hilfsfunktion \lstinline{every?}
+% von Seite~\pageref{func:everyp} benutzen) so aus:
+% %
+% \begin{lstlisting}
+% (check-property
+%  (for-all ((elements (list-of natural)))
+%    (let ((list-set (list->list-set = elements)))
+%      (every? (lambda (element)
+%                (list-set-member? element list-set))
+%              elements))))
 
-(check-property
- (for-all ((elements (list-of natural))
-           (element natural))
-   (==> (not (member? = element elements))
-        (not (list-set-member? element (list->list-set = elements))))))
-\end{lstlisting}
-%
-Jetzt haben wir also drei Implementierungen der Mengen-Idee, die sich
-in den Signaturen der zugehörigen Funktionen ähneln.
-Mantra~\ref{ref:abstraktion} auf Seite~\pageref{mantra:abstraktion}
-rät uns zu abstrahieren.
+% (check-property
+%  (for-all ((elements (list-of natural))
+%            (element natural))
+%    (==> (not (member? = element elements))
+%         (not (list-set-member? element (list->list-set = elements))))))
+% \end{lstlisting}
+% %
+% Jetzt haben wir also drei Implementierungen der Mengen-Idee, die sich
+% in den Signaturen der zugehörigen Funktionen ähneln.
+% Mantra~\ref{ref:abstraktion} auf Seite~\pageref{mantra:abstraktion}
+% rät uns zu abstrahieren.
 
-Allerdings geht es hier um eine andere Art der Abstraktion als
-sonst~-- bisher haben wir immer über ähnlichen Funktionen
-abstrahiert.  Die Funktionen \lstinline{search-tree-insert},
-\lstinline{balanced-search-tree-insert} und \lstinline{list-set-insert}
-ähneln sich allerdings kaum.  Wir könnten deshalb nicht davon
-profitieren, dass wir wiederholten Code nur einmal schreiben.  Wozu
-also abstrahieren?
+% Allerdings geht es hier um eine andere Art der Abstraktion als
+% sonst~-- bisher haben wir immer über ähnlichen Funktionen
+% abstrahiert.  Die Funktionen \lstinline{search-tree-insert},
+% \lstinline{balanced-search-tree-insert} und \lstinline{list-set-insert}
+% ähneln sich allerdings kaum.  Wir könnten deshalb nicht davon
+% profitieren, dass wir wiederholten Code nur einmal schreiben.  Wozu
+% also abstrahieren?
 
-Nehmen wir mal an, wir brauchen in unserem Programm Mengen, um unsere
-Arbeit zu erledigen:  Zum Beispiel, um die Einlasskontrolle bei einem
-Guns"=N'"=Roses-Konzert im Jahr 2001 durchzuführen und darauf zu achten,
-dass Slash und seine Freude nicht hineinkommen: Wir stecken alle
-unerwünschten Personen in eine Menge und überprüfen bei jeder
-Besucherin und jedem Besucher, ob sie in der Menge ist.
+% Nehmen wir mal an, wir brauchen in unserem Programm Mengen, um unsere
+% Arbeit zu erledigen:  Zum Beispiel, um die Einlasskontrolle bei einem
+% Guns"=N'"=Roses-Konzert im Jahr 2001 durchzuführen und darauf zu achten,
+% dass Slash und seine Freude nicht hineinkommen: Wir stecken alle
+% unerwünschten Personen in eine Menge und überprüfen bei jeder
+% Besucherin und jedem Besucher, ob sie in der Menge ist.
 
-Aber welche der Mengen-Implementierungen sollen wir nehmen?  Sie haben
-unterschiedliche Vor- und Nachteile, was die Laufzeit der beiden
-Funktionen betrifft:
-%
-\begin{itemize}
-\item Bei Suchbäumen ist das Einfügen schnell und die
-  Element"=Überprüfung schnell, solange der Suchbaum nicht entartet.
-\item Bei balancierten Suchbäumen ist das Einfügen etwas langsamer,
-  dafür kann der Suchbaum nicht entarten.  Die Suche ist also
-  tendenziell schneller.
-\item Bei Listenmengen ist die Implementierung besonders einfach und
-  bei sehr kleinen Mengen ist sie deshalb auch schneller als die
-  Bäume.
-\end{itemize}
-%
-Welche von den Implementierungen richtig ist, hängt davon ab, wieviele
-Freunde Slash hat (beziehungsweise damals hatte).  Außerdem kann sich
-diese Zahl auch noch ändern, und dann wäre die Implementierung, die
-vorher noch die "<richtige"> war es vielleicht plötzlich nicht mehr.
-Mit den bisherigen Mitteln müssten wir uns aber entscheiden, zum
-Beispiel für Listenmengen:
-%
-\begin{lstlisting}
-; Menge mit Slashs Freunden 2001
-(define friends-of-slash-2001
-  (list->list-set
-   string=?
-   "Duff McKagan"
-   "Matt Sorum"
-   "Dave Kushner"
-   "Scott Weiland"))
+% Aber welche der Mengen-Implementierungen sollen wir nehmen?  Sie haben
+% unterschiedliche Vor- und Nachteile, was die Laufzeit der beiden
+% Funktionen betrifft:
+% %
+% \begin{itemize}
+% \item Bei Suchbäumen ist das Einfügen schnell und die
+%   Element"=Überprüfung schnell, solange der Suchbaum nicht entartet.
+% \item Bei balancierten Suchbäumen ist das Einfügen etwas langsamer,
+%   dafür kann der Suchbaum nicht entarten.  Die Suche ist also
+%   tendenziell schneller.
+% \item Bei Listenmengen ist die Implementierung besonders einfach und
+%   bei sehr kleinen Mengen ist sie deshalb auch schneller als die
+%   Bäume.
+% \end{itemize}
+% %
+% Welche von den Implementierungen richtig ist, hängt davon ab, wieviele
+% Freunde Slash hat (beziehungsweise damals hatte).  Außerdem kann sich
+% diese Zahl auch noch ändern, und dann wäre die Implementierung, die
+% vorher noch die "<richtige"> war es vielleicht plötzlich nicht mehr.
+% Mit den bisherigen Mitteln müssten wir uns aber entscheiden, zum
+% Beispiel für Listenmengen:
+% %
+% \begin{lstlisting}
+% ; Menge mit Slashs Freunden 2001
+% (define friends-of-slash-2001
+%   (list->list-set
+%    string=?
+%    "Duff McKagan"
+%    "Matt Sorum"
+%    "Dave Kushner"
+%    "Scott Weiland"))
 
-; Ist jemand Freund von Slash im Jahr 2001?
-(: friend-of-slash? (string -> boolean))
+% ; Ist jemand Freund von Slash im Jahr 2001?
+% (: friend-of-slash? (string -> boolean))
 
-(check-expect (friend-of-slash? "Duff McKagan") #t)
-(check-expect (friend-of-slash? "Buckethead") #f)
+% (check-expect (friend-of-slash? "Duff McKagan") #t)
+% (check-expect (friend-of-slash? "Buckethead") #f)
 
-(define friend-of-slash?
-  (lambda (person)
-    (list-set-member? person friends-of-slash)))
-\end{lstlisting}
-%
-Wollen wir nun ändern, welche Implementierung von Mengen die Funktion
-\lstinline{friends-of-slash?}  benutzt, müssten wir sie ändern.  Wenn
-noch mehr Funktionen hinzukommen, die auf
-\lstinline{friends-of-slash-2001} zugreifen, müssten wir jede einzelne
-davon ändern.  Das können wir durch Abstraktion vermeiden.
+% (define friend-of-slash?
+%   (lambda (person)
+%     (list-set-member? person friends-of-slash)))
+% \end{lstlisting}
+% %
+% Wollen wir nun ändern, welche Implementierung von Mengen die Funktion
+% \lstinline{friends-of-slash?}  benutzt, müssten wir sie ändern.  Wenn
+% noch mehr Funktionen hinzukommen, die auf
+% \lstinline{friends-of-slash-2001} zugreifen, müssten wir jede einzelne
+% davon ändern.  Das können wir durch Abstraktion vermeiden.
 
-\section{Daten und Methoden}
+% \section{Daten und Methoden}
 
-\mentioncode{datenabstraktion/set.rkt}
+% \mentioncode{datenabstraktion/set.rkt}
 
-Wir wollen also abstrahieren über Suchbäume, balancierte Suchbäume und
-Listenmengen.  Ähnlich sind jeweils die Signaturen der beiden
-Funktionen:
-%
-\begin{lstlisting}
-(: search-tree-member?
-   (%a (search-tree-of %a)       -> boolean))
-(: sized-search-tree-member?
-   (%a (sized-search-tree-of %a) -> boolean))
-(: list-set-member?
-   (%a (list-set-of %a)          -> boolean))
+% Wir wollen also abstrahieren über Suchbäume, balancierte Suchbäume und
+% Listenmengen.  Ähnlich sind jeweils die Signaturen der beiden
+% Funktionen:
+% %
+% \begin{lstlisting}
+% (: search-tree-member?
+%    (%a (search-tree-of %a)       -> boolean))
+% (: sized-search-tree-member?
+%    (%a (sized-search-tree-of %a) -> boolean))
+% (: list-set-member?
+%    (%a (list-set-of %a)          -> boolean))
 
-(: search-tree-insert
-   (%a (search-tree-of %a)       -> (search-tree-of %a)))
-(: balanced-search-tree-insert
-   (%a (sized-search-tree-of %a) -> (sized-search-tree-of %a)))
-(: list-set-insert
-   (%a (list-set-of %a)          -> (list-set-of %a)))
-\end{lstlisting}
-%
-Wenn wir abstrahieren wollen, müssen wir für
-\lstinline{search-tree-of}, \lstinline{sized-search-tree-of} und
-\lstinline{list-set-of} einen neuen, abstrakten Namen finden.  Wir
-wollen also Funktionen mit folgenden Signaturen schreiben:
-%
-\begin{lstlisting}
-(: set-member? (%a (set-of %a) -> boolean))
-(: set-insert (%a (set-of %a) -> (set-of %a)))
-\end{lstlisting}
-%
-Ein Ansatz für die Vereinigung der drei Signaturen wäre, sie als
-gemischte Daten zu betrachten:
-%
-\begin{lstlisting}
-(define set-of
-  (lambda (element)
-    (mixed (search-tree-of element)
-           (sized-search-tree-of element)
-           (list-of-of element))))
-\end{lstlisting}
-%
-Entsprechend könnten wir dann \lstinline{set-member?} und
-\lstinline{set-insert} folgendermaßen programmieren:
-%
-\begin{lstlisting}
-; Feststellen, ob Wert Element einer Menge ist
-(: set-member? (%a (set-of %a) -> boolean))
+% (: search-tree-insert
+%    (%a (search-tree-of %a)       -> (search-tree-of %a)))
+% (: balanced-search-tree-insert
+%    (%a (sized-search-tree-of %a) -> (sized-search-tree-of %a)))
+% (: list-set-insert
+%    (%a (list-set-of %a)          -> (list-set-of %a)))
+% \end{lstlisting}
+% %
+% Wenn wir abstrahieren wollen, müssen wir für
+% \lstinline{search-tree-of}, \lstinline{sized-search-tree-of} und
+% \lstinline{list-set-of} einen neuen, abstrakten Namen finden.  Wir
+% wollen also Funktionen mit folgenden Signaturen schreiben:
+% %
+% \begin{lstlisting}
+% (: set-member? (%a (set-of %a) -> boolean))
+% (: set-insert (%a (set-of %a) -> (set-of %a)))
+% \end{lstlisting}
+% %
+% Ein Ansatz für die Vereinigung der drei Signaturen wäre, sie als
+% gemischte Daten zu betrachten:
+% %
+% \begin{lstlisting}
+% (define set-of
+%   (lambda (element)
+%     (mixed (search-tree-of element)
+%            (sized-search-tree-of element)
+%            (list-of-of element))))
+% \end{lstlisting}
+% %
+% Entsprechend könnten wir dann \lstinline{set-member?} und
+% \lstinline{set-insert} folgendermaßen programmieren:
+% %
+% \begin{lstlisting}
+% ; Feststellen, ob Wert Element einer Menge ist
+% (: set-member? (%a (set-of %a) -> boolean))
 
-(define set-member?
-  (lambda (value set)
-    (cond
-      ((search-tree? set) (search-tree-member? value set))
-      ((sized-search-tree? set) (sized-search-tree-member? value set))
-      ((list-set? set) (list-set-member? value set)))))
+% (define set-member?
+%   (lambda (value set)
+%     (cond
+%       ((search-tree? set) (search-tree-member? value set))
+%       ((sized-search-tree? set) (sized-search-tree-member? value set))
+%       ((list-set? set) (list-set-member? value set)))))
     
 
-; Element in Menge einfügen
-(: set-insert (%a (set-of %a) -> (set-of %a)))
+% ; Element in Menge einfügen
+% (: set-insert (%a (set-of %a) -> (set-of %a)))
 
-(define set-insert
-  (lambda (value set)
-    (cond
-      ((search-tree? set) (search-tree-insert value set))
-      ((sized-search-tree? set) (balanced-search-tree-insert value set))
-      ((list-set? set) (list-set-insert value set)))))
-\end{lstlisting}
-%
-Diese Methode erlaubt uns, die Einlassprüfung beim
-Guns-N'-Roses-Konzert unabhängig von der Implementierung von Mengen zu
-realisieren:
-%
-\begin{lstlisting}
-(define friend-of-slash?
-  (lambda (person)
-    (set-member? person friends-of-slash)))
-\end{lstlisting}
-%
-Diese Methode hat einen Nachteil: Wenn eine weitere Implementierung
-der Mengen-Idee hinzukommt, müssen wir alle diese Definitionen ändern.
-Das ist gar nicht so unwahrscheinlich, weil es noch andere
-Datenstrukturen gibt, die schnellen Umgang mit Mengen erlauben.
+% (define set-insert
+%   (lambda (value set)
+%     (cond
+%       ((search-tree? set) (search-tree-insert value set))
+%       ((sized-search-tree? set) (balanced-search-tree-insert value set))
+%       ((list-set? set) (list-set-insert value set)))))
+% \end{lstlisting}
+% %
+% Diese Methode erlaubt uns, die Einlassprüfung beim
+% Guns-N'-Roses-Konzert unabhängig von der Implementierung von Mengen zu
+% realisieren:
+% %
+% \begin{lstlisting}
+% (define friend-of-slash?
+%   (lambda (person)
+%     (set-member? person friends-of-slash)))
+% \end{lstlisting}
+% %
+% Diese Methode hat einen Nachteil: Wenn eine weitere Implementierung
+% der Mengen-Idee hinzukommt, müssen wir alle diese Definitionen ändern.
+% Das ist gar nicht so unwahrscheinlich, weil es noch andere
+% Datenstrukturen gibt, die schnellen Umgang mit Mengen erlauben.
 
-Wir wollen darum eine andere Art von Abstraktion ausprobieren, bei der
-wir nicht primär über Funktionen abstrahieren, sondern über Daten: die
-Datenabstraktion.\index{Datenabstraktion}  Wir abstrahieren dafür über
-den Daten-Definitionen der verschiedenen Mengen-Implementierungen
-beziehungsweise den zugehörigen Record-Typen.  Hier sind sie:
-%
-\begin{lstlisting}
-(define-record (search-tree-of element)
-  make-search-tree search-tree?
-  (search-tree-label-=?-function (element element -> boolean))
-  (search-tree-label-<?-function (element element -> boolean))
-  (search-tree-tree (tree-of false element)))
+% Wir wollen darum eine andere Art von Abstraktion ausprobieren, bei der
+% wir nicht primär über Funktionen abstrahieren, sondern über Daten: die
+% Datenabstraktion.\index{Datenabstraktion}  Wir abstrahieren dafür über
+% den Daten-Definitionen der verschiedenen Mengen-Implementierungen
+% beziehungsweise den zugehörigen Record-Typen.  Hier sind sie:
+% %
+% \begin{lstlisting}
+% (define-record (search-tree-of element)
+%   make-search-tree search-tree?
+%   (search-tree-label-=?-function (element element -> boolean))
+%   (search-tree-label-<?-function (element element -> boolean))
+%   (search-tree-tree (tree-of false element)))
 
-(define-record (sized-search-tree-of element)
-  make-sized-search-tree sized-search-tree?
-  (sized-search-tree-label-=?-function (element element -> boolean))
-  (sized-search-tree-label-<?-function (element element -> boolean))
-  (sized-search-tree-tree (sized-tree-of false element)))
+% (define-record (sized-search-tree-of element)
+%   make-sized-search-tree sized-search-tree?
+%   (sized-search-tree-label-=?-function (element element -> boolean))
+%   (sized-search-tree-label-<?-function (element element -> boolean))
+%   (sized-search-tree-tree (sized-tree-of false element)))
 
-(define-record (list-set-of element)
-  make-list-set
-  list-set?
-  (element-=?-function (element element -> boolean))
-  (list-set-list (list-of element)))
-\end{lstlisting}
-%
-Wie immer bei der Abstraktion schauen wir darauf, was die Definitionen
-gemeinsam haben und wo Unterschiede sind:
-%
-\begin{itemize}
-\item Alle Definitionen enthalten eine Funktion, um zwei mögliche
-  Elemente auf Gleichheit zu testen.
-\item Die ersten beiden Definitionen enthalten außerdem noch eine
-  Funktion, um zwei mögliche Elemente zu ordnen.
-\item Alle Definitionen enthalten ein Feld, in dem die eigentliche
-  Datenstruktur mit den Elementen enthalten ist~-- die
-  \textit{Repräsentation} der Menge.  Allerdings ist die Signatur
-  dieses Felds jedesmal eine andere.
-\end{itemize}
-%
-Unterschiedlich sind die \lstinline{member?}- und
-\lstinline{insert}-Funktionen, die jeweils auf die Repräsentation und
-die Gleichheits- und die Ordnungs-Funktion zugreifen.  Die Funktionen
-stehen aber gar nicht direkt in der Record-Definition, greifen aber
-auf die Funktionen für Gleichheit und Ordnung zu.
+% (define-record (list-set-of element)
+%   make-list-set
+%   list-set?
+%   (element-=?-function (element element -> boolean))
+%   (list-set-list (list-of element)))
+% \end{lstlisting}
+% %
+% Wie immer bei der Abstraktion schauen wir darauf, was die Definitionen
+% gemeinsam haben und wo Unterschiede sind:
+% %
+% \begin{itemize}
+% \item Alle Definitionen enthalten eine Funktion, um zwei mögliche
+%   Elemente auf Gleichheit zu testen.
+% \item Die ersten beiden Definitionen enthalten außerdem noch eine
+%   Funktion, um zwei mögliche Elemente zu ordnen.
+% \item Alle Definitionen enthalten ein Feld, in dem die eigentliche
+%   Datenstruktur mit den Elementen enthalten ist~-- die
+%   \textit{Repräsentation} der Menge.  Allerdings ist die Signatur
+%   dieses Felds jedesmal eine andere.
+% \end{itemize}
+% %
+% Unterschiedlich sind die \lstinline{member?}- und
+% \lstinline{insert}-Funktionen, die jeweils auf die Repräsentation und
+% die Gleichheits- und die Ordnungs-Funktion zugreifen.  Die Funktionen
+% stehen aber gar nicht direkt in der Record-Definition, greifen aber
+% auf die Funktionen für Gleichheit und Ordnung zu.
 
-Die Lage ist also etwas unübersichtlich, und hier kommt die
-Datenabstraktion ins Spiel.  Sie besteht aus zwei Techniken:
-%
-\begin{itemize}
-\item Wir "<verstecken"> die Signatur der Repräsentation, damit unser
-  Programm nicht geändert werden muss, wenn die Implementierung und
-  damit auch diese Signatur geändert wird.
-\item Wir stecken die \lstinline{member?}- und
-  \lstinline{insert}-Funktionen selbst in den Record.  Im Kontext der
-  Datenabstraktion heißen diese Funktionen
-  \textit{Methoden}.\index{Methode}
-\end{itemize}
-% 
-Daraus wird folgende Daten-Definition mit zugehöriger
-Record-Definition:
-%
-\begin{lstlisting}
-; Eine Menge besteht aus:
-; - Repräsentation
-; - Methode, um Elemente einzufügen
-; - Methode, um festzustellen, ob Wert Element in Menge ist
-(define-record (set-of element)
-  make-set
-  set?
-  (set-representation any)
-  (set-insert-method (element (set-of element)-> (set-of element)))
-  (set-member?-method (element (set-of element)-> boolean)))
-\end{lstlisting}
-%
-Das Feld \lstinline{set-representation} wird später die
-Repräsentation, also den Suchbaum beziehungsweise die Liste enthalten.
-Die Signatur der Repräsentation hängt davon ab, welche Implementierung
-zum Suchbaum gehört. Die wissen wir an dieser Stelle allerdings nicht.
-Wir wollen außerdem keinen zusätzlichen Parameter zu
-\lstinline{set-of} hinzufügen, weil sie die Signatur der
-Repräsentation sichtbar machen für Funktionen sichtbar machen würde,
-die mit \lstinline{set-of} hantieren.  (Bei der Variante mit
-gemischten Daten wurde ja so ein Parameter auch nicht benötigt.)
+% Die Lage ist also etwas unübersichtlich, und hier kommt die
+% Datenabstraktion ins Spiel.  Sie besteht aus zwei Techniken:
+% %
+% \begin{itemize}
+% \item Wir "<verstecken"> die Signatur der Repräsentation, damit unser
+%   Programm nicht geändert werden muss, wenn die Implementierung und
+%   damit auch diese Signatur geändert wird.
+% \item Wir stecken die \lstinline{member?}- und
+%   \lstinline{insert}-Funktionen selbst in den Record.  Im Kontext der
+%   Datenabstraktion heißen diese Funktionen
+%   \textit{Methoden}.\index{Methode}
+% \end{itemize}
+% % 
+% Daraus wird folgende Daten-Definition mit zugehöriger
+% Record-Definition:
+% %
+% \begin{lstlisting}
+% ; Eine Menge besteht aus:
+% ; - Repräsentation
+% ; - Methode, um Elemente einzufügen
+% ; - Methode, um festzustellen, ob Wert Element in Menge ist
+% (define-record (set-of element)
+%   make-set
+%   set?
+%   (set-representation any)
+%   (set-insert-method (element (set-of element)-> (set-of element)))
+%   (set-member?-method (element (set-of element)-> boolean)))
+% \end{lstlisting}
+% %
+% Das Feld \lstinline{set-representation} wird später die
+% Repräsentation, also den Suchbaum beziehungsweise die Liste enthalten.
+% Die Signatur der Repräsentation hängt davon ab, welche Implementierung
+% zum Suchbaum gehört. Die wissen wir an dieser Stelle allerdings nicht.
+% Wir wollen außerdem keinen zusätzlichen Parameter zu
+% \lstinline{set-of} hinzufügen, weil sie die Signatur der
+% Repräsentation sichtbar machen für Funktionen sichtbar machen würde,
+% die mit \lstinline{set-of} hantieren.  (Bei der Variante mit
+% gemischten Daten wurde ja so ein Parameter auch nicht benötigt.)
 
-Es liegt nahe, die Gleichheits-Funktion, die alle drei
-Record-Definitionen gemeinsam haben, auch in die Definition von
-\lstinline{set-of} aufzunehmen.  Wir werden aber sehen, dass dies
-unnötig ist.
+% Es liegt nahe, die Gleichheits-Funktion, die alle drei
+% Record-Definitionen gemeinsam haben, auch in die Definition von
+% \lstinline{set-of} aufzunehmen.  Wir werden aber sehen, dass dies
+% unnötig ist.
 
-Stellen wir also mal eine Menge her.  Der Einfachheit halber benutzen
-wir wieder Listen als Repräsentation.  Hier sind Kurzbeschreibung,
-Signatur und Schablone:
-%
-\begin{lstlisting}
-; Menge mit Listenrepräsentation erzeugen
-(: make-list-set ((%a %a -> boolean) (list-of %a) -> (set-of %a)))
+% Stellen wir also mal eine Menge her.  Der Einfachheit halber benutzen
+% wir wieder Listen als Repräsentation.  Hier sind Kurzbeschreibung,
+% Signatur und Schablone:
+% %
+% \begin{lstlisting}
+% ; Menge mit Listenrepräsentation erzeugen
+% (: make-list-set ((%a %a -> boolean) (list-of %a) -> (set-of %a)))
 
-(define make-list-set
-  (lambda (element-=? list)
-    (make-set ... ... ...)))
-\end{lstlisting}
-%
-Die erste Eingabe von \lstinline{make-set} ist die Repräsentation, in
-diesem Fall also einfach \lstinline{list}.  Wir benötigen noch die
-beiden Methoden für \lstinline{insert} und \lstinline{member?}.  Die
-schreiben wir als lokale Definitionen und passen sie aus den
-Definitionen des ersten Abschnitts an:
-%
-\begin{lstlisting}
-(define make-list-set
-  (lambda (element-=? list)
-    (define list-set-insert
-      (lambda (value set)
-        (if (list-set-member? value set)
-            set
-            (make-set (cons value list)
-                      list-set-insert list-set-member?))))
-    (define list-set-member?
-      (lambda (value set)
-        (member? element-=?
-                 value
-                 (set-representation set))))
+% (define make-list-set
+%   (lambda (element-=? list)
+%     (make-set ... ... ...)))
+% \end{lstlisting}
+% %
+% Die erste Eingabe von \lstinline{make-set} ist die Repräsentation, in
+% diesem Fall also einfach \lstinline{list}.  Wir benötigen noch die
+% beiden Methoden für \lstinline{insert} und \lstinline{member?}.  Die
+% schreiben wir als lokale Definitionen und passen sie aus den
+% Definitionen des ersten Abschnitts an:
+% %
+% \begin{lstlisting}
+% (define make-list-set
+%   (lambda (element-=? list)
+%     (define list-set-insert
+%       (lambda (value set)
+%         (if (list-set-member? value set)
+%             set
+%             (make-set (cons value list)
+%                       list-set-insert list-set-member?))))
+%     (define list-set-member?
+%       (lambda (value set)
+%         (member? element-=?
+%                  value
+%                  (set-representation set))))
         
-    (make-set list list-set-insert list-set-member?)))
-\end{lstlisting}
-%
-Das Testen der Funktion holen wir nach, weil wir dafür die Funktionen
-\lstinline{set-insert} und \lstinline{set-member?} brauchen.  Die
-kommen gleich.
+%     (make-set list list-set-insert list-set-member?)))
+% \end{lstlisting}
+% %
+% Das Testen der Funktion holen wir nach, weil wir dafür die Funktionen
+% \lstinline{set-insert} und \lstinline{set-member?} brauchen.  Die
+% kommen gleich.
 
-Hier ist ein Beispiel für einen Aufruf von \lstinline{make-list-set}:
-%
-\begin{lstlisting}
-; Menge mit Elementen 1 2 3 4
-(define list-set1
-  (make-list-set = (list 1 2 3 4)))
-\end{lstlisting}
-%
-Kommen wir nun zu \lstinline{set-insert} und \lstinline{set-member?}.
-Die rufen die entsprechenden Methoden auf:
-%
-\begin{lstlisting}
-; Element in Menge einfügen
-(: set-insert (%a (set-of %a) -> (set-of %a)))
+% Hier ist ein Beispiel für einen Aufruf von \lstinline{make-list-set}:
+% %
+% \begin{lstlisting}
+% ; Menge mit Elementen 1 2 3 4
+% (define list-set1
+%   (make-list-set = (list 1 2 3 4)))
+% \end{lstlisting}
+% %
+% Kommen wir nun zu \lstinline{set-insert} und \lstinline{set-member?}.
+% Die rufen die entsprechenden Methoden auf:
+% %
+% \begin{lstlisting}
+% ; Element in Menge einfügen
+% (: set-insert (%a (set-of %a) -> (set-of %a)))
 
-(define set-insert
-  (lambda (value set)
-    ((set-insert-method set) value set)))
+% (define set-insert
+%   (lambda (value set)
+%     ((set-insert-method set) value set)))
 
-; Feststellen, ob Wert Element einer Menge ist
-(: set-member? (%a (set-of %a) -> boolean))
+% ; Feststellen, ob Wert Element einer Menge ist
+% (: set-member? (%a (set-of %a) -> boolean))
 
-(define set-member?
-  (lambda (value set)
-    ((set-member?-method set) value set)))
-\end{lstlisting}
-%
-Hier ist ein Beispiel für einen Aufruf von \lstinline{set-insert}:
-%
-\begin{lstlisting}
-; Menge mit Elementen 1 2 3 4 5
-(define list-set2
-  (set-insert 5 list-set1))
-\end{lstlisting}
-%
-Damit können wir auch \lstinline{make-list-set} rudimentär testen:
-%
-\begin{lstlisting}
-(check-expect (set-member? 2 list-set1) #t)
-(check-expect (set-member? 5 list-set1) #f)
-(check-expect (set-member? 5 list-set2) #t)
-\end{lstlisting}
+% (define set-member?
+%   (lambda (value set)
+%     ((set-member?-method set) value set)))
+% \end{lstlisting}
+% %
+% Hier ist ein Beispiel für einen Aufruf von \lstinline{set-insert}:
+% %
+% \begin{lstlisting}
+% ; Menge mit Elementen 1 2 3 4 5
+% (define list-set2
+%   (set-insert 5 list-set1))
+% \end{lstlisting}
+% %
+% Damit können wir auch \lstinline{make-list-set} rudimentär testen:
+% %
+% \begin{lstlisting}
+% (check-expect (set-member? 2 list-set1) #t)
+% (check-expect (set-member? 5 list-set1) #f)
+% (check-expect (set-member? 5 list-set2) #t)
+% \end{lstlisting}
 
-\section{Repräsentationswechsel}
+% \section{Repräsentationswechsel}
 
-TBD
+% TBD
 
 %%% Local Variables: 
 %%% mode: latex
