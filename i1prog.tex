@@ -674,7 +674,10 @@ herauskommt.  Um etwas damit anzufangen, gib ihr einen Namen mit
 \end{lstlisting}
 %
 (Alles schön richtig einrücken! "<To tile"> heißt auf Deutsch
-"<kacheln">.)
+"<kacheln">.\footnote{Wir mögen gern englischsprachige Namen für
+  Variablen.  Das ist aber eine rein persönliche Präferenz~-- gern
+  kannst Du deutschsprachige Variablen für Deine eigenen Programme
+  verwenden.})
 
 Dadurch ist eine neue Operation entstanden.  Die kannst Du direkt
 verwenden:
@@ -876,6 +879,7 @@ Programme lesen können, werden wir also immer wieder klarstellen
 müssen, was der Kontext ist und wie Information in Daten zu übersetzen
 ist und umgekehrt.  An konkreten Beispielen können (und sollten) wir
 dazu einen Kommentar anbringen:
+
 %
 \begin{lstlisting}
 (define bruce-willis 23) ; Anzahl der Haare
@@ -885,6 +889,19 @@ dazu einen Kommentar anbringen:
 (define schlafzimmer 23) ; Schlafzimmer ist 23m$^2$
 (define alexandra-popp 23) ; Rückennummer
 \end{lstlisting}
+%
+\begin{feature}{Kommentare}{scheme:comment}
+  Ein Semikolon \lstinline{;} kennzeichnet einen 
+  \textit{Kommentar\index{Kommentar}}.  Der Kommentar erstreckt sich
+  vom Semikolon bis zum Ende der Zeile und wird von DrRacket
+  ignoriert.
+\end{feature}
+%
+Das Semikolon kennzeichnet den Rest Zeile als
+\textit{Kommentar\index{Kommentar}}. DrRacket ignoriert diese Zeile
+beim Auswerten, aber für menschliche Leserinnen ist sie nützlich.
+Abbildung~\ref{scheme:comment} fasst zusammen, wie das Semikolon
+funktioniert.
 
 \section{Programme systematisch konstruieren}
 
@@ -1012,19 +1029,6 @@ genug.  Das könnte so aussehen:
 (define billig-strom ...)
 \end{lstlisting}
 %
-\begin{feature}{Kommentare}{scheme:comment}
-  Ein Semikolon \lstinline{;} kennzeichnet einen 
-  \textit{Kommentar\index{Kommentar}}.  Der Kommentar erstreckt sich
-  vom Semikolon bis zum Ende der Zeile und wird von DrRacket
-  ignoriert.
-\end{feature}
-%
-Das Semikolon am Anfang kennzeichnet die Zeile als
-\textit{Kommentar\index{Kommentar}}. DrRacket ignoriert diese Zeile
-beim Auswerten, aber für menschliche Leserinnen ist sie nützlich.
-Abbildung~\ref{scheme:comment} fasst zusammen, wie das Semikolon
-funktioniert.
-
 \section{Signatur}
 
 Die Lesbarkeit des Programms wird außerdem durch die
@@ -1178,8 +1182,8 @@ in stromtarif.rkt, Zeile 6, Spalte 0
 in stromtarif.rkt, Zeile 7, Spalte 0 
 \end{verbatim}
 %
-(Wir haben die den Code unter dem Namen \texttt{stromtarif.rkt}
-abgespeichert, darum taucht dieser Dateiname in den Fehlermeldungen auf.
+(Wir haben den Code unter dem Namen \texttt{stromtarif.rkt}
+abgespeichert, darum taucht dieser Dateiname in den Fehlermeldungen auf.)
 
 Die Tests weisen uns also auf mögliche Fehler hin.  Das ist so
 wertvoll, dass wir in Zukunft \emph{immer} Tests schreiben werden, und
@@ -1426,7 +1430,7 @@ Tests alles auswerten.
     ...))
 \end{lstlisting}
   Für den Rumpf, schreibe zunächst drei Punkte \lstinline{...} (auch
-  genannt \textit{Ellipse}\index{Ellipse}) als Erinnerung daran, dass
+  \textit{Ellipse}\index{Ellipse}) genannt als Erinnerung daran, dass
   Du hier später noch etwas ausfüllen musst.
 \end{konstruktionsanleitung}
 

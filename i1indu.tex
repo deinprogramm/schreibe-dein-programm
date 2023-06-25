@@ -28,7 +28,7 @@ Bevor wir über induktiv definierte Mengen reden, reden wir erstmal
 Mengenbegriff aus der sogenannten "<naiven Mengenlehre">, die sich um
 eine stringente mathematische Formalisierung drückt, für unsere Zwecke
 aber ausreicht.  Uns geht es vor allem um die Notation für den Umgang
-mit Mengen, die wir in weiteren Exkursen benutzt werden.  Es kann gut
+mit Mengen, die wir in weiteren Exkursen benutzen werden.  Es kann gut
 sein, dass Du dies alles schon kennst.  Dann kannst Du diesen
 Abschnitt gern überspringen oder kurz überfliegen.
 
@@ -38,7 +38,7 @@ wie eingebildete.  Wenn Du Dir nun einige dieser
 Objekte herauspickst, also eine Art Sammlung von Objekten, dann hast
 Du eine Menge.  Wichtig: Für jede Menge und jedes Objekte musst Du ein
 klares Kriterium haben, dass besagt, ob das Objekt in der Menge ist
-oder draußen.  Auch eine Menge ist ein Objekt, Du kannst also eine
+oder draußen.  Auch eine Menge ist ein Objekt.  Du kannst also eine
 Menge definieren, deren Elemente selbst Mengen sind.\footnote{Wenn man
   diesen Gedanken weiterführt, kommt man schnell zu Widersprüchen.
   Die Menge aller Mengen enthält sich zum Beispiel selbst.  Aber was
@@ -69,7 +69,7 @@ schreiben wir als Aufreihung ihrer Elemente,
 eingeschlossen in geschweirte Klammern geschlossen werden:
 \[M = \{ 11, 13, 17, 19\}.\]
 Häufig werden Mengen jedoch auch durch eine bestimmte Eigenschaft de"-fi"-niert,
-die ihre Elementen haben.  Das geht auch mit geschweiften Klammern und
+die ihre Elemente haben.  Das geht auch mit geschweiften Klammern und
 einem senkrechten Strich.  Hier ist ein Beispiel:
 %
 \[M = \{x\ |\ x\ \mbox{ist Primzahl}, 10 \le x \le 20\}.\]
@@ -85,7 +85,7 @@ wenn jedes Element von $A$ auch Element von $B$ ist.
 Zwei Mengen sind gleich, wenn sie die gleichen Elemente besitzen.  Das
 ist der Fall, wenn die eine Menge Teilmenge der anderen ist und umgekehrt:
 %
-\[A \subseteq B \text{und} B \subseteq A\]
+\[A \subseteq B \text{ und } B \subseteq A\]
 %
 Daraus ergibt sich zum Beispiel folgende Gleichtung.
 %
@@ -136,8 +136,8 @@ Tupel sind also das mathematische Gegenstück zu zusammengesetzten Daten.
 
 Warum heißt es "<Produkt">, fragst Du Dich vielleicht, und warum ist
 das Symbol $\times$ das gleiche wie beim Produkt zweier Zahlen? Nun,
-wenn $A$ und $B$ endliche Mengen, also $A$ aus $m$ Elementen besteht
-und $B$, dann besteht $A\times B$ aus $m\times n$ Elementen.  Im
+wenn $A$ und $B$ endliche Mengen sind, also $A$ aus $m$ Elementen besteht
+und $B$ aus $n$ Elementen, dann besteht $A\times B$ aus $m\times n$ Elementen.  Im
 Beispiel oben hat deshalb das Produkt $3\times 2=6$ Elemente.
 
 Tupel gibt es nicht nur zweistellig, sondern mit beliebigen
@@ -506,7 +506,7 @@ nicht alle Elemente der Menge.%\footnote{Bei den ganzen Zahlen
 %  da es sich um \textit{abzählbare Mengen} handelt.  Das ist
 %  allerdings für unsere Zwecke nicht direkt relevant.}  HK: hier verwirrend...
 Die
-natürlichen Zahlen sind also etwas besonderes.  Das haben wir schon in
+natürlichen Zahlen sind also etwas cbesonderes.  Das haben wir schon in
 Kapitel~\ref{cha:recursion-numbers} gesehen: es sind Zahlen, die zählen,
 und auf Seite~\pageref{page:datendefinition-N} steht eine
 Datendefinition:
@@ -582,8 +582,8 @@ Kapitel werden wir noch ein solches Beispiel sehen.
 Die natürlichen Zahlen sind nicht die einzige induktiv definierte
 Menge.  Ein weiteres Beispiel sind die \index{Folge}\index{endliche
   Folge}\textit{endlichen Folgen}, die den Listen entsprechen.  Beim
-Programmieren verwenden die Notation \lstinline{(list-of $s$)}
-verwenden, um die Signatur für Listen hinzuschreiben, die aus Werten
+Programmieren verwenden wir die Notation \lstinline{(list-of $s$)},
+um die Signatur für Listen hinzuschreiben, die aus Werten
 der Signature $s$s bestehen.  Das Gegenstück in der Mathematik ist die
 Notation $M^\star$, die Menge der Folgen mit Elementen aus der Menge
 $M$.

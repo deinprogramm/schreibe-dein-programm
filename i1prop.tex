@@ -243,7 +243,7 @@ Seite~\pageref{sec:eigenschaften-beweisen}.)
 
 \lstinline{Check-property} kann also eine Eigenschaft nicht im
 allgemeinen beweisen.  Stattdessen führt es Stichproben durch: Dafür
-wählt für die angegebenen Signaturen zufällig Werte aus, und
+wählt es für die angegebenen Signaturen zufällig Werte aus, und
 wiederholt diesen Prozess, um so aus einem Testfall viele individuelle
 Tests zu machen~-- typischerweise mehr als 100.
 
@@ -261,7 +261,7 @@ großer Durchbruch bei der Effektivität von automatischen Tests.
 \section{Mehr Eigenschaften und inexakte Zahlen}
 \label{sec:inexakt}
 
-Es geht's weiter mit \lstinline{heat-water}:
+Es geht weiter mit \lstinline{heat-water}:
 \lstinline{Heat->temperature} ist nur eine Hilfsfunktion dafür,
 zusammen mit \lstinline{temperature->heat}.  Auch hier könnten wir
 eine Eigenschaft aufschreiben, die etwas über den Zahlenbereich
@@ -559,7 +559,7 @@ Und hier die konkrete Band dazu (Stand 2021):
 Für das Sortieren gibt viele Algorithmen, wir machen das mit einem
 besonders einfachen, wenn auch ineffizienten Verfahren namens
 \textit{Insertionsort}\index{Insertionsort}.  Die Idee ist folgende:
-Die Sortierfunktion arbeitet mit einer sortierte Liste als
+Die Sortierfunktion arbeitet mit einer sortierten Liste als
 Akkumulator.  Diese ist anfänglich leer, und die Funktion fügt jeweils
 ein Element aus der Eingabeliste hinzu, indem sie dies an der
 richtigen Stelle einfügt.
@@ -573,11 +573,12 @@ richtigen Stelle einfügt.
 % kombinieren wir beides in eine Funktion wie \lstinline{<=}.
 % FIXME: Halbordnung irgendwann?
 
-Hier Kurzbeschreibung und Signatur für die Hilfsfunktion zum Einfügen:
+Hier sind Kurzbeschreibung und Signatur für die Hilfsfunktion zum Einfügen:
 %
 \begin{lstlisting}
 ; Bandmitglied in eine sortierte Liste einfügen
-(: insert (band-member (list-of band-member) -> (list-of band-member)))
+(: insert
+   (band-member (list-of band-member) -> (list-of band-member)))
 \end{lstlisting}
 %
 Da dies eine Hilfsfunktion für die eigentliche Sortierfunktion ist,
@@ -878,7 +879,7 @@ schreiben.  Aber \emph{wie} geht das eigentlich bei der nächsten
 Funktion, die getestet werden soll?  Toll wären
 Konstruktionsanleitungen analog zu denen für Funktionen, die zeigen,
 wie wir Eigenschaften aus der Signatur der zu testenden Funktion
-herleiten können.  Das hätte bei zumindest bei den Funktionen der
+herleiten können.  Das hätte zumindest bei den Funktionen der
 bisherigen Abschnitte dieses Kapitels nicht funktioniert.
 
 Trotzdem gibt es ein paar Dinge, die Du probieren kannst, wenn Du
@@ -1005,10 +1006,10 @@ findet, obwohl welche vorhanden sind:
   ausgeschlossen.
 \item Fehler in \lstinline{proper-sized-search-tree?} "<passen"> genau
   zu den Fehlern in \lstinline{balanced-search-tree-insert}.  Um dem
-  vorzubeugen, werden wir \lstinline{proper-sized-search-tree?}
-  systematisch mit Hilfe der Konstruktionsanleitungen entwickeln.
-  Wir werden sehen, dass dies bei
-  \lstinline{proper-sized-search-tree?} deutlich einfacher ist als
+  vorzubeugen, entwickeln wir \lstinline{proper-sized-search-tree?}
+  systematisch mit Hilfe der Konstruktionsanleitungen.
+  Wir werden sehen, dass das bei
+  \lstinline{proper-sized-search-tree?} einfacher ist als
   \lstinline{balanced-search-tree-insert}.  
   Damit ist es wahrscheinlich, dass
   \lstinline{proper-sized-search-tree?} korrekt gelingt.
@@ -1522,7 +1523,7 @@ Seite~\pageref{cha:selbstbezug}.  Eine assoziative Funktion ist also
 eine spezielle Sorte Kombinator.\index{Kombinator}
 
 Assoziative Operationen gibt es so viele, dass es sich lohnt, auf
-Verdacht danach zu suchen, wenn Du eine eine neue Datendefinition
+Verdacht danach zu suchen, wenn Du eine neue Datendefinition
 erstellst.  Und wenn Du einen assoziativen Kombinator gefunden hast,
 lohnt es sich, diese Erkenntnis aufzuschreiben.  Im Gespräch mit
 anderen kannst Du dann einfach sagen "<cat ist assoziativ">, und im
@@ -1557,7 +1558,7 @@ brauchen wir, um die beiden Listen zu vergleichen, die bei
 Funktionen, die Zahlen vergleichen (\lstinline{=}), Zeichenketten
 (\lstinline{string=?}) und Booleans (\lstinline{boolean=?}).  Eine
 allgemeine Vergleichsfunktion für Listen gibt es nicht.
-\lstinline{Expect} liefert eine Eigenschaft, die beliebige Werten
+\lstinline{Expect} liefert eine Eigenschaft, die beliebige Werte
 vergleicht~-- siehe Abbildung~\ref{scheme:expect}.
 %
 \begin{feature}{\lstinline{expect}}{scheme:expect}

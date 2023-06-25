@@ -1085,7 +1085,7 @@ Seite~\pageref{fig:searchtree}:
 %
 Wir schreiben nun eine Variante von \lstinline{tree-member?},
 die Suchbäume statt "<normale"> Bäume
-akzeptieren.  Hier Kurzbeschreibung, Signatur und Tests für die
+akzeptieren.  Hier sind Kurzbeschreibung, Signatur und Tests für die
 Funktion für das Suchen:\label{func:search-tree-member}
 %
 \begin{lstlisting}
@@ -1846,8 +1846,10 @@ sinnvollerweise ist, nämlich 5.  Es entsteht folgende Schablone:\label{def:rati
     (define left-size (sized-tree-size left-branch))
     (define right-size (sized-tree-size right-branch))
     (cond
-      ((> right-size (* ratio left-size)) ...) ; rechts hat Übergewicht
-      ((> left-size (* ratio right-size)) ...) ; links hat Übergewicht
+      ((> right-size ; rechts hat Übergewicht
+          (* ratio left-size)) ...) 
+      ((> left-size  ; links hat Übergewicht
+          (* ratio right-size)) ...)
       (else
        (make-sized-node label left-branch right-branch)))))
 \end{lstlisting}

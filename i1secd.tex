@@ -158,7 +158,7 @@ sogenannte \textit{Maschinensprache}\index{Maschinensprache} aus.
 Maschinensprache besteht aus einzelnen Anweisungen, die hintereinander
 im Speicher abgelegt und auch hintereinander ausgeführt werden.  Das
 unterscheidet die Maschinensprache von unseren Lehrsprachen, die auf
-dem  all-by-Value-$\lambda$-Kalkül\index{Call-by-Value-Reduktion}
+dem Call-by-Value-$\lambda$-Kalkül\index{Call-by-Value-Reduktion}
 aufbauen: Dort läuft die Auswertung von innen nach außen.
 
 Um eine Brücke zwischen beiden Ideen zu schlagen, entwickelte Peter Landin
@@ -506,7 +506,7 @@ Diese Definition hat jedoch zwei Haken:
 \end{itemize}
 %
 Der erste Haken sorgt dafür, dass die Auswertungsfunktion nur eine
-eine "<parziellen Funktion"> ist.  Beim zweiten
+"<partiellen Funktion"> ist.  Beim zweiten
 Haken, wenn $x$ eine Closure ist, lässt sich mit dem Resultat nicht
 viel anfangen: Um die genaue Bedeutung der Closure herauszubekommen,
 müsste sie angewendet werden~-- das Programm ist aber schon fertig
@@ -680,7 +680,7 @@ Vergleichen können wir Symbole mit der eingebauten Funktion
 \lstinline{equal?}~-- siehe dazu Abbildung~\ref{scheme:equalp}):
 \begin{feature}{\texttt{equal?}}{scheme:equalp}
   Die Funktion \texttt{equal?\index{equal?@\texttt{equal?}}} vergleicht beliebige Werte:
-  \texttt{Equal?} vergleicht Booleans, Zeichen und Zeichenketten.
+  Booleans, Zeichen und Zeichenketten.
   Bei Listen werden die Elemente verglichen und bei Records die Komponenten. 
 %
 \begin{lstlisting}
@@ -1452,7 +1452,7 @@ ist.)
 Zwei Operationen gibt es für eine Umgebung $e$: die Erweiterung um
 eine Bindung $e[v\mapsto w]$ und das Nachschauen einer Bindung $e(v)$.
 Zunächst die Erweiterung: die Implementierung entspricht genau der
-mathematischen Definition.  Hier Kurzbeschreibung und Signatur:
+mathematischen Definition.  Hier sind Kurzbeschreibung und Signatur:
 % 
 \begin{lstlisting}
 ; eine Umgebung um eine Bindung erweitern

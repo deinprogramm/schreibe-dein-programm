@@ -7,8 +7,8 @@
 \label{cha:selbstbezug}
 
 Bisher haben wir nur Daten vorgestellt, die
-feste Größe haben und damit im Wortsinn beschränkt sind.  Viele
-Informationen haben aber variable Größe: Die Bücher im Regal werden
+eine feste Größe haben und damit im Wortsinn beschränkt sind.  Viele
+Informationen haben aber eine variable Größe: Die Bücher im Regal werden
 immer mehr, Bauwerke bestehen aus variabel vielen Bauteilen.  Um
 solche Informationen als Daten zu repräsentieren, stellen wir in
 diesem Kapitel einen weiteren Aspekt der Datenanalyse vor, den
@@ -394,7 +394,7 @@ von \lstinline{location} in den "<Gesamtfluss">.  So sieht das aus:
 %
 Fertig!
 
-In dieser Funktion passiert etwas besonderes, das es in den
+In dieser Funktion passiert etwas Besonderes, das es in den
 Funktionen davor noch nicht gab: Sie enthält einen Aufruf von sich
 selbst, einen sogenannten \textit{rekursiven Aufruf\index{rekursiver
     Aufruf}}.  Diese rekursiven Aufrufe sind genau an den Stellen, wo
@@ -857,7 +857,7 @@ Die Definition von \texttt{date} liegt zum Glück recht nahe:
   zumindest für \lstinline{date-month} und \lstinline{date-day}.
 
   Verbessere die Signaturen von \lstinline{date-month} und
-  \lstinline{date-day} mit Hilfe von lstinline{integer-from-to}
+  \lstinline{date-day} mit Hilfe von \lstinline{integer-from-to}
   aus Abschnitt~\ref{function:integer-from-to} auf
   Seite~\pageref{function:integer-from-to}!
 \end{aufgabeinline}
@@ -1132,7 +1132,7 @@ Selbstbezüge, wir können also dort rekursive Aufrufe hinschreiben:
 \end{lstlisting}
 %
 Damit ist die Schablone fertig und wir können versuche, für jeden Fall
-etwas sinnvolles hinzuschreiben.  Bei den ersten beiden ist es nicht
+etwas Sinnvolles hinzuschreiben.  Bei den ersten beiden ist es nicht
 so schwierig: Bei einem \lstinline{nothing}-Vertrag wird nichts
 ausgezahlt, bei einem \lstinline{one-euro}-Vertrag wird ein \EUR{1}
 ausgezahlt:
@@ -1570,7 +1570,7 @@ Record-Definition ändern:
 Der Name \lstinline{really-make-multiple} ist reine Konvention~--
 solange der Name nur anders ist als \lstinline{make-multiple}!  Als
 nächstes definieren wir eine neue Funktion mit dem alten Namen und dem
-gleichen Vertrag.  Hier Kurzbeschreibung, Signatur und ein Testfall,
+gleichen Vertrag.  Hier sind Kurzbeschreibung, Signatur und ein Testfall,
 der gerade \lstinline{euro100} entspricht:
 %
 \begin{lstlisting}
