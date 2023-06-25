@@ -112,7 +112,7 @@ Record-Typen müssen in einem Programm explizit mit Hilfe einer
 speziellen \textit{Record-Definition}\index{Record-Definition} definiert werden, die mit
 \lstinline{define-record} beginnt.  Hier ist die
 Record-Definition für
-Computer:\index{define-record@\texttt{define-record}}
+Computer:\indexvariable{define-record}
 %
 \begin{lstlisting}
 (define-record computer
@@ -228,7 +228,7 @@ Für den Anfang könnte das
 eine Funktion sein, die den Gesamtspeicher eines Computers berechnet,
 also Hauptspeicher und Festplattenspeicher zusammen.
 Eine solche Funktion müsste Kurzbeschreibung und Signatur wie folgt
-haben:\index{total-memory@\texttt{total-memory}} 
+haben:\indexvariable{total-memory} 
 %
 \begin{lstlisting}
 ; Gesamtspeicher berechnen
@@ -426,7 +426,7 @@ Einleitung zurück, den wir schon als Datendefinition auslegen können:
 %
 Für die Entwicklung der dazu passenden Record-Definition müssen wir
 uns einen Namen für den Record-Typ ausdenken.  Dann können wir bereits
-ein karges Gerüst hinschreiben:\index{wallclock-time@\texttt{wallclock-time}}
+ein karges Gerüst hinschreiben:\indexvariable{wallclock-time}
 %
 \begin{lstlisting}
 (define-record wallclock-time
@@ -512,7 +512,7 @@ stehen die Signaturen der Felder vor dem Pfeil.  Heraus kommt beim
 Konstruktor immer ein Record, da steht also der Name des Record-Typs.
 
 \begin{feature}{\lstinline{define-record} (einfach)}{scheme:define-record-simple}
-Eine Record-Definition\index{Record-Definition}\index{define-record@\texttt{define-record}}
+Eine Record-Definition\index{Record-Definition}\indexvariable{define-record}
 hat folgende allgemeine Gestalt:\label{def:define-record}
 %
 \begin{lstlisting}
@@ -563,7 +563,7 @@ welche die repräsentierte Information beschreiben:
 \end{lstlisting}
 %
 Zuerst berechnen wir für eine Uhrzeit die Anzahl der Minuten
-seit Mitternacht.  Hier sind Kurzbeschreibung, Signatur, Testfälle und Gerüst:\index{minutes-since-midnight@\texttt{minutes-since-midnight}}
+seit Mitternacht.  Hier sind Kurzbeschreibung, Signatur, Testfälle und Gerüst:\indexvariable{minutes-since-midnight}
 %
 \begin{lstlisting}
 ; Minuten seit Mitternacht berechnen
@@ -627,7 +627,7 @@ einer Größe in eine andere.  Die Testfälle sind gegenüber
               wt3)
 \end{lstlisting}
 %
-Hier ist das Gerüst:\index{minutes-since-midnight->wallclock-time@\texttt{minutes-since-midnight->wallclock-time}}
+Hier ist das Gerüst:\indexvariable{minutes-since-midnight->wallclock-time}
 %
 \begin{lstlisting}
 (define minutes-since-midnight->wallclock-time
@@ -1048,7 +1048,7 @@ Konstruktoraufruf in dem Zweig steht, in dem das so ist:
 %
 Wir kommen nun zum unangenehmen Teil, dem Überfahren, das aus einem
 lebenden Gürteltier ein totes macht.  Hier Kurzbeschreibung und
-Signatur:\index{run-over-dillo@\texttt{run-over-dillo}}\label{page:run-over-dillo}
+Signatur:\indexvariable{run-over-dillo}\label{page:run-over-dillo}
 %
 \begin{lstlisting}
 ; Gürteltier überfahren

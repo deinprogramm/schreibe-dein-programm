@@ -42,13 +42,16 @@
 \usepackage{url}
 \usepackage[matrix,frame,arrow]{xy}
 \usepackage{makeidx}
+\usepackage{imakeidx}
 \usepackage{longtable}
 \usepackage{hyperref}
 \usepackage{textcomp}
 \usepackage{theorem}
 %\usepackage{showframe}
 
-\makeindex
+\makeindex[intoc]
+\makeindex[intoc,name=variables,title=Index für Variablen]
+\newcommand{\indexvariable}[1]{\index[variables]{#1@\texttt{#1}}}
 % Diese Datei bitte selbst anlegen mit etwaigen
 % \includeonly-Statements.
 \input{includeonly}
@@ -357,8 +360,7 @@ Copyright \textcopyright{} 2007-2021 by Michael
 \bibliography{abbrevs,i1}
 \bibliographystyle{gerapali}
 
-
+\printindex[variables]
 \printindex
 
 \end{document}
- 

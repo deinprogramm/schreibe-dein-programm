@@ -127,7 +127,7 @@ definieren:
 Ähnlich wie bei \lstinline{empty-list} haben wir die Funktionen der
 Record-Definition kürzer genannt als sonst, weil sie noch oft
 vorkommen werden:
-sonst:\index{cons@\texttt{cons}}\index{cons@\texttt{cons}}\index{cons?@\texttt{cons?}}\index{first@\texttt{first}}\index{rest@\texttt{rest}}\label{def:cons}
+sonst:\indexvariable{cons-list}\indexvariable{cons}\indexvariable{cons?}\indexvariable{first}\indexvariable{rest}\label{def:cons}
 Der Konstruktor heißt \lstinline{cons} statt
 \lstinline{make-cons-list}, das Prädikat nur \lstinline{cons?}  statt
 \lstinline{cons-list?} und bei den Selektoren fehlt jeweils das
@@ -574,7 +574,7 @@ Diese Definition muss vor den Definitionen von \lstinline{list-sum}
 und \lstinline{list-product} stehen, damit sie dort bekannt ist.
 
 \begin{feature}{\texttt{define-record} mit Signatur-Parametern}{scheme:define-record-parameters}
-Eine \lstinline{define-record}"=Form\index{define-record@\texttt{define-record}}
+Eine \lstinline{define-record}"=Form\indexvariable{define-record}
 mit Signatur-Parametern hat folgende allgemeine Gestalt:\label{def:define-record-parameters}
 %
 \begin{alltt}
@@ -655,7 +655,7 @@ Programmieren mit Listen einfacher.\index{Sprachebene}
 Dann drücke noch einmal \texttt{Start}.
 
 \begin{feature}{\texttt{list}}{scheme:list}
-  Die eingebaute Funktion \lstinline{list}\index{list@\texttt{list}} erlaubt es, Listen aus ihren Elementen
+  Die eingebaute Funktion \lstinline{list}\indexvariable{list} erlaubt es, Listen aus ihren Elementen
   ohne Verwendung von \lstinline{cons} zu erzeugen.  Sie
   akzeptiert eine beliebige Anzahl von Argumenten, macht daraus eine
   Liste und gibt diese zurück:
@@ -696,7 +696,7 @@ Klammern aufgereiht sind.  Beispiele:
 %
 Keine Angst vor der hochtrabenden Überschrift: Wir schreiben in diesem
 Abschnitt eine recht einfache Funktion,, welche die Länge einer Liste
-ermittelt.\index{list-length@\texttt{list-length}} Hier ist die
+ermittelt.\indexvariable{list-length} Hier ist die
 Kurzbeschreibung:
 %
 \begin{lstlisting}
@@ -771,7 +771,7 @@ diese dann zum vollständigen Rumpf ergänzen:
 \end{lstlisting}
 %
 Die Funktion~\lstinline{list-length} ist unter dem
-Namen~\lstinline{length}\index{length@\texttt{length}} fest
+Namen~\lstinline{length}\indexvariable{length} fest
 eingebaut.\label{func:length}
 
 \section{Funktionen, die Listen produzieren}
@@ -1028,11 +1028,11 @@ Fertig!
 \subsection{Zwei Listen aneinanderhängen}
 \label{sec:concatenate}
 In unserem nächsten Beispiel ist eine Funktion
-\lstinline{concatenate}\index{concatenate@\texttt{concatenate}} gefragt, die zwei
+\lstinline{concatenate}\indexvariable{concatenate} gefragt, die zwei
 Listen aneinanderhängt.
 % 
 %
-Kurzbeschreibung, Signatur und Gerüst sehen folgendermaßen aus:\index{concatenate@\texttt{concatenate}}
+Kurzbeschreibung, Signatur und Gerüst sehen folgendermaßen aus:\indexvariable{concatenate}
 %
 \begin{lstlisting}
 ; zwei Listen aneinanderhängen
@@ -1142,8 +1142,8 @@ Listen konstruieren sollen, irgendwo ein \lstinline{cons} enthalten.
 Da viele Programme die Funktionen \lstinline{list-length} und
 \lstinline{concatenate} benötigen,
 sind sie in den Lehrsprachen  übrigens bereits unter den Namen
-\lstinline{length}\index{length@\texttt{length}} und
-\lstinline{append}\index{append@\texttt{append}} eingebaut.
+\lstinline{length}\indexvariable{length} und
+\lstinline{append}\indexvariable{append} eingebaut.
 
 
 \section{Minimum einer Liste und lokale Variablen}

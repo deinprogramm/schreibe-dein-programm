@@ -63,16 +63,16 @@ Wir werden boolesche Ausdrücke oft
 die Bedingung \textit{gilt}~-- beziehungsweise, dass, wenn sie
 \lstinline{#f} liefert, sie \textit{nicht gilt}.
 
-\lstinline{<}\index{<@\texttt{<}} ist eine eingebaute Funktion, die
+\lstinline{<}\indexvariable{<} ist eine eingebaute Funktion, die
 auf "<kleiner als"> testet, also dem mathematischen Operator $<$
-entspricht.  Ebenso gibt es auch \lstinline{>}\index{>@\texttt{>}} für
-"<größer als"> (Mathematik: $>$), \lstinline{=}\index{=@\texttt{=}} für
-"<gleich"> (Mathematik: $=$), \lstinline{<=}\index{<@\texttt{<=}} für "<kleiner oder
-gleich"> (Mathematik: $\leq$) und \lstinline{>=}\index{>=@\texttt{>=}}
+entspricht.  Ebenso gibt es auch \lstinline{>}\indexvariable{>} für
+"<größer als"> (Mathematik: $>$), \lstinline{=}\indexvariable{=} für
+"<gleich"> (Mathematik: $=$), \lstinline{<=}\indexvariable{<=} für "<kleiner oder
+gleich"> (Mathematik: $\leq$) und \lstinline{>=}\indexvariable{>=}
 für "<größer oder gleich"> (Mathematik: $\geq$).
 
 Analog zu \lstinline{=} für Zahlen können Zeichenketten mit
-\lstinline{string=?}\index{string=?@\texttt{string=?}} verglichen werden:
+\lstinline{string=?}\indexvariable{string=?} verglichen werden:
 \begin{lstlisting}
 (string=? "Mike" "Mike")
 |\evalsto| #t
@@ -91,7 +91,7 @@ auch in Programmen stehen:
 \end{lstlisting}
 %
 Programme können mit booleschen Werten auch rechnen.  Ein Ausdruck der
-Form\index{and@\texttt{and}}
+Form\indexvariable{and}
 %
 \begin{lstlisting}
 (and |\(e\sb{1}\)| |\(e\sb{2}\)| |\(\ldots\)| |\(e\sb{n}\)|)
@@ -113,7 +113,7 @@ ergibt immer dann \lstinline{#t}, wenn alle $e_i$ \lstinline{#t} ergeben, sonst
 |\evalsto| #f
 \end{lstlisting}
 %
-Entsprechend gibt es Ausdrücke der Form\index{or@\texttt{or}}
+Entsprechend gibt es Ausdrücke der Form\indexvariable{or}
 %
 \begin{lstlisting}
 (or |\(e\sb{1}\)| |\(e\sb{2}\)| |\(\ldots\)| |\(e\sb{n}\)|)
@@ -144,7 +144,7 @@ $e_2$">.\footnote{In der Informatik ist mit "<oder"> ohne Zusatz fast
   auch "<exklusives Oder">.}
 
 Des Weiteren gibt es noch eine eingebaute Funktion
-\lstinline{not}\index{not@\texttt{not}}, die einen booleschen Wert
+\lstinline{not}\indexvariable{not}, die einen booleschen Wert
 umdreht beziehungsweise dessen \textit{Negation}\index{Negation}
 berechnet, sich also folgendermaßen verhält:
 %
@@ -156,7 +156,7 @@ berechnet, sich also folgendermaßen verhält:
 \end{lstlisting}
 %
 Für boolesche Werte gibt es die Signatur
-\lstinline{boolean}\index{boolean@\texttt{boolean}}.
+\lstinline{boolean}\indexvariable{boolean}.
 
 \begin{aufgabeinline}
   Schreibe eine Funktion, die von zwei booleschen Werten das exklusive
@@ -186,7 +186,7 @@ von Null bis Drei.  Die Funktion hat folgende Kurzbeschreibung:
 \end{lstlisting}
 %
 Die Funktion macht aus einer natürlichen Zahl eine Zeichenkette und
-hat folgende Signatur:\index{say-number@\texttt{say-number}}
+hat folgende Signatur:\indexvariable{say-number}
 %
 \begin{lstlisting}
 (: say-number (natural -> string))
@@ -281,7 +281,7 @@ Glücklicherweise können wir die Signatur präzisieren, und zwar so:
 \end{lstlisting}
 %
 Die Funktion
-\lstinline{integer-from-to}\index{integer-from-to@\texttt{integer-from-to}}
+\lstinline{integer-from-to}\indexvariable{integer-from-to}
 liefert also eine Signatur, die natürliche Zahlen zwischen einer Unter-
 und einer Obergrenze beschreibt.\label{function:integer-from-to}
 
@@ -364,7 +364,7 @@ Fallunterscheidung.
 Für die Aufzählung der Haustiere gibt es noch keine fertige Signatur,
 die müssen wir noch definieren.  Die
 \textit{Signatur-Definition\index{Signatur-Definition}} sieht so
-aus:\index{pet@\texttt{pet}}
+aus:\indexvariable{pet}
 \label{sec:pet}\label{page:signature}
 %
 \begin{lstlisting}
@@ -376,9 +376,9 @@ Da sind gleich zwei neue Programmelemente drin:
 %
 \begin{itemize}
 \item Wir schreiben
-  \lstinline{signature}\index{signature@\texttt{signature}} immer, wenn wir eine
+  \lstinline{signature}\indexvariable{signature} immer, wenn wir eine
   neue Signatur erzeugen.
-\item \lstinline{enum}\index{enum@\texttt{enum}} (das funktioniert
+\item \lstinline{enum}\indexvariable{enum} (das funktioniert
   nur innerhalb eines \lstinline{signature}-Ausdrucks) ist für
   Aufzählungen zuständig.  In einem \lstinline{enum}-Ausdruck stehen
   die Werte, die zur Aufzählung gehören.
@@ -453,7 +453,7 @@ allerdings eine Fehlermeldung etwa so:
 %
 Die Funktion \lstinline{=} fühlt sich also nur für Zahlen zuständig, für
 Zeichenketten müssen wir die Funktion
-\lstinline{string=?}\index{string=?@\texttt{string=?}} verwenden:
+\lstinline{string=?}\indexvariable{string=?} verwenden:
 %
 \begin{lstlisting}
 (define cute?
@@ -998,7 +998,7 @@ und von da zu \lstinline{#t}.
 Wir können die Funktion mit dieser Einsicht vereinfachen und \lstinline{#t}
 als Bedingung hinschreiben.  (Probier es aus!)  Allerdings finden
 manche das hässlich: Darum ist es auch möglich, statt \lstinline{#t} das
-besondere Wort \lstinline{else}\index{else@\texttt{else}}
+besondere Wort \lstinline{else}\indexvariable{else}
 ("<andernfalls"> auf Englisch) hinzuschreiben.
 Der \lstinline{else}-Zweig kommt also zum Zug, wenn alle anderen
 "<durchgefallen"> sind.  Das Ergebnis sieht
@@ -1026,7 +1026,7 @@ dann so aus:
 %
 \begin{feature}{Verzweigung}{scheme:cond}
 In den Lehrsprachen werden Verzweigungen\index{Verzweigung}\index{Verzweigung}
-mit der Spezialform \lstinline{cond}\index{cond@\texttt{cond}} dargestellt.
+mit der Spezialform \lstinline{cond}\indexvariable{cond} dargestellt.
 Ein \lstinline{cond}"=Ausdruck hat die folgende Form:
 %
 \begin{lstlisting}
@@ -1496,7 +1496,7 @@ gegen ein niedliches austauscht, wenn es nicht niedlich ist~-- und
 sonst halt nicht austauscht.
 
 Die Funktion könnte folgende Kurzbeschreibung und Signatur
-haben:\index{exchange-for-cute@\texttt{exchange-for-cute}}
+haben:\indexvariable{exchange-for-cute}
 %
 \begin{lstlisting}
 (: exchange-for-cute (pet -> pet))
@@ -1553,7 +1553,7 @@ nicht der erste ist, der entsprechende \lstinline{cond}-Ausdruck hat also
 immer zwei Zeige: einen mit Bedingung und einen mit \lstinline{else}.
 Weil solche binären Verzweigungen so häufg vorkommen, gibt es eine
 etwas kürzere Spezialform für das "<binäre \lstinline{cond} mit
-\lstinline{else}"> namens \lstinline{if}\index{if@\texttt{if}}.  Damit
+\lstinline{else}"> namens \lstinline{if}\indexvariable{if}.  Damit
 können wir \lstinline{exchange-for-cute} etwas kürzer schreiben:
 %
 \begin{lstlisting}
@@ -1764,7 +1764,7 @@ dann so aus:
 Natürlich sollten wir auch den Fehlerfall testen~-- das geht nicht mit
 \lstinline{check-expect}, das ja erwartet, dass ein Testausdruck einen
 ordnungsgemäßen Wert liefert.  Für Fehlerfälle gibt es
-\lstinline{check-error}\index{check-error@\texttt{check-error}}, das Testfälle erzeugt, die dann bestanden sind,
+\lstinline{check-error}\indexvariable{check-error}, das Testfälle erzeugt, die dann bestanden sind,
 wenn die Auswertung einen Fehler liefert:
 %
 \begin{lstlisting}

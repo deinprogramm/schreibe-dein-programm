@@ -47,7 +47,7 @@ Auswahl-Dialog die Datei
 
 Im Teachpack \texttt{image.rkt} erzeugen verschiedene Funktionen
 einfache Bilder.  So hat zum Beispiel die Funktion \texttt{rectangle}
-folgende Signatur:\index{rectangle@\texttt{rectangle}}
+folgende Signatur:\indexvariable{rectangle}
 % 
 \begin{lstlisting}
 (: rectangle (real real mode color -> image))
@@ -55,10 +55,10 @@ folgende Signatur:\index{rectangle@\texttt{rectangle}}
 %
 Dabei sind die ersten beiden Argumente Breite und Höhe eines Rechtecks
 in Pixeln.
-Das Argument mit Signatur \lstinline{mode}\index{mode@\texttt{mode}} ist eine Zeichenkette, die
+Das Argument mit Signatur \lstinline{mode}\indexvariable{mode} ist eine Zeichenkette, die
 entweder \lstinline{"solid"} oder \lstinline{"outline"} sein muss. Sie bestimmt,
 ob das Rechteck als durchgängiger Klotz oder nur als Umriss gezeichnet
-wird.  Das Argument mit der Signatur \lstinline{color}\index{color@\texttt{color}} ist eine
+wird.  Das Argument mit der Signatur \lstinline{color}\indexvariable{color} ist eine
 Zeichenkette, die eine Farbe (auf Englisch) bezeichnet, 
 zum Beispiel \lstinline{"red"}, \lstinline{"blue"}, \lstinline{"yellow"},
 \lstinline{"black"}, \lstinline{"white"} oder \lstinline{"gray"}.  Als Ergebnis
@@ -77,7 +77,7 @@ ein kleineres Bild nicht ganz mittig platzieren wollen~-- dann können
 es auf ein transparentes Bild legen.)
 
 Es gibt es noch weitere Funktionen, die 
-geometrische Figuren zeichnen:\index{circle@\texttt{circle}}
+geometrische Figuren zeichnen:\indexvariable{circle}
 %
 \begin{lstlisting}
 (: circle (real mode color -> image))
@@ -97,7 +97,7 @@ Beispiel:
 (: ellipse (real real mode color -> image))
 \end{lstlisting}
 %
-\index{ellipse@\texttt{ellipse}}Diese Funktion liefert eine Ellipse,
+\indexvariable{ellipse}Diese Funktion liefert eine Ellipse,
 wobei das erste Argument die Breite und das zweite die Höhe angibt.
 Beispiel:
 %
@@ -110,7 +110,7 @@ Beispiel:
 (: triangle (real mode color -> image))
 \end{lstlisting}
 %
-\index{triangle@\texttt{triangle}}Diese Funktion liefert ein nach oben
+\indexvariable{triangle}Diese Funktion liefert ein nach oben
 zeigendes gleichseitiges Dreieck, wobei das erste Argument die
 Seitenlänge angibt.  Beispiel:
 %
@@ -123,7 +123,7 @@ Seitenlänge angibt.  Beispiel:
 (: line (real real color -> image))
 \end{lstlisting}
 %
-\index{line@\texttt{line}}zeichnet eine Linie.  Der Aufruf
+\indexvariable{line}zeichnet eine Linie.  Der Aufruf
 \lstinline{(line $w$ $h$ $c$)} liefert ein Bild
 mit Breite $w$ und Höhe $h$, in dem die Linie von der linken oberen in
 die rechte untere Ecke verläuft.  Falls die Linie entlang der anderen
@@ -138,7 +138,7 @@ oder von $h$ umdrehen.  Beispiele:
 \end{lstlisting}
 %
 Wir können auch ein Bild erzeugen, in dem Text steht, und zwar mit der
-Funktion \lstinline{text}\index{text@\texttt{text}}, die folgende Signatur hat:
+Funktion \lstinline{text}\indexvariable{text}, die folgende Signatur hat:
 %
 \begin{lstlisting}
 (: text (string real color -> image))
@@ -153,7 +153,7 @@ Die Zahl ist die Höhe der Buchstaben.  Beispiel:
 %
 Manchmal reichen einfache Rechtecke und Kreise nicht aus und wir
 wollen komplexere Formen erzeugen.  Eine Möglichkeit ist die Funktion
-\lstinline{polygon}\index{polygon@\texttt{polygon}}, die ein n-Eck
+\lstinline{polygon}\indexvariable{polygon}, die ein n-Eck
 zeichnet.  Sie hat folgende Signatur:
 %
 \begin{lstlisting}
@@ -164,7 +164,7 @@ Diese Funktion akzeptiert eine Liste von Eckpunkten und die üblichen
 \lstinline{mode}- und \lstinline{color}-Argumente.  Ein Eckpunkt 
 muss entweder zur Signatur \lstinline{posn} oder zu
 \lstinline{pulled-point} gehören.  Das sind eingebaute Record-Typen,
-bei denen \lstinline{posn}\index{posn@\texttt{posn}} so definiert sein könnte:
+bei denen \lstinline{posn}\indexvariable{posn} so definiert sein könnte:
 %
 \begin{lstlisting}
 (define-record posn
@@ -259,7 +259,7 @@ Literale für Bild-Werte.  Abbildung~\ref{fig:image-insert} zeigt ein
 Beispiel.
 
 Schließlich ermitteln die folgenden Funktionen Breite und Höhe
-eines Bildes:\index{image-width@\texttt{image-width}}\index{image-height@\texttt{image-height}}
+eines Bildes:\indexvariable{image-width}\indexvariable{image-height}
 %
 \begin{lstlisting}
 (: image-width  (image -> natural))
@@ -273,7 +273,7 @@ Da diese geometrischen Formen für sich genommen langweilig sind,
 können wir mehrere Bilder zu einem zusammensetzen.
 
 Zum Aufeinanderlegen gibt es die Funktion
-\lstinline{overlay}\index{overlay@\texttt{overlay}}, die ein Bild
+\lstinline{overlay}\indexvariable{overlay}, die ein Bild
 mittig auf ein anderes Bild drauflegt.  Das Bild, das bei
 \lstinline{overlay} herauskommt, ist groß genug, dass beide
 Eingabebilder genau hineinpassen.  Signatur:
@@ -293,7 +293,7 @@ Beispiel:
 %
 Mittig ist nicht immer das richtige Arrangement für zwei Bilder, die
 übereinandergelegt werden.  Die
-Funktion~\lstinline{overlay/xy}\index{overlayxy@\texttt{overlay/xy}}
+Funktion~\lstinline{overlay/xy}\indexvariable{overlayxy}
 erlaubt, das untere Bild gegenüber dem oberen in X- und Y-Richtung zu
 verschieben.  Hier ist die Signatur:
 %
@@ -322,7 +322,7 @@ welchen Koordinaten das daraufgelegte Bild erscheint, aber das Bild
 soll nicht größer werden, wenn zum Beispiel ein Teil des Gürteltiers
 über den Straßenabschnitt hinausragt.  Diese Aufgabe erledigt die
 Funktion
-\lstinline{place-iamge}\index{place-image@\texttt{place-image}}, deren
+\lstinline{place-iamge}\indexvariable{place-image}, deren
 Signatur der von \lstinline{overlay/xy} entspricht:
 %
 \begin{lstlisting}
@@ -344,7 +344,7 @@ ausgehend von der oberen linken Ecke des ersten Bildes.  Beispiel:
 \end{lstlisting}
 %
 Die Funktion \lstinline{place-image} hat noch eine große Schwester
-\lstinline{place-image/align}.\index{place-image-align@\texttt{place-iamge/align}}\label{func:place-image-align}
+\lstinline{place-image/align}.\indexvariable{place-image-align}\label{func:place-image-align}
 Während \lstinline{place-image} den Bezugspunkt immer in der Mitte des
 ersten Bilds setzt, erlaubt \lstinline{place-image} auch anderee
 Bezugspunkte.  Hier die Signatur:
@@ -891,7 +891,7 @@ dem dann auftauchenden Dialog auf \texttt{universe.rkt} und
 schließlich auf \texttt{OK} drücken.
 
 Zum \texttt{universe.rkt}-Teachpack gehört eine Funktion namens
-\lstinline{animate}\index{animate@\texttt{animate}}.  Was sie macht,
+\lstinline{animate}\indexvariable{animate}.  Was sie macht,
 verdeutlicht am einfachsten ein Beispiel, dass Du in die REPL
 eintippen kannst:
 %
@@ -1450,7 +1450,7 @@ der beiden Positionen ist relevant, dass die Straßenmeter des Autos
 genau in der Mitte des Autos sind~-- die Position darf nicht mehr als
 die Hälfte davon entfernt sein.  Um den Vergleich zu erleichtern, egal
 ob die Position vor oder hinter dem Mittelpunkt ist, benutzen wir die
-eingebaute Funktion \lstinline{abs}\index{abs@\texttt{abs}}.\label{func:abs}  Diese
+eingebaute Funktion \lstinline{abs}\indexvariable{abs}.\label{func:abs}  Diese
 Funktion berechnet den \textit{Absolutbetrag}\index{Absolutbetrag}
 einer Zahl: Sie macht aus negativen Zahlen die entsprechenden
 positiven Zahlen:
@@ -1643,7 +1643,7 @@ zusammensetzen.  Das sollte dann insbesondere auch auf Tastendrücke
 reagieren.  Für solche reaktiven Animationen brauchen wir noch
 Unterstützung vom \texttt{universe.rkt}-Teachpack, das dafür extea ein
 neues Programmiersprachene-Element mitbringt, das heißt
-\lstinline{big-bang}\index{big-bang@\texttt{big-bang}}.  Es startet
+\lstinline{big-bang}\indexvariable{big-bang}.  Es startet
 das Spiel und hat folgende Form:
 %
 \begin{lstlisting}
@@ -1661,7 +1661,7 @@ wenn bestimmte Sachen passieren.  Das kann sein:
 \end{itemize}
 %
 Außerdem gibt es eine Klausel, die festlegt, wie aus der Welt ein Bild
-generiert wird.  Die sieht so aus:\index{to-draw@\texttt{to-draw}}
+generiert wird.  Die sieht so aus:\indexvariable{to-draw}
 %
 \begin{lstlisting}
 (to-draw $\mathit{function}$)
@@ -1678,7 +1678,7 @@ erstes Mal auszuprobieren:
 %
 Da wird immerhin die Welt am Anfang angezeigt, die sich aber noch
 nicht bewegt.  Dafür könnte sie auf Tastendruck reagieren, das geht
-mit einer Klausel folgender Form:\index{on-key@\texttt{on-key}}
+mit einer Klausel folgender Form:\indexvariable{on-key}
 %
 \begin{lstlisting}
 (on-key $\mathit{function}$)

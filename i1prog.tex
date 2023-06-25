@@ -424,7 +424,7 @@ einzuführen.
 
 Mit Text kann ein Programm auch rechnen, und zwar mit der eingebauten
 Funktion
-\texttt{string"=append}\index{string-append@\texttt{string-append}},
+\texttt{string"=append}\indexvariable{string-append},
 die zwei Zeichenketten aneinanderhängt:
 %
 \begin{lstlisting}
@@ -435,7 +435,7 @@ die zwei Zeichenketten aneinanderhängt:
 \end{lstlisting}
 %
 Die eingebaute Funktion
-\lstinline{string-length}\index{string-length@\texttt{string-length}}
+\lstinline{string-length}\indexvariable{string-length}
 liefert die Anzahl der Zeichen in einer Zeichenkette:
 %
 \begin{lstlisting}
@@ -452,7 +452,7 @@ vordefinierten Operationen, die Programme benutzen können, ohne sie
 selbst definieren zu müssen.
 
 Die vordefinierten Funktionen
-\lstinline{string->number}\index{string->number@\texttt{string->number}}
+\lstinline{string->number}\indexvariable{string->number}
 und \lstinline{number->string} konvertieren zwischen Zahlen und den
 Zeichenketten, die diese darstellen:
 %
@@ -652,7 +652,7 @@ für \lstinline{a} und \lstinline{b} einsetzen wollen:
    (beside b a)))
 \end{lstlisting}
 %
-Das \lstinline{lambda}\index{lambda@\texttt{lambda}} ist eine Art Zauberwort, es sagt soviel wie: "<Für
+Das \lstinline{lambda}\indexvariable{lambda} ist eine Art Zauberwort, es sagt soviel wie: "<Für
 die Variablen \lstinline{a} und \lstinline{b} möchte ich später (und
 vielleicht mehrmals) Werte einsetzen.">  Wenn Du das Programm jetzt
 startest, geht die Fehlermeldung weg und in der REPL erscheint:
@@ -987,7 +987,7 @@ Für das Berechnen des Rechnungsbetrags können wir eine Formel
 aufschreiben: Er ist die Summe aus der Grundgebühr und
 dem Produkt aus Energie (in Kilowattstunden) und dem Preis einer Kilowattstunde.
 Entsprechend müssen wir den Rumpf\index{Rumpf} der
-Funktion ergänzen:
+Funktion ergänzen:\index[definitions]{billig-strom}
 %
 \begin{lstlisting}
 (define billig-strom
@@ -1067,7 +1067,7 @@ eine rationale Zahl als Ausgabe produziert.">
   Sorte von Werten.
 
   \smallskip
-  Die Signatur \lstinline{string}\index{string@\texttt{string}}
+  Die Signatur \lstinline{string}\indexvariable{string}
   beschreibt eine Zeichenkette.
   \smallskip
   
@@ -1075,17 +1075,17 @@ eine rationale Zahl als Ausgabe produziert.">
   %
   \begin{flushleft}
     \begin{tabular}{ll}
-      {\lstinline!natural!}\index{natural@\texttt{natural}} & natürliche
+      {\lstinline!natural!}\indexvariable{natural} & natürliche
                                                          Zahlen\index{natürliche
                                                          Zahlen} ($0, 1, 2\ldots$)\\
-      {\lstinline!integer!}\index{integer@\texttt{integer}} & ganze
+      {\lstinline!integer!}\indexvariable{integer} & ganze
                                                          Zahlen\index{ganze
                                                          Zahlen} ($0, 1, -1, 2, -2, \ldots$)\\
-      {\lstinline!rational!}\index{rational@\texttt{rational}} &
+      {\lstinline!rational!}\indexvariable{rational} &
                                                             Brüche\index{Bruch} beziehungsweise rationale Zahlen\index{rationale Zahlen} \\
-      {\lstinline!real!}\index{real@\texttt{real}} & reelle
+      {\lstinline!real!}\indexvariable{real} & reelle
                                                 Zahlen\index{reelle Zahlen}\\
-      {\lstinline!number!}\index{number@\texttt{number}} & beliebige Zahlen
+      {\lstinline!number!}\indexvariable{number} & beliebige Zahlen
     \end{tabular}
   \end{flushleft}
   %
@@ -1152,7 +1152,7 @@ Alle 3 Tests bestanden!
 \end{verbatim}
 %
 Das neue Programmelement
-\lstinline{check-expect}\index{check-expect@\texttt{check-expect}} (siehe
+\lstinline{check-expect}\indexvariable{check-expect} (siehe
 Abbildung~\ref{scheme:test}) macht
 nämlich einen sogenannten \textit{Testfall\index{Testfall}} oder \textit{Test\index{Test}}.  In diesem Falle
 meldet DrRacket, dass mit den Tests alles geklappt hat.  Aber das
