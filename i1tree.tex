@@ -44,6 +44,7 @@ unbekannt: Jeder konkrete Stammbaum endet irgendwo.  Wir brauchen also
 auch noch eine Repräsentation für einen "<unbekannten Elternteil">
 ohne (bekannte) Eigenschaften:
 %
+\indexvariable{unknown-parent}
 \begin{lstlisting}
 ; Ein unbekannter Elternteil hat keine Eigenschaften
 (define-record unknown-parent
@@ -261,6 +262,7 @@ Fertig!
 Wir schauen uns nochmal die Record-Defininiton von \lstinline{person}
 an:
 %
+\indexvariable{person}
 \begin{lstlisting}
 (define-record person
   make-person
@@ -372,6 +374,7 @@ Das zieht noch eine weitere Änderung nach sich, weil \lstinline{tree}
 ja in der Definition von \lstinline{node} verwendet wird.  Wir müssen
 da entsprechend den \lstinline{leaf}-Parameter mit durchziehen:
 %
+\indexvariable{node-of}
 \begin{lstlisting}
 (define-record (node-of leaf)
   make-node node?
@@ -393,6 +396,7 @@ andere Arten von Werten ablegen wollen.  Darum abstrahieren wir auch
 die Datendefinitionen nach:
 %
 \indexvariable{tree-of}
+\indexvariable{node-of}
 \begin{lstlisting}
 ; Ein Knoten besteht aus
 ; - Markierung
@@ -1075,6 +1079,7 @@ Um die Definition in Code umzusetzen, benutzen wir eine
 Record-Definition.  Diesmal abstrahieren wir über die Signatur der
 Elemente mit einem Signatur-Parameter namens \lstinline{element}:\label{func:search-tree-of}
 %
+\indexvariable{search-tree-of}
 \begin{lstlisting}
 (define-record (search-tree-of element)
   make-search-tree search-tree?
@@ -1473,6 +1478,7 @@ nicht ganz so sperrig: \textit{sized}.  Neben der Größe brauchen wir
 an jedem Knoten auch noch die "<eigentliche"> Markierung.  Zusammen
 ergibt das folgende Daten- und Record-Definition:
 %
+\indexvariable{sized-label-of}
 \begin{lstlisting}
 ; Die Markierung an einem größenannotierten Baum besteht aus:
 ; - Anzahl der Knoten
@@ -1679,6 +1685,7 @@ Annotation mit der Größe.
 Wir brauchen also erstmal eine Variante der Datendefinition für
 Suchbäume mit größenannotierten Bäumen:
 %
+\indexvariable{sized-search-tree-of}
 \begin{lstlisting}
 ; Ein größenannotierter Suchbaum besteht aus
 ; - Funktion für =

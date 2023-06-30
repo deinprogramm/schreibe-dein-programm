@@ -120,6 +120,7 @@ wollen. (Wasserqualität oder Fließgeschwindigkeit zum Beispiel.)
 Entsprechend ist es auch sinnvoll, dafür eine Record-Definition zu
 schreiben:
 %
+\indexvariable{creek}
 \begin{lstlisting}
 (define-record creek
   make-creek
@@ -170,6 +171,7 @@ Die Datendefinition für "<Fluss"> benutzt selbst den Begriff
 "<Fluss">.   Noch offensichtlicher wird das, wenn wir die dazu
 passende Record-Definition erstellen:
 %
+\indexvariable{confluence}
 \begin{lstlisting}
 (define-record confluence
   make-confluence
@@ -605,6 +607,7 @@ An der Formulierung "<hat folgende Eigenschaften"> sehen wir sofort,
 dass es sich um zusammengesetzte Daten handelt.  Daraus folgt direkt
 diese Record-Definition:
 %
+\indexvariable{zero-bond}
 \begin{lstlisting}
 (define-record zero-bond
   make-zero-bond
@@ -687,6 +690,7 @@ Datendefinition stattdessen beim Wort "<hat~\ldots{} Eigenschaften">
 und bilden den Euro als zusammengesetzte Daten ab.  Dann wird daraus
 folgende Record-Definition:
 %
+\indexvariable{one-euro}
 \begin{lstlisting}
 (define-record one-euro
   make-one-euro
@@ -709,6 +713,7 @@ Als Nächstes bilden wir die Möglichkeit ab, einen Betrag zu wählen.
 Eine naheliegende erste Idee wäre, die Idee "<$n$ Euros"> abzubilden,
 etwa so:
 %
+\indexvariable{euros}
 \begin{lstlisting}
 ; Euros haben folgende Eigenschaft:
 ; - wieviele
@@ -763,6 +768,7 @@ Abschluss \emph{anderer} Verträge verfügen kann.  Wir schreiben
 deshalb als Signatur von \lstinline{multiple-of} einfach
 \lstinline{contract} und schärfen bei der Gelegenheit die Datendefinition:
 %
+\indexvariable{multiple}
 \begin{lstlisting}
 ; Ein Vielfaches besteht aus:
 ; - Anzahl
@@ -829,6 +835,7 @@ Vertrag selbst:
 Diese Datendefinition beschreibt wieder zusammengesetzte Daten.  Die
 dazugehörige Record-Definition sieht so aus:
 %
+\indexvariable{later}
 \begin{lstlisting}
 (define-record later
   make-later
@@ -849,6 +856,7 @@ Aber es fehlt noch etwas: Wir haben für \lstinline{later-date} die
 Signatur \lstinline{date} verwendet, die noch gar nicht definiert ist.
 Die Definition von \texttt{date} liegt zum Glück recht nahe:
 %
+\indexvariable{date}
 \begin{lstlisting}
 (define-record date
   make-date
@@ -948,6 +956,7 @@ So könnte dies gehen:
 %
 Das sind wieder zusammengesetzte Daten mit zwei Selbstbezügen:
 %
+\indexvariable{both}
 \begin{lstlisting}
 (define-record both
   make-both
@@ -990,6 +999,7 @@ Eigenschaften.  Wir repräsentieren ihn aber, genau wie bei
 seiner Signatur in die Definition von \lstinline{contract} einbauen
 können:
 %
+\indexvariable{nothing}
 \begin{lstlisting}
 ; Ein Nichts-Vertrag hat keine Eigenschaften
 (define-record nothing
@@ -1570,6 +1580,7 @@ Definition von \lstinline{make-multiple} von
 Trick an und benennen den Konstruktor erst einmal um, in dem wir die
 Record-Definition ändern:
 %
+\indexvariable{multiple}
 \begin{lstlisting}
 (define-record multiple
   really-make-multiple
@@ -1627,6 +1638,7 @@ Nichts und nochmal nichts ist eben nichts, aber der Konstruktor von
 \lstinline{both} weiß das nicht.  Wir wenden den gleichen Trick an und
 benennen zunächst den Konstruktor um:
 %
+\indexvariable{both}
 \begin{lstlisting}
 (define-record both
   really-make-both

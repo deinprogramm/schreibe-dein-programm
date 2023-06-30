@@ -68,6 +68,7 @@ Die leere Liste hat keine Bestandteile, wir werden sie
 aber später von den nichtleeren Listen unterscheiden müssen.  Wir
 benutzen deshalb eine leere Record-Definition:
 %
+\indexvariable{empty-list}
 \begin{lstlisting}
 ; leere Liste
 (define-record empty-list
@@ -116,6 +117,7 @@ Dafür nehmen wir an, dass die Signatur für Listen von Zahlen
 \lstinline{list-of-numbers} heißt~-- die werden wir im Nachgang
 definieren:
 %
+\indexvariable{cons-list}\indexvariable{first}\indexvariable{rest}
 \begin{lstlisting}
 (define-record cons-list
   cons
@@ -456,6 +458,7 @@ Das wirkt wie ein
 \lstinline{lambda} und wir können dann \lstinline{element} innerhalb
 der Record-Definition benutzen:\label{function:cons-list-of}
 %
+\indexvariable{cons-list-of}
 \begin{lstlisting}
 (define-record (cons-list-of element)
   cons

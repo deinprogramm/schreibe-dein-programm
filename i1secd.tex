@@ -1201,6 +1201,7 @@ jeweils eigene Datendefinitionen.
 Wie schon bei den leeren Listen hat auch die Applikations-Instruktion
 keine Eigenschaften:
 %
+\indexvariable{ap}
 \begin{lstlisting}
 ; Applikations-Instruktion
 (define-record ap
@@ -1213,6 +1214,7 @@ von Argumenten $i$, auch \textit{Stelligkeit}\index{Stelligkeit}.
 Stelligkeit heißt auf Englisch "<arity">.  Entsprechend sehen Daten-
 und Record-Definition so aus:
 %
+\indexvariable{prim}
 \begin{lstlisting}
 ; Eine Instruktion für eine primitive Applikation hat folgende
 ; Eigenschaften:
@@ -1228,6 +1230,7 @@ Die Abstraktions-Instruktion der Form (\meta{V}, \meta{C}) hat als
 Eigenschaften sichtlich den Parameter und den Code für den Rumpf,
 das übersetzen wir direkt in Daten- und Record-Definition:
 %
+\indexvariable{abst}
 \begin{lstlisting}
 ; Eine Abstraktions-Instruktion hat folgende Eigenschaften:
 ; - Parameter (eine Variable)
@@ -1444,6 +1447,7 @@ Im Code werden Umgebungen dargestellt aus Listen von
 der mathematischen Definition entspricht:
 %
 \indexvariable{environment}
+\indexvariable{binding}
 \begin{lstlisting}
 ; Eine Umgebung ist eine Liste von Bindungen.
 ; Dabei gibt es für jede Variable nur eine Bindung.
@@ -1633,6 +1637,7 @@ sind Dumps an der Reihe: $D$ ist als Folge von Frames definiert:
 %
 Aus dem Frame-Tripeln machen wir eine Daten- und eine Record-Definition:
 %
+\indexvariable{frame}
 \begin{lstlisting}
 ; Ein Frame besteht aus:
 ; - Stack
@@ -1653,6 +1658,7 @@ Closures, also Tupel aus der Menge $V\times C\times E$.  Hier sind die
 entsprechenden Definitionen:
 %
 \indexvariable{value}
+\indexvariable{closure}
 \begin{lstlisting}
 ; Ein SECD-Wert ist ein Basiswert oder eine Closure
 (define value (signature (mixed base closure)))
@@ -1672,6 +1678,7 @@ Mit Hilfe dieser Definitionen ist es möglich, eine Daten- und eine
 Record-Definition für die Zustände der SECD-Maschine anzugeben, also
 die Tupel aus $S\times E\times C\times D$:
 %
+\indexvariable{secd}
 \begin{lstlisting}
 ; Ein SECD-Zustand besteht aus:
 ; - Stack

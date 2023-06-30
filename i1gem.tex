@@ -52,6 +52,7 @@ einzelnen Satz sagen können.  Hier die Datendefinition:
 %
 Hier die dazu passende Record-Definition:
 %
+\indexvariable{parrot}
 \begin{lstlisting}
 (define-record parrot
   make-parrot
@@ -190,6 +191,8 @@ Record-Definitionen um ein neues Element, das \textit{Prädikat}\index{Prädikat
 Die Prädikate werden uns erlauben, die Bedingungen zu
 schreiben.  Die Record-Definitionen sehen dann so aus:
 %
+\indexvariable{dillo}
+\indexvariable{parrot}
 \begin{lstlisting}
 (define-record dillo
   make-dillo
@@ -553,6 +556,7 @@ Hier ist die Datendefinition für die zusammengesetzen Zuckeranteile:
 Daraus ergibt sich direkt die Record-Definition mit zwei Komponenten,
 jeweils rationale Zahlen:
 %
+\indexvariable{sugars}
 \begin{lstlisting}
 (define-record sugars
   make-sugars
@@ -962,6 +966,7 @@ auf Seite~\pageref{aufgabe:no-slope}.)
 Wir empfehlen aber, stattdessen einen eigenen Record-Typ zu
 definieren, und zwar so:
 %
+\indexvariable{no-slope}
 \begin{lstlisting}
 ; Es gibt keine Steigung
 (define-record no-slope

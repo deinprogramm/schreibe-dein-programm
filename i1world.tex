@@ -166,6 +166,7 @@ muss entweder zur Signatur \lstinline{posn} oder zu
 \lstinline{pulled-point} gehören.  Das sind eingebaute Record-Typen,
 bei denen \lstinline{posn}\indexvariable{posn} so definiert sein könnte:
 %
+\indexvariable{posn}
 \begin{lstlisting}
 (define-record posn
   make-posn
@@ -193,6 +194,7 @@ Linien.  Mit \lstinline{pulled-point}-Eckpunkten ist es möglich, die
 Kanten zu Kurven zu machen.  Auch \lstinline{pulled-point} ist ein
 Record-Typ, der so definiert sein könnte:
 %
+\indexvariable{pulled-point}
 \begin{lstlisting}
 (define-record pulled-point
  make-pulled-point
@@ -435,6 +437,7 @@ Abschnitt~\ref{sec:armadillo} auf Seite~\pageref{sec:armadillo}
 begegnet.  Zur Erinnerung, hier ist der relevante Code dazu:
 %
 \indexvariable{run-over-dillo}
+\indexvariable{dillo}
 \begin{lstlisting}
 ; Ein Gürteltier hat folgende Eigenschaften:
 ; - Gewicht (in g)
@@ -661,6 +664,7 @@ aufhält und bei welchem "<Straßenmeter">.  Dabei kommt folgende beiden
 Datendefinitionen für die Straßenseite und eine Position heraus:
 %
 \indexvariable{side}
+\indexvariable{position}
 \begin{lstlisting}
 ; Straßenseite
 (define side
@@ -681,6 +685,7 @@ mit ihren Zuständen"> in eine Datendefinition umwandeln.  Wir machen
 das erstmal für ein einzelnes Gürteltier und nennen das Konzept
 "<Gürteltier auf der Straße">:
 %
+\indexvariable{dillo-on-road}
 \begin{lstlisting}
 ; Ein Gürteltier auf der Straße hat folgende Eigenschaften:
 ; - Gürteltier-Zustand
@@ -1282,6 +1287,7 @@ Zeit als Ticks liefern wird: Daraus können wir die Straßenmeter der
 Position des Autors berechnen.  Nur noch die Seite müssen wir explizit
 repräsentieren.  Es entsteht also folgende etwas angepasste Datendefinition:
 %
+\indexvariable{world}
 \begin{lstlisting}
 ; Die Welt des Spiels besteht aus:
 ; - Ticks seit Spielanfang
