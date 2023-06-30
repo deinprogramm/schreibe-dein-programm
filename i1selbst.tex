@@ -95,6 +95,7 @@ dass es sich um gemischte Daten handelt:
 %
 Daraus können wir direkt eine Signatur-Definition machen:
 %
+\indexvariable{river}
 \begin{lstlisting}
 (define river
   (signature (mixed creek confluence)))
@@ -185,6 +186,11 @@ unterschiedliche Flüsse zu beschreiben, insbesondere solche
 unterschiedlicher Größe.  Den Abschnitt des Neckar in~\ref{fig:neckar}
 können wir so abbilden:
 %
+\indexvariable{eschach}
+\indexvariable{prim}
+\indexvariable{neckar-1}
+\indexvariable{neckar-1}
+\indexvariable{schlichem}
 \begin{lstlisting}
 (define eschach (make-creek "Heimliswald")) ; Quelle des Neckar
 (define prim (make-creek "Dreifaltigkeitsberg")) ; Quelle des Neckar
@@ -378,6 +384,7 @@ durch den Hauptfluss fließt \emph{oder} der Wasser aus
 \lstinline{location} in den Nebenfluss fließt, so fließt auch Wasser
 von \lstinline{location} in den "<Gesamtfluss">.  So sieht das aus:
 %
+\indexvariable{flows-from?}
 \begin{lstlisting}
 (define flows-from?
   (lambda (location river)
@@ -992,6 +999,7 @@ können:
 %
 Entsprechend erweitern wir \lstinline{contract}:
 %
+\indexvariable{contract}
 \begin{lstlisting}
 (define contract
   (signature
@@ -1189,6 +1197,7 @@ den beiden Teilverträgen ergeben, stehen schon in der Schablone.  Wir
 müssen sie lediglich addieren.  Die vollständige Funktion sieht dann
 so aus:
 %
+\indexvariable{contract-payment}
 \begin{lstlisting}
 (define contract-payment
   (lambda (contract)
@@ -1452,6 +1461,7 @@ Schablone liefern, was vom "<linken"> beziehungsweise "<rechten">
 Vertrag übriggeblieben ist.  Wir müssen die Ergebnisse nur wieder
 zusammensetzen:
 %
+\indexvariable{contract-rest}
 \begin{lstlisting}
 (define contract-rest
   (lambda (contract date)
@@ -1499,6 +1509,7 @@ Jahreszahlen vergleichen~-- wenn sie bei \lstinline{date1} und
 Wenn nicht, so muss die Funktion die Monate vergleichen und
 schließlich die Tage.  Das sieht am Ende so aus:
 %
+\indexvariable{date<=?}
 \begin{lstlisting}
 (define date<=?
   (lambda (date1 date2)
@@ -1582,6 +1593,7 @@ der gerade \lstinline{euro100} entspricht:
 %
 Hier ist das Gerüst für die Funktion:
 %
+\indexvariable{make-multiple}
 \begin{lstlisting}
 (define make-multiple
   (lambda (factor contract)
@@ -1655,6 +1667,7 @@ Die Eingaben zerfallen in drei Klassen, nämlich wenn
 ist und alle anderen.  Entsprechend brauchen wir eine Verzweigung mit
 drei Zweigen:
 %
+\indexvariable{make-both}
 \begin{lstlisting}
 (define make-both
   (lambda (contract-1 contract-2)

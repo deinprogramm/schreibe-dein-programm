@@ -356,6 +356,8 @@ Bezugspunkte.  Hier die Signatur:
 Die Signaturen \lstinline{x-place} und \lstinline{y-place} könnten
 folgendermaßen definiert sein:
 %
+\indexvariable{x-place}
+\indexvariable{y-place}
 \begin{lstlisting}
 (define x-place (signature (enum "left" "right" "center")))
 (define y-place (signature (enum "top" "bottom" "center")))
@@ -432,6 +434,7 @@ Highway.  Vielleicht erinnerst Du Dich, wir sind ihnen schon in
 Abschnitt~\ref{sec:armadillo} auf Seite~\pageref{sec:armadillo}
 begegnet.  Zur Erinnerung, hier ist der relevante Code dazu:
 %
+\indexvariable{run-over-dillo}
 \begin{lstlisting}
 ; Ein Gürteltier hat folgende Eigenschaften:
 ; - Gewicht (in g)
@@ -503,6 +506,7 @@ gezeichnet und die Punkte markiert, an denen sich die Richtung des
 Strichs abrupt ändert~-- also quasi die Ecken.  Diese Ecken haben wir
 durchnummeriert und daraus haben wir dieses Polygon gemacht:
 %
+\indexvariable{dillo-body}
 \begin{lstlisting}
 (define dillo-body
   (overlay/xy (polygon
@@ -598,6 +602,8 @@ ermittelt.  Aber \lstinline{(dillo-alive? dillo)} steht noch da~-- wir
 bauen das ein, indem wir einem toten Gürteltier "<tote Augen"> ins
 Gesicht setzen:
 %
+\indexvariable{dillo-image}
+\indexvariable{dead-eyes}
 \begin{lstlisting}
 (define dillo-image
   (lambda (dillo)
@@ -654,6 +660,7 @@ man sehen, dass dazu gehört, auf welcher Seite der Straße sich etwas
 aufhält und bei welchem "<Straßenmeter">.  Dabei kommt folgende beiden
 Datendefinitionen für die Straßenseite und eine Position heraus:
 %
+\indexvariable{side}
 \begin{lstlisting}
 ; Straßenseite
 (define side
@@ -700,6 +707,8 @@ Metern und Pixeln hin und her.  Auf unserem Bildschirm sieht ein
 Verhältnis von 1m:100 Pixel gut aus.  Diese Funktionen konvertieren
 hin und her:
 
+\indexvariable{meters->pixels}
+\indexvariable{pixels->meters}
 \begin{lstlisting}
 ; Meter in Pixel umwandeln
 (: meters->pixels (real -> real))
@@ -721,6 +730,8 @@ Schwieriger sind die Straßenmarkierungen, also abwechselnd ein weißer
 und ein schwarzer Streifen.  Damit das realistisch aussieht,
 definieeren wir erst einmal die Länge der Markierungen und die der Lücken:
 %
+\indexvariable{marking-height}
+\indexvariable{gap-height}
 \begin{lstlisting}
 (define marking-height 2) ; Höhe der Streifen
 (define gap-height 1) ; Höhe der Lücken
@@ -737,6 +748,7 @@ festlegen müssten.  Um das zu vermeiden, schreiben wir erst einmal
 eine Funktion, die als Eingabe die Anzahl der Streifen akzeptiert.
 Wir folgen der Schablone für Funktionen auf natürlichen Zahlen:
 %
+\indexvariable{markings}
 \begin{lstlisting}
 ; Straßenmarkierung mit bestimmter Anzahl von Streifen malen
 (: markings (natural -> image))
@@ -759,6 +771,7 @@ Wir folgen der Schablone für Funktionen auf natürlichen Zahlen:
 %
 Hier jetzt die tatsächliche Höhe des Straßenabschnitts:
 %
+\indexvariable{road-window-height}
 \begin{lstlisting}
 (define road-window-height 12) ; Höhe des Straßenausschnitts
 \end{lstlisting}
@@ -775,6 +788,8 @@ Teil eines Streifens zu sehen sein, auch dafür ist es gut gut, wenn im
 Zweifelsfall einer mehr da ist.  Aus der Zahl machen wir schließlich
 das Bild der Streifen:
 %
+\indexvariable{marking-count}
+\indexvariable{visible-markings}
 \begin{lstlisting}
 ; Anzahl der nötigen Markierungen
 (define marking-count
@@ -794,6 +809,8 @@ Nun können wir das Bild des Straßenausschnitts zusammensetzen.  Wir
 brauchen neben der Höhe auch noch die Breite und machen erstmal eine
 leere Szene nur aus schwarzem Asphalt:
 %
+\indexvariable{road-width}
+\indexvariable{blank-road-window}
 \begin{lstlisting}
 ; in Meter
 (define road-width 5)
@@ -850,6 +867,7 @@ lang ist.  Das Mittelstreifenbild wiederholt sich aber immer, wenn ein
 Streifen plus Lücke vorbeigezogen ist.  Wir rechnen also die Anzahl
 der Pixel dafür aus:
 %
+\indexvariable{marking-segment-pixels}
 \begin{lstlisting}
 (define marking-segment-pixels
   (meters->pixels (+ marking-height gap-height)))
@@ -861,6 +879,7 @@ positiv, und damit ist der Mittelstreifen zu weit unten: Wir ziehen
 das Bild noch um einen Streifen nach oben, indem wir
 \lstinline{marking-segment-pixels} abziehen.  Das kommt dabei heraus:
 %
+\indexvariable{road-window}
 \begin{lstlisting}
 (define road-window
   (lambda (meters)
@@ -929,6 +948,7 @@ in der Mitte ist.  Wir legen zuerst fest, wie schnell der Wagen fährt.
 Wir haben uns für ein recht gemächliches Tempo entschieden, damit wir auch
 wirklich alle Gürteltiere erwischen:
 %
+\indexvariable{meters-per-tick}
 \begin{lstlisting}
 ; Meter pro Tick
 (define meters-per-tick 0.1)
@@ -937,6 +957,7 @@ wirklich alle Gürteltiere erwischen:
 Diese Funktion ist so einfach, dass sich ausnahmsweise separates
 Testen nicht lohnt:
 %
+\indexvariable{ticks->meters}
 \begin{lstlisting}
 ; Ticks in Meter umwandeln
 (: ticks->meters (natural -> rational))
@@ -949,6 +970,7 @@ Testen nicht lohnt:
 Damit können wir eine Funktion schreiben, die aus Ticks Straßenmetern
 macht und dann \lstinline{road-window} aufruft:
 %
+\indexvariable{road-window-at-ticks}
 \begin{lstlisting}
 ; Straßenausschnitt zu Zeitpunkt anzeigen
 (: road-window-at-ticks (natural -> image))
@@ -975,6 +997,7 @@ also folgendes ausprobieren:
 Die Straße ist fertig, als nächstes ist das Auto dran.  Wir fangen mit
 einem Rad an:
 %
+\indexvariable{wheel}
 \begin{lstlisting}
 ; Rad
 (define wheel
@@ -985,6 +1008,10 @@ einem Rad an:
 Als nächstes setzen wir zwei Räder zu einem Bild zusammen, das dann
 links und rechts von der Karosserie platziert werden:
 %
+\indexvariable{wheels-on-one-side}
+\indexvariable{car-width}
+\indexvariable{car-length}
+\indexvariable{car}
 \begin{lstlisting}
 ; Zwei Räder auf einer Seite des Autos
 (define wheels-on-one-side
@@ -1100,6 +1127,7 @@ Bildes ab.  Damit können wir wieder einmal
 Seite~\pageref{func:place-image-align}) bemühen, um das Bild auf die
 Straße zu setzen.  Die Funktion sieht vollständig so aus:
 %
+\indexvariable{place-image-on-road}
 \begin{lstlisting}
 (define place-image-on-road
   (lambda (road-image ticks image position)
@@ -1155,6 +1183,7 @@ Jetzt ist alles bei 0 in der Mitte!
 Diese Funktion können wir jetzt benutzen, um zunächst das Autobild auf
 dem Straßenabschnitt zu platzieren:
 % 
+\indexvariable{place-car-on-road}
 \begin{lstlisting}
 ; Auto auf die Straße setzen
 (: place-car-on-road (natural position image -> image))
@@ -1204,6 +1233,7 @@ Einfacher ist aber, die universelle Funktion~\lstinline{fold} zu
 benutzen. (Siehe Abschnitt~\ref{sec:fold} auf
 Seite~\pageref{sec:fold}.)  Das sieht dann so aus:
 %
+\indexvariable{place-dillos-on-road}
 \begin{lstlisting}
 (define place-dillos-on-road
   (lambda (ticks dillos-on-road road-image)
@@ -1216,6 +1246,7 @@ Seite~\pageref{sec:fold}.)  Das sieht dann so aus:
 Neben Auto und Gürteltieren fehlt noch die Punktzahl oben links in der
 Ecke.  Das erledigt folgende Funktion:
 %
+\indexvariable{place-score}
 \begin{lstlisting}
 ; Punktzahl anzeigen
 (: place-score (natural image -> image))
@@ -1268,6 +1299,8 @@ repräsentieren.  Es entsteht also folgende etwas angepasste Datendefinition:
 %
 Hier ein Beispiel dafür:
 %
+\indexvariable{dillos-on-road}
+\indexvariable{initial-world}
 \begin{lstlisting}
 ; Vier Gürteltiere auf der Straße
 (define dillos-on-road
@@ -1318,6 +1351,7 @@ nicht relevant.  Für die Position brauchen wir die Straßenmeter, die
 wir aus den Ticks mit Hilfe von \lstinline{ticks->meters} berechnen
 können:
 %
+\indexvariable{world-car-position}
 \begin{lstlisting}
 (define world-car-position
   (lambda (world)
@@ -1329,6 +1363,7 @@ Jetzt haben wir endlich alle Funktionen, die wir benötigen, um die
 ganze Welt anzuzeigen.  Wir müssen sie nur kombinieren, um alles in
 einem \lstinline{world}-Record als Straßenabschnitt anzuzeigen:
 %
+\indexvariable{world->image}
 \begin{lstlisting}
 ; Spiel anzeigen
 (: world->image (world -> image))
@@ -1363,6 +1398,7 @@ haben, brauchen wir noch eine Funktion mit Signatur
 \lstinline{(natural -> world)}, die einen passenden
 \lstinline{world}-Wert erzeugt:
 %
+\indexvariable{world-at-ticks}
 \begin{lstlisting}
 ; Statische Welt zu einem bestimmten Zeitpunkt darstellen
 (: world-at-ticks (natural -> world))
@@ -1434,6 +1470,7 @@ Straßenseite nah dran ist.  Hier die Testfälle dazu:
 Für die Schablone haben wir es bei beiden Eingaben mit
 zusammengesetzten Daten zu tun:
 %
+\indexvariable{car-on-position?}
 \begin{lstlisting}
 (define car-on-position?
   (lambda (car-position position)
@@ -1515,6 +1552,7 @@ mit der ebenfalls eingebauten Funktion~\lstinline{length}
 zählen. (\lstinline{Length} ist die eingebaute Version von
 \lstinline{list-length}, siehe Seite~\pageref{func:length}.)
 %
+\indexvariable{live-dillos-under-car-count}
 \begin{lstlisting}
 (define live-dillos-under-car-count
   (lambda (car-position dillos-on-road)
@@ -1615,6 +1653,7 @@ Im ersten Fall sollten wir das Gürteltier überfahren, das machen wir
 mit \lstinline{run-over-dillo}.  Im anderen Fall gebenwir
 \lstinline{dillo-on-road} unverletzt zurück:
 %
+\indexvariable{run-over-dillos-on-road}
 \begin{lstlisting}
 (define run-over-dillos-on-road
   (lambda (car-position dillos-on-road)
@@ -1782,6 +1821,7 @@ zusammengesetzte Daten als Ein- und als Ausgabe bei:
 Bei Links- und Rechtspfeil ändert sich jeweils nur die Seite des
 Autos.  Bei allen anderen Tasten ändert sich nichts:
 %
+\indexvariable{react-to-key}
 \begin{lstlisting}
 (define react-to-key
   (lambda (world key)
@@ -1878,6 +1918,7 @@ noch nicht hoch.  Das liegt daran, dass wir die Funktionen dafür~--
 \lstinline{live-dillos-under-car-count}~-- noch nicht eingesetzt
 haben.  Das holen wir nach:
 %
+\indexvariable{next-world}
 \begin{lstlisting}
 (define next-world
   (lambda (world)
@@ -1918,6 +1959,7 @@ der Mausposition.
 
 Die Signatur \lstinline{mouse-event} ist folgendermaßen definiert:
 %
+\indexvariable{mouse-event}
 \begin{lstlisting}
 (define mouse-event
   (signature
@@ -1959,6 +2001,7 @@ Die Funktion hat folgende Signatur:
 (world pad-event -> world)
 \end{lstlisting}
 %
+\indexvariable{pad-event}
 \begin{lstlisting}
 (define pad-event
   (signature

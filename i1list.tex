@@ -137,6 +137,7 @@ Es fehlt noch die Definition der Signatur \lstinline{list-of-numbers}
 für "<Liste von Zahlen">, die aus leeren Listen und Cons-Listen
 gemischt wird:
 %
+\indexvariable{list-of-numbers}
 \begin{lstlisting}
 (define list-of-numbers
   (signature
@@ -279,6 +280,7 @@ Es bleibt der Fall der leeren Liste.  Intuitiv hat die gar keine
 Summe, aber irgendetwas müssen wir da hinschreiben.  Wir schreiben 
 vorläufig $0$ ins Programm, werden diese Wahl aber noch diskutieren:
 %
+\indexvariable{list-sum}
 \begin{lstlisting}
 (define list-sum
   (lambda (list)
@@ -390,6 +392,7 @@ kaputtmacht sondern genauso lässt, wie es ist.  Im Fall der
 Multiplikation ist das die 1, nicht die 0.  Die richtige Funktion
 sieht damit so aus:
 %
+\indexvariable{list-product}
 \begin{lstlisting}
 (define list-product
   (lambda (list)
@@ -430,6 +433,7 @@ Zahlen und sprechen ausschließlich von "<Elementen">:
 Tatsächlich können wir Listen bereits bauen, deren Elemente keine
 Zahlen sind:
 %
+\indexvariable{string-list}
 \begin{lstlisting}
 (define string-list (cons "Mike" (cons "Sperber" empty)))
 \end{lstlisting}
@@ -485,6 +489,7 @@ ganz normale Definition mit \lstinline{define} handelt, können wir ein
 \lstinline{lambda} benutzen, um über den Signatur der Elemente zu
 abstrahieren:
 %
+\indexvariable{list-of}
 \begin{lstlisting}
 (define list-of
   (lambda (element)
@@ -566,6 +571,7 @@ entweder dort \lstinline{list-of-numbers} durch \lstinline{(list-of number)}
 ersetzen oder eine Signatur-Definition
 dazuschreiben:
 %
+\indexvariable{list-of-numbers}
 \begin{lstlisting}
 (define list-of-numbers (signature (list-of number)))
 \end{lstlisting}
@@ -760,6 +766,7 @@ Umstand ist gerade verantwortlich für die parametrische Polymorphie.)
 Deshalb können wir \texttt{(first lis)} aus der Schablone streichen und
 diese dann zum vollständigen Rumpf ergänzen:
 %
+\indexvariable{list-length}
 \begin{lstlisting}
 (define list-length
   (lambda (lis)
@@ -804,6 +811,7 @@ Verfügung stehen.
 Gürteltiere können wir in Listen stecken, ebenso wie Zahlen,
 Zeichenketten oder boolesche Werte.  Hier ist ein Beispiel:
 %
+\indexvariable{highway75}
 \begin{lstlisting}
 ; Gürteltiere auf Highway 75
 (define highway75 (list dillo1 dillo2 dillo3 dillo4))
@@ -885,6 +893,7 @@ Gefragt ist eine Liste \emph{aller} Gürteltiere, überfahren:
 Wir müssen also nur die Resultate der beiden Ausdrucke mit
 \lstinline{cons} kombinieren:
 %
+\indexvariable{run-over-dillos}
 \begin{lstlisting}
 (define run-over-dillos
   (lambda (dillos)
@@ -1011,6 +1020,7 @@ einmal.  Wir müssen diesmal aber darauf achten, dass wir das erste
 Gürteltier in der Ausgabe wieder unterbringen und vorn an die
 restlichen Gürteltiere dran-\lstinline{cons}-en:\label{page:live-dillos}
 %
+\indexvariable{live-dillos}
 \begin{lstlisting}
 (define live-dillos
   (lambda (dillos)
@@ -1125,6 +1135,7 @@ Es fehlt das erste Element von \lstinline{list1}, \lstinline{(first list1)},
 das vorn an das Ergebnis angehängt werden muss.  Das geht
 mit \lstinline{cons}:
 %
+\indexvariable{concatenate}
 \begin{lstlisting}
 (define concatenate
   (lambda (list1 list2)
@@ -1347,6 +1358,7 @@ Der \lstinline{if}-Ausdruck am Ende berechnet das Minimum von
 des Minimums zweier Zahlen gibt es schon eine eingebaute Funktion
 namens \lstinline{min}, die wir verwenden können:
 %
+\indexvariable{list-min}
 \begin{lstlisting}
 (define list-min
   (lambda (list)
@@ -1415,6 +1427,7 @@ genau wie bei \lstinline{list-min}, das Minimum von
 \lstinline{(first list)} und dem Minimum des Rests der Liste
 berechnen:
 %
+\indexvariable{list-min-nonempty}
 \begin{lstlisting}
 (define list-min-nonempty
   (lambda (list)

@@ -833,6 +833,7 @@ testet und entsprechend entweder \lstinline{#t} oder \lstinline{#f}
 zurückgibt.  So etwas brauchen wir für die beiden Fälle, die mit
 "<eine Liste der Form"> beginnen.  Zunächst die Addition:
 %
+\indexvariable{addition?}
 \begin{lstlisting}
 ; Ist ein Wert ein Additionsausdruck?
 (: addition? (any -> boolean))
@@ -875,6 +876,7 @@ Aus dem Prädikat \lstinline{addition?} können wir eine Signatur
 Abbildung~\ref{feature:predicate}.  Hier ist die Definition von
 \lstinline{addition}:
 %
+\indexvariable{addition}
 \begin{lstlisting}
 (define addition
   (signature (predicate addition?)))
@@ -882,6 +884,8 @@ Abbildung~\ref{feature:predicate}.  Hier ist die Definition von
 %
 Entsprechend machen wir das für Multiplikationen:
 %
+\indexvariable{multiplication?}
+\indexvariable{multiplication}
 \begin{lstlisting}
 ; Ist ein Wert ein Multiplikationsausdruck?
 (: multiplication? (any -> boolean))
@@ -901,6 +905,7 @@ Entsprechend machen wir das für Multiplikationen:
 Nun haben wir Signaturen für die drei Fälle und können damit eine
 Signatur für Ausdrücke definieren:
 %
+\indexvariable{expression}
 \begin{lstlisting}
 (define expression
   (signature (mixed number addition multiplication)))
@@ -977,6 +982,7 @@ Die beiden rekursiven Aufrufe liefern jeweils den Wert der beiden
 Operanden der Addition; die muss die Funktion nur noch addieren.  Bei
 der Multiplikation läuft es genauso:
 %
+\indexvariable{compute}
 \begin{lstlisting}
 (define compute
   (lambda (exp)
@@ -1040,6 +1046,7 @@ Definition~\ref{def:lambda-angewandt}:
 %
 Hier die dazu passende Signatur-Definition:
 %
+\indexvariable{term}
 \begin{lstlisting}
 (define term
   (signature
@@ -1057,6 +1064,7 @@ Da es sich nicht um Record-Typen handelt, müssen wir das
 selbst machen, und zwar, indem wir jeweils ein Prädikat definieren.
 Hier ist das Prädikat für \lstinline{abstraction}:
 %
+\indexvariable{abstraction?}
 \begin{lstlisting}
 ; Prädikat für Abstraktionen
 (: abstraction? (any -> boolean))
@@ -1069,6 +1077,7 @@ Hier ist das Prädikat für \lstinline{abstraction}:
 Aus diesem Prädikat machen wir eine Signatur mit
 \lstinline{predicate}.Hier ist die Definition:
 %
+\indexvariable{abstraction}
 \begin{lstlisting}
 (define abstraction (signature (predicate abstraction?)))
 \end{lstlisting}
@@ -1079,6 +1088,8 @@ Entsprechend definieren wir die anderen Signaturen.  Bei
 bei den "<normalen"> Applikationen keine Applikationen von Primitiva
 erwischen:
 %
+\indexvariable{application?}
+\indexvariable{application}
 \begin{lstlisting}
 ; Prädikat für reguläre Applikationen
 (: application? (any -> boolean))
@@ -1094,6 +1105,7 @@ erwischen:
 Hier ist die dort benutzte Funktion \lstinline{primitive?} mit den
 allernötigsten primitiven Operationen:\label{page:primitivep}
 %
+\indexvariable{primitive?}
 \begin{lstlisting}
 ; Ein Primitiv ist eins der Symbole +, -, *, /, =
 
@@ -1111,6 +1123,8 @@ allernötigsten primitiven Operationen:\label{page:primitivep}
 Die Definition von \lstinline{primitive-application} entspricht
 \lstinline{application}, nur dass hier nur Primitiva erwünscht sind:
 %
+\indexvariable{primitive-application?}
+\indexvariable{primitive-application }
 \begin{lstlisting}
 ; Prädikat für primitive Applikationen
 (: primitive-application? (any -> boolean))
@@ -1133,6 +1147,8 @@ halber beschränken wir uns auf boolesche Werte und Zahlen:\label{page:basiswert
 Auch dafür schreiben wir zunächst ein Prädikat und definieren damit
 eine Signatur:
 %
+\indexvariable{base?}
+\indexvariable{base}
 \begin{lstlisting}
 ; Prädikat für Basiswerte
 (: base? (any -> boolean))
@@ -1158,6 +1174,8 @@ dieser erst in Maschinencode übersetzt werden.  Dabei entsteht aus
 Definition~\ref{def:secd-code} direkt Daten- und Signatur-Definitionen
 für Instruktionen und Maschinencode:
 %
+\indexvariable{instruction}
+\indexvariable{machine-code}
 \begin{lstlisting}
 ; Eine Instruktion ist eins der folgenden:
 ; - ein Basiswert
@@ -1259,6 +1277,7 @@ Hier sind zwei Testfälle:
 Da es sich bei \lstinline{term} um gemischte Daten handelt, muss~-- wie
 immer~-- eine Verzweigung den Rumpf der Funktion bilden:
 %
+\indexvariable{term->machine-code}
 \begin{lstlisting}
 (define term->machine-code
   (lambda (term)
@@ -1351,6 +1370,7 @@ Dieses Stück Code benutzt die Hilfsfunktion \lstinline{append-lists}, die
 aus einer Liste von Listen eine einzelne Liste macht, indem die
 Elemente aneinandergehängt werden~-- das geht mit \lstinline{fold}:
 %
+\indexvariable{append-lists}
 \begin{lstlisting}
 ; die Elemente einer Liste von Listen aneinanderhängen
 (: append-lists ((list-of (list-of %a)) -> (list-of %a)))
@@ -1403,6 +1423,7 @@ $S$ der Stacks.  Mathematisch hatten wir sie so definiert:
 %
 Entsprechend definieren wir den Stack als eine Liste von Werten:
 %
+\indexvariable{stack}
 \begin{lstlisting}
 ; Ein Stack ist eine Liste von Werten
 (define stack (signature (list-of value)))
@@ -1422,6 +1443,7 @@ Im Code werden Umgebungen dargestellt aus Listen von
 \textit{Bindungen\index{Bindung}}, wobei jede Bindung einem Tupel aus
 der mathematischen Definition entspricht:
 %
+\indexvariable{environment}
 \begin{lstlisting}
 ; Eine Umgebung ist eine Liste von Bindungen.
 ; Dabei gibt es für jede Variable nur eine Bindung.
@@ -1439,6 +1461,7 @@ der mathematischen Definition entspricht:
 Die leere Umgebung wird öfter benötigt; wir definieren sie darum schon
 vor:
 %
+\indexvariable{the-empty-environment}
 \begin{lstlisting}
 ; die leere Umgebung
 (define the-empty-environment empty)
@@ -1481,6 +1504,7 @@ Hier sind ein paar Testfälle:
 Die Definition entfernt zunächst eine eventuell vorhandene Bindung
 für $v$ und fügt eine neue Bindung hinzu:
 %
+\indexvariable{extend-environment}
 \begin{lstlisting}
 (define extend-environment
   (lambda (environment variable value)
@@ -1527,6 +1551,7 @@ in die Schablone aufnehmen:
 Bei der Bindung interessiert uns, ob zur gesuchten Variable gehört.
 Entsprechend vervollständigen wir die Schablone:
 %
+\indexvariable{remove-environment-binding}
 \begin{lstlisting}
 (define remove-environment-binding
   (lambda (environment variable)
@@ -1580,6 +1605,7 @@ Wie bei \lstinline{remove-environment-binding} vergleicht die Funktion
 die Variable der Bindung mit der gesuchten Variable.  Hier ist die
 fertige Funktion:
 %
+\indexvariable{lookup-environment}
 \begin{lstlisting}
 (define lookup-environment
   (lambda (environment variable)
@@ -1599,6 +1625,7 @@ sind Dumps an der Reihe: $D$ ist als Folge von Frames definiert:
   D &\deq& (S\times E \times C)^\ast
 \end{eqnarray*}
 %
+\indexvariable{dump}
 \begin{lstlisting}
 ; Ein Dump ist eine Liste von Frames
 (define dump (signature (list-of frame)))
@@ -1625,6 +1652,7 @@ Seite~\pageref{page:basiswert} definiert; es fehlen noch
 Closures, also Tupel aus der Menge $V\times C\times E$.  Hier sind die
 entsprechenden Definitionen:
 %
+\indexvariable{value}
 \begin{lstlisting}
 ; Ein SECD-Wert ist ein Basiswert oder eine Closure
 (define value (signature (mixed base closure)))
@@ -1793,6 +1821,7 @@ bereits an den Regeln abzulesen, dass alle Regeln Zugriff auf die
 Komponenten von \lstinline{state} benötigen.  Für diese werden gleich am
 Anfang lokale Variablen angelegt:
 %
+\indexvariable{secd-step}
 \begin{lstlisting}
 (define secd-step
   (lambda (state)
@@ -1911,6 +1940,7 @@ auf Seite~\pageref{sec:umgedrehte-liste} wissen wir, dass bei
 endrekursiver Konstruktion von Listen gerade immer die Reihenfolge
 umgedreht wird:
 %
+\indexvariable{take-reverse}
 \begin{lstlisting}
 ; die ersten Elemente einer Liste in umgekehrter Reihenfolge berechnen
 (: take-reverse (natural (list-of %a) -> (list-of %a)))
@@ -1949,6 +1979,8 @@ Verzweigung.  Für die Signatur von \lstinline{apply-primitive}
 benötigen wir noch eine Signatur \lstinline{primitive}, passend zum
 Prädikat \lstinline{primitive?} auf Seite~\pageref{page:primitivep}:
 %
+\indexvariable{primitive}
+\indexvariable{apply-primitive}
 \begin{lstlisting}
 (define primitive (signature (predicate primitive?)))
 
@@ -1982,6 +2014,7 @@ Die Regel für Abstraktionen macht aus einer Abstraktion eine Closure:
 %
 Der Code macht dies genauso:
 %
+\indexvariable{secd-step}
 \begin{lstlisting}
 (define secd-step
   (lambda (state)
@@ -2065,6 +2098,7 @@ $e$ noch in einen Anfangszustand $(\epsilon, \varnothing, \llbracket
 e\rrbracket, \epsilon)$ übersetzt werden.  Das erledigt folgende
 Hilfsfunktion:
 %
+\indexvariable{inject-secd}
 \begin{lstlisting}
 ; Aus Term SECD-Anfangszustand machen
 (: inject-secd (term -> secd))
@@ -2091,6 +2125,7 @@ Es fehlt noch die Auswertungsfunktion $\mathrm{eval}_\mathrm{SECD}$,
 die eine Hilfsfunktion benötigt, um den reflexiv-transitiven Abschluss des
 Zustandsübergangs $\hookrightarrow^*$ zu berechnen:
 %
+\indexvariable{secd-step*}
 \begin{lstlisting}
 ; bis zum Ende Zustandsübergänge berechnen
 (: secd-step* (secd -> secd))
@@ -2105,6 +2140,7 @@ Zustandsübergangs $\hookrightarrow^*$ zu berechnen:
 Die Auswertungsfunktion orientiert sich direkt an der mathematischen
 Definition:
 %
+\indexvariable{eval-secd}
 \begin{lstlisting}
 ; Evaluationsfunktion zur SECD-Maschine berechnen
 (: eval-secd (term -> (mixed value (enum 'function))))
@@ -2323,6 +2359,7 @@ Die Implementierung der endrekursiven SECD-Maschine ist Gegenstand von
   Anstatt Umgebungen durch Listen von Bindungen zu repräsentieren, ist
   es auch möglich, Funktionen zu verwenden, so dass
   \lstinline{lookup-environment} folgendermaßen aussieht:
+\indexvariable{lookup-environment}
 \begin{lstlisting}
 (define lookup-environment
   (lambda (environment variable)

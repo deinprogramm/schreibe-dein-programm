@@ -318,6 +318,7 @@ DrRacket rückt die zweite Zeile ein bisschen ein, um auszudrücken,
 dass sie noch in die Klammern vom \lstinline{define} gehört.  Bei
 komplizierteren Ausdrücken ist das hilfreich:
 %
+\indexvariable{alles}
 \begin{lstlisting}
 (define alles
   (+ 20
@@ -665,6 +666,7 @@ Das deutet darauf hin, dass bei dem \lstinline{lambda} eine Funktion
 herauskommt.  Um etwas damit anzufangen, gib ihr einen Namen mit
 \lstinline{define}:
 %
+\indexvariable{tile}
 \begin{lstlisting}
 (define tile
   (lambda (a b)
@@ -1439,6 +1441,7 @@ Tests alles auswerten.
   \label{ka:rumpf}
   Als letzten Schritt fülle mit Hilfe des Wissens über das Problem
   den Rumpf der Funktion aus.
+\indexvariable{billig-strom}
 \begin{lstlisting}
 (define billig-strom
   (lambda (kWh)
@@ -1501,6 +1504,7 @@ Das Gerüst ergibt sich direkt aus der Signatur:
 Schließlich müssen wir noch den Rumpf vervollständigen, indem wir die
 entsprechende Formel hineinschreiben:
 %
+\indexvariable{watt-für-wenig}
 \begin{lstlisting}
 (define watt-für-wenig
   (lambda (kWh)
@@ -1541,6 +1545,7 @@ sie um.  Außerdem ersetzen wir alle Stellen, bei denen sich die beiden
 Funktionen unterscheiden, jeweils durch eine Variable, zum Beispiel
 \lstinline{grundgebühr} und \lstinline{pro-kWh}:
 %
+\indexvariable{stromtarif-rechnungsbetrag}
 \begin{lstlisting}
 (define stromtarif-rechnungsbetrag
   (lambda (kWh)
@@ -1595,6 +1600,8 @@ und \lstinline{watt-für-wenig} so ändern, dass sie nicht mehr "<selbst">
 den Rechnungsbetrag ausrechnen, sondern dafür
 \lstinline{stromtarif-rechnungsbetrag} benutzen:
 %
+\indexvariable{billig-strom}
+\indexvariable{watt-für-wenig}
 \begin{lstlisting}
 (define billig-strom
   (lambda (kWh)

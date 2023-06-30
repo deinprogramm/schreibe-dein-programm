@@ -66,6 +66,7 @@ Kurzbeschreibung und einer Signatur:
 Wenn wir diese Funktion voraussetzen, können wir \lstinline{invert}
 recht einfach fertigschreiben:
 %
+\indexvariable{invert}
 \begin{lstlisting}
 (define invert
   (lambda (list)
@@ -133,6 +134,7 @@ Wir können das Problem auf zwei Arten lösen~-- wir benennen den
 Parameter um oder wir konstruieren die einelementige Liste "<von
 Hand">.  Wir haben uns für letzteres entschieden:
 %
+\indexvariable{append-element}
 \begin{lstlisting}
 (define append-element
   (lambda (list element)
@@ -309,6 +311,7 @@ Was müssen wir noch dazuschreiben?  Die Funktion arbeitet schon die
 Eingabeliste ab und akkumuliert ihre Elemente in \lstinline{inverted}
 hinein. Sie ist bereits fertig, wir müssen nur die Ellipsen wegmachen:\label{function:invert-helper}
 %
+\indexvariable{invert-helper}
 \begin{lstlisting}
 (define invert-helper
   (lambda (list inverted)
@@ -370,6 +373,7 @@ als Zwischenergebnis die Summer aller Listenelemente, die unsere
 Funktion schon "<gesehen"> hat.  Wir nennen deshalb den
 Akkumulator \lstinline{sum} und schreiben folgende Schablone:
 %
+\indexvariable{list-sum-helper}
 \begin{lstlisting}
 (define list-sum-helper
   (lambda (list sum)
@@ -529,6 +533,7 @@ also gleich~-- es gibt keine Elemente "<vor \lstinline{list}">.  Die
 Summe dieser leeren Liste und damit das Argument im Aufruf
 von \lstinline{list-sum-helper} ist entsprechend 0:
 %
+\indexvariable{list-sum}
 \begin{lstlisting}
 (define list-sum
   (lambda (list0)
@@ -557,6 +562,7 @@ Es bleibt der rekursive Aufruf.  Hier muss der \emph{neue} Wert von
 \lstinline{(rest list)}.  Dazu müssen wir auf die bisherige Summe
 \lstinline{(first list)} addieren:
 %
+\indexvariable{list-sum-helper}
 \begin{lstlisting}
 (define list-sum-helper
   ; sum ist die Summe aller Elemente in list0 vor list
@@ -574,6 +580,7 @@ und immer \lstinline{-helper} dranzuhängen.  Wir können die Funktion
 etwas übersichtlicher machen, indem wir \lstinline{list-sum-helper} zu einer
 lokalen Definition innerhalb von \lstinline{list-sum} machen:
 %
+\indexvariable{list-sum}
 \begin{lstlisting}
 (define list-sum
   (lambda (list0)
@@ -751,6 +758,7 @@ Zwischenergebnis dranmultiplizieren.  Es fehlt nur noch der Wert
 für \lstinline{power} im ersten Aufruf von \lstinline{accumulate}.  Da
 $b^0 = 1$ ist, müssen wir da 1 einsetzen:
 %
+\indexvariable{power}
 \begin{lstlisting}
 (define power
   (lambda (base exponent0)
@@ -975,6 +983,7 @@ Der ist das Maximum aus dem bisherigen \lstinline{max-profit} und dem
 möglichen Gewinn aus dem Verkauf zum Kurs \lstinline{(first spots)}.
 Hier das Ergebnis:
 %
+\indexvariable{max-profit}
 \begin{lstlisting}
 (define max-profit
   (lambda (spots0)
@@ -1188,6 +1197,7 @@ rekursiven Aufruf von \lstinline{accumulate} noch einen neuen Wert für
 \lstinline{evens} berechnen: Wir hängen \lstinline{(first list)} an
 das bisherige Zwischenergebnis an, falls es gerade ist:\label{function:evens}
 %
+\indexvariable{evens}
 \begin{lstlisting}
 (define evens
   (lambda (list0)
@@ -1296,6 +1306,7 @@ Funktion erledigen, die wir \lstinline{final-acc->result} nennen.
 
 Das Ergebnis sieht so aus:
 %
+\indexvariable{list-fold-left}
 \begin{lstlisting}
 (define list-fold-left
   (lambda (list0 start-acc next-acc final-acc->result)

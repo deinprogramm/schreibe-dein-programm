@@ -62,6 +62,7 @@ Daraus entsteht eine Datendefinition für "<Elternteil">:
 Diese~-- und die Datendefinition für "<Person"> können wir nun in Code
 übersetzen:
 %
+\indexvariable{parent}
 \begin{lstlisting}
 (define-record person
   make-person
@@ -77,12 +78,15 @@ Diese~-- und die Datendefinition für "<Person"> können wir nun in Code
 %
 Für das unbekannte Elternteil stellen wir gleich mal einen Wert her:
 %
+\indexvariable{an-unknown-parent}
 \begin{lstlisting}
 (define an-unknown-parent (make-unknown-parent))
 \end{lstlisting}
 %
 Hier ein kleiner Stammbaum als Beispiel:
 %
+\indexvariable{slash}
+\indexvariable{london-hudson}
 \begin{lstlisting}
 (define slash
   (make-person "Slash"
@@ -194,6 +198,7 @@ loswerden, weil er \lstinline{#t} ergibt, wenn die Bedingung
 \lstinline{#t} liefert.  Wir können deshalb die Funktion mit einem
 großen \lstinline{or} schreiben:
 %
+\indexvariable{ancestor?}
 \begin{lstlisting}
 (define ancestor?
   (lambda (name person)
@@ -228,6 +233,7 @@ Datendefinition von \lstinline{parent}:
 Für den ersten Fall können wir \lstinline{ancestor?} benutzen, im
 zweiten Fall können wir mit \lstinline{#f} antworten:
 %
+\indexvariable{parent-ancestor?}
 \begin{lstlisting}
 (define parent-ancestor?
   (lambda (name parent)
@@ -281,6 +287,7 @@ enthalten beide Definitionen jeweils zwei Selbstreferenzen.  Bei
 \lstinline{person} ist die Selbstreferenz auf \lstinline{parent}, das
 so definiert ist:
 %
+\indexvariable{parent}
 \begin{lstlisting}
 (define parent
   (signature
@@ -342,6 +349,7 @@ Bei der Definition für \lstinline{tree} brauchen wir noch einen Namen
 für die Werte an den Rändern des Baums~-- genannt
 \textit{Blätter}\index{Blatt}, auf Englisch \textit{leaf}.
 %
+\indexvariable{tree}
 \begin{lstlisting}
 (define tree
   (signature (mixed leaf node)))
@@ -353,6 +361,7 @@ ganz so einfach, weil \lstinline{creek} noch einen Namen enthält,
 abstrahieren.  Einen Namen haben wir ja schon~-- \lstinline{leaf}~--
 es fehlt noch das \lstinline{lambda}:
 %
+\indexvariable{tree-of}
 \begin{lstlisting}
 (define tree-of
   (lambda (leaf)
@@ -383,6 +392,7 @@ andere Arten von Werten ablegen wollen.  Darum abstrahieren wir auch
 über die Signatur der Markierungen noch.  Außerdem reichen wir noch
 die Datendefinitionen nach:
 %
+\indexvariable{tree-of}
 \begin{lstlisting}
 ; Ein Knoten besteht aus
 ; - Markierung
@@ -501,6 +511,12 @@ aus den Knoten Axl, Slash und Duff.
 Wir können \lstinline{tree-of} benutzen, um die Definitionen von
 \lstinline{river} und \lstinline{confluence} zu vereinfachen:
 %
+\indexvariable{river?}
+\indexvariable{river?}
+\indexvariable{confluence-location}
+\indexvariable{confluence-location}
+\indexvariable{confluence-main-stem}
+\indexvariable{confluence-tributary}
 \begin{lstlisting}
 (define river (tree-of creek string))
 (define river? node?)
@@ -571,6 +587,7 @@ Für die Tiefe zählt nur der Weg mit der maximalen Anzahl von Knoten.
 Außerdem müssen wir den Knoten in \lstinline{tree} noch mitzählen.
 Blätter zählen überhaupt nicht:
 %
+\indexvariable{depth}
 \begin{lstlisting}
 (define depth
   (lambda (tree)
@@ -669,6 +686,7 @@ neuen Parameter erweitert werden.)
 Jetzt können wir den Vergleich mit Hilfe von \lstinline{equals?}
 durchführen und diesen mit einer binären Verzweigung verarbeiten:
 %
+\indexvariable{member?}
 \begin{lstlisting}
 (define member?
   (lambda (equals? element list)
@@ -856,6 +874,7 @@ Weiterentwicklung:
 Da \lstinline{(node-label tree)} zweimal vorkommt, machen wir dafür
 eien Definition und setzen die Bestandteile der Schablone so zusammen:
 %
+\indexvariable{tree-member?}
 \begin{lstlisting}
 (define tree-member?
   (lambda (value tree)
@@ -983,6 +1002,7 @@ entsprechend im linken oder rechten Teilbaum eingefügt werden: Genau
 das erledigen die beiden rekursiven Aufrufe aus der Schablone.  Der
 jeweils andere Teilbaum bleibt so wie er ist:
 %
+\indexvariable{tree-insert}
 \begin{lstlisting}
 (define tree-insert
   (lambda (value tree)
@@ -1186,6 +1206,7 @@ Zu guter letzt brauchen wir noch einen Aufruf von \lstinline{tree-member?}
 im Rumpf von \lstinline{search-tree-member?}, damit es auch losgeht.
 Dafür verbrauchen wir den letzten Baustein aus der Schablone:
 %
+\indexvariable{search-tree-member?}
 \begin{lstlisting}
 (define search-tree-member?
   (lambda (value search-tree)
@@ -1531,6 +1552,7 @@ weiterreichen.  Allein die Größe müssen wir noch ausrechnen: Diese ist
 die Summe der beiden Teilbäume, plus 1, weil das \lstinline{make-node}
 noch einen neuen Knoten erzeugt:
 %
+\indexvariable{make-sized-node}
 \begin{lstlisting}
 (define make-sized-node
   (lambda (label left-branch right-branch)
@@ -1559,6 +1581,7 @@ Kurzbeschreibung, Signatur und zwei Tests:
 Hier sind Gerüst und Schablone.  Die Funktion verarbeitet gemischte
 Daten, also brauchen wir eine Verzweigung:
 %
+\indexvariable{sized-tree-size}
 \begin{lstlisting}
 (define sized-tree-size
   (lambda (tree)
@@ -1591,6 +1614,8 @@ folgende Signaturen mehrfach vorkommen:
 %
 Das wird noch öfter passieren, darum abstrahieren wir:
 %
+\indexvariable{sized-node-of}
+\indexvariable{sized-tree-of}
 \begin{lstlisting}
 ; Signatur für größenannotierte Knoten
 (define sized-node-of
@@ -1619,6 +1644,7 @@ Moment zwei Funktionen aufrufen:
 %
 Wir definieren deshalb eine Hilfsfunktion:
 %
+\indexvariable{sized-node-label}
 \begin{lstlisting}
 ; aus größenannotiertem Knoten die Markierung extrahieren
 (: sized-node-label ((sized-node-of %leaf %label) -> %label))
@@ -1696,6 +1722,7 @@ Wir machen als nächstes aus der Funktion
 nur kopieren, umbenennen und auf die Benutzung von
 \lstinline{sized-search-tree} umstellen.\label{func:sized-search-tree-member}
 %
+\indexvariable{sized-search-tree-member?}
 \begin{lstlisting}
 ; festellen, ob Element in Suchbaum vorhanden ist
 (: sized-search-tree-member? (%a (sized-search-tree-of %a) -> boolean))
@@ -1739,6 +1766,7 @@ schreiben eine Funktion \lstinline{balanced-search-tree-insert}.  Auch
 sie entsteht aus \lstinline{search-tree-insert} durch Kopieren und
 Umstellen auf \lstinline{sized-search-tree}:
 %
+\indexvariable{balanced-search-tree-insert}
 \begin{lstlisting}
 ; neues Element in größenannotierten Suchbaum einfügen
 (: balanced-search-tree-insert
@@ -2076,6 +2104,7 @@ Fall fehlt noch: Der tritt dann ein,  wenn der Baum kein exzessives
 Ungleichgewicht aufweist.  Dann könnten wir einfach
 \lstinline{make-sized-node} benutzten.  Hier die ganze Funktion:\label{func:make-balanced-node}
 %
+\indexvariable{make-balanced-node}
 \begin{lstlisting}
 (define make-balanced-node
   (lambda (label left-branch right-branch)

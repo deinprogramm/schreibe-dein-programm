@@ -33,6 +33,7 @@ in zwei Funktionen aufgeteilt, \lstinline{heat->temperature} und
 \lstinline{temperature->heat}.  Hier ist die erste davon, wobei wir
 die Bedingungen in der Verzweigung etwas vereinfacht haben:
 %
+\indexvariable{heat->temperature}
 \begin{lstlisting}
 ; Aus Wärme Temperatur berechnen
 (: heat->temperature (real -> real))
@@ -543,6 +544,14 @@ Hier sind Daten- und Record-Definition für ein Bandmitglied:
 %
 Und hier die konkrete Band dazu (Stand 2021):
 %
+\indexvariable{axl (make-band-member "Axl Rose" 1962))}
+\indexvariable{duff (make-band-member "Duff McKagan" 1964))}
+\indexvariable{slash (make-band-member "Slash" 1965))}
+\indexvariable{dizzy (make-band-member "Dizzy Reed" 1963))}
+\indexvariable{richard (make-band-member "Richard Fortus" 1966))}
+\indexvariable{frank (make-band-member "Frank Ferrer" 1966))}
+\indexvariable{melissa (make-band-member "Melissa Reese" 1990))}
+\indexvariable{guns-n-roses}
 \begin{lstlisting}
 (define axl (make-band-member "Axl Rose" 1962))
 (define duff (make-band-member "Duff McKagan" 1964))
@@ -585,6 +594,7 @@ Da dies eine Hilfsfunktion für die eigentliche Sortierfunktion ist,
 heben wir uns das Testen ausnahmsweise bis zu dieser auf.
 Konstruieren tun wri streng nach Anleitung.  Gerüst und Schablone:
 %
+\indexvariable{insert}
 \begin{lstlisting}
 (define insert
   (lambda (band-member list)
@@ -657,6 +667,7 @@ Aufruf leer.  Wenn \lstinline{list} leer ist, dann ist \lstinline{acc}
 das gewünschte Endergebnis.  Das neue Zwischenergebnis berechnet die
 Funktion mit Hilfe von \lstinline{insert}:
 %
+\indexvariable{sort-band}
 \begin{lstlisting}
 (define sort-band
   (lambda (list0)
@@ -776,6 +787,7 @@ Der innere \lstinline{empty}-Fall ist die Liste mit einem Element: Die
 ist auch immer sortiert.  Im \lstinline{cons}-Fall schließlich können
 wir die beiden ersten Elemente vergleichen:
 %
+\indexvariable{band-sorted?}
 \begin{lstlisting}
 (define band-sorted?
   (lambda (list)
@@ -1064,6 +1076,7 @@ Funktion auch die Größenannotationen der Teilbäume überprüfen, das
 erledigen die rekursiven Aufrufe aus der Schablone.  Fertig sieht das
 ganze so aus:
 %
+\indexvariable{proper-sized-search-tree?}
 \begin{lstlisting}
 (define proper-sized-search-tree?
   (lambda (search-tree)
@@ -1131,6 +1144,7 @@ Suchbaum anfangen (für dessen Konstruktion wir die Funktionen für den
 Vergleich der Markierungen brauchen) und dann für jedes Listenelement
 \lstinline{balanced-search-tree-insert} aufrufen:
 %
+\indexvariable{list->balanced-search-tree}
 \begin{lstlisting}
 (define list->balanced-search-tree
   (lambda (label=? label<? elements)
@@ -1188,6 +1202,7 @@ darauf überprüft, dass sie durch den gesamten Baum hindurch
 eingehalten ist.  Das geht nach dem gleichen Muster wie bei
 \lstinline{proper-sized-search-tree?}:
 %
+\indexvariable{balanced-search-tree?}
 \begin{lstlisting}
 ; Ist ein Suchbaum balanciert?
 (: balanced-search-tree? ((sized-search-tree-of %a) -> boolean))
@@ -1292,6 +1307,7 @@ nochmal \lstinline{make-balanced-node} auf
 Seite~\pageref{func:make-balanced-node} an.  Falls Du nicht blättern
 magst~-- so gehtt es los:
 %
+\indexvariable{make-balanced-node}
 \begin{lstlisting}
 (define make-balanced-node
   (lambda (label left-branch right-branch)
@@ -1378,6 +1394,7 @@ aus einer Liste einen Suchbaum herzustellen und überprüfen, dass
 Die Funktion \lstinline{every?} haben wir extra für diesen Testfall
 programmiert~-- strikt nach Konstruktionsanleitung für Listen:\label{func:everyp}
 %
+\indexvariable{every?}
 \begin{lstlisting}
 ; Liefert eine Funktion für alle Elemente einer Liste #t?
 (: every? ((%a -> boolean) (list-of %a) -> boolean))
@@ -2075,6 +2092,7 @@ diese als Eigenschaften von \lstinline{/} auf.
 \begin{aufgabe}
 Die folgende Funktion quadriert natürliche Zahlen:
 %
+\indexvariable{square}
 \begin{lstlisting}
 ; Quadrat einer Zahl berechnen
 (: square (natural -> natural))

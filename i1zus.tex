@@ -278,6 +278,7 @@ also wieder löschen:
 %
 Der Gesamtspeicher ist die Summe der beiden Komponenten:
 %
+\indexvariable{total-memory}
 \begin{lstlisting}
 (define total-memory
   (lambda (c)
@@ -303,6 +304,7 @@ Konstruktionsanleitung~\ref{ka:aufzaehlung} auf
 Seite~\pageref{ka:aufzaehlung}~-- eine Daten- und eine
 Signatur-Definition:
 %
+\indexvariable{model}
 \begin{lstlisting}
 ; Ein Modell ist eins der folgenden:
 ; - Billigmodell
@@ -393,6 +395,7 @@ das der Prozessor, die Größe des Hauptspeichers und die
 Größe der Festplatte.  Die entsprechenden Angaben können wir zum
 Beispiel den Testfällen entnehmen.  Folgendes kommt dabei heraus:
 %
+\indexvariable{standard-computer}
 \begin{lstlisting}
 (define standard-computer
   (lambda (k)
@@ -481,6 +484,8 @@ aus Abschnitt~\ref{function:integer-from-to} auf
 Seite~\pageref{function:integer-from-to} benutzen und eigene
 Signatur-Definitionen einführen:
 %
+\indexvariable{hour}
+\indexvariable{minute}
 \begin{lstlisting}
 ; Eine Stunde ist eine ganze Zahl zwischen 0 und 23.
 (define hour (signature (integer-from-to 0 23)))
@@ -594,6 +599,7 @@ kann.  Wir fügen als nächsten Schritt Aufrufe beider Selektoren ein:
 Jetzt setzen wir noch etwas Wissen über Uhrzeiten ein und
 vervollständigen damit den Rumpf:
 %
+\indexvariable{minutes-since-midnight}
 \begin{lstlisting}
 (define minutes-since-midnight
   (lambda (wt)
@@ -627,8 +633,9 @@ einer Größe in eine andere.  Die Testfälle sind gegenüber
               wt3)
 \end{lstlisting}
 %
-Hier ist das Gerüst:\indexvariable{minutes-since-midnight->wallclock-time}
+Hier ist das Gerüst:
 %
+\indexvariable{minutes-since-midnight->wallclock-time}
 \begin{lstlisting}
 (define minutes-since-midnight->wallclock-time
   (lambda (msm)
@@ -1037,6 +1044,7 @@ noch am Leben ist.  Das Gewicht erhöht sich um das Gewicht des
 Futters.  Außerdem ist das Gürteltier noch am Leben, weil der
 Konstruktoraufruf in dem Zweig steht, in dem das so ist:
 %
+\indexvariable{feed-dillo}
 \begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)
@@ -1116,6 +1124,7 @@ Das Gürteltier ist nach dem Überfahren auf jeden Fall tot.  Da es
 keine Rolle spielt, ob das Gürteltier vorher lebendig war oder nicht,
 können wir den Selektoraufruf \lstinline{(dillo-alive? dillo)} verwerfen:
 %
+\indexvariable{run-over-dillo}
 \begin{lstlisting}
 (define run-over-dillo
   (lambda (dillo)
@@ -1248,6 +1257,7 @@ deshalb gleich zu \lstinline{dillo}.  Eine Gleichung bringt das zum Ausdruck:
 Wir können also den \lstinline{make-dillo}-Aufruf durch \lstinline{dillo}
 ersetzen und so das Programm mit Hilfe der Gleichung vereinfachen:
 %
+\indexvariable{feed-dillo}
 \begin{lstlisting}
 (define feed-dillo
   (lambda (dillo)

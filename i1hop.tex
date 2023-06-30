@@ -146,6 +146,7 @@ sollten eine lokale Definition einführen, damit es nur einmal
 dasteht.  Ebenso für den Aufruf von \lstinline{game-guest-goals}.  Das
 sieht dann so aus:\label{func:home-points}
 %
+\indexvariable{home-points}
 \begin{lstlisting}
 (define home-points
   (lambda (game)
@@ -239,6 +240,8 @@ Damit können wir die bisherigen Definitionen von
 \lstinline{home-points} und \lstinline{guest-points} ersetzen durch
 die folgenden:
 %
+\indexvariable{home-points}
+\indexvariable{guest-points}
 \begin{lstlisting}
 (define home-points
   (lambda (game)
@@ -284,6 +287,7 @@ auch ein neues \lstinline{lambda} einfügen.  (Bei Definitionen, in
 denen noch kein \lstinline{lambda} steht, müssten wir das sowieso.)
 Das sieht dann so aus:
 %
+\indexvariable{make-compute-points}
 \begin{lstlisting}
 (define make-compute-points
   (lambda (get-goals-1 get-goals-2)
@@ -311,6 +315,8 @@ Auch mit dieser Funktion können wir alternative Definitionen von
 das umständlich, wenn wir das genauso machen wie mit
 \lstinline{compute-points}, da wir noch mehr Klammern brauchen:
 %
+\indexvariable{guest-points}
+\indexvariable{guest-points}
 \begin{lstlisting}
 (define home-points
   (lambda (game)
@@ -342,6 +348,8 @@ genauso gut schreiben:
 Das gleiche Prinzip können wir auch auf \lstinline{home-points} und
 \lstinline{guest-points} anwenden:
 %
+\indexvariable{guest-points}
+\indexvariable{guest-points}
 \begin{lstlisting}
 (define home-points
   (make-compute-points game-home-goals game-guest-goals))
@@ -402,6 +410,7 @@ Als Nächstes wollen wir herausbekommen, welche Spiele einer Saison
 unentschieden ausgingen.  Dazu ist zunächst eine Funktion notwendig,
 die feststellt, ob \emph{ein} bestimmtes Spiel unentschieden war:
 %
+\indexvariable{game-draw?}
 \begin{lstlisting}
 ; Ist Spiel unentschieden?
 (: game-draw? (game -> boolean))
@@ -473,6 +482,7 @@ den können wir eigentlich nur in eine binäre Verzweigung stecken:
 Abhängig davon, ob das Spiel unentschieden ist oder nicht, bringen wir
 es im Ergebnis unter:
 %
+\indexvariable{drawn-games}
 \begin{lstlisting}
 (define drawn-games
   (lambda (list)
@@ -491,6 +501,7 @@ Funktion, die alle Spiele aus einer Liste extrahiert, die die Heimmannschaft
 gewonnen hat.  Dazu brauchen wir erst einmal eine Funktion analog zu
 \lstinline{game-draw?}:
 %
+\indexvariable{home-won?}
 \begin{lstlisting}
 ; Hat die Heimmannschaft gewonnen?
 (: home-won? (game -> boolean))
@@ -507,6 +518,7 @@ gewonnen hat.  Dazu brauchen wir erst einmal eine Funktion analog zu
 Die Funktion \lstinline{home-won-games} entsteht genau analog zu
 \lstinline{drawn-games}.  Am Ende kommt folgendes heraus:
 %
+\indexvariable{home-won-games}
 \begin{lstlisting}
 ; Spiele herausfiltern, bei denen die Heimmannschaft gewann
 (: home-won-games ((list-of game) -> (list-of game)))
@@ -567,6 +579,7 @@ Als Nächstes müssen wir die neue Variable als Parameter zum
 \lstinline{lambda} hinzufügen.  Aufpassen: Die beiden rekursiven
 Aufrufe müssen ebenfalls um den Parameter erweitert werden:
 %
+\indexvariable{extract-games}
 \begin{lstlisting}
 (define extract-games
   (lambda (f? list)
@@ -620,6 +633,7 @@ Seite~\ref{page:live-dillos} ebenfalls den Funktionen
 \lstinline{drawn-games} und \lstinline{home-won-games} sehr ähnlich.
 Hier ist sie noch einmal zur Erinnerung:
 %
+\indexvariable{live-dillos}
 \begin{lstlisting}
 (: live-dillos ((list-of dillo) -> (list-of dillo)))
 
@@ -677,6 +691,7 @@ Spiele extrahieren, an denen eine bestimmte Mannschaft teilgenommen
 hat.  Auch dazu definieren wir eine Hilfsfunktion, die feststellt, ob
 eine Mannschaft bei einem Spiel die Heim- oder die Gastmannschaft ist:\label{func:plays-game}
 %
+\indexvariable{plays-game?}
 \begin{lstlisting}
 ; Spielt Mannschaft bei Spiel?
 (: plays-game? (team game -> boolean))
@@ -697,6 +712,7 @@ extrahieren, indem wir \lstinline{extract-list} verwenden.  Um
 Signatur~\lstinline{(game -> boolean)}.  Die können wir folgendermaßen
 definieren:
 %
+\indexvariable{plays-nürnberg?}
 \begin{lstlisting}
 ; Spielt Nürnberg mit?
 (: plays-nürnberg? (game -> boolean))
@@ -785,6 +801,7 @@ Für die Gesamt-Torzahl benötigen wir nur
 und
 \lstinline{(game-guest-goals game)}, die addiert werden:
 %
+\indexvariable{total-goals}
 \begin{lstlisting}
 (define total-goals
   (lambda (game)
@@ -829,6 +846,7 @@ von dem muss die Funktion die Toranzahl ermitteln, für den Rest ist
 das schon passiert.  Die beiden Ergebnisse kombinieren wir mit
 \lstinline{cons}:
 %
+\indexvariable{list-total-goals}
 \begin{lstlisting}
 (define list-total-goals
   (lambda (list)
@@ -883,6 +901,7 @@ Außerdem gibt es eine Fallunterscheidung in den Daten, je nachdem, ob
 die gesuchte Mannschaft die Heim- oder die Gastmannschaft ist, was zu
 einer Verzweigung mit zwei Zweigen führt:
 %
+\indexvariable{team-goals}
 \begin{lstlisting}
 (define team-goals
   (lambda (team game)
@@ -925,6 +944,7 @@ heraus, und wir wenden im \lstinline{cons}-Fall die zuvor geschriebene
 Hilfsfunktion auf das erste Element an und bauen mit \lstinline{cons}
 die Ergebnis-Liste:
 %
+\indexvariable{list-team-goals}
 \begin{lstlisting}
 (define list-team-goals
   (lambda (team list)
@@ -979,6 +999,7 @@ Nun müssen wir die neue Variable noch im \lstinline{lambda}
 unterbringen, ohne zu vergessen, sie auch im rekursiven Aufruf
 aufzuführen:
 %
+\indexvariable{list-apply}
 \begin{lstlisting}
 (define list-apply
   (lambda (f list)
@@ -1070,6 +1091,8 @@ Seite~\pageref{sec:list-sum} die Funktionen \lstinline{list-sum} und
 \lstinline{list-product} geschrieben, welche die Summe einer Liste von
 Zahlen bildet:
 %
+\indexvariable{list-sum}
+\indexvariable{list-product}
 \begin{lstlisting}
 ; Summe der Elemente einer Liste von Zahlen berechnen
 (: list-sum ((list-of number) -> number))
@@ -1355,6 +1378,7 @@ benutzen, also \lstinline{first-list} und \lstinline{result}:
 \lstinline{(first-lits)}, \lstinline{result} das Resultat des
 rekursiven Aufrufs.  Wir ersetzen also "<rückwärts">:
 %
+\indexvariable{list-apply}
 \begin{lstlisting}
 (define list-apply
   (lambda (f list)
@@ -1412,6 +1436,7 @@ sinnvoll, es zum existierenden \lstinline{lambda} hinzuzufügen~-- dann
 hätten wir wieder eine zweistellige Funktion.  Stattdessen machen wir
 ein \lstinline{lambda} drumherum und geben dem ganzen einen Namen:
 %
+\indexvariable{plays-game?/team}
 \begin{lstlisting}
 (define plays-game?/team
   (lambda (team)
@@ -1442,6 +1467,7 @@ Eine ähnliche Konstruktion können wir für \lstinline{team-goals}
 durchführen, um es zum Beispiel einfacher mit \lstinline{list-apply}
 zu verwenden.  Dabei kommt folgende Definition heraus:
 %
+\indexvariable{team-goals/team}
 \begin{lstlisting}
 (: team-goals/team (team -> (game -> natural)))
 (define team-goals/team
@@ -1531,6 +1557,7 @@ Verb dazu darum \textit{curry}, im deutschsprachigen Raum
 \textit{curryfizieren\index{curryfizieren}}.  Hier also die finale
 Version:
 %
+\indexvariable{curry}
 \begin{lstlisting}
 ; Funktion schönfinkeln
 (: curry ((%a %b -> %c) -> (%a -> (%b -> %c))))
@@ -1608,6 +1635,7 @@ Signatur \lstinline{(%b -> %c)}, wir müssen also noch einmal Klammern
 drummachen und ein \lstinline{%b} liefern~-- das ist in diesem Fall
 \lstinline{b}:
 %
+\indexvariable{uncurry}
 \begin{lstlisting}
 (define uncurry
   (lambda (f)
@@ -1658,6 +1686,7 @@ Das kannst Du im Stepper nachvollziehen, wenn Du bei der Auswertung
 zusiehst.  Du kannst es aber auch einfach am Programm sehen.  Um der
 Sache auf den Grund zu gehen, betrachten wir folgendes Programm:
 %
+\indexvariable{circle-area}
 \begin{lstlisting}
 (define pi 3.14159265)
 
@@ -2211,7 +2240,8 @@ sie sich befindet.
   Hier ist eine Funktion, die einen Stream aus natürlichen Zahlen,
   angefangen bei einer Zahl $n$, liefert:
   % 
-  \begin{lstlisting}
+  \indexvariable{from}
+\begin{lstlisting}
 ; Stream mit Zahlen ab n erzeugen
 (: from (natural -> stream))
 (define from
@@ -2225,7 +2255,8 @@ sie sich befindet.
   Zur Betrachtung von Streams ist folgende Funktion nützlich, welche
   die ersten $n$ Elemente eines Streams als Liste extrahiert:
   % 
-  \begin{lstlisting}
+  \indexvariable{stream-take}
+\begin{lstlisting}
 ; erste Elemente eines Streams in eine Liste extrahieren
 (: stream-take (natural stream -> (list-of %a)))
 (define stream-take
@@ -2310,7 +2341,8 @@ sie sich befindet.
      \end{lstlisting}
      Definiere dazu zunächst einen Stream aus Streams von Potenzen
      % 
-     \begin{lstlisting}
+     \indexvariable{prime-powers-stream}
+\begin{lstlisting}
 (define prime-powers-stream (stream-map powers (sieve (from 2))))
      \end{lstlisting}
      % 
@@ -2410,6 +2442,7 @@ sie sich befindet.
 
   Zeige, dass folgende Funktion idempotent ist:
 
+  \indexvariable{abs}
   \begin{lstlisting}
     (define abs
       (lambda (x)

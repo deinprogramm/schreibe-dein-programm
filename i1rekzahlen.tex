@@ -58,6 +58,7 @@ Nachfolger einer Zahl ist einfach nur die Zahl "<plus 1">.  Weil der
 Nachfolger im Zusammenhang mit natürlichen Zahlen eine besondere
 Bedeutung hat, spendieren wir ihm zunächst eine eigene Hilfsfunktion:
 %
+\indexvariable{successor}
 \begin{lstlisting}
 ; Nachfolger einer Zahl
 (: successor (natural -> natural))
@@ -70,6 +71,7 @@ Bedeutung hat, spendieren wir ihm zunächst eine eigene Hilfsfunktion:
 Wo ein Nachfolger ist, muss es auch einen Vorgänger geben, und der
 zieht Eins ab:
 %
+\indexvariable{predecessor}
 \begin{lstlisting}
 ; Vorgänger einer Zahl
 (: predecessor (natural -> natural))
@@ -116,6 +118,7 @@ Kurzbeschreibung, Signatur und zwei Tests aussehen:\label{function:power}
 %
 Als Nächstes ist das Gerüst dran:
 %
+\indexvariable{power}
 \begin{lstlisting}
 (define power
   (lambda (base exponent)
@@ -232,6 +235,7 @@ Die Signatur der Funktion enthält die Signaturvariable \lstinline{%element}, is
 polymorph und macht klar, dass die Elemente der Liste nur zur Signatur
 \lstinline{%element} gehören können.
 %
+\indexvariable{copies}
 \begin{lstlisting}
 (define copies
   (lambda (count element)
@@ -317,6 +321,7 @@ Liste das Element das Element an Stelle \lstinline{(- index 1)}.  Dies
 ist schon das \lstinline{index}-te Element in \lstinline{list}.  Die
 Funktion sieht so aus:
 %
+\indexvariable{nth}
 \begin{lstlisting}
 (define nth
   (lambda (list index)
@@ -377,6 +382,7 @@ Hier sind Kurzbeschreibung, Signatur und ein Test:
 %
 Hier ist das Gerüst für die Funktion:
 %
+\indexvariable{between}
 \begin{lstlisting}
 (define between
   (lambda (from to)
@@ -409,6 +415,7 @@ können wir eine eigene Funktion schreiben:
 %
 Das Gerüst ist wie folgt:
 %
+\indexvariable{count-from}
 \begin{lstlisting}
 (define count-from
   (lambda (from count)
@@ -463,6 +470,7 @@ Nun ist \lstinline{count-from} fertig, aber unsere eigentliche Funktion
 \lstinline{between} noch nicht.  Wir können aber \lstinline{count-from}
 benutzen, um \lstinline{between} zu realisieren:
 %
+\indexvariable{between}
 \begin{lstlisting}
 (define between
   (lambda (from to)
@@ -633,6 +641,7 @@ Im dritten Fall gilt:
 %
 Entsprechend können wir den letzten Zweig ausfüllen:
 %
+\indexvariable{power2}
 \begin{lstlisting}
 (define power2
   (lambda (base exponent)

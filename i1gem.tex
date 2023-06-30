@@ -264,6 +264,7 @@ Im ersten Zweig~-- dem Zweig für Gürteltiere~-- kommt nun
 \lstinline{dillo-weight} zum Einsatz, im zweiten Zweig~-- für
 Papageien~-- ist \lstinline{parrot-weight} zuständig:
 %
+\indexvariable{animal-weight}
 \begin{lstlisting}
 (define animal-weight
   (lambda (animal)
@@ -481,6 +482,7 @@ mit den passenden Bedingungen versehen:
 Schließlich müssen wir noch die Antworten ergänzen, für die wir die
 Funktionen benutzen, die wir schon geschrieben haben:
 %
+\indexvariable{feed-animal}
 \begin{lstlisting}
 (define feed-animal
   (lambda (animal)
@@ -584,6 +586,7 @@ Fallunterscheidung:
 Das ist eine Aufzählung, wir geben entsprechend der dazu passenden
 Signatur einen Namen:
 %
+\indexvariable{traffic-light}
 \begin{lstlisting}
 (define traffic-light
   (signature
@@ -604,6 +607,7 @@ Wieder ist an der Formulierung erkennbar, dass es sich um gemischte
 Daten handelt, und zwar mit drei Fällen.  Das übersetzen wir in ein
 Signatur-Definition mit \lstinline{mixed} und ebenfalls drei Fällen:
 %
+\indexvariable{sugar-content}
 \begin{lstlisting}
 (define sugar-content
   (signature
@@ -736,6 +740,7 @@ Als Nächstes ergänzen wir Tests entsprechend der Tabelle:
 %
 Schließlich müssen wir noch die Antworten eintragen:
 %
+\indexvariable{sugar-traffic-light}
 \begin{lstlisting}
 (define sugar-traffic-light
   (lambda (sugar-content)
@@ -789,6 +794,7 @@ anderem die Auswahl "<\lstinline{sugar-content} umbenennen"> anbietet. \drscheme
 dafür, dass alle zugehörigen Vorkommen von \lstinline{sugar-content} in gleicher Weise
 umbenannt werden.\label{def:sugar-weight-traffic-light}
 %
+\indexvariable{sugar-weight->traffic-light}
 \begin{lstlisting}
 (define sugar-weight->traffic-light
   (lambda (sugar-weight)
@@ -851,6 +857,7 @@ Bleibt der letzte Fall~-- der ist zum Glück trivial, da es sich schon
 um eine Farbe handelt, Die muss \lstinline{sugar-traffic-light} nur
 zurückgeben:
 %
+\indexvariable{sugar-traffic-light}
 \begin{lstlisting}
 (define sugar-traffic-light
   (lambda (sugar-content)
@@ -970,6 +977,7 @@ Diesen Wert können wir aber durch das Prädikat \lstinline{no-slope?}
 von allen anderen Werten unterscheiden und benutzen ihn, wenn es keine
 Steigung gibt:
 %
+\indexvariable{slope}
 \begin{lstlisting}
 (define slope
   (lambda (x1 y1 x2 y2)

@@ -255,6 +255,7 @@ Der jeweils zweite Teil des Zweiges ist das gewünschte Ergebnis für
 den entsprechenden Fall.  Wenn wir das ausfüllen, sieht das Resultat
 so aus:
 %
+\indexvariable{say-number}
 \begin{lstlisting}
 (define say-number
   (lambda (n)
@@ -468,6 +469,7 @@ Bisher ergibt sich alles rein aus der Definition von \lstinline{pet}.
 Schließlich müssen wir noch die Antworten ergänzen.  Katzen und Hunde
 sind niedlich, Schlangen nicht:
 %
+\indexvariable{cute?}
 \begin{lstlisting}
 (define cute?
   (lambda (p)
@@ -549,6 +551,7 @@ Als Nächstes kommt das Gerüst an die Reihe:
 Der Rumpf ist jetzt kein Hexenwerk, die beiden Eingaben werden
 einfach addiert:
 %
+\indexvariable{heat-water-0}
 \begin{lstlisting}
 (define heat-water-0
   (lambda (temp heat)
@@ -633,6 +636,7 @@ Rumpf setzen, sieht das so aus:
 An die Stellen nach den Bedingungen müssen wir Ausdrücke setzen, die
 das Ergebnis liefern, das im jeweiligen Fall richtig ist.  Das wäre dann:
 %
+\indexvariable{heat-water-1}
 \begin{lstlisting}
 (define heat-water-1
   (lambda (temp heat)
@@ -1004,6 +1008,7 @@ Der \lstinline{else}-Zweig kommt also zum Zug, wenn alle anderen
 "<durchgefallen"> sind.  Das Ergebnis sieht
 dann so aus:
 %
+\indexvariable{heat-water}
 \begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
@@ -1180,6 +1185,7 @@ Fälle, die wir als vier Zweige eines \lstinline{cond} schreiben:
 %
 Die Bedingungen und Ausdrücke ergeben sich direkt aus der Beschreibung:
 %
+\indexvariable{heat->temperature}
 \begin{lstlisting}
 (define heat->temperature
   (lambda (heat)
@@ -1200,6 +1206,7 @@ Temperaturen bis 0\si{\degree}C entsprechen der Wärme, Temperaturen darüber
 brauchen 80\si{\degree}C mehr Wärme.  Es gibt also nur zwei Fälle und damit zwei
 Zweige:
 %
+\indexvariable{temperature->heat}
 \begin{lstlisting}
 ; Aus Temperatur Wärme berechnen
 (: temperature->heat (real -> real))
@@ -1223,6 +1230,7 @@ Rumpf von \lstinline{heat-water} zu schreiben.  Wir versuchen das mal
 und schreiben sicherheitshalber eine neue Funktion
 \lstinline{heat-water-2}, bevor wir die alte wegwerfen:
 %
+\indexvariable{heat-water-2}
 \begin{lstlisting}
 ; Wassertemperatur nach Erhitzen berechnen, mit Eis & Sieden
 (: heat-water-2 (real real -> real))
@@ -1238,6 +1246,7 @@ Wie können wir \lstinline{heat->temperature} und
 \lstinline{temp} die zugehörige Wärme berechnen, \lstinline{heat}
 addieren, und das Ganze wieder zurück in eine Temperatur wandeln:
 %
+\indexvariable{heat-water-2}
 \begin{lstlisting}
 (define heat-water-2
   (lambda (temp heat)
@@ -1358,6 +1367,7 @@ Insbesondere führt sie immer auch zu Elementen in unserem Programm.
 Bei der Funktion \lstinline{cute?} haben wir zum Beispiel aus der
 Datendefinition zunächst eine Signatur-Definition abgeleitet:
 %
+\indexvariable{pet}
 \begin{lstlisting}
 (define pet
   (signature (enum "Katze" "Hund" "Schlange")))
@@ -1374,6 +1384,7 @@ Signatur \lstinline{(pet -> boolean)} beziehungsweise der
 Signatur-Definition von \lstinline{pet} als Aufzählung mit drei Fällen
 ergibt:
 %
+\indexvariable{cute?}
 \begin{lstlisting}
 (define cute?
   (lambda (p)
@@ -1556,6 +1567,7 @@ etwas kürzere Spezialform für das "<binäre \lstinline{cond} mit
 \lstinline{else}"> namens \lstinline{if}\indexvariable{if}.  Damit
 können wir \lstinline{exchange-for-cute} etwas kürzer schreiben:
 %
+\indexvariable{exchange-for-cute}
 \begin{lstlisting}
 (define exchange-for-cute
   (lambda (p)
@@ -1735,6 +1747,7 @@ und, wenn sie aufgerufen wird, das Programm abbricht und die
 Fehlermeldung ausdruckt.  Die vollständige fertige Funktion sieht
 dann so aus:
 %
+\indexvariable{heat-water}
 \begin{lstlisting}
 (define heat-water
   (lambda (temp heat)
