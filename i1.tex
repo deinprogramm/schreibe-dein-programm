@@ -44,7 +44,7 @@
 \usepackage{longtable}
 \usepackage{hyperref}
 \usepackage{textcomp}
-\usepackage{theorem}
+\usepackage{ntheorem}
 %\usepackage{showframe}
 
 \makeindex[intoc]
@@ -96,6 +96,7 @@
 \theorembodyfont{\normalfont}
 \theoremheaderfont{\normalfont\sffamily\scshape}
 
+\theoremseparator{\vspace*{-1ex}}
 \newtheorem{mantra}{Mantra}%[chapter]
 
 % allow line break in theorem header
@@ -117,6 +118,7 @@
 \makeatother
 
 \theoremstyle{break}
+\theoremseparator{}
 \newtheorem{xkonstruktionsanleitung}{Konstruktionsanleitung}%[chapter]
 \newenvironment{konstruktionsanleitung}[1]
   {\begin{mdframed}[backgroundcolor=lightgray]\begin{xkonstruktionsanleitung}[#1]}%
