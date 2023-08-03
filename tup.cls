@@ -187,11 +187,6 @@
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
 
-% Add some space between head and head rule
-\def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi
-    \vskip 3mm\hrule\@height\headrulewidth\@width\headwidth
-    \vskip-\headrulewidth}}
-
 \lhead[\fontsize{7.5\p@}{7.5\p@}\textsf{\thepage}]{\fontsize{7.5\p@}{7.5\p@}\textsf{\MakeUppercase{\rightmark}}}
 \rhead[\fontsize{7.5\p@}{7.5\p@}\textsf{\MakeUppercase{\leftmark}}]{\fontsize{7.5\p@}{7.5\p@}\textsf{\thepage}}
 \renewcommand{\headrulewidth}{0.5pt}
