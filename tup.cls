@@ -55,9 +55,9 @@
 \def\@makechapterhead#1{%
   {\parindent \z@ \normalfont
     \interlinepenalty\@M
-    {\fontsize{13\p@}{17\p@} \sffamily \thechapter\quad
+    {\fontsize{13\p@}{13\p@} \sffamily \thechapter\quad
       \MakeUppercase{#1}}\par\nobreak
-    \vspace{2\baselineskip}
+    \vspace{\baselineskip}
   }}
 \def\@schapter#1{\@makeschapterhead{#1}%
                  \@afterheading}
@@ -65,8 +65,8 @@
   {\parindent \z@ \centering
     \normalfont
     \interlinepenalty\@M
-    {\fontsize{13\p@}{17\p@} \sffamily \MakeUppercase{#1}}\par\nobreak
-    \vspace{2\baselineskip}
+    {\fontsize{13\p@}{13\p@} \sffamily \MakeUppercase{#1}}\par\nobreak
+    \vspace{\baselineskip}
   }}
 
 % Center starred section headers
@@ -92,29 +92,29 @@
   {section}%
   {1}%
   {\z@}%
-  {-32\p@ \@plus -4\p@ \@minus -2\p@}%
-  {16\p@ \@plus 4\p@ \@minus 2\p@}%
+  {-24\p@ \@plus -4\p@ \@minus -2\p@}%
+  {12\p@ \@plus 2\p@ \@minus 4\p@}%
   {\normalfont\fontsize{12\p@}{16\p@}\sffamily\MakeUppercase}}
 \renewcommand{\subsection}{\@startsection
   {subsection}%
   {2}%
   {\z@}%
   {-16\p@ \@plus -4\p@ \@minus -2\p@}%
-  {16\p@ \@plus 4\p@ \@minus 2\p@}%
+  {10\p@ \@plus 2\p@ \@minus 4\p@}%
   {\normalfont\fontsize{10\p@}{15\p@}\sffamily\MakeUppercase}}
 \renewcommand{\subsubsection}{\@startsection
   {subsubsection}%
   {2}%
   {\z@}%
   {-16\p@ \@plus -2\p@ \@minus -1\p@}%
-  {16\p@ \@plus 2\p@}%
+  {9\p@ \@plus 2\p@ \@minus 4\p@}%
   {\normalfont\fontsize{9\p@}{16\p@}\sffamily\MakeUppercase}}
 \renewcommand{\paragraph}{\@startsection
   {subsubsection}%
   {2}%
   {\z@}%
   {-16\p@ \@plus -2\p@ \@minus -1\p@}%
-  {16\p@ \@plus 2\p@}%
+  {12\p@ \@plus 4\p@ \@minus 4\p@}%
   {\normalfont\fontsize{9\p@}{16\p@}\sffamily\MakeUppercase}}
 \newcommand\@barafter[1]{#1 \vrule}
 \renewcommand\paragraph{\@startsection
