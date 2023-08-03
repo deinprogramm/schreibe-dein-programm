@@ -25,7 +25,7 @@
 
 \setstretch{1.3333} % 10pt has 12pt baselineskip
 
-\setlength\parskip{\z@ \@plus 1\p@}
+\setlength\parskip{\z@}
 \setlength\parindent{6mm}
 \setlength\partopsep{6mm}
 
