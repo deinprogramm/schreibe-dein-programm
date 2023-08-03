@@ -223,8 +223,8 @@
 \setlist[4]{leftmargin=3mm}
 
 \setlength\floatsep      {12pt}
-\setlength\textfloatsep  {12pt}
-\setlength\intextsep{12pt}
+\setlength\textfloatsep  {24pt}
+\setlength\intextsep{18pt}
 
 \setlength\abovedisplayskip{6\p@ \@plus 1\p@ \@minus 3\p@}
 \setlength\belowdisplayskip{6\p@ \@plus 1\p@ \@minus 3\p@}
