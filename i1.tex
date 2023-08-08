@@ -251,7 +251,9 @@
 \newcommand{\linkcode}[1]{\href{https://raw.githubusercontent.com/deinprogramm/schreibe-dein-programm/master/#1}{\texttt{#1}}}
 \newcommand{\mentioncode}[1]{\noindent%
   \fcolorbox{black}{linkcodegray}{\parbox{\textwidth - 2\fboxsep}{\linkcode{#1}\hfill{}\textbf{Code}}}%
-  \par\medskip\noindent}
+  \par\medskip\noindent%z
+  \hspace*{-\the\fontdimen2\font\space}}
+% ^no idea where the space comes from, \ignorespace does not help
 
 \newcommand{\free}{\operatorname{free}}
 \newcommand{\bound}{\operatorname{bound}}
