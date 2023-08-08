@@ -414,7 +414,7 @@ Zeichenkette markiert. Es wird als "<echtes"> Anführungszeichen innerhalb einer
 durch \lstinline{\"} dargestellt:
 %
 \begin{lstlisting}
-"Herbert sagt, Mike wäre |\backwhack|"doof|\backwhack|"!"
+"Herbert sagt |\backwhack|"Hallo Mike|\backwhack|"!"
 \end{lstlisting}
 \end{feature}
 
@@ -487,7 +487,7 @@ zu DrRacket benötigt, ein sogenanntes
 (\texttt{Language $\rightarrow$ Add Teachpack}).  In dem folgenden Dialog
 wähle \texttt{image.rkt} aus und drücke 
 \texttt{OK}.  Dann musst Du noch einmal auf \texttt{Start} drücken.
-Wenn alles geklappt hat, steht unten im REPL Fenster
+Wenn alles geklappt hat, steht unten in der REPL
 \texttt{Teachpack: image.rkt}.
 
 Das Teachpack \texttt{image.rkt} enthält zusätzliche vordefinierte
@@ -775,7 +775,7 @@ und der Stern für \lstinline{b}:
 %
 \lstinline{(tile s1 p1)} ist eine sogenannte
 \textit{Applikation\index{Applikation}}: ein Ausdruck mit
-(natürlich) Klammern drum.  Der Operator und die Operanden der
+Klammern drum.  Der Operator und die Operanden der
 Applikation sind ebenfalls Ausdrücke.  Der Operator ergibt eine
 Funktion~-- entweder eingebaut oder aus einem
 \lstinline{lambda}-Ausdruck.  Eine Applikation wird auch oft
@@ -874,7 +874,7 @@ von Informationen darstellen:
 \begin{itemize}
 \item die Anzahl der Haare von Bruce Willis
 \item die aktuelle Außentemperatur in °C in Tübingen
-\item die Außentemperatur vom 1.7.2000 in °C in Tübingen
+\item die maximale Außentemperatur vom 1.7.2000 in °C in Tübingen
 \item die Größe in m$^2$ des Schlafzimmers
 \item die Rückennummer von Alexandra Popp
 \end{itemize}
@@ -1434,7 +1434,7 @@ Tests alles auswerten.
   (lambda (kWh)
     ...))
 \end{lstlisting}
-  Für den Rumpf, schreibe zunächst drei Punkte \lstinline{...} (auch
+  Schreibe für den Rumpf zunächst drei Punkte \lstinline{...} (auch
   \textit{Ellipse}\index{Ellipse}) genannt als Erinnerung daran, dass
   Du hier später noch etwas ausfüllen musst.
 \end{konstruktionsanleitung}
@@ -1690,8 +1690,9 @@ Funktionen aufteilen:
 %
 \begin{restatable}{mantra}{mantraseparatefunktionen}
   \label{mantra:separate-funktionen}
-  Wenn in Deinem Programm verschiedene Größen berechnet werden,
-  schreibe für die Berechnung jeder Größe eine separate Funktion.
+  Wenn in Deinem Programm mehrere Dinge berechnet werden, denen Du
+  verschiedene Namen geben kannst, schreibe für jedes eine separate
+  Funktion.
 \end{restatable}
 %
 \noindent Wir werden oft mathematische Einsichten in Form von Gleichungen

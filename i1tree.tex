@@ -24,11 +24,9 @@ benutzen, findet sich bereits in der Bibel, die Wörter wie
 "<Baumstumpf"> und "<Spross"> benutzt, um Abstammmung zu beschreiben.
 Erste bildliche Darstellungen von Stammbäumen sind aus diesen
 Beschreibungen ab dem 11.\ Jahrhundert abgeleitet worden.
-
-Das Stammbaum-Beispiel ist etwas ausgetreten, aber dennoch instruktiv.
 In Stammbäumen sind in der Regel für eine Person ihr Name sowie
 Verbindungen zu den beiden Eltern vermerkt.  Das führt zu folgender
-Datendefinition.
+Datendefinition:
 %
 \begin{lstlisting}
 ; Eine Person hat folgende Eigenschaften:
@@ -60,7 +58,7 @@ Daraus entsteht eine Datendefinition für "<Elternteil">:
 ; - ein unbekannter Elternteil
 \end{lstlisting}
 %
-Diese~-- und die Datendefinition für "<Person"> können wir nun in Code
+Diese~-- und die Datendefinition für "<Person">~-- können wir nun in Code
 übersetzen:
 %
 \indexvariable{parent}
@@ -156,9 +154,9 @@ solche separate Funktion mit Kurzbeschreibung und Signatur wie folgt:
 (: parent-ancestor? (string parent -> boolean))
 \end{lstlisting}
 %
-Diese Funktion schreiben wir gleich im Anschluss.  Aber ihre Signatur
-ist genug, damit wir die Schablone in Funktion \lstinline{ancestor?}
-weiter ausfüllen, indem wir überprüfen, ob Elternteil Nr.~1 oder Nr.~2
+Diese Funktion schreiben wir im Anschluss.  Aber ihre Signatur
+ist genug, um die Schablone von \lstinline{ancestor?}
+weiter auszufüllen.  Wir überprüfen, ob Elternteil Nr.~1 oder Nr.~2
 Vorfahr ist:
 %
 \begin{lstlisting}
@@ -239,10 +237,8 @@ zweiten Fall können wir mit \lstinline{#f} antworten:
 (define parent-ancestor?
   (lambda (name parent)
     (cond
-      ((person? parent)
-       (ancestor? name parent))
-      ((unknown-parent? parent)
-       #f))))
+      ((person? parent) (ancestor? name parent))
+      ((unknown-parent? parent) #f))))
 \end{lstlisting}
 %
 Fertig!
@@ -272,8 +268,8 @@ an:
   (person-parent-2 parent))
 \end{lstlisting}
 %
-Vielleicht hat Dich das an eine Record-Definition aus
-Kapitel~\ref{cha:selbstbezug} erinnert:
+Vielleicht erinnert Dich das an eine Record-Definition aus
+Kapitel~\ref{cha:selbstbezug}:
 %
 \begin{lstlisting}
 (define-record confluence
@@ -744,7 +740,7 @@ ist oder nicht?  In der Tat ist das möglich, aber nicht mit Listen:
 Wir brauchen eine andere Struktur, um das Suchen zu beschleunigen~--
 Bäume.
 
-\begin{figure}[tb]
+\begin{figure}[tbh]
 \begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
 \node (z){$M$}
   child {node (a) {$B$}
@@ -1999,8 +1995,8 @@ zumindest etwas lindern kann.
 
 Unten links siehst Du ebenfalls einen Baum, der aus dem Gleichgewicht
 gekommen ist: Auch hier wird ein Teilbaum von rechts nach links
-verschoben, der sich aber noch eine Ebene tiefer befindet.  Diese
-Rotation ist etwas komplizierter, darum heißt sie "<doppelte>
+verschoben, der sich aber noch eine Ebene tiefer be\-findet.  Diese
+Rotation ist etwas komplizierter, darum heißt sie "<doppelte">
 Rotation, die erste heißt entsprechend "<einfach">.
 
 \begin{aufgabeinline}
@@ -2188,8 +2184,7 @@ einmal eine Aufgabe zur Vorbereitung:
 
 
 \begin{aufgabe}
-  Die Suchbaum-Funktionen ist für viele Suchprobleme nicht
-  mächtig genug, da \texttt{search-tree-member?} nur überprüft,
+  Die Funktion \texttt{search-tree-member?} überprüft nur,
   \emph{ob} ein Element in einem Suchbaum vorhanden ist.  Das hilft
   nicht zum Beispiel beim Suchen von Telefonnummern zu gegebenen Namen.
   Erweitere die Funktionen so, dass sie zum Beispiel auch zum Suchen
@@ -2207,9 +2202,10 @@ einmal eine Aufgabe zur Vorbereitung:
 
 \begin{aufgabe}
 
-  \begin{figure}[tb]
+  \begin{figure}[tbh]
     \centering
-  \begin{tikzpicture}[level/.style={sibling distance=13mm},
+  \begin{tikzpicture}[scale=0.9,
+        level/.style={sibling distance=13mm},
         triangle/.style = {regular polygon, regular polygon sides=3, draw},
         every node/.style={scale=0.8}]
     \node [circle,fill=black] (c) {\textit{\textcolor{white}c}}
@@ -2270,7 +2266,7 @@ einmal eine Aufgabe zur Vorbereitung:
   \end{scope}
   
 \end{tikzpicture}    
-    \caption{Red-Black-Trees}
+    \caption{Red-Black-Tres}
     \label{fig:red-black-trees}
   \end{figure}
 
@@ -2296,20 +2292,19 @@ einmal eine Aufgabe zur Vorbereitung:
   kürzestmögliche Pfad besteht nur aus schwarzen Knoten.)  Soll ein
   Red-Black-Tree um einen Knoten erweitert werden, muss nach dem
   Einfügen diese Bedingung immer noch gelten, er muss also
-  entsprechend ausbalanciert werden.
-  
-  Programmieren Red-Black-Trees mit Hilfe der folgenden Anleitung!
+  ausbalanciert werden.
+  Programmiere Red-Black-Trees mit Hilfe der folgenden Anleitung!
 
   \begin{itemize}
   \item Schreibe zunächst Daten- und Record-Definition für
     Red-Black-Trees analog zu größenannotierten Bäumen und Suchbäumen.
   \item Schreibe Funktionen \lstinline{red-tree?}  und
-    \texttt{black-tree?}, die überprüfen, ob ein (Teil)baum rot oder
+    \lstinline{black-tree?}, die überprüfen, ob ein (Teil)baum rot oder
     schwarz ist.
   \item Schreibe eine Funktion \lstinline{red-black-tree-member?}
     analog zu \lstinline{sized-tree-member?}.
     
-  \item Schreibe eine Funktion \lstinline{red-black-tree-insert}
+  \item Schreibe \lstinline{red-black-tree-insert}
     analog zu \lstinline{balanced-search-tree-insert}.
   \end{itemize}
 
@@ -2322,7 +2317,7 @@ einmal eine Aufgabe zur Vorbereitung:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Entwickle eine zu Listen alternative Repräsentation für endliche
+  Entwickle eine alternative Repräsentation für endliche
   Folgen auf Basis folgender Datendefinition:
 \begin{lstlisting}
 ; Eine AListe ist eins der folgenden:
@@ -2354,7 +2349,7 @@ einmal eine Aufgabe zur Vorbereitung:
     Knoten entlang des Pfades die Elemente der Liste sind.  Die
     Markierung an der Wurzel wird ignoriert.
 
-    \begin{figure}[tb]
+    \begin{figure}[tbh]
       \centering
 \begin{tikzpicture}[level/.style={sibling distance=20mm/#1, level distance=10mm}]
     \node {$\cdot$}

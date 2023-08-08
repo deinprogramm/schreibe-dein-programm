@@ -124,17 +124,15 @@ weniger müssen wir erklären und definieren.
 Was also ist an unseren Lehrsprachen absolut notwendig?  In
 Kapitel~\ref{cha:whats-programming} haben wir angefangen mit einer
 Zahl.  Brauchen wir also Zahlen?  Wir haben viele Programme ohne
-Zahlen geschrieben.  Außerdem werden wir später sehen, dass wir
+Zahlen geschrieben.  Wir werden sehen, dass wir
 Zahlen mit anderen Elementen der Sprache nachbilden können.
 
-Das nächste war eine Summe von zwei Zahlen, also eine Anwendung der
-Funktion \lstinline{+}.  Die Addition ist hier nicht wesentlich (es
-gibt Programme ohne Zahlen), aber Funktionsanwendungen gab es nun
+Das nächste Element sind Funktionsanwendungen.  Die gibt es nun
 wirklich in jedem Programm.  Funktionsanwendungen wiederum machen nur
 dann Sinn, wenn wir auch Funktionen herstellen können: Wir brauchen
 also Abstraktionen.  Und da zu jeder Abstraktion auch eine oder
-mehrere Variablen gehören, brauchen wir auch Variablen.  Das sind die
-drei fundamentalen Ideen aus dem $\lambda$-Kalkül:
+mehrere Variablen gehören, brauchen wir auch Variablen.  Drei
+fundamentale Ideen also::
 %
 \begin{itemize}
 \item Applikation
@@ -148,14 +146,14 @@ fundamental mit Variablen zu tun: Eine Abstraktion
 etwas ein.
 
 Wir beschränken uns bei Anwendung und Abstraktion sogar auf einen
-einzelnen Parameter.  Und wir werden sehen, dass das reicht: Alle
+einzelnen Parameter.  Alle
 anderen Elemente unserer Programmiersprachen können wir nachbilden,
-indem wir sie in diese drei Konstrukte übersetzen.  Darum bilden sie
-das Rückgrat des $\lambda$-Kalküls.
+indem wir sie in diese drei Konstrukte übersetzen.  Sie
+bilden das Rückgrat des $\lambda$-Kalküls.
 
 Damit es losgeht, benötigen wir zunächst eine \textit{Sprache} für den
-Kalkül, und die definieren wir mit Hilfe einer Grammatik.  (Das ist
-eine Notation für induktive Definitionen, die wir in
+Kalkül. Die definieren wir mit Hilfe einer Grammatik.  (Das ist
+die Notation für induktive Definitionen, die wir in
 Abschnitt~\ref{sec:grammatik} auf Seite~\pageref{sec:grammatik}
 eingeführt haben.)
 
@@ -163,7 +161,6 @@ In der Definition taucht der Begriff \textit{abzählbare
   Menge}\index{abzählbare Menge} auf.  Der Begriff "<abzählbar"> ist
 zwar technisch notwendig, Du benötigst ihn aber nicht für Verständnis
 und Intuition des $\lambda$-Kalküls, kannst ihn also ignorieren.
-
 Falls es Dich doch interessiert: Das Adjektiv "<abzählbar"> an
 einer Menge bedeutet, dass die Menge unendlich groß ist und dass die
 Menge durchnummeriert oder "<abgezählt"> werden kann.  Hier geht es um
@@ -211,18 +208,17 @@ verwenden können.
 \end{displaymath}
 %
 Wir haben jeweils dazugeschrieben, um welche Art Term es sich handelt.  Das
-entspricht der Klausel der Grammatik für $\lambda$-Terme.  Bei der
+entspricht der Klausel der Grammatik für $\lambda$-Terme.  Bei 
 $\lrm x$ sollte klar sein, dass es sich um eine Variable handelt.
 Sowohl Applikationen als auch Abstraktionen fangen mit einer öffnenden
 Klammer an.  Bei Abstraktionen wird die Klammer aber direkt von einem
 $\lambda$ gefolgt: Entsprecht sind die nächsten beiden Terme
 Applikationen, die drei darauf Abstraktionen.  Der letzte Term ist
 eine Applikation~-- nach der öffnenden Klammer steht ein weitere
-Klammer, das $\lambda$ kommt erst danach.  Es handelt sich also um ene
-Applikation, aus zwei Abstraktionen.
+Klammer, das $\lambda$ kommt erst danach.
 %
 \begin{aufgabeinline}
-  Klassifiziere die folgenden Terme danach, ob es sich um eine
+  Klassifiziere, ob es sich jeweils um eine
   Variable, eine Applikation oder eine Abstraktion handelt:
   \begin{displaymath}
     \begin{array}{c}
@@ -774,7 +770,6 @@ beiden Terme im $\lambda$-Kalkül
   \(e_1 \overset{\ast}{\leftrightarrow_{\alpha,\beta}} e_2\)
   %
   gilt.
-
   Die Schreibweise dafür ist \(e_1\equiv e_2\).
 \end{definition}
 
@@ -1225,7 +1220,6 @@ Hier ein Beispiel für die Anwendung von $\mathbf{succ}$:
   \\
   &=& \lceil 2\rceil
 \end{eqnarray*}
-
 %
 Eine typische Funktion auf natürlichen Zahlen muss von einer Zahl eins
 abziehen, also die Vorgängerfunktion berechnen.  Das macht folgende
@@ -1236,9 +1230,9 @@ Definition:\index{Vorgänger}\index{pred@$\mathbf{pred}$}
   \lrm q.\lrm q~(\lrm p~\lrm y))~((\lambda \lrm x.\lambda \lrm y.\lrm x)~\lrm z)~(\lambda \lrm x.\lrm x)
 \end{displaymath}
 %
-\begin{aufgabe}
+\begin{aufgabeinline}
   Zeige, dass $\mathbf{pred}~\lceil 3\rceil$ zu $\lceil 2\rceil$ reduziert!
-\end{aufgabe}
+\end{aufgabeinline}
 %
 (Aufgabe~\ref{ex:pred} hat den allgemeinen Beweis zum Gegenstand,
 dass $\mathbf{succ}$ den Vorgänger berechnet.)
@@ -1392,7 +1386,57 @@ Gleichung:
   \mathbf{fac} \equiv \mathbf{FAC}~\mathbf{fac}
 \end{displaymath}
 %
-\begin{figure}[!tb]
+Die eine zusätzliche Applikation, die $\mathbf{FAC}$ vornimmt, landet
+auf einem ohnehin schon unendlichen Stapel,
+macht diesen also auch nicht größer.  Damit ist aber $\mathbf{fac}$ ein sogenannter
+\textit{Fixpunkt\index{Fixpunkt}} von $\mathbf{FAC}$:  Wenn $\mathbf{fac}$
+hineingeht, kommt es auch genauso wieder heraus.  Wenn es nun eine
+Möglichkeit gäbe, für einen $\lambda$-Term einen Fixpunkt zu finden,
+wäre das Problem gelöst.  Der folgende Satz zeigt, dass dies tatsächlich
+möglich ist:
+%
+\begin{satz}[Fixpunktsatz]\index{Fixpunktsatz}
+  \label{satz:fixpunkt}
+  Für jeden $\lambda$-Term $F$ gibt es einen $\lambda$-Term $X$ mit
+  $F~X\equiv X$.
+\end{satz}
+\begin{beweis}
+  Wähle $X \deq{} \mathbf{Y}~F$, wobei
+  %
+  \begin{displaymath}
+    \mathbf{Y} \deq{} \lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)).
+  \end{displaymath}
+  %
+  Dann gilt:
+  %
+  \begin{displaymath}
+    \begin{split}
+      \mathbf{Y}~F & = (\lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)))~F
+      \\ & \rightarrow_\beta
+      (\lambda \lrm x.F~(\lrm x~\lrm x))~(\lambda \lrm x.F~(\lrm x~\lrm x))
+      \\ & \rightarrow_\beta
+      F~((\lambda \lrm x.F~(\lrm x~\lrm x))~(\lambda \lrm x.F~(\lrm x~\lrm x)))
+      \\ & \leftarrow_\beta
+      F~((\lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)))~\lrm F)
+      \\ & =
+      F~(\mathbf{Y}~F)
+    \end{split}
+  \end{displaymath}
+\end{beweis}
+%
+Der $\lambda$-Term $\mathbf{Y}$\index{Y@$\mathbf{Y}$}, der Fixpunkte
+berechnet, heißt
+\textit{Fixpunktkombinator\index{Fixpunktkombinator}}.  Mit seiner Hilfe lässt sich
+die Fakultät definieren:
+%
+\begin{displaymath}
+  \mathbf{fac} \deq{} \mathbf{Y}~\mathbf{FAC}
+\end{displaymath}
+%
+Abbildung~\ref{fig:fac3} zeigt, wie die Berechnung der Fakultät von
+$3$ mit dieser Definition funktioniert.
+
+\begin{figure}[!t]
   \begin{center}
     \scriptsize
     \begin{eqnarray*}
@@ -1453,59 +1497,10 @@ Gleichung:
   \end{center}
 \end{figure}
 
-Die eine zusätzliche Applikation, die $\mathbf{FAC}$ vornimmt, landet
-auf einem ohnehin schon unendlichen Stapel,
-macht diesen also auch nicht größer.  Damit ist aber $\mathbf{fac}$ ein sogenannter
-\textit{Fixpunkt\index{Fixpunkt}} von $\mathbf{FAC}$:  Wenn $\mathbf{fac}$
-hineingeht, kommt es auch genauso wieder heraus.  Wenn es nun eine
-Möglichkeit gäbe, für einen $\lambda$-Term einen Fixpunkt zu finden,
-wäre das Problem gelöst.  Der folgende Satz zeigt, dass dies tatsächlich
-möglich ist:
-%
-\begin{satz}[Fixpunktsatz]\index{Fixpunktsatz}
-  \label{satz:fixpunkt}
-  Für jeden $\lambda$-Term $F$ gibt es einen $\lambda$-Term $X$ mit
-  $F~X\equiv X$.
-\end{satz}
-\begin{beweis}
-  Wähle $X \deq{} \mathbf{Y}~F$, wobei
-  %
-  \begin{displaymath}
-    \mathbf{Y} \deq{} \lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)).
-  \end{displaymath}
-  %
-  Dann gilt:
-  %
-  \begin{displaymath}
-    \begin{split}
-      \mathbf{Y}~F & = (\lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)))~F
-      \\ & \rightarrow_\beta
-      (\lambda \lrm x.F~(\lrm x~\lrm x))~(\lambda \lrm x.F~(\lrm x~\lrm x))
-      \\ & \rightarrow_\beta
-      F~((\lambda \lrm x.F~(\lrm x~\lrm x))~(\lambda \lrm x.F~(\lrm x~\lrm x)))
-      \\ & \leftarrow_\beta
-      F~((\lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)))~\lrm F)
-      \\ & =
-      F~(\mathbf{Y}~F)
-    \end{split}
-  \end{displaymath}
-\end{beweis}
-%
-Der $\lambda$-Term $\mathbf{Y}$\index{Y@$\mathbf{Y}$}, der Fixpunkte
-berechnet, heißt
-\textit{Fixpunktkombinator\index{Fixpunktkombinator}}.  Mit seiner Hilfe lässt sich
-die Fakultät definieren:
-%
-\begin{displaymath}
-  \mathbf{fac} \deq{} \mathbf{Y}~\mathbf{FAC}
-\end{displaymath}
-%
-Abbildung~\ref{fig:fac3} zeigt, wie die Berechnung der Fakultät von
-$3$ mit dieser Definition funktioniert.
-
 Natürlich gibt es immer noch Elemente "<richtiger">
 Programmiersprachen, die wir in diesem Kapitel nicht in den
-$\lambda$-Kalkül abgebildet haben, zum Beispiel Zeichenketten oder
+$\lambda$-Kalkül abgebildet haben, zum Beispiel globale Definitionen,
+Zeichenketten oder
 Signaturen.  All dies ist aber prinzipiell möglich.  Der
 $\lambda$-Kalkül ist deshalb ein sehr einflussreiches Modell für die
 Programmierung und dient als Grundlage für große Teile der
@@ -1521,6 +1516,8 @@ Grundbegriff der \textit{berechenbaren Funktionen}, der in der
 theoretischen Informatik eine wichtige Rolle
 spielt.\index{berechenbare Funktionen}
 
+\vfill % formatting hack
+
 \section*{Übungsaufgaben}
 
 \begin{aufgabe}\label{ex:pred}
@@ -1535,9 +1532,9 @@ spielt.\index{berechenbare Funktionen}
 
 
 \begin{aufgabe}\label{ex:church}
-  Beweise, dass es Lambda-Terme für die folgenden arithmetischen
+  Beweise, dass es $\lambda$-Terme für die folgenden
   Operationen auf Church-Numeralen gibt:
-  %
+  
   \begin{eqnarray*}
     \mathbf{add} \lceil m\rceil \lceil n\rceil &=& \lceil m+n\rceil
     \\
@@ -1553,6 +1550,7 @@ spielt.\index{berechenbare Funktionen}
   \end{eqnarray*}
   %
   Benutze dazu die folgenden Definitionen:
+  %
   \begin{eqnarray*}
     \mathbf{add} &\deq{}& \lambda \lrm x.\lambda \lrm y.\lambda \lrm p.\lambda \lrm q.\lrm x~\lrm p~(\lrm y~\lrm p~\lrm q)\\
     \mathbf{mult} &\deq{}& \lambda \lrm x.\lambda \lrm y.\lambda \lrm z.\lrm x~(\lrm y~\lrm z)\\
@@ -1561,6 +1559,7 @@ spielt.\index{berechenbare Funktionen}
   und gib eine eigene Definition für $=$ an.
   %~
   Die Korrektheit von $\mathbf{add}$ lässt sich direkt beweisen.
+
   Für $\mathbf{mult}$ und $\mathbf{exp}$ kannst Du
   folgende Hilfsgleichungen benutzen, die Du möglichst auch beweisen solltest:
   %
@@ -1575,30 +1574,45 @@ spielt.\index{berechenbare Funktionen}
   %
 \end{aufgabe}
 \begin{aufgabe}
-  Der $\mathbf{Y}$-Kombinator ließe sich auch programmieren
-  als:
+  Der $\mathbf{Y}$-Kombinator lässt sich auch wörtlich in die
+  Lehrsprachen übersetzen.  Dabei kommt folgende Definition heraus:
  %
-\begin{verbatim}
+\begin{lstlisting}
 (define y 
   (lambda (f)
     ((lambda (x) (f (x x)))
      (lambda (x) (f (x x))))))
-\end{verbatim}
+\end{lstlisting}
   %
-  Zeige durch Ausprobieren, dass \texttt{y} mit dieser Definition 
-  nicht funktioniert.  Warum ist das so?  Benutze für die
-  Erklärung die Definition der Call-by-Value-Reduktion!
+  Probiere diese Definition aus, zum Beispiel mit:
+\begin{lstlisting}
+(define FAC
+  (y
+   (lambda (fac)
+     (lambda (n)
+       (cond
+         ((zero? n) 1)
+         ((positive? n)
+          (* n (fac (- n 1)))))))))
+
+(FAC 3)
+\end{lstlisting}
+  %
+  Du wirst sehen, dass \texttt{y} mit dieser Definition nicht
+  funktioniert.  Warum ist das so?  Benutze für die Erklärung die
+  Definition der Call-by-Value-Reduktion!
+
   Zeige, dass die folgende Variante von \texttt{y} ein
   Fixpunktkombinator ist, der funktioniert:
   %
-\begin{verbatim}
+\begin{lstlisting}
 (define y
   (lambda (f)
     ((lambda (x)
        (f (lambda (y) ((x x) y))))
      (lambda (x)
        (f (lambda (y) ((x x) y)))))))
-\end{verbatim}
+\end{lstlisting}
 
 \end{aufgabe}
 \begin{aufgabe} (Quelle: Ralf Hinze)

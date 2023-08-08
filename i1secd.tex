@@ -556,10 +556,9 @@ nach.
 
 \mentioncode{secd/compute.rkt}
 %
-Um die Definitionen möglichst elegant nachzuprogrammieren, machen wir ab hier
+Um die Definitionen möglichst elegant nachzuprogrammieren, machen wir 
 Gebrauch von einer weiteren
-Sprachebene\index{Sprachebene!fortgeschritten} in
-\drscheme{} machen, nämlich \texttt{Schreibe Dein Programm! -
+Sprachebene\index{Sprachebene!fortgeschritten} \texttt{Schreibe Dein Programm! -
   fortgeschritten}.  Diese Ebene muss mit dem \drscheme{}-Menü \texttt{Sprache}
 unter \texttt{Sprache auswählen} aktiviert sein, damit die
 Programme dieses Kapitels funktionieren.
@@ -628,11 +627,11 @@ kennzeichnet diesen also als Literal.  Der Wert des Literals wird
 genauso ausgedruckt, wie es im Programm steht.  (Abgesehen von
 Leerzeichen und Zeilenumbrüchen.)  Der Apostroph heißt auf englisch
 "<quote">\index{quote@\lstinline{quote}}, und deshalb ist diese
-Literalschreibweise auch unter diesem Namen bekannt.  Bei Zahlen,
+Schreibweise für Literale auch unter diesem Namen bekannt.  Wir nennen
+dieses Apostroph ab jetzt "<das Quote">. Bei Zahlen,
 Zeichenketten und booleschen Literalen ist auch ohne Quote klar, dass
 es sich um Literale handelt.  Das Quote ist darum bei ihnen rein
-optional; sie heißen 
-\textit{selbstquotierend}\index{selbstquotierend}.
+optional; sie heißen \textit{selbstquotierend}\index{selbstquotierend}.
 
 Bei Listen hingegen sind Missverständnisse mit anderen
 zusammengesetzten Formen möglich, die ja auch mit einer öffnenden Klammer
@@ -642,7 +641,7 @@ beginnen.\footnote{Tatsächlich ist die neue Schreibweise für externe
   Verwirrung zwischen Listenliteralen und zusammengesetzten Formen zu
   vermeiden.} 
 
-Mit der Einführung von Quote kommt noch eine völlig neue Sorte Werte
+Mit der Einführung von Quote kommt noch eine neue Sorte Werte
 hinzu: die \textit{Symbole\index{Symbol}}.  Symbole sind Werte ähnlich wie Zeichenketten und
 bestehen aus Text.  Sie unterscheiden sich allerdings dadurch, dass sie
 als Literal mit Quote statt Anführungszeichen geschrieben und in der REPL ohne
@@ -651,8 +650,6 @@ Anführungszeichen ausgedruckt werden:
 \begin{lstlisting}
 'mike
 |\evalsto| mike
-'doof
-|\evalsto| doof
 \end{lstlisting}
 %
 Symbole können wir mit dem Prädikat
@@ -662,8 +659,6 @@ unterscheiden:
 \begin{lstlisting}
 (symbol? 'mike)
 |\evalsto| #t
-(symbol? 5)
-|\evalsto| #f
 (symbol? "Mike")
 |\evalsto| #f
 \end{lstlisting}
@@ -851,10 +846,12 @@ zurückgibt.  So etwas brauchen wir für die beiden Fälle, die mit
 Beim Prädikat \lstinline{addition?} haben wir nur das nötigste
 programmiert, um Additionen von den anderen Fällen zu unterscheiden:
 \begin{aufgabeinline}
-  In der Datendefinition oben steht "<\texttt{eine Liste der Form (+
+  In der Datendefinition oben heißt es "<\texttt{eine Liste der Form (+
     Ausdruck Ausdruck)}">.  Gibt es Eingaben, bei denen
   \lstinline{addition?} als Ergebnis \lstinline{#t} liefert, obwohl es
-  sich nicht um Listen genau dieser Form handelt?
+  sich nicht um Listen genau dieser Form handelt?  Wenn ja, nenne
+  Beispiele und ändere die Definition von \lstinline{addition?} so,
+  dass sie diese Beispiele ausschließt.\par % formatting hack to get a little bit more space
 \end{aufgabeinline}
 %
 \begin{feature}{\texttt{predicate}}{feature:predicate}
@@ -872,8 +869,10 @@ programmiert, um Additionen von den anderen Fällen zu unterscheiden:
 %
 Aus dem Prädikat \lstinline{addition?} können wir eine Signatur
 \lstinline{addition} machen mit Hilfe einer
-\lstinline{predicate}-Signatur.  Das ist neu; siehe dazu
-Abbildung~\ref{feature:predicate}.  Hier ist die Definition von
+Signatur mit \lstinline{predicate}.  Das
+\lstinline{predicate}-Konstrukt ist neu und in
+Abbildung~\ref{feature:predicate} beschrieben.
+Hier ist die Definition von
 \lstinline{addition}:
 %
 \indexvariable{addition}

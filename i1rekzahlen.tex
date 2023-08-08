@@ -333,12 +333,12 @@ Funktion sieht so aus:
 %
 Tatsächlich laufen alle Testfälle bereits durch~-- und das, obwohl wir
 für den Fehlerfall gar nichts programmiert haben.
-\begin{aufgabe}
+\begin{aufgabeinline}
   Werte mit dieser Definition folgenden Ausdruck aus:
 \begin{lstlisting}
 (nth (list 1 2 3 4 5) 5)
 \end{lstlisting}
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Die Fehlermeldung ist zwar technisch richtig, gibt aber keinen
 Aufschluss auf die Ursache des Fehlers.  Das können wir korrigieren,
@@ -524,12 +524,10 @@ gehabt aufhört:
 \end{lstlisting}
 %
 Fertig!
-
 Vielleicht fällt Dir bei dieser Aufgabe auf, dass es leicht passieren
 kann, dass die ganzen Zahlen "<um eins verrutschen">.  Man könnte zum
 Beispiel leicht auf die Idee kommen, im ersten Zweig statt
-\lstinline{(list from)} einfach \lstinline{empty} hinzuschreiben.  Das
-passiert auch erfahrener Programmiererinnen und Programmierern.  Es
+\lstinline{(list from)} einfach \lstinline{empty} hinzuschreiben.  Es
 ist deswegen sinnvoll, beim Programmieren von Funktionen über
 natürliche und ganze Zahlen genau hinzuschauen, ob sie korrekt sind.
 
@@ -578,7 +576,7 @@ halbiert, statt sich (wie die erste Definition) auf den Vorgänger zu beziehen.
 ; - der Nachfolger des Doppelten einer natürlichen Zahl
 \end{lstlisting}
 %
-Da die Datendefinition diesmal drei Fälle hat, muss der Rumpf aus
+Da die Datendefinition drei Fälle hat, muss der Rumpf aus
 einer Verzweigung mit drei Zweigen bestehen:
 %
 \begin{lstlisting}
@@ -591,11 +589,10 @@ einer Verzweigung mit drei Zweigen bestehen:
 \end{lstlisting}
 %
 Der erste Fall entspricht der ursprünglichen
-\lstinline{power}-Funktion~-- da muss eine 1 hin.  Der zweite und der
+\lstinline{power}-Funktion~-- da muss eine $1$ hin.  Der zweite und der
 dritte Fall enthalten jeweils einen Selbstbezug, weswegen dort
 rekursive Aufrufe stehen müssen.  Im zweiten Fall steht "<das
-Doppelte">, wir können also die natürliche Zahl des Selbstbezugs durch
-Halbierung berechnen.  Im dritten Fall müssen wir vor dem Halbieren
+Doppelte">, wir müssen also halbieren.  Im dritten Fall müssen wir vor dem Halbieren
 noch eins abziehen.  Wir benutzen jeweils \lstinline{quotient}, weil
 wir ganzzahlig halbieren:
 %
@@ -670,13 +667,13 @@ Fertig!
     n! \deq 1 \times 2 \times \cdots \times n
   \end{displaymath}
   %
-  Schreiben Sie eine Funktion, welche die Fakultät berechnet!
+  Schreibe eine Funktion, welche die Fakultät berechnet!
 \end{aufgabe}
 
 \begin{aufgabe}\label{ex:drop}
   Programmieren Sie folgende Funktionen auf Listen:
   \begin{enumerate}
-  \item Programmieren Sie eine Funktion \texttt{take}, die als
+  \item Programmiere eine Funktion \texttt{take}, die als
     Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
     akzeptiert, und die ersten \texttt{n} Elemente der Liste
     \texttt{l} zurückgibt. Beispiel:
@@ -685,10 +682,10 @@ Fertig!
       \evalsto{} #<list 1 2 3 4 5>
     \end{alltt}
     %
-    Gehen Sie davon aus, dass \texttt{l} mindestens \texttt{n}
+    Gehe davon aus, dass \texttt{l} mindestens \texttt{n}
     Elemente lang ist.
 
-  \item Programmieren Sie eine Funktion \texttt{drop}, die als
+  \item Programmiere eine Funktion \texttt{drop}, die als
     Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
     akzeptiert, und die Liste \texttt{l} ohne die ersten \texttt{n}
     Elemente zurückgibt.  Beispiel:
@@ -697,7 +694,7 @@ Fertig!
       \evalsto{} #<list 4 5 6 7 8>
     \end{alltt}
     %
-    Gehen Sie davon aus, dass \texttt{l} mindestens \texttt{n}
+    Gehe davon aus, dass \texttt{l} mindestens \texttt{n}
     Elemente lang ist.
     \end{enumerate}
 \end{aufgabe}
@@ -708,8 +705,8 @@ Fertig!
   \item
     Die eingebaute Funktion \texttt{even?}\indexvariable{even?}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
-    gerade ist und \verb|#f| wenn nicht
-    Schreiben Sie mit Hilfe von \texttt{even?}
+    gerade ist und \verb|#f| wenn nicht.
+    Schreibe mit Hilfe von \texttt{even?}
     eine Funktion namens \texttt{evens}, welche für zwei
     Zahlen $a$ und $b$ eine Liste der geraden Zahlen zwischen $a$ und
     $b$ zurückgibt:
@@ -725,7 +722,7 @@ Fertig!
     Die eingebaute Funktion \texttt{odd?}\indexvariable{odd?}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
     ungerade ist und \verb|#f| wenn nicht.
-    Schreiben Sie mit Hilfe von \texttt{odd?} eine Funktion \texttt{odds}, welche für zwei
+    Schreibe mit Hilfe von \texttt{odd?} eine Funktion \texttt{odds}, welche für zwei
     Zahlen $a$ und $b$ eine Liste der ungeraden Zahlen zwischen $a$ und $b$
     zurückgibt:
 \begin{alltt}

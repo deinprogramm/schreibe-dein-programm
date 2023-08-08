@@ -338,14 +338,13 @@ in diesem Testfall:
   \lstinline{invert-helper} benutzt!
 \end{aufgabeinline}
 %
-Die neue Version von \lstinline{invert} funktioniert nicht nur
-korrekt, sondern auch schnell: Sie benutzt keine Hilfsfunktion und
+Die neue Version von \lstinline{invert} benutzt keine Hilfsfunktion und
 macht soviele rekursive Aufrufe wie die Eingabeliste Elemente hat, ihre
 Laufzeit wächst also \textit{linear}.\index{lineares Wachstum}
 
-Übrigens: Da die Funktion \lstinline{invert} generell nützlich ist,
-ist sie unter dem Namen
-\lstinline{reverse}\indexvariable{reverse} fest eingebaut.
+Die Funktion \lstinline{invert} ist so nützlich,
+dass sie unter dem Namen
+\lstinline{reverse}\indexvariable{reverse} eingebaut ist.
 
 \section{Schablonen für Funktionen mit Akkumulator}
 
@@ -353,7 +352,6 @@ Auch für Funktionen mit Akkumulator entwickeln wir eine
 Konstruktionsanleitung.  Vorher wollen wir aber noch einmal
 anhand eines weiteren Beispiels Revue passieren lassen, wie der
 Konstruktionsprozess bei solchen Funktionen eigentlich genau aussieht.
-
 Wir nehmen uns eine Funktion vor, die wir eigentlich schon kennen,
 nämlich aus Abschnitt~\ref{sec:list-sum} auf Seite
 \pageref{sec:list-sum}:\label{function:list-sum-acc}
@@ -364,14 +362,13 @@ nämlich aus Abschnitt~\ref{sec:list-sum} auf Seite
 \end{lstlisting}
 %
 Wir nehmen uns allerdings diesmal vor, mit Akkumulator zu arbeiten.
-Dazu müssen wir uns erst einmal überlegen, was für Information der
+Dazu müssen wir uns überlegen, was für Information der
 Akkumulator eigentlich akkumulieren soll.  Das sollte ein
-\textit{Zwischenergebnis}\index{Zwischenergebnis} sein, das ist 
-eine vorläufige Version des gewünschten Endergebnisses.  Da es 
+\textit{Zwischenergebnis}\index{Zwischenergebnis} sein, 
+eine vorläufige Version des gewünschten Endergebnisses.  Da 
 hier das Endergebnis die Summe aller Listenelemente ist, nehmen wir
-als Zwischenergebnis die Summer aller Listenelemente, die unsere
-Funktion schon "<gesehen"> hat.  Wir nennen deshalb den
-Akkumulator \lstinline{sum} und schreiben folgende Schablone:
+als Zwischenergebnis die Summe aller Listenelemente, die unsere
+Funktion schon "<gesehen"> hat und nennen es \lstinline{sum}.  Wir schreiben folgende Schablone:
 %
 \indexvariable{list-sum-helper}
 \begin{lstlisting}

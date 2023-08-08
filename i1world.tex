@@ -467,10 +467,8 @@ begegnet.  Zur Erinnerung, hier ist der relevante Code dazu:
 \end{lstlisting}
 %
 Die Datendefinition mit dem zugehörigen Code hält zwar einige Eigenschaften
-von Gürteltieren fest, für ein Videospiel fehlt aber noch eine
-grafische Darstellung.  Ebenso definiert \lstinline{run-over-dillo}
-eine Operation auf Gürteltier-Werten fest, aber auch die sagt nichts
-zu einer grafischen Darstellung.  Eine solche Repräsentation mit
+von Gürteltieren fest, für ein Videospiel fehlt aber eine
+grafische Darstellung.  Eine solche Repräsentation mit
 zugehörigen Operationen heißt in der Softwararchitektur auch
 \textit{Modell}\index{Modell} oder auch
 \textit{Domänenlogik}\index{Domänenlogik}, und bei größeren Softwaresystemen
@@ -485,11 +483,10 @@ Modell für ein Videospiel beschäftigen, müssen wir daraus eine Ansicht
 in Form eines Bildes berechnen.
 
 Wir warnen Dich schonmal vor: Der grafische Gestaltung in diesem
-Kapitel fehlt es vorsichtig gesagt an Finesse.  Wir hoffen, Du kannst
-es besser machen!
+Kapitel fehlt es an Finesse.  Wir hoffen, Du kannst
+sie verbessern!
 
-Um also aus einem \lstinline{dillo}-Wert ein Bild zu machen, werden
-wir solch eine Funktion benötigen:
+Die folgende Funktion macht aus einem \lstinline{dillo}-Wert ein Bild:
 %
 \begin{lstlisting}
 ; Gürteltier-Bild erzeugen
@@ -503,7 +500,8 @@ wir solch eine Funktion benötigen:
   \label{fig:dillo-body}
 \end{figure}
 Als Basis dafür machen wir erstmal ein Bild mit dem Körper des
-Gürteltiers.  Zu diesem Zweck haben wir zunächst von Hand eine
+Gürteltiers.  Zu diesem Zweck haben wir in
+Abbildung~\ref{fig:dillo-body} zunächst von Hand eine
 Zeichnung mit dem Umriss des Gürteltiers in ein Koordinatensystem
 gezeichnet und die Punkte markiert, an denen sich die Richtung des
 Strichs abrupt ändert~-- also quasi die Ecken.  Diese Ecken haben wir
@@ -513,34 +511,27 @@ durchnummeriert und daraus haben wir dieses Polygon gemacht:
 \begin{lstlisting}
 (define dillo-body
   (overlay/xy (polygon
-               (list (make-pulled-point
-                      0.3 30
-                      5 (- 60 5)
-                      0.2 5)
-                     (make-pulled-point
-                      0.4 20
-                      20 (- 60 32)
-                      0.5 -70)
-                     (make-pulled-point
-                      0.5 120 
-                      90 (- 60 22)
-                      0.2 -30)
-                     (make-pulled-point
-                      0.5 90
-                      60 (- 60 10)
-                      0.5 90)
-                     (make-pulled-point
-                      0 0 
-                      90 (- 60 22)
-                      0.2 -30)
-                     (make-pulled-point
-                      0 0
-                      55 (- 60 20)
-                      0.3 -30)
-                     (make-pulled-point
-                      0 0
-                      29 (- 60 17)
-                      0.5 20))
+               (list (make-pulled-point 0.3 30
+                                        5 (- 60 5)
+                                        0.2 5)
+                     (make-pulled-point 0.4 20
+                                        20 (- 60 32)
+                                        0.5 -70)
+                     (make-pulled-point 0.5 120 
+                                        90 (- 60 22)
+                                        0.2 -30)
+                     (make-pulled-point 0.5 90
+                                        60 (- 60 10)
+                                        0.5 90)
+                     (make-pulled-point 0 0 
+                                        90 (- 60 22)
+                                        0.2 -30)
+                     (make-pulled-point 0 0
+                                        55 (- 60 20)
+                                        0.3 -30)
+                     (make-pulled-point 0 0
+                                        29 (- 60 17)
+                                        0.5 20))
                "solid"
                "brown")
               0 -30
@@ -1518,7 +1509,7 @@ Hier die fertige Funktion:
 \end{lstlisting}
 
 \paragraph{Wieviele Tiere sind gerade unter dem Auto?} Als nächstes
-schreiben wir eine Funtkion, welche die Tiere unter dem Auto zählt,
+schreiben wir eine Funktion, welche die Tiere unter dem Auto zählt,
 damit wir die Punktzahl entsprechend erhöhen können.  Genauer gesagt
 zählen wir nur die \emph{lebendigen} Gürteltiere: Für das nochmalige
 Überfahren eines toten Gürteltiers gibt es keinen Punkt.  Hier
@@ -1944,9 +1935,9 @@ Voil\`a, viel Spaß beim Gürteltiere-überfahren!
   Ändere das Spiel so, dass auch das Überfahren toter Gürteltiere
   Punkte gibt!  Ist das sinnvoll?
 \end{aufgabeinline}
-
+%
 Hier sind noch einige weitere nützliche Klauseln für
-\lstinline{big-bang}, um etwas anspruchsvollere Spiele zu schreiben::
+\lstinline{big-bang} für anspruchsvollere Spiele:
 %
 \begin{lstlisting}
 (on-mouse $\mathit{function}$)
@@ -1962,7 +1953,6 @@ gedrückt wird.  Sie muss folgende Signatur haben:
 %
 Die beiden \lstinline{integer}-Argumente sind die X- und Y-Koordinaten
 der Mausposition.
-
 Die Signatur \lstinline{mouse-event} ist folgendermaßen definiert:
 %
 \indexvariable{mouse-event}
@@ -1978,11 +1968,11 @@ Die einzelnen Fälle haben folgende Bedeutungen:
   \begin{tabular}{lp{4in}}
   \lstinline!"button-down"! & Der Maus-Knopf wurde gedrückt.\\
   \lstinline!"button-up"! & Der Maus-Knopf wurde losgelassen.\\
-  \lstinline!"drag"! & Die Maus wird gerade gezogen~-- die Maus bewegt
-  sich also, während der Knopf gedrückt ist.\\
+  \lstinline!"drag"! & Die Maus wird gezogen, bewegt
+  sich also mit gedrücktem Knopf.\\
   \lstinline!"move"! & Die Maus wurde bewegt.\\
   \lstinline!"enter"! & Der Maus-Cursor wurde ins
-  \texttt!universe.rkt!-Fenster bewegt.\\
+  \texttt{universe.rkt}-Fenster bewegt.\\
   \lstinline!"leave"! & Der Maus-Cursor wurde aus dem
                         \texttt{universe.rkt}-Fenster herausbewegt.
   \end{tabular}
@@ -2001,7 +1991,8 @@ aussieht:
   \includegraphics[width=0.6\textwidth]{videospiele/gamepad}
 \end{center}
 %
-Die Funktion hat folgende Signatur:
+In der Signatur der Funktion entsprechen die
+\lstinline{pad-event}-Werte den Tasten auf dem Pad:
 %
 \begin{lstlisting}
 (world pad-event -> world)
@@ -2011,11 +2002,10 @@ Die Funktion hat folgende Signatur:
 \begin{lstlisting}
 (define pad-event
   (signature
-    (enum "left" "right" "up" "down" "w" "s" "a" "d" " " "shift" "rshift")))
+    (enum "left" "right" "up" "down" "w" "s" "a" "d" " "
+          "shift" "rshift")))
 \end{lstlisting}
 %
-Die \lstinline{pad-event}-Werte entsprechen gerade den Tasten auf dem Pad.
-
 \begin{aufgabeinline}
   Erweitere den Aufruf von \lstinline{big-bang} so, dass man das Spiel
   auch mit dem Pad spielen kann!

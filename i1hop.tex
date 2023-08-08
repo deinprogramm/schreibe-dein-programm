@@ -1737,8 +1737,7 @@ dass \lstinline{pi} überall im Programm
 \textit{sichtbar}\index{Sichtbarkeit} ist.  Es handelt sich bei
 \lstinline{pi} um eine \textit{globale Variable}\index{globale
   Variable}\index{Variable!global}.  Globale Variablen werden auch von
-\lstinline{define-record} gebunden.
-
+Record-Definitionen mit \lstinline{define-record} gebunden.
 Im Gegensatz dazu ist \lstinline{radius} nur im Rumpf des
 \lstinline{lambda} sichtbar, dessen Parameter es ist~-- es ist eine
 sogenannte \textit{lokale Variable}\index{lokale
@@ -1760,8 +1759,9 @@ steht, ist sie in dem Rumpf sichtbar.  Wenn sie im Zweig eines
 
 Die Beziehung zwischen den Bindung und gebundenen Vorkommen kannst
 Du in DrRacket visualisieren, indem Du auf den Knopf
-\texttt{Syntaxprüfung} (beziehungsweise \texttt{Check Syntax})
-drückst und dann mit dem Mauszeiger über Variablenvorkommen
+\texttt{Syntaxprüfung} (Englisch \texttt{Check Syntax})
+drückst
+und dann mit dem Mauszeiger über Variablenvorkommen
 streichst.  Abbildung~\ref{fig:binding} zeigt exemplarisch, wie das aussieht.
 
 \begin{aufgabeinline}

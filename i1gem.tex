@@ -407,8 +407,10 @@ Portion ist kleiner, wir nehmen 50~g an.  Kurzbeschreibung und Signatur:\indexva
 Testfälle:
 %
 \begin{lstlisting}
-(check-expect (feed-parrot parrot1) (make-parrot 10050 "Der Gärtner war's."))
-(check-expect (feed-parrot parrot2) (make-parrot 5050 "Ich liebe Dich."))
+(check-expect (feed-parrot parrot1)
+              (make-parrot 10050 "Der Gärtner war's."))
+(check-expect (feed-parrot parrot2) 
+              (make-parrot 5050 "Ich liebe Dich."))
 \end{lstlisting}
 %
 Gerüst:
@@ -421,7 +423,7 @@ Gerüst:
 %
 Die Schablone entsteht aus der Kombination der Schablonen für
 zusammengesetzte Daten
-als Einage (Konstruktionsanleitung~\ref{ka:zusammengesetzt-eingabe-schablone} auf
+als Eingabe (Konstruktionsanleitung~\ref{ka:zusammengesetzt-eingabe-schablone} auf
 Seite \pageref{ka:zusammengesetzt-eingabe-schablone}) und als Ausgabe
 (Konstruktionsanleitung~\ref{ka:zusammengesetzt-ausgabe-schablone} auf
 Seite \pageref{ka:zusammengesetzt-ausgabe-schablone}):
@@ -831,14 +833,15 @@ anwenden:
     (cond
       ((rational? sugar-content)
        (sugar-weight->traffic-light sugar-content))
-      ((sugars? sugar-content) ... (sugars-fructose-g sugar-content) ...
-                   ... (sugars-glucose-g sugar-content) ...)
+      ((sugars? sugar-content) 
+        ... (sugars-fructose-g sugar-content) ...
+        ... (sugars-glucose-g sugar-content) ...)
       ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
 Wir müssen Fruktose- und den Glukose-Anteil addieren und die Summe
 dann ebenfalls entsprechend der Tabelle vom Anfang in eine Ampelfarbe
-umwandeln.  Aber halt!~-- Genau für das Umwandeln der Zahl aus der
+umwandeln.  Aber halt! Für das Umwandeln der Zahl aus der
 Tabelle in eine Ampelfarbe haben wir ja gerade die Hilfsfunktion
 \lstinline{sugar-weight->traffic-light} geschrieben, und diese
 können wir
@@ -1256,10 +1259,10 @@ Daten, das lohnt aber hier kaum.
 
   \begin{enumerate} \setcounter{enumii}{5}
   \item Schreibe eine Funktion, die Falschparken
-    akzeptiert und ein einfaches Vergehen mit 20~Euro Bußgeld zurückgibt.
+    akzeptiert und ein einfaches Vergehen mit $20$€ Bußgeld zurückgibt.
     Wenn das Falschparken eine Gefährdung des Straßenverkehrs
     darstellt (zum Beispiel bei Behinderung von Rettungsfahrzeugen),
-    soll die Funktion eine Ordnungswidrigkeit mit 40~Euro Bußgeld,
+    soll die Funktion eine Ordnungswidrigkeit mit $40$€ Bußgeld,
     einem Punkt und keinem Fahrverbot zurückgeben.
 
   \item Schreibe eine Funktion, die Überfahren
@@ -1267,9 +1270,9 @@ Daten, das lohnt aber hier kaum.
     zurückgibt.  Dabei gilt:
     \begin{itemize}
     \item wenn die Ampel kürzer als eine Sekunde rot war und keine
-      Gefährdung vorlag: 50~Euro, 3~Punkte, kein Fahrverbot
+      Gefährdung vorlag: $50$€, 3~Punkte, kein Fahrverbot
     \item wenn die Ampel mindestens eine Sekunde rot war oder eine
-      Gefährdung vorlag: 125~Euro, 4~Punkte, 1~Monat Fahrverbot
+      Gefährdung vorlag: $125$€, 4~Punkte, 1~Monat Fahrverbot
     \end{itemize}
 
   \item Schreibe eine Funktion, die überhöhte
@@ -1277,12 +1280,12 @@ Daten, das lohnt aber hier kaum.
     gilt:
     \begin{itemize}
     \item Geschwindigkeitsübertretung weniger als 20 km/h ohne Gefährdung:
-      einfaches Vergehen mit 35~Euro
+      einfaches Vergehen mit $35$€
     \item Geschwindigkeitsübertretung zwischen 20 und 40 km/h
-      (inklusive) ohne Gefährdung: Ordnungswidrigkeit mit 75~Euro,
+      (inklusive) ohne Gefährdung: Ordnungswidrigkeit mit $75$€,
       3~Punkten und 1~Monat Fahrverbot
     \item Geschwindigkeitsübertretung von mehr als 40 km/h ohne
-      Gefährdung: Ordnungswidrigkeit mit 200~Euro, 4~Punkte und
+      Gefährdung: Ordnungswidrigkeit mit $200$€, 4~Punkte und
       3~Monate Fahrverbot
     \item bei gleichzeitiger Gefährdung des Straßenverkehrs: Straftat
       mit 3~Punkte mehr als ohne Gefährdung angegeben und

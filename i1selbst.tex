@@ -269,12 +269,14 @@ Selektors im Rumpf vorkommen:
   (lambda (location river)
     (cond
       ((creek? river)
-       ... (creek-origin river) ...
+       ...
+       (creek-origin river)
+       ...)
       ((confluence? river)
        ...))))
 \end{lstlisting}
 %
-Der Selektor \lstinline{creek-origin} hat einen Ursprungsort.  Wenn dieser dem
+Der Selektor \lstinline{creek-origin} liefert den Ursprungsort.  Wenn dieser dem
 gesuchten Ort entspricht, so fließt der Fluss durch diesen Ort, sonst
 nicht.  Im ersten Fall sollte \lstinline{#t} herauskommen, im zweiten
 \lstinline{#f}.  Das sieht so aus:
@@ -291,7 +293,7 @@ nicht.  Im ersten Fall sollte \lstinline{#t} herauskommen, im zweiten
        ...))))
 \end{lstlisting}
 %
-Dieser Code kann noch etwas vereinfacht werden: Der<
+Dieser Code kann noch etwas vereinfacht werden: Der
 \lstinline{if}-Ausdruck sagt ja salopp formuliert:
 %
 \begin{quote}
@@ -319,7 +321,7 @@ Selektoraufrufe hinschreiben:
       ((creek? river)
        (string=? (creek-origin river) location))
       ((confluence? river)
-      ...
+       ...
        (confluence-location river)
        (confluence-main-stem river)
        (confluence-tributary river)
@@ -349,7 +351,8 @@ mit "<ja"> beziehungsweise \lstinline{#t} beantworten:
            ...)))))
 \end{lstlisting}
 %
-Aber was wenn nicht?  Dann müssen wir uns an die beiden anderen
+Aber was, wenn der Ort des Zusammenflusses nicht der gesuchte Ort ist?
+Dann müssen wir uns an die beiden anderen
 Selektor-Aufrufe halten, die uns den Haupt- und den Nebenfluss des
 Zusammenflusses liefern.  Wenn der eine oder der andere Wasser aus dem
 gesuchten Ort enthält, dann könnten wir die Frage unserer Funktion
@@ -764,7 +767,7 @@ Rahmen eines Vertrags übergeben~-- oder auch mehrere Zero-Bonds oder
 andere Verträge.
 
 Und da ist sie ganz plötzlich, die zentrale Idee: Dass ein Vertrag den
-Abschluss \emph{anderer} Verträge verfügen kann.  Wir schreiben
+Abschluss \emph{anderer} Ver\-träge verfügen kann.  Wir schreiben
 deshalb als Signatur von \lstinline{multiple-of} einfach
 \lstinline{contract} und schärfen bei der Gelegenheit die Datendefinition:
 %
