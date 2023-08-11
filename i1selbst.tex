@@ -649,7 +649,7 @@ noch unbekannte) abbilden.
 
 Da es mehrere Klassen von Bausteinen und Kombinatoren gibt, werden wir
 Verträge als gemischte Daten repräsentieren und dafür schrittweise
-eine Datendefinition folgender Form aufbauen:
+eine Datendefinition aufbauen:
 %
 \begin{lstlisting}
 ; Ein Vertrag ist eins der folgenden:
@@ -836,7 +836,7 @@ Vertrag selbst:
 \end{lstlisting}
 %
 Diese Datendefinition beschreibt wieder zusammengesetzte Daten.  Die
-dazugehörige Record-Definition sieht so aus:
+dazugehörige Record"=Definition sieht so aus:
 %
 \indexvariable{later}
 \begin{lstlisting}
@@ -857,7 +857,8 @@ Mit \lstinline{later} können wir die Signatur-Definition von
 %
 Aber es fehlt noch etwas: Wir haben für \lstinline{later-date} die
 Signatur \lstinline{date} verwendet, die noch gar nicht definiert ist.
-Die Definition von \texttt{date} liegt zum Glück recht nahe:
+Ein Datum besteht aus Jahr, Monat und Tag, was direkt zu einer
+Record-Definition führt:
 %
 \indexvariable{date}
 \begin{lstlisting}
@@ -1291,7 +1292,7 @@ bleibt allerdings von beiden Hälften nichts übrig:
 \end{lstlisting}
 %
 Bei \lstinline{both2} bleibt allerdings zum Zeitpunkt
-\lstinline{date1} noch etwas übrig, nämlich die "<rechte"> Hälfte,
+\lstinline{date1} noch die "<rechte"> Hälfte übrig
 \lstinline{later2}:
 %
 \begin{lstlisting}
@@ -1632,8 +1633,10 @@ ursprünglich fehlgeschlagen sind.  Es bleiben aber noch weitere.  Der erste
 ist dieser hier:
 %
 \begin{alltt}
-Der tatsächliche Wert #<record:both \textcolor{blue}{#<record:nothing> #<record:nothing>>}
-ist nicht der erwartete Wert \textcolor{blue}{#<record:nothing>}.
+Der tatsächliche Wert
+#<record:both \textcolor{blue}{#<record:nothing> #<record:nothing>>}
+ist nicht der erwartete Wert
+\textcolor{blue}{#<record:nothing>}.
 \end{alltt}
 %
 Das deutet auf ein analoges Problem wie bei \lstinline{multiple} hin:
@@ -1702,7 +1705,8 @@ vereinfachen heißen auch \textit{smart constructors}.\index{smart constructor}
 
 \paragraph{Kombinatorrepräsentationen finden} Die Autoren des Papers über Finanzverträge
 haben Monate gebraucht, um die beschriebene elegante Repräsentation zu
-finden.  Sie sind nach zwei Prinzipien vorgegangen:
+finden.  Sie sind nach zwei Prinzipien vorgegangen, die auch auf viele andere Problemstellungen übertragbar sind.
+
 %
 \begin{itemize}
 \item Sie haben Finanzverträge in ihre kleinsten Bestandteile zerlegt.
@@ -1710,7 +1714,6 @@ finden.  Sie sind nach zwei Prinzipien vorgegangen:
   welche gefunden, entsprechend Mantra~\ref{mantra:kombinator} auf Seite~\pageref{mantra:kombinator}.
 \end{itemize}
 %
-Die Prinzipien sind auf viele andere Problemstellungen übertragbar.
 
 \section*{Aufgaben}
 
@@ -1725,7 +1728,7 @@ Die Prinzipien sind auf viele andere Problemstellungen übertragbar.
     aus einer beliebigen Seife und zur Hälfte aus einem beliebigen
     Shampoo besteht.  (Wir tun einfach so, als wäre das so.)
   \item Füge eine "<Mixtur"> als weiteres Duschprodukt hinzu, das aus
-    zwei beliebigen Duschprodukten zusammengerührt wird, mit jeweils
+    zwei beliebigen Duschprodukten zusammengerührt wird, mit 
     wählbaren Anteilen für das erste und zweite Duschprodukt.
   \item Schreibe eine Funktion, die den Seifenanteil eines beliebigen
     Duschprodukts berechnet.

@@ -25,7 +25,7 @@ beweisen.  Dieses Kapitel zeigt, wie es geht.
 
 \mentioncode{eigenschaften/heat-water.rkt}
 %
-Erinnerst Du Dich noch an die Funktion \lstinline{heat-water} aus
+Erinnerst Du Dich an die Funktion \lstinline{heat-water} aus
 Abschnitt~\ref{sec:heat-water} auf Seite~\pageref{sec:heat-water}?
 Die hatte ziemlich komplizierte Verzweigungen.  Dabei sind auch ein
 paar Fehler passiert.  Zum Schluss hatten wir \lstinline{heat-water}
@@ -147,7 +147,7 @@ etwas undurchsichtig angezeigt:
 \end{lstlisting}
 %
 Auf deutsch heißt "<property"> "<Eigenschaft">, denn 
-es handelt sich um eine Eigenschaft von \lstinline{heat-temperature}.  
+es handelt sich um eine Eigenschaft der Funktion \lstinline{heat-temperature}.  
 
 Diese Eigenschaft ersetzt nicht (immer) die Unit-Tests, ist aber eine
 wertvolle Ergänzung der Dokumentation.
@@ -166,10 +166,10 @@ Dazu wickeln wir um die Eigenschaft noch ein
 \lstinline{check-within} einen Testfall.
 
 Da \lstinline{heat->temperature} korrekt programmiert ist, meldet
-\lstinline{check-property} auch nur einen bestandenen Test.  Wozu
+\lstinline{check-property} nur einen bestandenen Test.  Wozu
 \lstinline{check-property} fähig ist, sieht man erst, wenn die
-Funktion einen Fehler enthält.  Wenn wir zum Beispiel aus der 180 eine
-280 machen, dann erscheint folgende Meldung:
+Funktion einen Fehler enthält.  Wenn wir zum Beispiel aus der $180$ eine
+$280$ machen, dann erscheint folgende Meldung:
 %
 \begin{lstlisting}
 Eigenschaft falsifizierbar mit heat = |\fbox{206}|
@@ -228,25 +228,24 @@ Funktionen anwenden.
 
 \section{Wie \lstinline{check-property} funktioniert}
 
-Zunächst einmal machen wir aber einen kleinen Exkurs: Was passiert
-eigentlich bei so einem \lstinline{check-property}-Test?
+Zunächst machen wir aber einen kleinen Exkurs: Was passiert
+bei so einem \lstinline{check-property}-Test?
 
 Toll wäre natürlich, wenn dieser mit Gewissheit sagen könnte, was die
 Eigenschaft besagt: Dass zum Beispiel die Temperatur wirklich für
-\emph{alle} Eingaben höchstens 100 ist.  Das ist im allgemeinen leider
+\emph{alle} Eingaben höchstens $100$ ist.  Das ist im allgemeinen leider
 unmöglich.\footnote{Dass das unmöglich ist, wurde mathematisch
   bewiesen und als \textit{Satz von Rice} festgehalten.  Der ist Thema
-  in der theoretischen Informatik.}  In vielen Fällen ist es trotzdem
-möglich, Eigenschaften von Funktionen formal zu beweisen.  Das ist
-allerdings (noch) meist recht aufwendig.  (Dazu mehr in
+  in der theoretischen Informatik.}  In manchen Fällen ist es trotzdem
+möglich, Eigenschaften von Funktionen formal zu beweisen.  (Dazu mehr in
 Abschnitt~\ref{sec:eigenschaften-beweisen} auf
 Seite~\pageref{sec:eigenschaften-beweisen}.)
 
-\lstinline{Check-property} kann also eine Eigenschaft nicht im
-allgemeinen beweisen.  Stattdessen führt es Stichproben durch: Dafür
-wählt es für die angegebenen Signaturen zufällig Werte aus, und
+\lstinline{Check-property} kann also nicht 
+beweisen, dass eine Eigenschaft gilt.  Stattdessen führt es Stichproben durch: Dafür
+wählt es für die Signaturen zufällig Werte aus, und
 wiederholt diesen Prozess, um so aus einem Testfall viele individuelle
-Tests zu machen~-- typischerweise mehr als 100.
+Tests zu machen~-- typischerweise $100$.
 
 Die Verwendung des Begriffs "<zufällig"> ist in diesem Zusammenhang in
 der Informatik so üblich, ein besseres Wort wäre aber "<chaotisch">.
@@ -351,11 +350,10 @@ obwohl da eigentlich nichts getestet wird.  Wenn für (hypothetisch)
 drei von den Tests \lstinline{temp} $0$ ist, dann werden also nur 97
 richtige Tests durchgeführt.
 
-In der Variante mit \lstinline{==>} allerdings stellt
-\lstinline{check-property} sicher, dass tatsächlich 100 Tests
-durchgeführt werden, bei denen \lstinline{temp} nicht $0$ ist.  Das ist
-besser, vor allem bei Tests, bei denen die Bedingung für viele
-mögliche Werte gilt, nicht nur für den einen wie hier.
+In der Variante mit \lstinline{==>} stellt
+\lstinline{check-property} sicher, dass tatsächlich $100$ Tests
+durchgeführt werden, bei denen \lstinline{temp} nicht $0$ ist.  Damit
+wird mehr getestet.
 \end{quote}
 %
 Wenn wir den Testfall laufen lassen, gibt es allerdings eine
@@ -405,7 +403,7 @@ und in der REPL auswerten:
 %
 Du kannst sehen, dass offensichtlich beim Rechnen gerundet wurde, und
 zwar bei der letzten Nachkommastelle.  Das erscheint Dir vielleicht
-merkwürdig, weil in \lstinline{heat->temperature}
+merkwürdig, weil in 
 \lstinline{temperature->heat} doch ausschließlich addiert und
 subtrahiert wird~-- da ist keine Spur von "<Runden">.  Wenn wir das
 \lstinline{#i} weglassen, wird auch exakt gerechnet:\footnote{Falls Du
@@ -1097,11 +1095,11 @@ ganze so aus:
     (proper? (sized-search-tree-tree search-tree))))
 \end{lstlisting}
 % 
-Aber geschrieben hatten wir die Funktion ja, um
-\lstinline{balanced-search-tree-insert} zu testen.  Wenn die korrekt
-ist, dann produziert sie nur solche Suchbäume, bei denen
+Aber geschrieben hatten wir die Funktion, um
+\lstinline{balanced-search-tree-insert} zu testen.  Falls die korrekt
+ist, dann produziert sie nur Bäume, bei denen
 \lstinline{proper-sized-search-tree?} als Ergebnis \lstinline{#t}
-liefert.  Man könnte versucht sein, so etwas hier zu schreiben:
+liefert.  Wir könnten versucht sein, so etwas hier zu schreiben:
 
 \begin{lstlisting}
 (check-property
@@ -1127,11 +1125,10 @@ nicht erwarten, dass die Ausgabe korrekt ist: Garbage in, Garbage out.
   einen!
 \end{aufgabeinline}
 %
-Um korrekte größenannotatierte Suchbäume zu erzeugen, rufen wir
-stattdessen \lstinline{balanced-search-tree-insert} wiederholt auf.
+Stattdessen rufen wir \lstinline{balanced-search-tree-insert} wiederholt auf,
+um korrekte größenannotatierte Suchbäume zu erzeugen.
 Die Elemente dafür holen wir aus einer Liste und schreiben
-entsprechend eine Funktion, die aus einer Liste einen Suchbaum macht.
-Kurzbeschreibung und Signatur:
+entsprechend eine Funktion, die aus einer Liste einen Suchbaum macht:
 %
 \begin{lstlisting}
 ; Aus allen Elementen einer Liste einen Suchbaum machen
@@ -1173,11 +1170,10 @@ Größenannotation richtig macht:
   \lstinline{balanced-search-tree-insert}!
 \end{aufgabeinline}
 %
-Aus ist der Liste vom Anfang dieses Abschnitts haben wir zwei Punkte
-abgehakt: Einer fehlt noch, nämlich zu testen, ob
+Aus der Liste vom Anfang dieses Abschnitts haben wir zwei Punkte
+abgehakt. Einer fehlt noch, nämlich zu testen, ob
 \lstinline{balanced-search-tree-insert} auch wirklich balanciert
 sind, wie es der Name suggeriert.
-
 Nehmen wir an, \lstinline{balanced-search-tree-insert} würde
 \emph{nicht} korrekt balancieren.  Das wäre ziemlich tückisch, weil
 die Funktion in allen Tests scheinbar korrekt funktioniert.  Erst,
@@ -1262,10 +1258,10 @@ Liste herauskommt:
                       #f>>
 \end{lstlisting}
 %
-(Die zweite 1 hätte sich \lstinline{check-property} auch sparen
+(Die zweite $1$ hätte sich \lstinline{check-property} auch sparen
 können.  Offenbar ist es nicht ganz optimal programmiert.)
 
-Was ist passiert?  Grafisch dargestellt sieht Baum aus der REPL so
+Was ist passiert?  Grafisch dargestellt sieht der Baum aus der REPL so
 aus:
 %
 \begin{center}
@@ -1302,11 +1298,10 @@ Hier gilt $l=0$ und $r=1$ und die Gleichung gilt ebenfalls nicht.
 Dass die Gleichung nicht erfüllbar ist, liegt daran, dass der Baum
 sehr klein ist: Nur zwei Elemente.
 
-Dieser Umstand ist tatsächlich in der Programmierung von
+Dieser Umstand ist in der Programmierung von
 \lstinline{balanced-search-tree-insert} berücksichtigt.  Schau Dir
 nochmal \lstinline{make-balanced-node} auf
-Seite~\pageref{func:make-balanced-node} an.  Falls Du nicht blättern
-magst~-- so gehtt es los:
+Seite~\pageref{func:make-balanced-node} an.  Zur Erinnerung:
 %
 \indexvariable{make-balanced-node}
 \begin{lstlisting}
@@ -1455,8 +1450,8 @@ auch mit \lstinline{for-all}:
    ...))
 \end{lstlisting}
 %
-Ganz fertig ist das noch nicht.  Wir müssen noch sicherstellen, dass
-\lstinline{number} nicht zufällig doch im Suchbaum ist.  Dazu benutzen
+Um sicherzustellen, dass
+\lstinline{number} nicht zufällig doch im Suchbaum ist, benutzen
 wir \lstinline{==>}:
 %
 \begin{lstlisting}
@@ -1469,14 +1464,15 @@ wir \lstinline{==>}:
               (list->balanced-search-tree = < elements))))))
 \end{lstlisting}
 %
-Da steht also umgangssprachlich formuliert: Für alle Listen von
+Da steht also umgangssprachlich formuliert:
+
+Für alle Listen von
 Elementen \lstinline{elements} und jede Zahl \lstinline{number} gilt:
 Wenn \lstinline{number} nicht zu \lstinline{elements} gehört, dann
 liefert \lstinline{sized-search-tree-member?} für \lstinline{number}
 und den Suchbaum aus den Zahlen in \lstinline{elements} das Ergebnis
 \lstinline{#f}.
-
-Damit haben wir das Zusammenspiel zwischen
+Mit dieser Eigenschaft haben wir das Zusammenspiel zwischen
 \lstinline{balanced-search-tree-insert} und
 \lstinline{sized-search-tree-member?} ausreichend beschrieben und
 können ziemlich ruhig schlafen in der Gewissheit, dass die Funktionen
@@ -1780,9 +1776,9 @@ linken Seite der Gleichung die Addition zweier Zahlen auf der rechten
 Seite.
 
 Nun bilden Listen mit \lstinline{concatenate} eine Halbgruppe, genauso
-wie Zahlen mit \lstinline{+}: Die \lstinline{list-sum}-Funktion bildet
+wie Zahlen mit \lstinline{+}. Die Funktion \lstinline{list-sum} bildet
 nicht nur Listen auf Zahlen ab, sondern macht auch aus
-\lstinline{concatenate} bei den Listen \lstinline{+} bei den Zahlen:
+\lstinline{concatenate} bei den Listen die Summe bei den Zahlen:
 Die Struktur der einen Halbgruppe wird mit \lstinline{list-sum} in die
 Struktur der anderen Halbgruppe abgebildet.  Eine solche Funktion heißt in
 der Algebra \textit{Homomorphismus}.\index{Homomorphismus} Wenn man
@@ -1961,13 +1957,18 @@ Für die leere Liste ist die Eigenschaft also bewiesen.
 (concatenate $f_1f$ (concatenate $v$ $w$))
 |\evalsto{}| (($\lambda$ (list1 list2) ...) $f1_f$ (concatenate $v$ $w$))
 |\evalsto{} $\ldots$ \evalsto{}| (($\lambda$ (list1 list2) ...) $f_1f$ $vw$)
-|\evalsto{}| (cond ((empty? $f_1f$) $vw$) ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))))
+|\evalsto{}| (cond ((empty? $f_1f$) $vw$)
+          ((cons? $f_1f$) 
+           (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))))
 \end{lstlisting}
   Diesmal ist der \lstinline{cons?}-Zweig dran, weil $f_1f$ nicht leer ist:
   %
 \begin{lstlisting}
-|\evalsto{}| (cond (#f $vw$) ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))))
-|\evalsto{}| (cond ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))))
+|\evalsto{}| (cond (#f $vw$)
+         ((cons? $f_1f$)
+          (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))))
+|\evalsto{}| (cond ((cons? $f_1f$)
+          (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))))
 |\evalsto{}| (cond (#t (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))))
 |\evalsto{}| (cons (first $f_1f$) (concatenate (rest $f_1f$) $vw$))
 |\evalsto{}| (cons $f_1$ (concatenate (rest $f_1f$) $vw$))
@@ -1983,13 +1984,24 @@ Für die leere Liste ist die Eigenschaft also bewiesen.
 (concatenate (concatenate $f_1f$ $v$) $w$)
 |\evalsto{}| (($\lambda$ (list1 list2) ...) (concatenate $f_1f$ $v$) $w$)
 |\evalsto{}| (($\lambda$ (list1 list2) ...) (($\lambda$ (list1 list2) ...) $f_1f$ $v$) $w$)
-|\evalsto{}| (($\lambda$ (list1 list2) ...) (cond ((empty? $f_1f$) $v$) ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)))) $w$)
-|\evalsto{}| (($\lambda$ (list1 list2) ...) (cond (#f $v$) ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)))) $w$)
-|\evalsto{}| (($\lambda$ (list1 list2) ...) (cond ((cons? $f_1f$) (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)))) $w$)
-|\evalsto{}| (($\lambda$ (list1 list2) ...) (cond (#t (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)))) $w$)
-|\evalsto{}| (($\lambda$ (list1 list2) ...) (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...)
+     (cond ((empty? $f_1f$) $v$) 
+           ((cons? $f_1f$) (cons (first $f_1f$)
+                              (concatenate (rest $f_1f$) $v$)))) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...)
+     (cond (#f $v$) 
+           ((cons? $f_1f$) (cons (first $f_1f$)
+                              (concatenate (rest $f_1f$) $v$)))) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...)
+     (cond ((cons? $f_1f$) (cons (first $f_1f$)
+                              (concatenate (rest $f_1f$) $v$)))) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...)
+     (cond (#t (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)))) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) 
+     (cons (first $f_1f$) (concatenate (rest $f_1f$) $v$)) $w$)
 |\evalsto{}| (($\lambda$ (list1 list2) ...) (cons $f_1$ (concatenate (rest $f_1f$) $v$)) $w$)
-|\evalsto{}| (($\lambda$ (list1 list2) ...) (cons $f_1$ (($\lambda$ (list1 list2) ...) (rest $f_1f$) $v$)) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...)
+     (cons $f_1$ (($\lambda$ (list1 list2) ...) (rest $f_1f$) $v$)) $w$)
 |\evalsto{}| (($\lambda$ (list1 list2) ...) (cons $f_1$ (($\lambda$ (list1 list2) ...) $f$ $v$)) $w$)
 \end{lstlisting}
   %
@@ -2008,47 +2020,54 @@ Für die leere Liste ist die Eigenschaft also bewiesen.
 %
 \begin{lstlisting}
 |\evalsto{}| (($\lambda$ (list1 list2) ...) $f_1fv$ $w$)
-|\evalsto{}| (cond ((empty? $f_1fv$) ...) ((cons? $f_1fv$) (cons (first $f_1fv$ (concatenate (rest $f_1fv$) $w$)))))
-|\evalsto{}| (cond (#f ...) ((cons? $f_1fv$) (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))))
-|\evalsto{}| (cond ((cons? $f_1fv$) (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))))
+|\evalsto{}| (cond ((empty? $f_1fv$) ...) 
+         ((cons? $f_1fv$)
+          (cons (first $f_1fv$ (concatenate (rest $f_1fv$) $w$)))))
+|\evalsto{}| (cond (#f ...) 
+         ((cons? $f_1fv$)
+          (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))))
+|\evalsto{}| (cond ((cons? $f_1fv$)
+          (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))))
 |\evalsto{}| (cond (#t (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))))
 |\evalsto{}| (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))
 |\evalsto{}| (cons $f_1$ (concatenate (rest $f_1fv$) $w$))
 |\evalsto{}| (cons $f_1$ (($\lambda$ (list1 list2) ...) (rest $f_1fv$) $w$))
 |\evalsto{}| (cons $f_1$ (($\lambda$ (list1 list2) ...) $fv$ $w$))
 \end{lstlisting}
-  %
-  Jetzt geht es aber wirklich nicht mehr weiter.  Wir können das mit
-  dem Ergebnis der linken Seite vergleichen, die immerhin auch mit
-  \lstinline{(cons $f_1$ ...)} anfängt.  Ansonsten steht da links:
-  %
+\end{enumerate}
+%
+Jetzt geht es aber wirklich nicht mehr weiter.  Wir können das mit
+dem Ergebnis der linken Seite vergleichen, die immerhin auch mit
+\lstinline{(cons $f_1$ ...)} anfängt.  Ansonsten steht da links:
+% 
 \begin{lstlisting}
 (($\lambda$ (list1 list2) ...) $f$ $vw$)
 \end{lstlisting}
-  %
-  \ldots{} und rechts:
+% 
+\ldots{} und rechts:
 \begin{lstlisting}
 ((lambda (list1 list2) ...) $fv$ $w$)
 \end{lstlisting}
-  %
-  Um zu beweisen, dass diese beiden Ausdrücke das gleiche liefern,
-  ziehen wir die Induktionsvoraussetzung hinzu.  Hier ist sie zur
-  Erinnerung:
+%
+Um zu beweisen, dass diese beiden Ausdrücke das gleiche liefern,
+ziehen wir die Induktionsvoraussetzung hinzu.  Hier ist sie zur
+Erinnerung:
 \begin{lstlisting}
 (expect (concatenate $f$ (concatenate $v$ $w$))
         (concatenate (concatenate $f$ $v$) $w$))
 \end{lstlisting}
-  %
-  Wir hatten den Namen $vw$ für das Ergebnis von
-  \lstinline{(concatenate $v$ $w$)} und den Namen $fv$ für das
-  Ergebnis von \lstinline{(concatenate $f$ $v$)}.  Außerdem steht
-  \lstinline{($\lambda$ (list1 list2) ...)} ja für
-  \lstinline{concatenate}.  Wenn wir das in die
-  Induktionsvoraussetzung einsetzen, steht da genau das, was wir
-  brauchen, nämlich dass linke und rechte Seite das gleiche Ergebnis haben.
-\end{enumerate}
-%
-Geschafft!  Aber das ist schon ziemlich viel Arbeit, und auch
+% 
+Wir hatten den Namen $vw$ für das Ergebnis von
+\lstinline{(concatenate $v$ $w$)} und den Namen $fv$ für das
+Ergebnis von \lstinline{(concatenate $f$ $v$)}.  Außerdem steht
+\lstinline{($\lambda$ (list1 list2) ...)} ja für
+\lstinline{concatenate}.  Wenn wir das in die
+Induktionsvoraussetzung einsetzen, steht da genau das, was wir
+brauchen, nämlich dass linke und rechte Seite das gleiche Ergebnis haben.
+
+Geschafft!
+
+Aber das ist schon ziemlich viel Arbeit, und auch
 fehleranfällig.  In der Praxis funktioniert das nur für kleine
 Funktionen.  Wer Eigenschaften größerer Programme beweisen möchte,
 benutzt dafür in der Regel spezielle Werkzeuge, welche die Beweise
@@ -2108,7 +2127,8 @@ Die folgende Funktion quadriert natürliche Zahlen:
 Formuliere dies als Eigenschaft und überprüfe sie mit
 \lstinline{check-property}.
 
-Bonus: Beweise die Eigenschaft mit Induktion.
+\smallskip\noindent
+\textbf{Bonus:} Beweise die Eigenschaft mit Induktion.
 %
 \end{aufgabe}
 

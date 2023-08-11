@@ -451,14 +451,14 @@ vorkommen:
                                                             \lrm y\}
 \end{eqnarray*}
 %
-Das $\lrm y$ taucht einmal innerhalb und einmal außerhalb einer bindenden
-Abstraktion auftaucht. Das Frei- und Gebundensein bezieht sich also
+Das $\lrm y$ taucht innerhalb \emph{und} außerhalb einer bindenden
+Abstraktion auf. Das Frei- und Gebundensein bezieht sich also
 immer auf bestimmte Vorkommen\index{Vorkommen} einer Variablen in
 einem $\lambda$-Term.
 %
 \begin{aufgabeinline}
   Schreibe auf, was bei folgenden Anwendungen von $\free$ und $\bound$
-  herauskommt, indem Du die Definitionen dieser Funktionen anwendest:
+  herauskommt:
   \begin{displaymath}
     \begin{array}{c}
       \free(\lrm x~\lrm y)\\
@@ -543,11 +543,11 @@ ist~-- die vierte Regel:
 \end{displaymath}
 %
 In diesem Fall wird die Substitution auf den Rumpf der Abstraktion
-angewendet.  Wichtig ist dabei, dass $u$ nicht frei in $f$ vorkommt~-- sonst
+angewendet.  Wichtig ist, dass $u$ nicht frei in $f$ vorkommt~-- sonst
 könnte es vorkommen, dass beim Einsetzen von $f$ ein freies Vorkommen
-von $u$ plötzlich durch die umschließende Abstraktion gebunden wird.
-Damit würde auch wieder die durch die lexikalische Bindung\index{lexikalische Bindung} definierte
-Zugehörigkeitsregel verletzt.
+von $u$ durch die umschließende Abstraktion gebunden wird.
+Damit würde auch die Zugehörigkeitsregel der lexikalischen Bindung\index{lexikalische Bindung} 
+verletzt.
 
 Was passiert, wenn $u$ eben doch frei in $f$ vorkommt, beschreibt die
 fünfte Regel:
@@ -559,13 +559,13 @@ fünfte Regel:
   \end{array}
 \end{displaymath}
 %
-Hier kann es passieren, dass die freien $u$ in $f$ durch die
-Abstraktion "<eingefangen"> werden.  Aus diesem Grund wird einfach das
-$u$ in der Abstraktion aus dem Weg geschafft und durch ein
+Um zu verhindern, dass die freien $u$ in $f$ durch die
+Abstraktion "<eingefangen"> werden, wird das
+$u$ in der Abstraktion durch ein
 "<frisches"> $u'$ ersetzt, das noch nirgendwo frei vorkommt.
 
-Die letzte Regel beschreibt schließlich, wie die Substitution auf
-Applikationen wirkt: sie taucht einfach in Operator und Operanden
+Die Regel für Substitution auf
+Applikationen taucht in Operator und Operand
 rekursiv ab:
 %
 \begin{displaymath}
@@ -779,9 +779,9 @@ beiden Terme im $\lambda$-Kalkül
 \index{Normalform}
 
 Im letzten Abschnitt haben wir anhand des Beispiels
-\begin{displaymath}
+$
 (\lambda \lrm v .\lrm v~\lrm v)~((\lambda \lrm u.\lrm u)~\lrm w)
-\end{displaymath}
+$
 %
 gesehen, dass es von ein und demselben $\lambda$-Term aus mehrere
 % wenn du jede ... jede was?
@@ -819,20 +819,6 @@ ineinander überführen können.  Wenn ja, dann sind $e_1$ und $e_2$
 Sprechweisen "<die Normalformen sind $\alpha$-äquivalent"> oder "<die
 Normalformen sind gleich modulo $\alpha$-Reduktion">\index{modulo} benutzt.
 
-\begin{figure}[tb]
-  \begin{center}
-    \begin{tikzpicture}
-      \node(e1) at (0,1) {$e_1$};
-      \node(e2) at (2,1) {$e_2$};
-      \node(eprime) at (1,0) {$e'$};
-      \draw[<->] (e1) -- (e2) node[midway,above]{$\overset{\ast}{\rightarrow_\beta}$};
-      \draw[->] (e1) -- (eprime) node[midway,left]{$\overset{\ast}{\rightarrow_\beta}$};
-      \draw[->] (e2) -- (eprime) node[midway,right]{$\overset{\ast}{\rightarrow_\beta}$};
-    \end{tikzpicture}
-    \caption{Die Church/Rosser-Eigenschaft}
-    \label{fig:church-rosser}
-  \end{center}
-\end{figure}
 
 Eine wichtige Eigenschaft auf dem Weg zur Eindeutigkeit von
 Normalformen ist der Satz von Church/Rosser:
@@ -848,6 +834,20 @@ Normalformen ist der Satz von Church/Rosser:
   $e_2\overset{\ast}{\rightarrow_\beta} e'$.
 \end{satz}
 %
+\begin{figure}[htb]
+  \begin{center}
+    \begin{tikzpicture}
+      \node(e1) at (0,1) {$e_1$};
+      \node(e2) at (2,1) {$e_2$};
+      \node(eprime) at (1,0) {$e'$};
+      \draw[<->] (e1) -- (e2) node[midway,above]{$\overset{\ast}{\rightarrow_\beta}$};
+      \draw[->] (e1) -- (eprime) node[midway,left]{$\overset{\ast}{\rightarrow_\beta}$};
+      \draw[->] (e2) -- (eprime) node[midway,right]{$\overset{\ast}{\rightarrow_\beta}$};
+    \end{tikzpicture}
+    \caption{Die Church/Rosser-Eigenschaft}
+    \label{fig:church-rosser}
+  \end{center}
+\end{figure}
 Abbildung~\ref{fig:church-rosser} stellt die Aussage des Satzes von
 Church/Rosser grafisch dar.
 Der Beweis des Satzes ist leider recht umfangreich und technisch.
@@ -897,8 +897,8 @@ Computerprogramme zu modellieren, hat diese Eigenschaft.
 \section{Auswertungsstrategien}
 \label{sec:lambda-evaluation-strategies}
 
-\index{Auswertungsstrategie}Leider hat die Anwendung des Satzes von
-Church/Rosser noch einen Haken in der Praxis: Er besagt zwar, dass sich
+\index{Auswertungsstrategie}Die Anwendung des Satzes von
+Church/Rosser hat in der Praxis einen Haken: Er besagt zwar, dass sich
 die Äquivalenz von zwei Termen dadurch beweisen lässt, dass ihre
 Normalformen verglichen werden.  Leider sagt er nichts darüber,
 wie diese Normalformen gefunden werden.  Wenn wir die Auswertung einem
@@ -973,12 +973,12 @@ Schritt:
                          \lambda \lrm z.(\lambda \lrm y.\lrm y)~((\lambda \lrm y.\lrm y)~\lrm z)
 \end{eqnarray*}
 %
-Das bedeutet insbesondere, dass die Call-by-Name-Reduktion nicht immer
-eine Normalform findet.
-
 Dass die Linksaußen-Reduktion immer eine Normalform findet, wenn es
 eine gibt, ist toll.  Leider geschieht dies nicht immer auf die
-effizienteste Art und Weise.  Hier ist ein Beispiel:
+effizienteste Art und Weise.
+Beim folgenden Beispiel wird der Subterm $((\lambda \lrm y.\lrm y)~\lrm z)$
+zunächst "<verdoppelt"> und muss deshalb zweimal reduziert
+werden.
 %
 \begin{displaymath}
   \begin{array}{rl}
@@ -994,15 +994,13 @@ effizienteste Art und Weise.  Hier ist ein Beispiel:
 \end{array}
 \end{displaymath}
 %
-Bei dieser Reduktionsfolge wird der Subterm $((\lambda \lrm y.\lrm y)~\lrm z)$
-zunächst "<verdoppelt"> und muss deshalb danach zweimal reduziert
-werden.
 
-Eine andere Auswertungsstrategie verspricht die Vermeidung
-solcher doppelter Arbeit:  Die sogenannte \textit{Linksinnen-Reduktion},
+Eine andere Auswertungsstrategie 
+vermeidet solche doppelte Arbeit:  Die \textit{Linksinnen"=Reduktion},
 auch genannt \emph{applicative-order reduction\index{applicative-order reduction}} oder
-\emph{leftmost-innermost reduction\index{leftmost-innermost reduction}}:
-%
+\emph{leftmost-innermost reduction\index{leftmost-innermost
+    reduction}}.
+
 \begin{definition}[Linksinnen-Reduktion]\index{Linksinnen-Reduktion}
   Bei der Linksinnen-Reduktion wird immer der $\beta$-Redex reduziert,
   der möglichst weit links innen steht.  Das bedeutet konkret:
@@ -1037,10 +1035,10 @@ zunächst das Argument der äußeren Applikation ausgewertet wird:
 \end{displaymath}
 %
 Leider führt die Linksinnen-Reduktion nicht immer zu einer Normalform,
-selbst wenn es die Linksaußen-Reduktion tut.  Der Term
+selbst wenn es die Linksaußen"=Reduktion tut.  Der Term
 \[ (\lambda \lrm x.\lambda \lrm y.\lrm y)~((\lambda \lrm z.\lrm z~\lrm z)~(\lambda \lrm z.\lrm z~\lrm z)) \]
 zum Beispiel hat zwei Redexe, einmal den ganzen Term und dann noch
-\[(\lambda \lrm z.\lrm z~\lrm z)~(\lambda \lrm z.\lrm z~\lrm z).\]  Die Linksinnen-Strategie wählt
+$(\lambda \lrm z.\lrm z~\lrm z)~(\lambda \lrm z.\lrm z~\lrm z).$  Die Linksinnen-Strategie wählt
 den inneren Subterm als ersten Redex aus:
 %
 \begin{displaymath}
@@ -1064,11 +1062,8 @@ Programmiersprachen Anwendung findet, ist die
   Form $\lambda v.e$.
 \end{definition}
 %
-Mit der Call-by-Value-Reduktion ist die Grundlage für die
-Auswertungsstrategie der meisten Programmiersprachen gelegt,
-insbesondere für unsere Lehrsprachen.  Wenn Du dem Stepper bei der
-Arbeit zusiehst, kannst Du sehen, dass er nach der
-Call-by-Value-Strategie arbeitet.
+Die Call-by-Value-Reduktion ist die Grundlage
+insbesondere für unsere Lehrspracher.  Der Stepper macht das sichtbar.
 %
 \begin{aufgabeinline}
   Lasse folgendes Programm (und gern auch noch andere) im Stepper
@@ -1125,45 +1120,35 @@ komplizierter machen müssen.
 \subsection{Verzweigungen und boolesche Werte}
 \label{sec:booleans}
 %
-Die binäre Verzweigung\index{Verzweigung} in den Lehrsprachen
-\texttt{(if \(b\) \(k\) \(a\))} wählt, abhängig vom Wert vom
-booleschen Wert\index{boolescher Wert} $b$, entweder die Konsequente
+Die binäre Verzweigung\index{Verzweigung} 
+\texttt{(if \(b\) \(k\) \(a\))} wählt, abhängig vom
+booleschen Wert\index{boolescher Wert} $b$, die Konsequente
 $k$ oder die Alternative $a$ aus.
-
-Verzweigungen ergeben also nur im Doppelpack mit booleschen Werten
-Sinn.  Anders gesagt: Ein boolescher Wert hat als primäre Funktion,
-zwischen der Konsequente und der Alternative einer Verzweigung
-auszuwählen.  Diese Idee können wir in $\lambda$-Termen ausdrücken:
-
-Wir definieren $\mathbf{true}$\index{true@$\mathbf{true}$} als Term
+Diese Idee können wir in $\lambda$-Termen ausdrücken.
+Wir definieren $\mathbf{true}$\index{true@$\mathbf{true}$} als Term,
 der das erste von zwei Argumenten auswählt und das zweite verwirft;
-$\mathbf{false}$\index{false@$\mathbf{false}$} wählt das zweite
-Argument und verwirft das erste:
+$\mathbf{false}$\index{false@$\mathbf{false}$} umgekehrt.
+Die Verzweigung wendet die Bedingung
+auf Konsequente und Alternative an:
 %
 \begin{align*}
   \mathbf{true} & \deq{} \lambda \lrm x \lrm y.\lrm x \\
-  \mathbf{false} & \deq{} \lambda \lrm x \lrm y.\lrm y
+  \mathbf{false} & \deq{} \lambda \lrm x \lrm y.\lrm y\\
+  \mathbf{if} & \deq{} \lambda \lrm t \lrm k \lrm a.\lrm t~\lrm k~\lrm a
 \end{align*}
 %
-Die Verzweigung wendet einfach die Bedingung~-- ein boolescher Wert~--
-auf Konsequente und Alternative an:
-%
-\begin{displaymath}
-  \mathbf{if} \deq{} \lambda \lrm t \lrm x \lrm y.\lrm t~\lrm x~\lrm y
-\end{displaymath}
-%
-Dass $\mathbf{if}$\index{if@$\mathbf{if}$} tatsächlich funktioniert,
+Wie $\mathbf{if}$\index{if@$\mathbf{if}$} funktioniert,
 zeigt das folgende Beispiel:
 %
 \begin{displaymath}
   \begin{split}
     \mathbf{if}~\mathbf{true}~e_1~e_2 & =
-    (\lambda \lrm t \lrm x \lrm y.\lrm t~\lrm x~\lrm y)~\mathbf{true}~e_1~e_2
+    (\lambda \lrm t \lrm k \lrm a.\lrm t~\lrm k~\lrm a)~\mathbf{true}~e_1~e_2
     \\
-    & \rightarrow_\beta (\lambda \lrm x \lrm y.\mathbf{true}~\lrm x~\lrm y)~e_1~e_2\\
+    & \rightarrow_\beta (\lambda \lrm k \lrm a.\mathbf{true}~\lrm k~\lrm a)~e_1~e_2\\
     & \rightarrow_\beta^2 \mathbf{true}~e_1~e_2\\
-    & = (\lambda \lrm x \lrm y.\lrm x)~e_1~e_2\\
-    & \rightarrow_\beta (\lambda \lrm y.e_1)~e_2\\
+    & = (\lambda \lrm k \lrm a.\lrm k)~e_1~e_2\\
+    & \rightarrow_\beta (\lambda \lrm a.e_1)~e_2\\
     & \rightarrow_\beta e_1  \end{split}
 \end{displaymath}
 %
@@ -1173,8 +1158,7 @@ zeigt das folgende Beispiel:
 
 \subsection{Natürliche Zahlen}
 
-Die Nachbildung von Zahlen ist etwas komplizierter als die der
-booleschen Werte und es gibt verschiedene Ansätze dafür.  Einer davon heißt
+Für die Nachbildung von Zahlen gibt es verschiedene Ansätze.  Einer davon heißt
 \textit{Church-Numerale\index{Church-Numeral}}.  Das
 Church-Numeral $\lceil n\rceil$ einer natürlichen Zahl\index{natürliche Zahl}
 $n$ ist eine Funktion, die eine $n$-fache Applikation vornimmt.
@@ -1182,7 +1166,7 @@ $n$ ist eine Funktion, die eine $n$-fache Applikation vornimmt.
 \begin{displaymath}
   \lceil n\rceil \deq{} \lambda \lrm f.\lambda \lrm x.(\lrm{f}^n(\lrm x))
 \end{displaymath}
-Die Notation $f^n$ ist folgendermaßen induktiv definiert:
+Die Notation dort verwendete $f^n$ ist folgendermaßen induktiv definiert:
 %
 \begin{displaymath}
   f^n(e) \deq
@@ -1195,10 +1179,11 @@ Die Notation $f^n$ ist folgendermaßen induktiv definiert:
 $\lceil 0\rceil$\index{*@$\lceil \:\rceil$} ist nach dieser Definition
 $\lambda \lrm f.\lambda \lrm x.\lrm x$, $\lceil 1\rceil$ ist $\lambda
 \lrm f.\lambda \lrm x.\lrm f~\lrm x$,
-$\lceil 2\rceil$ ist $\lambda \lrm f.\lambda \lrm x.\lrm f~(\lrm f~\lrm x)$, usw.
+$\lceil 2\rceil$ ist $\lambda \lrm f.\lambda \lrm x.\lrm f~(\lrm
+f~\lrm x)$ usw.
 
 Die Nachfolgeroperation\index{Nachfolger} $\mathbf{succ}$, die auf
-eine Zahl eins addiert, hängt eine zusätzliche Applikation an:\index{succ@$\mathbf{succ}$}
+eine Zahl eins addiert, macht eine Applikation dazu:\index{succ@$\mathbf{succ}$}
 %
 \begin{displaymath}
   \mathbf{succ} \deq{} \lambda \lrm n.\lambda \lrm f.\lambda \lrm x.\lrm n~\lrm f~(\lrm f~\lrm x)
@@ -1221,9 +1206,8 @@ Hier ein Beispiel für die Anwendung von $\mathbf{succ}$:
   &=& \lceil 2\rceil
 \end{eqnarray*}
 %
-Eine typische Funktion auf natürlichen Zahlen muss von einer Zahl eins
-abziehen, also die Vorgängerfunktion berechnen.  Das macht folgende
-Definition:\index{Vorgänger}\index{pred@$\mathbf{pred}$}
+Folgende Definition berechnet die Vorgängerfunktion,
+die von einer Zahl eins abzieht:\index{Vorgänger}\index{pred@$\mathbf{pred}$}
 %
 \begin{displaymath}
   \mathbf{pred} \deq{} \lambda \lrm x.\lambda \lrm y.\lambda \lrm z.\lrm x~(\lambda \lrm p.\lambda
@@ -1234,9 +1218,6 @@ Definition:\index{Vorgänger}\index{pred@$\mathbf{pred}$}
   Zeige, dass $\mathbf{pred}~\lceil 3\rceil$ zu $\lceil 2\rceil$ reduziert!
 \end{aufgabeinline}
 %
-(Aufgabe~\ref{ex:pred} hat den allgemeinen Beweis zum Gegenstand,
-dass $\mathbf{succ}$ den Vorgänger berechnet.)
-
 In Verbindung mit den booleschen Werten lässt sich eine Zahl daraufhin
 testen, ob sie $0$ ist:\index{zerop@$\mathbf{zerop}$}
 %
@@ -1338,7 +1319,7 @@ $\mathbf{fac}_1$ heißen:
 \end{displaymath}
 %
 Auf die gleiche Art und Weise lässt sich ein Term konstruieren, der
-alle Fakultäten bis 2 ausrechnen kann:
+die Fakultäten bis $2$ ausrechnet:
 %
 \begin{displaymath}
   \mathbf{fac}_2 \deq{} \lambda
@@ -1374,9 +1355,9 @@ $\mathbf{FAC}$ ist also eine Fabrik für Fakultätsfunktionen und
 teilt mit allen $\mathbf{fac}_i$ die Eigenschaft, dass ihre
 Definition nicht rekursiv ist.
 
-Damit ist zwar die Notation weniger schreibintensiv geworden,
-aber das fundamentale Problem ist noch nicht gelöst: Eine korrekte
-Definition von $\mathbf{fac}$ müsste eine unendliche
+Damit ist zwar die Notation kompakter geworden,
+eine korrekte
+Definition von $\mathbf{fac}$ müsste aber eine unendliche
 Kette von Applikationen von $\mathbf{FAC}$ enthalten.
 Da sich ein Term mit einer unendlichen Kette von Applikationen nicht aufschreiben lässt, hilft im Moment nur Wunschdenken weiter.
 Dafür sei angenommen, $\mathbf{fac}$ wäre bereits gefunden.  Dann gilt folgende

@@ -152,14 +152,11 @@ Schablone:
        ... (power base (predecessor exponent)) ...))))
 \end{lstlisting}
 %
-Nun müssen wir noch die Lücken füllen:
-
 Beim ersten Fall~--Exponent $0$~-- muss als Potenz $1$ herauskommen, das
 neutrale Element bezüglich der Multiplikation: Das ist ja nichts
 anderes, als die Zahlen der leeren Liste zu multiplizieren.  (Siehe
 dazu auch Seite~\pageref{page:neutrales-element} in
 Abschnitt~\ref{page:neutrales-element}.)
-
 Für den anderen Fall ist das Ergebnis des rekursiven Aufruf die Potenz
 von \lstinline{base} mit dem Vorgänger von \lstinline{exponent} als
 Exponent.  Damit wir als Ergebnis \lstinline{base} mit sich selbst
@@ -172,8 +169,7 @@ Multiplikation mit \lstinline{base}:
     (cond
       ((zero? exponent) 1)
       ((positive? base)
-       (* base
-          (power base (predecessor exponent)))))))
+       (* base (power base (predecessor exponent)))))))
 \end{lstlisting}
 %
 Fertig!
@@ -225,8 +221,7 @@ macht aus einer Liste eine natürliche Zahl.  Das geht auch umgekehrt:
 ; Liste aus Kopien eines Werts erzeugen
 (: copies (natural %element -> (list-of %element)))
 
-(check-expect (copies 4 23)
-              (list 23 23 23 23))
+(check-expect (copies 4 23) (list 23 23 23 23))
 (check-expect (copies 5 "Mike")
               (list "Mike" "Mike" "Mike" "Mike" "Mike"))
 \end{lstlisting}
@@ -284,7 +279,7 @@ und liefert das Element:
 Wir sollten uns noch überlegen, was passieren soll, wenn es den Index in der Liste gar
 nicht gibt.  Die Funktion kann kein sinnvolles Ergebnis liefern, das
 zur Signatur passt~-- es muss ja ein Element der Liste herauskommen.
-Die einzig sinnvolle Möglichkeit ist, einen Fehler anzuzeigen.
+Wir können also nur einen Fehler anzeigen.
 Daraus wird folgender Testfall:
 %
 \begin{lstlisting}
@@ -299,10 +294,10 @@ Das Gerüst der Funktion sieht folgendermaßen aus:
     ...))
 \end{lstlisting}
 %
-Bei der Schablone haben wir die Wahl: Wir können entweder die
+Wir können die
 Schablone für Listen als Eingabe benutzen oder die für natürliche
-Zahlen.  Oder beide.  Hier ist aber der Index federführend~-- wenn die
-Funktion das zweite Element einer tausendelementigen Liste extrahiert,
+Zahlen.  Hier ist der Index federführend~-- beim
+zweitem Element einer tausendelementigen Liste 
 ist die Länge irrelevant.  Wir halten uns also an die
 Konstruktionsanleitung für natürliche Zahlen:
 %
@@ -315,10 +310,10 @@ Konstruktionsanleitung für natürliche Zahlen:
        ... (nth (rest list) (- index 1)) ...))))
 \end{lstlisting}
 %
-Im ersten Fall ist der Index 0, also das erste Element der Liste
-gefragt.  Im zweiten Fall liefert uns der rekursive Aufruf im Rest der
-Liste das Element das Element an Stelle \lstinline{(- index 1)}.  Dies
-ist schon das \lstinline{index}-te Element in \lstinline{list}.  Die
+Im ersten Fall ist der Index $0$, also das erste Element 
+gefragt.  Im zweiten Fall liefert der rekursive Aufruf im Rest der
+Liste das Element an Stelle \lstinline{(- index 1)}, also
+das \lstinline{index}-te Element in \lstinline{list}.  Die
 Funktion sieht so aus:
 %
 \indexvariable{nth}
@@ -331,7 +326,7 @@ Funktion sieht so aus:
        (nth (rest list) (- index 1))))))
 \end{lstlisting}
 %
-Tatsächlich laufen alle Testfälle bereits durch~-- und das, obwohl wir
+Alle Testfälle laufen bereits durch~-- obwohl wir
 für den Fehlerfall gar nichts programmiert haben.
 \begin{aufgabeinline}
   Werte mit dieser Definition folgenden Ausdruck aus:
@@ -436,7 +431,7 @@ entsprechende Schablone anwenden:
 %
 Im ersten Fall sind null Elemente gefragt, da muss das Ergebnis
 \lstinline{empty} sein.  Da eine Liste herauskommt, werden wir
-wahrscheinlich im zweiten Fall \lstinline{cons} benutzen, um diese zu
+im zweiten Fall \lstinline{cons} benutzen, um diese zu
 konstruieren.  Außerdem ist das gewünschte erste Element gerade
 \lstinline{from}.  Wir können die Schablone also wie folgt
 weiterentwickeln:
@@ -653,10 +648,12 @@ Entsprechend können wir den letzten Zweig ausfüllen:
 \end{lstlisting}
 %
 Fertig!
-\begin{aufgabe}
+\begin{aufgabeinline}
   Überzeuge Dich mit dem Stepper, dass \lstinline{power2} weniger
   Multiplikationen benötigt als \lstinline{power}!
-\end{aufgabe}
+\end{aufgabeinline}
+
+\newpage
 
 \section*{Aufgaben}
 

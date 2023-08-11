@@ -1203,8 +1203,7 @@ richtigen Namen geben mit Hilfe von lokalen Definitionen:
     ...)))
 \end{lstlisting}
 %
-Zu guter letzt brauchen wir noch einen Aufruf von \lstinline{tree-member?}
-im Rumpf von \lstinline{search-tree-member?}, damit es auch losgeht.
+Zu guter letzt brauchen wir noch einen Aufruf von \lstinline{tree-member?}, damit es auch losgeht.
 Dafür verbrauchen wir den letzten Baustein aus der Schablone:
 %
 \indexvariable{search-tree-member?}
@@ -1249,7 +1248,7 @@ jede Ebene doppelt soviele Knoten wie in die Ebene darüber.
 
 In einen Baum der Tiefe 1 passt auch nur $1 = 2^0$ Knoten, in einen
 der Tiefe 2 passen $2^0 + 2^1 = 1+2 = 3$ Knoten, dann 7, dann 15
-undsoweiter.  Dir fällt vielleicht auf, dass die Zahlen 1, 3, 7, 15
+undsoweiter.  Dir fällt vielleicht auf, dass die Zahlen $1$, $3$, $7$, $15$
 allesamt Vorgänger einer Zweierpotenz sind.  Wir können deshalb
 versuchen, das zu einer Formel zu verallgemeinern.  Die Tiefe des
 Baums heißt dabei $t$.  Dann nehmen wir an (oder hoffen zumindest),
@@ -1263,7 +1262,6 @@ Da es sich bei $t$ um eine natürliche Zahl handelt, können wir
 vollständige Induktion anwenden nach der Anleitung in
 Abschnitt~\ref{sec:nat-induction-ka} auf
 Seite~\pageref{sec:nat-induction-ka}.
-
 Wir müssen also beweisen, dass für alle $t\in\mathbb{N}$ gilt:
 %
 \begin{displaymath}
@@ -1422,16 +1420,16 @@ Algorithmus aufbaut: Die beiden gehören oft zusammen.\footnote{Der
   praktische Programmierung weitgehend irrelevant sind.}
 
 Viele Algorithmen basieren auf cleveren Ideen, von denen die
-Schöpferinnen und Schöpfer selbst gar nicht so genau erklären können,
+Schöpfys selbst gar nicht so genau erklären können,
 wie sie auf sie gekommen sind.  Dementsprechend erwarten wir nicht von
 Dir (und auch nicht von uns), auf das Material dieses Abschnitts
 selbst zu kommen.  Glücklicherweise gibt es in vielen Bereichen der
-Programmierung schon fertige Algorithmen und Datenstrukturen, die Du
-nur benutzen musst und nicht selbst programmieren.  In diesem
-Abschnitt zeigen wir aber trotzdem beispielhaft, wie und warum so eine
+Programmierung schon fertige Algorithmen und Datenstrukturen, die wir
+entsprechend nicht selbst programmieren müssen.  In diesem
+Abschnitt zeigen wir beispielhaft, wie und warum so eine
 Datenstruktur funktioniert.  Vielleicht findest Du es interessant~--
-andernfalls reicht es aber, wenn Du diesen Abschnitt überfliegst oder
-überspringst.
+wenn nicht, reicht es, diesen Abschnitt zu überfliegen oder
+überspringen.
 
 Wie also können wir einen Suchbaum balancieren? Dabei sollten wir
 nicht nur dafür sorgen, dass das Suchen effizient funktioniert.  Auch
@@ -1566,15 +1564,16 @@ noch einen neuen Knoten erzeugt:
      left-branch right-branch)))
 \end{lstlisting}
 %
-Schau nochmal den Teilausdruck an, der die Größe berechnet: Da wird
+Schau den Teilausdruck an, der die Größe berechnet: Da wird
 eine Funktion \lstinline{sized-tree-size} benutzt, welche die Größe
-eines Baums berechnet.  Die gib's aber noch gar nicht~-- reines
+eines Baums berechnet.  Die gibt es aber noch gar nicht~-- reines
 Wunschdenken!  Das müssen wir noch nachholen.  Hier sind
 Kurzbeschreibung, Signatur und zwei Tests:
 %
 \begin{lstlisting}
 ; Größe eines größenannotierten Baums liefern
-(: sized-tree-size ((tree-of %leaf (sized-label-of %label)) -> Natural))
+(: sized-tree-size
+   ((tree-of %leaf (sized-label-of %label)) -> natural))
 
 (check-expect (sized-tree-size "A") 0)
 (check-expect (sized-tree-size sized-tree1) 7)
@@ -1594,7 +1593,7 @@ Daten, also brauchen wir eine Verzweigung:
 %
 Im \lstinline{node}-Fall wissen wir schon, wo die Größe steht, nämlich
 in der \lstinline{sized-label}-Markierung.  Im anderen Fall handelt es
-sich um ein Blatt, das hat Größe 0:
+sich um ein Blatt, das hat Größe $0$:
 %
 \begin{lstlisting}
 (define sized-tree-size
@@ -1637,13 +1636,7 @@ Das wird noch öfter passieren, darum abstrahieren wir:
 \end{aufgabeinline}
 %
 Wir können außerdem schon absehen, dass wir noch häufig die Markierung
-eines größenannotierten Knotens benötigen werden.  Dafür müssen wir im
-Moment zwei Funktionen aufrufen:
-%
-\begin{lstlisting}
-(sized-node-label (node-label node))
-\end{lstlisting}
-%
+eines größenannotierten Knotens benötigen werden.  
 Wir definieren deshalb eine Hilfsfunktion:
 %
 \indexvariable{sized-node-label}
@@ -1661,17 +1654,16 @@ Wir definieren deshalb eine Hilfsfunktion:
 
 Für die Entwicklung von Algorithmen gibt es leider keine übergreifende
 Strategie analog zu den Konstruktionsanleitungen. Häufig steht am
-Anfang eine Idee, die sich aus einer bestimmten Sichtweise des
+Anfang eine Idee, die aus einer bestimmten Sichtweise des
 Problems entsteht, verbunden mit Variationen und Experimenten.
 
-Der Ausgangspunkt von Stephen Adams' Algorithmus ist die Funktion
+Der Ausgangspunkt von Stephen Adams' Idee ist die Funktion
 \lstinline{search-tree-insert}.  Die platziert das neue Element an die
 erstbeste Stelle im Suchbaum, die passt: Das ist der minimal mögliche
 Aufwand.  Adams' Idee ist nun, \lstinline{search-tree-insert} im
 wesentlichen beizubehalten, aber mit einer Ergänzung: Wenn das
 Einfügen eines neuen Elements den Baum aus dem Gleichgewicht bringt,
 wird er ein bisschen neu ausbalanciert.
-
 So, als würde man immer, wenn man was neues kauft, den neuen
 Gegenstand im Zimmer ins Regal legen und dann ein kleines bisschen
 aufräumen.  Die Kunst ist, gerade genug aufzuräumen, dass das Zimmer
@@ -1719,16 +1711,18 @@ Hier ist ein Beispiel:
 \end{lstlisting}
 \end{aufgabeinline}
 %
-Wir machen als nächstes aus der Funktion
+Wir machen nun aus
 \lstinline{search-tree-member?} die Funktion
-\lstinline{sized-search-tree-member?}.  Dafür müssen wir die Funktion
-nur kopieren, umbenennen und auf die Benutzung von
-\lstinline{sized-search-tree} umstellen.\label{func:sized-search-tree-member}
+\lstinline{sized-search-tree-member?}.  Dafür kopieren
+wir sie, benennen sie um und stellen sie so um, dass sie
+\lstinline{sized-search-tree} benutzt.\label{func:sized-search-tree-member}
 %
 \indexvariable{sized-search-tree-member?}
 \begin{lstlisting}
 ; festellen, ob Element in Suchbaum vorhanden ist
-(: sized-search-tree-member? (%a (sized-search-tree-of %a) -> boolean))
+(: sized-search-tree-member? 
+   (%a (sized-search-tree-of %a) -> boolean))
+
 (check-expect (sized-search-tree-member? "M" sized-search-tree1) #t)
 (check-expect (sized-search-tree-member? "D" sized-search-tree1) #t)
 (check-expect (sized-search-tree-member? "N" sized-search-tree1) #t)
@@ -2156,8 +2150,8 @@ Ungleichgewicht aufweist.  Dann könnten wir einfach
 \end{lstlisting}
 %
 
-Es gibt bisher noch keine Tests für
-\lstinline{balanced-search-tree-insert} oder
+Es gibt bisher noch keine Tests für die Funktionen
+\lstinline{balanced-search-tree-insert} und
 \lstinline{make-balanced-node}.  Das ist bedenklich, insbesondere weil
 die Funktionen ziemlich kompliziert sind und viele Fälle abdecken
 müssen.  Es lohnt sich, ein weiteres Mal an
@@ -2166,7 +2160,7 @@ Seite~\pageref{mantra:komplexitaet} zu erinnern:
 
 \mantrakomplexitaet*
 
-So richtig testen werden wir sie im nächsten Kapitel.  Hier schon
+\noindent So richtig testen werden wir sie im nächsten Kapitel.  Hier schon
 einmal eine Aufgabe zur Vorbereitung:
   
 \begin{aufgabeinline}

@@ -194,7 +194,7 @@ kleineren Listen wiederzuverwenden:
 (define list5 (cons 1 list4))
 \end{lstlisting}
 %
-Dieses Beispiel zeigt außerdem, dass \lstinline{cons} an eine
+Dieses Beispiel zeigt außerdem, dass der Konstruktor \lstinline{cons} an eine
 existierende Liste \emph{vorn} ein Element anhängt.
 
 \label{sec:list-sum}
@@ -260,11 +260,11 @@ die Schablone:
        |\ldots|))))
 \end{lstlisting}
 %
-Nun sind alle möglichen Konstruktionsanleitungen angewendet und wir
-vervollständigen die Schablone.  Wir fangen an mit dem Fall für
+Nun sind alle möglichen Konstruktionsanleitungen angewendet. Wir
+vervollständigen die Schablone, zuerst den Fall für
 Cons-Listen.  Dort steht in der Schablone \lstinline{(first list)} 
 und \lstinline{(list-sum (rest list))}.  Zum Verständnis
-hilft, wenn Du die beiden Ausdrucke ins Deutsche zu übersetzt:
+hilft, die beiden Ausdrucke ins Deutsche zu übersetzen:
 %
 \begin{itemize}
 \item \lstinline{(first list)} ist das \emph{erste Element der Liste} und
@@ -453,7 +453,8 @@ Zahlen zu verbieten, müssen wir über
 Record-Definition geht das, indem wir aus \lstinline{cons-list} stattdessen
 \lstinline{(cons-list-of element)} machen.
 Das wirkt wie ein
-\lstinline{lambda} und wir können dann \lstinline{element} innerhalb
+\lstinline{lambda} mit \lstinline{element} als Parameter.  Wir können
+dann \lstinline{element} innerhalb
 der Record-Definition benutzen:\label{function:cons-list-of}
 %
 \indexvariable{cons-list-of}
@@ -480,7 +481,7 @@ Das \lstinline{element} ist ein \textit{Signatur-Parameter}\index{Signatur-Param
 Wir müssen also immer da, wo wir vorher \lstinline{cons-list} stand,
 \lstinline{(cons-list-of ...)} schreiben und eine Signatur für die
 Elemente angeben, also zum Beispiel \lstinline{(cons-list-of number)}
-oder \lstinline{(cons-list-of string)}
+oder \lstinline{(cons-list-of string)}.
 
 Die Signatur von \lstinline{rest} war vorher
 \lstinline{list-of-numbers}, die müssen wir also auch ändern.  Wie
@@ -499,10 +500,10 @@ abstrahieren:
             (cons-list-of element)))))
 \end{lstlisting}
 %
-Wir können mit dieser Definition statt \lstinline{list-of-numbers} also
+Wir können mit dieser Definition nun statt \lstinline{list-of-numbers} also
 \lstinline{(list-of number}) schreiben.  Damit können wir auch die
 Record-Definition von \lstinline{cons-list} vervollständigen, indem
-wir dort \lstinline{(list-of element)} hinschreiben, wo vorher
+wir beim \lstinline{rest}-Feld als Signatur \lstinline{(list-of element)} hinschreiben, wo vorher
 \lstinline{list-of-numbers} stand:
 %
 \begin{lstlisting}
@@ -593,10 +594,9 @@ gleiche Signatur erfüllen muss wie die schon vorhandenen Elemente der
 Liste und die Elemente der Resultatliste: Alle drei Vorkommen von \lstinline{%element} müssen in einer
 konkreten Anwendung von \lstinline{cons} die gleiche Signatur sein.
 
-Mit diesen Änderungen an den Signatur-Deklarationen gehen die
-Signatur"=Verletzungen ganz weg.  Bevor das Programm aber wieder
-funktioniert, müssen wir noch eine weitere Fehlermeldung
-ausmerzen: \lstinline{list-of-numbers} ist nicht mehr
+Bevor das Programm wieder
+funktioniert, müssen wir noch ein kleines Problem
+beheben: \lstinline{list-of-numbers} ist nicht mehr
 definiert, steht aber noch in den Signatur"=Deklarationen von
 \lstinline{list-sum} und \lstinline{list-product}.  Wir können
 entweder dort \lstinline{list-of-numbers} durch \lstinline{(list-of number)}
@@ -608,18 +608,17 @@ dazuschreiben:
 (define list-of-numbers (signature (list-of number)))
 \end{lstlisting}
 %
-Diese Definition muss vor den Definitionen von \lstinline{list-sum}
+Diese Definition muss vor \lstinline{list-sum}
 und \lstinline{list-product} stehen, damit sie dort bekannt ist.
 
 \section{Konstruktionsanleitung}
 
 Bei der Konstruktion von Funktionen, die Listen akzeptieren, haben wir
-drei Schablonen kombiniert: Die Schablonen für gemischte und
-zusammengesetzte Daten sowie die Schablone für Selbstbezüge.  Wir
-werden noch viele Funktionen mit Listen als Eingabe schreiben, bei
-denen jedesmal genau die gleichen Schablonen kombiniert werden.
+drei Schablonen kombiniert: gemischte und
+zusammengesetzte Daten sowie Selbstbezüge.  Wir
+werden noch viele Funktionen mit Listen als Eingabe schreiben.
 Deshalb lohnt es sich, solchen Funktionen eine eigene
-Konstruktionsanleitung mit der enstandenen Schablonenkombination zu widmen:
+Konstruktionsanleitung zu widmen:
 
 \begin{konstruktionsanleitung}{Listen als Eingabe: Schablone}
   \label{ka:listen-eingabe-schablone}
@@ -760,9 +759,9 @@ Die Schablone ist wie gehabt:
 %
 Es ist \texttt{list-length} egal, was der Wert von \texttt{(first
   lis)} ist.  Die Länge der Liste ist unabhängig davon, was für Werte
-sich darin befinden: entscheidend ist nur, wieviele es sind.  (Dieser
+sich darin befinden~-- entscheidend ist nur, wieviele es sind.  (Dieser
 Umstand ist gerade verantwortlich für die parametrische Polymorphie.)
-Deshalb können wir \texttt{(first lis)} aus der Schablone streichen und
+Deshalb können wir den Selektoraufruf \texttt{(first lis)} aus der Schablone streichen und
 diese dann zum vollständigen Rumpf ergänzen:
 %
 \indexvariable{list-length}
@@ -840,7 +839,6 @@ Als Testfall kann obige Beispielliste herhalten:
 %
 Zur Erinnerung: \lstinline{dillo2} und \lstinline{dillo4} sind bereits tot,
 dementsprechend sind sie überfahren wie zuvor.
-
 Hier ist das Gerüst:
 %
 \begin{lstlisting}
@@ -973,9 +971,8 @@ es (noch) lebt.  Da steht dann folgender Zwischenstand:
        |\ldots| (live-dillos (rest dillos)) |\ldots|))))
 \end{lstlisting}
 %
-Der Aufruf \lstinline{(dillo-alive? (first dillos))} liefert einen
-booleschen Wert.  Der bietet sich als Bedingung einer binären
-\lstinline{if}"=Verzweigung an:
+Der Aufruf \lstinline{(dillo-alive? (first dillos))} bietet sich 
+für eine binäre Verzweigung an:
 %
 \begin{lstlisting}
 (define live-dillos
@@ -1618,7 +1615,7 @@ Schreibe folgende Funktionen auf Listen:
       ist (das heißt ob alle Zellen leer sind); eine Batterie ohne Zelle
       gilt auch als leer.
 
-    \item \lstinline{battery-defect?}, die überprüft, ob ein Akku defekt
+    \item \lstinline{battery-broken?}, die überprüft, ob ein Akku defekt
       ist (das heißt ob mindestens eine Zelle defekt ist); eine Batterie
       ohne Zelle gilt als nicht defekt.
 
@@ -1651,17 +1648,16 @@ Schreibe folgende Funktionen auf Listen:
     Zeit geladen.  Sind alle Zellen geladen und ist die Zeit jedoch
     noch nicht aufgebraucht, so verstreicht diese.
 
-  \item Das Entladen einer Zelle hängt vom Verbraucher ab: Ein Gerät
-    hat einen Verbrauchswert, angegeben in mA.  Anschaulich betrachtet
-    heißt das, dass das Gerät pro Zeit eine gewissen Strom verbraucht.
+  \item Das Entladen einer Zelle hängt vom Verbraucher ab. Ein Gerät
+    hat einen Verbrauchswert, angegeben in mA.
     Schreibe eine Funktion \lstinline{time-to-fully-discharge-cell},
     die eine Zelle und einen Verbrauch pro Stunde akzeptiert und
     ausrechnet, wie lange es dauert, bis die Zelle entladen ist.
 
   \item Schreibe eine Funktion
     \lstinline{time-to-fully-discharge-battery}, die einen Akku und einen
-    Verbrauch pro Stunde akzeptiert, und ausrechnet, wie lange es
-    dauert, bis der Akku entladen ist.
+    Verbrauch pro Stunde akzeptiert und ausrechnet, wie lange es
+    dauert, bis der Akkus leer ist.
 
   \item Schreibe eine Funktion \lstinline{discharge-cell}, die eine
     Zelle, einen Verbrauch pro Stunde und die Dauer (in Stunden)

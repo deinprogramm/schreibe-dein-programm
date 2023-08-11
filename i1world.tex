@@ -128,7 +128,9 @@ Seitenlänge angibt.  Beispiel:
 mit Breite $w$ und Höhe $h$, in dem die Linie von der linken oberen in
 die rechte untere Ecke verläuft.  Falls die Linie entlang der anderen
 Diagonale verlaufen soll, kannst Du einfach das Vorzeichen von $w$
-oder von $h$ umdrehen.  Beispiele:
+oder von $h$ umdrehen.
+
+Beispiele:
 %
 \begin{lstlisting}
 (line 150 100 "blue")
@@ -161,7 +163,7 @@ zeichnet.  Sie hat folgende Signatur:
 \end{lstlisting}
 %
 Diese Funktion akzeptiert eine Liste von Eckpunkten und die üblichen
-\lstinline{mode}- und \lstinline{color}-Argumente.  Ein Eckpunkt 
+\lstinline{mode}- und \lstinline{color}"=Argumente.  Ein Eckpunkt 
 muss entweder zur Signatur \lstinline{posn} oder zu
 \lstinline{pulled-point} gehören.  Das sind eingebaute Record-Typen,
 bei denen \lstinline{posn}\indexvariable{posn} so definiert sein könnte:
@@ -192,7 +194,7 @@ Eckpunkten:
 Bei \lstinline{posn}-Eckpunkten sind die Kanten also alles gerade
 Linien.  Mit \lstinline{pulled-point}-Eckpunkten ist es möglich, die
 Kanten zu Kurven zu machen.  Auch \lstinline{pulled-point} ist ein
-Record-Typ, der so definiert sein könnte:
+Record-Typ:
 %
 \indexvariable{pulled-point}
 \begin{lstlisting}
@@ -231,8 +233,7 @@ in welche Richtung \lstinline{langle} und \lstinline{rangle} die
 beiden Kanten von Punkt Nummer~2 biegen: Die eingehende Kante kommt von Punkt~1 her, die
 ausgehende Kante geht zu Punkt~3.  Die Komponenten
 \lstinline{pulled-point-lpull} und \lstinline{pulled-point-rpull}
-geben wann, wieviel die Kanten verbogen werden~-- das sind
-typischerweise Zahlen zwischen 0 und 1.
+geben an, wieviel die Kanten verbogen werden auf einer Skala zwischen $0$ und $1$.
 %
 \begin{lstlisting}
 (polygon (list (make-pulled-point 1/2 0 0 0 1/2 -20)
@@ -250,11 +251,10 @@ typischerweise Zahlen zwischen 0 und 1.
   \caption{Bilddatei in Programm einbetten}
   \label{fig:image-insert}
 \end{figure}
-Es ist auch möglich, externe Bilder-Dateien in
-\texttt{image.rkt}-Bilder zu verwandeln.  Dazu dient der Menüpunkt
-\texttt{Bild einfügen} im \texttt{Spezial}-Menü: \drscheme{} fragt
-nach dem Namen einer Bilddatei, die dann in den Programmtext da
-eingefügt wird, wo der Cursor steht.  Alternativ ist es möglich,
+Es ist auch möglich, Bilder-Dateien in
+\texttt{image.rkt}-Bilder zu verwandeln.  Das macht der Menüpunkt
+\texttt{Bild einfügen} im \texttt{Spezial}-Menü.
+Alternativ ist es möglich,
 Bilder in anderen Applikationen auszuwählen und zu kopieren und dann
 in DrRacket einzufügen.  Die eingefügten Bilder dienen dann als
 Literale für Bild-Werte.  Abbildung~\ref{fig:image-insert} zeigt ein
@@ -560,7 +560,7 @@ dillo-body
 %
 Jetzt wollen wir ja nicht jedes Gürteltier genau gleich darstellen,
 sondern wir wollen dessen Eigenschaften bei der Darstellung
-berücksichtigen.  Dafür schreiben wir nun die Funktion
+berücksichtigen.  Dafür schreiben wir die Funktion
 \lstinline{dillo-image}, von der wir ja schon Kurzbeschreibung und
 Signatur gesehen haben.  Hier ist das Gerüst mit der Schablone für
 zusammengesetzte Daten als Eingabe:
@@ -581,17 +581,16 @@ wir das Gürteltier größer oder kleiner machen:
 \begin{lstlisting}
 (define dillo-image
   (lambda (dillo)
-    (scale
-     (+ 1
-        (/ (- (dillo-weight dillo) 50000)
-           15000))
-     dillo-body)
+    (scale (+ 1
+              (/ (- (dillo-weight dillo) 50000)
+                 15000))
+           dillo-body)
     ...
     (dillo-alive? dillo)
     ...))    
 \end{lstlisting}
 %
-Den Faktor bei \lstinline{scale} haben wir durch Herumprobieren
+Den Faktor bei \lstinline{scale} haben wir durch Probieren
 ermittelt.  Aber \lstinline{(dillo-alive? dillo)} steht noch da~-- wir
 bauen das ein, indem wir einem toten Gürteltier "<tote Augen"> ins
 Gesicht setzen:
@@ -601,15 +600,14 @@ Gesicht setzen:
 \begin{lstlisting}
 (define dillo-image
   (lambda (dillo)
-    (scale
-     (+ 1
-        (/ (- (dillo-weight dillo) 50000)
-           15000))
-     (if (dillo-alive? dillo)
-         dillo-body
-         (overlay/xy dead-eyes
-                     -25 -25
-                     dillo-body)))))
+    (scale (+ 1
+              (/ (- (dillo-weight dillo) 50000)
+                 15000))
+           (if (dillo-alive? dillo)
+               dillo-body
+               (overlay/xy dead-eyes
+                           -25 -25
+                           dillo-body)))))
 
 (define dead-eyes
   (overlay (line 10 10 "green")
@@ -772,27 +770,31 @@ Hier jetzt die tatsächliche Höhe des Straßenabschnitts:
 (define road-window-height 12) ; Höhe des Straßenausschnitts
 \end{lstlisting}
 %
-Die Idee, dass Du später nur diese eine Definition ändern musst, falls
-Dir die Ausschnittshöhe nicht passt,, und sich dann alles andere
+Die Idee ist, dass Du später nur diese eine Definition ändern musst, falls
+Dir die Ausschnittshöhe nicht passt, und sich dann alles andere
 automatisch anpasst.
 
 Um die Anzahl der nötigen Markierungen zu berechnen, teilen wir die
 Höhe des Straßenausschnitts durch die Länge einer Markierung plus
-Lücke.  Zur Sicherheit addieren noch eins drauf: Die Division könnte
+Lücke.  Zur Sicherheit addieren wir noch eins drauf: Die Division könnte
 nicht ganz aufgehen.  Außerdem wird möglicherweise am Ende nur ein
-Teil eines Streifens zu sehen sein, auch dafür ist es gut gut, wenn im
-Zweifelsfall einer mehr da ist.  Aus der Zahl machen wir schließlich
-das Bild der Streifen:
+Teil eines Streifens zu sehen sein, auch dafür ist es gut, wenn im
+Zweifelsfall einer mehr da ist.
 %
 \indexvariable{marking-count}
-\indexvariable{visible-markings}
 \begin{lstlisting}
 ; Anzahl der nötigen Markierungen
 (define marking-count
   (+ 1
      (quotient road-window-height
                (+ marking-height gap-height))))
-
+\end{lstlisting}
+%
+Aus der Zahl machen wir schließlich
+das Bild der Streifen:
+%
+\indexvariable{visible-markings}
+\begin{lstlisting}
 ; sichtbare Markierungen
 (define visible-markings
   (markings marking-count))
@@ -963,8 +965,8 @@ Testen nicht lohnt:
     (* meters-per-tick ticks)))
 \end{lstlisting}
 %
-Damit können wir eine Funktion schreiben, die aus Ticks Straßenmetern
-macht und dann \lstinline{road-window} aufruft:
+Damit können wir eine Funktion schreiben, die aus Ticks Straßenmeter
+macht und \lstinline{road-window} aufruft:
 %
 \indexvariable{road-window-at-ticks}
 \begin{lstlisting}
@@ -1080,10 +1082,10 @@ stehen in der Schablone Aufrufe der Selektoren:
 %
 Wir müssen jetzt die Pixelkoordinaten des Bildes relativ zum
 Straßenausschnitt berechnen.  Bei der X-Koordinate ist das
-verhältnismäßig einfach.  Wir legen dafür eine Variable namens
+verhältnismäßig einfach.  Wir legen eine Variable 
 \lstinline{pixels-from-left} an, die sich aus 
 \lstinline{(position-side position))} ergibt, 
-was ja schon in der Schablone steht.  Die Seite
+was schon in der Schablone steht.  Die Seite
 ist relativ zum Mittelstreifen, für dessen X-Koordinate wir ebenfalls
 eine Zwischenvariable anlegen:
 %
@@ -1174,7 +1176,7 @@ entsprechend den Aufruf von \lstinline{place-image/align} korrigieren:
      road-image)
 \end{lstlisting}
 %
-Jetzt ist alles bei 0 in der Mitte!
+Jetzt ist alles bei $0$ in der Mitte!
 
 Diese Funktion können wir jetzt benutzen, um zunächst das Autobild auf
 dem Straßenabschnitt zu platzieren:
@@ -1380,11 +1382,7 @@ einem \lstinline{world}-Record als Straßenabschnitt anzuzeigen:
 \end{lstlisting}
 %
 Du kannst jetzt natürlich
-%
-\begin{lstlisting}
-(world->image initial-world)
-\end{lstlisting}
-%
+\lstinline{(world->image initial-world)}
 ausprobieren, aber da ist nur der anfängliche, leere Straßenabschnitt
 zu sehen.
 
@@ -1677,7 +1675,7 @@ An diesem Punkt haben wir alle Grundaspekte des Spiels durch
 Funktionen beschrieben.  Wir müssen sie noch zu einem Spiel
 zusammensetzen.  Das sollte dann insbesondere auch auf Tastendrücke
 reagieren.  Für solche reaktiven Animationen brauchen wir noch
-Unterstützung vom \texttt{universe.rkt}-Teachpack, das dafür extea ein
+Unterstützung vom Teachpack \texttt{universe.rkt}, das dafür extea ein
 neues Programmiersprachene-Element mitbringt, das heißt
 \lstinline{big-bang}\indexvariable{big-bang}.  Es startet
 das Spiel und hat folgende Form:
@@ -1910,7 +1908,7 @@ Die Funktion binden wir jetzt in den \lstinline{big-bang}-Ausdruck ein:
 Das sieht schon besser aus: Die Straße bewegt sich, und man kann das
 Auto nach links und rechts steuern.  Aber überfahrene Gürteltiere
 sterben noch nicht, und die Punktzahl geht frustrierenderweise auch
-noch nicht hoch.  Das liegt daran, dass wir die Funktionen dafür~--
+noch nicht hoch.  Das liegt daran, dass wir die beiden dafür zuständigen Funktionen~--
 \lstinline{run-over-dillos-on-road} und
 \lstinline{live-dillos-under-car-count}~-- noch nicht eingesetzt
 haben.  Das holen wir nach:

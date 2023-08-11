@@ -238,46 +238,20 @@ beziehungsweise Papageien von anderen Werten:
 %
 Im allgemeinen ist ein Prädikat eine Funktion mit der Signatur
 \lstinline{(any -> boolean)}, die für eine bestimmte Sorte von Werten
-\lstinline{#t} liefert, für alle andere Werte aber \lstinline{#f}.  In
-diesem speziellen Fall identifizieren die Prädikate \lstinline{dillo?}
-und \lstinline{parrot?} jeweils alle Werte, die zu einem bestimmten
-Record-Typ gehören.  Prädikate müssen aber nicht zu einem Record-Typ
-gehören, wir können ein Prödikat auch selber schreiben.  Außerdem sind
-eine Reihe von Prädikaten vordefiniert~-- dazu mehr später in diesem
-Kapitel auf \pageref{scheme:predicates}.
+\lstinline{#t} liefert, für alles andere aber \lstinline{#f}.  In
+diesem Fall identifizieren die Prädikate \lstinline{dillo?}
+und \lstinline{parrot?} jeweils die Werte, die zu einem bestimmten
+Record-Typ gehören.  Prädikate müssen nicht zu einem Record-Typ
+gehören, gelgentlich werden wir welche selber schreiben.  
+Eine Reihe von Prädikaten sind vordefiniert~-- dazu mehr 
+auf Seite~\pageref{scheme:predicates}.
 
 \begin{aufgabeinline}
-  Schreibe ein Prädikat namens \lstinline{animal?} für alle Tiere,
-  also alle Werte, die ein \lstinline{dillo}-Record oder ein
-  \lstinline{parrot}-Record sind.
+  Schreibe ein Prädikat \lstinline{animal?} für Tiere,
+  \lstinline{dillo}- oder
+  \lstinline{parrot}-Records.
 \end{aufgabeinline}
 %
-Die Prädikate \lstinline{dillo?}  und \lstinline{parrot?}  können wir
-benutzen, um die Bedingungen aus der Schablone zu bestücken:
-%
-\begin{lstlisting}
-(define animal-weight
-  (lambda (animal)
-    (cond
-      ((dillo? animal) ...)
-      ((parrot? animal) ...))))
-\end{lstlisting}
-%
-Im ersten Zweig~-- dem Zweig für Gürteltiere~-- kommt nun
-\lstinline{dillo-weight} zum Einsatz, im zweiten Zweig~-- für
-Papageien~-- ist \lstinline{parrot-weight} zuständig:
-%
-\indexvariable{animal-weight}
-\begin{lstlisting}
-(define animal-weight
-  (lambda (animal)
-    (cond
-      ((dillo? animal) (dillo-weight animal))
-      ((parrot? animal) (parrot-weight animal)))))
-\end{lstlisting}
-% 
-Fertig!
-
 \begin{feature}{\texttt{define-record} (mit Prädikaten)}{scheme:define-record-predicates}
 Eine \lstinline{define-record}-Form\indexvariable{define-record}
 hat folgende allgemeine Gestalt:
@@ -321,6 +295,30 @@ Dabei sind $t$, $c$, $\mathit{sel}_1 \ldots \mathit{sel}_n$ allesamt Variablen, 
 %
 \end{feature}
 %
+Die Prädikate \lstinline{dillo?}  und \lstinline{parrot?}  können wir
+in der Schablone benutzen:
+%
+\begin{lstlisting}
+(define animal-weight
+  (lambda (animal)
+    (cond
+      ((dillo? animal) ...)
+      ((parrot? animal) ...))))
+\end{lstlisting}
+%
+Im ersten Zweig~-- dem Zweig für Gürteltiere~-- kommt nun
+\lstinline{dillo-weight} zum Einsatz, im zweiten Zweig~-- für
+Papageien~-- ist \lstinline{parrot-weight} zuständig:
+%
+\indexvariable{animal-weight}
+\begin{lstlisting}
+(define animal-weight
+  (lambda (animal)
+    (cond
+      ((dillo? animal) (dillo-weight animal))
+      ((parrot? animal) (parrot-weight animal)))))
+\end{lstlisting}
+% 
 Abbildung~\ref{scheme:define-record-predicates} ist eine
 aktualisierte Beschreibung der Form von
 \lstinline{define-record}, bei der auch Prädikate
@@ -713,7 +711,7 @@ Mit dieser Information gewappnet können wir die Tests ergänzen:
 \end{lstlisting}         
 %
 Im ersten Zweig handelt es sich nicht nur um eine rationale Zahl,
-sondern auch um eine Fallunterscheidung mit drei Fällen entsprechend
+sondern auch um eine Fall"-unterscheidung mit drei Fällen entsprechend
 der Tabelle vom Anfang:
 %
 \begin{lstlisting}
@@ -793,9 +791,11 @@ Gerüst:
 \end{lstlisting}
 %
 Den Rumpf haben wir ja schon geschrieben, wir müssen ihn nur noch
-hierher bewegen und \lstinline{sugar-content} in \lstinline{sugar-weight} umbenennen. Das \drscheme{}-System
-bietet dazu nach einem Klick auf "<Syntaxprüfung"> die Möglichkeit, mit einem
-Rechtsklick auf den Parameter \lstinline{sugar-content} ein Menü aufzuklappen, das unter
+hierher bewegen und dann \lstinline{sugar-content} in
+\lstinline{sugar-weight} umbenennen.
+Du kannst dazu in DrRacket
+nach einem Klick auf "<Syntaxprüfung"> mit einem
+Rechtsklick auf den Parameter \lstinline{sugar-content} ein Menü aufklappen, das unter
 anderem die Auswahl "<\lstinline{sugar-content} umbenennen"> anbietet. \drscheme{} sorgt dann
 dafür, dass alle zugehörigen Vorkommen von \lstinline{sugar-content} in gleicher Weise
 umbenannt werden.\label{def:sugar-weight-traffic-light}
@@ -841,8 +841,8 @@ anwenden:
 %
 Wir müssen Fruktose- und den Glukose-Anteil addieren und die Summe
 dann ebenfalls entsprechend der Tabelle vom Anfang in eine Ampelfarbe
-umwandeln.  Aber halt! Für das Umwandeln der Zahl aus der
-Tabelle in eine Ampelfarbe haben wir ja gerade die Hilfsfunktion
+umwandeln.  Für das Umwandeln der Zahl aus der
+Tabelle in eine Ampelfarbe haben wir die Hilfsfunktion
 \lstinline{sugar-weight->traffic-light} geschrieben, und diese
 können wir
 erneut zum Einsatz bringen:
@@ -1182,8 +1182,8 @@ Daten, das lohnt aber hier kaum.
 %       zurückgeben, deren Größe entsprechend angepasst ist
   \item  Flächeninhalt zweier
     Formen vergleichen: Für gleich große Formen liefert die Funktion
-    \verb|"equal"| zurück, sonst \verb|"smaller"|, wenn die erste
-    Form kleiner ist, beziehungsweise \verb|"bigger"|, wenn die erste
+    die Zeichenkette \lstinline{"equal"} zurück, sonst \lstinline{"smaller"}, wenn die erste
+    Form kleiner ist, beziehungsweise \lstinline{"bigger"}, wenn die erste
     Form größer ist.
     \end{itemize}
 

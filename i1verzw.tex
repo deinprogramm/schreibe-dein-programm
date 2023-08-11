@@ -113,7 +113,8 @@ ergibt immer dann \lstinline{#t}, wenn alle $e_i$ \lstinline{#t} ergeben, sonst
 |\evalsto| #f
 \end{lstlisting}
 %
-Entsprechend gibt es Ausdrücke der Form\indexvariable{or}
+Entsprechend zu den \lstinline{and}-Ausdrücken mit "<und"> gibt es auch Ausdrücke
+der Form\indexvariable{or}, die "<oder"> umsetzen:
 %
 \begin{lstlisting}
 (or |\(e\sb{1}\)| |\(e\sb{2}\)| |\(\ldots\)| |\(e\sb{n}\)|)
@@ -828,7 +829,8 @@ folgendem Ergebnis:
       ((< temp 0)
        (cond
          ; Erwärmumg bleibt unter 0|\si{\degree}|C.
-         ((< (+ temp heat) 0) |\ldots|)
+         ((< (+ temp heat) 0)
+          |\ldots|)
          ; Erwärmung bleibt bei  0|\si{\degree}|C "stecken".
          ((and (>= (+ temp heat) 0)
                (< (+ temp heat) 80))
@@ -852,7 +854,7 @@ hoffentlich durch genauere Betrachtungen:
   Das heißt, die Summe von
   Anfangstemperatur und Erwärmung ist kleiner als $0$\si{\degree}C.
 \item "<Die Erwärmung bleibt bei  0\si{\degree}C stecken.">\\
-  Das heißt, die Summe von Temperatur und Erwärmung muss zwischen $0$\si{\degree}C
+  In diesem Fall muss die Summe von Temperatur und Erwärmung zwischen $0$\si{\degree}C
   und $80$\si{\degree}C liegen.
 \item "<Die Erwärmung erhöht die Temperatur über den Nullpunkt hinaus.">\\
   Das Summe von Temperatur und Erwärmung geht nicht nur über $0$\si{\degree}C
@@ -870,7 +872,8 @@ ergänzen:
       ((< temp 0)
        (cond
          ; Erwärmumg bleibt unter 0|\si{\degree}|C.
-         ((< (+ temp heat) 0) (+ temp heat))
+         ((< (+ temp heat) 0)
+          (+ temp heat))
          ; Erwärmung bleibt bei  0|\si{\degree}|C "stecken".
          ((and (>= (+ temp heat) 0)
                (< (+ temp heat) 80))
@@ -900,8 +903,8 @@ Bedingung:
                (>= (+ temp heat) 80))
 \end{lstlisting}
 %
-Das ist übertrieben: Eine Temperatur über 80\si{\degree}C liegt auch über 0\si{\degree}C.
-Wir können das also vereinfachen auf:
+Eine Temperatur über 80\si{\degree}C liegt auch über 0\si{\degree}C.
+Wir können das also vereinfachen zu:
 %
 \begin{lstlisting}
           (>= (+ temp heat) 80)
@@ -925,9 +928,9 @@ die Bedingungen in einem \lstinline{cond}-Ausdruck nacheinander
 auswertet.  Sobald eine davon \lstinline{#t} ergibt, macht DrRacket mit dem
 Ausdruck dieses Zweiges weiter.  Die restlichen Zweige werden gar nicht
 mehr berücksichtigt, unabhängig davon, ob sie \lstinline{#t} ergeben
-könnten oder nicht.
+könnten.
 Das können wir ausnutzen, um die Funktion weiter zu vereinfachen.
-Dazu betrachten wir die beiden ersten Bedingungen im "<inneren">
+Wir betrachten die ersten beiden Bedingungen im "<inneren">
 \lstinline{cond}:
 %
 \begin{lstlisting}
@@ -1226,8 +1229,8 @@ Zweige:
 \end{lstlisting}
 %
 Dr.\ Neuß schlug vor, diese beiden Funktionen dazu zu benutzen, um den
-Rumpf von \lstinline{heat-water} zu schreiben.  Wir versuchen das mal
-und schreiben sicherheitshalber eine neue Funktion
+Rumpf von \lstinline{heat-water} zu schreiben.  Wir versuchen das
+und schreiben eine neue Funktion
 \lstinline{heat-water-2}, bevor wir die alte wegwerfen:
 %
 \indexvariable{heat-water-2}
@@ -1359,12 +1362,10 @@ Mantras~\ref{mantra:schreib} und \ref{mantra:lies}:
 %
 \mantralies*
 %
-\noindent Die Datenanalyse lenkt beim Lesen zunächst unseren Blick auf die
-Daten, \emph{nicht} darauf, was später mit ihnen gemacht wird.  (Das
-kommt später.)  Außerdem gibt sie uns Werkzeug an die Hand, wie wir
-die Erkenntnisse aus dem Lesen strukturieren und aufschreiben können.
-Insbesondere führt sie immer auch zu Elementen in unserem Programm.
-Bei der Funktion \lstinline{cute?} haben wir zum Beispiel aus der
+\noindent Die Datenanalyse lenkt zunächst den Blick auf die
+Daten, \emph{nicht} darauf, was mit ihnen gemacht wird.  (Das
+kommt später.)  Außerdem führt sie immer zu Elementen in unserem Programm.
+Bei der Funktion \lstinline{cute?} haben wir aus der
 Datendefinition zunächst eine Signatur-Definition abgeleitet:
 %
 \indexvariable{pet}
@@ -1422,8 +1423,7 @@ Mantra~\ref{mantra:schreib}:
 %
 \noindent Für jede Sorte von Datendefinition schreiben wir neben der
 Konstruktionsanleitung für die Datenanalyse auch eine für die
-Schablone.  Die Schablone für Fallunterscheidungen sieht
-folgendermaßen aus:
+Schablone.  Hier die Schablone für Fallunterscheidungen:
 %
 \begin{konstruktionsanleitung}{Fallunterscheidung: Schablone}
   \label{ka:fallunterscheidung-schablone}
@@ -1488,7 +1488,7 @@ mathematische Pendant für \lstinline{define}:
 Etwas schwer zu erkennen in dieser Schreibweise: Die Bedingung $t < 0$
 ist die Voraussetzung für die ersten vier Fälle.
 
-\section{Boolesche Fallunterscheidungen und\\ binäre Verzweigungen}
+\section{Binäre Verzweigungen}
 \label{sec:binaere-verzweigungen}
 
 \index{boolesche Fallunterscheidung}\index{binäre Verzweigung}
@@ -1598,14 +1598,6 @@ Bedingung ist der Wert der Verzweigung entweder der Wert der Konsequente
 oder der Wert der Alternative.
 \end{feature}
 %
-\begin{aufgabeinline}
-  In der Mathematik es gibt den "<Absolutbetrag">\index{Absolutbetrag} einer
-  Zahl: Für eine negative Zahl liefert es die entsprechende positive
-  Zahl (aus $-5$ wird also $5$), alle anderen Zahlen bleiben
-  unverändert.  Schreibe eine Funktion, die den Absolutbetrag einer
-  Zahl berechnet!
-\end{aufgabeinline}
-%
 Für boolesche Fallunterscheidungen gibt es eine separate
 Konstruktionsanleitung:
 %
@@ -1623,6 +1615,14 @@ Konstruktionsanleitung:
         |\ldots|)))
 \end{lstlisting}
 \end{konstruktionsanleitung}
+
+\begin{aufgabeinline}
+  In der Mathematik es gibt den "<Absolutbetrag">\index{Absolutbetrag} einer
+  Zahl: Für eine negative Zahl liefert es die entsprechende positive
+  Zahl (aus $-5$ wird also $5$), alle anderen Zahlen bleiben
+  unverändert.  Schreibe eine Funktion, die den Absolutbetrag einer
+  Zahl berechnet!
+\end{aufgabeinline}
 
 \section{Syntaktischer Zucker}
 
@@ -1715,10 +1715,10 @@ Beispiel:
 \section{Unsinnige Daten abfangen}
 \label{sec:nonsensical-data}
 
-Noch einmal zurück zur Funktion \lstinline{heat-water} in
-Abschnitt~\ref{sec:heat-water}: Die hat schon ziemlich viele Zweige.
-Genau genommen decken die aber immer noch nicht alles ab.  %Zum
-Bei Anfangstemperaturen über 100\si{\degree}C verhält sich die Funktion merkwürdig:
+Noch einmal zurück zur Funktion \lstinline{heat-water} aus
+Abschnitt~\ref{sec:heat-water}: Die hat schon viele Zweige,
+deckt aber immer noch nicht alles ab, zum Beispiel
+Anfangstemperaturen über 100\si{\degree}C:
 %
 \begin{lstlisting}
 (heat-water 150 0)
@@ -1865,9 +1865,6 @@ folgende Konsequenz berechnet!
     drei gegebenen Zahlen zwischen den beiden anderen liegt.  Mit
     "<zwischen"> ist gemeint, dass die erste Zahl auch gleich der
     zweiten oder der dritten sein kann.
-    Gehe
-    davon aus, dass der Aufruf immer \lstinline{(valid-value? value min max)}
-    lautet.
   \item \lstinline{clamp}, die wie folgt definiert ist:
     
     \[\mathit{clamp}(x,\ \mathit{min},\ \mathit{max})=
@@ -1895,7 +1892,7 @@ folgende Konsequenz berechnet!
   \end{itemize}
   %
   Schreibe zunächst eine Datendefinition für die Positionen und dann eine
-  passende Signatur-Definition mit dem Namen \lstinline{position}.
+  passende Signatur"=Definition mit dem Namen \lstinline{position}.
   
   Schreibe nun eine Funktion mit folgender Signatur:
   %
@@ -1942,7 +1939,7 @@ folgende Konsequenz berechnet!
     Gefährdungslage mehr, gibt Punkte und Fahrverbote. Schreibe
     drei Funktionen, eine für das Bußgeld \lstinline{rote-ampel-bußgeld}, 
     eine für die Punkte in Flensburg \lstinline{rote-ampel-punkte} 
-    und eine für das Fahrverbot \lstinline{rote-ampel-fahrverbot}, 
+    und eine Funktion für das Fahrverbot \lstinline{rote-ampel-fahrverbot}, 
     welche ausgibt, ob ein Fahrverbot erteilt wird. Übergib
     den Funktionen, wie lange die Ampel schon rot war und ob eine
     Gefährdung oder Sachbeschädigung vorlag.

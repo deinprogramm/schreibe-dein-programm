@@ -124,15 +124,15 @@ Computer:\indexvariable{define-record}
 %
 Diese etwas komplizierte Form erläutern wir Schritt für Schritt.  Weil sie gleich mehrere
 Funktionen definiert, die mit Records zu tun haben, heißt
-sie \lstinline{define-record}.  Als Erstes nach
-dem \lstinline{define-record} steht der Name der Signatur für
+sie \lstinline{define-record}.  Nach
+\lstinline{define-record} steht der Name der Signatur für
 die Werte des Record-Typs,
 \lstinline{computer}.  Diese Signatur nennen wir ab sofort die
 \textit{Record-Signatur}.\index{Record-Signatur}
 
 Als Nächstes in der Record-Definition kommt \lstinline{make-computer},
 der Name einer Funktion, die für die \textit{Konstruktion} eines
-Computer-Records zuständig ist.  Analog zum Zusammenbauen eines
+Computer"=Records zuständig ist.  Analog zum Zusammenbauen eines
 Computers mit Cell-Prozessor, 8 Gigabyte RAM und 250 Gigabyte
 Festplatte wird der dazugehörige Record mit der Funktion
 \lstinline{make-computer} folgendermaßen hergestellt:
@@ -151,7 +151,7 @@ Festplatte wird der dazugehörige Record mit der Funktion
 Die drei Eingaben sind der Reihe nach Prozessor, RAM und Festplatte.
 \lstinline{Make-computer} macht daraus einen Wert der Sorte
 \lstinline{computer} der Computer-Records.  Da \lstinline{make-computer}
-einen Computer-Record "<konstruiert">, heißt die Funktion auch
+einen Computer=Record "<konstruiert">, heißt die Funktion auch
 \textit{Konstruktor\index{Konstruktor}}.
 
 Mit der Schreibweise
@@ -286,8 +286,6 @@ Der Gesamtspeicher ist die Summe der beiden Komponenten:
        (computer-hard-drive c))))
 \end{lstlisting}
 %
-Fertig!
-
 \lstinline{Total-memory} ist ein Beispiel für eine Funktion, die einen
 Record akzeptiert.  Umgekehrt gibt es auch Funktionen, die Records
 produzieren.  Angenommen, unser Computerhändler bietet neben der
@@ -373,7 +371,7 @@ wir dazu \lstinline{string=?}:
 %
 In jedem Zweig müssen wir nun dafür sorgen, dass der entsprechende
 Computer hergestellt wird.  Für das Herstellen von Computer-Records
-ist der Konstruktor \lstinline{make-computer} zuständig.  Dementsprechend
+ist der Konstruktor \lstinline{make-computer} zuständig.  Dem"-entsprechend
 müssen wir in jedem Zweig einen Aufruf von \lstinline{make-computer}
 platzieren, jeweils mit drei Argumenten:
 %
@@ -624,11 +622,14 @@ Die Funktion \lstinline{minutes-since-midnight} können wir auch umdrehen:
 \end{lstlisting}
 %
 Der Pfeil in \lstinline{minutes-since-midnight->wallclock-time} gehört zum Namen dazu und steht für die Umwandlung
-einer Größe in eine andere.  Die Testfälle sind gegenüber
-\lstinline{minutes-since-midnight} umgedreht.
+einer Größe in eine andere.
+
+Die Testfälle sind gegenüber
+\lstinline{minutes-since-midnight} umgedreht:
 %
 \begin{lstlisting}
-(check-expect (minutes-since-midnight->wallclock-time (+ (* 11 60) 55))
+(check-expect (minutes-since-midnight->wallclock-time
+                (+ (* 11 60) 55))
               wt1)
 (check-expect (minutes-since-midnight->wallclock-time 0)
               wt2)
@@ -645,7 +646,7 @@ Hier ist das Gerüst:
     ...))
 \end{lstlisting}
 %
-Dies ist eine Funktion, die eine Uhrzeit produziert~-- sie muss also
+Diese Funktion, produziert eine Uhrzeit~-- sie muss also
 den Konstruktor für \lstinline{wallclock-time} aufrufen.  Daraus ergibt
 sich folgende Schablone:
 %
@@ -723,13 +724,14 @@ Damit können wir den Rumpf vervollständigen:
 
 \begin{aufgabeinline}
   Funktioniert \lstinline{minutes-since-midnight->wallclock-time} für
-  beliebige natürliche Zahlen als Eingabe?
+  alle Zahlen als Eingabe?
 \end{aufgabeinline}
 
 \begin{aufgabeinline}
   Schreibe eine Funktion \lstinline{wallclock-time-add-minutes}, die
-  auf eine Uhrzeit eine gegebene Anzahl Minuten addiert.  Benutze
-  dafür \lstinline{minutes-since-midnight} und
+  auf eine Uhrzeit eine gegebene Anzahl Minuten addiert.
+  Benutze
+  dafür die vorhandenen Funktionen \lstinline{minutes-since-midnight} und
   \lstinline{minutes-since-midnight->wallclock-time}!  Du darfst
   annehmen, dass auch das Ergebnis noch in die 24 Stunden eines Tages
   passt.
@@ -758,12 +760,10 @@ ist ein Kommentar im Programm in folgender Form:
 ; - Bestandteil / Eigenschaft n
 \end{lstlisting}
 %
-Auf die Datendefinition folgt eine entsprechende Record-Definition.
+Darauf folgt eine entsprechende Record-Definition.
 Dafür überlege Dir Namen für den Record-Typ $T$ und für die
-Felder, $f_1 \ldots f_n$.  Für jedes Feld solltest Du außerdem
-die dazu passende Signatur $\mathit{sig}_{i}$ angeben.
-Die Record-Definition hat dann folgende
-Form:
+Felder, $f_1 \ldots f_n$.  Zu jedem Feld gehört
+eine Signatur $\mathit{sig}_{i}$:
 %
 \begin{lstlisting}
 (define-record $T$
@@ -776,13 +776,12 @@ Form:
 Der Name des Record-Typs \(T\) ist die Record-Signatur,
 \lstinline{make-}\(T\) ist der Konstruktor und \(T\)-\(f\sb{i}\)
 sind die Selektoren.
-
 Dass der Konstruktorname mit \lstinline{make-} anfängt und dass die
 Selektornamen sich aus dem Namen des Typs und der Felder
-zusammensetzt, ist reine Konvention.  Von ihr solltest Du aber nur aus
+zusammensetzt, ist reine Konvention.  Von ihr solltest Du nur aus
 guten Gründen abweichen.
 
-Unter die Record-Definition gehören die Signaturen für den Konstruktor
+Darunter gehören die Signaturen für den Konstruktor
 und die Selektoren:
 %
 \begin{lstlisting}
@@ -793,8 +792,10 @@ $\ldots$
 \end{lstlisting}
 %
 \end{konstruktionsanleitung}
-%
-Wenn Du genügend Übung in der Verwendung von Konstruktoren und
+
+\pagebreak[1]
+
+Wenn Du genügend Übung mit der Verwendung von Konstruktoren und
 Selektoren hast, kannst Du die Signaturen (die ja redundant sind)
 auch weglassen: Die relevanten Signaturen für die Felder stehen ja
 schon in der Record-Definition.
@@ -832,16 +833,13 @@ Konstruktionsanleitung auswählen.
 Mit etwas Übung kannst Du nicht benötigte Selektor-Anwendungen auch von
 vornherein weglassen.  Gelegentlich deutet es aber auf einen Fehler
 hin, wenn eine fehlt: Darum ist es oft sinnvoll, sie zunächst
-hinzuschreiben, ganz im Sinne von Mantra~\ref{mantra:schreib} auf
-Seite~\pageref{mantra:schreib}:
-
-\mantraschreib*
+hinzuschreiben.
 
 \noindent Funktionen, die zusammengesetzte Daten als Ausgabe haben, müssen einen
 entsprechenden Record konstruieren und deshalb den Konstruktor
-aufrufen.  Die Schablone ergibt sich folgendermaßen:
+aufrufen.  Hier ist Schablone dafür:
 %
-\begin{konstruktionsanleitung}{Zusammengesetzte Daten als Ausgabe:
+\begin{konstruktionsanleitung}{Zusammengesetzte Daten als Ausgabe:\\
     Schablone}
     \label{ka:zusammengesetzt-ausgabe-schablone}
   Wenn Deine Funktion zusammengesetzte Daten als Ausgabe hat, schreibe
@@ -996,7 +994,7 @@ betrifft, die Gürteltiere in zwei verschiedene Gruppen fallen:
 \lstinline{Feed-dillo} verhält sich bei lebenden Gürteltieren anders als
 bei toten: eine Fallunterscheidung.
 
-Entsprechend brauchen wir eine Verzweigung im Rumpf, und aufgrund
+Entsprechend brauchen wir eine Verzweigung im Rumpf, und zwar aufgrund
 des Wertes von \lstinline{(dillo-alive? dillo)}, der glücklicherweise schon in der
 Schablone steht.  Da \lstinline{dillo-alive?} einen booleschen Wert
 liefert, handelt es sich um eine boolesche Fallunterscheidung.
@@ -1348,14 +1346,16 @@ Seite~\pageref{mantra:gleichungen}:
 
   \begin{enumerate}
   \item Entwirf eine Daten- und Record-Definition für einen Eintrag eines
-    Verwaltungssystems für Vorlesungs- und Seminarräume. Jeder Eintrag beinhaltet
+    Verwaltungssystems für Vorlesungs- und Seminarräume.
+
+    Jeder Eintrag beinhaltet
     folgende Informationen: der Name des Raums (als Zeichenkette), der Wochentag,
     die Uhrzeit (es wird nur in Stunden gerechnet) und der Name des Dozenten, der
     den Raum belegt.
 
   \item Schreibe eine Funktion \lstinline{reserve}, die als Argumente einen Eintrag und einen
     Dozentennamen akzeptiert und einen Eintrag zurückgibt. Falls der Raum noch nicht belegt
-    wurde (das heißt im Eintrag ist der Dozentenname "<">), soll der Raum reserviert werden und
+    wurde (das heißt im Eintrag ist der Dozentenname \lstinline{""}), soll der Raum reserviert werden und
     damit ein neuer Eintrag zurückgegeben werden, bei dem der Dozentenname gesetzt ist.
     Andernfalls wird der Eintrag unverändert zurückgegeben.
   \end{enumerate}
@@ -1434,10 +1434,10 @@ Seite~\pageref{mantra:gleichungen}:
   %
   \textbf{Hinweis:} Zur Lösung der Aufgabe kann die eingebaute
   Funktion
-  \begin{lstlisting}
-    (: remainder (natural natural -> natural))
-  \end{lstlisting}
-
+\begin{lstlisting}
+(: remainder (natural natural -> natural))
+\end{lstlisting}
+  %
   hilfreich sein. Sie berechnet den Rest einer ganzzahligen Division.
 
 \end{aufgabe}
@@ -1528,7 +1528,9 @@ Seite~\pageref{mantra:gleichungen}:
     Größenklassen \textit{Small}, \textit{Medium} und \textit{Large},
     um die Kosten für das Paket zu berechnen.  Ausschlaggebendes
     Kriterium für die Paketgröße ist die Summe der längsten und der
-    kürzesten Seite des Pakets.  Schreibe eine Funktion
+    kürzesten Seite des Pakets.
+
+    Schreibe eine Funktion
     \lstinline{add-longest-and-shortest-side}, die als Argument eine
     \textit{Abmessung} bekommt.  Der Rückgabewert von
     \lstinline{add-longest-and-shortest-side} soll die Summe der längsten
@@ -1537,7 +1539,7 @@ Seite~\pageref{mantra:gleichungen}:
     und \lstinline{shortest-side}.
 
   \item Schreibe eine Daten- und eine Record-Definition für
-    \textit{Pakete}.  Ein Paket besteht aus einer Absender- und einer
+    \textit{Pakete}.  Ein Paket hat eine Absender- und eine
     Empfängeradresse.  Benutze für die Adressen die bereits
     erstellte Record-Definition.  Außerdem hat ein Paket noch weitere
     Eigenschaften: Die Abmessungen (benutze dafür die bereits
@@ -1563,7 +1565,9 @@ Seite~\pageref{mantra:gleichungen}:
 
   \item Schreibe eine Funktion \lstinline{calculate-base-postage},
     die als Argument ein \textit{Paket} bekommt und die
-    Basis-Portokosten für dieses Paket berechnet.  Lege Sie dabei
+    Basis-Portokosten für dieses Paket berechnet.
+
+    Lege dabei
     folgende Grundtariftabelle des Paketdienstes zugrunde:
 
     \begin{center}

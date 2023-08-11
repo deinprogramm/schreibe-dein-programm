@@ -311,8 +311,8 @@ einem Spiel die Punkte liefert:
                          -> (game -> points)))
 \end{lstlisting}
 %
-Auch mit dieser Funktion können wir alternative Definitionen von
-\lstinline{make-compute-points} schreiben.  Auf den ersten Blick ist
+Mit der Funktion \lstinline{make-compute-points}  können wir ebenfalls alternative Definitionen von
+\lstinline{home-points} und \lstinline{guest-points} schreiben.  Auf den ersten Blick ist
 das umständlich, wenn wir das genauso machen wie mit
 \lstinline{compute-points}, da wir noch mehr Klammern brauchen:
 %
@@ -378,7 +378,7 @@ handelt sich also um eine Art "<Funktionsfabrik">.
   das keine so gute Idee?
 \end{aufgabeinline}
 
-Die Abstraktionstechnik, die wir für die Konstruktion von
+Die Abstraktionstechnik, die wir für die Konstruktion der Funktionen
 \lstinline{compute-points} und \lstinline{make-compute-points}
 verwendet haben, wenden wir in diesem Buch noch öfter an.  Sie
 verdient deshalb eine eigene Konstruktionsanleitung:
@@ -495,11 +495,9 @@ es im Ergebnis unter:
            (drawn-games (rest list)))))))
 \end{lstlisting}
 %
-Fertig!
-
-Analog zu \lstinline{drawn-games} schreiben wir als Nächstes eine
+Analog zu \lstinline{drawn-games} schreiben wir nun eine
 Funktion, die alle Spiele aus einer Liste extrahiert, die die Heimmannschaft
-gewonnen hat.  Dazu brauchen wir erst einmal eine Funktion analog zu
+gewonnen hat.  Dazu brauchen wir eine Funktion analog zu
 \lstinline{game-draw?}:
 %
 \indexvariable{home-won?}
@@ -516,8 +514,8 @@ gewonnen hat.  Dazu brauchen wir erst einmal eine Funktion analog zu
     (= 3 (home-points game))))
 \end{lstlisting}
 %
-Die Funktion \lstinline{home-won-games} entsteht genau analog zu
-\lstinline{drawn-games}.  Am Ende kommt folgendes heraus:
+Die Funktion \lstinline{home-won-games} entsteht analog zu
+\lstinline{drawn-games}.\enlargethispage{1ex}
 %
 \indexvariable{home-won-games}
 \begin{lstlisting}
@@ -525,7 +523,9 @@ Die Funktion \lstinline{home-won-games} entsteht genau analog zu
 (: home-won-games ((list-of game) -> (list-of game)))
 
 (check-expect (home-won-games day1) (list game1 game3 game6))
+\end{lstlisting}
 
+\begin{lstlisting}
 (define home-won-games
   (lambda (list)
     (cond
@@ -556,7 +556,7 @@ beiden Fällen ums "<extrahieren"> geht, nehmen wir
        (if (home-won? (first list))
            (cons (first list)
                  (extract-games (rest list)))
-                 (extract-games (rest list)))))))
+           (extract-games (rest list)))))))
 \end{lstlisting}
 %
 Als Nächstes müssen wir die Stelle, die sich bei beiden Definitionen
@@ -620,8 +620,10 @@ ersetzen.  Wir tun das, indem wir die Testfälle für
 \lstinline{drawn-games} und \lstinline{home-won-games} anpassen:
 %
 \begin{lstlisting}
-(check-expect (extract-games game-draw? day1) (list game2 game7 game8 game9))
-(check-expect (extract-games home-won? day1) (list game1 game3 game6))
+(check-expect (extract-games game-draw? day1)
+              (list game2 game7 game8 game9))
+              (check-expect (extract-games home-won? day1)
+              (list game1 game3 game6))
 \end{lstlisting}
 %
 Fertig!
@@ -878,8 +880,8 @@ einzelnes Spiel die Anzahl der Tore einer bestimmten Mannschaft berechnet:
 (check-expect (team-goals "Stuttgart" game1) 0)
 \end{lstlisting}
 %
-Was soll passieren, wenn die gewünschte Mannschaft bei dem Spiel gar nicht
-dabei war?  Das sollte zu einem Fehler führen:
+Was soll passieren, wenn die gewünschte Mannschaft bei dem Spiel nicht
+dabei war?  Ein Fehler:
 %
 \begin{lstlisting}
 (check-error (team-goals "Hannover" game1))
@@ -1122,12 +1124,11 @@ für \lstinline{empty}, wo das jeweilige neutrale Element steht, und im
 Zweig für \lstinline{cons}, wo die Funktion steht, die benutzt wird,
 um das erste Element mit dem Ergebnis des rekursiven Aufrufs zu
 kombinieren.  Es ist also eine gute Idee zu abstrahieren!
-
 Wir gehen wieder nach Konstruktionsanleitung~\ref{ka:abstraktion} auf
-Seite~\pageref{ka:abstraktion} vor.  Uns ist beim ersten Mal, als wir
-das gemacht haben, kein guter Name eingefallen.  Das ist keine
-Schande: Wir fangen deshalb mit \lstinline{xxx} an in der Hoffnung,
-dass uns später ein besserer Name einfällt:
+Seite~\pageref{ka:abstraktion} vor.  Weil wir noch nicht genau wissen,
+was die Funktion machen wird, nennen wir sie
+\lstinline{xxx} in der Hoffnung, dass uns später ein besserer 
+Name einfällt:
 %
 \begin{lstlisting}
 (define xxx
@@ -1218,7 +1219,7 @@ aneinanderhängt und folgende Signatur hat:
 % 
 Weil wir \lstinline{(list-of %element)} für \lstinline{%a} einsetzen,
 brauchen wir als weitere Argumente für \lstinline{xxx} noch eine
-Liste als erstes Argument und eine Liste von Listen als drittes
+Liste als erstes und eine Liste von Listen als drittes
 Argument.  Das könnte so aussehen:
 %
 \begin{lstlisting}
@@ -1454,8 +1455,8 @@ also folgende Signatur:
 (: plays-game?/team (team -> (game -> boolean)))
 \end{lstlisting}
 %
-Jetzt können wir die obigen Aufrufe von \lstinline{extract-list} mit
-Hilfe von \lstinline{plays-game?/team} umschreiben:
+Jetzt können wir die Aufrufe von \lstinline{extract-list} mit
+Hilfe von \lstinline{plays-game?/team} schreiben:
 %
 \begin{lstlisting}
 (extract-list (plays-game?/team "Nürnberg")
@@ -1477,9 +1478,9 @@ zu verwenden.  Dabei kommt folgende Definition heraus:
       (team-goals team game))))
 \end{lstlisting}
 %
-Wenn Du genau hinschaust, kannst Du sehen, dass wir schon wieder
-abstrahieren können, nämlich über \lstinline{plays-game?/team} und
-\lstinline{team-goals/team}~-- die sind nämlich identisch bis auf die Funktion,
+Wir können wieder
+abstrahieren, nämlich über \lstinline{plays-game?/team} und
+\lstinline{team-goals/team}~-- die sind identisch bis auf die Funktion,
 die am Ende aufgerufen wird.  Wir kopieren also wieder und ersetzen
 diese Funktion durch die neue Variable \lstinline{f}.  Weil wir noch
 nicht absehen können, wo die Reise hingeht, nennen wir die Funktion
@@ -1503,14 +1504,9 @@ Für den neuen Namen machen wir wieder ein neues \lstinline{lambda}:
 \end{lstlisting}
 %
 Wir brauchen eine Signatur.  Da drei \lstinline{lambda}s involviert
-sind, brauchen wir auch drei Pfeile:
-%
-\begin{lstlisting}
-(: xxx (... -> (... -> (... -> ...))))
-\end{lstlisting}
-%
+sind, brauchen wir drei Pfeile.
 Außerdem ist das erste Argument für \lstinline{f} eine Funktion, die
-zwei Argumente akzeptiert:
+zwei Argumente akzeptiert~-- noch ein Pfeil:
 %
 \begin{lstlisting}
 (: xxx ((... ... -> ...) -> (... -> (... -> ...))))
@@ -1577,7 +1573,8 @@ Hier ist ein Testfall, der \lstinline{curry} zusammen mit
 (check-expect (list-apply ((curry team-goals) "Hamburg")
                           (filter ((curry plays-game?) "Hamburg")
                                   season-2009/2010))
-              (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2 2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
+              (list 1 4 4 3 3 1 1 3 0 3 2 2 0 1 0 4 2
+                    2 0 1 3 3 0 0 1 2 2 0 0 2 0 1 4 1))
 \end{lstlisting}
 %
 \begin{aufgabeinline}
@@ -1675,16 +1672,15 @@ Namen verwenden, zum Beispiel hier:
 (define feed-dillo
   (lambda (dillo)
     ...))
-
 (define run-over-dillo
   (lambda (dillo)
     ...))
 \end{lstlisting}
 %
 Obwohl der Parameter in beiden Funktionen \lstinline{dillo} heißt,
-haben die beiden Parameter in Wirklichkeit nichts miteinander zu tun.
+haben die beiden nichts miteinander zu tun.
 Das kannst Du im Stepper nachvollziehen, wenn Du bei der Auswertung
-zusiehst.  Du kannst es aber auch einfach am Programm sehen.  Um der
+zusiehst.  Du kannst es aber auch direkt am Programm sehen.  Um der
 Sache auf den Grund zu gehen, betrachten wir folgendes Programm:
 %
 \indexvariable{circle-area}
@@ -2025,11 +2021,9 @@ sie sich befindet.
 (define x 2)          ;  --> zwei
 (define y -1)         ;  --> minuseins
 (define z -3)         ;  --> minusdrei
-
 (define f 
   (lambda (x z)
     (+ (* x x) z y)))
-
 (f 4 -2)
 \end{lstlisting}
   %
@@ -2041,8 +2035,7 @@ sie sich befindet.
   Parameter der Funktion \lstinline{f} um.
 
   Nachdem Du die Umbenennung durchgeführt hast, welches Ergebnis liefert
-  der Ausdruck \lstinline{(f 4 -2)}? Berechne das Ergebnis von Hand mit Hilfe
-  des Substitutionsmodells und halte die Zwischenschritte fest.
+  der Ausdruck \lstinline{(f 4 -2)}?
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -2052,7 +2045,6 @@ sie sich befindet.
 \begin{lstlisting}
 (define x 2)                    ; --> zwei
 (define y 4)                    ; --> vier
-
 (define z                       ; --> f
   (lambda (x y z)
     (+ x (z y))))
@@ -2081,7 +2073,6 @@ sie sich befindet.
 (define x 1)
 (define y 3)
 (define z 5)
-
 (define f
   (lambda (x)   
      ((lambda (y)
@@ -2089,25 +2080,14 @@ sie sich befindet.
            (+ z (* x y)))
          (+ x z)))
       (+ x y))))
-
 (f y)
 \end{lstlisting}
 
   Benenne hier alle lokalen Variablen, die innerhalb der Funktion
   \lstinline{f} gebunden werden, um. Verändere nicht den Namen der
   Variablen \lstinline{x}, \lstinline{y} und \lstinline{z} aus den ersten drei Zeilen
-  des Programms.
-
-  Nachdem Du die Umbenennung durchgeführt haben, welches Ergebnis liefert
-  der Ausdruck \lstinline{(f y)}? Berechne das Ergebnis von Hand mit Hilfe
-  des Substitutionsmodells und halte die Zwischenschritte fest.
-
-  \noindent \emph{Hinweis:} In diesen Aufgaben findest Du keine
-  Kommentare und Signaturen zu den Funktionen. Hier kannst Du an einem
-  Beispiel sehen, dass es sehr wichtig ist, diese Informationen
-  anderen Programmierern immer zur Verfügung zu stellen. Denn es kann
-  auch bei kleinen Programmen schwer sein, die Funktionsweise der
-  einzelnen Funktionen ohne Kommentare zu verstehen.
+  des Programms.  Welches Ergebnis liefert
+  der Ausdruck \lstinline{(f y)} nach der Umbenennung?
 \end{aufgabe}
 
 \begin{aufgabe}
@@ -2123,17 +2103,18 @@ sie sich befindet.
     \lstinline{phonebook-result} für das Ergebnis des Nachschlagens in einem
     Telefonbuch. Ein solches Ergebnis ist entweder eine Telefonnummer
     oder ein Wert, der "<nicht gefunden"> darstellt,
+
     Die Signatur des Telefonbuchs ist  \lstinline{(string -> phonebook-result)}.
   \item Definiere einen Wert \lstinline{empty-phonebook}, der das leere
     Telefonbuch repräsentiert.
-  \item Definiere eine Funktion namens
-    \lstinline{add-to-phonebook}, welche ein Telefonbuch, einen Namen
+  \item Definiere eine Funktion 
+    \lstinline{add-to-phonebook}, die ein Telefonbuch, einen Namen
     und eine Telefonnummer erwartet und das um den neuen Eintrag
     erweiterte
     Telefonbuch zurückliefert.
-  \item Schreibe eine Funktion namens \lstinline{lookup-in-phonebook},
-    welche ein Telefonbuch und einen Namen einer Person erwartet und die
-    Nummer der Person im Telefonbuch nachschlägt und zurückliefert.
+  \item Schreibe eine Funktion \lstinline{lookup-in-phonebook},
+    die ein Telefonbuch und einen Namen einer Person erwartet und die
+    Nummer der Person im Telefonbuch zurückliefert.
     Beispiele:
     \begin{itemize}
     \item \lstinline{(lookup-in-phonebook empty-phonebook "Hans")} liefert
@@ -2200,8 +2181,9 @@ sie sich befindet.
   einem Feld der Elemente.  So kann eine Liste von Fußballspielen nach
   der Gesamtanzahl der Tore, der Anzahl der Tore des Heimteams oder
   der Anzahl der Tore des Gästeteams oder der Anzahl der Tore der
-  gewinnenden Mannschaft sortiert werden.  Die genaue Anordnung wird durch
-  eine Operation festgelegt, die bestimmt, ob ein Elemente vor einem anderen
+  gewinnenden Mannschaft sortiert werden.  Das Kriterium für die
+  Sortierung wird durch
+  eine Funktion festgelegt, die ermittelt, ob ein Elemente vor einem anderen
   stehen soll.
 
 \begin{enumerate}
@@ -2238,8 +2220,8 @@ sie sich befindet.
   Solche unendlichen Folgen heißen \textit{Streams}.
   Schreibe Daten- und Record-Definition für Streams!
 
-  Hier ist eine Funktion, die einen Stream aus natürlichen Zahlen,
-  angefangen bei einer Zahl $n$, liefert:
+  Folgende Funktion soll einen Stream aus natürlichen Zahlen liefern,
+  ab einer Zahl $n$:
   % 
   \indexvariable{from}
 \begin{lstlisting}
@@ -2266,18 +2248,18 @@ sie sich befindet.
         empty
         (cons (stream-first stream)
                    (stream-take (- n 1)
-                                ((stream-rest-proc stream)))))))
-   \end{lstlisting}
+                                ((stream-rest-function stream)))))))
+\end{lstlisting}
    % 
-   (Dabei ist angenommen, dass die Selektoren für Streams
-   \lstinline{stream-first} und \lstinline{stream-rest-proc} heißen.)
+   (Dabei ist angenommen, dass die Selektoren
+   \lstinline{stream-first} und \lstinline{stream-rest-function} heißen.)
    \lstinline{Stream-take} lässt sich zum Beispiel auf das Ergebnis von
    \lstinline{from} anwenden:
    % 
-   \begin{lstlisting}
+\begin{lstlisting}
 (stream-take 17 (from 4))
 |\evalsto| #<list 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20>
-   \end{lstlisting}
+\end{lstlisting}
    % 
    Programmiere einige intellektuelle Herausforderungen mit Streams!
    \begin{enumerate}
@@ -2285,67 +2267,67 @@ sie sich befindet.
      natürliche Zahl $n$ und einen Stream akzeptiert, und einen neuen
      Stream liefert, der aus dem alten durch Weglassen der ersten $n$
      Elemente entsteht:
-     \begin{lstlisting}
+\begin{lstlisting}
 (stream-take 17 (stream-drop 3 (from 4)))
 |\evalsto| #<list 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23>
-     \end{lstlisting}
+\end{lstlisting}
    \item Programmiere eine Funktion \lstinline{stream-filter} analog zu
      \lstinline{filter}:
      % 
-     \begin{lstlisting}
+\begin{lstlisting}
 (stream-take 10 (stream-filter odd? (from 1)))
 |\evalsto| #<list 1 3 5 7 9 11 13 15 17 19>
-     \end{lstlisting}
+\end{lstlisting}
    \item Programmiere eine Funktion \lstinline{drop-multiples}, die 
      eine Zahl $n$ und einen Stream von Zahlen $s$ akzeptiert.
      \lstinline{Drop-multiples} soll einen Stream liefern, in dem
      gegenüber $s$  alle Vielfachen von $n$ entfernt wurden:
      % 
-     \begin{lstlisting}
+\begin{lstlisting}
 (stream-take 10 (drop-multiples 3 (from 1)))
 |\evalsto| #<list 1 2 4 5 7 8 10 11 13 14>
-     \end{lstlisting}
+\end{lstlisting}
    \item Schreibe eine Funktion \lstinline{sieve}, die aus einem Stream
      von Zahlen all diejenigen Zahlen entfernt, die Vielfache von
      Vorgängern im Stream sind:
-     \begin{lstlisting}
+\begin{lstlisting}
 (stream-take 10 (sieve (from 2)))
 |\evalsto| #<list 2 3 5 7 11 13 17 19 23 29>
-     \end{lstlisting}
+\end{lstlisting}
      Um was für Zahlen handelt es sich in dem Beispielaufruf und
      warum?
    \item Schreibe eine Funktion \lstinline{powers}, die für eine Zahl
      $n$ einen Stream ihrer Potenzen liefert:
      % 
-     \begin{lstlisting}
+\begin{lstlisting}
 (stream-take 10 (powers 2))
 |\evalsto| #<list 2 4 8 16 32 64 128 256 512 1024>
-     \end{lstlisting}
+\end{lstlisting}
    \item Schreibe eine Funktion \lstinline{stream-map} analog zu
      \lstinline{list-map}:
-     \begin{lstlisting}
+\begin{lstlisting}
 (stream-take 10 (stream-map (lambda (x) (+ x 1)) (from 1)))
 |\evalsto| #<list 2 3 4 5 6 7 8 9 10 11>
-     \end{lstlisting}
+\end{lstlisting}
    \item Schreibe eine Funktion \lstinline{merge}, die zwei
      aufsteigende Streams von Zahlen zu einem aufsteigenden Stream
      der Elemente beider Streams vereinigt:
-     \begin{lstlisting}
+\begin{lstlisting}
 (stream-take 10 (merge (powers 2) (powers 3)))
 |\evalsto| #<list 2 3 4 8 9 16 27 32 64 81>
-     \end{lstlisting}
+\end{lstlisting}
    \item Schreibe eine Definition für einen Stream aufsteigend
      sortierter Potenzen von Primzahlen:
-     \begin{lstlisting}
+\begin{lstlisting}
 (stream-take 10 prime-powers)
 |\evalsto| #<list 2 3 4 5 7 8 9 11 13 16>
-     \end{lstlisting}
+\end{lstlisting}
      Definiere dazu zunächst einen Stream aus Streams von Potenzen
      % 
      \indexvariable{prime-powers-stream}
 \begin{lstlisting}
 (define prime-powers-stream (stream-map powers (sieve (from 2))))
-     \end{lstlisting}
+\end{lstlisting}
      % 
      Definiere eine Funktion \lstinline{merge-streams}, welche
      diesen Stream akzeptiert und die Elemente der Streams
@@ -2417,7 +2399,9 @@ sie sich befindet.
           (* x (f (- x 1)))))))))
    \end{lstlisting}
   %
-  Probiere \lstinline{m} aus~-- was macht die Funktion?  \lstinline{Y}
+  Probiere \lstinline{m} aus~-- was macht die Funktion?
+
+  Die Funktion \lstinline{y}
   wird auch \textit{Fixpunktkombinator}\index{Fixpunktkombinator}
   genannt.  Das Thema kommt in Abschnitt~\ref{sec:fixpunktsatz} auf
   Seite~\pageref{sec:fixpunktsatz} noch einmal ausführlich:
