@@ -1339,7 +1339,13 @@ erläutern werden.
 \end{konstruktionsanleitung}
 %
 Für jeden dieser Schritte gibt es jeweils eine Konstruktionsanleitung,
-für manche mehrere je nach Situation.  Es mag Dir übermäßig
+für manche mehrere je nach Situation.
+%%% TODO (HK): Zur Datenanalyse gibt es keine
+%%% Konstruktionsanalyse.Deswegen stimmt die Numerierung der Schritte
+%%% hier nicht mit der Numerierung der nachfolgenden
+%%% Konstruktionsanleitungen überein. Das kann verwirren. Ich habe
+%%% unten eine kleine Bemerkung dazu eingefügt.
+Es mag Dir übermäßig
 bürokratisch vorkommen, immer die gleiche Reihenfolge einzuhalten und
 immer nach der jeweiligen Konstruktionsanleitung vorzugehen.
 Bürokratisch ist das in jedem Fall, aber auch eine wertvolle
@@ -1363,6 +1369,10 @@ des Ablaufs ein, die wir schon auf der Liste haben:
 ; monatlichen Rechnungsbetrag für Tarif Billig-Strom berechnen
 \end{lstlisting}
 \end{konstruktionsanleitung}
+
+Die Kurzanleitung für die Datenanalyse, die Du vielleicht an dieser
+Stelle vermisst, gibt es erst in Kapitel \ref{cha:conditionals}. An
+dieser Stelle hier wird sie noch nicht benötigt.
 
 \begin{konstruktionsanleitung}{Signatur-Deklaration}
   \index{Signatur-Deklaration}
@@ -1780,6 +1790,10 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
 
   Zum Beispiel also entspricht die Uhrzeit 03:02, 9 Sekunden und 6
   Zehntelsekunden \texttt{@126.50} .beats.
+%%% TODO (HK): Da könnte man bei flüchtigem Lesen denken, es wäre von
+%%% 2,9 Sekunden die Rede. Erst wenn man die Zehntelsekunden liest,
+%%% wird (hoffentlich) klar, wie das gemeint ist. Besser wäre sicher
+%%% eine ausführliche Formulierung: 3 Uhr, 2 Minuten, 9 Sekunden und 6 Zehntelsekunden.  
 
   Schreibe eine Funktion \lstinline{time->beats}, die aus einer Uhrzeit
   aus Stunden, Minuten, Sekunden und Zehntelsekunden die Internetzeit
