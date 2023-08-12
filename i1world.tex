@@ -128,7 +128,9 @@ Seitenlänge angibt.  Beispiel:
 mit Breite $w$ und Höhe $h$, in dem die Linie von der linken oberen in
 die rechte untere Ecke verläuft.  Falls die Linie entlang der anderen
 Diagonale verlaufen soll, kannst Du einfach das Vorzeichen von $w$
-oder von $h$ umdrehen.  Beispiele:
+oder von $h$ umdrehen.
+
+Beispiele:
 %
 \begin{lstlisting}
 (line 150 100 "blue")
@@ -161,7 +163,7 @@ zeichnet.  Sie hat folgende Signatur:
 \end{lstlisting}
 %
 Diese Funktion akzeptiert eine Liste von Eckpunkten und die üblichen
-\lstinline{mode}- und \lstinline{color}-Argumente.  Ein Eckpunkt 
+\lstinline{mode}- und \lstinline{color}"=Argumente.  Ein Eckpunkt 
 muss entweder zur Signatur \lstinline{posn} oder zu
 \lstinline{pulled-point} gehören.  Das sind eingebaute Record-Typen,
 bei denen \lstinline{posn}\indexvariable{posn} so definiert sein könnte:
@@ -192,7 +194,7 @@ Eckpunkten:
 Bei \lstinline{posn}-Eckpunkten sind die Kanten also alles gerade
 Linien.  Mit \lstinline{pulled-point}-Eckpunkten ist es möglich, die
 Kanten zu Kurven zu machen.  Auch \lstinline{pulled-point} ist ein
-Record-Typ, der so definiert sein könnte:
+Record-Typ:
 %
 \indexvariable{pulled-point}
 \begin{lstlisting}
@@ -231,8 +233,7 @@ in welche Richtung \lstinline{langle} und \lstinline{rangle} die
 beiden Kanten von Punkt Nummer~2 biegen: Die eingehende Kante kommt von Punkt~1 her, die
 ausgehende Kante geht zu Punkt~3.  Die Komponenten
 \lstinline{pulled-point-lpull} und \lstinline{pulled-point-rpull}
-geben wann, wieviel die Kanten verbogen werden~-- das sind
-typischerweise Zahlen zwischen 0 und 1.
+geben an, wieviel die Kanten verbogen werden auf einer Skala zwischen $0$ und $1$.
 %
 \begin{lstlisting}
 (polygon (list (make-pulled-point 1/2 0 0 0 1/2 -20)
@@ -250,11 +251,10 @@ typischerweise Zahlen zwischen 0 und 1.
   \caption{Bilddatei in Programm einbetten}
   \label{fig:image-insert}
 \end{figure}
-Es ist auch möglich, externe Bilder-Dateien in
-\texttt{image.rkt}-Bilder zu verwandeln.  Dazu dient der Menüpunkt
-\texttt{Bild einfügen} im \texttt{Spezial}-Menü: \drscheme{} fragt
-nach dem Namen einer Bilddatei, die dann in den Programmtext da
-eingefügt wird, wo der Cursor steht.  Alternativ ist es möglich,
+Es ist auch möglich, Bilder-Dateien in
+\texttt{image.rkt}-Bilder zu verwandeln.  Das macht der Menüpunkt
+\texttt{Bild einfügen} im \texttt{Spezial}-Menü.
+Alternativ ist es möglich,
 Bilder in anderen Applikationen auszuwählen und zu kopieren und dann
 in DrRacket einzufügen.  Die eingefügten Bilder dienen dann als
 Literale für Bild-Werte.  Abbildung~\ref{fig:image-insert} zeigt ein
@@ -467,10 +467,8 @@ begegnet.  Zur Erinnerung, hier ist der relevante Code dazu:
 \end{lstlisting}
 %
 Die Datendefinition mit dem zugehörigen Code hält zwar einige Eigenschaften
-von Gürteltieren fest, für ein Videospiel fehlt aber noch eine
-grafische Darstellung.  Ebenso definiert \lstinline{run-over-dillo}
-eine Operation auf Gürteltier-Werten fest, aber auch die sagt nichts
-zu einer grafischen Darstellung.  Eine solche Repräsentation mit
+von Gürteltieren fest, für ein Videospiel fehlt aber eine
+grafische Darstellung.  Eine solche Repräsentation mit
 zugehörigen Operationen heißt in der Softwararchitektur auch
 \textit{Modell}\index{Modell} oder auch
 \textit{Domänenlogik}\index{Domänenlogik}, und bei größeren Softwaresystemen
@@ -485,11 +483,10 @@ Modell für ein Videospiel beschäftigen, müssen wir daraus eine Ansicht
 in Form eines Bildes berechnen.
 
 Wir warnen Dich schonmal vor: Der grafische Gestaltung in diesem
-Kapitel fehlt es vorsichtig gesagt an Finesse.  Wir hoffen, Du kannst
-es besser machen!
+Kapitel fehlt es an Finesse.  Wir hoffen, Du kannst
+sie verbessern!
 
-Um also aus einem \lstinline{dillo}-Wert ein Bild zu machen, werden
-wir solch eine Funktion benötigen:
+Die folgende Funktion macht aus einem \lstinline{dillo}-Wert ein Bild:
 %
 \begin{lstlisting}
 ; Gürteltier-Bild erzeugen
@@ -503,7 +500,8 @@ wir solch eine Funktion benötigen:
   \label{fig:dillo-body}
 \end{figure}
 Als Basis dafür machen wir erstmal ein Bild mit dem Körper des
-Gürteltiers.  Zu diesem Zweck haben wir zunächst von Hand eine
+Gürteltiers.  Zu diesem Zweck haben wir in
+Abbildung~\ref{fig:dillo-body} zunächst von Hand eine
 Zeichnung mit dem Umriss des Gürteltiers in ein Koordinatensystem
 gezeichnet und die Punkte markiert, an denen sich die Richtung des
 Strichs abrupt ändert~-- also quasi die Ecken.  Diese Ecken haben wir
@@ -513,34 +511,27 @@ durchnummeriert und daraus haben wir dieses Polygon gemacht:
 \begin{lstlisting}
 (define dillo-body
   (overlay/xy (polygon
-               (list (make-pulled-point
-                      0.3 30
-                      5 (- 60 5)
-                      0.2 5)
-                     (make-pulled-point
-                      0.4 20
-                      20 (- 60 32)
-                      0.5 -70)
-                     (make-pulled-point
-                      0.5 120 
-                      90 (- 60 22)
-                      0.2 -30)
-                     (make-pulled-point
-                      0.5 90
-                      60 (- 60 10)
-                      0.5 90)
-                     (make-pulled-point
-                      0 0 
-                      90 (- 60 22)
-                      0.2 -30)
-                     (make-pulled-point
-                      0 0
-                      55 (- 60 20)
-                      0.3 -30)
-                     (make-pulled-point
-                      0 0
-                      29 (- 60 17)
-                      0.5 20))
+               (list (make-pulled-point 0.3 30
+                                        5 (- 60 5)
+                                        0.2 5)
+                     (make-pulled-point 0.4 20
+                                        20 (- 60 32)
+                                        0.5 -70)
+                     (make-pulled-point 0.5 120 
+                                        90 (- 60 22)
+                                        0.2 -30)
+                     (make-pulled-point 0.5 90
+                                        60 (- 60 10)
+                                        0.5 90)
+                     (make-pulled-point 0 0 
+                                        90 (- 60 22)
+                                        0.2 -30)
+                     (make-pulled-point 0 0
+                                        55 (- 60 20)
+                                        0.3 -30)
+                     (make-pulled-point 0 0
+                                        29 (- 60 17)
+                                        0.5 20))
                "solid"
                "brown")
               0 -30
@@ -569,7 +560,7 @@ dillo-body
 %
 Jetzt wollen wir ja nicht jedes Gürteltier genau gleich darstellen,
 sondern wir wollen dessen Eigenschaften bei der Darstellung
-berücksichtigen.  Dafür schreiben wir nun die Funktion
+berücksichtigen.  Dafür schreiben wir die Funktion
 \lstinline{dillo-image}, von der wir ja schon Kurzbeschreibung und
 Signatur gesehen haben.  Hier ist das Gerüst mit der Schablone für
 zusammengesetzte Daten als Eingabe:
@@ -590,17 +581,16 @@ wir das Gürteltier größer oder kleiner machen:
 \begin{lstlisting}
 (define dillo-image
   (lambda (dillo)
-    (scale
-     (+ 1
-        (/ (- (dillo-weight dillo) 50000)
-           15000))
-     dillo-body)
+    (scale (+ 1
+              (/ (- (dillo-weight dillo) 50000)
+                 15000))
+           dillo-body)
     ...
     (dillo-alive? dillo)
     ...))    
 \end{lstlisting}
 %
-Den Faktor bei \lstinline{scale} haben wir durch Herumprobieren
+Den Faktor bei \lstinline{scale} haben wir durch Probieren
 ermittelt.  Aber \lstinline{(dillo-alive? dillo)} steht noch da~-- wir
 bauen das ein, indem wir einem toten Gürteltier "<tote Augen"> ins
 Gesicht setzen:
@@ -610,15 +600,14 @@ Gesicht setzen:
 \begin{lstlisting}
 (define dillo-image
   (lambda (dillo)
-    (scale
-     (+ 1
-        (/ (- (dillo-weight dillo) 50000)
-           15000))
-     (if (dillo-alive? dillo)
-         dillo-body
-         (overlay/xy dead-eyes
-                     -25 -25
-                     dillo-body)))))
+    (scale (+ 1
+              (/ (- (dillo-weight dillo) 50000)
+                 15000))
+           (if (dillo-alive? dillo)
+               dillo-body
+               (overlay/xy dead-eyes
+                           -25 -25
+                           dillo-body)))))
 
 (define dead-eyes
   (overlay (line 10 10 "green")
@@ -781,27 +770,31 @@ Hier jetzt die tatsächliche Höhe des Straßenabschnitts:
 (define road-window-height 12) ; Höhe des Straßenausschnitts
 \end{lstlisting}
 %
-Die Idee, dass Du später nur diese eine Definition ändern musst, falls
-Dir die Ausschnittshöhe nicht passt,, und sich dann alles andere
+Die Idee ist, dass Du später nur diese eine Definition ändern musst, falls
+Dir die Ausschnittshöhe nicht passt, und sich dann alles andere
 automatisch anpasst.
 
 Um die Anzahl der nötigen Markierungen zu berechnen, teilen wir die
 Höhe des Straßenausschnitts durch die Länge einer Markierung plus
-Lücke.  Zur Sicherheit addieren noch eins drauf: Die Division könnte
+Lücke.  Zur Sicherheit addieren wir noch eins drauf: Die Division könnte
 nicht ganz aufgehen.  Außerdem wird möglicherweise am Ende nur ein
-Teil eines Streifens zu sehen sein, auch dafür ist es gut gut, wenn im
-Zweifelsfall einer mehr da ist.  Aus der Zahl machen wir schließlich
-das Bild der Streifen:
+Teil eines Streifens zu sehen sein, auch dafür ist es gut, wenn im
+Zweifelsfall einer mehr da ist.
 %
 \indexvariable{marking-count}
-\indexvariable{visible-markings}
 \begin{lstlisting}
 ; Anzahl der nötigen Markierungen
 (define marking-count
   (+ 1
      (quotient road-window-height
                (+ marking-height gap-height))))
-
+\end{lstlisting}
+%
+Aus der Zahl machen wir schließlich
+das Bild der Streifen:
+%
+\indexvariable{visible-markings}
+\begin{lstlisting}
 ; sichtbare Markierungen
 (define visible-markings
   (markings marking-count))
@@ -972,8 +965,8 @@ Testen nicht lohnt:
     (* meters-per-tick ticks)))
 \end{lstlisting}
 %
-Damit können wir eine Funktion schreiben, die aus Ticks Straßenmetern
-macht und dann \lstinline{road-window} aufruft:
+Damit können wir eine Funktion schreiben, die aus Ticks Straßenmeter
+macht und \lstinline{road-window} aufruft:
 %
 \indexvariable{road-window-at-ticks}
 \begin{lstlisting}
@@ -1089,10 +1082,10 @@ stehen in der Schablone Aufrufe der Selektoren:
 %
 Wir müssen jetzt die Pixelkoordinaten des Bildes relativ zum
 Straßenausschnitt berechnen.  Bei der X-Koordinate ist das
-verhältnismäßig einfach.  Wir legen dafür eine Variable namens
+verhältnismäßig einfach.  Wir legen eine Variable 
 \lstinline{pixels-from-left} an, die sich aus 
 \lstinline{(position-side position))} ergibt, 
-was ja schon in der Schablone steht.  Die Seite
+was schon in der Schablone steht.  Die Seite
 ist relativ zum Mittelstreifen, für dessen X-Koordinate wir ebenfalls
 eine Zwischenvariable anlegen:
 %
@@ -1183,7 +1176,7 @@ entsprechend den Aufruf von \lstinline{place-image/align} korrigieren:
      road-image)
 \end{lstlisting}
 %
-Jetzt ist alles bei 0 in der Mitte!
+Jetzt ist alles bei $0$ in der Mitte!
 
 Diese Funktion können wir jetzt benutzen, um zunächst das Autobild auf
 dem Straßenabschnitt zu platzieren:
@@ -1389,11 +1382,7 @@ einem \lstinline{world}-Record als Straßenabschnitt anzuzeigen:
 \end{lstlisting}
 %
 Du kannst jetzt natürlich
-%
-\begin{lstlisting}
-(world->image initial-world)
-\end{lstlisting}
-%
+\lstinline{(world->image initial-world)}
 ausprobieren, aber da ist nur der anfängliche, leere Straßenabschnitt
 zu sehen.
 
@@ -1518,7 +1507,7 @@ Hier die fertige Funktion:
 \end{lstlisting}
 
 \paragraph{Wieviele Tiere sind gerade unter dem Auto?} Als nächstes
-schreiben wir eine Funtkion, welche die Tiere unter dem Auto zählt,
+schreiben wir eine Funktion, welche die Tiere unter dem Auto zählt,
 damit wir die Punktzahl entsprechend erhöhen können.  Genauer gesagt
 zählen wir nur die \emph{lebendigen} Gürteltiere: Für das nochmalige
 Überfahren eines toten Gürteltiers gibt es keinen Punkt.  Hier
@@ -1686,7 +1675,7 @@ An diesem Punkt haben wir alle Grundaspekte des Spiels durch
 Funktionen beschrieben.  Wir müssen sie noch zu einem Spiel
 zusammensetzen.  Das sollte dann insbesondere auch auf Tastendrücke
 reagieren.  Für solche reaktiven Animationen brauchen wir noch
-Unterstützung vom \texttt{universe.rkt}-Teachpack, das dafür extea ein
+Unterstützung vom Teachpack \texttt{universe.rkt}, das dafür extea ein
 neues Programmiersprachene-Element mitbringt, das heißt
 \lstinline{big-bang}\indexvariable{big-bang}.  Es startet
 das Spiel und hat folgende Form:
@@ -1919,7 +1908,7 @@ Die Funktion binden wir jetzt in den \lstinline{big-bang}-Ausdruck ein:
 Das sieht schon besser aus: Die Straße bewegt sich, und man kann das
 Auto nach links und rechts steuern.  Aber überfahrene Gürteltiere
 sterben noch nicht, und die Punktzahl geht frustrierenderweise auch
-noch nicht hoch.  Das liegt daran, dass wir die Funktionen dafür~--
+noch nicht hoch.  Das liegt daran, dass wir die beiden dafür zuständigen Funktionen~--
 \lstinline{run-over-dillos-on-road} und
 \lstinline{live-dillos-under-car-count}~-- noch nicht eingesetzt
 haben.  Das holen wir nach:
@@ -1944,9 +1933,9 @@ Voil\`a, viel Spaß beim Gürteltiere-überfahren!
   Ändere das Spiel so, dass auch das Überfahren toter Gürteltiere
   Punkte gibt!  Ist das sinnvoll?
 \end{aufgabeinline}
-
+%
 Hier sind noch einige weitere nützliche Klauseln für
-\lstinline{big-bang}, um etwas anspruchsvollere Spiele zu schreiben::
+\lstinline{big-bang} für anspruchsvollere Spiele:
 %
 \begin{lstlisting}
 (on-mouse $\mathit{function}$)
@@ -1962,7 +1951,6 @@ gedrückt wird.  Sie muss folgende Signatur haben:
 %
 Die beiden \lstinline{integer}-Argumente sind die X- und Y-Koordinaten
 der Mausposition.
-
 Die Signatur \lstinline{mouse-event} ist folgendermaßen definiert:
 %
 \indexvariable{mouse-event}
@@ -1978,11 +1966,11 @@ Die einzelnen Fälle haben folgende Bedeutungen:
   \begin{tabular}{lp{4in}}
   \lstinline!"button-down"! & Der Maus-Knopf wurde gedrückt.\\
   \lstinline!"button-up"! & Der Maus-Knopf wurde losgelassen.\\
-  \lstinline!"drag"! & Die Maus wird gerade gezogen~-- die Maus bewegt
-  sich also, während der Knopf gedrückt ist.\\
+  \lstinline!"drag"! & Die Maus wird gezogen, bewegt
+  sich also mit gedrücktem Knopf.\\
   \lstinline!"move"! & Die Maus wurde bewegt.\\
   \lstinline!"enter"! & Der Maus-Cursor wurde ins
-  \texttt!universe.rkt!-Fenster bewegt.\\
+  \texttt{universe.rkt}-Fenster bewegt.\\
   \lstinline!"leave"! & Der Maus-Cursor wurde aus dem
                         \texttt{universe.rkt}-Fenster herausbewegt.
   \end{tabular}
@@ -2001,7 +1989,8 @@ aussieht:
   \includegraphics[width=0.6\textwidth]{videospiele/gamepad}
 \end{center}
 %
-Die Funktion hat folgende Signatur:
+In der Signatur der Funktion entsprechen die
+\lstinline{pad-event}-Werte den Tasten auf dem Pad:
 %
 \begin{lstlisting}
 (world pad-event -> world)
@@ -2011,11 +2000,10 @@ Die Funktion hat folgende Signatur:
 \begin{lstlisting}
 (define pad-event
   (signature
-    (enum "left" "right" "up" "down" "w" "s" "a" "d" " " "shift" "rshift")))
+    (enum "left" "right" "up" "down" "w" "s" "a" "d" " "
+          "shift" "rshift")))
 \end{lstlisting}
 %
-Die \lstinline{pad-event}-Werte entsprechen gerade den Tasten auf dem Pad.
-
 \begin{aufgabeinline}
   Erweitere den Aufruf von \lstinline{big-bang} so, dass man das Spiel
   auch mit dem Pad spielen kann!

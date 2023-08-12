@@ -12,7 +12,7 @@
 Schriftsteller fürchten die leere Seite.  Maler fürchten die weiße
 Leinwand.  Für Architekten ist es die grüne Wiese.  Für Programmierer
 ist es der Cursor, der fordernd im leeren Fenster des Editors
-blinkt\dots Wie geht man eine Programmieraufgabe an, wenn zu Beginn
+blinkt~\ldots{} Wie geht man eine Programmieraufgabe an, wenn zu Beginn
 keine einzige Zeile Code existiert, wenn keine Funktion oder
 Datenstruktur Orientierung bietet, und wenn zwar \emph{alles} möglich
 aber gerade deshalb schwer greifbar erscheint?
@@ -26,13 +26,13 @@ konkrete Hinweise auf die Struktur der Lösung des Problems geben.  Steht
 das Skelett erst einmal, lassen sich dessen Lücken oft unmittelbar
 vervollständigen, teils durch die Nutzung weiterer derartiger
 Konstruktionen, teils weil sich die Komplettierung direkt aus dem
-Problem ergibt.  Programmierung mittels dieser Konstruktionsanleitungen
+Problem ergibt.  Programmierung mittels dieser Konstruktions\-anleitungen
 kommt dem disziplinierten ingenieursmäßigen Bauen näher als alles
 andere.
 
 Aus meinen Vorlesungen \textit{Informatik~I} an der Universität Tübingen
 kommen die Studierenden nicht heraus, ohne sich ordentlich "<die Finger
-schmutzig gemacht zu haben">.  In der Vorlesung selbst, den
+schmutzig gemacht zu haben">.  In der Vor\-lesung selbst, den
 wöchentlichen Übungsblättern und zusätzlichen betreuten
 Programmierstunden wird Code geschrieben, was das Zeug hält.  Dabei
 konnte ich bereits Hunderte von Studierenden---typischerweise echte
@@ -41,7 +41,7 @@ mittels Konstruktionsanleitungen die Herausforderung des leeren Editors
 angenommen und gemeistert wurde.  Die resultierenden Programme sind
 (zumeist \texttt{;-)}) korrekt, kompakt und, vor allem, lesbar und
 nachvollziehbar.  Wir können so in der \textit{Informatik~I} erstaunlich
-anspruchsvolle Aufgaben angehen und sind am Ende des zweiten
+anspruchsvolle Auf\-gaben angehen und sind am Ende des zweiten
 Drittels der Vorlesung in der Lage, die Studierenden \textit{PacMan},
 \textit{Tetris} oder \textit{Asteroids} nachbauen zu lassen.
 
@@ -58,7 +58,7 @@ auf lange Sicht Programmierstil und -sprachen weitreichend beeinflussen
 wird.  Zusammen mit den Konstruktionsanleitungen gibt dieses Buch
 Programmieranfängern daher gleich zwei Superkräfte mit auf den Weg.  Das
 nenne ich einen \emph{Deal}!
-
+%
 \begin{flushright}
   Torsten Grust
 
@@ -67,10 +67,6 @@ nenne ich einen \emph{Deal}!
 
 \section*{Danksagungen}
 
-Wir, die Autoren, haben bei der Erstellung dieses Buchs immens von der
-Hilfe anderer profitiert.  
-
-Martin Gasbichler half bei der Entwicklung der DMdA-Erweiterungen.
 Peter Thiemann, Martin Gasbichler, Andreas Schilling, Torsten Grust und Michael Hanus hielten
 Vorlesungen auf Basis dieses Buchs und lieferten wertvolle Rückmeldungen.
 Besonderer Dank gebührt den Tutorinnen und Tutoren und Studierenden unserer Vorlesung
@@ -82,8 +78,9 @@ Seitdem die Entwicklung des Buches offen auf Github stattfindet, haben
 außerdem viele Leserinnen und Leser Verbesserungsvorschläge und
 Pull-Requests gemacht, darunter Nicolas Neuß, Joachim Breitner,
 Raphael Borun Das Gupta, Tobias Huttner, Nicolai Mainiero, Johannes
-Maier, Sibylle Hasse, Manuela Reinisch, Noah Haasis, mi-skam,
-Aramís, Beat Hagenlocher, Erika Bor und Christina Zeller.
+Maier, Sibylle Hasse, Manuela Reinisch, Noah Haasis, mi-skam, uwffi, 
+Aramís, Beat Hagenlocher, Denis Maier, Philipp Kiersch, Simon Barth,
+Kaan Sahin, Erika Bor und Christina Zeller.
 
 Davor brachten Robert Giegerich, Ulrich Güntzer, Martin Plümicke,
 Christoph Schmitz und Volker Klaeren, Eric Knauel, Marcus Crestani,
@@ -91,24 +88,22 @@ Sabine Sperber, Jan-Georg Smaus und Mayte Fleischer viele Korrekturen
 und Verbesserungen ein, insbesondere zum Vorgängerbuch \textit{Vom
   Problem zum Programm}.
 
-Wir sind außerdem dankbar für die Arbeit unserer Kolleginnen und Kollegen, die
-Pionierarbeit in der Entwicklung von Konzepten für die
-Programmierausbildung geliefert haben.  Eine besondere
-Stellung nehmen Matthias Felleisen, Robert Bruce Findler, Matthew
-Flatt und Shriram Krishnamurthi und ihr Buch~\textit{How to Design
-  Programs} \cite{FelleisenFindlerFlattKrishnamurthi2001} ein, das
-entscheidende didaktische Impulse für dieses Buch gegeben hat.
-Felleisens Arbeit im Rahmen des PLT-Projekts hat uns stark beeinflußt;
-das PLT-\drscheme{}-System ist eine entscheidende Grundlage für die
-Arbeit mit diesem Buch.
+Wir danken Sandra Binder, Peter Rempis und Axel Braun von der Tübingen
+University Press für die tolle Unterstützung und Geduld mit uns,
+und besonders Susanne Schmid für das Umschlag-Motiv.
+
+Unter unseren didaktischen Vorbildern waren Matthias
+Felleisen, Robby Findler, Matthew Flatt und Shriram Krishnamurthi und
+ihr Buch~\textit{How to Design Programs}
+\cite{FelleisenFindlerFlattKrishnamurthi2001} besonders wichtig, aus
+dem wir viele Ideen übernommen haben.  Das im Rahmen ihres
+PLT"=Projekts entwickelte Racket-System ist eine entscheidende
+Grundlage für die Arbeit mit diesem Buch.
 
 
 \begin{flushright}
-  Herbert Klaeren
-
-  Michael Sperber
-
-  Tübingen, Dezember 2021
+  Michael Sperber, Herbert Klaeren
+  Tübingen, Juli 2023
 \end{flushright}
 
 

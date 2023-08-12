@@ -83,13 +83,13 @@ Der resultierende erweiterte $\lambda$-Kalkül heißt
     \> \ldots
     \> \| (\meta{$\Sigma^n$}~\meta{$\mathcal{L}_{\lambda{}A}$}~\ldots~\meta{$\mathcal{L}_{\lambda{}A}$}) \quad \textrm{($n$-mal)}
   \end{grammar}
-  Die Grammatik ist abgekürzt notiert: Die letzen Klauseln besagen,
-  dass es für jede Menge von Primitiva \meta{$\Sigma^i$} mit
-  Stelligkeit $i$ eine entsprechende Klausel mit $i$ Operanden gibt.
-  Terme der Form $(F^i~e_1~\ldots~e_i)$ heißen
-  \textit{primitive Applikationen\index{primitive Applikation}}.
 \end{definition}
 %
+Die Grammatik ist abgekürzt notiert: Die letzen Klauseln besagen,
+dass es für jede Menge von Primitiva \meta{$\Sigma^i$} mit
+Stelligkeit $i$ eine entsprechende Klausel mit $i$ Operanden gibt.
+Terme der Form $(F^i~e_1~\ldots~e_i)$ heißen
+\textit{primitive Applikationen\index{primitive Applikation}}.
 Im angewandten $\lambda$-Kalkül sind also
 Terme wie zum Beispiel $(+~(-~5~3)~17)$ möglich, wenn $+$ und $-$ in
 $\Sigma^2$ enthalten sind.
@@ -120,9 +120,9 @@ obige Beispielterm folgendermaßen reduziert:
 \end{displaymath}
 %
 \begin{aufgabeinline}
-  Leider ist es nicht möglich, Verzweigungen nicht mit einer
-  $\delta$-Regel zu beschreiben.  Aber warum?  Zur Beantwortung dieser
-  Frage Schreibe zunächst eine mögliche Definition der dazugehörigen
+  Es ist nicht möglich, Verzweigungen mit einer
+  $\delta$-Regel zu beschreiben.  Warum?  Zur Beantwortung dieser
+  Frage schreibe zunächst eine mögliche Definition der dazugehörigen
   Funktion $F^\mathbf{if}$ hin.  Bedenke nun, dass die
   $\delta$-Reduktion erst dann greift, wenn alle Argumente von
   $\mathbf{if}$ Werte sind.  Könntest Du mit diesem $\mathbf{if}$ zum
@@ -135,8 +135,7 @@ für den angewandten $\lambda$-Kalkül ohne binäre Verzweigungen
 definieren.  Wir wissen ja, wie wir sie mit den Mitteln aus
 Abschnitt~\ref{sec:booleans} auf Seite~\pageref{sec:booleans}
 definieren können.
-
-Wir werden aber Dich bitten, binäre Verzweigungen als Ergänzung
+Wir werden Dich bitten, binäre Verzweigungen als Ergänzung
 direkt zu realisieren in einer Reihe von Übungsaufgaben.  Hier ist die
 erste davon:
 %
@@ -449,6 +448,7 @@ $(((\lambda x.\lambda y.(+~x~y))~1)~2)$:
 % (secd-step*/tex (inject-secd '(((lambda (x) (lambda (y) (+ x y))) 1) 2)))
 %
 \begin{displaymath}
+  \small
   \begin{array}{l@{}llll}
 &(\epsilon, &\varnothing, &(x, (y, x~y~\mathtt{prim}_+))~1~\mathtt{ap}~2~\mathtt{ap}, &\epsilon)\\
 \hookrightarrow{}&((x, (y, x~y~\mathtt{prim}_+), \varnothing), &\varnothing, &1~\mathtt{ap}~2~\mathtt{ap}, &\epsilon)\\
@@ -467,18 +467,18 @@ $(((\lambda x.\lambda y.(+~x~y))~1)~2)$:
 %
 \begin{aufgabeinline}
  Betrachte folgendes SECD-Programm:
- 
+ %
  \newcommand{\tuple}[2]{\ensuremath{(#1,#2)}}
-
+%
  \begin{center}
    \tuple{f}{\tuple{x}{\tuple{y}{f\:x\:\texttt{ap}\:y\:\texttt{ap}}}}\:\tuple{a}{\tuple{b}{a\:b\:\texttt{prim}_+}}\:\texttt{ap}\:23\:\texttt{ap}\:42\:\texttt{ap}
  \end{center}
- 
+ %
  \begin{enumerate}
    \item Übersetze das SECD-Programm "<rückwärts"> in den entsprechenden
    $\mathcal{L}_{\lambda{}A}$-Term.
    \item Werte das SECD-Programm aus und schreibe die einzelnen
-     Auswertungsschritte auf!
+     Auswertungsschritte auf!\qed
  \end{enumerate}
 \end{aufgabeinline}
 %
@@ -556,10 +556,9 @@ nach.
 
 \mentioncode{secd/compute.rkt}
 %
-Um die Definitionen möglichst elegant nachzuprogrammieren, machen wir ab hier
+Um die Definitionen möglichst elegant nachzuprogrammieren, machen wir 
 Gebrauch von einer weiteren
-Sprachebene\index{Sprachebene!fortgeschritten} in
-\drscheme{} machen, nämlich \texttt{Schreibe Dein Programm! -
+Sprachebene\index{Sprachebene!fortgeschritten} \texttt{Schreibe Dein Programm! -
   fortgeschritten}.  Diese Ebene muss mit dem \drscheme{}-Menü \texttt{Sprache}
 unter \texttt{Sprache auswählen} aktiviert sein, damit die
 Programme dieses Kapitels funktionieren.
@@ -594,10 +593,8 @@ empty
 |\evalsto| ()
 \end{lstlisting}
 %
-Mit der neuen Sprachebene bekommt außerdem der Apostroph, der dem
-Literal\index{Literal} für die leere Liste voransteht, eine erweiterte Bedeutung.
-Unter anderem kann der Apostroph benutzt werden, um Literale für
-Listen zu formulieren:
+In der neuen Sprachebene kann das Apostroph\index{Apostroph}
+Literale für Listen bilden:
 %
 \begin{lstlisting}
 '(1 2 3 4 5 6)
@@ -628,11 +625,11 @@ kennzeichnet diesen also als Literal.  Der Wert des Literals wird
 genauso ausgedruckt, wie es im Programm steht.  (Abgesehen von
 Leerzeichen und Zeilenumbrüchen.)  Der Apostroph heißt auf englisch
 "<quote">\index{quote@\lstinline{quote}}, und deshalb ist diese
-Literalschreibweise auch unter diesem Namen bekannt.  Bei Zahlen,
+Schreibweise für Literale auch unter diesem Namen bekannt.  Wir nennen
+dieses Apostroph ab jetzt "<das Quote">. Bei Zahlen,
 Zeichenketten und booleschen Literalen ist auch ohne Quote klar, dass
 es sich um Literale handelt.  Das Quote ist darum bei ihnen rein
-optional; sie heißen 
-\textit{selbstquotierend}\index{selbstquotierend}.
+optional; sie heißen \textit{selbstquotierend}\index{selbstquotierend}.
 
 Bei Listen hingegen sind Missverständnisse mit anderen
 zusammengesetzten Formen möglich, die ja auch mit einer öffnenden Klammer
@@ -642,7 +639,7 @@ beginnen.\footnote{Tatsächlich ist die neue Schreibweise für externe
   Verwirrung zwischen Listenliteralen und zusammengesetzten Formen zu
   vermeiden.} 
 
-Mit der Einführung von Quote kommt noch eine völlig neue Sorte Werte
+Mit der Einführung von Quote kommt noch eine neue Sorte Werte
 hinzu: die \textit{Symbole\index{Symbol}}.  Symbole sind Werte ähnlich wie Zeichenketten und
 bestehen aus Text.  Sie unterscheiden sich allerdings dadurch, dass sie
 als Literal mit Quote statt Anführungszeichen geschrieben und in der REPL ohne
@@ -651,8 +648,6 @@ Anführungszeichen ausgedruckt werden:
 \begin{lstlisting}
 'mike
 |\evalsto| mike
-'doof
-|\evalsto| doof
 \end{lstlisting}
 %
 Symbole können wir mit dem Prädikat
@@ -662,8 +657,6 @@ unterscheiden:
 \begin{lstlisting}
 (symbol? 'mike)
 |\evalsto| #t
-(symbol? 5)
-|\evalsto| #f
 (symbol? "Mike")
 |\evalsto| #f
 \end{lstlisting}
@@ -719,10 +712,6 @@ Namen der zulässigen Symbole genau den Namen von Variablen:
 \begin{lstlisting}
 'karl-otto
 |\evalsto| karl-otto
-'mehrwertsteuer
-|\evalsto| mehrwertsteuer
-'duftmarke
-|\evalsto| duftmarke
 'lambda
 |\evalsto| lambda
 '+
@@ -750,8 +739,7 @@ ausgedruckt wie Ausdrücke aussehen:
 |\evalsto| (lambda (n) (+ n 1))
 \end{lstlisting}
 %
-Auch wenn diese Werte wie Ausdrücke aussehen, sind sie doch ganz
-normale Listen: der Wert von \verb|'(+ 1 2)| ist eine Liste mit drei
+Der Wert von \verb|'(+ 1 2)| ist eine Liste mit drei
 Elementen: das Symbol \verb|+|, die Zahl \lstinline{1} und die Zahl
 \lstinline{2}.  Der Wert von \verb|'(lambda (n) (+ n 1))| ist ebenfalls
 eine Liste mit drei Elementen: das Symbol \verb|lambda|, eine Liste
@@ -767,7 +755,7 @@ Quote hat noch eine weitere verwirrende Eigenheit:
 \end{lstlisting}
 %
 Dieses Literal bezeichnet nicht die leere Liste (dann würde nur
-\lstinline{()} ausgedruckt, ohne Quote), sondern etwas anderes:
+\lstinline{()} ausgedruckt, ohne Quote):
 %
 \begin{lstlisting}
 (cons? ''())
@@ -779,9 +767,9 @@ Dieses Literal bezeichnet nicht die leere Liste (dann würde nur
 \end{lstlisting}
 %
 Der Wert des Ausdrucks \verb|''()| ist also eine Liste mit zwei
-Elementen: das erste Element ist das Symbol \lstinline{quote} und das
-zweite Element ist die leere Liste.  \lstinline{'$t$}
-ist selbst also nur syntaktischer Zucker, und zwar für
+Elementen: das erste ist das Symbol \lstinline{quote} und das
+zweite ist die leere Liste.  \lstinline{'$t$}
+ist selbst nur syntaktischer Zucker für
 \lstinline{(quote $t$)}:
 %
 \begin{lstlisting}
@@ -791,16 +779,15 @@ ist selbst also nur syntaktischer Zucker, und zwar für
 |\evalsto| #t
 \end{lstlisting}
 %
-Quote erlaubt die Konstruktion von Literalen für viele Werte, aber
+Quote funktioniert für viele Werte, aber
 nicht für alle.  Ein Wert, für den Quote ein Literal konstruieren kann,
-heißt \textit{repräsentierbarer
-  Wert\index{repräsentierbarer Wert}}.  Ein repräsentierbarer Wert ist
+heißt \textit{repräsentierbar\index{repräsentierbarer Wert}}.  Ein repräsentierbarer Wert ist
 eins der folgenden:
 %
 \begin{itemize}
 \item eine Zahl
 \item ein boolescher Wert
-\item eine Zeichenketten
+\item eine Zeichenkette
 \item ein Symbol
 \item eine Liste aus repräsentierbaren Werten
 \end{itemize}
@@ -851,10 +838,12 @@ zurückgibt.  So etwas brauchen wir für die beiden Fälle, die mit
 Beim Prädikat \lstinline{addition?} haben wir nur das nötigste
 programmiert, um Additionen von den anderen Fällen zu unterscheiden:
 \begin{aufgabeinline}
-  In der Datendefinition oben steht "<\texttt{eine Liste der Form (+
+  In der Datendefinition oben heißt es "<\texttt{eine Liste der Form (+
     Ausdruck Ausdruck)}">.  Gibt es Eingaben, bei denen
   \lstinline{addition?} als Ergebnis \lstinline{#t} liefert, obwohl es
-  sich nicht um Listen genau dieser Form handelt?
+  sich nicht um Listen genau dieser Form handelt?  Wenn ja, nenne
+  Beispiele und ändere die Definition von \lstinline{addition?} so,
+  dass sie diese Beispiele ausschließt.\par % formatting hack to get a little bit more space
 \end{aufgabeinline}
 %
 \begin{feature}{\texttt{predicate}}{feature:predicate}
@@ -872,8 +861,10 @@ programmiert, um Additionen von den anderen Fällen zu unterscheiden:
 %
 Aus dem Prädikat \lstinline{addition?} können wir eine Signatur
 \lstinline{addition} machen mit Hilfe einer
-\lstinline{predicate}-Signatur.  Das ist neu; siehe dazu
-Abbildung~\ref{feature:predicate}.  Hier ist die Definition von
+Signatur mit \lstinline{predicate}.  Das
+\lstinline{predicate}-Konstrukt ist neu und in
+Abbildung~\ref{feature:predicate} beschrieben.
+Hier ist die Definition von
 \lstinline{addition}:
 %
 \indexvariable{addition}
@@ -1107,8 +1098,7 @@ allernötigsten primitiven Operationen:\label{page:primitivep}
 %
 \indexvariable{primitive?}
 \begin{lstlisting}
-; Ein Primitiv ist eins der Symbole +, -, *, /, =
-
+; Ein Primitivum ist eins der Symbole +, -, *, /, =
 ; Prädikat für Primitivum
 (: primitive? (any -> boolean))
 (define primitive?
@@ -1250,11 +1240,10 @@ das übersetzen wir direkt in Daten- und Record-Definition:
 
 \section{Ein Compiler für die SECD-Maschine}
 
-Nun, da sowohl Terme als auch der Maschinencode Datendefinitionen
-haben, ist es möglich, die Übersetzung vom angewandten
-$\lambda$-Kalkül in die Maschinensprache der SECD-Maschine zu
+Da nun Terme und Maschinencode Datendefinitionen
+haben, können wir Übersetzung vom angewandten
+$\lambda$-Kalkül in die Maschinensprache der SECD-Maschine
 programmieren.  Solch eine Übersetzung heißt \textit{Compiler}.\index{Compiler}
-
 Hier sind Kurzbeschreibung, Signatur und Gerüst des Compilers:
 %
 \begin{lstlisting}
@@ -1371,20 +1360,21 @@ Resultate aneinandergehängt, und schließlich kommt noch eine
 %
 Dieses Stück Code benutzt die Hilfsfunktion \lstinline{append-lists}, die
 aus einer Liste von Listen eine einzelne Liste macht, indem die
-Elemente aneinandergehängt werden~-- das geht mit \lstinline{fold}:
+Elemente aneinandergehängt werden.  Wir realisieren sie mit Hilfe von  \lstinline{fold}:
 %
 \indexvariable{append-lists}
 \begin{lstlisting}
 ; die Elemente einer Liste von Listen aneinanderhängen
 (: append-lists ((list-of (list-of %a)) -> (list-of %a)))
+
 (define append-lists
   (lambda (list)
     (fold '() append list)))
 \end{lstlisting}
 %
 Zurück zur Übersetzung: Eine Abstraktion wird direkt in eine
-\lstinline{abs}-Instruktion übersetzt, wobei der Rumpf selbst
-noch in Maschinencode übersetzt wird:
+\lstinline{abs}-Instruktion übersetzt, die den Maschinencode für den
+Rumpf enthält.  Den Rumpf müssen wir dementsprechend auch übersetzen:
 \begin{displaymath}
   \llbracket e \rrbracket \deq
     (v, \llbracket e_0\rrbracket) \quad \textrm{falls $e = \lambda v.e_0$}
@@ -1403,10 +1393,10 @@ noch in Maschinencode übersetzt wird:
 \end{lstlisting}
 %
 Fertig ist der Compiler!
-%
+
 \begin{aufgabeinline}
   Erweitere den Compiler \lstinline{term->machine-code} um
-  binäre Verzweigungen.  Vergiss nicht ein paar Tests!
+  binäre Verzweigungen.  Schreibe ein paar Tests!
 \end{aufgabeinline}
 
 \section{SECD-Code ausführen}
@@ -1417,8 +1407,8 @@ deshalb mit einem weiteren Programm, einer sogenannten
 \textit{virtuellen Maschine}.\index{virtuelle Maschine}
 
 Zunächst sind Datendefinitionen für die vier Bestandteile der
-Maschine~-- $S$, $E$, $C$ und $D$ fällig.  Zunächst einmal die Menge
-$S$ der Stacks.  Mathematisch hatten wir sie so definiert:
+Maschine fällig~-- $S$, $E$, $C$ und $D$.  Die Menge
+hatten wir mathematisch so definiert:
 %
 \begin{eqnarray*}
     S &\deq& W^\ast
@@ -1442,9 +1432,9 @@ Tupeln:
   E &\subseteq& V\times W
 \end{eqnarray*}
 %
-Im Code werden Umgebungen dargestellt aus Listen von
-\textit{Bindungen\index{Bindung}}, wobei jede Bindung einem Tupel aus
-der mathematischen Definition entspricht:
+Im Code sind Umgebungen Listen von
+\textit{Bindungen\index{Bindung}}, den den Tupeln
+$V\times W$ entsprechen:
 %
 \indexvariable{environment}
 \indexvariable{binding}
@@ -1654,8 +1644,7 @@ Schließlich fehlt noch eine Repräsentation für die Menge $W$ der
 Werte: Ein Wert ist entweder ein Basiswert oder eine Closure.
 Basiswerte wurden bereits in Abschnitt~\ref{page:basiswert} auf
 Seite~\pageref{page:basiswert} definiert; es fehlen noch
-Closures, also Tupel aus der Menge $V\times C\times E$.  Hier sind die
-entsprechenden Definitionen:
+Closures, also Tupel aus der Menge $V\times C\times E$:
 %
 \indexvariable{value}
 \indexvariable{closure}
@@ -1721,7 +1710,7 @@ Basiswert hat.  Der müsste hinterher auf dem Stack gelandet sein:
  (make-secd (list 5) the-empty-environment empty empty))
 \end{lstlisting}
 %
-Hier der Regel für Variablen:
+Hier die Regel für Variablen:
 %
 \begin{displaymath}
   (\underline{s}, e, v\underline{c}, \underline{d})
@@ -1751,8 +1740,7 @@ Hier die Regel für Primitiva:
   \\ && \textrm{wobei $F^k\in\Sigma^k$ und $F_B(b_1,\ldots,b_k) = b$}
 \end{eqnarray*}
 %
-Für den Test nehmen wir als Primitivum die Addition.  Damit sie
-arbeiten kann, benötigt sie die beiden Summanden auf dem Stack:
+Für den Test nehmen wir die Addition.  Sie benötigt die beiden Summanden auf dem Stack:
 %
 \begin{lstlisting}
 (check-expect
@@ -1847,8 +1835,8 @@ Anfang lokale Variablen angelegt:
       ((empty? code) ...))))
 \end{lstlisting}
 %
-In diesem Gerüst werden nun die Regeln direkt abgebildet.  Hier zur
-Erinnerung noch einmal die erste Regel für Basiswerte:
+In dieser Schablone werden nun die Regeln direkt abgebildet.  Hier zur
+Erinnerung noch einmal die erste Regel für Basiswerte.
 %
 \begin{displaymath}
   (\underline{s}, e, b\underline{c}, \underline{d})
@@ -1872,7 +1860,8 @@ Hier der passende Code dafür:
       ...))
 \end{lstlisting}
 %
-Hier die Regel für Variablen:
+Bei der Regel für Variablen wird der Wert der Variablen aus der
+Umgebung geholt und auf den Stack gelegt:
 \begin{displaymath}
   (\underline{s}, e, v\underline{c}, \underline{d})
   \hookrightarrow
@@ -1983,7 +1972,7 @@ Aus einem Primitivum und einer Liste von Argumenten berechnet
 Dabei handelt es sich bei \lstinline{primitive} um eine
 Fallunterscheidung, der Rumpf der Funktion ist also eine entsprechende
 Verzweigung.  Für die Signatur von \lstinline{apply-primitive}
-benötigen wir noch eine Signatur \lstinline{primitive}, passend zum
+benötigen wir noch eine Signatur passend zum
 Prädikat \lstinline{primitive?} auf Seite~\pageref{page:primitivep}:
 %
 \indexvariable{primitive}
@@ -2066,7 +2055,9 @@ Für $e'[v\mapsto w]$ benutzen wir die Funktion
                       (first stack))
                      (closure-code closure)
                      (cons
-                      (make-frame (rest (rest stack)) environment (rest code))
+                      (make-frame (rest (rest stack)) 
+                                  environment
+                                  (rest code))
                       dump)))
           ...)
       ...))
@@ -2211,9 +2202,9 @@ größer wird:
 %
 Dieses Manko können wir zum Glück reparieren: Die
 SECD-Maschine muss endrekursive und "<normale"> Applikationen
-unterschiedlich behandeln.  Dazu wird eine neue Instruktion namens
-$\mathtt{tailap}$ eingeführt, die wie $\mathtt{ap}$ eine Applikation
-durchführt, aber eine endrekursive Applikation signalisiert:
+unterschiedlich behandeln.  Dazu führen wir eine neue Instruktion namens
+$\mathtt{tailap}$ ein, die wie $\mathtt{ap}$ eine Applikation
+durchführt, aber eine Endrekursion signalisiert:
 %
 \begin{eqnarray*}
   I &\deq& \ldots\\
@@ -2230,7 +2221,7 @@ Teile aufgespalten: für einen Term $e$ wird die Auswertungsfunktion $\llbracket
 weitere Funktion $\llbracket \underline{~} \rrbracket'$ wird immer
 dann aufgerufen, wenn \emph{kein} Kontext drumherum steht.
 
-Kontext entsteht seinerseits immer durch Funktionsapplikationen.  Bei
+Kontext entsteht immer durch Applikationen.  Bei
 der Auswertung eines Terms $(e_0~e_1)$ muss \emph{nach} $e_0$ noch
 $e_1$ ausgewertet werden, und nach Auswertung von $e_1$ muss noch die
 Applikation durchgeführt werden.  Sowohl $e_0$ als auch $e_1$ stehen
@@ -2238,8 +2229,7 @@ in Kontext.  Ähnlich ist es bei den Argumenten von primitiven
 Applikationen.
 
 Auf der anderen Seite schneiden Abstraktionen für ihren Rumpf den
-Kontext erst einmal ab: Der Rumpf einer Abstraktion kommt schließlich bei der
-Auswertung der Abstraktion noch gar nicht zum Zug.  Ob er Kontext hat
+Kontext erst einmal ab: Ob der Rumpf Kontext hat
 oder nicht, entscheidet sich erst bei der Applikation.
 Dementsprechend schalten Applikationen und Abstraktionen zwischen den
 beiden Funktionen $\llbracket \underline{~} \rrbracket$ und
@@ -2297,7 +2287,7 @@ $\mathtt{tailap}$:
 %
 Damit läuft das Beispiel zwar immer noch endlos, aber immerhin, ohne
 immer mehr Platz zu verbrauchen:
-%
+
 \begin{displaymath}\scriptsize
   \begin{array}{l@{}llll}
  \hookrightarrow{}&(\epsilon, &\varnothing, &(x, x~x~\mathtt{tailap})~(x, x~x~\mathtt{tailap})~\mathtt{ap}, &\epsilon)\\

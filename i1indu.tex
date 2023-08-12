@@ -268,8 +268,7 @@ sollte.  Ansonsten suggeriert die Tabelle folgende Formel:
   \dfrac{\sum_{i=0}^n i^2}{\sum_{i=0}^n i} = \dfrac{2n+1}{3}
 \end{displaymath}
 %
-Die Gleichung kann mit $\sum_{i=0}^n i = n(n+1)/2$ multipliziert werden, um eine
-Antwort für die ursprüngliche Frage zu ergeben:
+Die Gleichung können wir mit $\sum_{i=0}^n i = n(n+1)/2$ multiplizieren:
 %
 \begin{equation}
   \sum_{i=0}^n i^2 = \dfrac{n(n+1)(2n+1)}{6}
@@ -277,10 +276,10 @@ Antwort für die ursprüngliche Frage zu ergeben:
 \end{equation}
 %
 Schöne Formel~-- aber stimmt sie auch für alle $n\in\mathbb{N}$?  (Für
-den unklaren Fall $0$ stimmt sie.)  Falls Du
-magst, kannst Du sie noch für weitere $n$, zum Beispiel $7, 8, \ldots$~-- ausprobieren,
-und tatsächlich zeigen sich zunächst keine Gegenbeispiele.  Aber das
-ist langweilig und würde immer noch nicht reichen, um die Behauptung
+den unklaren Fall $0$ stimmt sie.)  
+Du kannst sie noch für weitere $n$, zum Beispiel $7, 8, \ldots$ ausprobieren,
+und es kommt immer das richtige heraus.  Aber das
+reicht nicht, um die Behauptung
 für \emph{alle} $n\in\mathbb{N}$ zu beweisen.
 
 Wenn die Behauptung für alle $n\in\mathbb{N}$ stimmt, also
@@ -386,9 +385,11 @@ durch Einsetzen beweisen, für die zweite Zutat (den
 \textit{Induktionsschluss}\index{Induktionsschluss}) ist in der Regel Algebra
 nötig.  Da die Behauptung nach Zutat Nr.~1 für $0$ gilt, muss sie nach
 Zutat Nr.~2 auch für $1$ gelten, und deshalb auch für $2,\ldots$ und
-damit für alle natürlichen Zahlen.  (Es muss nicht unbedingt bei $0$
-losgehen, sondern kann auch bei einer beliebigen Zahl $a$ losgehen~--
-dann gilt aber die Behauptung nur für alle natürlichen Zahlen ab $a$.)
+damit für alle natürlichen Zahlen.
+
+Es muss nicht unbedingt bei $0$
+losgehen, sondern kann auch bei einer beliebigen Zahl $a$ beginnen~--
+dann gilt aber die Behauptung nur für alle natürlichen Zahlen ab $a$.
 
 Wenn die Behauptung erst einmal formuliert ist, sind induktive Beweise
 oft einfach zu führen, da sie meist dem obigen Schema folgen.  Das
@@ -415,7 +416,7 @@ Konstruktionsanleitung für Beweise mit vollständiger Induktion:
   Induktionsvoraussetzung.  
 
   Wenn die Behauptung eine Gleichung der Form $A = B$ ist, kannst
-  Du häufig die Induktionsvoraussetzung entweder direkt oder nach
+  Du häufig die Induktionsvoraussetzung direkt oder nach
   einigen Umformungen in den Induktionsschluss einsetzen.
 \end{enumerate}
 %
@@ -457,9 +458,9 @@ einmal fest, ist sie allerdings recht einfach zu beweisen:
 \end{displaymath}
 %
 Damit können wir die Induktionsvoraussetzung einsetzen, in der
-$\sum_{i=0}^{n} i^2$ auf der linken Seite steht~-- dieser Kniff
-funktioniert fast immer bei Induktionsbeweisen für Gleichungen über
-Summen oder Produkte.  Es entsteht folgende Gleichung:
+$\sum_{i=0}^{n} i^2$ auf der linken Seite steht.  Das
+funktioniert fast immer bei Induktionsbeweisen über
+Summen oder Produkte:
 %
 \begin{displaymath}
   (\dfrac{n(n+1)(2n+1)}{6}) + (n+1)^2  =
@@ -528,8 +529,8 @@ Fall die $0$) und dann ein oder mehrere Regeln, die aus beliebigeren
 Fall die Regel, die besagt, dass für jede natürliche Zahl auch ihr
 Nachfolger eine natürliche Zahl ist.
 
-Das mathematische Pendant für die Datendefinition der natürlichen
-Zahlen sieht so aus:
+Hier ist das mathematische Pendant zu der Datendefinition der natürlichen
+Zahlen:
 %
 \begin{definition}[natürliche Zahlen]
   \label{def:N}
@@ -562,7 +563,9 @@ Konstruktionsanleitung~\ref{ka:nats-eingabe-schablone} auf
 Seite~\pageref{ka:nats-eingabe-schablone}.
 
 Entsprechend muss eine Behauptung über die natürlichen Zahlen für beide
-Sorten bewiesen werden: Einerseits für das Basiselement $0$ und
+Sorten bewiesen werden:
+
+Einerseits für das Basiselement $0$ und
 andererseits für die positiven Zahlen, die keine Basiselemente sind.
 Die Klauseln für die Basiselemente heißen
 \textit{Induktionsverankerungen}\index{Induktionsverankerung}.  Da die
@@ -634,7 +637,7 @@ ausrechnet, also zum Beispiel:
 \end{split}
 \end{displaymath}
 % 
-Die Funktion entspricht also der Funktion \texttt{list-sum} aus
+Die Funktion entspricht also \texttt{list-sum} aus
 Abschnitt~\ref{sec:list-sum}.  Da es zwei verschiedene Sorten endlicher Folgen gibt~-- die leere
 Folge und die "<nichtleeren"> Folgen~-- liegt es
 nahe, die entsprechende Funktion mit einer Verzweigung zu schreiben,
@@ -650,8 +653,8 @@ die zwischen den beiden Sorten unterscheidet:
 \end{displaymath}
 \footnotetext{Vielleicht irritiert Dich das Apostroph bei $f'$, weil
   es in der Schulanalysis für "<Ableitung"> steht.  Das ist in diesem
-  Buch~-- und in vielen anderen Bereichen der Mathematik~-- nicht so:
-  $f'$ ist nur eine weitere Variable, gesprochen "<f strich">.}
+  Buch~-- und auch oft sonst in der Mathematik~-- nicht so:
+  $f'$ ist nur eine weitere Variable, gesprochen "<f Strich">.}
 %
 Diese Definition hat eine Verzweigung mit zwei Zweigen.  Der erste
 Zweig greift, wenn $f$ die leere Folge ist.  Der zweite Zweig greift
@@ -661,10 +664,9 @@ aus einem ersten Element $m$ und einer Restfolge $f'$ besteht.  Wenn
 also zum Beispiel $f$ die Folge $abcd\epsilon$ ist, dann ist $m = a$
 und $f' =bcd$.
 
-Es fehlen noch die Teile der Definition, wo Fragezeichen stehen:
-
+Es fehlen noch die Stellen, Fragezeichen stehen.
 Die Summe der leeren Folge ist $0$:  Wenn es sich um eine andere
-Zahl $m \neq 0$ handeln würde, ließe sich schließlich die Summe einer
+Zahl $m \neq 0$ handeln würde, ließe sich die Summe einer
 beliebigen Folge durch das Anhängen der leeren Folge um $m$ verändern.
 Die erste Lücke ist also schon geschlossen:
 %
@@ -691,7 +693,7 @@ herangezogen werden:
 %
 Soweit sind die bekannten Techniken für die Konstruktion von
 Funktionen auf gemischten und zusammengesetzten Daten zur Anwendung
-gekommen, lediglich übertragen von Programm-Funktionen auf
+gekommen, lediglich übertragen von Programm"=Funktionen auf
 mathematische Funktionen.
 
 Für den nächsten Schritt passt~-- genau wie beim Programmieren~-- ein
@@ -765,9 +767,8 @@ der Folgeninduktion zu je einem Schluss von $f$ auf $mf$ für alle
 Folgen $f$ und alle $m\in M$ . Oft kommt es dabei auf das Folgenelement $m$ gar
 nicht an.
 
-Zum
-Beweis der Behauptung, dass eine bestimmte Behauptung für alle
-$f\in M^\ast$ gilt, genügt es, die folgenden Beweise zu führen:
+Um zu beweisen, dass eine Behauptung für alle
+$f\in M^\ast$ gilt, genügen folgende Schritte:
 \begin{enumerate} 
 \item Die Behauptung gilt für $f=\epsilon$ (\textit{Induktionsanfang})\index{Induktionsanfang}
 \item Wenn die Behauptung für eine Folge $f$ gilt, so gilt sie auch
@@ -805,8 +806,7 @@ Folgeninduktion eine Anleitung:
   einfach.
 
   Wenn die Behauptung eine Gleichung der Form $A = B$ ist, kannst
-  Du häufig die Induktionsvoraussetzung entweder direkt oder nach
-  einigen Umformungen in den Induktionsschluss einsetzen.
+  Du häufig die Induktionsvoraussetzung in den Induktionsschluss einsetzen.
 \end{enumerate}
 %
 Für ein sinnvolles Beispiel dient die Funktion cat, die Folgen
@@ -825,7 +825,7 @@ $u,v,w \in M^{\ast}$ gilt
 \begin{displaymath}
   {\rm cat}(u,{\rm cat}(v,w))  = {\rm cat}({\rm cat}(u,v),w).
 \end{displaymath}
-% 
+
 \begin{enumerate}
 \item Die Form der Behauptung ist noch problematisch, da in ihr drei Folgen
   auftauchen~-- und keine davon heißt $f$.  Im schlimmsten Fall musst
@@ -1036,9 +1036,8 @@ Funktionen dieser Form, die der Struktur einer induktiven Menge direkt
 folgen, heißen \textit{strukturell rekursiv}.\index{strukturelle
   Rekursion}\index{Rekursion!strukturell}  
 
-Hier ein Beispiel für eine induktiv definierte Menge, deren Struktur
-etwas reichhaltiger ist, als die der natürlichen Zahlen oder der
-Folgen.  Die Grammatik beschreibt einfache aussagenlogische Ausdrücke:
+Die folgende Grammatik beschreibt einfache aussagenlogische Ausdrücke,
+also Aussagen mit "<und">, "<oder"> und "<nicht">:
 %
 \begin{grammar}
   \meta{E} \: $\top$ \| $\bot$
@@ -1085,7 +1084,7 @@ durch eine Grammatik definiert sind.
 Die Funktionsdefinition besteht, wie oben beschrieben, auf jeden Fall
 aus einer Verzweigung, die für jede Klausel der Grammatik einen Zweig
 aufweist:
-%
+
 \begin{displaymath}
   \llbracket e \rrbracket \deq
   \begin{cases}
@@ -1172,13 +1171,13 @@ vervollständigen nun die Definition von $\llbracket \underline{~}
 \label{sec:structural-induction}
 
 Beweise von Eigenschaften strukturell rekursiver Funktionen
-funktionieren~-- wieder entsprechend den natürlichen Zahlen und den
+funktionieren~-- entsprechend den natürlichen Zahlen und den
 Folgen~-- mit \textit{struktureller Induktion}\index{strukturelle
   Induktion}\index{Induktion!strukturell}. Strukturelle Induktion folgt
-ebenfalls der Struktur der Grammatik~-- vollständige Induktion und
-Folgeninduktion sind also Spezialfälle.  Folgendes Beispiel~-- aufbauend
-auf den aussagenlogischen Ausdrücken aus dem vorigen Abschnitt~--
-illustriert die Technik:
+der Struktur der Grammatik~-- vollständige Induktion und
+Folgeninduktion sind Spezialfälle.  Das folgende Beispiel dafür baut
+auf den aussagenlogischen Ausdrücken aus dem vorigen Abschnitt auf:
+
 
 \begin{satz}
   Aus einem aussagenlogischen Ausdruck $e$ entsteht der Ausdruck
@@ -1257,7 +1256,7 @@ Selbstbezüge, also gilt wieder die zweiteilige Induktionsvoraussetzung
 $\llbracket \overline{e_1} \rrbracket = n(\llbracket e_1\rrbracket)$,
 $\llbracket \overline{e_2} \rrbracket = n(\llbracket e_2\rrbracket)$.
 Induktionsschluss (zu zeigen):
-%
+
 \begin{alignat*}{3}
   \llbracket e_1 \vee e_2 \rrbracket &= o(\llbracket
   e_1\rrbracket, \llbracket e_2\rrbracket)
@@ -1417,22 +1416,18 @@ Summenformel\index{Gaußsche Summenformel} mit vollständiger Induktion:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Was ist falsch an folgendem Induktionsbeweis?
+  Was ist falsch an folgendem Induktionsbeweis für die Behauptung "<Alle Pferde haben die gleiche Farbe">?
 
-  \textbf{Behauptung} Alle Pferde haben die gleiche Farbe.
-
-  \begin{beweis}\par
-    \textbf{Induktionsanfang} Für eine leere Menge von Pferden gilt die
+  \noindent\textbf{Induktionsanfang} Für eine leere Menge von Pferden gilt die
     Behauptung trivialerweise.
     
-    \textbf{Induktionsschluss} Gegeben sei eine Menge von $n+1$ Pferden.
+    \noindent\textbf{Induktionsschluss} Gegeben sei eine Menge von $n+1$ Pferden.
     Nimm ein Pferd aus der Menge heraus~-- die restlichen Pferde haben per
     Induktionsannahme die gleiche Farbe.  Nimm ein anderes Pferd aus
     der Menge heraus~-- wieder haben die restlichen Pferde per
     Induktionsannahme die gleiche Farbe.  Da die übrigen Pferde die
     Farbe in der Zwischenzeit nicht plötzlich gewechselt haben können, war es in beiden Fällen
     die gleiche Farbe, und alle $n+1$ Pferde haben diese Farbe.
-\end{beweis}
 \end{aufgabe}
 
 \begin{aufgabe}

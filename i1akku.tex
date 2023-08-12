@@ -145,9 +145,8 @@ Hand">.  Wir haben uns für letzteres entschieden:
              (append-element (rest list) element))))))
 \end{lstlisting}
 
-Doch zurück zu \lstinline{invert}.  Obwohl die zu erledigende Aufgabe
-einfach erscheint, dauert schon das Invertieren von Listen der Länge
-1000 eine ganze Weile.  Du kannst das zum Beispiel ausprobieren, indem
+Doch zurück zu \lstinline{invert}.  Schon das Invertieren von Listen der Länge
+1000 eine ganze Weile.  Du kannst das ausprobieren, indem
 Du die Funktion \lstinline{copies} aus Abschnitt~\ref{func:copies} auf
 Seite~\pageref{func:copies} verwendest und das hier in der REPL auswertest:
 %
@@ -155,11 +154,11 @@ Seite~\pageref{func:copies} verwendest und das hier in der REPL auswertest:
 (invert (copies 1000 42))
 \end{lstlisting}
 %
-Das dauert 2020 auf dem kaum ein Jahr alten Computer von Michael
+Das dauert auf dem alten Computer von Michael
 Sperber immerhin ein
 paar Sekunden: Das wäre vielleicht in den 70er Jahren noch akzeptabel
-gewesen.  Tatsächlich ist es so, dass zum Beispiel
-das Invertieren einer Liste der Länge 400 \emph{mehr} als doppelt so
+gewesen.  
+Das Invertieren einer Liste der Länge 400 dauert \emph{mehr} als doppelt so
 lang wie das Invertieren einer Liste der Länge 200 benötigt.  Das
 liegt daran, dass \lstinline{invert} bei jedem rekursiven Aufruf
 \lstinline{append-element} aufruft, und \lstinline{append-element} selbst
@@ -170,8 +169,8 @@ undsoweiter.
 
 Das sind also $19+18+17+\ldots+1$ rekursive Aufrufe.  Vielleicht
 erinnerst Du Dich~-- das ist ein Beispiel für die Gaußsche
-Summenformel, die wir in Abschnitt~\ref{sec:gausssche-summenformel}
-auf Seite~\pageref{sec:gausssche-summenformel} bewiesen haben:
+Summenformel, siehe Abschnitt~\ref{sec:gausssche-summenformel}
+auf Seite~\pageref{sec:gausssche-summenformel}:
 %
 \[\forall n\in\mathbb{N}: \sum_{i=0}^n i =
   \frac{n\times (n+1)}{2}\]
@@ -206,14 +205,14 @@ Wenn Du die rechte Seite ausmultiplizierst, steht da:
 In der Formel bestimmt das $n^2$ das schnelle Wachstum, auch
 \textit{quadratisch} genannt.\index{quadratisches Wachstum}
 
-Tatsächlich gibt es eine bessere Methode, eine Liste umzudrehen: Die
+Zum Glück gibt es eine bessere Methode, eine Liste umzudrehen: Die
 obige \lstinline{invert}"=Funktion konstruiert die Ergebnisliste, indem
 stets Elemente \emph{hinten} angehängt werden.  Das entspricht 
 nicht der "<natürlichen"> Konstruktion von Listen mit
 \lstinline{cons}, das ein Element \emph{vorn} anhängt.  
-Das Ergebnis ließe sich aber durch Anhängen vorn ganz einfach
-konstruieren, und zwar, indem in folgender Reihenfolge
-Zwischenergebnisse\index{Zwischenergebnis} berechnet werden, wie in folgendem Beispiel für den
+Das Ergebnis ließe sich durch Anhängen vorn ganz einfach
+konstruieren, indem in folgender Reihenfolge
+Zwischenergebnisse\index{Zwischenergebnis} berechnet werden, wie hier für den
 Testfall \lstinline{(invert (list 1 2 3 4))}:
 %
 \begin{lstlisting}
@@ -338,14 +337,13 @@ in diesem Testfall:
   \lstinline{invert-helper} benutzt!
 \end{aufgabeinline}
 %
-Die neue Version von \lstinline{invert} funktioniert nicht nur
-korrekt, sondern auch schnell: Sie benutzt keine Hilfsfunktion und
+Die neue Version von \lstinline{invert} benutzt keine Hilfsfunktion und
 macht soviele rekursive Aufrufe wie die Eingabeliste Elemente hat, ihre
 Laufzeit wächst also \textit{linear}.\index{lineares Wachstum}
 
-Übrigens: Da die Funktion \lstinline{invert} generell nützlich ist,
-ist sie unter dem Namen
-\lstinline{reverse}\indexvariable{reverse} fest eingebaut.
+Die Funktion \lstinline{invert} ist so nützlich,
+dass sie unter dem Namen
+\lstinline{reverse}\indexvariable{reverse} eingebaut ist.
 
 \section{Schablonen für Funktionen mit Akkumulator}
 
@@ -353,7 +351,6 @@ Auch für Funktionen mit Akkumulator entwickeln wir eine
 Konstruktionsanleitung.  Vorher wollen wir aber noch einmal
 anhand eines weiteren Beispiels Revue passieren lassen, wie der
 Konstruktionsprozess bei solchen Funktionen eigentlich genau aussieht.
-
 Wir nehmen uns eine Funktion vor, die wir eigentlich schon kennen,
 nämlich aus Abschnitt~\ref{sec:list-sum} auf Seite
 \pageref{sec:list-sum}:\label{function:list-sum-acc}
@@ -364,14 +361,13 @@ nämlich aus Abschnitt~\ref{sec:list-sum} auf Seite
 \end{lstlisting}
 %
 Wir nehmen uns allerdings diesmal vor, mit Akkumulator zu arbeiten.
-Dazu müssen wir uns erst einmal überlegen, was für Information der
+Dazu müssen wir uns überlegen, was für Information der
 Akkumulator eigentlich akkumulieren soll.  Das sollte ein
-\textit{Zwischenergebnis}\index{Zwischenergebnis} sein, das ist 
-eine vorläufige Version des gewünschten Endergebnisses.  Da es 
+\textit{Zwischenergebnis}\index{Zwischenergebnis} sein, 
+eine vorläufige Version des gewünschten Endergebnisses.  Da 
 hier das Endergebnis die Summe aller Listenelemente ist, nehmen wir
-als Zwischenergebnis die Summer aller Listenelemente, die unsere
-Funktion schon "<gesehen"> hat.  Wir nennen deshalb den
-Akkumulator \lstinline{sum} und schreiben folgende Schablone:
+als Zwischenergebnis die Summe aller Listenelemente, die unsere
+Funktion schon "<gesehen"> hat und nennen es \lstinline{sum}.  Wir schreiben folgende Schablone:
 %
 \indexvariable{list-sum-helper}
 \begin{lstlisting}
@@ -447,7 +443,7 @@ aufruft.  Hier ist die Schablone dafür:
 \end{lstlisting}
 %
 Wir haben bewusst den Namen \lstinline{list0} gewählt, damit wir ihn
-nicht mit dem \lstinline{list} aus \lstinline{list-sum-helper}
+nicht mit dem \lstinline{list} aus der Funktion \lstinline{list-sum-helper}
 durcheinanderbringen.  (Anders als noch bei \lstinline{reverse}~-- wir
 versuchen, es besser zu machen.)
 
@@ -530,8 +526,8 @@ Um die Funktion fertigzustellen, fangen wir damit an, die Lücke in
 \lstinline{list-sum} zu schließen, die \lstinline{list-sum-helper} mit
 \lstinline{list0} aufruf.  \lstinline{List0} und \lstinline{list} sind
 also gleich~-- es gibt keine Elemente "<vor \lstinline{list}">.  Die
-Summe dieser leeren Liste und damit das Argument im Aufruf
-von \lstinline{list-sum-helper} ist entsprechend 0:
+Summe dieser leeren Liste ist $0$ und damit auch das Argument im Aufruf
+von \lstinline{list-sum-helper}:
 %
 \indexvariable{list-sum}
 \begin{lstlisting}
@@ -577,7 +573,7 @@ Fertig!
 
 Also na ja~-- es nervt etwas, immer zwei Funktionen schreiben zu müssen
 und immer \lstinline{-helper} dranzuhängen.  Wir können die Funktion
-etwas übersichtlicher machen, indem wir \lstinline{list-sum-helper} zu einer
+übersichtlicher machen, indem wir \lstinline{list-sum-helper} zu einer
 lokalen Definition innerhalb von \lstinline{list-sum} machen:
 %
 \indexvariable{list-sum}
@@ -701,8 +697,8 @@ schreiben eine \lstinline{accumulate}-Funktion mit Parametern
 macht genau wie in der Schablone aus
 Konstruktionsanleitung~\ref{ka:nats-eingabe-schablone} auf
 Seite~\pageref{ka:nats-eingabe-schablone} eine Verzweigung nach den
-zwei Fällen natürlicher Zahlen.  Der rekursive Aufruf bei
-\lstinline{positive?} muss genau wie dort \lstinline{(- exponent 1)}
+zwei Fällen natürlicher Zahlen.  Der rekursive Aufruf im
+\lstinline{positive?}-Zweig muss genau wie dort \lstinline{(- exponent 1)}
 übergeben:
 %
 \begin{lstlisting}
@@ -720,7 +716,7 @@ zwei Fällen natürlicher Zahlen.  Der rekursive Aufruf bei
 %
 Jetzt müssen wir uns noch überlegen, was \lstinline{acc} eigentlich
 sein soll.  Da die Potenz ein wiederholtes Produkt von \lstinline{base}
-ist, bietet sich an, dort ebenfalls ein Produkt unterzubringen.
+ist, sollte \lstinline{acc} auch ein Produkt sein.
 Während \lstinline{accumulate} jedesmal \lstinline{exponent} um eins
 herunterzählt, könnten wir den Akkumulator bei jeder Runde ein
 weiteres Mal mit \lstinline{base} multiplizieren~-- ähnlich, wie wir
@@ -732,7 +728,8 @@ Wir sollten noch eine Invariante formulieren, damit auch alles richtig
 läuft.  Dafür müssen wir klären, \emph{welche} Zwischenpotenz
 \lstinline{power} eigentlich ist.  Da \lstinline{exponent} immer
 kleiner wird, bietet sich die Differenz zwischen \lstinline{exponent0}
-und \lstinline{exponent} an~-- die fängt bei 0 an und wird immer größer:
+und \lstinline{exponent} an~-- die fängt bei $0$ an und wird immer
+größer.  Das Hütchen \lstinline{^} im Kommentar heißt hier "<hoch">:
 %
 \begin{lstlisting}
 (define power
@@ -744,19 +741,17 @@ und \lstinline{exponent} an~-- die fängt bei 0 an und wird immer größer:
           ((zero? exponent) ...)
           ((positive? exponent)
            (accumulate (- exponent 1) ...)))))
-    (accumulate exponent0 1)))
+    (accumulate exponent0 ...)))
 \end{lstlisting}
 %
-Das Hütchen \lstinline{^} heißt hier "<hoch">.
-
-Mit der Invariante können wir jetzt die Lücken füllen: Im ersten Zweig
-ist \lstinline{exponent} 0.  Das bedeutet, dass \lstinline{power}
+Mit der Invariante können wir die Lücken füllen: Im ersten Zweig
+ist \lstinline{exponent} $0$.  Das bedeutet, dass \lstinline{power}
 gerade "<\lstinline{base} hoch \lstinline{exponent0}"> ist~-- das
-gewünschte Endergebnis.  Im zweiten Zweig müssen wir entsprechend dem
+Endergebnis.  Im zweiten Zweig müssen wir entsprechend dem
 reduzierten \lstinline{exponent} einmal \lstinline{base} an das
 Zwischenergebnis dranmultiplizieren.  Es fehlt nur noch der Wert
 für \lstinline{power} im ersten Aufruf von \lstinline{accumulate}.  Da
-$b^0 = 1$ ist, müssen wir da 1 einsetzen:
+$b^0 = 1$ ist, müssen wir $1$ einsetzen:
 %
 \indexvariable{power}
 \begin{lstlisting}
@@ -766,8 +761,7 @@ $b^0 = 1$ ist, müssen wir da 1 einsetzen:
       ; power ist base^(exponent0 - exponent)
       (lambda (exponent power)
         (cond
-          ((zero? exponent)
-           power)
+          ((zero? exponent) power)
           ((positive? exponent)
            (accumulate (- exponent 1) (* power base))))))
     (accumulate exponent0 1)))
@@ -812,7 +806,7 @@ konsumieren, können wir eine Schablone formulieren:
   "<factorial">). Für eine Zahl $n$ ist deren Fakultät $n!$ das
   folgende Produkt: \[1\times 2\times \cdots \times (n-1)\times n\]
 \end{aufgabeinline}
-
+%
 Hier noch ein Tipp für Funktionen auf natürlichen Zahlen mit
 Akkumulator.  Bei den Funktionen \lstinline{exponent} und
 \lstinline{list-sum} ist es egal, ob die Funktion von 0 hochzählt oder
@@ -934,15 +928,15 @@ zwei Möglichkeiten:
 \begin{itemize}
 \item \lstinline{Max-profit} bleibt, wie es ist.
 \item \lstinline{Max-profit} wird aktualisiert, weil es besser ist,
-  zum Kurs \lstinline{(first spots)} zu verkaufen, als zum bisher
+  zum Kurs \lstinline{(first spots)} zu verkaufen als zum bisher
   besten Verkaufskurs.
 \end{itemize}
 %
 Wir müssen also herausbekommen, wie hoch der Gewinn wäre, wenn wir zum
-Kurs \lstinline{(first spots)} verkaufen würden.  Das könnten wir,
-wenn wir den bestmöglichen \emph{Kaufkurs} wüssten.  Etwas Überlegung
-ergibt, dass dieser Kaufkurs der minimale Kurs unter den vergangenen
-Kursen ist: Dieses Minimum führen wir als weiteres Zwischenergebnis
+Kurs \lstinline{(first spots)} verkaufen würden.  Dazu müssten
+wir den bestmöglichen \emph{Kaufkurs} kennen.
+Dieser Kaufkurs ist der minimale Kurs unter den vergangenen
+Kursen: Dieses Minimum führen wir als weiteres Zwischenergebnis
 mit.  Aktualisiert wird dieses Minimum mit der eingebauten Funktion
 \lstinline{min}:
 %
@@ -1252,7 +1246,7 @@ Aufruf.
 \section{Listen iterativ zusammenfalten}
 
 Du erinnerst Dich vielleicht: In Abschnitt~\ref{sec:fold} auf
-Seite~\pageref{sec:fold} haben wir Mutter aller Listenfunktionen
+Seite~\pageref{sec:fold} haben wir die Mutter aller Listenfunktionen
 geschrieben, \lstinline{list-fold}, indem wir aus der Schablone für
 Listenfunktionen eine Funktion gemacht haben.  Alle Listenfunktionen,
 die nach dieser Schablone programmiert sind, können durch einen
@@ -1270,10 +1264,9 @@ Liste von rechts nach links aufrollt.  Eine Funktion mit
 Zwischenergebnis arbeitet aber von links nach rechts, darum das
 \lstinline{-left}.  
 
-Hier die Schablone aus
+Hier ist die Schablone für die gewünschte Funktion aus
 Konstruktionsanleitung~\ref{ka:listen-eingabe-akkumulator-schablone}
-auf Seite~\pageref{ka:listen-eingabe-akkumulator-schablone} in Form
-einer Funktion:
+auf Seite~\pageref{ka:listen-eingabe-akkumulator-schablone}:
 %
 \begin{lstlisting}
 (define list-fold-left
@@ -1285,6 +1278,7 @@ einer Funktion:
           ((cons? list)
            (accumulate (rest list)
                        ... (first list) ... acc)))))
+
     (accumulate list0 ...)))
 \end{lstlisting}
 %
@@ -1303,8 +1297,6 @@ Schließlich bleibt noch die Ellipse am Ende im
 \lstinline{empty?}-Zweig, bei der aus dem letzten Akkumulator das
 Endergebnis wird.  Diesen Übergang lassen wir ebenfalls von einer
 Funktion erledigen, die wir \lstinline{final-acc->result} nennen.
-
-Das Ergebnis sieht so aus:
 %
 \indexvariable{list-fold-left}
 \begin{lstlisting}
@@ -1317,6 +1309,7 @@ Das Ergebnis sieht so aus:
           ((cons? list)
            (accumulate (rest list)
                        (next-acc (first list) acc))))))
+                       
     (accumulate list0 start-acc)))
 \end{lstlisting}
 %
@@ -1343,9 +1336,9 @@ erledigen.  Das machen wir gleich als Testfälle.  Hier sind
 \end{aufgabeinline}
 %
 Es fehlt noch eine Signatur für \lstinline{list-fold-left}.  Wir
-fangen wieder damit an, dass wir aufschreiben, was wir wissen, nämlich
-dass \lstinline{list-fold-left} vierstellig und das
-\lstinline{list0}-Argument eine Liste ist:
+schreiben wieder auf, was wir wissen, nämlich
+dass \lstinline{list-fold-left} vierstellig und dass
+\lstinline{list0} eine Liste ist:
 %
 \begin{lstlisting}
 (: list-fold-left ((list-of %a) ... ... ... -> ...))
@@ -1377,9 +1370,8 @@ Akkumulator.  Wir können also folgendermaßen ergänzen:
 \end{lstlisting}
 %
 Es bleibt \lstinline{final-acc->result}, das als Argument den letzten
-Akkumulator akzeptiert.  Das Ergebnis wird dann zum Endergebnis der
-Funktion, wofür wir die Signaturvariable \lstinline{%b} wählen.  Am
-Ende steht da folgende Signatur:
+Akkumulator akzeptiert.  Das Ergebnis wird zum Endergebnis der
+Funktion, wofür wir die Signaturvariable \lstinline{%b} wählen:
 %
 \begin{lstlisting}
 (: list-fold-left
@@ -1431,9 +1423,9 @@ Ende steht da folgende Signatur:
 \caption{Ablauf von \lstinline{list-fold-left}}
 \label{fig:list-fold-left}
 \end{figure}
-
+%
 Abbildung~\ref{fig:list-fold-left} illustriert den Zusammenhang
-zwischen dem Ablauf von \lstinline{list-fold-left} und der Signatur:
+zwischen dem Ablauf von \lstinline{list-fold-left} und der Signatur.
 Die Verarbeitung läuft sichtlich von links nach rechts.
 
 \begin{figure}[tb]
@@ -1511,11 +1503,10 @@ Mehr dazu in Kapitel~\ref{cha:secd}.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Von \lstinline{power} hatten wir ja in
+  Schreibe eine Version
+  von \lstinline{power2} aus
   Abschnitt~\ref{function:power2} auf Seite~\pageref{function:power2}
-  eine Variante \lstinline{power2} programmiert, die durch eine
-  alternative Sichtweise auf die natürlichen Zahlen viel schneller
-  funktioniert.  Schreibe auch davon eine Version mit Akkumulator.
+  mit Akkumulator.
   Hinweis: Du kannst die gleiche Invariante wie bei \lstinline{power}
   verwenden.
 \end{aufgabe}

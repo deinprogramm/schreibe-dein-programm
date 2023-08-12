@@ -25,7 +25,7 @@
 
 \setstretch{1.3333} % 10pt has 12pt baselineskip
 
-\setlength\parskip{\z@ \@plus 1\p@}
+\setlength\parskip{\z@}
 \setlength\parindent{6mm}
 \setlength\partopsep{6mm}
 
@@ -55,9 +55,9 @@
 \def\@makechapterhead#1{%
   {\parindent \z@ \normalfont
     \interlinepenalty\@M
-    {\fontsize{13\p@}{17\p@} \sffamily \thechapter\quad
+    {\fontsize{13\p@}{13\p@} \sffamily \thechapter\quad
       \MakeUppercase{#1}}\par\nobreak
-    \vspace{2\baselineskip}
+    \vspace{\baselineskip}
   }}
 \def\@schapter#1{\@makeschapterhead{#1}%
                  \@afterheading}
@@ -65,8 +65,8 @@
   {\parindent \z@ \centering
     \normalfont
     \interlinepenalty\@M
-    {\fontsize{13\p@}{17\p@} \sffamily \MakeUppercase{#1}}\par\nobreak
-    \vspace{2\baselineskip}
+    {\fontsize{13\p@}{13\p@} \sffamily \MakeUppercase{#1}}\par\nobreak
+    \vspace{\baselineskip}
   }}
 
 % Center starred section headers
@@ -92,29 +92,29 @@
   {section}%
   {1}%
   {\z@}%
-  {-32\p@ \@plus -4\p@ \@minus -2\p@}%
-  {16\p@ \@plus 4\p@ \@minus 2\p@}%
+  {-24\p@ \@plus -4\p@ \@minus -2\p@}%
+  {12\p@ \@plus 2\p@ \@minus 4\p@}%
   {\normalfont\fontsize{12\p@}{16\p@}\sffamily\MakeUppercase}}
 \renewcommand{\subsection}{\@startsection
   {subsection}%
   {2}%
   {\z@}%
   {-16\p@ \@plus -4\p@ \@minus -2\p@}%
-  {16\p@ \@plus 4\p@ \@minus 2\p@}%
+  {10\p@ \@plus 2\p@ \@minus 4\p@}%
   {\normalfont\fontsize{10\p@}{15\p@}\sffamily\MakeUppercase}}
 \renewcommand{\subsubsection}{\@startsection
   {subsubsection}%
   {2}%
   {\z@}%
   {-16\p@ \@plus -2\p@ \@minus -1\p@}%
-  {16\p@ \@plus 2\p@}%
+  {9\p@ \@plus 2\p@ \@minus 4\p@}%
   {\normalfont\fontsize{9\p@}{16\p@}\sffamily\MakeUppercase}}
 \renewcommand{\paragraph}{\@startsection
   {subsubsection}%
   {2}%
   {\z@}%
   {-16\p@ \@plus -2\p@ \@minus -1\p@}%
-  {16\p@ \@plus 2\p@}%
+  {12\p@ \@plus 4\p@ \@minus 4\p@}%
   {\normalfont\fontsize{9\p@}{16\p@}\sffamily\MakeUppercase}}
 \newcommand\@barafter[1]{#1 \vrule}
 \renewcommand\paragraph{\@startsection
@@ -187,11 +187,6 @@
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
 
-% Add some space between head and head rule
-\def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi
-    \vskip 3mm\hrule\@height\headrulewidth\@width\headwidth
-    \vskip-\headrulewidth}}
-
 \lhead[\fontsize{7.5\p@}{7.5\p@}\textsf{\thepage}]{\fontsize{7.5\p@}{7.5\p@}\textsf{\MakeUppercase{\rightmark}}}
 \rhead[\fontsize{7.5\p@}{7.5\p@}\textsf{\MakeUppercase{\leftmark}}]{\fontsize{7.5\p@}{7.5\p@}\textsf{\thepage}}
 \renewcommand{\headrulewidth}{0.5pt}
@@ -223,8 +218,8 @@
 \setlist[4]{leftmargin=3mm}
 
 \setlength\floatsep      {12pt}
-\setlength\textfloatsep  {12pt}
-\setlength\intextsep{12pt}
+\setlength\textfloatsep  {24pt}
+\setlength\intextsep{18pt}
 
 \setlength\abovedisplayskip{6\p@ \@plus 1\p@ \@minus 3\p@}
 \setlength\belowdisplayskip{6\p@ \@plus 1\p@ \@minus 3\p@}

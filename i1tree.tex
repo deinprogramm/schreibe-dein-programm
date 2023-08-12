@@ -24,11 +24,9 @@ benutzen, findet sich bereits in der Bibel, die Wörter wie
 "<Baumstumpf"> und "<Spross"> benutzt, um Abstammmung zu beschreiben.
 Erste bildliche Darstellungen von Stammbäumen sind aus diesen
 Beschreibungen ab dem 11.\ Jahrhundert abgeleitet worden.
-
-Das Stammbaum-Beispiel ist etwas ausgetreten, aber dennoch instruktiv.
 In Stammbäumen sind in der Regel für eine Person ihr Name sowie
 Verbindungen zu den beiden Eltern vermerkt.  Das führt zu folgender
-Datendefinition.
+Datendefinition:
 %
 \begin{lstlisting}
 ; Eine Person hat folgende Eigenschaften:
@@ -60,7 +58,7 @@ Daraus entsteht eine Datendefinition für "<Elternteil">:
 ; - ein unbekannter Elternteil
 \end{lstlisting}
 %
-Diese~-- und die Datendefinition für "<Person"> können wir nun in Code
+Diese~-- und die Datendefinition für "<Person">~-- können wir nun in Code
 übersetzen:
 %
 \indexvariable{parent}
@@ -156,9 +154,9 @@ solche separate Funktion mit Kurzbeschreibung und Signatur wie folgt:
 (: parent-ancestor? (string parent -> boolean))
 \end{lstlisting}
 %
-Diese Funktion schreiben wir gleich im Anschluss.  Aber ihre Signatur
-ist genug, damit wir die Schablone in Funktion \lstinline{ancestor?}
-weiter ausfüllen, indem wir überprüfen, ob Elternteil Nr.~1 oder Nr.~2
+Diese Funktion schreiben wir im Anschluss.  Aber ihre Signatur
+ist genug, um die Schablone von \lstinline{ancestor?}
+weiter auszufüllen.  Wir überprüfen, ob Elternteil Nr.~1 oder Nr.~2
 Vorfahr ist:
 %
 \begin{lstlisting}
@@ -239,10 +237,8 @@ zweiten Fall können wir mit \lstinline{#f} antworten:
 (define parent-ancestor?
   (lambda (name parent)
     (cond
-      ((person? parent)
-       (ancestor? name parent))
-      ((unknown-parent? parent)
-       #f))))
+      ((person? parent) (ancestor? name parent))
+      ((unknown-parent? parent) #f))))
 \end{lstlisting}
 %
 Fertig!
@@ -272,8 +268,8 @@ an:
   (person-parent-2 parent))
 \end{lstlisting}
 %
-Vielleicht hat Dich das an eine Record-Definition aus
-Kapitel~\ref{cha:selbstbezug} erinnert:
+Vielleicht erinnert Dich das an eine Record-Definition aus
+Kapitel~\ref{cha:selbstbezug}:
 %
 \begin{lstlisting}
 (define-record confluence
@@ -744,7 +740,7 @@ ist oder nicht?  In der Tat ist das möglich, aber nicht mit Listen:
 Wir brauchen eine andere Struktur, um das Suchen zu beschleunigen~--
 Bäume.
 
-\begin{figure}[tb]
+\begin{figure}[tbh]
 \begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
 \node (z){$M$}
   child {node (a) {$B$}
@@ -1207,8 +1203,7 @@ richtigen Namen geben mit Hilfe von lokalen Definitionen:
     ...)))
 \end{lstlisting}
 %
-Zu guter letzt brauchen wir noch einen Aufruf von \lstinline{tree-member?}
-im Rumpf von \lstinline{search-tree-member?}, damit es auch losgeht.
+Zu guter letzt brauchen wir noch einen Aufruf von \lstinline{tree-member?}, damit es auch losgeht.
 Dafür verbrauchen wir den letzten Baustein aus der Schablone:
 %
 \indexvariable{search-tree-member?}
@@ -1253,7 +1248,7 @@ jede Ebene doppelt soviele Knoten wie in die Ebene darüber.
 
 In einen Baum der Tiefe 1 passt auch nur $1 = 2^0$ Knoten, in einen
 der Tiefe 2 passen $2^0 + 2^1 = 1+2 = 3$ Knoten, dann 7, dann 15
-undsoweiter.  Dir fällt vielleicht auf, dass die Zahlen 1, 3, 7, 15
+undsoweiter.  Dir fällt vielleicht auf, dass die Zahlen $1$, $3$, $7$, $15$
 allesamt Vorgänger einer Zweierpotenz sind.  Wir können deshalb
 versuchen, das zu einer Formel zu verallgemeinern.  Die Tiefe des
 Baums heißt dabei $t$.  Dann nehmen wir an (oder hoffen zumindest),
@@ -1267,7 +1262,6 @@ Da es sich bei $t$ um eine natürliche Zahl handelt, können wir
 vollständige Induktion anwenden nach der Anleitung in
 Abschnitt~\ref{sec:nat-induction-ka} auf
 Seite~\pageref{sec:nat-induction-ka}.
-
 Wir müssen also beweisen, dass für alle $t\in\mathbb{N}$ gilt:
 %
 \begin{displaymath}
@@ -1426,16 +1420,16 @@ Algorithmus aufbaut: Die beiden gehören oft zusammen.\footnote{Der
   praktische Programmierung weitgehend irrelevant sind.}
 
 Viele Algorithmen basieren auf cleveren Ideen, von denen die
-Schöpferinnen und Schöpfer selbst gar nicht so genau erklären können,
+Schöpfys selbst gar nicht so genau erklären können,
 wie sie auf sie gekommen sind.  Dementsprechend erwarten wir nicht von
 Dir (und auch nicht von uns), auf das Material dieses Abschnitts
 selbst zu kommen.  Glücklicherweise gibt es in vielen Bereichen der
-Programmierung schon fertige Algorithmen und Datenstrukturen, die Du
-nur benutzen musst und nicht selbst programmieren.  In diesem
-Abschnitt zeigen wir aber trotzdem beispielhaft, wie und warum so eine
+Programmierung schon fertige Algorithmen und Datenstrukturen, die wir
+entsprechend nicht selbst programmieren müssen.  In diesem
+Abschnitt zeigen wir beispielhaft, wie und warum so eine
 Datenstruktur funktioniert.  Vielleicht findest Du es interessant~--
-andernfalls reicht es aber, wenn Du diesen Abschnitt überfliegst oder
-überspringst.
+wenn nicht, reicht es, diesen Abschnitt zu überfliegen oder
+überspringen.
 
 Wie also können wir einen Suchbaum balancieren? Dabei sollten wir
 nicht nur dafür sorgen, dass das Suchen effizient funktioniert.  Auch
@@ -1570,15 +1564,16 @@ noch einen neuen Knoten erzeugt:
      left-branch right-branch)))
 \end{lstlisting}
 %
-Schau nochmal den Teilausdruck an, der die Größe berechnet: Da wird
+Schau den Teilausdruck an, der die Größe berechnet: Da wird
 eine Funktion \lstinline{sized-tree-size} benutzt, welche die Größe
-eines Baums berechnet.  Die gib's aber noch gar nicht~-- reines
+eines Baums berechnet.  Die gibt es aber noch gar nicht~-- reines
 Wunschdenken!  Das müssen wir noch nachholen.  Hier sind
 Kurzbeschreibung, Signatur und zwei Tests:
 %
 \begin{lstlisting}
 ; Größe eines größenannotierten Baums liefern
-(: sized-tree-size ((tree-of %leaf (sized-label-of %label)) -> Natural))
+(: sized-tree-size
+   ((tree-of %leaf (sized-label-of %label)) -> natural))
 
 (check-expect (sized-tree-size "A") 0)
 (check-expect (sized-tree-size sized-tree1) 7)
@@ -1598,7 +1593,7 @@ Daten, also brauchen wir eine Verzweigung:
 %
 Im \lstinline{node}-Fall wissen wir schon, wo die Größe steht, nämlich
 in der \lstinline{sized-label}-Markierung.  Im anderen Fall handelt es
-sich um ein Blatt, das hat Größe 0:
+sich um ein Blatt, das hat Größe $0$:
 %
 \begin{lstlisting}
 (define sized-tree-size
@@ -1641,13 +1636,7 @@ Das wird noch öfter passieren, darum abstrahieren wir:
 \end{aufgabeinline}
 %
 Wir können außerdem schon absehen, dass wir noch häufig die Markierung
-eines größenannotierten Knotens benötigen werden.  Dafür müssen wir im
-Moment zwei Funktionen aufrufen:
-%
-\begin{lstlisting}
-(sized-node-label (node-label node))
-\end{lstlisting}
-%
+eines größenannotierten Knotens benötigen werden.  
 Wir definieren deshalb eine Hilfsfunktion:
 %
 \indexvariable{sized-node-label}
@@ -1665,17 +1654,16 @@ Wir definieren deshalb eine Hilfsfunktion:
 
 Für die Entwicklung von Algorithmen gibt es leider keine übergreifende
 Strategie analog zu den Konstruktionsanleitungen. Häufig steht am
-Anfang eine Idee, die sich aus einer bestimmten Sichtweise des
+Anfang eine Idee, die aus einer bestimmten Sichtweise des
 Problems entsteht, verbunden mit Variationen und Experimenten.
 
-Der Ausgangspunkt von Stephen Adams' Algorithmus ist die Funktion
+Der Ausgangspunkt von Stephen Adams' Idee ist die Funktion
 \lstinline{search-tree-insert}.  Die platziert das neue Element an die
 erstbeste Stelle im Suchbaum, die passt: Das ist der minimal mögliche
 Aufwand.  Adams' Idee ist nun, \lstinline{search-tree-insert} im
 wesentlichen beizubehalten, aber mit einer Ergänzung: Wenn das
 Einfügen eines neuen Elements den Baum aus dem Gleichgewicht bringt,
 wird er ein bisschen neu ausbalanciert.
-
 So, als würde man immer, wenn man was neues kauft, den neuen
 Gegenstand im Zimmer ins Regal legen und dann ein kleines bisschen
 aufräumen.  Die Kunst ist, gerade genug aufzuräumen, dass das Zimmer
@@ -1723,16 +1711,18 @@ Hier ist ein Beispiel:
 \end{lstlisting}
 \end{aufgabeinline}
 %
-Wir machen als nächstes aus der Funktion
+Wir machen nun aus
 \lstinline{search-tree-member?} die Funktion
-\lstinline{sized-search-tree-member?}.  Dafür müssen wir die Funktion
-nur kopieren, umbenennen und auf die Benutzung von
-\lstinline{sized-search-tree} umstellen.\label{func:sized-search-tree-member}
+\lstinline{sized-search-tree-member?}.  Dafür kopieren
+wir sie, benennen sie um und stellen sie so um, dass sie
+\lstinline{sized-search-tree} benutzt.\label{func:sized-search-tree-member}
 %
 \indexvariable{sized-search-tree-member?}
 \begin{lstlisting}
 ; festellen, ob Element in Suchbaum vorhanden ist
-(: sized-search-tree-member? (%a (sized-search-tree-of %a) -> boolean))
+(: sized-search-tree-member? 
+   (%a (sized-search-tree-of %a) -> boolean))
+
 (check-expect (sized-search-tree-member? "M" sized-search-tree1) #t)
 (check-expect (sized-search-tree-member? "D" sized-search-tree1) #t)
 (check-expect (sized-search-tree-member? "N" sized-search-tree1) #t)
@@ -1999,8 +1989,8 @@ zumindest etwas lindern kann.
 
 Unten links siehst Du ebenfalls einen Baum, der aus dem Gleichgewicht
 gekommen ist: Auch hier wird ein Teilbaum von rechts nach links
-verschoben, der sich aber noch eine Ebene tiefer befindet.  Diese
-Rotation ist etwas komplizierter, darum heißt sie "<doppelte>
+verschoben, der sich aber noch eine Ebene tiefer be\-findet.  Diese
+Rotation ist etwas komplizierter, darum heißt sie "<doppelte">
 Rotation, die erste heißt entsprechend "<einfach">.
 
 \begin{aufgabeinline}
@@ -2160,8 +2150,8 @@ Ungleichgewicht aufweist.  Dann könnten wir einfach
 \end{lstlisting}
 %
 
-Es gibt bisher noch keine Tests für
-\lstinline{balanced-search-tree-insert} oder
+Es gibt bisher noch keine Tests für die Funktionen
+\lstinline{balanced-search-tree-insert} und
 \lstinline{make-balanced-node}.  Das ist bedenklich, insbesondere weil
 die Funktionen ziemlich kompliziert sind und viele Fälle abdecken
 müssen.  Es lohnt sich, ein weiteres Mal an
@@ -2170,7 +2160,7 @@ Seite~\pageref{mantra:komplexitaet} zu erinnern:
 
 \mantrakomplexitaet*
 
-So richtig testen werden wir sie im nächsten Kapitel.  Hier schon
+\noindent So richtig testen werden wir sie im nächsten Kapitel.  Hier schon
 einmal eine Aufgabe zur Vorbereitung:
   
 \begin{aufgabeinline}
@@ -2188,8 +2178,7 @@ einmal eine Aufgabe zur Vorbereitung:
 
 
 \begin{aufgabe}
-  Die Suchbaum-Funktionen ist für viele Suchprobleme nicht
-  mächtig genug, da \texttt{search-tree-member?} nur überprüft,
+  Die Funktion \texttt{search-tree-member?} überprüft nur,
   \emph{ob} ein Element in einem Suchbaum vorhanden ist.  Das hilft
   nicht zum Beispiel beim Suchen von Telefonnummern zu gegebenen Namen.
   Erweitere die Funktionen so, dass sie zum Beispiel auch zum Suchen
@@ -2207,9 +2196,10 @@ einmal eine Aufgabe zur Vorbereitung:
 
 \begin{aufgabe}
 
-  \begin{figure}[tb]
+  \begin{figure}[tbh]
     \centering
-  \begin{tikzpicture}[level/.style={sibling distance=13mm},
+  \begin{tikzpicture}[scale=0.9,
+        level/.style={sibling distance=13mm},
         triangle/.style = {regular polygon, regular polygon sides=3, draw},
         every node/.style={scale=0.8}]
     \node [circle,fill=black] (c) {\textit{\textcolor{white}c}}
@@ -2270,7 +2260,7 @@ einmal eine Aufgabe zur Vorbereitung:
   \end{scope}
   
 \end{tikzpicture}    
-    \caption{Red-Black-Trees}
+    \caption{Red-Black-Tres}
     \label{fig:red-black-trees}
   \end{figure}
 
@@ -2296,20 +2286,19 @@ einmal eine Aufgabe zur Vorbereitung:
   kürzestmögliche Pfad besteht nur aus schwarzen Knoten.)  Soll ein
   Red-Black-Tree um einen Knoten erweitert werden, muss nach dem
   Einfügen diese Bedingung immer noch gelten, er muss also
-  entsprechend ausbalanciert werden.
-  
-  Programmieren Red-Black-Trees mit Hilfe der folgenden Anleitung!
+  ausbalanciert werden.
+  Programmiere Red-Black-Trees mit Hilfe der folgenden Anleitung!
 
   \begin{itemize}
   \item Schreibe zunächst Daten- und Record-Definition für
     Red-Black-Trees analog zu größenannotierten Bäumen und Suchbäumen.
   \item Schreibe Funktionen \lstinline{red-tree?}  und
-    \texttt{black-tree?}, die überprüfen, ob ein (Teil)baum rot oder
+    \lstinline{black-tree?}, die überprüfen, ob ein (Teil)baum rot oder
     schwarz ist.
   \item Schreibe eine Funktion \lstinline{red-black-tree-member?}
     analog zu \lstinline{sized-tree-member?}.
     
-  \item Schreibe eine Funktion \lstinline{red-black-tree-insert}
+  \item Schreibe \lstinline{red-black-tree-insert}
     analog zu \lstinline{balanced-search-tree-insert}.
   \end{itemize}
 
@@ -2322,7 +2311,7 @@ einmal eine Aufgabe zur Vorbereitung:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Entwickle eine zu Listen alternative Repräsentation für endliche
+  Entwickle eine alternative Repräsentation für endliche
   Folgen auf Basis folgender Datendefinition:
 \begin{lstlisting}
 ; Eine AListe ist eins der folgenden:
@@ -2354,7 +2343,7 @@ einmal eine Aufgabe zur Vorbereitung:
     Knoten entlang des Pfades die Elemente der Liste sind.  Die
     Markierung an der Wurzel wird ignoriert.
 
-    \begin{figure}[tb]
+    \begin{figure}[tbh]
       \centering
 \begin{tikzpicture}[level/.style={sibling distance=20mm/#1, level distance=10mm}]
     \node {$\cdot$}

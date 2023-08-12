@@ -152,14 +152,11 @@ Schablone:
        ... (power base (predecessor exponent)) ...))))
 \end{lstlisting}
 %
-Nun müssen wir noch die Lücken füllen:
-
 Beim ersten Fall~--Exponent $0$~-- muss als Potenz $1$ herauskommen, das
 neutrale Element bezüglich der Multiplikation: Das ist ja nichts
 anderes, als die Zahlen der leeren Liste zu multiplizieren.  (Siehe
 dazu auch Seite~\pageref{page:neutrales-element} in
 Abschnitt~\ref{page:neutrales-element}.)
-
 Für den anderen Fall ist das Ergebnis des rekursiven Aufruf die Potenz
 von \lstinline{base} mit dem Vorgänger von \lstinline{exponent} als
 Exponent.  Damit wir als Ergebnis \lstinline{base} mit sich selbst
@@ -172,8 +169,7 @@ Multiplikation mit \lstinline{base}:
     (cond
       ((zero? exponent) 1)
       ((positive? base)
-       (* base
-          (power base (predecessor exponent)))))))
+       (* base (power base (predecessor exponent)))))))
 \end{lstlisting}
 %
 Fertig!
@@ -225,8 +221,7 @@ macht aus einer Liste eine natürliche Zahl.  Das geht auch umgekehrt:
 ; Liste aus Kopien eines Werts erzeugen
 (: copies (natural %element -> (list-of %element)))
 
-(check-expect (copies 4 23)
-              (list 23 23 23 23))
+(check-expect (copies 4 23) (list 23 23 23 23))
 (check-expect (copies 5 "Mike")
               (list "Mike" "Mike" "Mike" "Mike" "Mike"))
 \end{lstlisting}
@@ -284,7 +279,7 @@ und liefert das Element:
 Wir sollten uns noch überlegen, was passieren soll, wenn es den Index in der Liste gar
 nicht gibt.  Die Funktion kann kein sinnvolles Ergebnis liefern, das
 zur Signatur passt~-- es muss ja ein Element der Liste herauskommen.
-Die einzig sinnvolle Möglichkeit ist, einen Fehler anzuzeigen.
+Wir können also nur einen Fehler anzeigen.
 Daraus wird folgender Testfall:
 %
 \begin{lstlisting}
@@ -299,10 +294,10 @@ Das Gerüst der Funktion sieht folgendermaßen aus:
     ...))
 \end{lstlisting}
 %
-Bei der Schablone haben wir die Wahl: Wir können entweder die
+Wir können die
 Schablone für Listen als Eingabe benutzen oder die für natürliche
-Zahlen.  Oder beide.  Hier ist aber der Index federführend~-- wenn die
-Funktion das zweite Element einer tausendelementigen Liste extrahiert,
+Zahlen.  Hier ist der Index federführend~-- beim
+zweitem Element einer tausendelementigen Liste 
 ist die Länge irrelevant.  Wir halten uns also an die
 Konstruktionsanleitung für natürliche Zahlen:
 %
@@ -315,10 +310,10 @@ Konstruktionsanleitung für natürliche Zahlen:
        ... (nth (rest list) (- index 1)) ...))))
 \end{lstlisting}
 %
-Im ersten Fall ist der Index 0, also das erste Element der Liste
-gefragt.  Im zweiten Fall liefert uns der rekursive Aufruf im Rest der
-Liste das Element das Element an Stelle \lstinline{(- index 1)}.  Dies
-ist schon das \lstinline{index}-te Element in \lstinline{list}.  Die
+Im ersten Fall ist der Index $0$, also das erste Element 
+gefragt.  Im zweiten Fall liefert der rekursive Aufruf im Rest der
+Liste das Element an Stelle \lstinline{(- index 1)}, also
+das \lstinline{index}-te Element in \lstinline{list}.  Die
 Funktion sieht so aus:
 %
 \indexvariable{nth}
@@ -331,14 +326,14 @@ Funktion sieht so aus:
        (nth (rest list) (- index 1))))))
 \end{lstlisting}
 %
-Tatsächlich laufen alle Testfälle bereits durch~-- und das, obwohl wir
+Alle Testfälle laufen bereits durch~-- obwohl wir
 für den Fehlerfall gar nichts programmiert haben.
-\begin{aufgabe}
+\begin{aufgabeinline}
   Werte mit dieser Definition folgenden Ausdruck aus:
 \begin{lstlisting}
 (nth (list 1 2 3 4 5) 5)
 \end{lstlisting}
-\end{aufgabe}
+\end{aufgabeinline}
 %
 Die Fehlermeldung ist zwar technisch richtig, gibt aber keinen
 Aufschluss auf die Ursache des Fehlers.  Das können wir korrigieren,
@@ -436,7 +431,7 @@ entsprechende Schablone anwenden:
 %
 Im ersten Fall sind null Elemente gefragt, da muss das Ergebnis
 \lstinline{empty} sein.  Da eine Liste herauskommt, werden wir
-wahrscheinlich im zweiten Fall \lstinline{cons} benutzen, um diese zu
+im zweiten Fall \lstinline{cons} benutzen, um diese zu
 konstruieren.  Außerdem ist das gewünschte erste Element gerade
 \lstinline{from}.  Wir können die Schablone also wie folgt
 weiterentwickeln:
@@ -524,12 +519,10 @@ gehabt aufhört:
 \end{lstlisting}
 %
 Fertig!
-
 Vielleicht fällt Dir bei dieser Aufgabe auf, dass es leicht passieren
 kann, dass die ganzen Zahlen "<um eins verrutschen">.  Man könnte zum
 Beispiel leicht auf die Idee kommen, im ersten Zweig statt
-\lstinline{(list from)} einfach \lstinline{empty} hinzuschreiben.  Das
-passiert auch erfahrener Programmiererinnen und Programmierern.  Es
+\lstinline{(list from)} einfach \lstinline{empty} hinzuschreiben.  Es
 ist deswegen sinnvoll, beim Programmieren von Funktionen über
 natürliche und ganze Zahlen genau hinzuschauen, ob sie korrekt sind.
 
@@ -578,7 +571,7 @@ halbiert, statt sich (wie die erste Definition) auf den Vorgänger zu beziehen.
 ; - der Nachfolger des Doppelten einer natürlichen Zahl
 \end{lstlisting}
 %
-Da die Datendefinition diesmal drei Fälle hat, muss der Rumpf aus
+Da die Datendefinition drei Fälle hat, muss der Rumpf aus
 einer Verzweigung mit drei Zweigen bestehen:
 %
 \begin{lstlisting}
@@ -591,11 +584,10 @@ einer Verzweigung mit drei Zweigen bestehen:
 \end{lstlisting}
 %
 Der erste Fall entspricht der ursprünglichen
-\lstinline{power}-Funktion~-- da muss eine 1 hin.  Der zweite und der
+\lstinline{power}-Funktion~-- da muss eine $1$ hin.  Der zweite und der
 dritte Fall enthalten jeweils einen Selbstbezug, weswegen dort
 rekursive Aufrufe stehen müssen.  Im zweiten Fall steht "<das
-Doppelte">, wir können also die natürliche Zahl des Selbstbezugs durch
-Halbierung berechnen.  Im dritten Fall müssen wir vor dem Halbieren
+Doppelte">, wir müssen also halbieren.  Im dritten Fall müssen wir vor dem Halbieren
 noch eins abziehen.  Wir benutzen jeweils \lstinline{quotient}, weil
 wir ganzzahlig halbieren:
 %
@@ -656,10 +648,12 @@ Entsprechend können wir den letzten Zweig ausfüllen:
 \end{lstlisting}
 %
 Fertig!
-\begin{aufgabe}
+\begin{aufgabeinline}
   Überzeuge Dich mit dem Stepper, dass \lstinline{power2} weniger
   Multiplikationen benötigt als \lstinline{power}!
-\end{aufgabe}
+\end{aufgabeinline}
+
+\newpage
 
 \section*{Aufgaben}
 
@@ -670,13 +664,13 @@ Fertig!
     n! \deq 1 \times 2 \times \cdots \times n
   \end{displaymath}
   %
-  Schreiben Sie eine Funktion, welche die Fakultät berechnet!
+  Schreibe eine Funktion, welche die Fakultät berechnet!
 \end{aufgabe}
 
 \begin{aufgabe}\label{ex:drop}
   Programmieren Sie folgende Funktionen auf Listen:
   \begin{enumerate}
-  \item Programmieren Sie eine Funktion \texttt{take}, die als
+  \item Programmiere eine Funktion \texttt{take}, die als
     Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
     akzeptiert, und die ersten \texttt{n} Elemente der Liste
     \texttt{l} zurückgibt. Beispiel:
@@ -685,10 +679,10 @@ Fertig!
       \evalsto{} #<list 1 2 3 4 5>
     \end{alltt}
     %
-    Gehen Sie davon aus, dass \texttt{l} mindestens \texttt{n}
+    Gehe davon aus, dass \texttt{l} mindestens \texttt{n}
     Elemente lang ist.
 
-  \item Programmieren Sie eine Funktion \texttt{drop}, die als
+  \item Programmiere eine Funktion \texttt{drop}, die als
     Argumente eine Liste \texttt{l} und eine Zahl \texttt{n}
     akzeptiert, und die Liste \texttt{l} ohne die ersten \texttt{n}
     Elemente zurückgibt.  Beispiel:
@@ -697,7 +691,7 @@ Fertig!
       \evalsto{} #<list 4 5 6 7 8>
     \end{alltt}
     %
-    Gehen Sie davon aus, dass \texttt{l} mindestens \texttt{n}
+    Gehe davon aus, dass \texttt{l} mindestens \texttt{n}
     Elemente lang ist.
     \end{enumerate}
 \end{aufgabe}
@@ -708,8 +702,8 @@ Fertig!
   \item
     Die eingebaute Funktion \texttt{even?}\indexvariable{even?}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
-    gerade ist und \verb|#f| wenn nicht
-    Schreiben Sie mit Hilfe von \texttt{even?}
+    gerade ist und \verb|#f| wenn nicht.
+    Schreibe mit Hilfe von \texttt{even?}
     eine Funktion namens \texttt{evens}, welche für zwei
     Zahlen $a$ und $b$ eine Liste der geraden Zahlen zwischen $a$ und
     $b$ zurückgibt:
@@ -725,7 +719,7 @@ Fertig!
     Die eingebaute Funktion \texttt{odd?}\indexvariable{odd?}
     akzeptiert eine ganze Zahl und liefert \verb|#t|, falls diese
     ungerade ist und \verb|#f| wenn nicht.
-    Schreiben Sie mit Hilfe von \texttt{odd?} eine Funktion \texttt{odds}, welche für zwei
+    Schreibe mit Hilfe von \texttt{odd?} eine Funktion \texttt{odds}, welche für zwei
     Zahlen $a$ und $b$ eine Liste der ungeraden Zahlen zwischen $a$ und $b$
     zurückgibt:
 \begin{alltt}
