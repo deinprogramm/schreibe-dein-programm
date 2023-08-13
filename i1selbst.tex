@@ -729,11 +729,12 @@ etwa so:
 Wenn wir das hätten, bräuchten wir aber \lstinline{one-euro} nicht mehr.
 Außerdem wäre das Resultat dann nicht mehr so einfach wie möglich:
 Besser wäre es, wenn wir die Idee "<wieviele"> trennen könnten von
-"<Euro">.  Dann könnten wir sagen "<mehrere von einem Euro">.  Das
-klingt erstmal komisch, auch in der Datendefinition:
+"<Euro">.  Dann könnten wir sagen "<eine Vielzahl von einem Euro">.  Das
+klingt erstmal komisch: %, auch in der Datendefinition:
+%%%% HK: "Mehrere haben folgende Eigenschaften klingt mir dann doch zu blöd
 %
 \begin{lstlisting}
-; Mehrere haben folgende Eigenschaften:
+; Eine Vielzahl hat folgende Eigenschaften:
 ; - wieviele
 ; - wovon
 \end{lstlisting}
@@ -783,7 +784,7 @@ deshalb als Signatur von \lstinline{multiple-of} einfach
     (multiple-of     contract))
 \end{lstlisting}
 %
-Nun gibt es schon zwei Klassen Verträge~-- \lstinline{one-euro} und
+Nun gibt es schon zwei Klassen von Verträgen~-- \lstinline{one-euro} und
 \lstinline{multiple}.  Wir erweitern die Definition von
 \lstinline{contract} entsprechend:
 %
@@ -1153,7 +1154,7 @@ Selbstbezüge, wir können also dort rekursive Aufrufe hinschreiben:
        |\ldots|))))
 \end{lstlisting}
 %
-Damit ist die Schablone fertig und wir können versuche, für jeden Fall
+Damit ist die Schablone fertig und wir können versuchen, für jeden Fall
 etwas Sinnvolles hinzuschreiben.  Bei den ersten beiden ist es nicht
 so schwierig: Bei einem \lstinline{nothing}-Vertrag wird nichts
 ausgezahlt, bei einem \lstinline{one-euro}-Vertrag wird ein \EUR{1}
@@ -1413,7 +1414,7 @@ Als Nächstes ist \lstinline{multiple} an der Reihe.  Der rekursive
 Aufruf aus der Schablone beantwortet die folgende Frage: "<Wieviel ist
 von \emph{einem} Vertrag nach dem Datum noch übrig?"> Wenn wir mit $n$
 das Ergebnis von \lstinline{(multiple-number contract)} bezeichnen,
-dann müssen wir die Frage beantwortenm, wieviel von $n$
+dann müssen wir die Frage beantworten, wieviel von $n$
 Verträgen übrig bleibt.  Im übertragenen Sinne futtern $n$ Esser in
 der Mensa an jeweils der gleichen Portion Brei, werden aber
 unterbrochen. Wenn wir wissen, wieviel von einer Portion jeweils übrigbleibt,
