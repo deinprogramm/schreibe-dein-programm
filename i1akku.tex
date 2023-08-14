@@ -285,7 +285,7 @@ Eingabeliste:
        ... (invert-helper (rest list) ...) ...))))
 \end{lstlisting}
 %
-Im \lstinline{cons}-Fall müssen wir insbesondere das Argument zum zweiten
+Im \lstinline{cons}-Fall müssen wir das Argument zum zweiten
 Parameter von \lstinline{invert-helper} ergänzen: Wir sind natürlich
 versucht, da einfach \lstinline{inverted} hinzuschreiben wie bei
 vielen anderen rekursiven Funktionen vorher.  Aber wir müssen doch die
@@ -321,7 +321,7 @@ hinein. Sie ist bereits fertig, wir müssen nur die Ellipsen wegmachen:\label{fu
                       (cons (first list) inverted))))))
 \end{lstlisting}
 %
-Die Funktion kann schon was, ist aber natürlich nicht identisch zur
+Die Funktion kann schon was, ist aber nicht identisch zur
 ursprünglichen \lstinline{invert}-Funktion, die ja nur eine Eingabe
 hat.  Um "<einfach nur eine Liste umzudrehen">, können wir
 \lstinline{invert-helper} mit einem leeren Akkumulator aufrufen, wie

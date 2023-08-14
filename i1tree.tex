@@ -1834,7 +1834,6 @@ wir ein bisschen aufräumen.  Wobei Unordnung hier heißt
 "<Ungleichgewicht zwischen \lstinline{left-branch} und
 \lstinline{right-branch}">.  Und das Ungleichgewicht definieren wir
 (genauer gesagt: Stephen Adams) über die Größe der Teilbäume.
-
 Naiv könnten wir es folgendermaßen machen:
 %
 \begin{lstlisting}
@@ -1850,16 +1849,18 @@ Naiv könnten wir es folgendermaßen machen:
 \ldots~aber das wäre zu hart: Das würde heißen, dass die Funktion
 \emph{jedesmal} ausbalancieren müsste, wenn auch nur das kleinste
 bisschen Ungleichgewicht entstehen würde.  Abgesehen davon ist das
-auch unmöglich: Ein Baum der Größe 3 kann gar nicht perfekt balanciert
+auch unmöglich: Ein Baum der Größe $3$ kann gar nicht perfekt balanciert
 sein zum Beispiel.
 
 Wir brauchen also ein "<weicheres"> Kriterium.  Stephen Adams hatte
 nun folgende Idee: Wenn ein Teilbaum mehr als $n$ mal so groß ist wie
-der andere, dann wird neu ausbalanciert.  Wie ist er darauf gekommen
+der andere, dann wird neu ausbalanciert.
+
+Wie ist er darauf gekommen
 und wie groß sollte $n$ sein?  Wie er darauf gekommen ist, ist
 nicht überliefert, aber wir gehen davon aus, dass er unterschiedliche
 Kriterien ausprobiert hat und dieses hier dazu führte, das die
-entstehende Funktion sowohl einfach als auch im Schnitt schnell
+entstehende Funktion sowohl einfach ist als auch im Schnitt schnell
 funktioniert.  Dabei hat er auch ermittelt, wie groß $n$
 sinnvollerweise ist, nämlich 5.  Es entsteht folgende Schablone:\label{def:ratio}
 %
@@ -1879,7 +1880,7 @@ sinnvollerweise ist, nämlich 5.  Es entsteht folgende Schablone:\label{def:rati
        (make-sized-node label left-branch right-branch)))))
 \end{lstlisting}
 %
-Du siehst, wir haben die 5 in eine separate Definition verlagert, weil
+Du siehst, wir haben die $5$ in eine separate Definition verlagert, weil
 sie zweimal benutzt wird und so einfach geändert werden kann.  Adams
 hat die Funktion noch etwas weiter verbessert, indem er ein weiteres
 Kriterium hinzufügte, bei dem kein Ausbalancieren notwendig ist:
@@ -1892,8 +1893,10 @@ Kriterium hinzufügte, bei dem kein Ausbalancieren notwendig ist:
     (cond
       ((< (+ left-size right-size) 2)
        (make-sized-node label left-branch right-branch))
-      ((> right-size (* ratio left-size)) ...) ; rechts hat Übergewicht
-      ((> left-size (* ratio right-size)) ...) ; links hat Übergewicht
+      ((> right-size ; rechts hat Übergewicht
+          (* ratio left-size)) ...)
+      ((> left-size  ; links hat Übergewicht
+          (* ratio right-size)) ...)
       (else
        (make-sized-node label left-branch right-branch)))))
 \end{lstlisting}
@@ -1974,18 +1977,19 @@ keinen Sinn.
   \label{fig:search-tree-rotation}
 \end{figure}
 
-Um den Baum auszubalancieren, schauen wir uns an, wie so ein
-Ungleichgewicht überhaupt aussehen kann.  Schau Dir
-Abbildung~\ref{fig:search-tree-rotation} an.  Links oben siehst Du einen
+Um den Baum auszubalancieren, schauen wir, wie so ein
+Ungleichgewicht aussehen kann.  In
+Abbildung~\ref{fig:search-tree-rotation} steht links oben ein
 Baum mit Markierungen $a$ und $c$ sowie dreieckigen Teilbäumen $X$,
-$Y$ und $Z$.  Nun stell Dir vor, der Baum hat rechts deutlich mehr
+$Y$ und $Z$.
+
+Stell Dir nun vor, der Baum hat rechts deutlich mehr
 Knoten als links.  Dann ist er aus dem Gleichgewicht und sollte neu
 ausbalanciert werden.
-
 Das erledigt eine \textit{Rotation}\index{Rotation!eines Suchbaums},
-die aus diesem Baum den Baum oben rechts macht: Dabei wird der
-Teilbaum $Y$ von rechts nach links geschoben, was das Ungleichgewicht
-zumindest etwas lindern kann.
+die aus diesem Baum den Baum oben rechts macht: Der
+Teilbaum $Y$ wird von rechts nach links geschoben, was das Ungleichgewicht
+zumindest etwas lindert.
 
 Unten links siehst Du ebenfalls einen Baum, der aus dem Gleichgewicht
 gekommen ist: Auch hier wird ein Teilbaum von rechts nach links
@@ -2185,11 +2189,11 @@ einmal eine Aufgabe zur Vorbereitung:
   von Telefonnummern verwendet werden kann.  Realisiere 
   exemplarisch das Suchen nach Telefonnummern!
 
-  Hinweis: Benutze als Markierungen im Suchbaum sogenannte
+  Benutze als Markierungen im Suchbaum sogenannte
   \textit{Einträge}, die aus eine \textit{Schlüssel} (zum Beispiel dem Namen)
-  und dem \textit{Wert} bestehen.  Schreibe dazu Daten-,
-  Record- und Signatur-Definitionen. Ändere \texttt{search-tree-insert}
-  dahingehend, dass es Schlüssel und Element akzeptiert.  Schreibe eine
+  und dem \textit{Wert} bestehen.  Schreibe Daten-,
+  Record- und Signatur-Definitionen für Einträge. Ändere die Funktion \texttt{search-tree-insert}
+  dahingehend, dass sie Schlüssel und Element akzeptiert.  Schreibe eine
   Funktion \texttt{search-tree-find}, die zu einem Schlüssel den
   zugehörigen Wert findet.
 \end{aufgabe}
@@ -2266,7 +2270,7 @@ einmal eine Aufgabe zur Vorbereitung:
 
   In Abbildung~\ref{fig:red-black-trees} ist eine alternative
   Strategie abgebildet, um Suchbäume auszubalancieren. Diese Strategie
-  benutzt nicht größenannotierte Bäume sondern auf solchen, wo an
+  benutzt nicht größenannotierte Bäume sondern solche, wo an
   jedem Knoten eine \textit{Farbe} Teil der Markierung ist.  Es gibt
   nur die Farben Rot und Schwarz, entsprechend heißen diese Bäume
   \textit{Red-Black-Trees}\index{Red-Black-Trees}.  (Falls Du die
@@ -2281,12 +2285,15 @@ einmal eine Aufgabe zur Vorbereitung:
   \end{itemize}
   %
   Durch diese Bedingungen wird garantiert, dass der längste mögliche
-  Weg, also ein Weg bei dem sich rote und schwarze Knoten abwechseln,
+  Weg, also ein Weg, bei dem sich rote und schwarze Knoten abwechseln,
   weniger als doppelt so lang wie der kürzestmögliche Weg ist. (Der
-  kürzestmögliche Pfad besteht nur aus schwarzen Knoten.)  Soll ein
+  kürzestmögliche Pfad besteht nur aus schwarzen Knoten.)
+
+  Soll ein
   Red-Black-Tree um einen Knoten erweitert werden, muss nach dem
   Einfügen diese Bedingung immer noch gelten, er muss also
   ausbalanciert werden.
+
   Programmiere Red-Black-Trees mit Hilfe der folgenden Anleitung!
 
   \begin{itemize}

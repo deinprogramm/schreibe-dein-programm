@@ -424,11 +424,7 @@ Weil diese Rundung manchmal überraschend ist, weigert sich übrigens
 \lstinline{check-expect}, inexakte Zahlen zu vergleichen.
 %
 \begin{aufgabeinline}
-  Probier's aus:
-  %
-\begin{lstlisting}
-(check-expect #i1 #i1)
-\end{lstlisting}
+  Probier's aus: \lstinline{(check-expect #i1 #i1)}
 \end{aufgabeinline}
 %
 Bei unserer Eigenschaft
@@ -531,6 +527,7 @@ richtige sind, nämlich solche, die sogenannte \textit{relationale
 
 Wir schreiben zunächst eine solche Funktion, um das Konzept zu
 erklären: Sie soll die Mitglieder einer Band nach Alter sortieren.
+
 Hier sind Daten- und Record-Definition für ein Bandmitglied:
 %
 \begin{lstlisting}
@@ -563,14 +560,14 @@ Und hier die konkrete Band dazu (Stand 2021):
   (list axl duff slash dizzy richard frank melissa))
 \end{lstlisting}
 %
-Für das Sortieren gibt viele Algorithmen, wir machen das mit einem
-besonders einfachen, wenn auch ineffizienten Verfahren namens
-\textit{Insertionsort}\index{Insertionsort}.  Die Idee ist folgende:
+Wir machen das mit einem
+einfachen, wenn auch ineffizienten Verfahren namens
+\textit{Insertionsort}\index{Insertionsort}:
 Die Sortierfunktion arbeitet mit einer sortierten Liste als
 Akkumulator.  Diese ist anfänglich leer, und die Funktion fügt jeweils
 ein Element aus der Eingabeliste hinzu, indem sie dies an der
 richtigen Stelle einfügt.
-
+%
 % Die Funktion soll sowohl aufsteigend als auch absteigend oder nach
 % einem anderen Kriterium sortieren können.  Das machen wir ähnlich wie
 % bei den Suchbäumen in Abschnitt~\ref{sec:suchbaeume} auf
@@ -579,21 +576,19 @@ richtigen Stelle einfügt.
 % das zwei Funktionen für \lstinline{=} und \lstinline{<}, hier
 % kombinieren wir beides in eine Funktion wie \lstinline{<=}.
 % FIXME: Halbordnung irgendwann?
-
-Hier sind Kurzbeschreibung und Signatur für die Hilfsfunktion zum Einfügen:
 %
+%
+Wir schreiben zunächst eine Hilfsfunktion zum Einfügen eines Elements.
+Das Testen heben wir uns ausnahmsweise bis zum Testen der
+Sortierfunktion auf.  Kurzbeschreibung,
+Signatur, Gerüst und Schablone:
+%
+\indexvariable{insert}
 \begin{lstlisting}
 ; Bandmitglied in eine sortierte Liste einfügen
 (: insert
    (band-member (list-of band-member) -> (list-of band-member)))
-\end{lstlisting}
-%
-Da dies eine Hilfsfunktion für die eigentliche Sortierfunktion ist,
-heben wir uns das Testen ausnahmsweise bis zu dieser auf.
-Konstruieren tun wri streng nach Anleitung.  Gerüst und Schablone:
-%
-\indexvariable{insert}
-\begin{lstlisting}
+
 (define insert
   (lambda (band-member list)
     (cond
@@ -705,14 +700,14 @@ ist nicht der erwartete Wert
 \end{verbatim}
 %
 Woran liegt's?  Richard Fortus und Frank Ferrer sind im selben Jahr
-geboren.  Der Unit-Test haben nimmt an, dass Fortus vor Ferrer
+geboren.  Der Unit-Test nimmt an, dass Fortus vor Ferrer
 einsortiert wird, aber \lstinline{sort-band} macht es aber genau
 umgekehrt.  Deswegen ist \lstinline{sort-band} nicht verkehrt: Es gibt
 einfach mehrere korrekte Antworten.
 
 Der Unit-Test ist also ungünstig, selbst wenn wir die Reihenfolge so
 wählen, dass er nicht fehlschlägt.  Wenn wir die Suchfunktion
-irgendwann mal ändern, zum Beispiel um sie schneller zu machen, kann
+irgendwann mal ändern, kann
 sich die Reihenfolge ändern und der Test schlägt wieder fehl, auch
 wenn die Funktion korrekt ist.
 
@@ -723,7 +718,6 @@ Ergebnis fest, nur die Beziehung ("<Relation">) zwischen Ein- und
 Ausgabe.  Und um die zu beschreiben, ist eine Eigenschaft das richtige
 Mittel.  Wie könnte eine sinnvolle Eigenschaft einer Funktion
 aussehen, die sortiert?
-
 Nun, dass die Ausgabe sortiert ist.  Um das festzustellen, schreiben
 wir eine Funktion:
 %
@@ -736,14 +730,18 @@ Die Tests lassen unterschiedliche Reihenfolgen zu, solange sie
 sortiert sind:
 %
 \begin{lstlisting}
-(check-expect (band-sorted? (list axl dizzy duff slash frank richard melissa))
-              #t)
-(check-expect (band-sorted? (list axl dizzy duff slash richard frank melissa))
-              #t)
-(check-expect (band-sorted? (list dizzy axl duff slash richard frank melissa))
-              #f)
-(check-expect (band-sorted? (list axl dizzy duff richard slash frank melissa))
-              #f)
+(check-expect
+  (band-sorted? (list axl dizzy duff slash frank richard melissa))
+  #t)
+(check-expect
+  (band-sorted? (list axl dizzy duff slash richard frank melissa))
+  #t)
+(check-expect
+  (band-sorted? (list dizzy axl duff slash richard frank melissa))
+  #f)
+(check-expect
+  (band-sorted? (list axl dizzy duff richard slash frank melissa))
+  #f)
 \end{lstlisting}
 %
 Hier sind Gerüst und Schablone:
@@ -1015,15 +1013,15 @@ findet, obwohl welche vorhanden sind:
   \lstinline{#t}, dann ist jeder Testfall damit nutzlos.  Das haben
   wir aber durch den einen \lstinline{check-expect}-Testfall
   ausgeschlossen.
-\item Die Fehler in der Funktion \lstinline{proper-sized-search-tree?} entsprechen genau
-  so den Fehlern in \lstinline{balanced-search-tree-insert}.
-  Um dem
-  vorzubeugen, entwickeln wir die Funktion \lstinline{proper-sized-search-tree?}
-  systematisch mit Hilfe der Konstruktionsanleitungen.
-  Wir werden sehen, dass das bei
-  \lstinline{proper-sized-search-tree?} einfacher ist als
-  bei der Funktion \lstinline{balanced-search-tree-insert}, und damit
-  wahrscheinlicher, dass das Ergebnis korrekt ist.
+\item \lstinline{Proper-sized-search-tree?} ist zufällig genau so fehlerhaft,
+  dass die Funkktion inkorrekte Resultate aus
+  \lstinline{balanced-search-tree-insert} als korrekt absegnet.
+  Allerdings ist
+  \lstinline{proper-sized-search-tree?} viel einfacher ist als
+  \lstinline{balanced-search-tree-insert} und Fehler dort
+  unwahrscheinlicher.  Durch die Absicherung der einen durch die
+  andere Funktion haben wir die Redundanz\index{Redundanz} im
+  Gesamtsystem erhöht.
 \end{itemize}
 %
 Hier das Gerüst für die Funktion:
@@ -1037,8 +1035,8 @@ Hier das Gerüst für die Funktion:
 Wir gehen beim Rumpf vor wie bei der Funktion
 \lstinline{sized-search-tree-member?} auf
 Seite~\pageref{func:sized-search-tree-member}. Der eigentliche Baum
-steckt ja in dem \lstinline{search-tree}-Record drin.  Den extrahieren
-wir und lassen die eigentliche Arbeit von einer Hilfsfunktion erledigen.
+steckt in dem \lstinline{search-tree}-Record.  Den extrahieren
+wir und lassen die eigentliche Arbeit von einer internen Hilfsfunktion erledigen.
 %
 \begin{lstlisting}
 (define proper-sized-search-tree?
@@ -1172,12 +1170,15 @@ Größenannotation richtig macht:
 %
 Aus der Liste vom Anfang dieses Abschnitts haben wir zwei Punkte
 abgehakt. Einer fehlt noch, nämlich zu testen, ob
-\lstinline{balanced-search-tree-insert} auch wirklich balanciert
+\lstinline{balanced-search-tree-insert} auch wirklich Bäume liefert,
+die balanciert
 sind, wie es der Name suggeriert.
+
 Nehmen wir an, \lstinline{balanced-search-tree-insert} würde
 \emph{nicht} korrekt balancieren.  Das wäre ziemlich tückisch, weil
-die Funktion in allen Tests scheinbar korrekt funktioniert.  Erst,
-wenn sie es mit größeren Datenmengen zu tun bekommt, gibt es Probleme,
+die Tests nur die Suchbaumeigenschaft testen, nicht aber die
+Balanciertheit.
+Erst, wenn Programme es mit größeren Datenmengen zu tun bekommt, gibt es Probleme,
 weil die Laufzeit beim Suchen im Baum größer ist als erwartet.
 
 Was heißt eigentlich \emph{genau} balanciert?  Die Funktion
@@ -1214,13 +1215,11 @@ eingehalten ist.  Das geht nach dem gleichen Muster wie bei
            (define right (node-right-branch tree)) 
            (define left-size (sized-tree-size left))
            (define right-size (sized-tree-size right))
-           (and (balanced? left)
-                (balanced? right)
+           (and (balanced? left) (balanced? right)
                 (<= (/ left-size ratio)
                     right-size
                     (* left-size ratio))))
-          (else
-           #t))))
+          (else #t))))
     (balanced? (sized-search-tree-tree search-tree))))
 \end{lstlisting}
 %
@@ -1235,7 +1234,7 @@ Eigenschaft und einen \lstinline{check-property}-Testfall formulieren:
     (list->balanced-search-tree = < elements))))
 \end{lstlisting}
 %
-(Inzwischen kommen soviele Tests zusammen, dass es schon eine Weile
+(Inzwischen kommen soviele Tests zusammen, dass es eine Weile
 dauert, bis sie alle durchlaufen.)
 
 Aber hoppla, der Testfall schlägt fehlt.  Bei uns hat er folgendes
@@ -1338,7 +1337,6 @@ ersetzen durch:
 \end{lstlisting}
 %
 Und siehe da: Jetzt läuft der Testfall durch.
-
 Es kommt immer mal wieder vor, dass ein
 \lstinline{check-property}-Testfall Gegenbeispiele findet, die
 eigentlich keine sind, weil wir die Bedingung für den Test nicht ganz
@@ -1356,7 +1354,6 @@ gesondert behandelt werden müssen.)
 Die Liste vom Anfang des Abschnitts haben wir damit abgearbeitet.
 Haben wir mit den bisherigen Tests ausreichend sichergestellt, dass
 \lstinline{balanced-search-tree-insert} korrekt funktioniert?
-
 Nun, wir haben überprüft, dass die entstehenden Suchbäume die korrekte
 Form haben.  Allerdings haben wir noch gar nicht überprüft, dass auch
 der Inhalt stimmt.  Dazu benutzen wir den zweiten Hinweis aus
@@ -1507,13 +1504,12 @@ aussagt, dass in einer Aneinanderreihung von $+$ oder $\times$ jeweils
 die Klammern vollkommen egal sind: Und wenn sie schon egal sind, kann
 man sie auch weglassen.
 
-Die Assoziativität ist nicht einfach eine Gleichung.  (Hier sind es ja
-schon drei.)  Tatsächlich ist die Assoziativität eine Eigenschaft~--
-aber wovon?  Zunächst einmal ist sie eine Eigenschaft von $+$ und
-$\times$ und cat.  Entsprechend kann man auch sagen "<$+$ ist
-assoziativ"> oder "<cat ist assoziativ">.  Die Funktionen $+$,
-$\times$ und cat haben allesamt etwas gemeinsam, nämlich die Struktur
-ihrer Signaturen.  Hier sind diese Signaturen, so als wenn sie in
+Die Assoziativität ist nicht einfach eine Gleichung (hier sind es ja
+schon drei), sondern eine Eigenschaft
+der Funktionen $+$ und
+$\times$ und cat.  Entsprechend kann man sagen "<$+$ ist
+assoziativ"> oder "<cat ist assoziativ">.  Alle diese Funktionen haben die Struktur
+ihrer Signaturen gemeinsam.  Hier sind diese Signaturen, so als wenn sie in
 einem Programm stünden:
 %
 \begin{lstlisting}
@@ -1606,8 +1602,7 @@ Eine assoziative Funktion macht aus zwei "<Dingsen"> ein
 booleschen Werten einen.
 
 Über die Signaturdeklarationen von \lstinline{+}, \lstinline{*},
-\lstinline{concatenate} undsoweiter können wir abstrahieren; sie haben
-alle die folgende Form:
+\lstinline{concatenate} können wir abstrahieren:
 %
 \begin{lstlisting}
 (: $\mathit{op}$ ($s$ $s$ -> $s$))
@@ -1646,7 +1641,6 @@ Eigenschaften:
 \begin{lstlisting}
 (for-all ((a $s$))
   (expect ($op$ a $n$) a))
-
 (for-all ((a $s$))
   (expect ($op$ $n$ a) a)))
 \end{lstlisting}
@@ -1918,13 +1912,16 @@ die Definition einsetzen:
 %
 \begin{lstlisting}
 |\evalsto{}| (($\lambda$ (list1 list2) ...) (concatenate #<empty-list> $v$) $w$) 
-|\evalsto{}| (($\lambda$ (list1 list2) ...) (($\lambda$ (list1 list2) ...) #<empty-list> $v$) $w$)
+|\evalsto{}| (($\lambda$ (list1 list2) ...) 
+      (($\lambda$ (list1 list2) ...) #<empty-list> $v$) $w$)
 \end{lstlisting}
 %
 Hier wird der "<innere"> Aufruf von \lstinline{concatenate} zuerst ausgewertet:
 %
 \begin{lstlisting}
-|\evalsto{}| (($\lambda$ (list1 list2) ...) (cond ((empty? #<empty-list>) $v$) ((cons? #<empty-list>) ...)) $w$) 
+|\evalsto{}| (($\lambda$ (list1 list2) ...)
+      (cond ((empty? #<empty-list>) $v$) 
+            ((cons? #<empty-list>) ...)) $w$) 
 |\evalsto{}| (($\lambda$ (list1 list2) ...) $v$ $w$)
 |\evalsto{} \ldots{} \evalsto{}| $vw$
 \end{lstlisting}
@@ -1977,8 +1974,7 @@ Für die leere Liste ist die Eigenschaft also bewiesen.
 |\evalsto{}| (cons $f_1$ (($\lambda$ (list1 list2) ...) $f$ $vw$))
 \end{lstlisting}
   %
-  Wir kommen wieder nicht weiter, weil wir nicht wissen, was $f$ oder
-  $vw$ ist.  Wieder nehmen wir uns die rechte Seite vor:
+  Weiter geht es nicht.  Wir nehmen uns darum die rechte Seite vor:
   %
 \begin{lstlisting}
 (concatenate (concatenate $f_1f$ $v$) $w$)
@@ -2005,10 +2001,10 @@ Für die leere Liste ist die Eigenschaft also bewiesen.
 |\evalsto{}| (($\lambda$ (list1 list2) ...) (cons $f_1$ (($\lambda$ (list1 list2) ...) $f$ $v$)) $w$)
 \end{lstlisting}
   %
-  Und wieder geht's scheinbar nicht weiter, weil wir nicht wissen, was $f$, $v$
-  und $w$ sind.  Wir können aber wieder annehmen, dass bei der
+  Wir wissen nicht, was $f$, $v$
+  und $w$ sind.  Wir nehmen aber an, dass bei der
   Auswertung von \lstinline{(($\lambda$ (list1 list2) ...) $f$ $v$)}
-  \emph{irgendetwas} herauskommt und dem den Namen $fv$ geben:
+  \emph{irgendetwas} herauskommt und nennen das $fv$:
   %
 \begin{lstlisting}
 |\evalsto{} $\ldots$ \evalsto{}| (($\lambda$ (list1 list2) ...) (cons $f_1$ $fv$) $w$)
@@ -2022,7 +2018,7 @@ Für die leere Liste ist die Eigenschaft also bewiesen.
 |\evalsto{}| (($\lambda$ (list1 list2) ...) $f_1fv$ $w$)
 |\evalsto{}| (cond ((empty? $f_1fv$) ...) 
          ((cons? $f_1fv$)
-          (cons (first $f_1fv$ (concatenate (rest $f_1fv$) $w$)))))
+          (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))))
 |\evalsto{}| (cond (#f ...) 
          ((cons? $f_1fv$)
           (cons (first $f_1fv$) (concatenate (rest $f_1fv$) $w$))))
@@ -2064,7 +2060,6 @@ Ergebnis von \lstinline{(concatenate $f$ $v$)}.  Außerdem steht
 \lstinline{concatenate}.  Wenn wir das in die
 Induktionsvoraussetzung einsetzen, steht da genau das, was wir
 brauchen, nämlich dass linke und rechte Seite das gleiche Ergebnis haben.
-
 Geschafft!
 
 Aber das ist schon ziemlich viel Arbeit, und auch
@@ -2082,8 +2077,8 @@ diese als Eigenschaften von \lstinline{/} auf.
 
 \begin{aufgabe}
   Schreibe eine möglichst vollständige Liste interessanter
-  Eigenschaften sowohl der Dir bekannten arithmetischen Operationen
-  als auch der logischen Operationen auf.  Beziehe dazu auch die
+  Eigenschaften der Dir bekannten arithmetischen 
+  und logischen Operationen auf.  Beziehe dazu auch die
   Vergleichsoperationen $<$, $\leq$ etc.\ ein.  Finde außerdem
   für jede Operation eine interessante Eigenschaft, die \emph{nicht}
   gilt und überprüfe, ob \drscheme{} jeweils ein Gegenbeispiel
@@ -2114,14 +2109,14 @@ Die folgende Funktion quadriert natürliche Zahlen:
 %
 \indexvariable{square}
 \begin{lstlisting}
-; Quadrat einer Zahl berechnen
 (: square (natural -> natural))
 (define square
   (lambda (n)
-    (if (= n 0)
-        0
-        (+ (square (- n 1))
-           (- (+ n n) 1)))))
+    (cond
+     ((zero? n) 0)
+     ((positive? n)
+      (+ (square (- n 1))
+         (- (+ n n) 1))))))
 \end{lstlisting}
 %
 Formuliere dies als Eigenschaft und überprüfe sie mit

@@ -112,7 +112,7 @@ Zum Merken ist es hilfreich, Ausdrücke entsprechend vorzulesen: Also
 nicht mehr "<hundertdreiundzwanzig plus zweiundvierzig">, sondern
 "<die \emph{Summe} von hundertdreiundzwanzig und zweiundvierzig">.
 
-Wie schon gesagt, die Klammern sind wichtig.  Wenn Du sie vergisst,
+Wenn Du Klammern vergisst,
 können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
 \lstinline{+ 123 42} in der REPL eintippst, sieht das so aus:
 %
@@ -273,10 +273,9 @@ Hier sind ein paar weitere Beispiele für Definitionen von Variablen:
 (define one 1)
 (define temperature 23)
 (define birgit-prinz 9)
-(define michael-ballack 13)
 \end{lstlisting}
 %
-Du kannst also auch diese Namen in die REPL eingeben und bekommst
+Du kannst auch diese Namen in die REPL eingeben und bekommst
 jeweils den dazugehörigen Wert, wenn Du Return drückst:
 %
 \begin{lstlisting}
@@ -286,8 +285,6 @@ temperature
 |\evalsto| 23
 birgit-prinz
 |\evalsto| 9
-michael-ballack
-|\evalsto| 13
 \end{lstlisting}
 %
 Bei der Gestaltung eines Namens gibt es weitgehende Freiheiten. Anders
@@ -1189,7 +1186,7 @@ in stromtarif.rkt, Zeile 7, Spalte 0
 (Wir haben den Code unter dem Namen \texttt{stromtarif.rkt}
 abgespeichert, darum taucht dieser Dateiname in den Fehlermeldungen auf.)
 
-Die Tests weisen uns also auf mögliche Fehler hin.  Das ist so
+Die Tests weisen also auf mögliche Fehler hin.  Das ist so
 wertvoll, dass wir in Zukunft \emph{immer} Tests schreiben werden, und
 zwar nach der Signatur.  Insbesondere werden wir die Tests schreiben,
 \emph{bevor} wir die Definition angehen.  Das nervt manchmal, ist aber
@@ -1199,8 +1196,8 @@ hinterher schreiben, ist die Versuchung groß, die Funktion einfach in
 der REPL aufzurufen und das tatsächliche Ergebnis in den Test zu
 übernehmen, ohne es auf Korrektheit zu überprüfen.
 
-Bei den drei Tests oben müssten wir vielleicht, wenn wir sie vorher
-schrieben, einen Taschenrechner bemühen.  Es gibt aber fast immer
+Bei den drei Tests oben müssten wir vielleicht
+einen Taschenrechner bemühen.  Es gibt aber fast immer
 mindestens einen möglichen Test, der ganz einfach ist.  In diesem Fall
 ist das:
 %
@@ -1208,28 +1205,28 @@ ist das:
 (check-expect (billig-strom 0) 4.9)
 \end{lstlisting}
 %
-Hier können wir das Ergebnis direkt der Tabelle entnehmen.  Dieser
-überprüft zwar nicht, ob der richtige pro-kWh-Preis berechnet wird,
-ist aber so einfach zu schreiben, dass wir die Gelegenheit nicht
-auslassen sollten, ihn zu schreiben.
+Das gewünschte Ergebnis können wir direkt der Tabelle entnehmen.
+Der Test überprüft nur den Grundbetrag und nicht den pro-kWh-Preis~--
+es braucht also weitere Tests~-- ist dafür aber einfach zu schreiben.
 
 Wie viele Tests sollte man schreiben?  Das hängt von der Komplexität
 der Funktion ab.  Aber drei sollten es bei einfachen Funktionen
-mindestens sein, bei komplizierteren mehr.  Ein einfaches weiteres
+sein, bei komplizierteren mehr.
+
+Ein weiteres
 Kriterium ist, dass jeder Teil des Programms, das wir geschrieben
 haben, im Laufe der Tests einmal ausgewertet werden sollte.  DrRacket
 kann Dir dabei helfen.
-
 \label{page:abdeckung0}
 Wenn Du das Programm nur auf die Funktionsdefinition reduzierst (also
 alle Tests und Beispiel\-aufrufe entfernst) und dann laufen lässt,
-sollte Dir auffallen, dass der Rumpf von \lstinline{billig-strom} blau
-hinterlegt ist.  (Außerdem Teile der Signatur von
+ist der Rumpf von \lstinline{billig-strom} blau
+hinterlegt.  (Außerdem Teile der Signatur von
 \lstinline{billig-strom}.)  Diese Hinterlegung zeigt die sogenannte
 \textit{Abdeckung\index{Abdeckung}} an: Die blau hinterlegten
 Programmteile sind noch nie gelaufen und wurden ergo auch noch nicht
 getestet.  Es fehlen also noch Tests.  In Zukunft achten wir also
-darauf, dass, nachdem das Programm gelaufen ist, nichts blaues
+darauf, dass nichts blaues
 übrigbleibt~-- andernfalls müssen wir mehr Tests schreiben.  Wir
 kommen in Abschnitt~\ref{sec:testabdeckung} auf dieses Thema zurück.
 
@@ -1453,14 +1450,12 @@ Tests alles auswerten.
 
 Diesen Ablauf demonstrieren wir anhand des zweiten Teils der
 Stromtarif-Aufgabe.
-Zur Erinnerung:  Es ging um den Tarif
-"<Watt für Wenig"> mit einem Grundbetrag von \EUR{8,20} und einem
-Verbrauchspreis pro kWh von \EUR{0,16}.
+Es ging um den Tarif
+"<Watt für Wenig">.
 
 \paragraph{Kurzbeschreibung}
 
-Fangen wir mit der Kurzbeschreibung an.  Die können wir entsprechend
-zu "<Billig-Strom"> formulieren:
+Fangen wir mit der Kurzbeschreibung an:
 \begin{lstlisting}
 ; monatlichen Rechnungsbetrag für Tarif Watt für wenig berechnen
 \end{lstlisting}
@@ -1715,7 +1710,7 @@ schwierig weiterzuentwickeln.  Wir sollten uns davor hüten:
   fehleranfällig ist.
 \end{restatable}
 %
-Das nächste Mantra beschreibt, wie Du besonders gute Repräsentationen
+\noindent Das nächste Mantra beschreibt, wie Du besonders gute Repräsentationen
 entwickeln kannst.  Worum es genau geht, steht in
 Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
 %
@@ -1730,7 +1725,7 @@ Kapitel~\ref{cha:selbstbezug} auf Seite~\pageref{cha:selbstbezug}.
 
 \begin{aufgabe}
   Sei $C$ eine Temperatur in Grad Celsius.  Die
-  entsprechende Temperatur $F$ in Grad Fahrenheit ergibt sich als:
+  Temperatur $F$ in Grad Fahrenheit ergibt sich als:
   \begin{displaymath}
     F = {9 \over 5} C + 32
   \end{displaymath}

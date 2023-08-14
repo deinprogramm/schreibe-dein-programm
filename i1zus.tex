@@ -5,8 +5,8 @@
 \chapter{Zusammengesetzte Daten}
 \label{cha:zusammengesetzte-daten}
 
-Viele Informationen, die in Programmen repräsentiert werden, bestehen
-aus mehreren Bestandteilen:
+Viele Informationen, die in Programmen repräsentiert werden, haben
+mehrere Bestandteilen:
 %
 \begin{itemize}
 \item Ein Festessen besteht aus Vorspeise, Hauptgang und Nachspeise.
@@ -33,13 +33,13 @@ Daten ein, die \textit{zusammengesetzten
 
 \mentioncode{zusammengesetzte-daten/computer.rkt}
 %
-Viele Computerhändler erlauben ihren Kunden, bestimmte Komponenten
-eines neues Computers selbst auszuwählen, zum Beispiel den Prozessor,
-die Festplatte oder die Größe des RAM"=Hauptspeichers:
+Viele Computergeschäfte erlauben, bestimmte Komponenten
+eines neues Computers auszuwählen, zum Beispiel Prozessor,
+Festplatte und Größe des RAM"=Hauptspeichers:
 %
 \begin{center}
   \medskip
-  \includegraphics[height=0.3\textheight]{zusammengesetzte-daten/computer}
+  \includegraphics[height=0.25\textheight]{zusammengesetzte-daten/computer}
   \medskip
 \end{center}
 %
@@ -111,7 +111,7 @@ Feld. (In diesem Fall \lstinline{"Cell"}, $8$ und $250$.)
 Record-Typen müssen in einem Programm explizit mit Hilfe einer
 speziellen \textit{Record-Definition}\index{Record-Definition} definiert werden, die mit
 \lstinline{define-record} beginnt.  Hier ist die
-Record-Definition für
+Record-Definition zur Datendefinition für
 Computer:\indexvariable{define-record}
 %
 \begin{lstlisting}
@@ -342,7 +342,7 @@ Hier ist das Gerüst:
 %
 Bei der Schablone gehen wir wieder nach Konstruktionsanleitung~\ref{ka:aufzaehlung} auf
 Seite~\pageref{ka:aufzaehlung} vor.
-Da es sich beim Argument um eine Fallunterscheidung~-- eine Aufzählung
+Da es sich beim Argument von \lstinline{standard-computer} um eine Fallunterscheidung~-- eine Aufzählung
 mit \emph{drei} Alternativen~-- handelt, können wir die
 dazu passende Schablone~-- eine Verzweigung mit \emph{drei} Zweigen~--
 zum Einsatz bringen:
@@ -437,7 +437,8 @@ ein karges Gerüst hinschreiben:\indexvariable{wallclock-time}
 %
 Als Nächstes müssen wir festlegen, \emph{wie viele} Bestandteile die
 Records haben sollen.  In diesem Fall ("<Stunde und Minute">) sind es
-zwei.  Wir können das Gerüst entsprechend erweitern:
+zwei.  Wir können das Gerüst der Record-Definition
+entsprechend um zwei Felder erweitern:
 %
 \begin{lstlisting}
 (define-record wallclock-time
@@ -1270,9 +1271,11 @@ ersetzen und so das Programm mit Hilfe der Gleichung vereinfachen:
 %
 Jetzt ist die erste Version von \lstinline{feed-dillo} entstanden, ohne
 dass wir uns vorschnell überlegen mussten, dass im Fall "<Gürteltier
-tot"> die Eingabe gleich der Ausgabe ist.  In diesem Beispiel mögen die
+tot"> die Eingabe gleich der Ausgabe ist.
+
+In diesem Beispiel mögen die
 resultierende Einsicht und Vereinfachung banal sein.  Wir können aber
-Gleichungen oft benutzen, um erstaunliche Einsichten zu erzielen oder
+Gleichungen beim Programmieren oft benutzen, um nützliche Einsichten zu erzielen oder
 unsere Programme kürzer, schneller oder eleganter zu machen.  Das
 entspricht Mantra~\ref{mantra:gleichungen} von
 Seite~\pageref{mantra:gleichungen}:
@@ -1299,7 +1302,7 @@ Seite~\pageref{mantra:gleichungen}:
   \item Addition, Subtraktion, Multiplikation und Division von
     Brüchen
   \end{itemize}
-%
+  %
   \textbf{Hinweis:} Zur Lösung der Aufgabe ist die folgende eingebaute
   Funktion hilfreich:
   % 

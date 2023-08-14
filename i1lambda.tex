@@ -58,9 +58,9 @@ Menschenverstand"> abbilden sollte.
 Als Teil dieses Projekts entwickelte er die Programmiersprache
 LISP~\cite{McCarthy1960}.  Als ausgebildeter Mathematiker suchte
 McCarthy dafür Inspiration in der Mathematik.  Mathematische Notation
-hat das Problem, dass sie schrecklich vielfältig ist.  Die gleiche
-Notation wird in unterschiedlichen Kontexten für unterschiedliche
-Zwecke benutzt.  Allgemein mathematische Notation für den Computer
+hat das Problem, dass die gleiche
+Notation in unterschiedlichen Kontexten für unterschiedliche
+Zwecke benutzt wird.  Allgemein mathematische Notation für den Computer
 verständlich zu machen, ist darum extrem aufwendig und war für
 McCarthy undenkbar, der es mit Computern zu tun hatte, die nur einen
 winzigen Bruchteil der heutigen Rechen- und Speicherkapazität haben.
@@ -217,20 +217,21 @@ Applikationen, die drei darauf Abstraktionen.  Der letzte Term ist
 eine Applikation~-- nach der öffnenden Klammer steht ein weitere
 Klammer, das $\lambda$ kommt erst danach.
 %
-\begin{aufgabeinline}
+\begin{aufgabe}
   Klassifiziere, ob es sich jeweils um eine
   Variable, eine Applikation oder eine Abstraktion handelt:
   \begin{displaymath}
-    \begin{array}{c}
+  \begin{array}[b]{c}
       \lrm y\\
       (\lrm x~\lrm y)\\
       (\lambda \lrm x.\lrm y)\\
       ((\lambda \lrm x.\lrm y)~f)\\
       \lrm f\\
       (\lrm f~(\lambda \lrm x.\lrm y))
-    \end{array}
+  \end{array}\tag*{$\square$} % hack because \begin{array}[b] and \qed
+                              % don't get along
   \end{displaymath}
-\end{aufgabeinline}
+\end{aufgabe}
 % 
 Manchmal sprechen wir aber auch über
 $\lambda$-Terme einer bestimmten Form im Allgemeinen, zum Beispiel
@@ -307,8 +308,8 @@ in der Notation von $\lambda$-Termen:
 \item $e_0 \ldots e_n$ steht für $(\ldots(e_0~e_1)~e_2) \ldots e_n)$.
 \end{itemize}
 %
-Dementsprechend ist $\lambda \lrm{fxy}.\lrm f~\lrm x~\lrm y$ eine andere Schreibweise für
-den folgenden Term \[(\lambda \lrm f.(\lambda \lrm x.(\lambda \lrm y.((\lrm f~\lrm x)~\lrm y))))\]
+$\lambda \lrm{fxy}.\lrm f~\lrm x~\lrm y$ ist also eine andere Schreibweise für
+den Term $(\lambda \lrm f.(\lambda \lrm x.(\lambda \lrm y.((\lrm f~\lrm x)~\lrm y))))$.
 
 Hier sind weitere Beispiele für Terme und ihre Abkürzungen:
 %
@@ -323,7 +324,7 @@ Hier sind weitere Beispiele für Terme und ihre Abkürzungen:
   \end{array}
 \end{displaymath}
 %
-\begin{aufgabeinline}
+\begin{aufgabe}
   Schreibe für die folgenden Abkürzungen die "<vollständigen">
   $\lambda$-Terme auf:
 \begin{displaymath}
@@ -331,9 +332,9 @@ Hier sind weitere Beispiele für Terme und ihre Abkürzungen:
     \lrm f~\lrm x~\lrm y~\lrm z\\
     \lambda \lrm x\lrm y\lrm z.\lrm x~\lrm y~\lrm z\\
     ((\lambda \lrm x\lrm y.\lrm x~\lrm y)~\lrm a~\lrm b)
-  \end{array}  
+  \end{array}
 \end{displaymath}
-\end{aufgabeinline}
+\end{aufgabe}
 
 \section{$\lambda$-Intuition}
 
@@ -436,8 +437,8 @@ Die Intuition ist folgende: Eine Abstraktion in einem $\lambda$-Term
 \emph{bindet} eine Variable innerhalb seines Rumpfes.  Eine freie
 Variable hingegen ist eine, die nicht durch eine Abstraktion gebunden
 ist.  Darum bildet $\free$ bei einer Abstraktion die Differenz aus den
-freien Variablen und der gebundenen
-Variable.  Dahingegen sammelt $\bound$ alle Variablen aus
+freien und den gebundenen
+Variablen.  Dahingegen sammelt $\bound$ alle Variablen aus
 Abstraktionen auf.  Wenn man $\free$ und $\bound$ eines Terms als
 $\free(e)\cup\bound(e)$ zusammennimmt, bekommt man alle Variablen
 eines $\lambda$-Terms.
@@ -456,11 +457,11 @@ Abstraktion auf. Das Frei- und Gebundensein bezieht sich also
 immer auf bestimmte Vorkommen\index{Vorkommen} einer Variablen in
 einem $\lambda$-Term.
 %
-\begin{aufgabeinline}
+\begin{aufgabe}
   Schreibe auf, was bei folgenden Anwendungen von $\free$ und $\bound$
   herauskommt:
   \begin{displaymath}
-    \begin{array}{c}
+    \begin{array}[b]{c}
       \free(\lrm x~\lrm y)\\
       \free(\lambda \lrm x.\lrm x~\lrm y)\\
       \free(\lambda \lrm x\lrm y.\lrm x~\lrm y)\\
@@ -469,9 +470,9 @@ einem $\lambda$-Term.
       \bound(\lambda \lrm x.\lrm x~\lrm y)\\
       \bound(\lambda \lrm x\lrm y.\lrm x~\lrm y)\\
       \bound((\lambda\lrm x.\lrm y)~\lrm x)
-    \end{array}
+    \end{array}\tag*{$\square$}
   \end{displaymath}
-\end{aufgabeinline}
+\end{aufgabe}
 %
 Der $\lambda$-Kalkül ist darauf
 angewiesen, Variablen durch andere zu ersetzen, ohne dabei die
@@ -1091,14 +1092,14 @@ Wert beim ersten Mal abspeichern und danach wiederverwenden.
 \section{Der $\lambda$-Kalkül als Programmiersprache}
 \label{sec:lambdaprog}
 
-Bisher muss es für Dich so ausgesehen haben, als könne man mit dem
-$\lambda$-Kalkül eigentlich nichts anfangen: Die drei Arten von
+Bisher sieht es so aus, als könne man mit dem
+$\lambda$-Kalkül nichts anfangen: Die drei Arten von
 $\lambda$-Termen entsprechen zwar den Abstraktionen, Applikationen und
-Variablen aus den Lehrsprachen, aber alles andere fehlt.  Dazu gehört
+Variablen aus den Lehrsprachen, aber alles andere fehlt,
 zum Beispiel das Rechnen mit Zahlen, aber auch boolesche Werte und
 Verzweigungen. Wir könnten das alles zum $\lambda$-Kalkül hinzufügen,
-was aber den Kalkül komplizierter macht und damit auch erschwert,
-wichtige Eigenschaften des Kalküls zu zeigen.
+was aber den Kalkül komplizierter macht und damit erschwert,
+wichtige Eigenschaften des Kalküls zu beweisen.
 
 Wir können aber auch versuchen, die fehlenden Konstrukte innerhalb des
 Kalküls nachzubilden.  Wir wissen ja zum Beispiel, dass wir Funktionen
@@ -1131,12 +1132,14 @@ $\mathbf{false}$\index{false@$\mathbf{false}$} umgekehrt.
 Die Verzweigung wendet die Bedingung
 auf Konsequente und Alternative an:
 %
-\begin{align*}
+\begin{displaymath}
+\begin{array}{rl}
   \mathbf{true} & \deq{} \lambda \lrm x \lrm y.\lrm x \\
   \mathbf{false} & \deq{} \lambda \lrm x \lrm y.\lrm y\\
   \mathbf{if} & \deq{} \lambda \lrm t \lrm k \lrm a.\lrm t~\lrm k~\lrm a
-\end{align*}
-%
+\end{array}
+\end{displaymath}
+% 
 Wie $\mathbf{if}$\index{if@$\mathbf{if}$} funktioniert,
 zeigt das folgende Beispiel:
 %
@@ -1182,8 +1185,8 @@ $\lambda \lrm f.\lambda \lrm x.\lrm x$, $\lceil 1\rceil$ ist $\lambda
 $\lceil 2\rceil$ ist $\lambda \lrm f.\lambda \lrm x.\lrm f~(\lrm
 f~\lrm x)$ usw.
 
-Die Nachfolgeroperation\index{Nachfolger} $\mathbf{succ}$, die auf
-eine Zahl eins addiert, macht eine Applikation dazu:\index{succ@$\mathbf{succ}$}
+Hier ist die Definition der \textit{Nachfolgerfunktion}\index{Nachfolger} $\mathbf{succ}$, die auf
+eine Zahl eins addiert. Sie macht eine Applikation dazu:\index{succ@$\mathbf{succ}$}
 %
 \begin{displaymath}
   \mathbf{succ} \deq{} \lambda \lrm n.\lambda \lrm f.\lambda \lrm x.\lrm n~\lrm f~(\lrm f~\lrm x)
@@ -1206,8 +1209,8 @@ Hier ein Beispiel für die Anwendung von $\mathbf{succ}$:
   &=& \lceil 2\rceil
 \end{eqnarray*}
 %
-Folgende Definition berechnet die Vorgängerfunktion,
-die von einer Zahl eins abzieht:\index{Vorgänger}\index{pred@$\mathbf{pred}$}
+Folgende Definition berechnet das Gegenteil der Nachfolgerfunktion, die \textit{Vorgängerfunktion}.\index{Vorgänger}
+Sie zieht von einer Zahl eins ab:\index{Vorgänger}\index{pred@$\mathbf{pred}$}
 %
 \begin{displaymath}
   \mathbf{pred} \deq{} \lambda \lrm x.\lambda \lrm y.\lambda \lrm z.\lrm x~(\lambda \lrm p.\lambda
@@ -1218,8 +1221,8 @@ die von einer Zahl eins abzieht:\index{Vorgänger}\index{pred@$\mathbf{pred}$}
   Zeige, dass $\mathbf{pred}~\lceil 3\rceil$ zu $\lceil 2\rceil$ reduziert!
 \end{aufgabeinline}
 %
-In Verbindung mit den booleschen Werten lässt sich eine Zahl daraufhin
-testen, ob sie $0$ ist:\index{zerop@$\mathbf{zerop}$}
+In Verbindung mit den booleschen Werten test die folgende Funktion
+$\mathbf{zerop}$ eine Zahl darauf, ob sie $0$ ist:\index{zerop@$\mathbf{zerop}$}
 %
 \begin{displaymath}
   \mathbf{zerop} \deq{} \lambda \lrm n.\lrm n~(\lambda \lrm x.\mathbf{false})~\mathbf{true}
@@ -1273,9 +1276,8 @@ Schön wäre eine Definition wie folgt:\index{fac@$\mathbf{fac}$}
   x)~\lceil 1\rceil ~(\ast~\lrm x~(\mathbf{fac}~(\mathbf{pred}~\lrm x)))
 \end{displaymath}
 %
-% "=" kommt hier nicht vor, meinst du "zerop" ?
-$\ast$ und $\mathbf{zerop}$ stehen dabei für $\lambda$-Terme, die Church-Numerale
-vergleichen beziehungsweise multiplizieren.  Wir tun mal so, als
+$\ast$ steht für einen $\lambda$-Terme, der Church-Numerale
+multipliziert.  Wir tun so, als
 hätten wir die schon definiert~-- ihre Formulierung ist Teil der
 Übungsaufgabe~\ref{ex:church}.
 
@@ -1330,11 +1332,10 @@ Dieses Muster lässt sich immer so weiter fortsetzen.  Leider entsteht
 dabei trotzdem nie ein Term, der die Fakultäten \emph{aller}
 natürlichen Zahlen berechnen kann, da die Terme immer endlich groß
 bleiben.
-
-Immerhin aber enthalten alle $\mathbf{fac}_n$-Terme das
-gleiche Muster und unterscheiden sich nur durch Aufruf von
-$\mathbf{fac}_{n-1}$, das jedesmal anders ist.  Wir wenden deshalb Abstraktion
-auf das Problem an und definieren folgenden Term $\mathbf{FAC}$:
+Immerhin unterscheiden sich die $\mathbf{fac}_n$-Terme 
+nur durch den Aufruf von
+$\mathbf{fac}_{n-1}$, der jedesmal anders ist.  Wir abstrahieren
+deshalb und definieren folgenden Term $\mathbf{FAC}$:
 %
 \begin{displaymath}
   \mathbf{FAC} \deq{} \lambda\mathbf{fac}.\lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~1~(\ast~\lrm x~(\mathbf{fac}~(\mathbf{pred}~\lrm x)))
@@ -1343,14 +1344,15 @@ auf das Problem an und definieren folgenden Term $\mathbf{FAC}$:
 Nun können wir die
 $\mathbf{fac}_n$-Funktionen mit Hilfe von $\mathbf{FAC}$ einfacher beschreiben:
 %
-\begin{eqnarray*}
+\begin{displaymath}
+\begin{array}{rcl}
    \mathbf{fac}_0 &\deq{}& \lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~\lceil 1\rceil~(\ast~\lrm x~(?~(\mathbf{pred}~\lrm x)))\\
    \mathbf{fac}_1 &\deq{}& \mathbf{FAC}~\mathbf{fac}_0\\
-   \mathbf{fac}_2 &\deq{}& \mathbf{FAC}~\mathbf{fac}_1\\
-   \mathbf{fac}_3 &\deq{}& \mathbf{FAC}~\mathbf{fac}_2\\
+   \mathbf{fac}_2 &\deq{}& \mathbf{FAC}~\mathbf{fac}_1\\[-2ex]
    &\ldots&
-\end{eqnarray*}
-%
+\end{array}
+\end{displaymath}
+% 
 $\mathbf{FAC}$ ist also eine Fabrik für Fakultätsfunktionen und
 teilt mit allen $\mathbf{fac}_i$ die Eigenschaft, dass ihre
 Definition nicht rekursiv ist.
@@ -1381,8 +1383,8 @@ möglich ist:
   Für jeden $\lambda$-Term $F$ gibt es einen $\lambda$-Term $X$ mit
   $F~X\equiv X$.
 \end{satz}
-\begin{beweis}
-  Wähle $X \deq{} \mathbf{Y}~F$, wobei
+
+\noindent\textbf{Beweis:}  Wähle $X \deq{} \mathbf{Y}~F$, wobei
   %
   \begin{displaymath}
     \mathbf{Y} \deq{} \lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)).
@@ -1391,7 +1393,7 @@ möglich ist:
   Dann gilt:
   %
   \begin{displaymath}
-    \begin{split}
+    \begin{array}[b]{rl}
       \mathbf{Y}~F & = (\lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)))~F
       \\ & \rightarrow_\beta
       (\lambda \lrm x.F~(\lrm x~\lrm x))~(\lambda \lrm x.F~(\lrm x~\lrm x))
@@ -1401,9 +1403,8 @@ möglich ist:
       F~((\lambda \lrm f.(\lambda \lrm x.\lrm f~(\lrm x~\lrm x))~(\lambda \lrm x.\lrm f~(\lrm x~\lrm x)))~\lrm F)
       \\ & =
       F~(\mathbf{Y}~F)
-    \end{split}
+    \end{array}\tag*{$\square$}
   \end{displaymath}
-\end{beweis}
 %
 Der $\lambda$-Term $\mathbf{Y}$\index{Y@$\mathbf{Y}$}, der Fixpunkte
 berechnet, heißt
@@ -1478,13 +1479,13 @@ $3$ mit dieser Definition funktioniert.
   \end{center}
 \end{figure}
 
-Natürlich gibt es immer noch Elemente "<richtiger">
+Es gibt immer noch Elemente von
 Programmiersprachen, die wir in diesem Kapitel nicht in den
 $\lambda$-Kalkül abgebildet haben, zum Beispiel globale Definitionen,
 Zeichenketten oder
-Signaturen.  All dies ist aber prinzipiell möglich.  Der
-$\lambda$-Kalkül ist deshalb ein sehr einflussreiches Modell für die
-Programmierung und dient als Grundlage für große Teile der
+Signaturen.  All dies ist aber prinzipiell möglich.  Das macht
+$\lambda$-Kalkül zu einem nützlichen Modell für die
+Programmierung und zur Grundlage großer Teile der
 Programmiersprachenforschung.
 
 In anderen Teilen der Informatik ist ein alternatives Modell für
@@ -1497,7 +1498,7 @@ Grundbegriff der \textit{berechenbaren Funktionen}, der in der
 theoretischen Informatik eine wichtige Rolle
 spielt.\index{berechenbare Funktionen}
 
-\vfill % formatting hack
+\newpage
 
 \section*{Übungsaufgaben}
 
@@ -1575,7 +1576,6 @@ spielt.\index{berechenbare Funktionen}
          ((zero? n) 1)
          ((positive? n)
           (* n (fac (- n 1)))))))))
-
 (FAC 3)
 \end{lstlisting}
   %

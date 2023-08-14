@@ -1439,11 +1439,11 @@ nichts und die Funktion sollte den gesamten Vertrag
 \lstinline{contract} zurückliefern.
 
 Das heißt, das \lstinline{date} in zwei Klassen zerfällt, nämlich (a)
-vor oder gleich dem Datum \lstinline{(later-date contract)} oder (b)
+vor oder an dem Datum \lstinline{(later-date contract)} oder (b)
 danach.  Wir brauchen also eine Verzweigung danach, und dazu müssen
-wir die beiden Daten miteinander vergleichen.  Diese Aufgabe ist
-hinreichend kompliziert, dass wir sie zurückstellen und uns
-fest vornehmen, später eine Funktion mit folgender Kurzbeschreibung
+wir die beiden Daten vergleichen.  Diese Aufgabe ist
+kompliziert genug, dass wir sie zurückstellen und uns
+vornehmen, später eine Funktion mit folgender Kurzbeschreibung
 und Signatur zu schreiben:
 %
 \begin{lstlisting}
@@ -1615,9 +1615,9 @@ Hier ist das Gerüst für die Funktion:
     |\ldots|))
 \end{lstlisting}
 %
-Die Eingabe \lstinline{contract} zerfällt nun in zwei Fälle:
-\lstinline{nothing}-Verträge und alle anderen.  Im ersten Fall geben
-wir wieder einen \lstinline{nothing}-Vertrag zurück, im zweiten Fall
+Die Eingabe \lstinline{contract} zerfällt in zwei Fälle:
+\lstinline{nothing} und alle anderen.  Im ersten Fall geben
+wir wieder \lstinline{nothing} zurück, im zweiten
 rufen wir den richtigen Konstruktor auf:
 %
 \begin{lstlisting}
@@ -1668,8 +1668,11 @@ folgenden Testfälle, bei denen jeweils nur die linke beziehungsweise
 rechte Seite des \lstinline{both}-Vertrags nichts ist:
 %
 \begin{lstlisting}
-(check-expect (make-both (make-one-euro) (make-nothing)) (make-one-euro))
-(check-expect (make-both (make-nothing) (make-one-euro)) (make-one-euro))
+(check-expect (make-both (make-one-euro) (make-nothing))
+              (make-one-euro))
+
+(check-expect (make-both (make-nothing) (make-one-euro)) 
+              (make-one-euro))
 \end{lstlisting}
 %
 Hier ist das Gerüst zur Funktion:
@@ -1751,14 +1754,12 @@ und zu überprüfen, ob ein gegebener Punkt innerhalb der Fläche einer
 gegebenen geometrischen Figur liegt.
 
 Falls Du bei dieser Aufgabe eine Funktion brauchst, die eine
-Quadratwurzel zieht, so hat diese den Namen
+Quadratwurzel zieht (muss nicht zwingend sein), so hat diese den Namen
 \lstinline{sqrt}\indexvariable{sqrt} (für "<square root">) und
 folgende Signatur:
 \begin{lstlisting}
 (: sqrt (number -> number))
 \end{lstlisting}
-%
-(Es geht allerdings auch ohne \lstinline{sqrt}.)
 \end{aufgabe}
 
 \begin{aufgabe}
