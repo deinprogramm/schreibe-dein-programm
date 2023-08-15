@@ -405,7 +405,6 @@ von \lstinline{location} in den "<Gesamtfluss">.  So sieht das aus:
 \end{lstlisting}
 %
 Fertig!
-
 In dieser Funktion passiert etwas Besonderes, das es in den
 Funktionen davor noch nicht gab: Sie enthält einen Aufruf von sich
 selbst, einen sogenannten \textit{rekursiven Aufruf\index{rekursiver
@@ -449,9 +448,8 @@ also durch ein \lstinline{or} ersetzen:
 %
 \begin{lstlisting}
          (or (string=? (confluence-location river) location)
-             (or
-              (flows-from? location (confluence-main-stem river))
-              (flows-from? location (confluence-tributary river))))
+             (or (flows-from? location (confluence-main-stem river))
+                 (flows-from? location (confluence-tributary river))))
 \end{lstlisting}
 %
 Das können wir sogar noch weiter vereinfachen, weil \lstinline{or}
@@ -463,10 +461,7 @@ auch mit drei Operanden funktioniert:
              (flows-from? location (confluence-tributary river)))
 \end{lstlisting}
 %
-Wenn wir das Resultat auf seine Bedeutung hin lesen, steht da folgendes:
-%
-\begin{quote}
-  Wasser fließt aus \lstinline{location} in den Zusammenfluss \lstinline{river}, wenn
+Wenn wir das Resultat auf seine Bedeutung hin lesen, steht da folgendes: Wasser fließt aus \lstinline{location} in den Zusammenfluss \lstinline{river}, wenn~\ldots
 
   \begin{itemize}
   \item der Zusammenfluss gerade bei \lstinline{location} stattfindet
@@ -477,7 +472,6 @@ Wenn wir das Resultat auf seine Bedeutung hin lesen, steht da folgendes:
     \centerline{\textbf{oder}}
   \item Wasser von \lstinline{location} in den Nebenfluss fließt.
   \end{itemize}
-\end{quote}
 %
 So erzählt ist die Funktionsweise von \lstinline{flows-from?}
 (hoffentlich) direkt verständlich.
@@ -794,7 +788,7 @@ Nun gibt es schon zwei Klassen von Verträgen~-- \lstinline{one-euro} und
 \end{lstlisting}
 %
 Mit Hilfe von \lstinline{one-euro} und \lstinline{multiple} können wir
-einen Vertrag definieren, der festlegt, dass wir \EUR{100} bekommen~--
+einen Vertrag definieren, der festlegt, dass wir \EUR{$100$} bekommen~--
 sofort:
 %
 \begin{lstlisting}
@@ -807,7 +801,6 @@ sofort:
 \begin{lstlisting}
 ; Euro-Betrag auszahlen
 (: make-euros (rational -> contract))
-
 (check-expect (make-euros 100) euro100)
 \end{lstlisting}
 \end{aufgabeinline}
@@ -1415,10 +1408,7 @@ Aufruf aus der Schablone beantwortet die folgende Frage: "<Wieviel ist
 von \emph{einem} Vertrag nach dem Datum noch übrig?"> Wenn wir mit $n$
 das Ergebnis von \lstinline{(multiple-number contract)} bezeichnen,
 dann müssen wir die Frage beantworten, wieviel von $n$
-Verträgen übrig bleibt.  Im übertragenen Sinne futtern $n$ Esser in
-der Mensa an jeweils der gleichen Portion Brei, werden aber
-unterbrochen. Wenn wir wissen, wieviel von einer Portion jeweils übrigbleibt,
-wieviel bleibt dann insgesamt übrig?  Wir müssen wieder mit $n$
+Verträgen übrig bleibt.  Wir müssen wieder mit $n$
 multiplizieren:
 %
 \begin{lstlisting}
