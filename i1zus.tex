@@ -964,12 +964,19 @@ stehende Signatur.
   \lstinline{dillo} bewegen.
 \end{aufgabeinline}
 %
+Mehr zu diesem Thema kommt in
+Abschnitt~\ref{sec:lexikalische-bindung} auf
+Seite~\pageref{sec:lexikalische-bindung}.
+
 \lstinline{Feed-dillo} hat zusammengesetzte Daten sowohl als Eingabe
 als auch als Ausgabe.  Entsprechend kommen die Schablonen für beide
-Situationen zum Einsatz.  Zunächst die Schablone für zusammengesetzte
+Situationen zum Einsatz.
+
+Zunächst ist die Schablone für zusammengesetzte
 Daten als Eingabe aus
 Konstruktionsanleitung~\ref{ka:zusammengesetzt-eingabe-schablone} auf
-Seite \pageref{ka:zusammengesetzt-eingabe-schablone}; wir schreiben die Aufrufe der Selektoren auf:
+Seite \pageref{ka:zusammengesetzt-eingabe-schablone} an der Reihe. 
+Wir schreiben die Aufrufe der Selektoren auf:
 %
 \begin{lstlisting}
 (define feed-dillo
@@ -995,9 +1002,8 @@ Der zweite Testfall zeigt, dass, was \lstinline{feed-dillo}
 betrifft, die Gürteltiere in zwei verschiedene Gruppen fallen:
 \lstinline{Feed-dillo} verhält sich bei lebenden Gürteltieren anders als
 bei toten: eine Fallunterscheidung.
-
 Entsprechend brauchen wir eine Verzweigung im Rumpf, und zwar aufgrund
-des Wertes von \lstinline{(dillo-alive? dillo)}, der glücklicherweise schon in der
+des Wertes von \lstinline{(dillo-alive? dillo)}, der schon in der
 Schablone steht.  Da \lstinline{dillo-alive?} einen booleschen Wert
 liefert, handelt es sich um eine boolesche Fallunterscheidung.
 Deshalb 
@@ -1192,11 +1198,10 @@ offensichtlich "<besser"> als die andere.\footnote{Die erste Version im Fall
   "<totes Gürteltier"> vermeidet, einen neuen Gürteltier-Wert zu erzeugen.
   Dafür ist die zweite Version kürzer.  In der Praxis ist der
   Unterschied unwichtig.}
-
 Bei der Kombination von Konstruktionsanleitungen ist es also oft
 möglich, mehrere unterschiedliche Wege zu beschreiten.  Meist
-funktionieren alle davon, sie unterscheiden sich aber gelegentlich in
-Länge und subjektiver Eleganz.
+funktionieren alle davon, unterscheiden sich aber gelegentlich in
+Länge und Eleganz.
 
 Eine andere Alternative bei der Konstruktion von \lstinline{feed-dillo}
 wäre an dieser Stelle möglich gewesen:
