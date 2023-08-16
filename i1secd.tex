@@ -1066,7 +1066,7 @@ Hier ist das Prädikat für \lstinline{abstraction}:
 \end{lstlisting}
 %
 Aus diesem Prädikat machen wir eine Signatur mit
-\lstinline{predicate}.Hier ist die Definition:
+\lstinline{predicate}.  Hier ist die Definition:
 %
 \indexvariable{abstraction}
 \begin{lstlisting}
@@ -1482,21 +1482,19 @@ Hier sind ein paar Testfälle:
 (check-expect (extend-environment the-empty-environment 'axl 59)
               (list (make-binding 'axl 59)))
 (check-expect (extend-environment
-               (extend-environment
-                the-empty-environment
-                'axl 60)
+               (extend-environment the-empty-environment
+                                   'axl 60)
                'slash 57)
               (list (make-binding 'slash 57) (make-binding 'axl 60)))
 (check-expect (extend-environment
-               (extend-environment
-                the-empty-environment
-                'axl 59)
+               (extend-environment the-empty-environment
+                                   'axl 59)
                'axl 60)
               (list (make-binding 'axl 60)))
 \end{lstlisting}
 %
-Die Definition entfernt zunächst eine eventuell vorhandene Bindung
-für $v$ und fügt eine neue Bindung hinzu:
+Die Definition entfernt eine eventuell vorhandene Bindung
+für $v$ und fügt eine neue hinzu:
 %
 \indexvariable{extend-environment}
 \begin{lstlisting}
@@ -1617,7 +1615,7 @@ sind Dumps an der Reihe: $D$ ist als Folge von Frames definiert:
 %
 \begin{eqnarray*}
   D &\deq& (S\times E \times C)^\ast
-\end{eqnarray*}
+\end{eqnarray*}\vspace*{-5ex}
 %
 \indexvariable{dump}
 \begin{lstlisting}
@@ -1651,7 +1649,6 @@ Closures, also Tupel aus der Menge $V\times C\times E$:
 \begin{lstlisting}
 ; Ein SECD-Wert ist ein Basiswert oder eine Closure
 (define value (signature (mixed base closure)))
-
 ; Eine Closure besteht aus:
 ; - Variable
 ; - Code
@@ -1799,8 +1796,7 @@ sollte ein Frame enthalten:
                    (make-closure 'axl
                                  (list 'axl 'slash (make-prim '+ 2))
                                  (list (make-binding 'slash 57))))
-             the-empty-environment
-             (list (make-ap)) empty))
+             the-empty-environment (list (make-ap)) empty))
  (make-secd empty
             (list (make-binding 'axl 60) (make-binding 'slash 57))
             (list 'axl 'slash (make-prim '+ 2))
@@ -1835,16 +1831,14 @@ Anfang lokale Variablen angelegt:
       ((empty? code) ...))))
 \end{lstlisting}
 %
-In dieser Schablone werden nun die Regeln direkt abgebildet.  Hier zur
-Erinnerung noch einmal die erste Regel für Basiswerte.
+Wir übersetzen nun die Regeln nacheinander in Code  Hier 
+noch einmal die Regel für Basiswerte:
 %
 \begin{displaymath}
   (\underline{s}, e, b\underline{c}, \underline{d})
   \hookrightarrow
   (b\underline{s}, e, \underline{c}, \underline{d})
-\end{displaymath}
-%
-Hier der passende Code dafür:
+\end{displaymath}\vspace*{-5ex}
 %
 \begin{lstlisting}
 (define secd-step
@@ -1860,15 +1854,13 @@ Hier der passende Code dafür:
       ...))
 \end{lstlisting}
 %
-Bei der Regel für Variablen wird der Wert der Variablen aus der
-Umgebung geholt und auf den Stack gelegt:
+Hier noch einmal die Regel für Variablen:
+%
 \begin{displaymath}
   (\underline{s}, e, v\underline{c}, \underline{d})
   \hookrightarrow
   (e(v)\underline{s}, e, \underline{c}, \underline{d})
-\end{displaymath}
-%
-Hier der entsprechende Code:
+\end{displaymath}\vspace*{-5ex}
 %
 \begin{lstlisting}
 (define secd-step
@@ -2182,7 +2174,7 @@ zeigt aber, dass der Dump mit fortschreitender Auswertung immer
 größer wird:
 %
 % (secd-step*/tex (inject-secd '((lambda (x) (x x)) (lambda (x) (x x)))))
-\begin{displaymath}\tiny
+\begin{displaymath}\small
   \begin{array}{l@{}l@{}l@{}l@{}l}
 &(\epsilon, &\varnothing, &(x, x~x~\mathtt{ap})\\ &&& (x, x~x~\mathtt{ap}) \\ &&&\mathtt{ap}, &\epsilon)\\
 \hookrightarrow{}&((x, x~x~\mathtt{ap}, \varnothing), &\varnothing, &(x, x~x~\mathtt{ap})~\mathtt{ap}, &\epsilon)\\
@@ -2190,11 +2182,11 @@ größer wird:
 \hookrightarrow{}&(\epsilon, &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &x~x~\mathtt{ap}, &(\epsilon, \varnothing, \epsilon))\\
 \hookrightarrow{}&((x, x~x~\mathtt{ap}, \varnothing), &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &x~\mathtt{ap}, &(\epsilon, \varnothing, \epsilon))\\
 \hookrightarrow{}&((x, x~x~\mathtt{ap}, \varnothing)~(x, x~x~\mathtt{ap}, \varnothing), &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &\mathtt{ap}, &(\epsilon, \varnothing, \epsilon))\\
-\hookrightarrow{}&(\epsilon, &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &x~x~\mathtt{ap}, &(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)~(\epsilon, \varnothing, \epsilon))\\
-\hookrightarrow{}&((x, x~x~\mathtt{ap}, \varnothing), &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &x~\mathtt{ap}, &(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)~(\epsilon, \varnothing, \epsilon))\\
-\hookrightarrow{}&((x, x~x~\mathtt{ap}, \varnothing)~(x, x~x~\mathtt{ap}, \varnothing), &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &\mathtt{ap}, &(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)~(\epsilon, \varnothing, \epsilon))\\
-\hookrightarrow{}&(\epsilon, &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &x~x~\mathtt{ap}, &(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)~(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)~(\epsilon, \varnothing, \epsilon))\\
-\hookrightarrow{}&((x, x~x~\mathtt{ap}, \varnothing), &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &x~\mathtt{ap}, &(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)~(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)~(\epsilon, \varnothing, \epsilon))
+\hookrightarrow{}&(\epsilon, &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &x~x~\mathtt{ap}, &(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)\\ &&&&\; (\epsilon, \varnothing, \epsilon))\\
+\hookrightarrow{}&((x, x~x~\mathtt{ap}, \varnothing), &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &x~\mathtt{ap}, &(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)\\ &&&&\;(\epsilon, \varnothing, \epsilon))\\
+\hookrightarrow{}&((x, x~x~\mathtt{ap}, \varnothing)~(x, x~x~\mathtt{ap}, \varnothing), &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &\mathtt{ap}, &(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)\\ &&&&\;(\epsilon, \varnothing, \epsilon))\\
+\hookrightarrow{}&(\epsilon, &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &x~x~\mathtt{ap}, &(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)\\ &&&&\; (\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)\\ &&&&\; (\epsilon, \varnothing, \epsilon))\\
+\hookrightarrow{}&((x, x~x~\mathtt{ap}, \varnothing), &\{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, &x~\mathtt{ap}, &(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)\\ &&&&\;(\epsilon, \{(x, (x, x~x~\mathtt{ap}, \varnothing))\}, \epsilon)\\ &&&&\;(\epsilon, \varnothing, \epsilon))
 \\
 & \ldots
   \end{array}
@@ -2206,10 +2198,10 @@ unterschiedlich behandeln.  Dazu führen wir eine neue Instruktion namens
 $\mathtt{tailap}$ ein, die wie $\mathtt{ap}$ eine Applikation
 durchführt, aber eine Endrekursion signalisiert:
 %
-\begin{eqnarray*}
-  I &\deq& \ldots\\
-  &&\cup \{ \mathtt{tailap} \}
-\end{eqnarray*}
+\begin{grammar}
+  \meta{I} \: \ldots
+  \> \| tailap
+\end{grammar}
 %
 Als Nächstes muss die Übersetzungsfunktion von Termen in Maschinencode
 geändert werden:  Applikationen, die Kontext um sich herum haben,
@@ -2288,10 +2280,10 @@ $\mathtt{tailap}$:
 Damit läuft das Beispiel zwar immer noch endlos, aber immerhin, ohne
 immer mehr Platz zu verbrauchen:
 
-\begin{displaymath}\scriptsize
+\begin{displaymath}\small
   \begin{array}{l@{}llll}
- \hookrightarrow{}&(\epsilon, &\varnothing, &(x, x~x~\mathtt{tailap})~(x, x~x~\mathtt{tailap})~\mathtt{ap}, &\epsilon)\\
-\hookrightarrow{}&((x, x~x~\mathtt{tailap}, \varnothing), &\varnothing, &(x, x~x~\mathtt{tailap})~\mathtt{ap}, &\epsilon)\\
+ &(\epsilon, &\varnothing, &(x, x~x~\mathtt{tailap})\\ &&&(x, x~x~\mathtt{tailap})\\ &&&\mathtt{ap}, &\epsilon)\\
+\hookrightarrow{}&((x, x~x~\mathtt{tailap}, \varnothing), &\varnothing, &(x, x~x~\mathtt{tailap})\\ &&&\mathtt{ap}, &\epsilon)\\
 \hookrightarrow{}&((x, x~x~\mathtt{tailap}, \varnothing)~(x, x~x~\mathtt{tailap}, \varnothing), &\varnothing, &\mathtt{ap}, &\epsilon)\\
 \hookrightarrow{}&(\epsilon, &\{(x, (x, x~x~\mathtt{tailap}, \varnothing))\}, &x~x~\mathtt{tailap}, &(\epsilon, \varnothing, \epsilon))\\
 \hookrightarrow{}&((x, x~x~\mathtt{tailap}, \varnothing), &\{(x, (x, x~x~\mathtt{tailap}, \varnothing))\}, &x~\mathtt{tailap}, &(\epsilon, \varnothing, \epsilon))\\

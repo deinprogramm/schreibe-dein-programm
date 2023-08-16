@@ -596,10 +596,12 @@ konkreten Anwendung von \lstinline{cons} die gleiche Signatur sein.
 
 Bevor das Programm wieder
 funktioniert, müssen wir noch ein kleines Problem
-beheben: \lstinline{list-of-numbers} ist nicht mehr
+beheben:
+
+\lstinline{List-of-numbers} ist nicht mehr
 definiert, steht aber noch in den Signatur"=Deklarationen von
 \lstinline{list-sum} und \lstinline{list-product}.  Wir können
-entweder dort \lstinline{list-of-numbers} durch \lstinline{(list-of number)}
+entweder \lstinline{list-of-numbers} durch \lstinline{(list-of number)}
 ersetzen oder eine Signatur-Definition
 dazuschreiben:
 %
@@ -1008,7 +1010,7 @@ die richtige Antwort.  \lstinline{(first dillos)} fällt unter den Tisch:
 \end{lstlisting}
 %
 Auch, wenn wir den rekursiven Aufruf \lstinline{(live-dillos (rest dillos))}
-scheinbar "<verbraucht"> haben~-- im  anderen Zweig (Gürteltier lebt
+scheinbar schon "<verbraucht"> haben~-- im  anderen Zweig (Gürteltier lebt
 (noch)) brauchen wir die restlichen lebendigen Gürteltiere noch
 einmal.  Wir müssen diesmal aber darauf achten, dass wir das erste
 Gürteltier in der Ausgabe wieder unterbringen und vorn an die
@@ -1484,7 +1486,7 @@ Schreibe folgende Funktionen auf Listen:
 
   \begin{enumerate}
   \item Führe eine Datenanalyse für
-    Ackerbestandteile durch und schreibe passende Daten- und
+    Ackerbestandteile durch und schreibe dazu passende Daten- und
     Record-Definitionen.  Gib ein paar Beispiele für
     Ackerbestandteile an, die Du in den nächsten Teilaufgaben in
     Testfällen verwenden kannst.

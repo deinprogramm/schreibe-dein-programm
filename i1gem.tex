@@ -810,7 +810,7 @@ umbenannt werden.\label{def:sugar-weight-traffic-light}
       ((> sugar-weight 12.5) "red"))))
 \end{lstlisting}
 %
-Zurück zu \lstinline{sugar-traffic-light}: Dort benutzen wir zunächst die
+Zurück zu \lstinline{sugar-traffic-light}. Dort benutzen wir die
 neu definierte Hilfsfunktion:
 %
 \begin{lstlisting}
@@ -824,8 +824,7 @@ neu definierte Hilfsfunktion:
 \end{lstlisting}         
 %
 Beim nächsten Zweig geht es um den Fall \lstinline{sugars}~--
-zusammengesetzte Daten.  Wir können also die entsprechende Schablone
-anwenden:
+das sind zusammengesetzte Daten:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
@@ -839,13 +838,11 @@ anwenden:
       ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
-Wir müssen Fruktose- und den Glukose-Anteil addieren und die Summe
-dann ebenfalls entsprechend der Tabelle vom Anfang in eine Ampelfarbe
-umwandeln.  Für das Umwandeln der Zahl aus der
-Tabelle in eine Ampelfarbe haben wir die Hilfsfunktion
-\lstinline{sugar-weight->traffic-light} geschrieben, und diese
-können wir
-erneut zum Einsatz bringen:
+Wir müssen Fruktose- und Glukose-Anteil addieren und die Summe
+entsprechend der Tabelle vom Anfang in eine Ampelfarbe
+umwandeln.  Das kann wieder
+\lstinline{sugar-weight->traffic-light} 
+erledigen:
 %
 \begin{lstlisting}
 (define sugar-traffic-light
@@ -922,7 +919,7 @@ teilen müssen:
 \end{lstlisting}
 %
 Fertig, könnte man meinen.  Es gibt aber Linien, die keine Steigung
-haben.  In der REPL sieht das so aus:
+haben  In der REPL sieht das so aus:
 %
 \begin{alltt}
 > (slope 0 0 0 1)
@@ -932,7 +929,7 @@ haben.  In der REPL sieht das so aus:
 Die Meldung ist ein bisschen unfreundlich und birgt mehrere Probleme:
 %
 \begin{itemize}
-\item Die Meldung besagt zwar, was das Programm gemacht hat (durch 0
+\item Die Meldung besagt zwar, was das Programm gemacht hat (durch $0$
   geteilt), aber benennt nicht die Ursache des Problems: dass die
   Gerade keine Steigung hat.
 \item Das Programm bricht einfach ab, ohne dass es eine Möglichkeit
@@ -944,9 +941,9 @@ Die Meldung ist ein bisschen unfreundlich und birgt mehrere Probleme:
 %
 Alle drei Probleme können wir auf einmal mit gemischten Daten lösen.
 Dazu müssen wir zunächst dafür sorgen, dass die Funktion einen
-sinnvollen Wert zurückliefert, bevor sie durch 0 teilen würde.
-Dadurch werden die Eingaben in zwei Klassen aufgeteilt: Es gibt eine
-Steigung oder eben nicht.  Es bietet sich eine binäre Verzweigung an,
+sinnvollen Wert zurückliefert, bevor sie durch $0$ teilen würde.
+Dadurch werden die Eingaben in zwei Klassen aufgeteilt~-- es gibt eine
+Steigung oder eben nicht.  Wir benutzen binäre Verzweigung,
 um diese beiden Klassen zu unterscheiden:
 %
 \begin{lstlisting}
@@ -962,12 +959,15 @@ Nur müssen wir anstelle der Ellipse irgendetwas ins Programm
 schreiben.  Wir können nicht einfach irgendeine reelle Zahl nehmen, da
 diese ja auch eine legitime Steigung sein könnte.  Stattdessen
 brauchen wir einen Wert, den wir von den legitimen Zahlen
-unterscheiden können.  Wir könnten eine spezielle Zeichenkette oder
+unterscheiden können.
+
+Wir könnten eine spezielle Zeichenkette oder
 \lstinline{#f} benutzen.  (Siehe dazu Aufgabe~\ref{aufgabe:no-slope}
 auf Seite~\pageref{aufgabe:no-slope}.)
-
 Wir empfehlen aber, stattdessen einen eigenen Record-Typ zu
-definieren, und zwar so:
+definieren.  Dieser Record-Typ hat keine Felder, das heißt, er kann nur benutzt
+werden, um einen einzigen Wert herzustellen, nämlich
+\lstinline{(make-no-slope)}:
 %
 \indexvariable{no-slope}
 \begin{lstlisting}
@@ -977,11 +977,10 @@ definieren, und zwar so:
   no-slope?)
 \end{lstlisting}
 %
-Dieser Record-Typ hat keine Felder, das heißt, er kann nur benutzt
-werden, um einen einzigen Wert herzustellen, nämlich
-\lstinline{(make-no-slope)}.  (Es handelt sich also um eine
+(Es handelt sich also um eine
 degenerierte Version von zusammengesetzten Daten ohne Bestandteile.)
-Diesen Wert können wir aber durch das Prädikat \lstinline{no-slope?}
+Den Wert von \lstinline{(make-no-slope)} können wir aber durch das
+Prädikat \lstinline{no-slope?}
 von allen anderen Werten unterscheiden und benutzen ihn, wenn es keine
 Steigung gibt:
 %
@@ -1214,7 +1213,9 @@ Daten, das lohnt aber hier kaum.
   \item Schreibe eine Datendefinition für
     Verstöße gegen die Straßenverkehrsordnung.  Schreibe Daten-
     und Record-Definitionen für die verschiedenen Verstöße.  
+
     Die Zeitpunkte kannst Du durch Zeichenketten wie \verb|"11.4.1971 22:00"| repräsentieren.  
+
     Gib alle Signaturen an!
 
   \item Schreibe eine Funktion, die einen
@@ -1270,18 +1271,18 @@ Daten, das lohnt aber hier kaum.
     zurückgibt.  Dabei gilt:
     \begin{itemize}
     \item wenn die Ampel kürzer als eine Sekunde rot war und keine
-      Gefährdung vorlag: $50$€, 3~Punkte, kein Fahrverbot
+      Gefährdung vorlag: $50$€, $3$~Punkte, kein Fahrverbot
     \item wenn die Ampel mindestens eine Sekunde rot war oder eine
-      Gefährdung vorlag: $125$€, 4~Punkte, 1~Monat Fahrverbot
+      Gefährdung vorlag: $125$€, $4$~Punkte, $1$~Monat Fahrverbot
     \end{itemize}
 
   \item Schreibe eine Funktion, die überhöhte
     Geschwindigkeit akzeptiert und den Tatbestand zurückgibt.  Dabei
     gilt:
     \begin{itemize}
-    \item Geschwindigkeitsübertretung weniger als 20 km/h ohne Gefährdung:
+    \item Geschwindigkeitsübertretung weniger als $20$km/h ohne Gefährdung:
       einfaches Vergehen mit $35$€
-    \item Geschwindigkeitsübertretung zwischen 20 und 40 km/h
+    \item Geschwindigkeitsübertretung zwischen $20$ und $40$km/h
       (inklusive) ohne Gefährdung: Ordnungswidrigkeit mit $75$€,
       3~Punkten und 1~Monat Fahrverbot
     \item Geschwindigkeitsübertretung von mehr als 40 km/h ohne

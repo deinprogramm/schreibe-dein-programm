@@ -710,8 +710,8 @@ eine Mannschaft bei einem Spiel die Heim- oder die Gastmannschaft ist:\label{fun
 \end{lstlisting}
 %
 Nehmen wir an, wir wollen alle Spiele mit Beteiligung von Nürnberg
-extrahieren, indem wir \lstinline{extract-list} verwenden.  Um
-\lstinline{extract-list} zu verwenden, brauchen wir eine Funktion mit
+extrahieren, indem wir die Funktion \lstinline{extract-list}
+verwenden.  Dafür brauchen wir eine Funktion mit
 Signatur~\lstinline{(game -> boolean)}.  Die können wir folgendermaßen
 definieren:
 %
@@ -1030,7 +1030,7 @@ Ergebnis.  Das sieht schriftlich so aus:
 \end{lstlisting}
 %
 Wir haben zwar über zwei Funktionen abstrahiert, die sich mit Spielen
-beschäftigt.  Aber \lstinline{list-apply} hat nichts
+beschäftigen.  Aber die entstandene Funktion \lstinline{list-apply} hat nichts
 Fußball-spezifisches mehr an sich.  Wir wissen also nichts über die
 Signatur der Elemente der Eingabeliste.  Wir schreiben dort also eine
 Signaturvariable hin:
@@ -1044,7 +1044,8 @@ Funktion \lstinline{f} verwendet werden, wir können also auch dort
 \lstinline{%element} hinschreiben:
 %
 \begin{lstlisting}
-(: list-apply ((%element -> ...) (list-of %element) -> (list-of ...)))
+(: list-apply ((%element -> ...) (list-of %element)
+               -> (list-of ...)))
 \end{lstlisting}
 %
 Die Definition von \lstinline{list-apply} legt auch für das Ergebnis
@@ -1052,7 +1053,8 @@ von  \lstinline{f} keine Signatur fest.  Wir schreiben also auch da
 eine Signaturvariable hin:
 %
 \begin{lstlisting}
-(: list-apply ((%element -> %result) (list-of %element) -> (list-of ...)))
+(: list-apply ((%element -> %result) (list-of %element)
+               -> (list-of ...)))
 \end{lstlisting}
 %
 Es fehlt nur noch die Signatur für die Elemente der Ergebnisliste.
@@ -1061,7 +1063,8 @@ erstes Argument gerade das Ergebnis des Aufrufs von \lstinline{f}
 ist.  Dort muss deshalb auch \lstinline{%result} hin:
 %
 \begin{lstlisting}
-(: list-apply ((%element -> %result) (list-of %element) -> (list-of %result)))
+(: list-apply ((%element -> %result) (list-of %element)
+               -> (list-of %result)))
 \end{lstlisting}
 %
 Bei solchen Signaturen, in denen überhaupt nichts über die
