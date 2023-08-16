@@ -132,7 +132,7 @@ wirklich in jedem Programm.  Funktionsanwendungen wiederum machen nur
 dann Sinn, wenn wir auch Funktionen herstellen können: Wir brauchen
 also Abstraktionen.  Und da zu jeder Abstraktion auch eine oder
 mehrere Variablen gehören, brauchen wir auch Variablen.  Drei
-fundamentale Ideen also::
+fundamentale Ideen also:
 %
 \begin{itemize}
 \item Applikation
@@ -965,8 +965,8 @@ Es gibt noch weitere Auswertungsstrategien:
 %
 Die Call-by-Name-Reduktion hört also verglichen mit der
 Linksaußen-Reduktion vorzeitig auf, sobald eine Abstraktion
-herauskommt.  Beim Beispiel von oben also schon nach dem ersten
-Schritt:
+herauskommt.  Beim Beispiel von oben ist schon nach dem
+ersten Schritt:
 %
 \begin{eqnarray*}
   \underline{(\lambda \lrm x.\lambda \lrm z.(\lambda \lrm y.\lrm y)~\lrm x)~((\lambda \lrm y.\lrm y)~\lrm z)}
@@ -995,7 +995,6 @@ werden.
 \end{array}
 \end{displaymath}
 %
-
 Eine andere Auswertungsstrategie 
 vermeidet solche doppelte Arbeit:  Die \textit{Linksinnen"=Reduktion},
 auch genannt \emph{applicative-order reduction\index{applicative-order reduction}} oder
@@ -1018,28 +1017,27 @@ auch genannt \emph{applicative-order reduction\index{applicative-order reduction
   \end{enumerate}
 \end{definition}
 %
-Die Linksinnen-Reduktion ist beim obigen Beispiel effektiver, da
-zunächst das Argument der äußeren Applikation ausgewertet wird:
+Die Linksinnen-Reduktion ist beim obigen Beispiel effektiver als
+Linksaußen-Reduktion,
+da zunächst das Argument der äußeren Applikation ausgewertet wird:
 %
 \begin{displaymath}
   \begin{array}{rl}
-  (\lambda \lrm x.\lrm x~\lrm x)~((\lambda \lrm y.\lrm y)~(\lambda \lrm z.\lrm z))
+  (\lambda \lrm x.\lrm x~\lrm x)~((\lambda \lrm y.\lrm y)~z)
   \rightarrow_{\beta i} & 
-  (\lambda \lrm x.\lrm x~\lrm x)~(\lambda \lrm z.\lrm z)
+  (\lambda \lrm x.\lrm x~\lrm x)~z
   \\
   \rightarrow_{\beta i} & 
-  (\lambda \lrm z.\lrm z)~(\lambda \lrm z.\lrm z)
-  \\
-  \rightarrow_{\beta i} & 
-  (\lambda \lrm z.\lrm z)
+  \lrm z~\lrm z
 \end{array}
 \end{displaymath}
 %
 Leider führt die Linksinnen-Reduktion nicht immer zu einer Normalform,
-selbst wenn es die Linksaußen"=Reduktion tut.  Der Term
+selbst wenn es die Linksaußen"=Reduktion tut.  Der folgende Term
+zum Beispiel hat zwei Redexe~-- den ganzen Term und
+$(\lambda \lrm z.\lrm z~\lrm z)~(\lambda \lrm z.\lrm z~\lrm z)$:
 \[ (\lambda \lrm x.\lambda \lrm y.\lrm y)~((\lambda \lrm z.\lrm z~\lrm z)~(\lambda \lrm z.\lrm z~\lrm z)) \]
-zum Beispiel hat zwei Redexe, einmal den ganzen Term und dann noch
-$(\lambda \lrm z.\lrm z~\lrm z)~(\lambda \lrm z.\lrm z~\lrm z).$  Die Linksinnen-Strategie wählt
+Die Linksinnen-Strategie wählt
 den inneren Subterm als ersten Redex aus:
 %
 \begin{displaymath}
@@ -1055,16 +1053,15 @@ Normalform $\lambda \lrm y.\lrm y$ liefert.
 \label{page:call-by-value}
 Eine Variante der Linksinnen-Reduktion, die in den meisten
 Programmiersprachen Anwendung findet, ist die
-\textit{Call-by-Value-Reduktion\index{Call-by-Value-Reduktion}}:
+\textit{Call-by-Value-Reduktion\index{Call-by-Value-Reduktion}}.
+Sie ist die Grundlage
+insbesondere für unsere Lehrsprachen.
 %
 \begin{definition}[Call-by-Value-Reduktion]\label{def:call-by-value}
     Die \textit{Call-by-Value-Reduktion} ist wie die
   Linksinnen-Reduktion, allerdings ohne die letzte Regel für Terme der
   Form $\lambda v.e$.
 \end{definition}
-%
-Die Call-by-Value-Reduktion ist die Grundlage
-insbesondere für unsere Lehrspracher.  Der Stepper macht das sichtbar.
 %
 \begin{aufgabeinline}
   Lasse folgendes Programm (und gern auch noch andere) im Stepper
@@ -1076,11 +1073,8 @@ insbesondere für unsere Lehrspracher.  Der Stepper macht das sichtbar.
 \end{lstlisting}
 \end{aufgabeinline}
 %
-Programmiersprachen, die von innen nach außen auswerten, heißen
-\textit{Call-by-Value-Sprachen\index{Call-by-Value-Sprache}} oder
-\textit{strikten\index{strikte Sprache} Sprachen} zu sprechen.
-Die meisten Programmiersprachen sind strikt.
-
+Programmiersprachen mit Call-by-Value-Reduktion heißen
+\textit{strikte\index{strikte Sprache} Sprachen}.
 Es gibt auch \textit{nicht-strikte\index{nicht-strikte Sprache}}
 Sprachen wie zum Beispiel Haskell~\cite{Haskell2010},
 die auf der sogenannten \textit{lazy evaluation\index{lazy evaluation}} beruhen.  Ihre
@@ -1209,7 +1203,7 @@ Hier ein Beispiel für die Anwendung von $\mathbf{succ}$:
   &=& \lceil 2\rceil
 \end{eqnarray*}
 %
-Folgende Definition berechnet das Gegenteil der Nachfolgerfunktion, die \textit{Vorgängerfunktion}.\index{Vorgänger}
+Folgende Definition die \textit{Vorgängerfunktion}.\index{Vorgänger}
 Sie zieht von einer Zahl eins ab:\index{Vorgänger}\index{pred@$\mathbf{pred}$}
 %
 \begin{displaymath}
@@ -1250,9 +1244,8 @@ Um Funktionen auf natürlichen Zahlen zu schreiben, brauchen wir noch
 Rekursion.  Wenn wir in den Lehrsprachen rekursive Funktionen
 geschrieben haben, dann war das immer im Zusammenhang mit
 \lstinline{define}, damit die Funktion überhaupt einen Namen bekommt.
-Das geht auch $\lambda$-Kalkül, ist aber etwas aufwendiger.
 
-Zunächst einmal: Das einfache \lstinline{define} können wir in eine
+Das einfache \lstinline{define} können wir in eine
 Kombination aus Abstraktion und Applikation übersetzen.  Aus einem
 Programm dieser Form:
 %
@@ -1290,11 +1283,9 @@ rechten Seite entfernt wird, bleibt folgender Term übrig:
   \lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm x)~\lceil 1\rceil~(\ast~\lrm x~(?~(\mathbf{pred}~\lrm x)))
 \end{displaymath}
 %
-Immerhin ist zu sehen, dass dieser Term korrekt die Fakultät von $0$
-ausrechnet, nämlich $1$.  Für alle Zahlen größer als $0$ ist es allerdings
-schlecht bestellt, da der Term "<$?$"> noch unbekannt ist.
-Weil der obige Term nur für $0$ taugt, sei er mit $\mathbf{fac}_0$
-benannt:
+Immerhin berechnet dieser Term korrekt die Fakultät von $0$, nämlich
+$1$.  Für alle Zahlen größer als $0$ ist "<$?$"> allerdings noch unbekannt.
+Weil der Term nur für $0$ taugt, nennen wir ihn $\mathbf{fac}_0$:
 %
 \begin{displaymath}
   \mathbf{fac}_0 \deq \lambda \lrm x.\mathbf{if}~(\mathbf{zerop}~\lrm
@@ -1356,12 +1347,11 @@ $\mathbf{fac}_n$-Funktionen mit Hilfe von $\mathbf{FAC}$ einfacher beschreiben:
 $\mathbf{FAC}$ ist also eine Fabrik für Fakultätsfunktionen und
 teilt mit allen $\mathbf{fac}_i$ die Eigenschaft, dass ihre
 Definition nicht rekursiv ist.
-
 Damit ist zwar die Notation kompakter geworden,
 eine korrekte
 Definition von $\mathbf{fac}$ müsste aber eine unendliche
 Kette von Applikationen von $\mathbf{FAC}$ enthalten.
-Da sich ein Term mit einer unendlichen Kette von Applikationen nicht aufschreiben lässt, hilft im Moment nur Wunschdenken weiter.
+Da sich solch ein Term nicht aufschreiben lässt, hilft nur Wunschdenken weiter.
 Dafür sei angenommen, $\mathbf{fac}$ wäre bereits gefunden.  Dann gilt folgende
 Gleichung:
 %
@@ -1481,7 +1471,7 @@ $3$ mit dieser Definition funktioniert.
 
 Es gibt immer noch Elemente von
 Programmiersprachen, die wir in diesem Kapitel nicht in den
-$\lambda$-Kalkül abgebildet haben, zum Beispiel globale Definitionen,
+$\lambda$-Kalkül abgebildet haben, zum Beispiel
 Zeichenketten oder
 Signaturen.  All dies ist aber prinzipiell möglich.  Das macht
 $\lambda$-Kalkül zu einem nützlichen Modell für die

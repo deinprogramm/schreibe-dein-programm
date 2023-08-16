@@ -1105,9 +1105,8 @@ Seite~\pageref{fig:searchtree}:
 \end{lstlisting}
 %
 Wir schreiben nun eine Variante von \lstinline{tree-member?},
-die Suchbäume statt "<normale"> Bäume
-akzeptieren.  Hier sind Kurzbeschreibung, Signatur und Tests für die
-Funktion für das Suchen:\label{func:search-tree-member}
+die Suchbäume 
+akzeptiert:\label{func:search-tree-member}
 %
 \begin{lstlisting}
 ; festellen, ob Element in Suchbaum vorhanden ist
@@ -1132,11 +1131,9 @@ Schablone für \lstinline{search-tree}:
     ...))
 \end{lstlisting}
 %
-Jetzt könnten wir natürlich alles wie immer ausprogrammieren.  Viel
-einfacher aber ist es, wenn wir die existierende Funktion
-\lstinline{tree-member?} wiederverwenden: Wir haben ja genau das
-gleiche vor, was die Funktion schon macht.  Dazu kopieren wir sie
-einfach in den Rumpf:
+Für den Rumpf können wir die Funktion
+\lstinline{tree-member?} wiederverwenden.  Dazu kopieren wir sie
+in die Definition von \lstinline{search-tree-member?}:
 %
 \begin{lstlisting}
 (define search-tree-member?
@@ -1227,8 +1224,6 @@ Dafür verbrauchen wir den letzten Baustein aus der Schablone:
     (tree-member? value (search-tree-tree search-tree))))
 \end{lstlisting}
 %
-Fertig!
-
 \begin{aufgabeinline}
   Schreibe entsprechend zu \lstinline{search-tree-member?} eine
   Funktion \lstinline{search-tree-insert} auf Basis von
@@ -1435,8 +1430,8 @@ Wie also können wir einen Suchbaum balancieren? Dabei sollten wir
 nicht nur dafür sorgen, dass das Suchen effizient funktioniert.  Auch
 das Balancieren sollte nicht zuviel Arbeit machen~-- sonst werden die
 Vorteile beim Suchen durch den Aufwand beim Balancieren wieder
-zunichte gemacht.  Das bedeutet ganz praktisch, dass wir einen
-Kompromiss suchen müssen zwischen den Einsparungen beim Suchen und dem
+zunichte gemacht.  Wir müssen einen
+Kompromiss suchen zwischen den Einsparungen beim Suchen und dem
 Aufwand für das Balancieren.  Solche Kompromisse gibt es oft bei
 Algorithmen, und oft werden Messungen eingesetzt, um sie auszuwählen
 und schrittweise zu verbessern.  So ist es auch hier.
@@ -1709,12 +1704,13 @@ Hier ist ein Beispiel:
   (lambda (element)
     (search-tree-of (sized-label-of element))))
 \end{lstlisting}
+  \vspace*{-2ex}
 \end{aufgabeinline}
 %
-Wir machen nun aus
-\lstinline{search-tree-member?} die Funktion
+Wir machen aus
+\lstinline{search-tree-member?} nun
 \lstinline{sized-search-tree-member?}.  Dafür kopieren
-wir sie, benennen sie um und stellen sie so um, dass sie
+wir sie, benennen sie um und ändern sie, so dass sie
 \lstinline{sized-search-tree} benutzt.\label{func:sized-search-tree-member}
 %
 \indexvariable{sized-search-tree-member?}
@@ -1748,7 +1744,7 @@ wir sie, benennen sie um und stellen sie so um, dass sie
     (tree-member? value (sized-search-tree-tree search-tree))))
 \end{lstlisting}
 %
-Vergleiche sie mit \lstinline{search-tree-insert}: Es gibt nur zwei
+Vergleiche sie mit \lstinline{search-tree-insert}. Es gibt nur zwei
 Unterschiede:
 %
 \begin{itemize}
@@ -1758,9 +1754,9 @@ Unterschiede:
 \lstinline{sized-node-label} auf.
 \end{itemize}
 %
-Nun widmen wir uns der Konstruktion von balancierten Suchbäumen und
-schreiben eine Funktion \lstinline{balanced-search-tree-insert}.  Auch
-sie entsteht aus \lstinline{search-tree-insert} durch Kopieren und
+Nun widmen wir uns der Konstruktion von balancierten Suchbäumen.
+Die Funktion dafür entsteht
+entsteht aus \lstinline{search-tree-insert} durch
 Umstellen auf \lstinline{sized-search-tree}:
 %
 \indexvariable{balanced-search-tree-insert}
@@ -2002,7 +1998,7 @@ Rotation, die erste heißt entsprechend "<einfach">.
   Abbildung~\ref{fig:search-tree-rotation} nicht, dass die Bäume auf
   der rechten Seite nicht mehr sortiert sind?
 \end{aufgabeinline}
-
+%
 Wann sollte der Algorithmus nun einfach und wann doppelt rotieren?
 Schau Dir dazu noch einmal in Abbildung~\ref{fig:search-tree-rotation}
 den oberen linken Baum an.  Von den Teilbäumen $X$ und $Y$ ist einer
@@ -2025,7 +2021,7 @@ verlagert.
 %
 Diese Rotationen übertragen wir jetzt in den Rumpf von
 \lstinline{make-balanced-node}.  Damit wir dabei möglichst keine
-Fehler machen, verwenden wir Namen genau wie in
+Fehler machen, verwenden wir die gleichen Namen im Code wie in
 Abbildung~\ref{fig:search-tree-rotation}:
 %
 \begin{lstlisting}
@@ -2088,6 +2084,7 @@ wir müssen daraus ein \lstinline{cond} machen:
     (define b (sized-node-label Y))
     (define Y1 (node-left-branch Y))
     (define Y2 (node-right-branch Y))
+
     (make-sized-node b
                      (make-sized-node a X Y1)
                      (make-sized-node c Y2 Z))))
@@ -2103,7 +2100,9 @@ das Übergewicht links und nichts rechts ist.  Der Code dafür ist
 gegenüber dem gerade behandelten Fall "<gespiegelt">.  Auch der letzte
 Fall fehlt noch: Der tritt dann ein,  wenn der Baum kein exzessives
 Ungleichgewicht aufweist.  Dann könnten wir einfach
-\lstinline{make-sized-node} benutzten.  Hier die ganze Funktion:\label{func:make-balanced-node}
+\lstinline{make-sized-node} benutzten.
+
+Hier die ganze Funktion:\label{func:make-balanced-node}
 %
 \indexvariable{make-balanced-node}
 \begin{lstlisting}
@@ -2153,10 +2152,10 @@ Ungleichgewicht aufweist.  Dann könnten wir einfach
        (make-sized-node label left-branch right-branch)))))
 \end{lstlisting}
 %
-
-Es gibt bisher noch keine Tests für die Funktionen
+Für
 \lstinline{balanced-search-tree-insert} und
-\lstinline{make-balanced-node}.  Das ist bedenklich, insbesondere weil
+\lstinline{make-balanced-node} gibt es bisher noch keine Tests.
+Das ist bedenklich, insbesondere weil
 die Funktionen ziemlich kompliziert sind und viele Fälle abdecken
 müssen.  Es lohnt sich, ein weiteres Mal an
 Mantra~\ref{mantra:komplexitaet} auf
@@ -2164,8 +2163,8 @@ Seite~\pageref{mantra:komplexitaet} zu erinnern:
 
 \mantrakomplexitaet*
 
-\noindent So richtig testen werden wir sie im nächsten Kapitel.  Hier schon
-einmal eine Aufgabe zur Vorbereitung:
+\noindent So richtig testen werden wir sie im nächsten Kapitel.  Hier
+eine Aufgabe zur Vorbereitung:
   
 \begin{aufgabeinline}
   Mach Dir schomal ein paar Gedanken darüber, \emph{was} eigentlich

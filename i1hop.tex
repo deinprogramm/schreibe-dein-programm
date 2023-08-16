@@ -1923,7 +1923,9 @@ sie sich befindet.
   einem Argument sowie eine Liste \lstinline{l} akzeptiert.
   \lstinline{Filter-map} soll als Ergebnis die Liste der Rückgabewerte
   von \lstinline{p} für diejenigen Elemente von \lstinline{l} zurückgeben,
-  für die \lstinline{p} nicht \lstinline{#f} zurückgibt. Beispiel:
+  für die \lstinline{p} nicht \lstinline{#f} zurückgibt.
+
+  Beispiel:
 
 \begin{lstlisting}
 (filter-map (lambda (x)
@@ -1939,8 +1941,9 @@ sie sich befindet.
   Verwende die Funktion \lstinline{list-fold} um folgende 
   Funktionen zu schreiben:
   \begin{enumerate}
-  \item Schreibe eine Funktion \lstinline{list-map}, die eine Funktion auf jedes
-    Element einer Liste anwendet.
+  \item Schreibe eine neue Version der Funktion \lstinline{list-map},
+    die eine Funktion auf jedes Element einer Liste anwendet und die
+    Liste der Ergebnisse liefert.
   \item Schreibe eine Funktion \lstinline{list-or}, die eine Funktion
     auf alle Elemente einer Liste anwendet, die jeweils ein Boolean
     liefert, und die Resultate mit \lstinline{or} verknüpft.
@@ -1948,8 +1951,9 @@ sie sich befindet.
     Funktion mit boolescher Rückgabe auf
     alle Elemente einer Liste anwendet und zählt, wie häufig \lstinline{#t}
     zurückgegeben wird.
-  \item Schreibe eine Funktion \lstinline{contains?}, die feststellt, ob ein
-    Element in einer Liste enthalten ist.
+  \item Schreibe eine Funktion \lstinline{contains?}, die
+    \lstinline{#t} liefert, wenn ein
+    Element in einer Liste enthalten ist, sonst \lstinline{#f}.
   \item Schreibe eine Funktion \lstinline{remove-duplicates}, die alle doppelten
     Elemente aus einer Liste filtert.
   \end{enumerate}
@@ -2094,10 +2098,7 @@ sie sich befindet.
 \end{aufgabe}
 
 \begin{aufgabe}
-  Funktionen können nicht nur als Argumente an
-  andere Funktionen übergeben, sondern auch als Ergebnisse
-  zurückgeliefert werden. Dies soll in dieser Aufgabe genutzt werden,
-  um ein einfaches Telefonbuch zu programmieren: Ein Telefonbuch ist
+  Programmiere ein einfaches Telefonbuch: Ein Telefonbuch ist
   als Funktion repräsentiert, die den Namen einer Person akzeptiert
   und die Telefonnummer der Person zurückliefert.
 
@@ -2250,12 +2251,13 @@ sie sich befindet.
     (if (= n 0)
         empty
         (cons (stream-first stream)
-                   (stream-take (- n 1)
-                                ((stream-rest-function stream)))))))
+              (stream-take (- n 1)
+                           ((stream-rest-function stream)))))))
 \end{lstlisting}
    % 
-   (Dabei ist angenommen, dass die Selektoren
+   (Dabei haben wir angenommen, dass die Selektoren
    \lstinline{stream-first} und \lstinline{stream-rest-function} heißen.)
+
    \lstinline{Stream-take} lässt sich zum Beispiel auf das Ergebnis von
    \lstinline{from} anwenden:
    % 
