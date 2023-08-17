@@ -446,10 +446,10 @@ Seite \pageref{ka:zusammengesetzt-ausgabe-schablone}):
 Nun können wir eine Funktion schreiben, die ein beliebiges Tier
 akzeptiert und es füttert.  Hier sind Kurzbeschreibung und Signatur:
 %
-\begin{aufgabe}
+\begin{lstlisting}
 ; Tier füttern
 (: feed-animal (animal -> animal))
-\end{aufgabe}
+\end{lstlisting}
 %
 Die Funktion soll sich genauso verhalten wie \lstinline{feed-dillo}
 beziehungsweise \lstinline{feed-parrot}.  Das können wir direkt als
@@ -531,10 +531,12 @@ redundant, wenn der Zuckergehalt in Gramm angegeben ist.
 Manchmal ist allerdings der Zuckergehalt auch separat für Fruktose und
 Glukose angegeben.
 
-Ein Computerprogramm könnte aber den Umgang erleichtern, indem es jede
-Angabe auf einer Lebensmittelpackung~-- Zucker in Gramm insgesamt,
+Ein Programm könnte aber den Umgang erleichtern, indem die
+Angaben auf einer Lebensmittelpackung~-- Zucker in Gramm insgesamt,
 Fruktose und Glukose separat sowie die Ampel~-- in die einheitliche
-Ampel-Form bringt.  Schreiben wir also ein solches Programm.  Zunächst
+Ampel-Form bringt.
+
+Schreiben wir also ein solches Programm.  Zunächst
 die Datenanalyse:
 %
 \begin{itemize}
@@ -810,7 +812,7 @@ umbenannt werden.\label{def:sugar-weight-traffic-light}
       ((> sugar-weight 12.5) "red"))))
 \end{lstlisting}
 %
-Zurück zu \lstinline{sugar-traffic-light}. Dort benutzen wir die
+Zurück zur Funktion \lstinline{sugar-traffic-light}. Dort benutzen wir die
 neu definierte Hilfsfunktion:
 %
 \begin{lstlisting}
@@ -823,8 +825,9 @@ neu definierte Hilfsfunktion:
       ((string? sugar-content) ...))))
 \end{lstlisting}         
 %
-Beim nächsten Zweig geht es um den Fall \lstinline{sugars}~--
-das sind zusammengesetzte Daten:
+Beim nächsten Zweig geht es um den Fall \lstinline{sugars}.
+Das sind zusammengesetzte Daten, wir schreiben in den Zweig dafür also
+die Schablone mit den Aufrufen der Selektoren:
 %
 \begin{lstlisting}
 (define sugar-traffic-light

@@ -730,8 +730,8 @@ Liste abklappern.
 %
 \begin{aufgabeinline}
   Schreibe mit Hilfe von \lstinline{member?} eine Funktion, die von
-  zwei Listen alle Elemente liefert, die in beiden Listen stehen, also
-  deren Schnittmenge.  Wie lange braucht diese Funktion im
+  zwei Listen alle Elemente liefert, die in beiden Listen stehen.
+  Wie lange braucht diese Funktion im
   ungünstigsten Fall?
 \end{aufgabeinline}
 %
@@ -805,7 +805,7 @@ Sie beschreibt nur den Wert \lstinline{#f}.  Entsprechend gibt es
 natürlich auch eine Signatur
 \lstinline{true}\indexvariable{true} für \lstinline{#t}.
 
-Als Beispielbaum für die Tests benutzen wir diesen hier:
+Hier ein Beispielbaum und einige Tests, die ihn benutzen:
 %
 \begin{lstlisting}
 (define tree4
@@ -814,11 +814,6 @@ Als Beispielbaum für die Tests benutzen wir diesen hier:
               (make-node 17
                          (make-node 10 #f (make-node 12 #f #f))
                          #f)))
-\end{lstlisting}
-%
-Hier sind ein paar Tests:
-%
-\begin{lstlisting}
 (check-expect (tree-member? 5 tree4) #t)
 (check-expect (tree-member? 17 tree4) #t)
 (check-expect (tree-member? 3 tree4) #t)
@@ -890,7 +885,6 @@ eien Definition und setzen die Bestandteile der Schablone so zusammen:
       (else #f))))
 \end{lstlisting}
 %
-Fertig!
 
 \section{Sortierte Bäume herstellen}
 
@@ -898,12 +892,9 @@ In den Testfällen für \lstinline{tree-member?} haben wir immer den
 Baum \lstinline{tree4} vwerwendet, den wir direkt mit
 \lstinline{make-node} konstruiert haben.  Dabei mussten wir selbst
 darauf achten, dass er auch sortiert ist.  In diesem Abschnitt
-automatisieren wir diese Konstruktion, dann kann dabei auch kein
-Fehler passieren.  (Wenn wir korrekt programmieren zumindest.)
-
+automatisieren wir diese Konstruktion.
 Wir schreiben dafür eine Funktion, die ein neues Element in einen
-bestehenden sortierten Baum einfügt.  Kurzbeschreibung und Signatur
-sind wie folgt:
+bestehenden sortierten Baum einfügt:
 %
 \begin{lstlisting}
 ; Zahl in sortierten Baum einfügen 
@@ -938,8 +929,8 @@ richtig!  In Kapitel~\ref{cha:properties} auf
 Seite~\pageref{cha:properties} werden wir zeigen, wie man Funktionen
 wie \lstinline{tree-insert} besser testet.
 
-Aber jetzt geht's erst einmal mit der Funktion selbst los.  Gerüst und
-Schablone sind genau wie bei \lstinline{tree-member?}:
+Gerüst und
+Schablone von \lstinline{tree-insert} sind genau wie bei \lstinline{tree-member?}:
 %
 \begin{lstlisting}
 (define tree-insert
@@ -998,7 +989,7 @@ neuen, einelementigen Baum:
 %
 Es bleiben noch zwei Fälle, in denen der einzufügende Wert links
 beziehungsweise rechts von der Knotenmarkierung liegt.  Er muss
-entsprechend im linken oder rechten Teilbaum eingefügt werden: Genau
+entsprechend im linken oder rechten Teilbaum eingefügt werden. Genau
 das erledigen die beiden rekursiven Aufrufe aus der Schablone.  Der
 jeweils andere Teilbaum bleibt so wie er ist:
 %
@@ -1057,7 +1048,6 @@ Funktionen müssen wir die beiden Argumente für \lstinline{=} und
 \lstinline{<} hinschreiben.  Das nervt und ist jedesmal eine
 Gelegenheit für einen Fehler, weil wir das vollkommen konsistent
 machen müssen.
-
 Wir wollen also versuchen, ohne diese zusätzlichen Parameter
 auszukommen.  Dazu benutzen wir einen Trick und packen die Funktionen
 für \lstinline{=} und \lstinline{<} zusammen mit \lstinline{tree}.
@@ -1131,9 +1121,8 @@ Schablone für \lstinline{search-tree}:
     ...))
 \end{lstlisting}
 %
-Für den Rumpf können wir die Funktion
-\lstinline{tree-member?} wiederverwenden.  Dazu kopieren wir sie
-in die Definition von \lstinline{search-tree-member?}:
+Wir verwenden \lstinline{tree-member?} wieder und kopieren sie dafür
+in den Rumpf:
 %
 \begin{lstlisting}
 (define search-tree-member?
@@ -1142,6 +1131,7 @@ in die Definition von \lstinline{search-tree-member?}:
     (search-tree-label-=?-function search-tree)
     (search-tree-label-<?-function search-tree)
     (search-tree-tree search-tree)
+    ...
     (define tree-member?
       (lambda (value tree)
         (cond
@@ -1168,6 +1158,7 @@ abstrahieren.  Dazu denken wir uns erstmal nur neue Namen aus, nämlich
     (search-tree-label-=?-function search-tree)
     (search-tree-label-<?-function search-tree)
     (search-tree-tree search-tree)
+    ...
     (define tree-member?
       (lambda (value tree)
         (cond
@@ -1234,20 +1225,22 @@ Dafür verbrauchen wir den letzten Baustein aus der Schablone:
 
 \section{Sortierte Bäume sind effizienter als Listen}
   
-Intuitiv ist die Idee mit dem sortierten Baum beim Suchen
-effizienter.  Aber hält diese Intuition auch einer mathematischen
-Untersuchung stand?  Betrachte dazu den Baum in "<Ebenen"> --
-erste Ebene ist die Wurzel, die zweite Ebene deren Teilbäume, die
-dritte Ebene wiederum deren Teilbäume undsoweiter.  Dann passen in
-jede Ebene doppelt soviele Knoten wie in die Ebene darüber.
+Sortierte Bäume sind beim Suchen effizienter. Um zu verstehen warum,
+betrachte den Baum in "<Ebenen">~-- die erste Ebene ist die Wurzel,
+die zweite Ebene deren Teilbäume, die dritte Ebene wiederum deren
+Teilbäume undsoweiter.  Je besser der Baum sortiert ist, desto weniger
+Ebenen gibt es, und desto weniger Schritte sind beim Suchen notwendig.
 
-In einen Baum der Tiefe 1 passt auch nur $1 = 2^0$ Knoten, in einen
+Ein
+jede Ebene passen doppelt soviele Knoten wie in die Ebene darüber.
+In einen Baum der Tiefe 1 passt $1 = 2^0$ Knoten, in einen
 der Tiefe 2 passen $2^0 + 2^1 = 1+2 = 3$ Knoten, dann 7, dann 15
-undsoweiter.  Dir fällt vielleicht auf, dass die Zahlen $1$, $3$, $7$, $15$
-allesamt Vorgänger einer Zweierpotenz sind.  Wir können deshalb
+undsoweiter.  
+Dir fällt vielleicht auf, dass die Zahlen $1$, $3$, $7$, $15$
+jeweils Vorgänger einer Zweierpotenz sind.  Wir können deshalb
 versuchen, das zu einer Formel zu verallgemeinern.  Die Tiefe des
 Baums heißt dabei $t$.  Dann nehmen wir an (oder hoffen zumindest),
-dass für für alle 
+dass für für alle $t$ gilt:
 %
 \begin{displaymath}
   2^0 + ... + 2^{t-1} = \sum_{i=0}^{i=t-1} 2^i  = 2^t-1
@@ -1257,19 +1250,14 @@ Da es sich bei $t$ um eine natürliche Zahl handelt, können wir
 vollständige Induktion anwenden nach der Anleitung in
 Abschnitt~\ref{sec:nat-induction-ka} auf
 Seite~\pageref{sec:nat-induction-ka}.
-Wir müssen also beweisen, dass für alle $t\in\mathbb{N}$ gilt:
+Wir müssen beweisen, dass für alle $t\in\mathbb{N}$ gilt:
 %
 \begin{displaymath}
   \sum_{i=0}^{i=t-1} 2^i  = 2^t-1
 \end{displaymath}
 %
-$t=0$:
-%
-\begin{displaymath}
-  \sum_{i=0}^{i=0-1} 2^i = 2^0 - 1
-\end{displaymath}
-%
-Beweis:
+Für $t=0$ läuft die Summe von $0$ bis $-1$. und ist deshalb
+leer.  Das Ergebnis ist das neutrale Element bezüglich der Addition:
 %
 \begin{eqnarray*}
   \sum_{i=0}^{i=-1} 2^i
@@ -1278,12 +1266,6 @@ Beweis:
   &=& 2^0 - 1
 \end{eqnarray*}
 %
-(Vielleicht kommt Dir komisch vor, dass die Summe von $0$ bis $-1$
-läuft.  Da es keine Zahl zwischen $0$ bis $-1$ gibt, ist die Summe
-leer und deshalb das neutrale Element bezüglich der Addition.)
-
-\smallskip
-
 \noindent Induktionsvoraussetzung:
 \begin{displaymath}
   \sum_{i=0}^{i=t-1} 2^i  = 2^t-1
@@ -1398,7 +1380,7 @@ diesem Suchbaum dauert die Suche genau so lang wie in einer Liste.
 %
 In diesem Abschnitt wollen wir eine Variante von
 \lstinline{search-tree-insert} schreiben, bei der niemals so ein
-entarteter Suchbaum herauskommen kann und die stattdessen den Baum
+entarteter Suchbaum herauskommen kann und die den Baum
 immmer \index{balancieren!von Suchbäumen}\textit{balanciert}.
 
 Spätestens jetzt betreten wir einen Bereich der Programmierung, der in
@@ -1510,8 +1492,7 @@ Diese Signatur entspricht der von \lstinline{make-node}~-- hier ist
 diese zum Vergleich:
 %
 \begin{lstlisting}
-(: make-node (%label (tree-of %leaf %label)
-                     (tree-of %leaf %label)
+(: make-node (%label (tree-of %leaf %label) (tree-of %leaf %label)
               -> (node-of %leaf %label)))
 \end{lstlisting}
 %
@@ -1704,7 +1685,7 @@ Hier ist ein Beispiel:
   (lambda (element)
     (search-tree-of (sized-label-of element))))
 \end{lstlisting}
-  \vspace*{-2ex}
+  \vspace*{-4ex}
 \end{aufgabeinline}
 %
 Wir machen aus
@@ -1993,6 +1974,8 @@ verschoben, der sich aber noch eine Ebene tiefer be\-findet.  Diese
 Rotation ist etwas komplizierter, darum heißt sie "<doppelte">
 Rotation, die erste heißt entsprechend "<einfach">.
 
+\pagebreak[4]
+
 \begin{aufgabeinline}
   Warum bewirken die Rotationen in
   Abbildung~\ref{fig:search-tree-rotation} nicht, dass die Bäume auf
@@ -2005,7 +1988,6 @@ den oberen linken Baum an.  Von den Teilbäumen $X$ und $Y$ ist einer
 größer als der andere.  Nehmen wir mal an, das ist $X$.  Dann
 vermindert eine einfache Rotation das Ungleichgewicht zwischen links
 und rechts.
-
 Wenn aber $Y$ größer ist $Z$, dann macht die einfache Rotation das
 Ungleichgewicht \emph{größer}: Der eh größere Brocken $Y$ tut sich
 dann auch noch mit $X$ zusammen, während der kleine Brocken $Z$ rechts
@@ -2100,7 +2082,7 @@ das Übergewicht links und nichts rechts ist.  Der Code dafür ist
 gegenüber dem gerade behandelten Fall "<gespiegelt">.  Auch der letzte
 Fall fehlt noch: Der tritt dann ein,  wenn der Baum kein exzessives
 Ungleichgewicht aufweist.  Dann könnten wir einfach
-\lstinline{make-sized-node} benutzten.
+\lstinline{make-sized-node} benutzen.
 
 Hier die ganze Funktion:\label{func:make-balanced-node}
 %
@@ -2122,8 +2104,7 @@ Hier die ganze Funktion:\label{func:make-balanced-node}
        (cond
          ((< (sized-tree-size Y) (sized-tree-size Z))
           (make-sized-node c
-                           (make-sized-node a X Y)
-                           Z))
+                           (make-sized-node a X Y) Z))
          (else
            (define b (sized-node-label Y))
            (define Y1 (node-left-branch Y))
@@ -2163,13 +2144,15 @@ Seite~\pageref{mantra:komplexitaet} zu erinnern:
 
 \mantrakomplexitaet*
 
-\noindent So richtig testen werden wir sie im nächsten Kapitel.  Hier
+\noindent So richtig testen werden wir \lstinline{balanced-search-tree-insert} und
+\lstinline{make-balanced-node} erst im nächsten Kapitel.  Hier
 eine Aufgabe zur Vorbereitung:
   
 \begin{aufgabeinline}
   Mach Dir schomal ein paar Gedanken darüber, \emph{was} eigentlich
   getestet werden müsste.  Reicht es, die Funktion so zu testen wie
-  \lstinline{search-tree-insert}?
+  \lstinline{search-tree-insert}, also nur zu testen, ob eingefügte
+  Elemente hinterher auch tatsächlich im Suchbaum sind?
 \end{aufgabeinline}
 
 \section*{Aufgaben}
