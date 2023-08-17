@@ -82,15 +82,10 @@ Es folgen hier beispielhaft die Ergebnisse des ersten Spieltags der Bundesliga-S
   (list game1 game2 game3 game4 game5 game6 game7 game8 game9))
 \end{lstlisting}
 %
-% FIXME: actual link
-Die kompletten Ergebnisse dieser Saison lassen sich unter dem Namen
-\texttt{soccer.rkt} von der Webseite des Buchs~--
-\url{https://www.deinprogramm.de/}~-- herunterladen.
-
 Eine recht einfache Frage ist die Bestimmung der Punktzahl, welche die
 Gastgebermannschaft in einem bestimmten Spiel erzielt hat.  Die
 Punktzahl ist zwar eine natürliche Zahl, es gibt aber nur drei
-Möglichkeiten: 0, 1 und 3.  Wir können also eine präzisere Signatur
+Möglichkeiten: $0$, $1$ und $3$.  Wir können also eine präzisere Signatur
 als \lstinline{points} definieren:
 %
 \begin{lstlisting}
@@ -1821,22 +1816,11 @@ Du nach einer Syntaxprüfung über einer Variable das Kontextmenü
 ("<rechte Maustaste">) aufrufst, gibt es dort einen Punkt
 \texttt{umbenennen}, der das Umbenennen automatisiert.
 
-Der Begriff "<lexikalische Bindung"> suggeriert, dass es noch andere
-Formen der Bindung gibt: Tatsächlich funktioniert Bindung in einigen
-anderen, vornehmlich älteren Sprachen, nach anderen Prinzipien, oft
-unter dem Begriff \textit{dynamische Bindung}\index{dynamische
-  Bindung}\index{Bindung!dynamisch} zusammengefasst.  Lexikalische
-Bindung wird oft auch \textit{statische Bindung}\index{statische
-  Bindung}\index{Bindung!statisch} genannt.  "<Statisch"> bedeutet
-im Kontext der Programmierung "<bevor das Programm läuft"> und
-statische Bindung bedeutet, dass Du die Beziehung zwischen Bindungen
-und gebundenen Vorkommen am Programmtext ablesen kannst.  Bei
-dynamischer Bindung ergibt sich diese Beziehung erst, wenn das
-Programm läuft.
-
-Die Definition von \lstinline{f} kommt Dir vielleicht esoterisch vor.
+Die Definition von \lstinline{f} kommt Dir vielleicht esoterisch
+vor~-- wir haben künstlich unterschiedliche Variablen gleichen Namens angelegt.
 Tatsächlich haben wir aber schon oft Programme geschrieben, bei denen
-mehrere Variablen gleichen Namens auftauchen, wie zum Beispiel \lstinline{home-points}:
+mehrere Variablen gleichen Namens auftauchen, zuletzt zum Beispiel bei
+der Funktion \lstinline{home-points}:
 
 \begin{lstlisting}
 (: home-points (game -> points))
@@ -1852,6 +1836,19 @@ gleichnamigen Record-Definition.  In der Funktion ist es der Parameter
 \lstinline{game}.  Dieser erfüllt die Signatur \lstinline{game}~--
 darum haben die Signatur und der Parameter ja gerade den gleichen
 Namen, um diese Beziehung deutlich zu machen.
+
+Der Begriff "<lexikalische Bindung"> suggeriert, dass es noch andere
+Formen der Bindung gibt: Tatsächlich funktioniert Bindung in einigen
+anderen, vornehmlich älteren Sprachen, nach anderen Prinzipien, oft
+unter dem Begriff \textit{dynamische Bindung}\index{dynamische
+  Bindung}\index{Bindung!dynamisch} zusammengefasst.  Lexikalische
+Bindung wird oft auch \textit{statische Bindung}\index{statische
+  Bindung}\index{Bindung!statisch} genannt.  "<Statisch"> bedeutet
+im Kontext der Programmierung "<bevor das Programm läuft"> und
+statische Bindung bedeutet, dass Du die Beziehung zwischen Bindungen
+und gebundenen Vorkommen am Programmtext ablesen kannst.  Bei
+dynamischer Bindung ergibt sich diese Beziehung erst, wenn das
+Programm läuft.
 
 Man könnte meinen, \emph{jetzt} wäre alles gesagt zur Bindung.  Aber
 es gibt noch eine weitere Besonderheit, nämlich wenn in einer
@@ -1899,7 +1896,7 @@ sie sich befindet.
   Schreibe Funktionen \lstinline{feed-animals} und
   \lstinline{run-over-animals} die mit Hilfe der Funktionen in
   Abschnitt~\ref{sec:feed-animal} auf Seite~\pageref{sec:feed-animal}
-  alle Tiere auf dem Highway (die sich in einer Liste befinden)
+  alle Tiere einer Liste
   füttert respektive überfährt.
 \end{aufgabe}
 

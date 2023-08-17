@@ -276,36 +276,26 @@ können wir mehrere Bilder zu einem zusammensetzen.
 
 Zum Aufeinanderlegen gibt es die Funktion
 \lstinline{overlay}\indexvariable{overlay}, die ein Bild
-mittig auf ein anderes Bild drauflegt.  Das Bild, das bei
-\lstinline{overlay} herauskommt, ist groß genug, dass beide
-Eingabebilder genau hineinpassen.  Signatur:
+mittig auf ein anderes Bild drauflegt.  Das Ergebnis
+ist groß genug, dass beide
+Bilder hineinpassen.  Signatur und Beispiel:
 %
 \begin{lstlisting}
 (: overlay (image image -> image))
-\end{lstlisting}
-%
-Beispiel:
-%
-\begin{lstlisting}
+
 (overlay
   (circle 50 "solid" "gold")
   (rectangle 100 100 "solid" "blue"))
 |\evalsto| |\includegraphics[scale=0.5]{videospiele/overlay}|
 \end{lstlisting}
 %
-Mittig ist nicht immer das richtige Arrangement für zwei Bilder, die
-übereinandergelegt werden.  Die
+Die
 Funktion~\lstinline{overlay/xy}\indexvariable{overlayxy}
 erlaubt, das untere Bild gegenüber dem oberen in X- und Y-Richtung zu
-verschieben.  Hier ist die Signatur:
-%
+verschieben.  Signatur und Beispiel:%
 \begin{lstlisting}
 (: overlay/xy (image real real image -> image))
-\end{lstlisting}
-%
-Beispiel:
-%
-\begin{lstlisting}
+
 (overlay/xy
   (circle 50 "solid" "gold")
   10 -20
@@ -331,11 +321,11 @@ Signatur der von \lstinline{overlay/xy} entspricht:
 (: place-image (image real real image -> image))
 \end{lstlisting}
 %
-Die beiden Koordinaten werden allerdings anders als bei
+Die beiden Koordinaten werden anders als bei
 \lstinline{overlay/xy} nicht relativ zur mittigen Anordnung
 interpretiert.  Stattdessen geben die beiden Koordinaten die Position
 im zweiten Bild an, wo die Mitte des ersten Bilds platziert wird,
-ausgehend von der oberen linken Ecke des ersten Bildes.  Beispiel:
+ausgehend von der oberen linken Ecke des ersten Bildes:
 %
 \begin{lstlisting}
 (place-image
@@ -347,9 +337,10 @@ ausgehend von der oberen linken Ecke des ersten Bildes.  Beispiel:
 %
 Die Funktion \lstinline{place-image} hat noch eine große Schwester
 \lstinline{place-image/align}.\indexvariable{place-image-align}\label{func:place-image-align}
-Während \lstinline{place-image} den Bezugspunkt immer in der Mitte des
+Während \lstinline{place-image} den Bezugspunkt in der Mitte des
 ersten Bilds setzt, erlaubt \lstinline{place-image} auch anderee
-Bezugspunkte.  Hier die Signatur:
+Bezugspunkte.
+Hier die Signatur:
 %
 \begin{lstlisting}
 (: place-image/align (image real real x-place y-place image -> image))
@@ -365,7 +356,7 @@ folgendermaßen definiert sein:
 (define y-place (signature (enum "top" "bottom" "center")))
 \end{lstlisting}
 %
-Diese Argumente geben also an, ob der Bezugspunkt horizontal am linken
+Diese Argumente geben an, ob der Bezugspunkt horizontal am linken
 oder rechten Rand oder in der Mitte liegt und vertikal oben, unten
 oder in der Mitte:
 %
@@ -375,11 +366,13 @@ oder in der Mitte:
   40 70 "left" "center"
   (rectangle 100 100 "solid" "blue"))
 |\evalsto| |\includegraphics[scale=0.5]{videospiele/place-image-align1}|
+
 (place-image/align
   (circle 20 "solid" "gold")
   40 70 "right" "center"
   (rectangle 100 100 "solid" "blue"))
 |\evalsto| |\includegraphics[scale=0.5]{videospiele/place-image-align2}|
+
 (place-image/align
   (circle 20 "solid" "gold")
   40 70 "center" "center"
@@ -391,6 +384,7 @@ oder in der Mitte:
   40 70 "center" "top"
   (rectangle 100 100 "solid" "blue"))
 |\evalsto| |\includegraphics[scale=0.5]{videospiele/place-image-align4}|
+
 (place-image/align
   (circle 20 "solid" "gold")
   40 70 "center" "bottom"
@@ -435,7 +429,7 @@ Beispiel:
 In unserem Videospiel geht es um Gürteltiere auf dem texanischen
 Highway.  Vielleicht erinnerst Du Dich, wir sind ihnen schon in
 Abschnitt~\ref{sec:armadillo} auf Seite~\pageref{sec:armadillo}
-begegnet.  Zur Erinnerung, hier ist der relevante Code dazu:
+begegnet:
 %
 \indexvariable{run-over-dillo}
 \indexvariable{dillo}
@@ -615,8 +609,6 @@ Gesicht setzen:
            (line -10 10 "green")))
 \end{lstlisting}
 %
-Fertig ist die Gürteltier-Darstellung!
-
 \section{Den Highway modellieren}
 \label{sec:highway-model}
 
@@ -646,12 +638,11 @@ Datendefinition schreiben, was auf dem Bild der Straße zu sehen sind:
 \end{itemize}
 %
 Für diese Aspekte des Spiels entwickeln wir Datendefinitionen.
-
 Man sieht schon, dass "<Positionen"> eine wichtige Rolle spielen,
 sowohl für das Auto als auch für die Gürteltiere.  In dem Bild kann
 man sehen, dass dazu gehört, auf welcher Seite der Straße sich etwas
-aufhält und bei welchem "<Straßenmeter">.  Dabei kommt folgende beiden
-Datendefinitionen für die Straßenseite und eine Position heraus:
+aufhält und bei welchem "<Straßenmeter">.  
+Hier sind Datendefinitionen für die Straßenseite und die Position heraus:
 %
 \indexvariable{side}
 \indexvariable{position}
@@ -966,7 +957,7 @@ Testen nicht lohnt:
     (* meters-per-tick ticks)))
 \end{lstlisting}
 %
-Damit können wir eine Funktion schreiben, die aus Ticks Straßenmeter
+Damit schreiben wir Funktion, die aus Ticks Straßenmeter
 macht und \lstinline{road-window} aufruft:
 %
 \indexvariable{road-window-at-ticks}
@@ -1032,10 +1023,9 @@ links und rechts von der Karosserie platziert werden:
    wheels-on-one-side))
 \end{lstlisting}
 %
-Schließlich müssen wir Auto und auch die Gürteltiere noch auf der
-Straße platzieren.  Wir müssen erstmal überlegen, welche Signatur die
-Funktion überhaupt hat.  Klar ist, dass ein Bild herauskommen soll.
-Als Eingaben stehen schon einmal fest:
+Schließlich müssen wir Auto und Gürteltiere auf der
+Straße platzieren.  Bei der Funktion dafür ist klar, dass ein Bild
+herauskommen soll.  Als Eingaben stehen schon einmal fest:
 %
 \begin{itemize}
 \item das Bild, das auf der Straße platziert werden soll
@@ -1132,6 +1122,7 @@ Straße zu setzen.  Die Funktion sieht vollständig so aus:
   (lambda (road-image ticks image position)
     ; X-Koordinate der Mitte der Straße, in Pixeln
     (define middle-pixels (/ (image-width road-image) 2))
+
     ; X-Koordinate des Mittelpunkts des Bilds
     (define pixels-from-left
       (cond
@@ -1153,7 +1144,7 @@ Straße zu setzen.  Die Funktion sieht vollständig so aus:
 Die Funktion ist kompliziert genug, dass wir sie testen sollten.
 Einen \lstinline{check-expect}-Test vorab zu konstruieren ist schier
 unmöglich, aber wir können die Funktion zumindest in der REPL
-ausprobieren, am einfachsten bei 0 Ticks, also am Anfang des Spiels:
+ausprobieren, am einfachsten bei $0$ Ticks, also am Anfang des Spiels:
 %
 \begin{lstlisting}
 (place-image-on-road (road-window 0) 0 car (make-position 0 "left"))
@@ -1212,7 +1203,8 @@ zu Position und Zustand des Gürteltiers ziehen wir aus dem
   (lambda (ticks dillo-on-road road-image)
     (place-image-on-road road-image
                          ticks
-                         (dillo-image (dillo-on-road-state dillo-on-road))
+                         (dillo-image
+                           (dillo-on-road-state dillo-on-road))
                          (dillo-on-road-position dillo-on-road))))
 \end{lstlisting}
 %
@@ -1230,7 +1222,7 @@ Signatur:
 Wir könnten das nach Konstruktionsanleitung für Listen programmieren.
 Einfacher ist aber, die universelle Funktion~\lstinline{fold} zu
 benutzen. (Siehe Abschnitt~\ref{sec:fold} auf
-Seite~\pageref{sec:fold}.)  Das sieht dann so aus:
+Seite~\pageref{sec:fold}.)  Das sieht so aus:
 %
 \indexvariable{place-dillos-on-road}
 \begin{lstlisting}
@@ -1243,7 +1235,7 @@ Seite~\pageref{sec:fold}.)  Das sieht dann so aus:
 \end{lstlisting}
 %
 Neben Auto und Gürteltieren fehlt noch die Punktzahl oben links in der
-Ecke.  Das erledigt folgende Funktion:
+Ecke:
 %
 \indexvariable{place-score}
 \begin{lstlisting}
@@ -1254,8 +1246,7 @@ Ecke.  Das erledigt folgende Funktion:
   (lambda (score image)
     (place-image/align
      (text (number->string score) 100 "blue")
-     0 0
-     "left" "top"
+     0 0 "left" "top"
      image)))
 \end{lstlisting}
 %
@@ -1433,12 +1424,10 @@ können, mithin der texanische Highway simuliert:\label{page:dillo-world-todos}
 %
 Diese Liste arbeiten wir in diesem Abschnitt ab.
 %
-\paragraph{Berührung eines Gürteltiers} Als nächstes auf der Liste auf
+\paragraph{Berührung eines Gürteltiers} Als nächstes auf der Liste von
 Seite~\pageref{page:dillo-world-todos} müssen wir feststellen, ob das
 Auto die Position eines Gürteltiers berührt.
-
-Wir brauchen eine Funktion mit Kurzbeschreibung und Signatur wie
-folgt:
+Hier Kurzbeschreibung und Signatur dafür:
 %
 \begin{lstlisting}
 ; Berührt das Auto eine Position?
@@ -1566,7 +1555,8 @@ zählen. (\lstinline{Length} ist die eingebaute Version von
 Arbeitsauftrag bleibt noch, die Gürteltiere, die vom Auto touchiert
 werden, vom lebenden in den toten Zustand zu überführen.  Die Funktion
 akzeptiert wie \lstinline{live-dillos-under-car-count} die Position
-des Autos und die Gürteltiere:
+des Autos und die Gürteltiere und liefert eine Liste von
+aktualisierten Gürteltier-Zuständen:
 %
 \begin{lstlisting}
 ; Alle Tiere überfahren, die das Auto berührt
@@ -1796,15 +1786,9 @@ zusammengesetzte Daten als Ein- und als Ausgabe bei:
   (lambda (world key)
     (cond
       ((string=? key "left")
-       (make-world ...
-                   ...
-                   ...
-                   ...))
+       (make-world ... ... ... ...))
       ((string=? key "right")
-       (make-world ...
-                   ...
-                   ...
-                   ...))
+       (make-world ... ... ... ...))
       (else ...))
     ...
     (world-ticks world)
@@ -1963,8 +1947,7 @@ Die Signatur \lstinline{mouse-event} ist folgendermaßen definiert:
 %
 Die einzelnen Fälle haben folgende Bedeutungen:
 %
-\begin{center}
-  \begin{tabular}{lp{4in}}
+\noindent  \begin{longtable}{lp{4in}}
   \lstinline!"button-down"! & Der Maus-Knopf wurde gedrückt.\\
   \lstinline!"button-up"! & Der Maus-Knopf wurde losgelassen.\\
   \lstinline!"drag"! & Die Maus wird gezogen, bewegt
@@ -1974,10 +1957,9 @@ Die einzelnen Fälle haben folgende Bedeutungen:
   \texttt{universe.rkt}-Fenster bewegt.\\
   \lstinline!"leave"! & Der Maus-Cursor wurde aus dem
                         \texttt{universe.rkt}-Fenster herausbewegt.
-  \end{tabular}
-\end{center}
+  \end{longtable}
 %
-Es gibt eine weitere coole Klausel namens \lstinline{on-pad}:
+\noindent Es gibt eine weitere coole Klausel namens \lstinline{on-pad}:
 %
 \begin{lstlisting}
 (on-pad $\mathit{function}$)

@@ -1594,7 +1594,8 @@ der gerade \lstinline{euro100} entspricht:
 ; multiple-Vertrag konstruieren, dabei vereinfachen
 (: make-multiple (rational contract -> contract))
 
-(check-expect (make-multiple 100 (make-nothing)) (make-nothing))
+(check-expect (make-multiple 100 (make-nothing))
+              (make-nothing))
 \end{lstlisting}
 %
 Hier ist das Gerüst für die Funktion:
@@ -1650,7 +1651,8 @@ Als Nächstes definieren wir einen neuen Konstruktor selber:
 ; Kombinationsvertrag konstruieren, dabei vereinfachen
 (: make-both (contract contract -> contract))
 
-(check-expect (make-both (make-nothing) (make-nothing)) (make-nothing))
+(check-expect (make-both (make-nothing) (make-nothing)) 
+              (make-nothing))
 \end{lstlisting}
 %
 Durch diesen Testfall ist "<nichts und nichts"> abgedeckt.  Das können
@@ -1730,7 +1732,7 @@ finden.  Sie sind nach zwei Prinzipien vorgegangen, die auch auf viele andere Pr
 \end{aufgabe}
 
 \begin{aufgabe}
-\item Eine geometrische Figur in der zweidimensionalen Ebene ist entweder
+Eine geometrische Figur in der zweidimensionalen Ebene ist entweder
 %
 \begin{itemize}
 \item ein \textit{Quadrat} parallel zu den Koordinatenachsen,
@@ -1739,10 +1741,9 @@ finden.  Sie sind nach zwei Prinzipien vorgegangen, die auch auf viele andere Pr
   (Die Figuren werden übereinandergelegt; die Flächen der beiden Figuren werden also vereinigt.)
 \end{itemize}
 %
-Führe eine Datenanalyse für geometrische Figuren durch! Schreibe
-ein Programm, in dem es möglich ist, geometrische Figuren anzulegen
-und zu überprüfen, ob ein gegebener Punkt innerhalb der Fläche einer
-gegebenen geometrischen Figur liegt.
+Führe eine Datenanalyse für geometrische Figuren durch! Schreibe eine
+Funktion, die überprüft, ob ein gegebener Punkt innerhalb der Fläche
+einer gegebenen geometrischen Figur liegt.
 
 Falls Du bei dieser Aufgabe eine Funktion brauchst, die eine
 Quadratwurzel zieht (muss nicht zwingend sein), so hat diese den Namen
@@ -1759,14 +1760,13 @@ folgende Signatur:
 \end{aufgabe}
 
 \begin{aufgabe}
-  Betrachte folgenden Vertrag:
+Kann der folgende Vertrag vereinfacht werden?  Erweitere den
+entsprechenden \textit{smart constructor}:
   %
 \begin{lstlisting}
 (make-multiple 100 (make-multiple 100 (make-one-euro)))    
 \end{lstlisting}
 %
-Kann dieser Vertrag vereinfacht werden?  Wenn ja, erweitere den
-entsprechenden \textit{smart constructor}.
 \end{aufgabe}
 
 \begin{aufgabe}\label{aufgabe:give}
