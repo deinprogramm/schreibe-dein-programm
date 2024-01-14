@@ -117,7 +117,7 @@ können verwirrende Ergebnisse herauskommen.  Wenn Du zum Beispiel
 \lstinline{+ 123 42} in der REPL eintippst, sieht das so aus:
 %
 \begin{alltt}
-> + {\color{green}123 42}
+> + {\color{DarkGreen}123 42}
 {\color{blue}#<function:+>
 123
 42}
@@ -134,7 +134,7 @@ Wenn Du versehentlich die Klammern setzt, aber den Operator dazwischen
 schreibst, erscheint in der REPL eine Fehlermeldung:
 %
 \begin{alltt}
-> ({\color{green}123} + {\color{green}42})
+> ({\color{DarkGreen}123} + {\color{DarkGreen}42})
 {\color{red}Operator darf keine Zahl sein, ist aber 123}
 \end{alltt}
 %
@@ -143,7 +143,7 @@ Operator und den Operanden fehlt~-- oder zwischen den Operanden.  Das
 sieht zum Beispiel so aus:
 %
 \begin{alltt}
-> ({\color{green}+123} {\color{green}42})
+> ({\color{DarkGreen}+123} {\color{DarkGreen}42})
 {\color{red}Operator darf keine Zahl sein, ist aber 123}
 \end{alltt}
 %
