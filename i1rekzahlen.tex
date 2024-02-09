@@ -706,11 +706,7 @@ Entsprechend können wir den letzten Zweig ausfüllen:
     $b$ zurückgibt:
 \begin{alltt}
 (evens 1 10)
-\evalsto{} #<record:pair 2
-     #<record:pair 4
-       #<record:pair 6
-         #<record:pair 8
-           #<record:pair 10 #<empty-list>>>>>>
+\evalsto{} #<list 2 4 6 8 10>
 \end{alltt}
   \item
     Die eingebaute Funktion \texttt{odd?}\indexvariable{odd?}
@@ -721,11 +717,7 @@ Entsprechend können wir den letzten Zweig ausfüllen:
     zurückgibt:
 \begin{alltt}
 (odds 1 10)
-\evalsto{} #<record:pair 1
-     #<record:pair 3
-       #<record:pair 5
-         #<record:pair 7
-           #<record:pair 9 #<empty-list>>>>>>
+\evalsto{} #<list 1 3 5 7 9>
 \end{alltt}
   \end{itemize}
 \end{aufgabe}
