@@ -65,6 +65,20 @@ folgende Record-Definition:
   (game-guest-goals natural))
 \end{lstlisting}
 %
+Die Signatur \lstinline{string} in einer Signatur ist ziemlich
+nichtssagend.  (Das ist speziell bei \lstinline{string} oft so.)  Wenn
+wir zum Beispiel später noch Spielerinnen-Namen aufnehmen wollten,
+wären das vielleicht auch Zeichenketten.  Um das in Signaturen zu
+unterscheiden, benutzen wir folgende Signaturdefinition:
+%
+\begin{lstlisting}
+; Eine Mannschaft ist durch ihren Namen identifiziert.
+(define team (signature string))
+\end{lstlisting}
+%
+Außerdem ersetzen wir in der Definition von \lstinline{game} jeweils
+\lstinline{string} durch \lstinline{game}.
+
 Es folgen hier beispielhaft die Ergebnisse des ersten Spieltags der Bundesliga-Saison
 2009/2010:
 \begin{lstlisting}
@@ -882,8 +896,8 @@ dabei war?  Ein Fehler:
 (check-error (team-goals "Hannover" game1))
 \end{lstlisting}
 %
-Gerüst und Schablone machen zunächst wieder davon Gebrauch, dass es
-sich bei \lstinline{game} zum zusammengesetzte Daten handelt:
+Gerüst und Schablone machen wieder davon Gebrauch, dass
+\lstinline{game} zusammengesetzte Daten sind:
 %
 \begin{lstlisting}
 (define team-goals
