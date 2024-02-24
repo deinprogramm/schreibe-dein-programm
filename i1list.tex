@@ -466,7 +466,7 @@ der Record-Definition benutzen:\label{function:cons-list-of}
   (rest  |\ldots|))
 \end{lstlisting}
 %
-Diese Record-Definition definiert \lstinline{cons-list} als Funktion,
+Diese Record-Definition definiert \lstinline{cons-list-of} als Funktion,
 die eine Signatur akzeptiert (die Signatur der Elemente) und eine
 Signatur zurückliefert, nämlich die der Cons-Listen mit der gegebenen
 Signatur für die Elemente.  Die Signatur können wir auch hinschreiben:
@@ -475,7 +475,7 @@ Signatur für die Elemente.  Die Signatur können wir auch hinschreiben:
 (: cons-list-of (signature -> signature))
 \end{lstlisting}
 %
-Da \lstinline{cons-list} eine Signatur konstruiert, nennen wir diese
+Da \lstinline{cons-list-of} eine Signatur konstruiert, nennen wir diese
 Funktion auch \textit{Signatur-Konstruktor}.\index{Signatur-Konstruktor}
 Das \lstinline{element} ist ein \textit{Signatur-Parameter}\index{Signatur-Parameter}.
 Wir müssen also immer da, wo wir vorher \lstinline{cons-list} stand,
@@ -502,7 +502,7 @@ abstrahieren:
 %
 Wir können mit dieser Definition nun statt \lstinline{list-of-numbers} also
 \lstinline{(list-of number}) schreiben.  Damit können wir auch die
-Record-Definition von \lstinline{cons-list} vervollständigen, indem
+Record-Definition von \lstinline{cons-list-of} vervollständigen, indem
 wir beim \lstinline{rest}-Feld als Signatur \lstinline{(list-of element)} hinschreiben, wo vorher
 \lstinline{list-of-numbers} stand:
 %
