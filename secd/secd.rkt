@@ -49,7 +49,6 @@
 (define application?
   (lambda (term)
     (and (cons? term)
-         (not (equal? 'set! (first term)))
          (not (equal? 'lambda (first term)))
          (not (primitive? (first term))))))
 
