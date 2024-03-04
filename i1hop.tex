@@ -967,13 +967,11 @@ die Ergebnis-Liste:
              (list-team-goals team (rest list)))))))
 \end{lstlisting}
 %
-Fertig!
-
-Allerdings ruft mal wieder das Abstraktions-Mantra: Die Funktionen
+Fertig! Allerdings ruft das Abstraktions-Mantra: Die beiden Funktionen
 \lstinline{list-total-goals} und \lstinline{list-team-goals} ähneln
-sich stark.  Sie unterscheiden sich nur darin, dass bei der ersten
-\lstinline{total-goals} auf dem ersten Element der Liste auferufen wird
-und beim zweiten \lstinline{team-goals}. 
+sich stark.  Sie unterscheiden sich nur darin, dass erstere
+\lstinline{total-goals} auf dem ersten Element der Liste aufruft
+und die zweite \lstinline{team-goals}. 
 
 Um zu abstrahieren, gehen wir wieder nach
 Konstruktionsanleitung~\ref{ka:abstraktion} auf
@@ -1491,12 +1489,11 @@ zu verwenden.  Dabei kommt folgende Definition heraus:
 \end{lstlisting}
 %
 Wir können wieder
-abstrahieren, nämlich über \lstinline{plays-game?/team} und
+abstrahieren, über \lstinline{plays-game?/team} und
 \lstinline{team-goals/team}~-- die sind identisch bis auf die Funktion,
 die am Ende aufgerufen wird.  Wir kopieren also wieder und ersetzen
-diese Funktion durch die neue Variable \lstinline{f}.  Weil wir noch
-nicht absehen können, wo die Reise hingeht, nennen wir die Funktion
-erstmal wieder \lstinline{xxx}:
+sie durch die neue Variable \lstinline{f}.  Wir nennen die Funktion
+vorerst wieder \lstinline{xxx}:
 %
 \begin{lstlisting}
 (define xxx
@@ -1595,10 +1592,10 @@ Hier ist ein Testfall, der \lstinline{curry} zusammen mit
 \end{aufgabeinline}
 %
 Die \lstinline{curry}-Funktion macht aus einer zweistelligen eine
-einstellige Funktion, die aber im Prinzip das gleiche macht. Um die
+einstellige Funktion. Um die
 zweistellige Funktion aufzurufen, muss das Programm beide Argumente
 auf einmal liefern, im anderen Fall kommen sie nacheinander~-- aber
-das Ergebnis ist am Ende das gleiche.
+das Ergebnis ist das gleiche.
 
 Wenn wir aus einer zweistelligen Funktion eine einstellige machen
 können (also eine einstellige Funktion, die eine einstellige Funktion
