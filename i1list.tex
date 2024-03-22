@@ -503,7 +503,7 @@ abstrahieren:
 Wir können mit dieser Definition nun statt \lstinline{list-of-numbers} also
 \lstinline{(list-of number}) schreiben.  Damit können wir auch die
 Record-Definition von \lstinline{cons-list-of} vervollständigen, indem
-wir beim \lstinline{rest}-Feld als Signatur \lstinline{(list-of element)} hinschreiben, wo vorher
+wir beim \lstinline{rest}-Feld als Signatur \lstinline{(list-of element)} schreiben, wo vorher
 \lstinline{list-of-numbers} stand:
 %
 \begin{lstlisting}
@@ -1107,7 +1107,7 @@ dieses Aufrufs ist eine
 Liste, die aus \lstinline{(rest list1)} und \lstinline{list2} zusammengesetzt
 wurde.  Auf das obige Beispiel übertragen, falls \lstinline{list1} die Liste
 \lstinline{#<list 1 2 3>} ist und \lstinline{list2} die Liste
-\lstinline{#<list 4 5 6>}, so hat \lstinline{(rest list1)} den Wert \lstinline{#<list 2 3>}.
+\lstinline{#<list 4 5 6>}, hat \lstinline{(rest list1)} den Wert \lstinline{#<list 2 3>}.
 Der Wert von \lstinline{(concatenate (rest list1) list2)} wäre
 also:
 %

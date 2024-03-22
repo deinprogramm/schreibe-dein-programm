@@ -622,7 +622,7 @@ Die Funktion \lstinline{minutes-since-midnight} können wir auch umdrehen:
 (: minutes-since-midnight->wallclock-time (natural -> wallclock-time))
 \end{lstlisting}
 %
-Der Pfeil in \lstinline{minutes-since-midnight->wallclock-time} gehört zum Namen dazu und steht für die Umwandlung
+Der Pfeil in \lstinline{minutes-since-midnight->wallclock-time} gehört zum Namen und steht für die Umwandlung
 einer Größe in eine andere.
 
 Die Testfälle sind gegenüber
@@ -730,9 +730,9 @@ Damit können wir den Rumpf vervollständigen:
 
 \begin{aufgabeinline}
   Schreibe eine Funktion \lstinline{wallclock-time-add-minutes}, die
-  auf eine Uhrzeit eine gegebene Anzahl Minuten addiert.
+  auf eine Uhrzeit eine bestimmte Anzahl Minuten addiert.
   Benutze
-  dafür die vorhandenen Funktionen \lstinline{minutes-since-midnight} und
+  die vorhandenen Funktionen \lstinline{minutes-since-midnight} und
   \lstinline{minutes-since-midnight->wallclock-time}!  Du darfst
   annehmen, dass auch das Ergebnis noch in die 24 Stunden eines Tages
   passt.
