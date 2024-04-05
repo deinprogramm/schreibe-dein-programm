@@ -916,7 +916,7 @@ Zwischenergebnis mitzuführen:
           ((empty? spots) max-profit)
           ((cons? spots)
            (accumulate (rest spots)
-                       ... (first spots) ... acc ...)))))
+                       ... (first spots) ... max-profit ...)))))
     (accumulate spots0 0)))
 \end{lstlisting}
 %
