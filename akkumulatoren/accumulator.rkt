@@ -155,7 +155,7 @@
     (accumulate list0 empty)))
 
 ; Liste iterativ falten
-(: list-fold-left ((list-of %a) %acc (%acc %a -> %acc) (%acc -> %b) -> %b))
+(: list-fold-left ((list-of %a) %acc (%a %acc -> %acc) (%acc -> %b) -> %b))
 
 (check-expect (list-fold-left (list 1 2 3)
                               empty

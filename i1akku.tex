@@ -1366,7 +1366,7 @@ Akkumulator.  Wir können also folgendermaßen ergänzen:
 %
 \begin{lstlisting}
 (: list-fold-left 
-   ((list-of %a) %acc (%acc %a -> %acc) (... -> ...) -> ...))
+   ((list-of %a) %acc (%a %acc -> %acc) (... -> ...) -> ...))
 \end{lstlisting}
 %
 Es bleibt \lstinline{final-acc->result}, das als Argument den letzten
@@ -1375,7 +1375,7 @@ Funktion, wofür wir die Signaturvariable \lstinline{%b} wählen:
 %
 \begin{lstlisting}
 (: list-fold-left
-   ((list-of %a) %acc (%acc %a -> %acc) (%acc -> %b) -> %b))
+   ((list-of %a) %acc (%a %acc -> %acc) (%acc -> %b) -> %b))
 \end{lstlisting}
 %
 \begin{figure}[tb]
