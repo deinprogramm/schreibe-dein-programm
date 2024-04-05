@@ -1389,7 +1389,7 @@ Liste die Bedingung \lstinline{(empty? list)} \emph{immer}
 \lstinline{#f} und \lstinline{(empty? list)} \emph{immer}
 \lstinline{#t}, die Verzweigung damit wäre also sinnlos.  Es ist
 stattdessen \lstinline{(rest list)}, das entweder leer oder nichtleer
-sein kann.  Das sieht dann so aus:
+sein kann.  Das sieht dann so aus:\label{func:list-min-nonempty}
 %
 \begin{lstlisting}
 (define list-min-nonempty
