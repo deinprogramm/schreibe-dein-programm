@@ -55,10 +55,10 @@ Der resultierende erweiterte $\lambda$-Kalkül heißt
     B \deq{} \{ \texttt{\#f}, \texttt{\#t}, 0, 1, 2, \ldots \}
   \end{displaymath}
   %
-  Sei für eine natürliche Zahl $i$ jeweils $\Sigma^i$ eine Menge von
-  \textit{$i$-stelligen Primitiva\index{Primitivum}}~-- die Namen von
-  "<eingebauten Operationen">.  Jedem $F\in\Sigma^i$ ist eine
-  $i$-stellige Funktion $F^{\textrm{op}}$~-- ihre \textit{Operation}~--
+  Sei für eine natürliche Zahl $n$ jeweils $\Sigma^n$ eine Menge von
+  \textit{$n$-stelligen Primitiva\index{Primitivum}}~-- die Namen von
+  "<eingebauten Operationen">.  Jedem $F\in\Sigma^n$ ist eine
+  $n$-stellige Funktion $F^{\textrm{op}}$~-- ihre \textit{Operation}~--
   zugordnet.
 
   Zum Beispiel könnte die Addition eine primitive Operation
@@ -84,11 +84,12 @@ Der resultierende erweiterte $\lambda$-Kalkül heißt
     \> \| (\meta{$\Sigma^n$}~\meta{$\mathcal{L}_{\lambda{}A}$}~\ldots~\meta{$\mathcal{L}_{\lambda{}A}$}) \quad \textrm{($n$-mal)}
   \end{grammar}
 \end{definition}
+\vspace{-3ex}
 %
 Die Grammatik ist abgekürzt notiert: Die letzen Klauseln besagen,
-dass es für jede Menge von Primitiva \meta{$\Sigma^i$} mit
-Stelligkeit $i$ eine entsprechende Klausel mit $i$ Operanden gibt.
-Terme der Form $(F^i~e_1~\ldots~e_i)$ heißen
+dass es für jede Menge von Primitiva \meta{$\Sigma^n$} mit
+Stelligkeit $n$ eine entsprechende Klausel mit $n$ Operanden gibt.
+Terme der Form $(F^n~e_1~\ldots~e_n)$ heißen
 \textit{primitive Applikationen\index{primitive Applikation}}.
 Im angewandten $\lambda$-Kalkül sind also
 Terme wie zum Beispiel $(+~(-~5~3)~17)$ möglich, wenn $+$ und $-$ in
@@ -104,11 +105,14 @@ bekommen, muss eine spezielle Reduktionsregel für sie eingeführt
 werden:
 %
 \begin{definition}[$\delta$-Reduktion]\index{delta-Reduktion@$\delta$-Reduktion}
+  Für ein $n$-stelliges Primitivum $F\in$\Sigma^n$ ist die
+  $\delta$-Reduktion so definiert:
 \begin{displaymath}
-  (F^i~e_1~\ldots~e_i) \rightarrow_{\delta} F^{\textrm{op}}(e_1, \ldots, e_k)
-  \quad e_1, \ldots, e_i \in B
+  (F~e_1~\ldots~e_n) \rightarrow_{\delta} F^{\textrm{op}}(e_1, \ldots, e_n)
+  \quad e_1, \ldots, e_n \in B
 \end{displaymath}
 \end{definition}
+\vspace{-1ex}
 %
 Diese Regel besagt, dass eine primitive Applikation, wenn alle
 Operanden Werte sind, durch Anwendung der entsprechenden Operation 
