@@ -1217,6 +1217,12 @@ Dafür verbrauchen wir den letzten Baustein aus der Schablone:
 \end{lstlisting}
 %
 \begin{aufgabeinline}
+  Der Parameter \lstinline{value} der Hilfsfunktion \lstinline{value}
+  wird bei jedem rekursiven Aufruf unverändert.  Kannst Du ihn
+  entfernen?  Wenn ja und er also überflüssig ist, wie ist er dann
+  überhaupt da hingekommen?
+\end{aufgabeinline}
+\begin{aufgabeinline}
   Schreibe entsprechend zu \lstinline{search-tree-member?} eine
   Funktion \lstinline{search-tree-insert} auf Basis von
   \lstinline{tree-insert}!
@@ -1989,7 +1995,7 @@ den oberen linken Baum an.  Von den Teilbäumen $X$ und $Y$ ist einer
 größer als der andere.  Nehmen wir mal an, das ist $X$.  Dann
 vermindert eine einfache Rotation das Ungleichgewicht zwischen links
 und rechts.
-Wenn aber $Y$ größer ist $Z$, dann macht die einfache Rotation das
+Wenn aber $Y$ größer ist als $X$, dann macht die einfache Rotation das
 Ungleichgewicht \emph{größer}: Der eh größere Brocken $Y$ tut sich
 dann auch noch mit $X$ zusammen, während der kleine Brocken $Z$ rechts
 ganz allein zurückbleibt.  In diesem Fall ist die doppelte Rotation
