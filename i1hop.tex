@@ -266,10 +266,6 @@ Diese neuen Definitionen lassen die Gemeinsamkeiten und Unterschiede
 beider Funktionen klar erkennen und vermeiden die doppelte Definition
 der Fußball-Punkteregeln.
 
-\textbf{Wichtig:} Diese beiden Definitionen müssen \emph{nach} der
-Definition von \lstinline{compute-points} stehen, da davor
-\lstinline{compute-points} noch nicht definiert ist.
-
 Der neuen Funktion fehlt noch eine Signatur.  Die Funktion akzeptiert
 drei Argumente.  Das letzte hat die Signatur \lstinline{game}.  Die
 ersten beiden werden aus den Funktionen \lstinline{game-home-goals}
@@ -368,6 +364,10 @@ Das gleiche Prinzip können wir auch auf \lstinline{home-points} und
   (make-compute-points game-guest-goals game-home-goals))
 \end{lstlisting}
 %
+\textbf{Wichtig:} Diese beiden Definitionen müssen \emph{nach} der
+Definition von \lstinline{compute-points} stehen, da davor
+\lstinline{compute-points} noch nicht definiert ist.
+
 Man kann auch schön an der Signatur von
 \lstinline{make-compute-points} sehen, dass diese als Resultat eine
 Funktion mit Signatur \lstinline{(game -> points)} liefert, das ist
