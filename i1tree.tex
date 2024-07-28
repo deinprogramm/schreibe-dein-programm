@@ -1994,20 +1994,30 @@ Schau Dir dazu noch einmal in Abbildung~\ref{fig:search-tree-rotation}
 den oberen linken Baum an.  Von den Teilbäumen $Y$ und $Z$ ist einer
 größer als der andere.  Nehmen wir mal an, das ist $Z$.  Dann
 vermindert eine einfache Rotation das Ungleichgewicht zwischen links
-und rechts.
-Wenn aber $Y$ größer ist als $Z$, dann macht die einfache Rotation das
-Ungleichgewicht \emph{größer}: Der eh größere Brocken $Y$ tut sich
-dann auch noch mit $X$ zusammen, während der kleine Brocken $Z$ rechts
-ganz allein zurückbleibt.  In diesem Fall ist die doppelte Rotation
-angezeigt, die nur einen Teilbaum von $Y$, nämlich $Y_1$, nach links
-verlagert.
-
+und rechts.  Wenn $Y$ größer ist, dann sorgt die doppelte Rotation
+sicher für eine Minderung des Gleichgewichts, die nur einen Teilbaum
+von $Y$, nämlich $Y_1$, nach links verlagert.
+%
 \begin{aufgabeinline}
   Nimm Dir ein Stück Papier und male die beiden Rotationen aus
   \ref{fig:search-tree-rotation} so auf, dass jeweils links
   Übergewicht herrscht.
 \end{aufgabeinline}
 %
+In manchen Fällen ist $Y$ größer (es wird also doppelt rotiert), 
+aber die einfache Rotation würde ein besseres Ergebnis erzielen.  Aber
+wir erinnern uns: Unser Ziel ist nur, das Ungleichgewicht auf den
+Faktor \lstinline{ratio} zu reduzieren.  Dafür nehmen wir solche
+Fälle in Kauf, um das Kriterium einfach zu halten, das zwischen
+einfacher und doppelter Rotation auswählt.
+%
+\begin{aufgabeinline}
+  Finde Größen für $X$, $Y$ und $Z$, bei denen $Z$ größer ist als $Y$
+  und $Y$ und $Z$ zusammen gerade so zu groß sind für einen
+  balancierten Baum (der Baum also doppelt rotiert würde), bei denen
+  aber die einfache Rotation besser wäre.
+\end{aufgabeinline}
+
 Diese Rotationen übertragen wir jetzt in den Rumpf von
 \lstinline{make-balanced-node}.  Damit wir dabei möglichst keine
 Fehler machen, verwenden wir die gleichen Namen im Code wie in
