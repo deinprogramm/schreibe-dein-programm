@@ -1683,6 +1683,10 @@ in eine Kaskade von \lstinline{if}"=Ausdrücken übersetzt:
 |\(\mapsto{}\)| (if a (if b c #f) #f)
 \end{lstlisting}
 %
+(Zwischenzeitlich taucht ein \texttt{and} mit einem Operanden auf, was
+gar nicht in einem Programm stehen dürfte, aber die erste
+Übersetzungsregel beseitigt dieses \texttt{and}.)
+
 Ebenso lassen sich \lstinline{or}-Ausdrücke immer in
 \lstinline{if}-Ausdrücke übersetzen:
 %
